@@ -122,7 +122,7 @@ public final class Multimaps {
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,
           java.util.function.Supplier<M> multimapSupplier) {
-    return CollectCollectors.toMultimap(keyFunction, valueFunction, multimapSupplier);
+    return CollectCollectors.<T, K, V, M>toMultimap(keyFunction, valueFunction, multimapSupplier);
   }
 
   /**
@@ -167,7 +167,8 @@ public final class Multimaps {
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends Stream<? extends V>> valueFunction,
           java.util.function.Supplier<M> multimapSupplier) {
-    return CollectCollectors.flatteningToMultimap(keyFunction, valueFunction, multimapSupplier);
+    return CollectCollectors.<T, K, V, M>flatteningToMultimap(
+        keyFunction, valueFunction, multimapSupplier);
   }
 
   /**
@@ -285,8 +286,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends Collection<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends Collection<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -371,8 +372,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends List<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends List<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -479,8 +480,8 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends Set<V>>) stream.readObject();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      factory = (Supplier<? extends Set<V>>) requireNonNull(stream.readObject());
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -572,9 +573,9 @@ public final class Multimaps {
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      factory = (Supplier<? extends SortedSet<V>>) stream.readObject();
+      factory = (Supplier<? extends SortedSet<V>>) requireNonNull(stream.readObject());
       valueComparator = factory.get().comparator();
-      Map<K, Collection<V>> map = (Map<K, Collection<V>>) stream.readObject();
+      Map<K, Collection<V>> map = (Map<K, Collection<V>>) requireNonNull(stream.readObject());
       setMap(map);
     }
 
@@ -636,6 +637,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified multimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       Multimap<K, V> synchronizedMultimap(Multimap<K, V> multimap) {
     return Synchronized.multimap(multimap, null);
@@ -900,6 +902,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       SetMultimap<K, V> synchronizedSetMultimap(SetMultimap<K, V> multimap) {
     return Synchronized.setMultimap(multimap, null);
@@ -947,6 +950,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       SortedSetMultimap<K, V> synchronizedSortedSetMultimap(SortedSetMultimap<K, V> multimap) {
     return Synchronized.sortedSetMultimap(multimap, null);
@@ -979,6 +983,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       ListMultimap<K, V> synchronizedListMultimap(ListMultimap<K, V> multimap) {
     return Synchronized.listMultimap(multimap, null);
@@ -1221,7 +1226,7 @@ public final class Multimaps {
 
     @Override
     public Set<V> removeAll(@Nullable Object key) {
-      Set<V> values = new HashSet<V>(2);
+      Set<V> values = new HashSet<>(2);
       if (!map.containsKey(key)) {
         return values;
       }

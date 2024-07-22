@@ -19,6 +19,7 @@ package com.google.common.collect;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Hayward Chan
  */
+@NullMarked
 @SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ForwardingImmutableSet<E> extends ImmutableSet<E> {
   private final transient Set<E> delegate;
@@ -66,7 +68,7 @@ public abstract class ForwardingImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegate.toArray(other);
   }
 

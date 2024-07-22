@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class HashBasedTableColumnTest extends ColumnTests {
   public HashBasedTableColumnTest() {
     super(false, true, true, true, false);

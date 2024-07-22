@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import java.util.HashMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWT emulation of {@link RegularImmutableBiMap}.
@@ -24,6 +25,7 @@ import java.util.HashMap;
  * @author Jared Levy
  * @author Hayward Chan
  */
+@NullMarked
 @SuppressWarnings("serial")
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
@@ -33,6 +35,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // of the lists that needs to be serialized.
   private ImmutableBiMap<V, K> inverse;
 
+  @SuppressWarnings("unchecked") // used only for the empty map, which works for any types
   RegularImmutableBiMap() {
     super(new RegularImmutableMap<K, V>(new HashMap<K, V>()));
     this.inverse = (ImmutableBiMap<V, K>) this;

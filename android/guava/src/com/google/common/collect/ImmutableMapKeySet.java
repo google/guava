@@ -63,8 +63,9 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
     return true;
   }
 
-  @GwtIncompatible // serialization
   @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
   Object writeReplace() {
     return new KeySetSerializedForm<K>(map);
   }

@@ -134,7 +134,7 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
    */
   @Override
   List<V> createCollection() {
-    return new ArrayList<V>(expectedValuesPerKey);
+    return new ArrayList<>(expectedValuesPerKey);
   }
 
   /**

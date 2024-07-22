@@ -20,11 +20,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code ObjectArrays}.
@@ -32,8 +34,10 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class ObjectArraysTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -55,6 +59,7 @@ public class ObjectArraysTest extends TestCase {
     assertNull(array[0]);
   }
 
+  @J2ktIncompatible // Array<String>::class literal not available in Kotlin KMP
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_OfArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
@@ -114,14 +119,14 @@ public class ObjectArraysTest extends TestCase {
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatWithMoreGeneralType() {
-    Serializable[] result = ObjectArrays.concat(new String[0], new String[0], Serializable.class);
-    assertEquals(Serializable[].class, result.getClass());
+    CharSequence[] result = ObjectArrays.concat(new String[0], new String[0], CharSequence.class);
+    assertEquals(CharSequence[].class, result.getClass());
   }
 
   public void testToArrayImpl1() {
     doTestToArrayImpl1(Lists.<Integer>newArrayList());
     doTestToArrayImpl1(Lists.newArrayList(1));
-    doTestToArrayImpl1(Lists.newArrayList(1, null, 3));
+    doTestToArrayImpl1(Lists.<@Nullable Integer>newArrayList(1, null, 3));
   }
 
   private void doTestToArrayImpl1(List<Integer> list) {
@@ -139,15 +144,17 @@ public class ObjectArraysTest extends TestCase {
     doTestToArrayImpl2(Lists.newArrayList(1), new Integer[1], true);
     doTestToArrayImpl2(Lists.newArrayList(1), new Integer[] {2, 3}, true);
 
-    doTestToArrayImpl2(Lists.newArrayList(1, null, 3), new Integer[0], false);
-    doTestToArrayImpl2(Lists.newArrayList(1, null, 3), new Integer[2], false);
-    doTestToArrayImpl2(Lists.newArrayList(1, null, 3), new Integer[3], true);
+    doTestToArrayImpl2(Lists.<@Nullable Integer>newArrayList(1, null, 3), new Integer[0], false);
+    doTestToArrayImpl2(Lists.<@Nullable Integer>newArrayList(1, null, 3), new Integer[2], false);
+    doTestToArrayImpl2(Lists.<@Nullable Integer>newArrayList(1, null, 3), new Integer[3], true);
   }
 
   private void doTestToArrayImpl2(List<Integer> list, Integer[] array1, boolean expectModify) {
     Integer[] starting = Arrays.copyOf(array1, array1.length);
     Integer[] array2 = Arrays.copyOf(array1, array1.length);
-    Object[] reference = list.toArray(array1);
+    // TODO b/283448200 - Remove temporary variable when Kotlin smartcast issue is resolved.
+    Integer[] array1Tmp = array1;
+    Object[] reference = list.toArray(array1Tmp);
 
     Object[] target = ObjectArrays.toArrayImpl(list, array2);
 

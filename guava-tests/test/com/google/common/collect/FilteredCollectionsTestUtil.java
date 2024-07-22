@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -171,11 +172,7 @@ public final class FilteredCollectionsTestUtil {
         C filtered = filter(createUnfiltered(contents), EVEN);
         C filteredToModify = filter(createUnfiltered(contents), EVEN);
 
-        try {
-          filteredToModify.addAll(toAdd);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> filteredToModify.addAll(toAdd));
 
         assertThat(filteredToModify).containsExactlyElementsIn(filtered);
       }
@@ -187,17 +184,9 @@ public final class FilteredCollectionsTestUtil {
         C filtered1 = filter(unfiltered, EVEN);
         C filtered2 = filter(filtered1, PRIME_DIGIT);
 
-        try {
-          filtered2.add(4);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> filtered2.add(4));
 
-        try {
-          filtered2.add(3);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> filtered2.add(3));
 
         filtered2.add(2);
       }

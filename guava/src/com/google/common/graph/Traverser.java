@@ -386,8 +386,7 @@ public abstract class Traverser<N> {
       Set<N> visited = new HashSet<>();
       return new Traversal<N>(graph) {
         @Override
-        @Nullable
-        N visitNext(Deque<Iterator<? extends N>> horizon) {
+        @Nullable N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
           while (top.hasNext()) {
             N element = top.next();
@@ -413,8 +412,7 @@ public abstract class Traverser<N> {
     static <N> Traversal<N> inTree(SuccessorsFunction<N> tree) {
       return new Traversal<N>(tree) {
         @Override
-        @Nullable
-        N visitNext(Deque<Iterator<? extends N>> horizon) {
+        @Nullable N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
           if (top.hasNext()) {
             return checkNotNull(top.next());

@@ -17,10 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link ForwardingSortedMap} using {@link MapInterfaceTest}.
@@ -28,6 +30,7 @@ import java.util.TreeMap;
  * @author George van den Driessche
  */
 @GwtCompatible
+@NullMarked
 public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest<String, Integer> {
 
   private static class SimpleForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
@@ -50,7 +53,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
   @Override
   protected SortedMap<String, Integer> makeEmptyMap() {
     return new SimpleForwardingSortedMap<>(
-        new TreeMap<String, Integer>(Ordering.natural().nullsFirst()));
+        new TreeMap<String, Integer>(Ordering.<String>natural().nullsFirst()));
   }
 
   @Override
@@ -72,6 +75,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
     return -1;
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   @Override
   public void testContainsKey() {
     try {
@@ -80,6 +84,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
     }
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   @Override
   public void testEntrySetContainsEntryIncompatibleKey() {
     try {

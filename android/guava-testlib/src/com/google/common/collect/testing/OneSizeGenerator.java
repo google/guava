@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Generator for collection of a particular size.
@@ -29,7 +31,9 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
-public final class OneSizeGenerator<T, E> implements OneSizeTestContainerGenerator<T, E> {
+@NullMarked
+public final class OneSizeGenerator<T, E extends @Nullable Object>
+    implements OneSizeTestContainerGenerator<T, E> {
   private final TestContainerGenerator<T, E> generator;
   private final CollectionSize collectionSize;
 
@@ -67,7 +71,6 @@ public final class OneSizeGenerator<T, E> implements OneSizeTestContainerGenerat
   @Override
   public Collection<E> getSampleElements(int howMany) {
     SampleElements<E> samples = samples();
-    @SuppressWarnings("unchecked")
     List<E> allSampleElements =
         Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
     return new ArrayList<>(allSampleElements.subList(0, howMany));

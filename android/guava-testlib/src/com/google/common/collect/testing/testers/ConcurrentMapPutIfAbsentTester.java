@@ -28,6 +28,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
+import org.jspecify.annotations.NullMarked;
 import org.junit.Ignore;
 
 /**
@@ -39,6 +40,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@NullMarked
 public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
   @Override
   protected ConcurrentMap<K, V> getMap() {

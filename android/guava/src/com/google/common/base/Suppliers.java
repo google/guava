@@ -14,13 +14,17 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Internal.toNanosSaturated;
 import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -34,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @NullMarked
 public final class Suppliers {
   private Suppliers() {}
@@ -115,6 +119,8 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
+    private final Object lock = new Integer(1); // something serializable
+
     final Supplier<T> delegate;
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
@@ -129,7 +135,7 @@ public final class Suppliers {
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
-        synchronized (this) {
+        synchronized (lock) {
           if (!initialized) {
             T t = delegate.get();
             value = t;
@@ -138,7 +144,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `initialized.`
+      // This is safe because we checked `initialized`.
       return uncheckedCastNullableTToT(value);
     }
 
@@ -154,6 +160,8 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+    private final Object lock = new Object();
+
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
     private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
         () -> {
@@ -173,7 +181,7 @@ public final class Suppliers {
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
       if (delegate != SUCCESSFULLY_COMPUTED) {
-        synchronized (this) {
+        synchronized (lock) {
           if (delegate != SUCCESSFULLY_COMPUTED) {
             T t = delegate.get();
             value = t;
@@ -182,7 +190,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `delegate.`
+      // This is safe because we checked `delegate`.
       return uncheckedCastNullableTToT(value);
     }
 
@@ -218,30 +226,65 @@ public final class Suppliers {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since 2.0
    */
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings("GoodTime") // Prefer the Duration overload
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
-    return new ExpiringMemoizingSupplier<>(delegate, duration, unit);
+    checkNotNull(delegate);
+    checkArgument(duration > 0, "duration (%s %s) must be > 0", duration, unit);
+    return new ExpiringMemoizingSupplier<>(delegate, unit.toNanos(duration));
+  }
+
+  /**
+   * Returns a supplier that caches the instance supplied by the delegate and removes the cached
+   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
+   * value if the expiration time has not passed. After the expiration time, a new value is
+   * retrieved, cached, and returned. See: <a
+   * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
+   *
+   * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
+   * cached value, which will be recalculated when {@code get()} is called on the reserialized
+   * instance. The actual memoization does not happen when the underlying delegate throws an
+   * exception.
+   *
+   * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+   * delegating calls until it returns valid data.
+   *
+   * @param duration the length of time after a value is created that it should stop being returned
+   *     by subsequent {@code get()} calls
+   * @throws IllegalArgumentException if {@code duration} is not positive
+   * @since 33.1.0
+   */
+  @J2ktIncompatible
+  @GwtIncompatible // java.time.Duration
+  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
+  @IgnoreJRERequirement
+  public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
+      Supplier<T> delegate, Duration duration) {
+    checkNotNull(delegate);
+    // The alternative of `duration.compareTo(Duration.ZERO) > 0` causes J2ObjC trouble.
+    checkArgument(
+        !duration.isNegative() && !duration.isZero(), "duration (%s) must be > 0", duration);
+    return new ExpiringMemoizingSupplier<>(delegate, toNanosSaturated(duration));
   }
 
   @VisibleForTesting
   @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
+    private final Object lock = new Integer(1); // something serializable
+
     final Supplier<T> delegate;
     final long durationNanos;
     transient volatile @Nullable T value;
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
-    ExpiringMemoizingSupplier(Supplier<T> delegate, long duration, TimeUnit unit) {
-      this.delegate = checkNotNull(delegate);
-      this.durationNanos = unit.toNanos(duration);
-      checkArgument(duration > 0, "duration (%s %s) must be > 0", duration, unit);
+    ExpiringMemoizingSupplier(Supplier<T> delegate, long durationNanos) {
+      this.delegate = delegate;
+      this.durationNanos = durationNanos;
     }
 
     @Override
-    @SuppressWarnings("GoodTime") // reading system time without TimeSource
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -252,7 +295,7 @@ public final class Suppliers {
       long nanos = expirationNanos;
       long now = System.nanoTime();
       if (nanos == 0 || now - nanos >= 0) {
-        synchronized (this) {
+        synchronized (lock) {
           if (nanos == expirationNanos) { // recheck for lost race
             T t = delegate.get();
             value = t;
@@ -264,7 +307,7 @@ public final class Suppliers {
           }
         }
       }
-      // This is safe because we checked `expirationNanos.`
+      // This is safe because we checked `expirationNanos`.
       return uncheckedCastNullableTToT(value);
     }
 
@@ -322,11 +365,13 @@ public final class Suppliers {
    * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling
    * it, making it thread-safe.
    */
+  @J2ktIncompatible
   public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
       Supplier<T> delegate) {
     return new ThreadSafeSupplier<>(delegate);
   }
 
+  @J2ktIncompatible
   private static class ThreadSafeSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
@@ -354,7 +399,7 @@ public final class Suppliers {
    * Returns a function that accepts a supplier and returns the result of invoking {@link
    * Supplier#get} on that supplier.
    *
-   * <p><b>Java 8 users:</b> use the method reference {@code Supplier::get} instead.
+   * <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
    *
    * @since 8.0
    */

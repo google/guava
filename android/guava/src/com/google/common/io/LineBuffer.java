@@ -37,6 +37,7 @@ import org.jspecify.annotations.NullMarked;
 abstract class LineBuffer {
   /** Holds partial line contents. */
   private StringBuilder line = new StringBuilder();
+
   /** Whether a line ending with a CR is pending processing. */
   private boolean sawReturn;
 

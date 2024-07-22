@@ -16,12 +16,12 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.List;
 
-@GwtCompatible
+@GwtIncompatible
 public class ImmutableMultisetFloodingTest extends AbstractHashFloodingTest<Multiset<Object>> {
   public ImmutableMultisetFloodingTest() {
     super(

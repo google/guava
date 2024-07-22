@@ -20,6 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
@@ -31,7 +34,9 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements SortedMultiset<E> {
+@NullMarked
+abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
+    implements SortedMultiset<E> {
   @GwtTransient final Comparator<? super E> comparator;
 
   // needed for serialization
@@ -60,18 +65,21 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
   }
 
   @Override
+  @CheckForNull
   public Entry<E> firstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
+  @CheckForNull
   public Entry<E> lastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollFirstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     if (entryIterator.hasNext()) {
@@ -84,6 +92,7 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollLastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     if (entryIterator.hasNext()) {
@@ -110,7 +119,7 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
     return Multisets.iteratorImpl(descendingMultiset());
   }
 
-  private transient SortedMultiset<E> descendingMultiset;
+  @Nullable private transient SortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {

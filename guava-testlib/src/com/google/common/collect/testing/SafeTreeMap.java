@@ -91,7 +91,6 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
     delegate.clear();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Comparator<? super K> comparator() {
     Comparator<? super K> comparator = delegate.comparator();

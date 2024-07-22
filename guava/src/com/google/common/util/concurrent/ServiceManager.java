@@ -58,14 +58,13 @@ import java.lang.ref.WeakReference;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -126,7 +125,7 @@ import org.jspecify.annotations.NullMarked;
 @GwtIncompatible
 @NullMarked
 public final class ServiceManager implements ServiceManagerBridge {
-  private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
+  private static final LazyLogger logger = new LazyLogger(ServiceManager.class);
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
       new ListenerCallQueue.Event<Listener>() {
         @Override
@@ -209,10 +208,13 @@ public final class ServiceManager implements ServiceManagerBridge {
     if (copy.isEmpty()) {
       // Having no services causes the manager to behave strangely. Notably, listeners are never
       // fired. To avoid this we substitute a placeholder service.
-      logger.log(
-          Level.WARNING,
-          "ServiceManager configured with no services.  Is your application configured properly?",
-          new EmptyServiceManagerWarning());
+      logger
+          .get()
+          .log(
+              Level.WARNING,
+              "ServiceManager configured with no services.  Is your application configured"
+                  + " properly?",
+              new EmptyServiceManagerWarning());
       copy = ImmutableList.<Service>of(new NoOpService());
     }
     this.state = new ServiceManagerState(copy);
@@ -279,7 +281,7 @@ public final class ServiceManager implements ServiceManagerBridge {
         // service or listener). Our contract says it is safe to call this method if
         // all services were NEW when it was called, and this has already been verified above, so we
         // don't propagate the exception.
-        logger.log(Level.WARNING, "Unable to start Service " + service, e);
+        logger.get().log(Level.WARNING, "Unable to start Service " + service, e);
       }
     }
     return this;
@@ -453,7 +455,7 @@ public final class ServiceManager implements ServiceManagerBridge {
     final Multiset<State> states = servicesByState.keys();
 
     @GuardedBy("monitor")
-    final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
+    final IdentityHashMap<Service, Stopwatch> startupTimers = new IdentityHashMap<>();
 
     /**
      * These two booleans are used to mark the state as ready to start.
@@ -707,7 +709,7 @@ public final class ServiceManager implements ServiceManagerBridge {
           // N.B. if we miss the STARTING event then we may never record a startup time.
           stopwatch.stop();
           if (!(service instanceof NoOpService)) {
-            logger.log(Level.FINE, "Started {0} in {1}.", new Object[] {service, stopwatch});
+            logger.get().log(Level.FINE, "Started {0} in {1}.", new Object[] {service, stopwatch});
           }
         }
         // Queue our listeners
@@ -799,7 +801,7 @@ public final class ServiceManager implements ServiceManagerBridge {
       if (state != null) {
         state.transitionService(service, NEW, STARTING);
         if (!(service instanceof NoOpService)) {
-          logger.log(Level.FINE, "Starting {0}.", service);
+          logger.get().log(Level.FINE, "Starting {0}.", service);
         }
       }
     }
@@ -825,10 +827,12 @@ public final class ServiceManager implements ServiceManagerBridge {
       ServiceManagerState state = this.state.get();
       if (state != null) {
         if (!(service instanceof NoOpService)) {
-          logger.log(
-              Level.FINE,
-              "Service {0} has terminated. Previous state was: {1}",
-              new Object[] {service, from});
+          logger
+              .get()
+              .log(
+                  Level.FINE,
+                  "Service {0} has terminated. Previous state was: {1}",
+                  new Object[] {service, from});
         }
         state.transitionService(service, from, TERMINATED);
       }
@@ -847,10 +851,12 @@ public final class ServiceManager implements ServiceManagerBridge {
          */
         log &= from != State.STARTING;
         if (log) {
-          logger.log(
-              Level.SEVERE,
-              "Service " + service + " has failed in the " + from + " state.",
-              failure);
+          logger
+              .get()
+              .log(
+                  Level.SEVERE,
+                  "Service " + service + " has failed in the " + from + " state.",
+                  failure);
         }
         state.transitionService(service, from, FAILED);
       }

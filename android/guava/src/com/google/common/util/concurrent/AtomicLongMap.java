@@ -21,6 +21,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -68,7 +69,7 @@ public final class AtomicLongMap<K> implements Serializable {
 
   /** Creates an {@code AtomicLongMap}. */
   public static <K> AtomicLongMap<K> create() {
-    return new AtomicLongMap<K>(new ConcurrentHashMap<K, AtomicLong>());
+    return new AtomicLongMap<>(new ConcurrentHashMap<>());
   }
 
   /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */
@@ -329,7 +330,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  private transient @Nullable Map<K, Long> asMap;
+  @LazyInit private transient @Nullable Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {

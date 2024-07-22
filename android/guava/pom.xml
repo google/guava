@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.google.guava</groupId>
@@ -20,7 +21,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -39,8 +40,6 @@
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
     </dependency>
-    <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
-    <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>
   <build>
     <resources>
@@ -101,24 +100,6 @@
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
       </plugin>
-      <!-- TODO(cpovirk): include JDK sources when building testlib doc, too -->
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-jdk-sources</id>
-            <phase>generate-sources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
-            <configuration>
-              <includeArtifactIds>srczip</includeArtifactIds>
-              <outputDirectory>${project.build.directory}/jdk-sources</outputDirectory>
-              <silent>false</silent>
-              <!-- Exclude module-info files (since we're using -source 8 to avoid other modules problems) and FileDescriptor (which uses a language feature not available in Java 8). -->
-              <excludes>**/module-info.java,**/java/io/FileDescriptor.java</excludes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -126,11 +107,6 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <!-- TODO(cpovirk): Move this to the parent after making jdk-sources available there. -->
-          <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
-          <!-- (We need JDK *sources*, not just -link, so that {@inheritDoc} works.) -->
-          <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
-
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
           <!-- excludePackageNames requires specification of packages separately from "all subpackages".
                https://issues.apache.org/jira/browse/MJAVADOC-584 -->
@@ -193,67 +169,53 @@
           <links>
             <link>https://errorprone.info/api/latest/</link>
           </links>
+          <overview>../../overview.html</overview>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-docs</id>
+            <id>gradle-module-metadata</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/publish</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>../../guava</directory>
+                  <includes>
+                    <include>module.json</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
           </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
           <execution>
-            <id>generate-javadoc-site-report</id>
-            <phase>site</phase>
-            <goals><goal>javadoc</goal></goals>
+            <id>attach-gradle-module-metadata</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/publish/module.json</file>
+                  <type>module</type>
+                </artifact>
+              </artifacts>
+            </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>srczip-parent</id>
-      <activation>
-        <file>
-          <exists>${java.home}/../src.zip</exists>
-        </file>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>jdk</groupId>
-          <artifactId>srczip</artifactId>
-          <version>999</version>
-          <scope>system</scope>
-          <systemPath>${java.home}/../src.zip</systemPath>
-          <optional>true</optional>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>srczip-lib</id>
-      <activation>
-        <file>
-          <exists>${java.home}/lib/src.zip</exists>
-        </file>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>jdk</groupId>
-          <artifactId>srczip</artifactId>
-          <version>999</version>
-          <scope>system</scope>
-          <systemPath>${java.home}/lib/src.zip</systemPath>
-          <optional>true</optional>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <!-- We need to point at the java.base subdirectory because Maven appears to assume that package foo.bar is located in foo/bar and not java.base/foo/bar when translating excludePackageNames into filenames to pass to javadoc. (Note that manually passing -exclude to javadoc appears to possibly not work at all for java.* types??) Also, referring only to java.base avoids a lot of other sources. -->
-              <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources/java.base</sourcepath>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -74,14 +76,16 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return size;
   }
 
+  // We're careful to put only E instances into the array in the mainline.
+  // (In the backport, we don't need this suppression, but we keep it to minimize diffs.)
+  @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableIterator<E> iterator() {
     return asList().iterator();
   }
 
   @Override
-  @Nullable
-  Object[] internalArray() {
+  @Nullable Object[] internalArray() {
     return elements;
   }
 
@@ -119,5 +123,14 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   @Override
   boolean isHashCodeFast() {
     return true;
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 }

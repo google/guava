@@ -26,6 +26,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.concurrent.ConcurrentMap;
+import org.jspecify.annotations.NullMarked;
 import org.junit.Ignore;
 
 /**
@@ -37,6 +38,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@NullMarked
 public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, V> {
   @Override
   protected ConcurrentMap<K, V> getMap() {

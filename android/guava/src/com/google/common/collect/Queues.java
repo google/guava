@@ -56,7 +56,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // ArrayBlockingQueue
   public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
-    return new ArrayBlockingQueue<E>(capacity);
+    return new ArrayBlockingQueue<>(capacity);
   }
 
   // ArrayDeque
@@ -67,7 +67,7 @@ public final class Queues {
    * @since 12.0
    */
   public static <E> ArrayDeque<E> newArrayDeque() {
-    return new ArrayDeque<E>();
+    return new ArrayDeque<>();
   }
 
   /**
@@ -78,9 +78,9 @@ public final class Queues {
    */
   public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ArrayDeque<E>((Collection<? extends E>) elements);
+      return new ArrayDeque<>((Collection<? extends E>) elements);
     }
-    ArrayDeque<E> deque = new ArrayDeque<E>();
+    ArrayDeque<E> deque = new ArrayDeque<>();
     Iterables.addAll(deque, elements);
     return deque;
   }
@@ -91,7 +91,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // ConcurrentLinkedQueue
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
-    return new ConcurrentLinkedQueue<E>();
+    return new ConcurrentLinkedQueue<>();
   }
 
   /**
@@ -103,9 +103,9 @@ public final class Queues {
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ConcurrentLinkedQueue<E>((Collection<? extends E>) elements);
+      return new ConcurrentLinkedQueue<>((Collection<? extends E>) elements);
     }
-    ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
+    ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<>();
     Iterables.addAll(queue, elements);
     return queue;
   }
@@ -120,7 +120,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
-    return new LinkedBlockingDeque<E>();
+    return new LinkedBlockingDeque<>();
   }
 
   /**
@@ -132,7 +132,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
-    return new LinkedBlockingDeque<E>(capacity);
+    return new LinkedBlockingDeque<>(capacity);
   }
 
   /**
@@ -146,9 +146,9 @@ public final class Queues {
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingDeque<E>((Collection<? extends E>) elements);
+      return new LinkedBlockingDeque<>((Collection<? extends E>) elements);
     }
-    LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
+    LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<>();
     Iterables.addAll(deque, elements);
     return deque;
   }
@@ -159,7 +159,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
-    return new LinkedBlockingQueue<E>();
+    return new LinkedBlockingQueue<>();
   }
 
   /**
@@ -170,7 +170,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(int capacity) {
-    return new LinkedBlockingQueue<E>(capacity);
+    return new LinkedBlockingQueue<>(capacity);
   }
 
   /**
@@ -185,9 +185,9 @@ public final class Queues {
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingQueue<E>((Collection<? extends E>) elements);
+      return new LinkedBlockingQueue<>((Collection<? extends E>) elements);
     }
-    LinkedBlockingQueue<E> queue = new LinkedBlockingQueue<E>();
+    LinkedBlockingQueue<E> queue = new LinkedBlockingQueue<>();
     Iterables.addAll(queue, elements);
     return queue;
   }
@@ -203,10 +203,11 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   @J2ktIncompatible
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
-    return new PriorityBlockingQueue<E>();
+    return new PriorityBlockingQueue<>();
   }
 
   /**
@@ -218,14 +219,15 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   @J2ktIncompatible
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityBlockingQueue<E>((Collection<? extends E>) elements);
+      return new PriorityBlockingQueue<>((Collection<? extends E>) elements);
     }
-    PriorityBlockingQueue<E> queue = new PriorityBlockingQueue<E>();
+    PriorityBlockingQueue<E> queue = new PriorityBlockingQueue<>();
     Iterables.addAll(queue, elements);
     return queue;
   }
@@ -239,8 +241,9 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
-    return new PriorityQueue<E>();
+    return new PriorityQueue<>();
   }
 
   /**
@@ -252,12 +255,13 @@ public final class Queues {
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityQueue<E>((Collection<? extends E>) elements);
+      return new PriorityQueue<>((Collection<? extends E>) elements);
     }
-    PriorityQueue<E> queue = new PriorityQueue<E>();
+    PriorityQueue<E> queue = new PriorityQueue<>();
     Iterables.addAll(queue, elements);
     return queue;
   }
@@ -268,7 +272,7 @@ public final class Queues {
   @J2ktIncompatible
   @GwtIncompatible // SynchronousQueue
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
-    return new SynchronousQueue<E>();
+    return new SynchronousQueue<>();
   }
 
   /**
@@ -404,6 +408,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
+  @J2ktIncompatible // Synchronized
   public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
@@ -437,6 +442,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
+  @J2ktIncompatible // Synchronized
   public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }

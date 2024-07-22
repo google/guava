@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import java.util.Collection;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.annotations.Nullable;
  * @author Hayward Chan
  */
 // TODO: Make this class GWT serializable.
+@NullMarked
 class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
 
   final transient Collection<E> delegate;
@@ -64,7 +66,7 @@ class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegate.toArray(other);
   }
 

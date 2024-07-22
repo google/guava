@@ -44,6 +44,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtCompatible
 @NullMarked
 public abstract class DiscreteDomain<C extends Comparable> {

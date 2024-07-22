@@ -68,8 +68,10 @@ final class ReaderInputStream extends InputStream {
 
   /** Whether we've finished reading the reader. */
   private boolean endOfInput;
+
   /** Whether we're copying encoded bytes to the caller's buffer. */
   private boolean draining;
+
   /** Whether we've successfully flushed the encoder. */
   private boolean doneFlushing;
 

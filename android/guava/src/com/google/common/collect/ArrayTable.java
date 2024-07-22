@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -130,6 +131,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
    *
    * @throws NullPointerException if {@code table} has a null key
    */
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Make constructor accept wildcard types?
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, ? extends @Nullable V> table) {
     return (table instanceof ArrayTable)
         ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)
@@ -159,8 +161,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     columnKeyToIndex = Maps.indexMap(columnList);
 
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] tmpArray = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
+    @Nullable V[][] tmpArray = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
     array = tmpArray;
     // Necessary because in GWT the arrays are initialized with "undefined" instead of null.
     eraseAll();
@@ -177,8 +178,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     rowKeyToIndex = table.rowKeyToIndex;
     columnKeyToIndex = table.columnKeyToIndex;
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] copy = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
+    @Nullable V[][] copy = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
     array = copy;
     for (int i = 0; i < rowList.size(); i++) {
       System.arraycopy(table.array[i], 0, copy[i], 0, table.array[i].length);
@@ -356,8 +356,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   @GwtIncompatible // reflection
   public @Nullable V[][] toArray(Class<V> valueClass) {
     @SuppressWarnings("unchecked") // TODO: safe?
-    @Nullable
-    V[][] copy = (@Nullable V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
+    @Nullable V[][] copy =
+        (@Nullable V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
     for (int i = 0; i < rowList.size(); i++) {
       System.arraycopy(array[i], 0, copy[i], 0, array[i].length);
     }
@@ -610,14 +610,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    @Nullable
-    V getValue(int index) {
+    @Nullable V getValue(int index) {
       return at(index, columnIndex);
     }
 
     @Override
-    @Nullable
-    V setValue(int index, @Nullable V newValue) {
+    @Nullable V setValue(int index, @Nullable V newValue) {
       return set(index, columnIndex, newValue);
     }
   }
@@ -633,7 +631,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return columnKeyToIndex.keySet();
   }
 
-  private transient @Nullable ColumnMap columnMap;
+  @LazyInit private transient @Nullable ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, @Nullable V>> columnMap() {
@@ -704,14 +702,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    @Nullable
-    V getValue(int index) {
+    @Nullable V getValue(int index) {
       return at(rowIndex, index);
     }
 
     @Override
-    @Nullable
-    V setValue(int index, @Nullable V newValue) {
+    @Nullable V setValue(int index, @Nullable V newValue) {
       return set(rowIndex, index, newValue);
     }
   }
@@ -727,7 +723,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return rowKeyToIndex.keySet();
   }
 
-  private transient @Nullable RowMap rowMap;
+  @LazyInit private transient @Nullable RowMap rowMap;
 
   @Override
   public Map<R, Map<C, @Nullable V>> rowMap() {

@@ -47,6 +47,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.util.jar.Attributes;
@@ -213,12 +214,12 @@ public class ClassPathTest extends TestCase {
     //       /[sibling -> right]
     //    /right
     //       /[sibling -> left]
-    java.nio.file.Path root = createTempDirectory("ClassPathTest");
+    Path root = createTempDirectory("ClassPathTest");
     try {
-      java.nio.file.Path left = createDirectory(root.resolve("left"));
+      Path left = createDirectory(root.resolve("left"));
       createFile(left.resolve("some.txt"));
 
-      java.nio.file.Path right = createDirectory(root.resolve("right"));
+      Path right = createDirectory(root.resolve("right"));
       createFile(right.resolve("another.txt"));
 
       createSymbolicLink(left.resolve("sibling"), right);
@@ -246,10 +247,10 @@ public class ClassPathTest extends TestCase {
     // /root
     //    /child
     //       /[grandchild -> root]
-    java.nio.file.Path root = createTempDirectory("ClassPathTest");
+    Path root = createTempDirectory("ClassPathTest");
     try {
       createFile(root.resolve("some.txt"));
-      java.nio.file.Path child = createDirectory(root.resolve("child"));
+      Path child = createDirectory(root.resolve("child"));
       createSymbolicLink(child.resolve("grandchild"), root);
       assertEquals(
           ImmutableSet.of(new ResourceInfo(FILE, "some.txt", loader)),
@@ -432,6 +433,7 @@ public class ClassPathTest extends TestCase {
   // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
 
 
+  @AndroidIncompatible
   public void testGetClassPathUrls() throws Exception {
     if (isWindows()) {
       return; // TODO: b/136041958 - We need to account for drive letters in the path.
@@ -603,7 +605,7 @@ public class ClassPathTest extends TestCase {
     Closer closer = Closer.create();
     try {
       FileOutputStream fileOut = closer.register(new FileOutputStream(jarFile));
-      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut));
+      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut, manifest));
       for (String entry : entries) {
         jarOut.putNextEntry(new ZipEntry(entry));
         Resources.copy(ClassPathTest.class.getResource(entry), jarOut);
@@ -649,7 +651,7 @@ public class ClassPathTest extends TestCase {
   }
 
   @AndroidIncompatible // Path (for symlink creation)
-  private static void deleteRecursivelyOrLog(java.nio.file.Path path) {
+  private static void deleteRecursivelyOrLog(Path path) {
     try {
       deleteRecursively(path);
     } catch (IOException e) {

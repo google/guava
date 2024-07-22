@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.io.SourceSinkFactory.ByteSourceFactory;
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
@@ -219,17 +220,15 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
   }
 
   public void testSlice_illegalArguments() {
-    try {
-      source.slice(-1, 0);
-      fail("expected IllegalArgumentException for call to slice with offset -1: " + source);
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        "expected IllegalArgumentException for call to slice with offset -1: " + source,
+        IllegalArgumentException.class,
+        () -> source.slice(-1, 0));
 
-    try {
-      source.slice(0, -1);
-      fail("expected IllegalArgumentException for call to slice with length -1: " + source);
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        "expected IllegalArgumentException for call to slice with length -1: " + source,
+        IllegalArgumentException.class,
+        () -> source.slice(0, -1));
   }
 
   // Test that you can not expand the readable data in a previously sliced ByteSource.

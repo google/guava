@@ -31,6 +31,7 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum MultisetFeature implements Feature<Multiset> {
   /**

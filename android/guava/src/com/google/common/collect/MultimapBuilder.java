@@ -431,7 +431,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     @Override
     public <K extends K0, V extends V0> ListMultimap<K, V> build(
         Multimap<? extends K, ? extends V> multimap) {
-      return (ListMultimap<K, V>) super.build(multimap);
+      return (ListMultimap<K, V>) super.<K, V>build(multimap);
     }
   }
 
@@ -451,7 +451,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     @Override
     public <K extends K0, V extends V0> SetMultimap<K, V> build(
         Multimap<? extends K, ? extends V> multimap) {
-      return (SetMultimap<K, V>) super.build(multimap);
+      return (SetMultimap<K, V>) super.<K, V>build(multimap);
     }
   }
 
@@ -471,7 +471,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     @Override
     public <K extends K0, V extends V0> SortedSetMultimap<K, V> build(
         Multimap<? extends K, ? extends V> multimap) {
-      return (SortedSetMultimap<K, V>) super.build(multimap);
+      return (SortedSetMultimap<K, V>) super.<K, V>build(multimap);
     }
   }
 }

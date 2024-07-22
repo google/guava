@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.WeakOuter;
@@ -56,8 +58,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       ImmutableSet<R> rowSpace,
       ImmutableSet<C> columnSpace) {
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] array = (@Nullable V[][]) new Object[rowSpace.size()][columnSpace.size()];
+    @Nullable V[][] array = (@Nullable V[][]) new Object[rowSpace.size()][columnSpace.size()];
     this.values = array;
     this.rowKeyToIndex = Maps.indexMap(rowSpace);
     this.columnKeyToIndex = Maps.indexMap(columnSpace);
@@ -141,6 +142,15 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
         }
       };
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @J2ktIncompatible // serialization
+    @Override
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   private final class Row extends ImmutableArrayMap<C, V> {
@@ -157,14 +167,22 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    @Nullable
-    V getValue(int keyIndex) {
+    @Nullable V getValue(int keyIndex) {
       return values[rowIndex][keyIndex];
     }
 
     @Override
     boolean isPartialView() {
       return true;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -182,14 +200,22 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    @Nullable
-    V getValue(int keyIndex) {
+    @Nullable V getValue(int keyIndex) {
       return values[keyIndex][columnIndex];
     }
 
     @Override
     boolean isPartialView() {
       return true;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -213,6 +239,15 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     boolean isPartialView() {
       return false;
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   @WeakOuter
@@ -234,6 +269,15 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     @Override
     boolean isPartialView() {
       return false;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -281,7 +325,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
   }
 
   @Override
-  SerializedForm createSerializedForm() {
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
     return SerializedForm.create(this, cellRowIndices, cellColumnIndices);
   }
 }

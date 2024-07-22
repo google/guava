@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation helper for {@link TestMapGenerator} for use with sorted maps of strings.
@@ -29,6 +30,7 @@ import java.util.SortedMap;
  * @author Chris Povirk
  */
 @GwtCompatible
+@NullMarked
 public abstract class TestStringSortedMapGenerator extends TestStringMapGenerator
     implements TestSortedMapGenerator<String, String> {
   @Override

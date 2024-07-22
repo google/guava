@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
+import com.google.errorprone.annotations.RestrictedApi;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -23,7 +23,6 @@ import org.jspecify.annotations.NullMarked;
  * java.util.regex} library, but an alternate implementation can be supplied using the {@link
  * java.util.ServiceLoader} mechanism.
  */
-@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 interface PatternCompiler {
@@ -32,11 +31,17 @@ interface PatternCompiler {
    *
    * @throws IllegalArgumentException if the pattern is invalid
    */
+  @RestrictedApi(
+      explanation = "PatternCompiler is an implementation detail of com.google.common.base",
+      allowedOnPath = ".*/com/google/common/base/.*")
   CommonPattern compile(String pattern);
 
   /**
    * Returns {@code true} if the regex implementation behaves like Perl -- notably, by supporting
    * possessive quantifiers but also being susceptible to catastrophic backtracking.
    */
+  @RestrictedApi(
+      explanation = "PatternCompiler is an implementation detail of com.google.common.base",
+      allowedOnPath = ".*/com/google/common/base/.*")
   boolean isPcreLike();
 }

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
@@ -43,16 +44,10 @@ public class DiscreteDomainTest extends TestCase {
   }
 
   public void testIntegersOffsetExceptions() {
-    try {
-      DiscreteDomain.integers().offset(0, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      DiscreteDomain.integers().offset(Integer.MAX_VALUE, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DiscreteDomain.integers().offset(0, -1));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> DiscreteDomain.integers().offset(Integer.MAX_VALUE, 1));
   }
 
   public void testLongsOffset() {
@@ -61,16 +56,9 @@ public class DiscreteDomainTest extends TestCase {
   }
 
   public void testLongsOffsetExceptions() {
-    try {
-      DiscreteDomain.longs().offset(0L, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      DiscreteDomain.longs().offset(Long.MAX_VALUE, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DiscreteDomain.longs().offset(0L, -1));
+    assertThrows(
+        IllegalArgumentException.class, () -> DiscreteDomain.longs().offset(Long.MAX_VALUE, 1));
   }
 
   public void testBigIntegersOffset() {
@@ -81,24 +69,15 @@ public class DiscreteDomainTest extends TestCase {
   }
 
   public void testBigIntegersOffsetExceptions() {
-    try {
-      DiscreteDomain.bigIntegers().offset(BigInteger.ZERO, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> DiscreteDomain.bigIntegers().offset(BigInteger.ZERO, -1));
   }
 
   public void testCustomOffsetExceptions() {
-    try {
-      new MyIntegerDomain().offset(0, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      new MyIntegerDomain().offset(Integer.MAX_VALUE, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> new MyIntegerDomain().offset(0, -1));
+    assertThrows(
+        IllegalArgumentException.class, () -> new MyIntegerDomain().offset(Integer.MAX_VALUE, 1));
   }
 
   private static final class MyIntegerDomain extends DiscreteDomain<Integer> {

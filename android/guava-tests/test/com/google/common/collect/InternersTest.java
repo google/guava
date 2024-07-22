@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Interners.InternerImpl;
 import com.google.common.collect.MapMakerInternalMap.Strength;
@@ -42,11 +44,7 @@ public class InternersTest extends TestCase {
 
   public void testStrong_null() {
     Interner<String> pool = Interners.newStrongInterner();
-    try {
-      pool.intern(null);
-      fail();
-    } catch (NullPointerException ok) {
-    }
+    assertThrows(NullPointerException.class, () -> pool.intern(null));
   }
 
   public void testStrong_builder() {
@@ -68,11 +66,7 @@ public class InternersTest extends TestCase {
 
   public void testWeak_null() {
     Interner<String> pool = Interners.newWeakInterner();
-    try {
-      pool.intern(null);
-      fail();
-    } catch (NullPointerException ok) {
-    }
+    assertThrows(NullPointerException.class, () -> pool.intern(null));
   }
 
   public void testWeak_builder() {
@@ -116,19 +110,11 @@ public class InternersTest extends TestCase {
 
   public void testConcurrencyLevel_Zero() {
     Interners.InternerBuilder builder = Interners.newBuilder();
-    try {
-      builder.concurrencyLevel(0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.concurrencyLevel(0));
   }
 
   public void testConcurrencyLevel_Negative() {
     Interners.InternerBuilder builder = Interners.newBuilder();
-    try {
-      builder.concurrencyLevel(-42);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.concurrencyLevel(-42));
   }
 }

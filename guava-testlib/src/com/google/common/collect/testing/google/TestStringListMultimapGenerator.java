@@ -23,6 +23,7 @@ import com.google.common.collect.testing.SampleElements;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A skeleton generator for a {@code ListMultimap} implementation.
@@ -30,6 +31,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 public abstract class TestStringListMultimapGenerator
     implements TestListMultimapGenerator<String, String> {
 
@@ -61,7 +63,7 @@ public abstract class TestStringListMultimapGenerator
   @Override
   public final ListMultimap<String, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
-    Entry<String, String>[] array = new Entry[entries.length];
+    Entry<String, String>[] array = (Entry<String, String>[]) new Entry<?, ?>[entries.length];
     int i = 0;
     for (Object o : entries) {
       @SuppressWarnings("unchecked")
@@ -76,7 +78,7 @@ public abstract class TestStringListMultimapGenerator
   @Override
   @SuppressWarnings("unchecked")
   public final Entry<String, String>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<String, String>[]) new Entry<?, ?>[length];
   }
 
   @Override

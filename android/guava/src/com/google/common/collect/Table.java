@@ -111,8 +111,7 @@ public interface Table<
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  @Nullable
-  V get(
+  @Nullable V get(
       @CompatibleWith("R") @Nullable Object rowKey,
       @CompatibleWith("C") @Nullable Object columnKey);
 
@@ -152,8 +151,7 @@ public interface Table<
    *     for the keys
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V put(R rowKey, C columnKey, V value);
+  @Nullable V put(R rowKey, C columnKey, V value);
 
   /**
    * Copies all mappings from the specified table to this table. The effect is equivalent to calling
@@ -171,8 +169,7 @@ public interface Table<
    * @return the value previously associated with the keys, or {@code null} if no such value existed
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V remove(
+  @Nullable V remove(
       @CompatibleWith("R") @Nullable Object rowKey,
       @CompatibleWith("C") @Nullable Object columnKey);
 

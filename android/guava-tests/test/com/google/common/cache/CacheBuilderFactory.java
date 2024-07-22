@@ -88,7 +88,6 @@ class CacheBuilderFactory {
   }
 
   Iterable<CacheBuilder<Object, Object>> buildAllPermutations() {
-    @SuppressWarnings("unchecked")
     Iterable<List<Object>> combinations =
         buildCartesianProduct(
             concurrencyLevels,

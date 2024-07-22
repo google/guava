@@ -429,7 +429,7 @@ public final class MoreObjects {
     }
 
     // Holder object for values that might be null and/or empty.
-    private static class ValueHolder {
+    static class ValueHolder {
       @Nullable String name;
       @Nullable Object value;
       @Nullable ValueHolder next;

@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -45,6 +46,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -64,6 +69,50 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 @NullMarked
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements.
+   * Entries appear in the result {@code ImmutableMap} in encounter order.
+   *
+   * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}, an {@code
+   * IllegalArgumentException} is thrown when the collection operation is performed. (This differs
+   * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
+   * throws an {@code IllegalStateException}.)
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements.
+   *
+   * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
+   * values are merged using the specified merging function. If the merging function returns {@code
+   * null}, then the collector removes the value that has been computed for the key thus far (though
+   * future occurrences of the key would reinsert it).
+   *
+   * <p>Entries will appear in the encounter order of the first occurrence of the key.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+    return CollectCollectors.toImmutableMap(keyFunction, valueFunction, mergeFunction);
+  }
 
   /**
    * Returns the empty map. This map behaves and performs comparably to {@link
@@ -155,6 +204,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         6, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -173,6 +223,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         7, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -207,6 +258,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         8, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -244,6 +296,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         9, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -388,6 +441,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @Nullable Object[] alternatingKeysAndValues;
     int size;
     boolean entriesUsed;
+
     /**
      * If non-null, a duplicate key we found in a previous buildKeepingLast() or buildOrThrow()
      * call. A later buildOrThrow() can simply report this duplicate immediately.
@@ -727,6 +781,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return entryIterator();
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        @GwtIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       }
       return new EntrySetImpl();
     }
@@ -734,6 +797,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @Override
     ImmutableCollection<V> createValues() {
       return new ImmutableMapValues<>(this);
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 
@@ -820,7 +892,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 23.5 (but since 21.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
-   *     Note that API Level 24 users can call this method with any version of Guava.
+   *     Note, however, that Java 8+ users can call this method with any version and flavor of
+   *     Guava.
    */
   // @Override under Java 8 / API Level 24
   public final @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
@@ -1011,6 +1084,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         }
       };
     }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   @Override
@@ -1128,4 +1210,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

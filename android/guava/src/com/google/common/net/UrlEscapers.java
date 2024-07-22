@@ -46,10 +46,12 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in <a
-   * href="https://goo.gl/MplK6I">URL form parameter names and values</a>. Escaping is performed
-   * with the UTF-8 character encoding. The caller is responsible for <a
-   * href="https://goo.gl/9EfkM1">replacing any unpaired carriage return or line feed characters
-   * with a CR+LF pair</a> on any non-file inputs before escaping them with this escaper.
+   * href="https://url.spec.whatwg.org/#application-x-www-form-urlencoded-percent-encode-set">URL
+   * form parameter names and values</a>. Escaping is performed with the UTF-8 character encoding.
+   * The caller is responsible for <a
+   * href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#multipart-form-data">replacing
+   * any unpaired carriage return or line feed characters with a CR+LF pair</a> on any non-file
+   * inputs before escaping them with this escaper.
    *
    * <p>When escaping a String, the following rules apply:
    *
@@ -64,9 +66,9 @@ public final class UrlEscapers {
    * </ul>
    *
    * <p>This escaper is suitable for escaping parameter names and values even when <a
-   * href="https://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand, as
-   * a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
-   * interoperate with systems that require semicolons.
+   * href="https://www.w3.org/TR/html401/appendix/notes.html#h-B.2.2">using the non-standard
+   * semicolon</a>, rather than the ampersand, as a parameter delimiter. Nevertheless, we recommend
+   * using the ampersand unless you must interoperate with systems that require semicolons.
    *
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
@@ -80,14 +82,15 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in <a
-   * href="https://goo.gl/m2MIf0">URL path segments</a>. The returned escaper escapes all non-ASCII
-   * characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
-   * URLs</a>. (<a href="https://goo.gl/jfVxXW">If the escaper were to leave these characters
-   * unescaped, they would be escaped by the consumer at parse time, anyway.</a>) Additionally, the
-   * escaper escapes the slash character ("/"). While slashes are acceptable in URL paths, they are
-   * considered by the specification to be separators between "path segments." This implies that, if
-   * you wish for your path to contain slashes, you must escape each segment separately and then
-   * join them.
+   * href="https://url.spec.whatwg.org/#syntax-url-path-segment">URL path segments</a>. The returned
+   * escaper escapes all non-ASCII characters, even though <a
+   * href="https://url.spec.whatwg.org/#url-code-points">many of these are accepted in modern
+   * URLs</a>. (<a href="https://url.spec.whatwg.org/#path-state">If the escaper were to leave these
+   * characters unescaped, they would be escaped by the consumer at parse time, anyway.</a>)
+   * Additionally, the escaper escapes the slash character ("/"). While slashes are acceptable in
+   * URL paths, they are considered by the specification to be separators between "path segments."
+   * This implies that, if you wish for your path to contain slashes, you must escape each segment
+   * separately and then join them.
    *
    * <p>When escaping a String, the following rules apply:
    *
@@ -116,9 +119,8 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in a <a
-   * href="https://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
-   * characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
-   * URLs</a>.
+   * href="https://url.spec.whatwg.org/#concept-url-fragment">URL fragment</a>. The returned escaper
+   * escapes all non-ASCII characters.
    *
    * <p>When escaping a String, the following rules apply:
    *

@@ -49,6 +49,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible // NavigableMap
 @NullMarked
 public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, V> {

@@ -148,6 +148,7 @@ public final class CollectorTester<
    */
   @SafeVarargs
   @CanIgnoreReturnValue
+  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after we fix whatever the bug is.
   public final CollectorTester<T, A, R> expectCollects(R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
@@ -162,7 +163,9 @@ public final class CollectorTester<
     for (CollectStrategy scheme : CollectStrategy.values()) {
       A finalAccum = scheme.result(collector, inputs);
       if (collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
-        assertEquivalent(expectedResult, (R) finalAccum);
+        @SuppressWarnings("unchecked") // `R` and `A` match for an `IDENTITY_FINISH`
+        R result = (R) finalAccum;
+        assertEquivalent(expectedResult, result);
       }
       assertEquivalent(expectedResult, collector.finisher().apply(finalAccum));
     }

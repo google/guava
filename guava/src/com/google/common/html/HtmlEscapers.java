@@ -26,10 +26,11 @@ import org.jspecify.annotations.NullMarked;
  * available for external use is <a href="https://developers.google.com/closure/templates/">Closure
  * Templates</a>.
  *
- * <p>HTML escaping is particularly tricky: For example, <a href="http://goo.gl/5TgZb">some
- * elements' text contents must not be HTML escaped</a>. As a result, it is impossible to escape an
- * HTML document correctly without domain-specific knowledge beyond what {@code HtmlEscapers}
- * provides. We strongly encourage the use of HTML templating systems.
+ * <p>HTML escaping is particularly tricky: For example, <a
+ * href="https://www.w3.org/TR/html4/types.html#h-6.2">some elements' text contents must not be HTML
+ * escaped</a>. As a result, it is impossible to escape an HTML document correctly without
+ * domain-specific knowledge beyond what {@code HtmlEscapers} provides. We strongly encourage the
+ * use of HTML templating systems.
  *
  * @author Sven Mawson
  * @author David Beaumont

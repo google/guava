@@ -37,7 +37,6 @@ import org.junit.Ignore;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionContainsAllTester<E> extends AbstractCollectionTester<E> {

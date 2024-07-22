@@ -39,6 +39,7 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
     return builder;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());

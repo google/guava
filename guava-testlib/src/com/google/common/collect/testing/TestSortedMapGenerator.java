@@ -19,6 +19,8 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates sorted maps, containing sample elements, to be tested.
@@ -26,7 +28,9 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface TestSortedMapGenerator<K, V> extends TestMapGenerator<K, V> {
+@NullMarked
+public interface TestSortedMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
+    extends TestMapGenerator<K, V> {
   @Override
   SortedMap<K, V> create(Object... elements);
 

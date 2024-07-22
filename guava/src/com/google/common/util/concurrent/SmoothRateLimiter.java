@@ -207,6 +207,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    */
   static final class SmoothWarmingUp extends SmoothRateLimiter {
     private final long warmupPeriodMicros;
+
     /**
      * The slope of the line from the stable interval (when permits == 0), to the cold interval
      * (when permits == maxPermits)

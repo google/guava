@@ -22,6 +22,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Comparator;
 import org.jspecify.annotations.NullMarked;
@@ -40,6 +41,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 final class GeneralRange<T extends @Nullable Object> implements Serializable {
   /** Converts a Range to a GeneralRange. */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   static <T extends Comparable> GeneralRange<T> from(Range<T> range) {
     T lowerEndpoint = range.hasLowerBound() ? range.lowerEndpoint() : null;
     BoundType lowerBoundType = range.hasLowerBound() ? range.lowerBoundType() : OPEN;
@@ -263,7 +265,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
         getUpperBoundType());
   }
 
-  private transient @Nullable GeneralRange<T> reverse;
+  @LazyInit private transient @Nullable GeneralRange<T> reverse;
 
   /** Returns the same range relative to the reversed comparator. */
   GeneralRange<T> reverse() {
@@ -295,8 +297,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
         + (upperBoundType == CLOSED ? ']' : ')');
   }
 
-  @Nullable
-  T getLowerEndpoint() {
+  @Nullable T getLowerEndpoint() {
     return lowerEndpoint;
   }
 
@@ -304,8 +305,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
     return lowerBoundType;
   }
 
-  @Nullable
-  T getUpperEndpoint() {
+  @Nullable T getUpperEndpoint() {
     return upperEndpoint;
   }
 

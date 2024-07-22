@@ -437,7 +437,11 @@ public final class Preconditions {
    * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
-      boolean expression, String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
+      boolean expression,
+      // TODO: cl/604933487 - Make errorMessageTemplate consistently @CheckForNull across overloads.
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2) {
     if (!expression) {
       throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }

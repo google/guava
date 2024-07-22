@@ -23,6 +23,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible
 @NullMarked
 abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {

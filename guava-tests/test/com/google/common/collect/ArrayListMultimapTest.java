@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -33,6 +34,7 @@ import java.util.RandomAccess;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit tests for {@code ArrayListMultimap}.
@@ -40,9 +42,11 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class ArrayListMultimapTest extends TestCase {
 
   @GwtIncompatible // suite
+  @J2ktIncompatible
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

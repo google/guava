@@ -41,10 +41,10 @@ import org.jspecify.annotations.Nullable;
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
- * <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- * by the new {@link java.util.stream.Stream} library. Read the method documentation below for
- * comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
- * streams.
+ * <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
+ * addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
+ * for comparisons. These methods are not being deprecated, but we gently encourage you to migrate
+ * to streams.
  *
  * @author Chris Povirk
  * @author Mike Bostock
@@ -91,7 +91,7 @@ public final class Collections2 {
       return ((FilteredCollection<E>) unfiltered).createCombined(predicate);
     }
 
-    return new FilteredCollection<E>(checkNotNull(unfiltered), checkNotNull(predicate));
+    return new FilteredCollection<>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
   /**
@@ -130,8 +130,7 @@ public final class Collections2 {
     }
 
     FilteredCollection<E> createCombined(Predicate<? super E> newPredicate) {
-      return new FilteredCollection<E>(unfiltered, Predicates.<E>and(predicate, newPredicate));
-      // .<E> above needed to compile in JDK 5
+      return new FilteredCollection<>(unfiltered, Predicates.and(predicate, newPredicate));
     }
 
     @Override
@@ -615,7 +614,7 @@ public final class Collections2 {
     int j;
 
     PermutationIterator(List<E> list) {
-      this.list = new ArrayList<E>(list);
+      this.list = new ArrayList<>(list);
       int n = list.size();
       c = new int[n];
       o = new int[n];

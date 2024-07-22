@@ -367,6 +367,7 @@ public class ClassPathTest extends TestCase {
   // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
 
 
+  @AndroidIncompatible
   public void testGetClassPathUrls() throws Exception {
     if (isWindows()) {
       return; // TODO: b/136041958 - We need to account for drive letters in the path.
@@ -538,7 +539,7 @@ public class ClassPathTest extends TestCase {
     Closer closer = Closer.create();
     try {
       FileOutputStream fileOut = closer.register(new FileOutputStream(jarFile));
-      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut));
+      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut, manifest));
       for (String entry : entries) {
         jarOut.putNextEntry(new ZipEntry(entry));
         Resources.copy(ClassPathTest.class.getResource(entry), jarOut);

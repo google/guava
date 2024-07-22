@@ -273,7 +273,7 @@ public abstract class Equivalence<T> {
    * @since 10.0
    */
   public final Predicate<@Nullable T> equivalentTo(@Nullable T target) {
-    return new EquivalentToPredicate<T>(this, target);
+    return new EquivalentToPredicate<>(this, target);
   }
 
   private static final class EquivalentToPredicate<T>

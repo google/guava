@@ -133,7 +133,7 @@ public class SynchronizedMultimapTest extends TestCase {
     @Override
     public Set<V> get(@Nullable K key) {
       assertTrue(Thread.holdsLock(mutex));
-      /* TODO: verify that the Collection is also synchronized? */
+      /* TODO: verify that the Set is also synchronized? */
       return super.get(key);
     }
 
@@ -189,7 +189,7 @@ public class SynchronizedMultimapTest extends TestCase {
     @Override
     public Multiset<K> keys() {
       assertTrue(Thread.holdsLock(mutex));
-      /* TODO: verify that the Set is also synchronized? */
+      /* TODO: verify that the Multiset is also synchronized? */
       return super.keys();
     }
 
@@ -203,7 +203,7 @@ public class SynchronizedMultimapTest extends TestCase {
     @Override
     public Set<Entry<K, V>> entries() {
       assertTrue(Thread.holdsLock(mutex));
-      /* TODO: verify that the Collection is also synchronized? */
+      /* TODO: verify that the Set is also synchronized? */
       return super.entries();
     }
 

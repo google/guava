@@ -18,6 +18,8 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Queue;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates queues, containing sample elements, to be tested.
@@ -25,7 +27,8 @@ import java.util.Queue;
  * @author Jared Levy
  */
 @GwtCompatible
-public interface TestQueueGenerator<E> extends TestCollectionGenerator<E> {
+@NullMarked
+public interface TestQueueGenerator<E extends @Nullable Object> extends TestCollectionGenerator<E> {
   @Override
   Queue<E> create(Object... elements);
 }

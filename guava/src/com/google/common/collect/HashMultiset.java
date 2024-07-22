@@ -39,7 +39,7 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
 
   /** Creates a new, empty {@code HashMultiset} using the default initial capacity. */
   public static <E extends @Nullable Object> HashMultiset<E> create() {
-    return new HashMultiset<E>();
+    return new HashMultiset<>();
   }
 
   /**
@@ -50,7 +50,7 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
    * @throws IllegalArgumentException if {@code distinctElements} is negative
    */
   public static <E extends @Nullable Object> HashMultiset<E> create(int distinctElements) {
-    return new HashMultiset<E>(distinctElements);
+    return new HashMultiset<>(distinctElements);
   }
 
   /**

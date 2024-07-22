@@ -56,7 +56,7 @@ import org.jspecify.annotations.Nullable;
  * <p>Static convenience methods called {@code meanOf} are also provided for users who wish to
  * calculate <i>only</i> the mean.
  *
- * <p><b>Java 8 users:</b> If you are not using any of the variance statistics, you may wish to use
+ * <p><b>Java 8+ users:</b> If you are not using any of the variance statistics, you may wish to use
  * built-in JDK libraries instead of this class.
  *
  * @author Pete Gillin

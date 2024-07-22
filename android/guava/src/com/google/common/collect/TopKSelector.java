@@ -75,7 +75,7 @@ final class TopKSelector<T extends @Nullable Object> {
    */
   public static <T extends @Nullable Object> TopKSelector<T> least(
       int k, Comparator<? super T> comparator) {
-    return new TopKSelector<T>(comparator, k);
+    return new TopKSelector<>(comparator, k);
   }
 
   /**
@@ -97,7 +97,7 @@ final class TopKSelector<T extends @Nullable Object> {
    */
   public static <T extends @Nullable Object> TopKSelector<T> greatest(
       int k, Comparator<? super T> comparator) {
-    return new TopKSelector<T>(Ordering.from(comparator).reverse(), k);
+    return new TopKSelector<>(Ordering.from(comparator).reverse(), k);
   }
 
   private final int k;
@@ -117,6 +117,7 @@ final class TopKSelector<T extends @Nullable Object> {
    */
   private @Nullable T threshold;
 
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing Object[] instead of T[].
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");
     this.k = k;
@@ -228,6 +229,13 @@ final class TopKSelector<T extends @Nullable Object> {
     T tmp = buffer[i];
     buffer[i] = buffer[j];
     buffer[j] = tmp;
+  }
+
+  TopKSelector<T> combine(TopKSelector<T> other) {
+    for (int i = 0; i < other.bufferSize; i++) {
+      this.offer(uncheckedCastNullableTToT(other.buffer[i]));
+    }
+    return this;
   }
 
   /**

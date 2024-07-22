@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,14 +56,19 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @NullMarked
 public class TestLogHandler extends Handler {
+  private final Object lock = new Object();
+
   /** We will keep a private list of all logged records */
+  @GuardedBy("lock")
   private final List<LogRecord> list = new ArrayList<>();
 
   /** Adds the most recently logged record to our list. */
   @Override
-  public synchronized void publish(@Nullable LogRecord record) {
-    if (record != null) {
-      list.add(record);
+  public void publish(@Nullable LogRecord record) {
+    synchronized (lock) {
+      if (record != null) {
+        list.add(record);
+      }
     }
   }
 
@@ -72,8 +78,10 @@ public class TestLogHandler extends Handler {
   @Override
   public void close() {}
 
-  public synchronized void clear() {
-    list.clear();
+  public void clear() {
+    synchronized (lock) {
+      list.clear();
+    }
   }
 
   /** Returns a snapshot of the logged records. */
@@ -84,8 +92,10 @@ public class TestLogHandler extends Handler {
    * TODO(cpovirk): consider renaming this method to reflect that it takes a snapshot (and/or return
    * an ImmutableList)
    */
-  public synchronized List<LogRecord> getStoredLogRecords() {
-    List<LogRecord> result = new ArrayList<>(list);
-    return Collections.unmodifiableList(result);
+  public List<LogRecord> getStoredLogRecords() {
+    synchronized (lock) {
+      List<LogRecord> result = new ArrayList<>(list);
+      return Collections.unmodifiableList(result);
+    }
   }
 }

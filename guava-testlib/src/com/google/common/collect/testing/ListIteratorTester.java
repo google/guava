@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A utility similar to {@link IteratorTester} for testing a {@link ListIterator} against a known
@@ -35,7 +37,9 @@ import java.util.ListIterator;
  * @author Chris Povirk
  */
 @GwtCompatible
-public abstract class ListIteratorTester<E> extends AbstractIteratorTester<E, ListIterator<E>> {
+@NullMarked
+public abstract class ListIteratorTester<E extends @Nullable Object>
+    extends AbstractIteratorTester<E, ListIterator<E>> {
   protected ListIteratorTester(
       int steps,
       Iterable<E> elementsToInsert,

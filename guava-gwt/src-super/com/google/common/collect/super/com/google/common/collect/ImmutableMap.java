@@ -37,6 +37,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -49,8 +50,8 @@ import org.jspecify.annotations.Nullable;
  * @see ImmutableSortedMap
  * @author Hayward Chan
  */
+@NullMarked
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
-  static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap<Object, Object>();
 
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
@@ -73,16 +74,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
@@ -91,8 +94,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         ImmutableMap::copyOf);
   }
 
+  @SuppressWarnings("unchecked") // An empty map works for all types.
   public static <K, V> ImmutableMap<K, V> of() {
-    return (ImmutableMap<K, V>) EMPTY;
+    return (ImmutableMap<K, V>) RegularImmutableMap.EMPTY;
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
@@ -238,7 +242,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @SafeVarargs
   public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
-    return new RegularImmutableMap(entries);
+    return new RegularImmutableMap<>(entries);
   }
 
   public static <K, V> Builder<K, V> builder() {
@@ -256,7 +260,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public static class Builder<K, V> {
     final List<Entry<K, V>> entries;
-    Comparator<? super V> valueComparator;
+    @Nullable Comparator<? super V> valueComparator;
 
     public Builder() {
       this.entries = Lists.newArrayList();
@@ -358,8 +362,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         Entry<? extends K, ? extends V> entry = getOnlyElement(entries);
         return of((K) entry.getKey(), (V) entry.getValue());
       default:
-        @SuppressWarnings("unchecked")
-        Entry<K, V>[] entryArray = entries.toArray(new Entry[entries.size()]);
+        @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing an Entry<?, ?>[].
+        Entry<K, V>[] entryArray = entries.toArray((Entry<K, V>[]) new Entry<?, ?>[entries.size()]);
         return new RegularImmutableMap<K, V>(throwIfDuplicateKeys, entryArray);
     }
   }
@@ -375,8 +379,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         checkNotNull(entry.getKey());
         checkNotNull(entry.getValue());
       }
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings({"unchecked", "rawtypes"})
       // immutable collections are safe for covariant casts
+      // and getting the generics right for EnumMap is difficult to impossible
       ImmutableMap<K, V> result = ImmutableEnumMap.asImmutable(new EnumMap(enumMap));
       return result;
     }
@@ -408,11 +413,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract boolean isPartialView();
 
-  public final V put(K k, V v) {
+  public final @Nullable V put(K k, V v) {
     throw new UnsupportedOperationException();
   }
 
-  public final V remove(Object o) {
+  public final @Nullable V remove(Object o) {
     throw new UnsupportedOperationException();
   }
 
@@ -439,7 +444,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return values().contains(value);
   }
 
-  private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
+  private transient @Nullable ImmutableSet<Entry<K, V>> cachedEntrySet = null;
 
   public final ImmutableSet<Entry<K, V>> entrySet() {
     if (cachedEntrySet != null) {
@@ -450,7 +455,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  private transient ImmutableSet<K> cachedKeySet = null;
+  private transient @Nullable ImmutableSet<K> cachedKeySet = null;
 
   public ImmutableSet<K> keySet() {
     if (cachedKeySet != null) {
@@ -482,7 +487,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
-  private transient ImmutableCollection<V> cachedValues = null;
+  private transient @Nullable ImmutableCollection<V> cachedValues = null;
 
   public ImmutableCollection<V> values() {
     if (cachedValues != null) {
@@ -492,7 +497,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once
-  private transient ImmutableSetMultimap<K, V> multimapView;
+  private transient @Nullable ImmutableSetMultimap<K, V> multimapView;
 
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
@@ -520,7 +525,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public ImmutableSet<V> get(@Nullable Object key) {
+    public @Nullable ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }

@@ -33,6 +33,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -56,6 +59,40 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
+   * encounter order.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    return CollectCollectors.toImmutableMultiset(Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
+   * elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
+   * the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since 33.2.0 (available since 22.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
+    return CollectCollectors.toImmutableMultiset(elementFunction, countFunction);
+  }
+
   /**
    * Returns the empty immutable multiset.
    *
@@ -69,11 +106,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   /**
    * Returns an immutable multiset containing a single element.
    *
-   * @throws NullPointerException if {@code element} is null
+   * @throws NullPointerException if the element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  public static <E> ImmutableMultiset<E> of(E element) {
-    return copyFromElements(element);
+  public static <E> ImmutableMultiset<E> of(E e1) {
+    return copyFromElements(e1);
   }
 
   /**
@@ -410,7 +447,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -445,6 +482,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
      * modifications, or we'll modify the already-built ImmutableMultiset.
      */
     boolean buildInvoked = false;
+
     /**
      * In the event of a setCount(elem, 0) call, we may need to remove elements, which destroys the
      * insertion order property of ObjectCountHashMap. In that event, we need to convert to a
@@ -637,4 +675,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return new RegularImmutableMultiset<E>(contents);
     }
   }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

@@ -23,6 +23,7 @@ import static com.google.common.jimfs.Feature.SYMBOLIC_LINKS;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ObjectArrays;
 import com.google.common.jimfs.Configuration;
@@ -138,11 +139,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -157,11 +154,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -190,11 +183,7 @@ public class MoreFilesTest extends TestCase {
 
       assertThat(source.sizeIfKnown()).isAbsent();
 
-      try {
-        source.size();
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> source.size());
     }
   }
 
@@ -246,6 +235,7 @@ public class MoreFilesTest extends TestCase {
     assertTrue(Files.exists(temp));
     Files.delete(temp);
     assertFalse(Files.exists(temp));
+
     MoreFiles.touch(temp);
     assertTrue(Files.exists(temp));
     MoreFiles.touch(temp);
@@ -262,13 +252,13 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_root() throws IOException {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - *Sometimes* fails with "A:\: The device is not ready"
+    // We use a fake filesystem to sidestep flaky problems with Windows (b/136041958).
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path root = fs.getRootDirectories().iterator().next();
+      assertNull(root.getParent());
+      assertNull(root.toRealPath().getParent());
+      MoreFiles.createParentDirectories(root); // test that there's no exception
     }
-    Path root = root();
-    assertNull(root.getParent());
-    assertNull(root.toRealPath().getParent());
-    MoreFiles.createParentDirectories(root); // test that there's no exception
   }
 
   public void testCreateParentDirectories_relativePath() throws IOException {
@@ -311,34 +301,31 @@ public class MoreFilesTest extends TestCase {
     Path file = root().resolve("parent/nonexistent.file");
     Path parent = file.getParent();
     assertFalse(Files.exists(parent));
-    try {
-      MoreFiles.createParentDirectories(file);
-      // Cleanup in case parent creation was [erroneously] successful.
-      Files.delete(parent);
-      fail("expected exception");
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> MoreFiles.createParentDirectories(file));
   }
 
   public void testCreateParentDirectories_nonDirectoryParentExists() throws IOException {
     Path parent = createTempFile();
     assertTrue(Files.isRegularFile(parent));
     Path file = parent.resolve("foo");
-    try {
-      MoreFiles.createParentDirectories(file);
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> MoreFiles.createParentDirectories(file));
   }
 
   public void testCreateParentDirectories_symlinkParentExists() throws IOException {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - *Sometimes* fails with FileAlreadyExistsException
+    /*
+     * We use a fake filesystem to sidestep:
+     *
+     * - flaky problems with Windows (b/136041958)
+     *
+     * - the lack of support for symlinks in the default filesystem under Android's desugared
+     *   java.nio.file
+     */
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path symlink = fs.getPath("linkToDir");
+      Files.createSymbolicLink(symlink, fs.getRootDirectories().iterator().next());
+      Path file = symlink.resolve("foo");
+      MoreFiles.createParentDirectories(file);
     }
-    Path symlink = tempDir.resolve("linkToDir");
-    Files.createSymbolicLink(symlink, root());
-    Path file = symlink.resolve("foo");
-    MoreFiles.createParentDirectories(file);
   }
 
   public void testGetFileExtension() {
@@ -378,30 +365,37 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testPredicates() throws IOException {
-    Path file = createTempFile();
-    Path dir = tempDir.resolve("dir");
-    Files.createDirectory(dir);
+    /*
+     * We use a fake filesystem to sidestep the lack of support for symlinks in the default
+     * filesystem under Android's desugared java.nio.file.
+     */
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path file = fs.getPath("file");
+      Files.createFile(file);
+      Path dir = fs.getPath("dir");
+      Files.createDirectory(dir);
 
-    assertTrue(MoreFiles.isDirectory().apply(dir));
-    assertFalse(MoreFiles.isRegularFile().apply(dir));
+      assertTrue(MoreFiles.isDirectory().apply(dir));
+      assertFalse(MoreFiles.isRegularFile().apply(dir));
 
-    assertFalse(MoreFiles.isDirectory().apply(file));
-    assertTrue(MoreFiles.isRegularFile().apply(file));
+      assertFalse(MoreFiles.isDirectory().apply(file));
+      assertTrue(MoreFiles.isRegularFile().apply(file));
 
-    Path symlinkToDir = tempDir.resolve("symlinkToDir");
-    Path symlinkToFile = tempDir.resolve("symlinkToFile");
+      Path symlinkToDir = fs.getPath("symlinkToDir");
+      Path symlinkToFile = fs.getPath("symlinkToFile");
 
-    Files.createSymbolicLink(symlinkToDir, dir);
-    Files.createSymbolicLink(symlinkToFile, file);
+      Files.createSymbolicLink(symlinkToDir, dir);
+      Files.createSymbolicLink(symlinkToFile, file);
 
-    assertTrue(MoreFiles.isDirectory().apply(symlinkToDir));
-    assertFalse(MoreFiles.isRegularFile().apply(symlinkToDir));
+      assertTrue(MoreFiles.isDirectory().apply(symlinkToDir));
+      assertFalse(MoreFiles.isRegularFile().apply(symlinkToDir));
 
-    assertFalse(MoreFiles.isDirectory().apply(symlinkToFile));
-    assertTrue(MoreFiles.isRegularFile().apply(symlinkToFile));
+      assertFalse(MoreFiles.isDirectory().apply(symlinkToFile));
+      assertTrue(MoreFiles.isRegularFile().apply(symlinkToFile));
 
-    assertFalse(MoreFiles.isDirectory(NOFOLLOW_LINKS).apply(symlinkToDir));
-    assertFalse(MoreFiles.isRegularFile(NOFOLLOW_LINKS).apply(symlinkToFile));
+      assertFalse(MoreFiles.isDirectory(NOFOLLOW_LINKS).apply(symlinkToDir));
+      assertFalse(MoreFiles.isRegularFile(NOFOLLOW_LINKS).apply(symlinkToFile));
+    }
   }
 
   /**
@@ -435,8 +429,7 @@ public class MoreFilesTest extends TestCase {
   static FileSystem newTestFileSystem(Feature... supportedFeatures) throws IOException {
     FileSystem fs =
         Jimfs.newFileSystem(
-            Configuration.unix()
-                .toBuilder()
+            Configuration.unix().toBuilder()
                 .setSupportedFeatures(ObjectArrays.concat(SYMBOLIC_LINKS, supportedFeatures))
                 .build());
     Files.createDirectories(fs.getPath("dir/b/i/j/l"));
@@ -522,11 +515,7 @@ public class MoreFilesTest extends TestCase {
         Path dir = fs.getPath("dir");
         assertEquals(6, MoreFiles.listFiles(dir).size());
 
-        try {
-          method.delete(dir);
-          fail("expected InsecureRecursiveDeleteException");
-        } catch (InsecureRecursiveDeleteException expected) {
-        }
+        assertThrows(InsecureRecursiveDeleteException.class, () -> method.delete(dir));
 
         assertTrue(Files.exists(dir));
         assertEquals(6, MoreFiles.listFiles(dir).size());
@@ -569,12 +558,11 @@ public class MoreFilesTest extends TestCase {
 
   public void testDeleteRecursively_nonexistingFile_throwsNoSuchFileException() throws IOException {
     try (FileSystem fs = newTestFileSystem()) {
-      try {
-        MoreFiles.deleteRecursively(fs.getPath("/work/nothere"), ALLOW_INSECURE);
-        fail();
-      } catch (NoSuchFileException expected) {
-        assertThat(expected.getFile()).isEqualTo("/work/nothere");
-      }
+      NoSuchFileException expected =
+          assertThrows(
+              NoSuchFileException.class,
+              () -> MoreFiles.deleteRecursively(fs.getPath("/work/nothere"), ALLOW_INSECURE));
+      assertThat(expected.getFile()).isEqualTo("/work/nothere");
     }
   }
 
@@ -603,6 +591,7 @@ public class MoreFilesTest extends TestCase {
    * not possible to protect against this if the file system doesn't.
    */
   public void testDirectoryDeletion_directorySymlinkRace() throws IOException {
+    int iterations = isAndroid() ? 100 : 5000;
     for (DirectoryDeleteMethod method : EnumSet.allOf(DirectoryDeleteMethod.class)) {
       try (FileSystem fs = newTestFileSystem(SECURE_DIRECTORY_STREAM)) {
         Path dirToDelete = fs.getPath("dir/b/i");
@@ -613,7 +602,7 @@ public class MoreFilesTest extends TestCase {
         startDirectorySymlinkSwitching(changingFile, symlinkTarget, executor);
 
         try {
-          for (int i = 0; i < 5000; i++) {
+          for (int i = 0; i < iterations; i++) {
             try {
               Files.createDirectories(changingFile);
               Files.createFile(dirToDelete.resolve("j/k"));
@@ -734,5 +723,9 @@ public class MoreFilesTest extends TestCase {
 
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

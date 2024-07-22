@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -36,6 +38,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Hayward Chan
  */
+@NullMarked
 public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     implements SortedSet<E>, SortedIterable<E> {
   // TODO(cpovirk): split into ImmutableSortedSet/ForwardingImmutableSortedSet?
@@ -51,13 +54,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     throw new UnsupportedOperationException();
   }
 
-  // TODO: Can we find a way to remove this @SuppressWarnings even for eclipse?
-  @SuppressWarnings("unchecked")
-  private static final Comparator NATURAL_ORDER = Ordering.natural();
+  private static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
   @SuppressWarnings("unchecked")
   private static final ImmutableSortedSet<Object> NATURAL_EMPTY_SET =
-      new RegularImmutableSortedSet<Object>(new TreeSet<Object>(NATURAL_ORDER), false);
+      new RegularImmutableSortedSet<Object>(
+          new TreeSet<Object>((Comparator<Object>) NATURAL_ORDER), false);
 
   static <E> ImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
     checkNotNull(comparator);
@@ -78,8 +80,8 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
   }
 
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E element) {
-    return ofInternal(Ordering.natural(), element);
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E e1) {
+    return ofInternal(Ordering.natural(), e1);
   }
 
   @SuppressWarnings("unchecked")
@@ -111,7 +113,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
     Collections.addAll(all, remaining);
     // This is messed up. See TODO at top of file.
-    return ofInternal(Ordering.natural(), (E[]) all.toArray(new Comparable[0]));
+    return ofInternal(Ordering.natural(), (E[]) all.toArray(new Comparable<?>[0]));
   }
 
   private static <E> ImmutableSortedSet<E> ofInternal(
@@ -130,16 +132,22 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     }
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Collection<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Collection) elements, false);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Collection<E>) elements, false);
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Iterable<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterable) elements, false);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterable<E>) elements, false);
   }
 
+  // Unsafe, see ImmutableSortedSetFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOf(Iterator<? extends E> elements) {
-    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterator) elements);
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterator<E>) elements);
   }
 
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(E[] elements) {
@@ -164,11 +172,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return copyOfInternal(comparator, elements);
   }
 
+  // We use NATURAL_ORDER only if the input was already using natural ordering.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = sortedSet.comparator();
     if (comparator == null) {
-      comparator = NATURAL_ORDER;
+      comparator = (Comparator<? super E>) NATURAL_ORDER;
     }
     return copyOfInternal(comparator, sortedSet.iterator());
   }
@@ -260,11 +269,19 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
 
   @Override
   public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
+    /*
+     * ObjectArrays.toArrayImpl returns `@Nullable Object[]` rather than `Object[]` but only because
+     * it can be used with collections that may contain null. This collection is a collection of
+     * non-null elements, so we can treat it as a plain `Object[]`.
+     */
+    @SuppressWarnings("nullness")
+    Object[] result = ObjectArrays.toArrayImpl(this);
+    return result;
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return ObjectArrays.toArrayImpl(this, other);
   }
 
@@ -308,6 +325,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     }
   }
 
+  @CheckForNull
   E higher(E e) {
     checkNotNull(e);
     Iterator<E> iterator = tailSet(e).iterator();
@@ -320,11 +338,13 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return null;
   }
 
+  @CheckForNull
   public E ceiling(E e) {
     ImmutableSortedSet<E> set = tailSet(e, true);
     return !set.isEmpty() ? set.first() : null;
   }
 
+  @CheckForNull
   public E floor(E e) {
     ImmutableSortedSet<E> set = headSet(e, true);
     return !set.isEmpty() ? set.last() : null;

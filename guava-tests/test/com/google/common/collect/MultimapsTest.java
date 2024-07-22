@@ -27,14 +27,17 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -62,6 +65,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -70,6 +74,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =
@@ -80,7 +85,17 @@ public class MultimapsTest extends TestCase {
         Stream.of("foo", "bar", "quux")
             .collect(
                 Multimaps.toMultimap(
-                    String::length, s -> s, MultimapBuilder.treeKeys().arrayListValues()::build));
+                    String::length,
+                    s -> s,
+                    rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues()::build));
+  }
+
+  // J2kt maps rawtype Comparable to Comparable<*>, but types generally implement only
+  // Comparable<self>
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static MultimapBuilderWithKeys<Comparable<?>> rawtypeToWildcard(
+      MultimapBuilderWithKeys<Comparable> builder) {
+    return (MultimapBuilderWithKeys) builder;
   }
 
   public void testToMultimap() {
@@ -106,7 +121,7 @@ public class MultimapsTest extends TestCase {
     Collector<String, ?, ListMultimap<Character, Character>> collector =
         Multimaps.flatteningToMultimap(
             str -> str.charAt(0),
-            str -> str.substring(1).chars().mapToObj(c -> (char) c),
+            str -> Chars.asList(str.substring(1).toCharArray()).stream(),
             MultimapBuilder.linkedHashKeys().arrayListValues()::build);
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
@@ -165,9 +180,11 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableArrayListMultimap() {
-    checkUnmodifiableMultimap(ArrayListMultimap.<String, Integer>create(), true);
+    checkUnmodifiableMultimap(
+        ArrayListMultimap.<@Nullable String, @Nullable Integer>create(), true);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -195,9 +212,10 @@ public class MultimapsTest extends TestCase {
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableHashMultimap() {
-    checkUnmodifiableMultimap(HashMultimap.<String, Integer>create(), false);
+    checkUnmodifiableMultimap(HashMultimap.<@Nullable String, @Nullable Integer>create(), false);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableHashMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -210,6 +228,7 @@ public class MultimapsTest extends TestCase {
     checkUnmodifiableMultimap(TreeMultimap.<String, Integer>create(), false, "null", 42);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableTreeMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -218,11 +237,15 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedArrayListMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create()), true);
+        Multimaps.synchronizedListMultimap(
+            ArrayListMultimap.<@Nullable String, @Nullable Integer>create()),
+        true);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -235,11 +258,15 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedHashMultimap() {
     checkUnmodifiableMultimap(
-        Multimaps.synchronizedSetMultimap(HashMultimap.<String, Integer>create()), false);
+        Multimaps.synchronizedSetMultimap(
+            HashMultimap.<@Nullable String, @Nullable Integer>create()),
+        false);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedHashMultimap() {
     Multimap<String, Integer> unmodifiable =
@@ -252,6 +279,7 @@ public class MultimapsTest extends TestCase {
   }
 
   @GwtIncompatible // slow (~10s)
+  @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
         TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
@@ -260,6 +288,7 @@ public class MultimapsTest extends TestCase {
     assertSame(INT_COMPARATOR, multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
@@ -312,7 +341,7 @@ public class MultimapsTest extends TestCase {
    * multimap must support null keys and values.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap, boolean permitsDuplicates) {
+      Multimap<@Nullable String, @Nullable Integer> multimap, boolean permitsDuplicates) {
     checkUnmodifiableMultimap(multimap, permitsDuplicates, null, null);
   }
 
@@ -322,7 +351,7 @@ public class MultimapsTest extends TestCase {
    * involving nulls.
    */
   private static void checkUnmodifiableMultimap(
-      Multimap<String, Integer> multimap,
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -351,8 +380,8 @@ public class MultimapsTest extends TestCase {
   }
 
   /** Prepares the multimap for unmodifiable tests, returning an unmodifiable view of the map. */
-  private static Multimap<String, Integer> prepareUnmodifiableTests(
-      Multimap<String, Integer> multimap,
+  private static Multimap<@Nullable String, @Nullable Integer> prepareUnmodifiableTests(
+      Multimap<@Nullable String, @Nullable Integer> multimap,
       boolean permitsDuplicates,
       @Nullable String nullKey,
       @Nullable Integer nullValue) {
@@ -373,21 +402,26 @@ public class MultimapsTest extends TestCase {
       assertEquals(8, multimap.size());
     }
 
-    Multimap<String, Integer> unmodifiable;
+    Multimap<@Nullable String, @Nullable Integer> unmodifiable;
     if (multimap instanceof SortedSetMultimap) {
       unmodifiable =
-          Multimaps.unmodifiableSortedSetMultimap((SortedSetMultimap<String, Integer>) multimap);
+          Multimaps.unmodifiableSortedSetMultimap(
+              (SortedSetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof SetMultimap) {
-      unmodifiable = Multimaps.unmodifiableSetMultimap((SetMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableSetMultimap(
+              (SetMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else if (multimap instanceof ListMultimap) {
-      unmodifiable = Multimaps.unmodifiableListMultimap((ListMultimap<String, Integer>) multimap);
+      unmodifiable =
+          Multimaps.unmodifiableListMultimap(
+              (ListMultimap<@Nullable String, @Nullable Integer>) multimap);
     } else {
       unmodifiable = Multimaps.unmodifiableMultimap(multimap);
     }
     return unmodifiable;
   }
 
-  private static <T> void assertUnmodifiableIterableInTandem(
+  private static <T extends @Nullable Object> void assertUnmodifiableIterableInTandem(
       Iterable<T> unmodifiable, Iterable<T> modifiable) {
     UnmodifiableCollectionTests.assertIteratorIsUnmodifiable(unmodifiable.iterator());
     UnmodifiableCollectionTests.assertIteratorsInOrder(
@@ -505,6 +539,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimapView, ArrayListMultimap.create());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testForMapSerialization() {
     Map<String, Integer> map = Maps.newHashMap();
@@ -558,7 +593,7 @@ public class MultimapsTest extends TestCase {
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
             4, MODIFIABLE, newHashSet(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
-          private Multimap<String, Integer> multimap;
+          private @Nullable Multimap<String, Integer> multimap;
 
           @Override
           protected Iterator<Integer> newTargetIterator() {
@@ -688,6 +723,7 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimap.get(Color.BLUE) instanceof List);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewMultimapSerialization() {
     CountingSupplier<Queue<Integer>> factory = new QueueSupplier();
@@ -723,6 +759,7 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimap.asMap() instanceof SortedMap);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewListMultimapSerialization() {
     CountingSupplier<LinkedList<Integer>> factory = new ListSupplier();
@@ -754,6 +791,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(Sets.newHashSet(4, 3, 1), multimap.get(Color.BLUE));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSetMultimapSerialization() {
     CountingSupplier<Set<Integer>> factory = new SetSupplier();
@@ -787,6 +825,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(INT_COMPARATOR, multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSortedSetMultimapSerialization() {
     CountingSupplier<TreeSet<Integer>> factory = new SortedSetSupplier();
@@ -853,9 +892,9 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndex_nullValue() {
-    List<Integer> values = Arrays.asList(1, null);
+    List<@Nullable Integer> values = Arrays.asList(1, null);
     try {
-      Multimaps.index(values, Functions.identity());
+      Multimaps.index((List<Integer>) values, Functions.identity());
       fail();
     } catch (NullPointerException expected) {
     }
@@ -966,7 +1005,15 @@ public class MultimapsTest extends TestCase {
     assertEquals("{a=[a1, a4, a4], b=[b6]}", transformed.toString());
   }
 
-  public <K, V> void testSynchronizedMultimapSampleCodeCompilation() {
+  @J2ktIncompatible // Synchronized
+  public void testSynchronizedMultimapSampleCodeCompilation() {
+    // Extra indirection for J2KT, to avoid error: not enough information to infer type variable K
+    this.<@Nullable Object, @Nullable Object>genericTestSynchronizedMultimapSampleCodeCompilation();
+  }
+
+  @J2ktIncompatible // Synchronized
+  private <K extends @Nullable Object, V extends @Nullable Object>
+      void genericTestSynchronizedMultimapSampleCodeCompilation() {
     K key = null;
 
     Multimap<K, V> multimap = Multimaps.synchronizedMultimap(HashMultimap.<K, V>create());
@@ -979,7 +1026,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
-  private static void foo(Object o) {}
+  private static void foo(Object unused) {}
 
   public void testFilteredKeysSetMultimapReplaceValues() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
@@ -1056,6 +1103,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multimaps.class);

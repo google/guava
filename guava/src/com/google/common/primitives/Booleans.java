@@ -75,8 +75,8 @@ public final class Booleans {
   /**
    * Returns a {@code Comparator<Boolean>} that sorts {@code true} before {@code false}.
    *
-   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
-   * e.g. {@code Comparators.comparing(Foo::hasBar, trueFirst())}.
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparator.comparing},
+   * e.g. {@code Comparator.comparing(Foo::hasBar, trueFirst())}.
    *
    * @since 21.0
    */
@@ -87,8 +87,8 @@ public final class Booleans {
   /**
    * Returns a {@code Comparator<Boolean>} that sorts {@code false} before {@code true}.
    *
-   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
-   * e.g. {@code Comparators.comparing(Foo::hasBar, falseFirst())}.
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparator.comparing},
+   * e.g. {@code Comparator.comparing(Foo::hasBar, falseFirst())}.
    *
    * @since 21.0
    */
@@ -100,7 +100,7 @@ public final class Booleans {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
    *
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value
@@ -114,8 +114,8 @@ public final class Booleans {
    * considered less than {@code true}). The sign of the value returned is the same as that of
    * {@code ((Boolean) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Boolean#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Boolean#compare} method instead.
    *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare

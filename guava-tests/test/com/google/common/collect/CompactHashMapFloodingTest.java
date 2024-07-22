@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Map;
 
+@GwtIncompatible
 public class CompactHashMapFloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
   public CompactHashMapFloodingTest() {
     super(

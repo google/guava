@@ -46,7 +46,6 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 @GwtCompatible(emulated = true)
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class LongsTest extends TestCase {
   private static final long[] EMPTY = {};
   private static final long[] ARRAY1 = {(long) 1};
@@ -54,7 +53,6 @@ public class LongsTest extends TestCase {
 
   private static final long[] VALUES = {MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE};
 
-  @J2ktIncompatible
   @GwtIncompatible // Long.hashCode returns different values in GWT.
   public void testHashCode() {
     for (long value : VALUES) {
@@ -197,6 +195,37 @@ public class LongsTest extends TestCase {
         .isEqualTo(new long[] {(long) 1, (long) 1, (long) 1});
     assertThat(Longs.concat(ARRAY1, ARRAY234))
         .isEqualTo(new long[] {(long) 1, (long) 2, (long) 3, (long) 4});
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcat_overflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcat_overflow(dim1, dim2);
+  }
+
+  private static void testConcat_overflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    long[][] arrays = new long[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    long[] sharedArray = new long[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Longs.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   private static void assertByteArrayEquals(byte[] expected, byte[] actual) {
@@ -551,7 +580,7 @@ public class LongsTest extends TestCase {
     assertThat(Longs.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     long[] array = {(long) 0, (long) 1};
     List<Long> list = Longs.asList(array);

@@ -18,11 +18,15 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 /**
  * GWT emulation of {@link SingletonImmutableSet}.
  *
  * @author Hayward Chan
  */
+@NullMarked
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   // This reference is used both by the custom field serializer, and by the
@@ -47,7 +51,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return element.equals(object);
   }
 }

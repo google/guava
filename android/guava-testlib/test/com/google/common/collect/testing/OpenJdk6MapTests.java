@@ -66,7 +66,7 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
      * The entrySet() of ConcurrentHashMap, unlike that of other Map
      * implementations, supports add() under JDK8. This seems problematic, but I
      * didn't see that discussed in the review, which included many other
-     * changes: http://goo.gl/okTTdr
+     * changes: https://mail.openjdk.org/pipermail/core-libs-dev/2013-May/thread.html#17367
      *
      * TODO(cpovirk): decide what the best long-term action here is: force users
      * to suppress (as we do now), stop testing entrySet().add() at all, make

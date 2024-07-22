@@ -17,12 +17,13 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code MoreCollectors}.
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
     assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();
@@ -40,7 +42,7 @@ public class MoreCollectorsTest extends TestCase {
   }
 
   public void testToOptionalNull() {
-    Stream<Object> stream = Stream.of((Object) null);
+    Stream<@Nullable Object> stream = Stream.of((Object) null);
     try {
       stream.collect(MoreCollectors.toOptional());
       fail("Expected NullPointerException");
@@ -87,7 +89,8 @@ public class MoreCollectorsTest extends TestCase {
   }
 
   public void testOnlyElementNull() {
-    assertThat(Stream.of((Object) null).collect(MoreCollectors.onlyElement())).isNull();
+    assertThat(Stream.<@Nullable Object>of((Object) null).collect(MoreCollectors.onlyElement()))
+        .isNull();
   }
 
   public void testOnlyElementMultiple() {

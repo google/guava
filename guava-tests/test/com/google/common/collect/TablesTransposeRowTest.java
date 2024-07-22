@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class TablesTransposeRowTest extends RowTests {
   public TablesTransposeRowTest() {
     super(false, true, true, true, false);

@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -73,7 +74,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   /** Resets the contents of navigableMap to have entries a, c, for the navigation tests. */
   @SuppressWarnings("unchecked") // Needed to stop Eclipse whining
   private void resetWithHole() {
-    Entry<K, V>[] entries = new Entry[] {a, c};
+    Entry<K, V>[] entries = (Entry<K, V>[]) new Entry<?, ?>[] {a, c};
     super.resetMap(entries);
     navigableMap = (NavigableMap<K, V>) getMap();
   }
@@ -162,11 +163,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollFirstUnsupported() {
-    try {
-      navigableMap.pollFirstEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> navigableMap.pollFirstEntry());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -229,11 +226,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollLastUnsupported() {
-    try {
-      navigableMap.pollLastEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> navigableMap.pollLastEntry());
   }
 
   @CollectionSize.Require(SEVERAL)

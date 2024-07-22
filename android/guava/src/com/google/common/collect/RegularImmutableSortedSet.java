@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,8 +53,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  @Nullable
-  Object @Nullable [] internalArray() {
+  @Nullable Object @Nullable [] internalArray() {
     return elements.internalArray();
   }
 
@@ -281,7 +281,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     if (newFromIndex == 0 && newToIndex == size()) {
       return this;
     } else if (newFromIndex < newToIndex) {
-      return new RegularImmutableSortedSet<E>(
+      return new RegularImmutableSortedSet<>(
           elements.subList(newFromIndex, newToIndex), comparator);
     } else {
       return emptySet(comparator);
@@ -313,5 +313,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return isEmpty()
         ? emptySet(reversedOrder)
         : new RegularImmutableSortedSet<E>(elements.reverse(), reversedOrder);
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 }

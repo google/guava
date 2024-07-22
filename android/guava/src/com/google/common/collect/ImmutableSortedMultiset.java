@@ -33,6 +33,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -54,9 +57,74 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtIncompatible // hasn't been tested yet
 @NullMarked
-public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
+public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableMultiset}. Elements are sorted by the specified comparator.
+   *
+   * <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code equals}</i> as
+   * explained in the {@link Comparator} documentation.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+      Comparator<? super E> comparator) {
+    return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
+   * whose elements are the result of applying {@code elementFunction} to the inputs, with counts
+   * equal to the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since 33.2.0 (available since 22.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+          Comparator<? super E> comparator,
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
+    checkNotNull(comparator);
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        () -> TreeMultiset.create(comparator),
+        (multiset, t) -> mapAndAdd(t, multiset, elementFunction, countFunction),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> copyOfSortedEntries(comparator, multiset.entrySet()));
+  }
+
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // helper for toImmutableSortedMultiset
+  /*
+   * If we make these calls inline inside toImmutableSortedMultiset, we get an Animal Sniffer error,
+   * despite the @IgnoreJRERequirement annotation there. My assumption is that, because javac
+   * generates a synthetic method for the body of the lambda, the actual method calls that Animal
+   * Sniffer is flagging don't appear inside toImmutableSortedMultiset but rather inside that
+   * synthetic method. By moving those calls to a named method, we're able to apply
+   * @IgnoreJRERequirement somewhere that it will help.
+   */
+  private static <T extends @Nullable Object, E> void mapAndAdd(
+      T t,
+      Multiset<E> multiset,
+      Function<? super T, ? extends E> elementFunction,
+      ToIntFunction<? super T> countFunction) {
+    multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t));
+  }
 
   /**
    * Returns the empty immutable sorted multiset.
@@ -69,11 +137,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   /** Returns an immutable sorted multiset containing a single element. */
-  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E element) {
+  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1) {
     RegularImmutableSortedSet<E> elementSet =
-        (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
+        (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(e1);
     long[] cumulativeCounts = {0, 1};
-    return new RegularImmutableSortedMultiset<E>(elementSet, cumulativeCounts, 0, 1);
+    return new RegularImmutableSortedMultiset<>(elementSet, cumulativeCounts, 0, 1);
   }
 
   /**
@@ -168,7 +236,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     // Hack around E not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedMultisetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
+    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable<?>>natural();
     return copyOf(naturalOrder, elements);
   }
 
@@ -186,7 +254,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     // Hack around E not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedMultisetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
+    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable<?>>natural();
     return copyOf(naturalOrder, elements);
   }
 
@@ -212,7 +280,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> copyOf(
       Comparator<? super E> comparator, Iterable<? extends E> elements) {
     if (elements instanceof ImmutableSortedMultiset) {
@@ -253,7 +320,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     if (entries.isEmpty()) {
       return emptyMultiset(comparator);
     }
-    ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<E>(entries.size());
+    ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<>(entries.size());
     long[] cumulativeCounts = new long[entries.size() + 1];
     int i = 0;
     for (Entry<E> entry : entries) {
@@ -261,7 +328,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();
       i++;
     }
-    return new RegularImmutableSortedMultiset<E>(
+    return new RegularImmutableSortedMultiset<>(
         new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
         cumulativeCounts,
         0,
@@ -273,7 +340,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     if (Ordering.natural().equals(comparator)) {
       return (ImmutableSortedMultiset<E>) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;
     } else {
-      return new RegularImmutableSortedMultiset<E>(comparator);
+      return new RegularImmutableSortedMultiset<>(comparator);
     }
   }
 
@@ -359,7 +426,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if {@code comparator} is null
    */
   public static <E> Builder<E> orderedBy(Comparator<E> comparator) {
-    return new Builder<E>(comparator);
+    return new Builder<>(comparator);
   }
 
   /**
@@ -371,7 +438,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.<E>natural().reverse());
+    return new Builder<>(Ordering.<E>natural().reverse());
   }
 
   /**
@@ -385,7 +452,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
-    return new Builder<E>(Ordering.natural());
+    return new Builder<>(Ordering.natural());
   }
 
   /**
@@ -680,4 +747,166 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+   * {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @DoNotCall("Use toImmutableSortedMultiset.")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #toImmutableSortedMultiset} instead. This method exists only to hide
+   * {@link ImmutableMultiset#toImmutableMultiset} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 33.2.0 (available since 22.0 in guava-jre)
+   */
+  @DoNotCall("Use toImmutableSortedMultiset.")
+  @Deprecated
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link #naturalOrder}, which offers better type-safety, instead. This method
+   * exists only to hide {@link ImmutableMultiset#builder} from consumers of {@code
+   * ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.
+   */
+  @DoNotCall("Use naturalOrder.")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset.Builder<E> builder() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .
+   *     </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain a non-{@code
+   * Comparable} element.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+   *     Comparable, Comparable...)} . </b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  public static <E> ImmutableSortedMultiset<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a multiset that may contain non-{@code
+   * Comparable} elements.</b> Proper calls will resolve to the version in {@code
+   * ImmutableSortedMultiset}, not this dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
+   *     ImmutableSortedMultiset#copyOf(Comparable[])}.</b>
+   */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
+  @Deprecated
+  // The usage of "Z" here works around bugs in Javadoc (JDK-8318093) and JDiff.
+  public static <Z> ImmutableSortedMultiset<Z> copyOf(Z[] elements) {
+    throw new UnsupportedOperationException();
+  }
+
+  private static final long serialVersionUID = 0xdecaf;
 }

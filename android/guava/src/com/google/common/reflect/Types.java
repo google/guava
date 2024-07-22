@@ -100,15 +100,13 @@ final class Types {
   private enum ClassOwnership {
     OWNED_BY_ENCLOSING_CLASS {
       @Override
-      @Nullable
-      Class<?> getOwnerType(Class<?> rawType) {
+      @Nullable Class<?> getOwnerType(Class<?> rawType) {
         return rawType.getEnclosingClass();
       }
     },
     LOCAL_CLASS_HAS_NO_OWNER {
       @Override
-      @Nullable
-      Class<?> getOwnerType(Class<?> rawType) {
+      @Nullable Class<?> getOwnerType(Class<?> rawType) {
         if (rawType.isLocalClass()) {
           return null;
         } else {
@@ -352,6 +350,7 @@ final class Types {
    * <p>This workaround should be removed at a distant future time when we no longer support Java
    * versions earlier than 8.
    */
+  @SuppressWarnings("removal") // b/318391980
   private static final class TypeVariableInvocationHandler implements InvocationHandler {
     private static final ImmutableMap<String, Method> typeVariableMethods;
 
@@ -590,14 +589,7 @@ final class Types {
           return (String) getTypeName.invoke(type);
         } catch (NoSuchMethodException e) {
           throw new AssertionError("Type.getTypeName should be available in Java 8");
-          /*
-           * Do not merge the 2 catch blocks below. javac would infer a type of
-           * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
-           * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
-           */
-        } catch (InvocationTargetException e) {
-          throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
           throw new RuntimeException(e);
         }
       }

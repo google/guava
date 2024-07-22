@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Strings;
 import java.util.List;
 import java.util.Queue;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Create queue of strings for tests.
@@ -27,6 +28,7 @@ import java.util.Queue;
  * @author Jared Levy
  */
 @GwtCompatible
+@NullMarked
 public abstract class TestStringQueueGenerator implements TestQueueGenerator<String> {
   @Override
   public SampleElements<String> samples() {

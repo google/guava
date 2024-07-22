@@ -210,7 +210,7 @@ public final class HostAndPort implements Serializable {
   /**
    * Parses a bracketed host-port string, throwing IllegalArgumentException if parsing fails.
    *
-   * @param hostPortString the full bracketed host-port specification. Post might not be specified.
+   * @param hostPortString the full bracketed host-port specification. Port might not be specified.
    * @return an array with 2 strings: host and port, in that order.
    * @throws IllegalArgumentException if parsing the bracketed host-port string fails.
    */

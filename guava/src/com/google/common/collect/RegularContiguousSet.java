@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @NullMarked
 final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   private final Range<C> range;
@@ -58,6 +58,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Use a shared unsafeCompare method.
   ContiguousSet<C> subSetImpl(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
@@ -78,8 +79,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @GwtIncompatible // not used by GWT emulation
   @Override
   int indexOf(@Nullable Object target) {
+    if (!contains(target)) {
+      return -1;
+    }
+    // The cast is safe because of the contains check—at least for any reasonable Comparable class.
+    @SuppressWarnings("unchecked")
     // requireNonNull is safe because of the contains check.
-    return contains(target) ? (int) domain.distance(first(), (C) requireNonNull(target)) : -1;
+    C c = (C) requireNonNull(target);
+    return (int) domain.distance(first(), c);
   }
 
   @Override
@@ -142,6 +149,15 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
           checkElementIndex(i, size());
           return domain.offset(first(), i);
         }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible // serialization
+        @GwtIncompatible // serialization
+        Object writeReplace() {
+          return super.writeReplace();
+        }
       };
     } else {
       return super.createAsList();
@@ -160,7 +176,9 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       return false;
     }
     try {
-      return range.contains((C) object);
+      @SuppressWarnings("unchecked") // The worst case is usually CCE, which we catch.
+      C c = (C) object;
+      return range.contains(c);
     } catch (ClassCastException e) {
       return false;
     }
@@ -177,6 +195,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Use a shared unsafeCompare method.
   public ContiguousSet<C> intersection(ContiguousSet<C> other) {
     checkNotNull(other);
     checkArgument(this.domain.equals(other.domain));

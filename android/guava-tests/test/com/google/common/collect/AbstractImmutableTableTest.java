@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests {@link ImmutableTable}
@@ -25,6 +26,7 @@ import junit.framework.TestCase;
  * @author Gregory Kick
  */
 @GwtCompatible
+@NullMarked
 public abstract class AbstractImmutableTableTest extends TestCase {
 
   abstract Iterable<ImmutableTable<Character, Integer, String>> getTestInstances();

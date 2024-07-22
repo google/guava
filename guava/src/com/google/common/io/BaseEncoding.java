@@ -137,12 +137,8 @@ public abstract class BaseEncoding {
    * @since 15.0
    */
   public static final class DecodingException extends IOException {
-    DecodingException(String message) {
+    DecodingException(@Nullable String message) {
       super(message);
-    }
-
-    DecodingException(Throwable cause) {
-      super(cause);
     }
   }
 
@@ -433,7 +429,7 @@ public abstract class BaseEncoding {
     return BASE16;
   }
 
-  private static final class Alphabet {
+  static final class Alphabet {
     private final String name;
     // this is meant to be immutable -- don't modify it!
     private final char[] chars;
@@ -614,7 +610,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static class StandardBaseEncoding extends BaseEncoding {
+  private static class StandardBaseEncoding extends BaseEncoding {
     final Alphabet alphabet;
 
     final @Nullable Character paddingChar;
@@ -951,7 +947,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base16Encoding extends StandardBaseEncoding {
+  private static final class Base16Encoding extends StandardBaseEncoding {
     final char[] encoding = new char[512];
 
     Base16Encoding(String name, String alphabetChars) {
@@ -998,7 +994,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base64Encoding extends StandardBaseEncoding {
+  private static final class Base64Encoding extends StandardBaseEncoding {
     Base64Encoding(String name, String alphabetChars, @Nullable Character paddingChar) {
       this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);
     }

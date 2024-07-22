@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import java.math.RoundingMode;
 import org.jspecify.annotations.NullMarked;
 
@@ -26,7 +25,6 @@ import org.jspecify.annotations.NullMarked;
  * Helper type to implement rounding {@code X} to a representable {@code double} value according to
  * a {@link RoundingMode}.
  */
-@J2ktIncompatible
 @GwtIncompatible
 @NullMarked
 abstract class ToDoubleRounder<X extends Number & Comparable<X>> {

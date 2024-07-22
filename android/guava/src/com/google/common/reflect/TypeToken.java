@@ -31,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
@@ -104,10 +105,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final Type runtimeType;
 
   /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */
-  private transient @Nullable TypeResolver invariantTypeResolver;
+  @LazyInit private transient @Nullable TypeResolver invariantTypeResolver;
 
   /** Resolver for resolving covariant types with {@link #runtimeType} as context. */
-  private transient @Nullable TypeResolver covariantTypeResolver;
+  @LazyInit private transient @Nullable TypeResolver covariantTypeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
@@ -1329,8 +1330,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
           }
 
           @Override
-          @Nullable
-          TypeToken<?> getSuperclass(TypeToken<?> type) {
+          @Nullable TypeToken<?> getSuperclass(TypeToken<?> type) {
             return type.getGenericSuperclass();
           }
         };
@@ -1348,8 +1348,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
           }
 
           @Override
-          @Nullable
-          Class<?> getSuperclass(Class<?> type) {
+          @Nullable Class<?> getSuperclass(Class<?> type) {
             return type.getSuperclass();
           }
         };
@@ -1453,8 +1452,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       }
 
       @Override
-      @Nullable
-      K getSuperclass(K type) {
+      @Nullable K getSuperclass(K type) {
         return delegate.getSuperclass(type);
       }
     }

@@ -71,7 +71,7 @@ import org.jspecify.annotations.Nullable;
  *       create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
  *       the {@code Converter} type using a mocking framework.
  *   <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- *   <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+ *   <li><b>Java 8+ users:</b> you may prefer to pass two lambda expressions or method references to
  *       the {@link #from from} factory method.
  * </ul>
  *
@@ -195,8 +195,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return correctedDoForward(a);
   }
 
-  @Nullable
-  B correctedDoForward(@Nullable A a) {
+  @Nullable B correctedDoForward(@Nullable A a) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
@@ -205,8 +204,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
   }
 
-  @Nullable
-  A correctedDoBackward(@Nullable B b) {
+  @Nullable A correctedDoBackward(@Nullable B b) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
@@ -334,14 +332,12 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    @Nullable
-    A correctedDoForward(@Nullable B b) {
+    @Nullable A correctedDoForward(@Nullable B b) {
       return original.correctedDoBackward(b);
     }
 
     @Override
-    @Nullable
-    B correctedDoBackward(@Nullable A a) {
+    @Nullable B correctedDoBackward(@Nullable A a) {
       return original.correctedDoForward(a);
     }
 
@@ -416,14 +412,12 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    @Nullable
-    C correctedDoForward(@Nullable A a) {
+    @Nullable C correctedDoForward(@Nullable A a) {
       return second.correctedDoForward(first.correctedDoForward(a));
     }
 
     @Override
-    @Nullable
-    A correctedDoBackward(@Nullable C c) {
+    @Nullable A correctedDoBackward(@Nullable C c) {
       return first.correctedDoBackward(second.correctedDoBackward(c));
     }
 
@@ -569,7 +563,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * "pass-through type".
    */
   private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
-    static final IdentityConverter<?> INSTANCE = new IdentityConverter<>();
+    static final Converter<?, ?> INSTANCE = new IdentityConverter<>();
 
     @Override
     protected T doForward(T t) {

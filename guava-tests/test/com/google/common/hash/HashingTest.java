@@ -16,10 +16,12 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Charsets.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
@@ -39,7 +41,7 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link Hashing}.
  *
- * <p>TODO(b/33919189): Migrate repeated testing methods to {@link #HashTestUtils} and tweak unit
+ * <p>TODO(b/33919189): Migrate repeated testing methods to {@link HashTestUtils} and tweak unit
  * tests to reference them from there.
  *
  * @author Dimitris Andreou
@@ -219,11 +221,7 @@ public class HashingTest extends TestCase {
   private static final int MAX_SHARDS = 500;
 
   public void testConsistentHash_outOfRange() {
-    try {
-      Hashing.consistentHash(5L, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Hashing.consistentHash(5L, 0));
   }
 
   public void testConsistentHash_ofHashCode() {
@@ -260,20 +258,19 @@ public class HashingTest extends TestCase {
   private static final long RANDOM_SEED = 177L;
 
   public void testCombineOrdered_empty() {
-    try {
-      Hashing.combineOrdered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineOrdered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineOrdered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineOrdered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineOrdered() {
@@ -305,20 +302,19 @@ public class HashingTest extends TestCase {
   }
 
   public void testCombineUnordered_empty() {
-    try {
-      Hashing.combineUnordered(Collections.<HashCode>emptySet());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Hashing.combineUnordered(Collections.<HashCode>emptySet()));
   }
 
   public void testCombineUnordered_differentBitLengths() {
-    try {
-      HashCode unused =
-          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          HashCode unused =
+              Hashing.combineUnordered(
+                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+        });
   }
 
   public void testCombineUnordered() {
@@ -423,33 +419,32 @@ public class HashingTest extends TestCase {
     assertEquals(expected, actual);
   }
 
-  private static final String EMPTY_STRING = "";
   private static final String TQBFJOTLD = "The quick brown fox jumps over the lazy dog";
   private static final String TQBFJOTLDP = "The quick brown fox jumps over the lazy dog.";
 
   private static final ImmutableTable<HashFunction, String, String> KNOWN_HASHES =
       ImmutableTable.<HashFunction, String, String>builder()
-          .put(Hashing.adler32(), EMPTY_STRING, "01000000")
+          .put(Hashing.adler32(), "", "01000000")
           .put(Hashing.adler32(), TQBFJOTLD, "da0fdc5b")
           .put(Hashing.adler32(), TQBFJOTLDP, "0810e46b")
-          .put(Hashing.md5(), EMPTY_STRING, "d41d8cd98f00b204e9800998ecf8427e")
+          .put(Hashing.md5(), "", "d41d8cd98f00b204e9800998ecf8427e")
           .put(Hashing.md5(), TQBFJOTLD, "9e107d9d372bb6826bd81d3542a419d6")
           .put(Hashing.md5(), TQBFJOTLDP, "e4d909c290d0fb1ca068ffaddf22cbd0")
-          .put(Hashing.murmur3_128(), EMPTY_STRING, "00000000000000000000000000000000")
+          .put(Hashing.murmur3_128(), "", "00000000000000000000000000000000")
           .put(Hashing.murmur3_128(), TQBFJOTLD, "6c1b07bc7bbc4be347939ac4a93c437a")
           .put(Hashing.murmur3_128(), TQBFJOTLDP, "c902e99e1f4899cde7b68789a3a15d69")
-          .put(Hashing.murmur3_32(), EMPTY_STRING, "00000000")
+          .put(Hashing.murmur3_32(), "", "00000000")
           .put(Hashing.murmur3_32(), TQBFJOTLD, "23f74f2e")
           .put(Hashing.murmur3_32(), TQBFJOTLDP, "fc8bc4d5")
-          .put(Hashing.murmur3_32_fixed(), EMPTY_STRING, "00000000")
+          .put(Hashing.murmur3_32_fixed(), "", "00000000")
           .put(Hashing.murmur3_32_fixed(), TQBFJOTLD, "23f74f2e")
           .put(Hashing.murmur3_32_fixed(), TQBFJOTLDP, "fc8bc4d5")
-          .put(Hashing.sha1(), EMPTY_STRING, "da39a3ee5e6b4b0d3255bfef95601890afd80709")
+          .put(Hashing.sha1(), "", "da39a3ee5e6b4b0d3255bfef95601890afd80709")
           .put(Hashing.sha1(), TQBFJOTLD, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12")
           .put(Hashing.sha1(), TQBFJOTLDP, "408d94384216f890ff7a0c3528e8bed1e0b01621")
           .put(
               Hashing.sha256(),
-              EMPTY_STRING,
+              "",
               "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
           .put(
               Hashing.sha256(),
@@ -461,7 +456,7 @@ public class HashingTest extends TestCase {
               "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
           .put(
               Hashing.sha384(),
-              EMPTY_STRING,
+              "",
               "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da2"
                   + "74edebfe76f65fbd51ad2f14898b95b")
           .put(
@@ -476,7 +471,7 @@ public class HashingTest extends TestCase {
                   + "a7af2819a021c2fc34e91bdb63409d7")
           .put(
               Hashing.sha512(),
-              EMPTY_STRING,
+              "",
               "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
                   + "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
           .put(
@@ -489,31 +484,26 @@ public class HashingTest extends TestCase {
               TQBFJOTLDP,
               "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb"
                   + "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
-          .put(Hashing.crc32(), EMPTY_STRING, "00000000")
+          .put(Hashing.crc32(), "", "00000000")
           .put(Hashing.crc32(), TQBFJOTLD, "39a34f41")
           .put(Hashing.crc32(), TQBFJOTLDP, "e9259051")
-          .put(Hashing.sipHash24(), EMPTY_STRING, "310e0edd47db6f72")
+          .put(Hashing.sipHash24(), "", "310e0edd47db6f72")
           .put(Hashing.sipHash24(), TQBFJOTLD, "e46f1fdc05612752")
           .put(Hashing.sipHash24(), TQBFJOTLDP, "9b602581fce4d4f8")
-          .put(Hashing.crc32c(), EMPTY_STRING, "00000000")
+          .put(Hashing.crc32c(), "", "00000000")
           .put(Hashing.crc32c(), TQBFJOTLD, "04046222")
           .put(Hashing.crc32c(), TQBFJOTLDP, "b3970019")
-          .put(Hashing.farmHashFingerprint64(), EMPTY_STRING, "4f40902f3b6ae19a")
+          .put(Hashing.farmHashFingerprint64(), "", "4f40902f3b6ae19a")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLD, "34511b3bf383beab")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLDP, "737d7e5f8660653e")
-          .put(Hashing.fingerprint2011(), EMPTY_STRING, "e365a64a907cad23")
+          .put(Hashing.fingerprint2011(), "", "e365a64a907cad23")
           .put(Hashing.fingerprint2011(), TQBFJOTLD, "c9688c84e813b089")
           .put(Hashing.fingerprint2011(), TQBFJOTLDP, "a714d70f1d569cd0")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
-    // The following legacy hashing function methods have been covered by unit testing already.
-    List<String> legacyHashingMethodNames = ImmutableList.of("murmur2_64", "fprint96");
     for (Method method : Hashing.class.getDeclaredMethods()) {
-      if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
-          && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length == 0 // only the seed-less grapes^W hash functions
-          && !legacyHashingMethodNames.contains(method.getName())) {
+      if (shouldHaveKnownHashes(method)) {
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
         assertTrue(
             "There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
@@ -582,9 +572,7 @@ public class HashingTest extends TestCase {
 
   static void assertSeedlessHashFunctionEquals(Class<?> clazz) throws Exception {
     for (Method method : clazz.getDeclaredMethods()) {
-      if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
-          && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length == 0) { // only the seed-less hash functions
+      if (shouldHaveKnownHashes(method)) {
         HashFunction hashFunction1a = (HashFunction) method.invoke(clazz);
         HashFunction hashFunction1b = (HashFunction) method.invoke(clazz);
 
@@ -596,6 +584,16 @@ public class HashingTest extends TestCase {
         assertEquals(hashFunction1a.toString(), hashFunction1b.toString());
       }
     }
+  }
+
+  private static boolean shouldHaveKnownHashes(Method method) {
+    // The following legacy hashing function methods have been covered by unit testing already.
+    ImmutableSet<String> legacyHashingMethodNames =
+        ImmutableSet.of("murmur2_64", "fprint96", "highwayFingerprint64", "highwayFingerprint128");
+    return method.getReturnType().equals(HashFunction.class) // must return HashFunction
+        && Modifier.isPublic(method.getModifiers()) // only the public methods
+        && method.getParameterTypes().length == 0 // only the seedless hash functions
+        && !legacyHashingMethodNames.contains(method.getName());
   }
 
   static void assertSeededHashFunctionEquals(Class<?> clazz) throws Exception {

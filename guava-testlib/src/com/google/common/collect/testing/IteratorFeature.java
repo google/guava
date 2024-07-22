@@ -16,10 +16,13 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.unmodifiableSet;
+
 import com.google.common.annotations.GwtCompatible;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.ListIterator;
 import java.util.Set;
 
@@ -49,12 +52,12 @@ public enum IteratorFeature {
    * A set containing none of the optional features of the {@link Iterator} or {@link ListIterator}
    * interfaces.
    */
-  public static final Set<IteratorFeature> UNMODIFIABLE = Collections.emptySet();
+  public static final Set<IteratorFeature> UNMODIFIABLE = emptySet();
 
   /**
    * A set containing all of the optional features of the {@link Iterator} and {@link ListIterator}
    * interfaces.
    */
   public static final Set<IteratorFeature> MODIFIABLE =
-      Collections.unmodifiableSet(EnumSet.allOf(IteratorFeature.class));
+      unmodifiableSet(new LinkedHashSet<>(asList(values())));
 }

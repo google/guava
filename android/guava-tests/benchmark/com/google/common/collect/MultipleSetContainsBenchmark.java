@@ -37,8 +37,7 @@ public class MultipleSetContainsBenchmark {
   static final Object PRESENT = new Object();
   static final Object ABSENT = new Object();
 
-  @SuppressWarnings("unchecked")
-  private final ImmutableSet<Object>[] sets = new ImmutableSet[0x1000];
+  private final ImmutableSet<?>[] sets = new ImmutableSet<?>[0x1000];
 
   private final Object[] queries = new Object[0x1000];
 
@@ -69,7 +68,7 @@ public class MultipleSetContainsBenchmark {
 
   @Benchmark
   public boolean contains(int reps) {
-    ImmutableSet<Object>[] sets = this.sets;
+    ImmutableSet<?>[] sets = this.sets;
     Object[] queries = this.queries;
     boolean result = false;
     for (int i = 0; i < reps; i++) {

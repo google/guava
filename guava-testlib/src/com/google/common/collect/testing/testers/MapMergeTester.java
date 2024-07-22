@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REM
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -190,6 +191,7 @@ public class MapMergeTester<K, V> extends AbstractMapTester<K, V> {
    * Returns the {@link Method} instance for {@link #testMergeNullValue()} so that tests of {@link
    * Hashtable} can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getMergeNullValueMethod() {
     return Helpers.getMethod(MapMergeTester.class, "testMergeNullValue");

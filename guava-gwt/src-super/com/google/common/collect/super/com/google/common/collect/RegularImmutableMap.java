@@ -17,13 +17,17 @@
 package com.google.common.collect;
 
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWt emulation of {@link RegularImmutableMap}.
  *
  * @author Hayward Chan
  */
+@NullMarked
 final class RegularImmutableMap<K, V> extends ForwardingImmutableMap<K, V> {
+
+  static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap<Object, Object>();
 
   RegularImmutableMap(Map<? extends K, ? extends V> delegate) {
     super(delegate);

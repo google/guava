@@ -40,8 +40,7 @@ final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   @SuppressWarnings("unchecked") // Safe because we only cast if key is found in map.
   @Override
-  @Nullable
-  V get(Object key) {
+  @Nullable V get(Object key) {
     checkNotNull(key);
     V value = getIfCached(key);
     if (value != null) {
@@ -58,8 +57,7 @@ final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // Internal methods (package-visible, but treat as only subclass-visible)
 
   @Override
-  @Nullable
-  V getIfCached(@Nullable Object key) {
+  @Nullable V getIfCached(@Nullable Object key) {
     V value = super.getIfCached(key);
     if (value != null) {
       return value;

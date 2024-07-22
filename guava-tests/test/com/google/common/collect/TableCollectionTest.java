@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.Table.Cell;
@@ -44,6 +45,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -53,6 +55,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class TableCollectionTest extends TestCase {
 
   private static final Feature<?>[] COLLECTION_FEATURES = {
@@ -74,6 +77,7 @@ public class TableCollectionTest extends TestCase {
     CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();

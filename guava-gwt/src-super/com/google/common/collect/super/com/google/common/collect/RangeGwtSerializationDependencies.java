@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 
 @GwtCompatible(emulated = true)
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 abstract class RangeGwtSerializationDependencies<C extends Comparable> implements Serializable {
   C dummy;
 }

@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -37,7 +39,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
+@NullMarked
+public abstract class AbstractMultimapTester<
+        K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends AbstractContainerTester<M, Entry<K, V>> {
 
   private M multimap;
@@ -149,7 +153,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     assertGet(key, Arrays.asList(values));
   }
 
-  protected void assertGet(K key, Collection<V> values) {
+  protected void assertGet(K key, Collection<? extends V> values) {
     assertEqualIgnoringOrder(values, multimap().get(key));
 
     if (!values.isEmpty()) {

@@ -45,6 +45,6 @@ abstract class GwtFuturesCatchingSpecialization {
       Class<Throwable> exceptionType,
       AsyncFunction<? super Throwable, ? extends V> fallback,
       Executor executor) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
+    return AbstractCatchingFuture.createAsync(input, exceptionType, fallback, executor);
   }
 }

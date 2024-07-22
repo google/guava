@@ -33,10 +33,10 @@ public class ForwardingDequeTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             Deque.class,
-            new Function<Deque, Deque>() {
+            new Function<Deque, Deque<?>>() {
               @Override
-              public Deque apply(Deque delegate) {
-                return wrap(delegate);
+              public Deque<?> apply(Deque delegate) {
+                return wrap((Deque<?>) delegate);
               }
             });
   }

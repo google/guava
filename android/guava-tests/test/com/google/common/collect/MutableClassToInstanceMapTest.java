@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.collect.ImmutableClassToInstanceMapTest.Impl;
 import com.google.common.collect.ImmutableClassToInstanceMapTest.TestClassToInstanceMapGenerator;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -44,7 +46,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
                   // Other tests will verify what real, warning-free usage looks like
                   // but here we have to do some serious fudging
                   @Override
-                  @SuppressWarnings("unchecked")
+                  @SuppressWarnings({"unchecked", "rawtypes"})
                   public Map<Class, Impl> create(Object... elements) {
                     MutableClassToInstanceMap<Impl> map = MutableClassToInstanceMap.create();
                     for (Object object : elements) {
@@ -83,11 +85,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
      * well-tested. A purist would object to this, but what can I say, we're dirty cheaters.
      */
     map.put(Integer.class, new Integer(5));
-    try {
-      map.put(Double.class, new Long(42));
-      fail();
-    } catch (ClassCastException expected) {
-    }
+    assertThrows(ClassCastException.class, () -> map.put(Double.class, new Long(42)));
     // Won't compile: map.put(String.class, "x");
   }
 
@@ -104,11 +102,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testNull() {
-    try {
-      map.put(null, new Integer(1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> map.put(null, new Integer(1)));
     map.putInstance(Integer.class, null);
     assertNull(map.get(Integer.class));
     assertNull(map.getInstance(Integer.class));

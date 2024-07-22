@@ -43,7 +43,17 @@ final class Platform {
 
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
-    return ref == null ? Optional.<T>absent() : Optional.of(enumClass.cast(ref.get()));
+    /*
+     * We use `fromNullable` instead of `of` because `WeakReference.get()` has a nullable return
+     * type.
+     *
+     * In practice, we are very unlikely to see `null`: The `WeakReference` to the enum constant
+     * won't be cleared as long as the enum constant is referenced somewhere, and the enum constant
+     * is referenced somewhere for as long as the enum class is loaded. *Maybe in theory* the enum
+     * class could be unloaded after the above call to `getEnumConstants` but before we call
+     * `get()`, but that is vanishingly unlikely.
+     */
+    return ref == null ? Optional.absent() : Optional.fromNullable(enumClass.cast(ref.get()));
   }
 
   static String formatCompact4Digits(double value) {
@@ -101,26 +111,5 @@ final class Platform {
     public boolean isPcreLike() {
       return true;
     }
-  }
-
-  static void checkGwtRpcEnabled() {
-    String propertyName = "guava.gwt.emergency_reenable_rpc";
-
-    if (!Boolean.parseBoolean(System.getProperty(propertyName, "false"))) {
-      throw new UnsupportedOperationException(
-          Strings.lenientFormat(
-              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
-                  + " support by setting the system property %s to true. For more about system"
-                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
-              propertyName,
-              "https://stackoverflow.com/q/5189914/28465",
-              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
-    }
-    logger.log(
-        java.util.logging.Level.WARNING,
-        "Later in 2020, we will remove GWT-RPC support for Guava types. You are seeing this"
-            + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
-            + " can identify which type by looking at the class name in the attached stack trace.",
-        new Throwable());
   }
 }

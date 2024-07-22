@@ -254,6 +254,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @throws NullPointerException if any of the provided iterables is {@code null}
    * @since 20.0
    */
+  @SafeVarargs
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T>... inputs) {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));

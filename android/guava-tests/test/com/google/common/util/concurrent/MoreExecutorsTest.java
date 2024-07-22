@@ -38,6 +38,7 @@ import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -220,12 +221,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
     executor.shutdown();
     assertTrue(executor.isShutdown());
-    try {
-      executor.submit(doNothingRunnable);
-      fail("Should have encountered RejectedExecutionException");
-    } catch (RejectedExecutionException ex) {
-      // good to go
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.submit(doNothingRunnable));
     assertFalse(executor.isTerminated());
 
     // WAIT #2
@@ -237,12 +233,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertTrue(executor.awaitTermination(1, TimeUnit.SECONDS));
     assertTrue(executor.awaitTermination(0, TimeUnit.SECONDS));
     assertTrue(executor.isShutdown());
-    try {
-      executor.submit(doNothingRunnable);
-      fail("Should have encountered RejectedExecutionException");
-    } catch (RejectedExecutionException ex) {
-      // good to go
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.submit(doNothingRunnable));
     assertTrue(executor.isTerminated());
 
     otherThread.join(1000);
@@ -309,11 +300,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testExecuteAfterShutdown() {
     ExecutorService executor = newDirectExecutorService();
     executor.shutdown();
-    try {
-      executor.execute(EMPTY_RUNNABLE);
-      fail();
-    } catch (RejectedExecutionException expected) {
-    }
+    assertThrows(RejectedExecutionException.class, () -> executor.execute(EMPTY_RUNNABLE));
   }
 
   public <T> void testListeningExecutorServiceInvokeAllJavadocCodeCompiles() throws Exception {

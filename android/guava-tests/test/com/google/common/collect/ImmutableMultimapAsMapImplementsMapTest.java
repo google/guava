@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Collection;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Test {@link Multimap#asMap()} for an {@link ImmutableMultimap} with {@link MapInterfaceTest}.
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible
+@NullMarked
 public class ImmutableMultimapAsMapImplementsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
 

@@ -36,7 +36,6 @@ public class SetMultimapReplaceValuesTester<K, V>
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesHandlesDuplicates() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v1(), v0());
 
     for (K k : sampleKeys()) {

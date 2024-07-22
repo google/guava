@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -36,6 +37,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,6 +46,8 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -51,8 +55,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class ImmutableMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -205,9 +211,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCreation_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
+    @Nullable String[] array = new @Nullable String[] {null};
     try {
-      ImmutableMultiset.copyOf(array);
+      ImmutableMultiset.copyOf((String[]) array);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -233,9 +239,9 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
     try {
-      ImmutableMultiset.copyOf(c);
+      ImmutableMultiset.copyOf((Collection<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -260,9 +266,10 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_multisetContainingNull() {
-    Multiset<String> c = HashMultiset.create(asList("a", null, "b"));
+    Multiset<@Nullable String> c =
+        HashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
     try {
-      ImmutableMultiset.copyOf(c);
+      ImmutableMultiset.copyOf((Multiset<String>) c);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -287,9 +294,10 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> iterator = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> iterator =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
     try {
-      ImmutableMultiset.copyOf(iterator);
+      ImmutableMultiset.copyOf((Iterator<String>) iterator);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -418,17 +426,18 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     builder = ImmutableMultiset.builder();
-    List<String> listWithNulls = asList("a", null, "b");
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
     try {
-      builder.addAll(listWithNulls);
+      builder.addAll((List<String>) listWithNulls);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }
 
     builder = ImmutableMultiset.builder();
-    Multiset<String> multisetWithNull = LinkedHashMultiset.create(asList("a", null, "b"));
+    Multiset<@Nullable String> multisetWithNull =
+        LinkedHashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
     try {
-      builder.addAll(multisetWithNull);
+      builder.addAll((Multiset<String>) multisetWithNull);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }
@@ -470,18 +479,21 @@ public class ImmutableMultisetTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -489,6 +501,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
@@ -496,6 +509,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_entrySet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "c");
@@ -531,6 +545,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(4, list.lastIndexOf("b"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_asList() {
     ImmutableMultiset<String> multiset = ImmutableMultiset.of("a", "a", "b", "b", "b");

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.GcFinalization.FinalizationPredicate;
 import com.google.common.util.concurrent.SettableFuture;
@@ -43,28 +44,30 @@ public class GcFinalizationTest extends TestCase {
 
   public void testAwait_CountDownLatch() {
     final CountDownLatch latch = new CountDownLatch(1);
-    Object x =
+    Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             latch.countDown();
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.await(latch);
     assertEquals(0, latch.getCount());
   }
 
   public void testAwaitDone_Future() {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
-    Object x =
+    Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             future.set(null);
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.awaitDone(future);
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -72,14 +75,15 @@ public class GcFinalizationTest extends TestCase {
 
   public void testAwaitDone_Future_Cancel() {
     final SettableFuture<@Nullable Void> future = SettableFuture.create();
-    Object x =
+    Object unused =
         new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/260137033
           @Override
           protected void finalize() {
             future.cancel(false);
           }
         };
-    x = null; // Hint to the JIT that x is unreachable
+    unused = null; // Hint to the JIT that unused is unreachable
     GcFinalization.awaitDone(future);
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
@@ -96,6 +100,7 @@ public class GcFinalizationTest extends TestCase {
     map.put(new Object(), Boolean.TRUE);
     GcFinalization.awaitDone(
         new FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return map.isEmpty();
           }
@@ -118,6 +123,7 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator(final Thread interruptee, final AtomicBoolean shutdown) {
       super(
           new Runnable() {
+            @Override
             public void run() {
               while (!shutdown.get()) {
                 interruptee.interrupt();
@@ -146,12 +152,9 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
       final CountDownLatch latch = new CountDownLatch(1);
-      try {
-        GcFinalization.await(latch);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.await(latch));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -162,12 +165,9 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
       final SettableFuture<@Nullable Void> future = SettableFuture.create();
-      try {
-        GcFinalization.awaitDone(future);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.awaitDone(future));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -178,12 +178,9 @@ public class GcFinalizationTest extends TestCase {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
       final WeakReference<Object> ref = new WeakReference<Object>(Boolean.TRUE);
-      try {
-        GcFinalization.awaitClear(ref);
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(RuntimeException.class, () -> GcFinalization.awaitClear(ref));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -193,17 +190,18 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_FinalizationPredicate_Interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      try {
-        GcFinalization.awaitDone(
-            new FinalizationPredicate() {
-              public boolean isDone() {
-                return false;
-              }
-            });
-        fail("should throw");
-      } catch (RuntimeException expected) {
-        assertWrapsInterruptedException(expected);
-      }
+      RuntimeException expected =
+          assertThrows(
+              RuntimeException.class,
+              () ->
+                  GcFinalization.awaitDone(
+                      new FinalizationPredicate() {
+                        @Override
+                        public boolean isDone() {
+                          return false;
+                        }
+                      }));
+      assertWrapsInterruptedException(expected);
     } finally {
       interruptenator.shutdown();
       Thread.interrupted();
@@ -220,6 +218,7 @@ public class GcFinalizationTest extends TestCase {
     final WeakReference<Object> ref =
         new WeakReference<Object>(
             new Object() {
+              @SuppressWarnings({"removal", "Finalize"}) // b/260137033
               @Override
               protected void finalize() {
                 finalizerRan.countDown();

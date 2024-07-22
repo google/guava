@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -40,6 +41,7 @@ import junit.framework.TestSuite;
  *
  * @author Mike Bostock
  */
+@J2ktIncompatible // EnumHashBiMap
 @GwtCompatible(emulated = true)
 public class EnumHashBiMapTest extends TestCase {
   private enum Currency {
@@ -83,7 +85,7 @@ public class EnumHashBiMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<Country, String>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<Country, String>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -102,6 +104,7 @@ public class EnumHashBiMapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -217,11 +220,13 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(EnumHashBiMap.create(Currency.class));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumHashBiMap.class);

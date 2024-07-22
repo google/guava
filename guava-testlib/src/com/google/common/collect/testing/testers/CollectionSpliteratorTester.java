@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SpliteratorTester;
@@ -45,49 +46,41 @@ public class CollectionSpliteratorTester<E> extends AbstractCollectionTester<E> 
 
   @CollectionFeature.Require(absent = KNOWN_ORDER)
   public void testSpliteratorUnknownOrder() {
-    synchronized (collection) {
-      SpliteratorTester.of(collection::spliterator).expect(getSampleElements());
-    }
+    SpliteratorTester.of(collection::spliterator).expect(getSampleElements());
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testSpliteratorKnownOrder() {
-    synchronized (collection) {
-      SpliteratorTester.of(collection::spliterator).expect(getOrderedElements()).inOrder();
-    }
+    SpliteratorTester.of(collection::spliterator).expect(getOrderedElements()).inOrder();
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
   public void testSpliteratorNullable() {
     initCollectionWithNullElement();
-    synchronized (collection) { // for Collections.synchronized
-      assertFalse(collection.spliterator().hasCharacteristics(Spliterator.NONNULL));
-    }
+    assertFalse(collection.spliterator().hasCharacteristics(Spliterator.NONNULL));
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSpliteratorNotImmutable_CollectionAllowsAdd() {
     // If add is supported, verify that IMMUTABLE is not reported.
-    synchronized (collection) { // for Collections.synchronized
-      assertFalse(collection.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
-    }
+    assertFalse(collection.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSpliteratorNotImmutable_CollectionAllowsRemove() {
     // If remove is supported, verify that IMMUTABLE is not reported.
-    synchronized (collection) { // for Collections.synchronized
-      assertFalse(collection.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
-    }
+    assertFalse(collection.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsAddMethod() {
     return Helpers.getMethod(
         CollectionSpliteratorTester.class, "testSpliteratorNotImmutable_CollectionAllowsAdd");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsRemoveMethod() {
     return Helpers.getMethod(

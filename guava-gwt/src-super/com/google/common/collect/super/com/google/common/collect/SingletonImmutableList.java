@@ -20,12 +20,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singletonList;
 
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWT emulated version of {@link SingletonImmutableList}.
  *
  * @author Hayward Chan
  */
+@NullMarked
 final class SingletonImmutableList<E> extends ForwardingImmutableList<E> {
 
   final transient List<E> delegate;

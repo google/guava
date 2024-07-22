@@ -19,6 +19,7 @@ package com.google.common.collect.testing;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +29,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests representing the contract of {@link Map}. Concrete subclasses of this base class test
@@ -42,7 +45,9 @@ import junit.framework.TestCase;
 // check the order if so.
 // TODO: Refactor to share code with SetTestBuilder etc.
 @GwtCompatible
-public abstract class MapInterfaceTest<K, V> extends TestCase {
+@NullMarked
+public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nullable Object>
+    extends TestCase {
 
   /** A key type that is not assignable to any classes but Object. */
   private static final class IncompatibleKeyType {
@@ -285,6 +290,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   public void testContainsKey() {
     Map<K, V> map;
     K unmappedKey;
@@ -368,6 +374,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   public void testEntrySetContainsEntryIncompatibleKey() {
     Map<K, V> map;
     Set<Entry<K, V>> entrySet;
@@ -414,9 +421,10 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     map.put(null, unmappedValue);
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> entry = mapEntry(null, unmappedValue);
     assertTrue(entrySet.contains(entry));
-    assertFalse(entrySet.contains(mapEntry(null, null)));
+    Entry<@Nullable K, @Nullable V> nonEntry = mapEntry(null, null);
+    assertFalse(entrySet.contains(nonEntry));
   }
 
   public void testEntrySetContainsEntryNullKeyMissing() {
@@ -436,14 +444,15 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     } catch (UnsupportedOperationException e) {
       return;
     }
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> nullKeyEntry = mapEntry(null, unmappedValue);
     try {
-      assertFalse(entrySet.contains(entry));
+      assertFalse(entrySet.contains(nullKeyEntry));
     } catch (NullPointerException e) {
       assertFalse(allowsNullKeys);
     }
+    Entry<@Nullable K, @Nullable V> nullKeyValueEntry = mapEntry(null, null);
     try {
-      assertFalse(entrySet.contains(mapEntry(null, null)));
+      assertFalse(entrySet.contains(nullKeyValueEntry));
     } catch (NullPointerException e) {
       assertFalse(allowsNullKeys && allowsNullValues);
     }
@@ -477,8 +486,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
@@ -590,7 +599,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     map.put(null, unmappedValue);
     assertEquals(unmappedValue, map.get(null));
     assertTrue(map.containsKey(null));
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> entry = mapEntry(null, unmappedValue);
     assertTrue(entrySet.remove(entry));
     assertNull(map.get(null));
     assertFalse(map.containsKey(null));
@@ -605,7 +614,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Entry<K, V> entry = mapEntry(null, getValueNotInPopulatedMap());
+    Entry<@Nullable K, V> entry = mapEntry(null, getValueNotInPopulatedMap());
     int initialSize = map.size();
     if (supportsRemove) {
       try {
@@ -729,7 +738,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         entrySet.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -768,9 +777,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     Map<K, V> map = makeEitherMap();
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Entry<K, V> entryToAdd = mapEntry(null, null);
+    Entry<@Nullable K, @Nullable V> entryToAdd = mapEntry(null, null);
     try {
-      entrySet.add(entryToAdd);
+      entrySet.add((Entry<K, V>) entryToAdd);
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
@@ -778,7 +787,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
 
     try {
-      entrySet.addAll(singleton(entryToAdd));
+      entrySet.addAll(singleton((Entry<K, V>) entryToAdd));
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
@@ -1365,7 +1374,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         keySet.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1425,8 +1434,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       } catch (IllegalStateException expected) {
       }
     } else {
+      iterator.next();
       try {
-        iterator.next();
         iterator.remove();
         fail("Expected UnsupportedOperationException.");
       } catch (UnsupportedOperationException expected) {
@@ -1527,7 +1536,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.removeAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1581,7 +1590,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.retainAll(null);
         // Returning successfully is not ideal, but tolerated.
-      } catch (NullPointerException expected) {
+      } catch (NullPointerException tolerated) {
       }
     } else {
       try {
@@ -1616,7 +1625,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
   }
 
-  static <K, V> Entry<K, V> mapEntry(K key, V value) {
+  static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> mapEntry(
+      K key, V value) {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 }

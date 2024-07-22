@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Optional;
@@ -36,7 +37,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.Nullable;
 
@@ -45,7 +45,6 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Ben Yu
  */
-@AndroidIncompatible // NullPointerTester refuses to run for c.g.c under Android
 public class ClassSanityTesterTest extends TestCase {
 
   private final ClassSanityTester tester = new ClassSanityTester();
@@ -64,18 +63,22 @@ public class ClassSanityTesterTest extends TestCase {
         @SuppressWarnings("unused") @Nullable NoConstantEnum noConstant) {
       return new GoodEquals(a, b);
     }
+
     // instance method ignored
     public Object badIgnored() {
       return new BadEquals();
     }
+
     // primitive ignored
     public int returnsInt() {
       throw new UnsupportedOperationException();
     }
+
     // void ignored
     public void voidMethod() {
       throw new UnsupportedOperationException();
     }
+
     // non-public method ignored
     static Object badButNotPublic() {
       return new BadEquals();
@@ -85,7 +88,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testForAllPublicStaticMethods_noPublicStaticMethods() throws Exception {
     try {
       tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected)
           .hasMessageThat()
           .isEqualTo(
@@ -100,7 +103,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testEqualsOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadEqualsFactory.class).testEquals();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -128,7 +131,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testNullsOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadNullsFactory.class).thatReturn(Object.class).testNulls();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -140,7 +143,7 @@ public class ClassSanityTesterTest extends TestCase {
           .forAllPublicStaticMethods(BadNullsFactory.class)
           .thatReturn(Iterable.class)
           .testNulls();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected)
           .hasMessageThat()
           .isEqualTo(
@@ -176,7 +179,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testSerializableOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadSerializableFactory.class).testSerializable();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -195,7 +198,7 @@ public class ClassSanityTesterTest extends TestCase {
       throws Exception {
     try {
       tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEqualsAndSerializable();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("should have failed");
@@ -204,7 +207,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testEqualsAndSerializableOnReturnValues_serializableButNotEquals() throws Exception {
     try {
       tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testEqualsAndSerializable();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("should have failed");
@@ -226,7 +229,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testEqualsForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
     try {
       tester.forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class).testEquals();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -235,7 +238,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testNullsForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
     try {
       tester.forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class).testNulls();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -246,7 +249,7 @@ public class ClassSanityTesterTest extends TestCase {
       tester
           .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
           .testSerializable();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -258,7 +261,7 @@ public class ClassSanityTesterTest extends TestCase {
       tester
           .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
           .testEqualsAndSerializable();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -314,7 +317,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testBadEquals() throws Exception {
     try {
       tester.testEquals(BadEquals.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected).hasMessageThat().contains("create(null)");
       return;
     }
@@ -324,7 +327,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testBadEquals_withParameterizedType() throws Exception {
     try {
       tester.testEquals(BadEqualsWithParameterizedType.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected).hasMessageThat().contains("create([[1]])");
       return;
     }
@@ -332,11 +335,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testBadEquals_withSingleParameterValue() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class);
-      fail();
-    } catch (ParameterHasNoDistinctValueException expected) {
-    }
+    assertThrows(
+        ParameterHasNoDistinctValueException.class,
+        () -> tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class));
   }
 
   public void testGoodReferentialEqualityComparison() throws Exception {
@@ -367,7 +368,7 @@ public class ClassSanityTesterTest extends TestCase {
   private void assertBadUseOfReferentialEquality(Class<?> cls) throws Exception {
     try {
       tester.testEquals(cls);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected).hasMessageThat().contains(cls.getSimpleName() + "(");
       return;
     }
@@ -375,41 +376,32 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testParameterNotInstantiableForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterNotInstantiable.class);
-      fail("should have failed");
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.doTestEquals(ConstructorParameterNotInstantiable.class));
   }
 
   public void testNoDistinctValueForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorParameterSingleValue.class);
-      fail("should have failed");
-    } catch (ParameterHasNoDistinctValueException expected) {
-    }
+    assertThrows(
+        ParameterHasNoDistinctValueException.class,
+        () -> tester.doTestEquals(ConstructorParameterSingleValue.class));
   }
 
   public void testConstructorThrowsForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(ConstructorThrows.class);
-      fail("should have failed");
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.doTestEquals(ConstructorThrows.class));
   }
 
   public void testFactoryMethodReturnsNullForEqualsTest() throws Exception {
-    try {
-      tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class);
-      fail("should have failed");
-    } catch (FactoryMethodReturnsNullException expected) {
-    }
+    assertThrows(
+        FactoryMethodReturnsNullException.class,
+        () -> tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
   public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() throws Exception {
     try {
       tester.testEquals(FactoryMethodReturnsNullButNotAnnotated.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("should have failed");
@@ -458,7 +450,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testEnumFailsToCheckNull() throws Exception {
     try {
       tester.testNulls(EnumFailsToCheckNull.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("should have failed");
@@ -475,7 +467,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testBadNulls() throws Exception {
     try {
       tester.testNulls(BadNulls.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("should have failed");
@@ -485,7 +477,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       FactoryMethodReturnsNullButNotAnnotated unused =
           tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected).hasMessageThat().contains("@Nullable");
       return;
     }
@@ -493,11 +485,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_factoryMethodReturnsNullAndAnnotated() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class);
-      fail("should have failed");
-    } catch (FactoryMethodReturnsNullException expected) {
-    }
+    assertThrows(
+        FactoryMethodReturnsNullException.class,
+        () -> tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
   public void testInstantiate_factoryMethodAcceptsNull() throws Exception {
@@ -547,11 +537,8 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testSetDistinctValues_equalInstances() {
-    try {
-      tester.setDistinctValues(String.class, "", "");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> tester.setDistinctValues(String.class, "", ""));
   }
 
   public void testInstantiate_setDistinctValues() throws Exception {
@@ -563,35 +550,25 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_constructorThrows() throws Exception {
-    try {
-      tester.instantiate(ConstructorThrows.class);
-      fail();
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.instantiate(ConstructorThrows.class));
   }
 
   public void testInstantiate_factoryMethodThrows() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodThrows.class);
-      fail();
-    } catch (InvocationTargetException expected) {
-    }
+    assertThrows(
+        InvocationTargetException.class, () -> tester.instantiate(FactoryMethodThrows.class));
   }
 
   public void testInstantiate_constructorParameterNotInstantiable() throws Exception {
-    try {
-      tester.instantiate(ConstructorParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.instantiate(ConstructorParameterNotInstantiable.class));
   }
 
   public void testInstantiate_factoryMethodParameterNotInstantiable() throws Exception {
-    try {
-      tester.instantiate(FactoryMethodParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> tester.instantiate(FactoryMethodParameterNotInstantiable.class));
   }
 
   public void testInstantiate_instantiableFactoryMethodChosen() throws Exception {
@@ -665,11 +642,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testEquals_setOfNonInstantiable() throws Exception {
-    try {
-      new ClassSanityTester().doTestEquals(SetWrapper.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {
-    }
+    assertThrows(
+        ParameterNotInstantiableException.class,
+        () -> new ClassSanityTester().doTestEquals(SetWrapper.class));
   }
 
   private abstract static class Wrapper {

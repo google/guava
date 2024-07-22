@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link PeekingIterator}.
@@ -38,6 +40,7 @@ import junit.framework.TestCase;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@NullMarked
 public class PeekingIteratorTest extends TestCase {
 
   /**
@@ -49,9 +52,9 @@ public class PeekingIteratorTest extends TestCase {
    * PeekingIterator#remove()} removes the same elements as the reference's iterator {@code
    * #remove()}.
    */
-  private static class PeekingIteratorTester<T> extends IteratorTester<T> {
+  private static class PeekingIteratorTester<T extends @Nullable Object> extends IteratorTester<T> {
     private Iterable<T> master;
-    private List<T> targetList;
+    private @Nullable List<T> targetList;
 
     public PeekingIteratorTester(Collection<T> master) {
       super(master.size() + 3, MODIFIABLE, master, IteratorTester.KnownOrder.KNOWN_ORDER);
@@ -73,7 +76,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  private <T> void actsLikeIteratorHelper(final List<T> list) {
+  private <T extends @Nullable Object> void actsLikeIteratorHelper(final List<T> list) {
     // Check with modifiable copies of the list
     new PeekingIteratorTester<T>(list).test();
 
@@ -104,7 +107,7 @@ public class PeekingIteratorTest extends TestCase {
 
   @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorAcceptsNullElements() {
-    actsLikeIteratorHelper(Lists.newArrayList(null, "A", null));
+    actsLikeIteratorHelper(Lists.<@Nullable String>newArrayList(null, "A", null));
   }
 
   public void testPeekOnEmptyList() {

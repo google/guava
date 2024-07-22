@@ -163,6 +163,7 @@ public final class MediaType {
    * may be necessary in certain situations for compatibility.
    */
   public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");
+
   /**
    * <a href="http://www.iana.org/assignments/media-types/text/tab-separated-values">Tab separated
    * values</a>.
@@ -397,7 +398,9 @@ public final class MediaType {
   public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
 
   /**
-   * <a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
+   * <a
+   * href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/DistributingPasses.html">Apple
+   * Passbook</a>.
    *
    * @since 19.0
    */
@@ -526,29 +529,44 @@ public final class MediaType {
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
 
   /**
-   * <a href="http://goo.gl/1pGBFm">Apple over-the-air mobile configuration profiles</a>.
+   * <a
+   * href="https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/iPhoneOTAConfiguration/profile-service/profile-service.html">Apple
+   * over-the-air mobile configuration profiles</a>.
    *
    * @since 18.0
    */
   public static final MediaType APPLE_MOBILE_CONFIG =
       createConstant(APPLICATION_TYPE, "x-apple-aspen-config");
 
-  /** <a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets. */
+  /**
+   * <a
+   * href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+   * Excel</a> spreadsheets.
+   */
   public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
 
   /**
-   * <a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
+   * <a href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000379.shtml">Microsoft
+   * Outlook</a> items.
    *
    * @since 27.1
    */
   public static final MediaType MICROSOFT_OUTLOOK =
       createConstant(APPLICATION_TYPE, "vnd.ms-outlook");
 
-  /** <a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations. */
+  /**
+   * <a
+   * href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+   * Powerpoint</a> presentations.
+   */
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
 
-  /** <a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents. */
+  /**
+   * <a
+   * href="https://learn.microsoft.com/en-us/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2">Microsoft
+   * Word</a> documents.
+   */
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
@@ -1053,15 +1071,13 @@ public final class MediaType {
     Tokenizer tokenizer = new Tokenizer(input);
     try {
       String type = tokenizer.consumeToken(TOKEN_MATCHER);
-      tokenizer.consumeCharacter('/');
+      consumeSeparator(tokenizer, '/');
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
-        tokenizer.consumeCharacter(';');
-        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+        consumeSeparator(tokenizer, ';');
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
-        tokenizer.consumeCharacter('=');
+        consumeSeparator(tokenizer, '=');
         String value;
         if ('"' == tokenizer.previewChar()) {
           tokenizer.consumeCharacter('"');
@@ -1085,6 +1101,12 @@ public final class MediaType {
     } catch (IllegalStateException e) {
       throw new IllegalArgumentException("Could not parse '" + input + "'", e);
     }
+  }
+
+  private static void consumeSeparator(Tokenizer tokenizer, char c) {
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
+    tokenizer.consumeCharacter(c);
+    tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
   }
 
   private static final class Tokenizer {

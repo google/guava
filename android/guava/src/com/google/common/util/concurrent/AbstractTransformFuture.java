@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInt
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -31,11 +32,15 @@ import org.jspecify.annotations.Nullable;
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
 @NullMarked
-@SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
+@SuppressWarnings({
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  "ShortCircuitBoolean",
+  "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
+})
 abstract class AbstractTransformFuture<
         I extends @Nullable Object, O extends @Nullable Object, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<O> implements Runnable {
-  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> createAsync(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -57,8 +62,8 @@ abstract class AbstractTransformFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @Nullable ListenableFuture<? extends I> inputFuture;
-  @Nullable F function;
+  @LazyInit @Nullable ListenableFuture<? extends I> inputFuture;
+  @LazyInit @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -66,6 +71,7 @@ abstract class AbstractTransformFuture<
   }
 
   @Override
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final void run() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
@@ -105,7 +111,7 @@ abstract class AbstractTransformFuture<
       // Set the cause of the exception as this future's exception.
       setException(e.getCause());
       return;
-    } catch (RuntimeException e) {
+    } catch (Exception e) { // sneaky checked exception
       // Bug in inputFuture.get(). Propagate to the output Future so that its consumers don't hang.
       setException(e);
       return;

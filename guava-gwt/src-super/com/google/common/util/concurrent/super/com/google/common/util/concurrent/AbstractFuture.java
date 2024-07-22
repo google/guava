@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
@@ -241,11 +240,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     return null;
   }
 
-  final Throwable trustedGetException() {
-    checkState(state == State.FAILURE);
-    return throwable;
-  }
-
   final void maybePropagateCancellationTo(@Nullable Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
@@ -315,7 +309,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new IllegalStateException("Cannot get() on a pending future.");
       }
 
@@ -331,7 +325,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new IllegalStateException("Cannot get() on a pending future.");
       }
 
@@ -342,7 +336,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     VALUE,
     FAILURE {
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         throw new ExecutionException(cause);
       }
     },
@@ -353,7 +347,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
 
       @Override
-      void maybeThrowOnGet(Throwable cause) throws ExecutionException {
+      void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {
         // TODO(cpovirk): chain in a CancellationException created at the cancel() call?
         throw new CancellationException();
       }
@@ -367,7 +361,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return false;
     }
 
-    void maybeThrowOnGet(Throwable cause) throws ExecutionException {}
+    void maybeThrowOnGet(@Nullable Throwable cause) throws ExecutionException {}
 
     boolean permitsPublicUserToTransitionTo(State state) {
       return false;

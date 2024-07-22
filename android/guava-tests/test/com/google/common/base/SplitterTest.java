@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -292,7 +293,6 @@ public class SplitterTest extends TestCase {
         .inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSimpleSplit() {
     String simple = "a,b,c";
@@ -300,7 +300,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
@@ -308,7 +307,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a,b,c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
@@ -316,7 +314,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
@@ -324,7 +321,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
@@ -332,7 +328,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
@@ -342,7 +337,6 @@ public class SplitterTest extends TestCase {
 
   // TODO(kevinb): the name of this method suggests it might not actually be testing what it
   // intends to be testing?
-  @J2ktIncompatible
   @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithMultipleLetters() {
     Iterable<String> testPatterningMotto =
@@ -352,13 +346,11 @@ public class SplitterTest extends TestCase {
         .inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   private static Pattern literalDotPattern() {
     return Pattern.compile("\\.");
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithDoubleDelimiterOmitEmptyStrings() {
     String doubled = "a..b.c";
@@ -366,7 +358,7 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitLookBehind() {
@@ -380,7 +372,7 @@ public class SplitterTest extends TestCase {
     // splits into chunks ending in :
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitWordBoundary() {
@@ -389,7 +381,6 @@ public class SplitterTest extends TestCase {
     assertThat(words).containsExactly("foo", "<", "bar", ">", "bletch").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWordBoundary_singleCharInput() {
     String string = "f";
@@ -398,7 +389,7 @@ public class SplitterTest extends TestCase {
   }
 
   @AndroidIncompatible // Apparently Gingerbread's regex API is buggy.
-  @J2ktIncompatible
+  @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWordBoundary_singleWordInput() {
     String string = "foo";
@@ -406,7 +397,6 @@ public class SplitterTest extends TestCase {
     assertThat(words).containsExactly("foo").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
@@ -414,7 +404,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
@@ -423,7 +412,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on(literalDotPattern()).split(".");
@@ -431,14 +419,12 @@ public class SplitterTest extends TestCase {
     assertThat(blankblank).containsExactly("", "").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on(literalDotPattern()).omitEmptyStrings().split("...");
     assertThat(empty).isEmpty();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitMatchingIsGreedy() {
     String longDelimiter = "a, b,   c";
@@ -446,7 +432,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithLongLeadingDelimiter() {
     String longDelimiter = ", a, b, c";
@@ -454,7 +439,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithLongTrailingDelimiter() {
     String longDelimiter = "a, b, c/ ";
@@ -462,17 +446,11 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitInvalidPattern() {
-    try {
-      Splitter.on(Pattern.compile("a*"));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Splitter.on(Pattern.compile("a*")));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithTrim() {
     String jacksons =
@@ -494,7 +472,6 @@ public class SplitterTest extends TestCase {
     assertIteratorIsUnmodifiable(Splitter.on(",").split("a,b").iterator());
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex.Pattern
   public void testSplitterIterableIsUnmodifiable_pattern() {
     assertIteratorIsUnmodifiable(Splitter.on(Pattern.compile(",")).split("a,b").iterator());

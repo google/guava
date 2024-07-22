@@ -40,7 +40,7 @@ public final class Parameter implements AnnotatedElement {
   private final ImmutableList<Annotation> annotations;
 
   /**
-   * An {@link AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
+   * An {@code AnnotatedType} instance, or {@code null} under Android VMs (possible only when using
    * the Android flavor of Guava). The field is declared with a type of {@code Object} to avoid
    * compatibility problems on Android VMs. The corresponding accessor method, however, can have the
    * more specific return type as long as users are careful to guard calls to it with version checks
@@ -122,8 +122,8 @@ public final class Parameter implements AnnotatedElement {
    */
   @Override
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
-    @Nullable
-    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @Nullable A[] result =
+        FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
     @SuppressWarnings("nullness") // safe because the input list contains no nulls
     A[] cast = (A[]) result;
     return cast;
@@ -132,12 +132,9 @@ public final class Parameter implements AnnotatedElement {
   /**
    * Returns the {@link AnnotatedType} of the parameter.
    *
-   * <p>This method will fail if run under an Android VM.
-   *
-   * @since 25.1 for guava-jre (available since 32.0.0 in guava-android)
+   * @since 25.1 for guava-jre
    */
-  @SuppressWarnings({"Java7ApiChecker", "AndroidJdkLibsChecker"})
-  @IgnoreJRERequirement
+  @SuppressWarnings("Java7ApiChecker")
   public AnnotatedType getAnnotatedType() {
     return requireNonNull((AnnotatedType) annotatedType);
   }

@@ -50,7 +50,7 @@ public final class Longs {
   /**
    * The number of bytes required to represent a primitive {@code long} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -69,7 +69,7 @@ public final class Longs {
    * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
    * Long#hashCode()} in GWT does not obey the JRE contract.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
@@ -82,8 +82,8 @@ public final class Longs {
    * Compares the two specified {@code long} values. The sign of the value returned is the same as
    * that of {@code ((Long) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
-   * equivalent {@link Long#compare} method instead.
+   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
+   * Long#compare} method instead.
    *
    * @param a the first {@code long} to compare
    * @param b the second {@code long} to compare
@@ -245,19 +245,29 @@ public final class Longs {
    *
    * @param arrays zero or more {@code long} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static long[] concat(long[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (long[] array : arrays) {
       length += array.length;
     }
-    long[] result = new long[length];
+    long[] result = new long[checkNoOverflow(length)];
     int pos = 0;
     for (long[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**
@@ -427,7 +437,7 @@ public final class Longs {
   }
 
   private static final class LongConverter extends Converter<String, Long> implements Serializable {
-    static final LongConverter INSTANCE = new LongConverter();
+    static final Converter<String, Long> INSTANCE = new LongConverter();
 
     @Override
     protected Long doForward(String value) {

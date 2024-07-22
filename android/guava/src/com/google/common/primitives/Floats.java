@@ -24,7 +24,6 @@ import static java.lang.Float.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -55,7 +54,7 @@ public final class Floats extends FloatsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code float} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Float#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Float#BYTES} instead.
    *
    * @since 10.0
    */
@@ -65,7 +64,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Float)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Float#hashCode(float)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Float#hashCode(float)} instead.
    *
    * @param value a primitive {@code float} value
    * @return a hash code for the value
@@ -96,7 +95,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
    *
-   * <p><b>Java 8 users:</b> use {@link Float#isFinite(float)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Float#isFinite(float)} instead.
    *
    * @since 10.0
    */
@@ -285,7 +284,7 @@ public final class Floats extends FloatsMethodsForWeb {
 
   private static final class FloatConverter extends Converter<String, Float>
       implements Serializable {
-    static final FloatConverter INSTANCE = new FloatConverter();
+    static final Converter<String, Float> INSTANCE = new FloatConverter();
 
     @Override
     protected Float doForward(String value) {
@@ -711,7 +710,6 @@ public final class Floats extends FloatsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @J2ktIncompatible
   @GwtIncompatible // regular expressions
   public static @Nullable Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {

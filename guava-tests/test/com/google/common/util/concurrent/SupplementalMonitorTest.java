@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.GeneratedMonitorTest.startThread;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.util.concurrent.GeneratedMonitorTest.FlagGuard;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -37,41 +38,25 @@ public class SupplementalMonitorTest extends TestCase {
 
   public void testLeaveWithoutEnterThrowsIMSE() {
     Monitor monitor = new Monitor();
-    try {
-      monitor.leave();
-      fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException expected) {
-    }
+    assertThrows(IllegalMonitorStateException.class, () -> monitor.leave());
   }
 
   public void testGetWaitQueueLengthWithWrongMonitorThrowsIMSE() {
     Monitor monitor1 = new Monitor();
     Monitor monitor2 = new Monitor();
     FlagGuard guard = new FlagGuard(monitor2);
-    try {
-      monitor1.getWaitQueueLength(guard);
-      fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException expected) {
-    }
+    assertThrows(IllegalMonitorStateException.class, () -> monitor1.getWaitQueueLength(guard));
   }
 
   public void testHasWaitersWithWrongMonitorThrowsIMSE() {
     Monitor monitor1 = new Monitor();
     Monitor monitor2 = new Monitor();
     FlagGuard guard = new FlagGuard(monitor2);
-    try {
-      monitor1.hasWaiters(guard);
-      fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException expected) {
-    }
+    assertThrows(IllegalMonitorStateException.class, () -> monitor1.hasWaiters(guard));
   }
 
   public void testNullMonitorInGuardConstructorThrowsNPE() {
-    try {
-      new FlagGuard(null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> new FlagGuard(null));
   }
 
   public void testIsFair() {

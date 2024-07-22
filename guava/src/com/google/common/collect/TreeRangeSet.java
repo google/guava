@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -76,8 +77,8 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     this.rangesByLowerBound = rangesByLowerCut;
   }
 
-  private transient @Nullable Set<Range<C>> asRanges;
-  private transient @Nullable Set<Range<C>> asDescendingSetOfRanges;
+  @LazyInit private transient @Nullable Set<Range<C>> asRanges;
+  @LazyInit private transient @Nullable Set<Range<C>> asDescendingSetOfRanges;
 
   @Override
   public Set<Range<C>> asRanges() {
@@ -271,7 +272,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
   }
 
-  private transient @Nullable RangeSet<C> complement;
+  @LazyInit private transient @Nullable RangeSet<C> complement;
 
   @Override
   public RangeSet<C> complement() {

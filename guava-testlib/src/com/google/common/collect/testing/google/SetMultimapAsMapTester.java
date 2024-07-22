@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -43,7 +45,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
+@NullMarked
+public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   public void testAsMapValuesImplementSet() {
     for (Collection<V> valueCollection : multimap().asMap().values()) {
       assertTrue(valueCollection instanceof Set);

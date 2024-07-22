@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.internal.Finalizer;
 import com.google.common.testing.GcFinalization;
 import java.lang.ref.ReferenceQueue;
@@ -36,6 +37,7 @@ import org.jspecify.annotations.Nullable;
 // - .class files aren't available
 // - possibly no real concept of separate ClassLoaders?
 @AndroidIncompatible
+@GwtIncompatible
 public class FinalizableReferenceQueueTest extends TestCase {
 
   private @Nullable FinalizableReferenceQueue frq;
@@ -51,6 +53,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
 
     GcFinalization.awaitDone(
         new GcFinalization.FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return reference.finalizeReferentCalled;
           }

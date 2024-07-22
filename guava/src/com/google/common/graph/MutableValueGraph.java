@@ -62,8 +62,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *     #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V putEdgeValue(N nodeU, N nodeV, V value);
+  @Nullable V putEdgeValue(N nodeU, N nodeV, V value);
 
   /**
    * Adds an edge connecting {@code endpoints} if one is not already present, and sets a value for
@@ -87,8 +86,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    * @since 27.1
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V putEdgeValue(EndpointPair<N> endpoints, V value);
+  @Nullable V putEdgeValue(EndpointPair<N> endpoints, V value);
 
   /**
    * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
@@ -105,8 +103,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *     nodeV}, or null if there was no such edge.
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V removeEdge(N nodeU, N nodeV);
+  @Nullable V removeEdge(N nodeU, N nodeV);
 
   /**
    * Removes the edge connecting {@code endpoints}, if it is present.
@@ -118,6 +115,5 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    * @since 27.1
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V removeEdge(EndpointPair<N> endpoints);
+  @Nullable V removeEdge(EndpointPair<N> endpoints);
 }

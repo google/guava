@@ -189,11 +189,11 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.
      */
 
-    @Nullable ValueSetLink<K, V> predecessorInValueSet;
-    @Nullable ValueSetLink<K, V> successorInValueSet;
+    private @Nullable ValueSetLink<K, V> predecessorInValueSet;
+    private @Nullable ValueSetLink<K, V> successorInValueSet;
 
-    @Nullable ValueEntry<K, V> predecessorInMultimap;
-    @Nullable ValueEntry<K, V> successorInMultimap;
+    private @Nullable ValueEntry<K, V> predecessorInMultimap;
+    private @Nullable ValueEntry<K, V> successorInMultimap;
 
     ValueEntry(K key, V value, int smearedValueHash, @Nullable ValueEntry<K, V> nextInValueBucket) {
       super(key, value);
@@ -371,8 +371,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       int tableSize = Hashing.closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);
 
       @SuppressWarnings({"rawtypes", "unchecked"})
-      @Nullable
-      ValueEntry<K, V>[] hashTable = new @Nullable ValueEntry[tableSize];
+      @Nullable ValueEntry<K, V>[] hashTable = new @Nullable ValueEntry[tableSize];
       this.hashTable = hashTable;
     }
 
@@ -486,7 +485,8 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     private void rehashIfNecessary() {
       if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {
         @SuppressWarnings("unchecked")
-        ValueEntry<K, V>[] hashTable = new ValueEntry[this.hashTable.length * 2];
+        ValueEntry<K, V>[] hashTable =
+            (ValueEntry<K, V>[]) new ValueEntry<?, ?>[this.hashTable.length * 2];
         this.hashTable = hashTable;
         int mask = hashTable.length - 1;
         for (ValueSetLink<K, V> entry = firstEntry;

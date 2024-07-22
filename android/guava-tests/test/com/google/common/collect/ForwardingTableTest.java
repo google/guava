@@ -33,10 +33,10 @@ public class ForwardingTableTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             Table.class,
-            new Function<Table, Table>() {
+            new Function<Table, Table<?, ?, ?>>() {
               @Override
-              public Table apply(Table delegate) {
-                return wrap(delegate);
+              public Table<?, ?, ?> apply(Table delegate) {
+                return wrap((Table<?, ?, ?>) delegate);
               }
             });
   }

@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -53,8 +54,6 @@ public class EnumsTest extends TestCase {
     HONDA,
     POODLE,
   }
-
-  private enum OtherEnum {}
 
   public void testGetIfPresent() {
     assertThat(Enums.getIfPresent(TestEnum.class, "CHEETO")).hasValue(TestEnum.CHEETO);
@@ -129,11 +128,7 @@ public class EnumsTest extends TestCase {
   @GwtIncompatible // stringConverter
   public void testStringConverter_convertError() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
-    try {
-      converter.convert("xxx");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> converter.convert("xxx"));
   }
 
   @GwtIncompatible // stringConverter
@@ -226,9 +221,7 @@ public class EnumsTest extends TestCase {
           urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
         }
       } catch (MalformedURLException e) {
-        AssertionError error = new AssertionError("malformed class path entry: " + entry);
-        error.initCause(e);
-        throw error;
+        throw new AssertionError("malformed class path entry: " + entry, e);
       }
     }
     return urls.build();

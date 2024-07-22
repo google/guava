@@ -59,6 +59,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     String name = getName();
     // Copy this set, so we can modify it.
     Set<Feature<?>> features = Helpers.copyToSet(getFeatures());
+    @SuppressWarnings("rawtypes") // class literals
     List<Class<? extends AbstractTester>> testers = getTesters();
 
     logger.fine(" Testing: " + name);
@@ -120,12 +121,15 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
   private static final class OneSizeTestSuiteBuilder<T, E>
       extends FeatureSpecificTestSuiteBuilder<
           OneSizeTestSuiteBuilder<T, E>, OneSizeGenerator<T, E>> {
+    @SuppressWarnings("rawtypes") // class literals
     private final List<Class<? extends AbstractTester>> testers;
 
+    @SuppressWarnings("rawtypes") // class literals
     public OneSizeTestSuiteBuilder(List<Class<? extends AbstractTester>> testers) {
       this.testers = testers;
     }
 
+    @SuppressWarnings("rawtypes") // class literals
     @Override
     protected List<Class<? extends AbstractTester>> getTesters() {
       return testers;

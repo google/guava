@@ -21,6 +21,7 @@ import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -78,31 +79,19 @@ public class FauxveridesTest extends TestCase {
     Map<Object, Object> original =
         ImmutableMap.of(new Object(), new Object(), new Object(), new Object());
 
-    try {
-      ImmutableSortedMap.copyOf(original);
-      fail();
-    } catch (ClassCastException expected) {
-    }
+    assertThrows(ClassCastException.class, () -> ImmutableSortedMap.copyOf(original));
   }
 
   public void testImmutableSortedSetCopyOfIterable() {
     Set<Object> original = ImmutableSet.of(new Object(), new Object());
 
-    try {
-      ImmutableSortedSet.copyOf(original);
-      fail();
-    } catch (ClassCastException expected) {
-    }
+    assertThrows(ClassCastException.class, () -> ImmutableSortedSet.copyOf(original));
   }
 
   public void testImmutableSortedSetCopyOfIterator() {
     Set<Object> original = ImmutableSet.of(new Object(), new Object());
 
-    try {
-      ImmutableSortedSet.copyOf(original.iterator());
-      fail();
-    } catch (ClassCastException expected) {
-    }
+    assertThrows(ClassCastException.class, () -> ImmutableSortedSet.copyOf(original.iterator()));
   }
 
   private void doHasAllFauxveridesTest(Class<?> descendant, Class<?> ancestor) {

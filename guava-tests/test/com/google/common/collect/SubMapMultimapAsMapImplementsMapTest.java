@@ -21,6 +21,7 @@ import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Test {@code TreeMultimap.asMap().subMap()} with {@link MapInterfaceTest}.
@@ -28,6 +29,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible
+@NullMarked
 public class SubMapMultimapAsMapImplementsMapTest extends AbstractMultimapAsMapImplementsMapTest {
 
   public SubMapMultimapAsMapImplementsMapTest() {

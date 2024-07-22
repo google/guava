@@ -19,6 +19,7 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Strings;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * TODO: javadoc.
@@ -26,6 +27,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@NullMarked
 public abstract class TestStringListGenerator implements TestListGenerator<String> {
   @Override
   public SampleElements<String> samples() {

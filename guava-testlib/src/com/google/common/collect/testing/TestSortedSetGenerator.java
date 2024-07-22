@@ -18,6 +18,8 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.SortedSet;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates sorted sets, containing sample elements, to be tested.
@@ -25,7 +27,8 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface TestSortedSetGenerator<E> extends TestSetGenerator<E> {
+@NullMarked
+public interface TestSortedSetGenerator<E extends @Nullable Object> extends TestSetGenerator<E> {
   @Override
   SortedSet<E> create(Object... elements);
 

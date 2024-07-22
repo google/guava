@@ -18,7 +18,6 @@ package com.google.common.util.concurrent.testing;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Longs;
@@ -92,7 +91,6 @@ public final class TestingExecutors {
    *
    * @since 32.0.0 (taking the place of a method with a different return type from 15.0)
    */
-  @Beta
   public static ListeningScheduledExecutorService sameThreadScheduledExecutor() {
     return new SameThreadScheduledExecutorService();
   }

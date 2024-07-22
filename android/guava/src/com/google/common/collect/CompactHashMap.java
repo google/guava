@@ -30,6 +30,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -252,7 +253,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   /** Returns whether arrays need to be allocated. */
-  @VisibleForTesting
   boolean needsAllocArrays() {
     return table == null;
   }
@@ -276,8 +276,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @Nullable
-  Map<K, V> delegateOrNull() {
+  @Nullable Map<K, V> delegateOrNull() {
     if (table instanceof Map) {
       return (Map<K, V>) table;
     }
@@ -288,7 +287,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return new LinkedHashMap<>(tableSize, 1.0f);
   }
 
-  @VisibleForTesting
   @CanIgnoreReturnValue
   Map<K, V> convertToHashFloodingResistantImplementation() {
     Map<K, V> newDelegate = createHashFloodingResistantDelegate(hashTableMask() + 1);
@@ -663,7 +661,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  private transient @Nullable Set<K> keySetView;
+  @LazyInit private transient @Nullable Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -718,7 +716,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     };
   }
 
-  private transient @Nullable Set<Entry<K, V>> entrySetView;
+  @LazyInit private transient @Nullable Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -895,7 +893,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return false;
   }
 
-  private transient @Nullable Collection<V> valuesView;
+  @LazyInit private transient @Nullable Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {

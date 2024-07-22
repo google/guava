@@ -22,6 +22,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -87,11 +88,7 @@ public class ListenableFutureTester {
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
 
-    try {
-      future.get();
-      fail("Future should throw CancellationException on cancel.");
-    } catch (CancellationException expected) {
-    }
+    assertThrows(CancellationException.class, () -> future.get());
   }
 
   public void testFailedFuture(@Nullable String message) throws InterruptedException {

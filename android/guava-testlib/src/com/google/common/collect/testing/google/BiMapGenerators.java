@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Generators of various {@link com.google.common.collect.BiMap}s and derived collections.
@@ -31,6 +32,7 @@ import java.util.Map.Entry;
  * @author Hayward Chan
  */
 @GwtCompatible
+@NullMarked
 public class BiMapGenerators {
   public static class ImmutableBiMapGenerator extends TestStringBiMapGenerator {
     @Override

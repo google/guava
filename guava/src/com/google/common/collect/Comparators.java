@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
- * comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ * comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  * com.google.common.collect.Ordering} (otherwise).
  *
  * <h3>Relationship to {@code Ordering}</h3>
@@ -226,7 +226,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  public static <T extends @Nullable Object> T min(T a, T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T min(T a, T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -262,7 +262,7 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  public static <T extends @Nullable Object> T max(T a, T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T max(T a, T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

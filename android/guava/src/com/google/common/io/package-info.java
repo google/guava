@@ -13,8 +13,8 @@
  */
 
 /**
- * This package contains utility methods and classes for working with Java I/O; for example input
- * streams, output streams, readers, writers, and files.
+ * Utility methods and classes for I/O; for example input streams, output streams, readers, writers,
+ * and files.
  *
  * <p>At the core of this package are the Source/Sink types: {@link ByteSource ByteSource}, {@link
  * CharSource CharSource}, {@link ByteSink ByteSink} and {@link CharSink CharSink}. They are

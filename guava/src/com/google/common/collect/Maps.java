@@ -38,6 +38,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
@@ -151,7 +152,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -193,7 +193,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @J2ktIncompatible
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
@@ -212,7 +211,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @J2ktIncompatible
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
@@ -230,7 +228,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code HashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code HashMap}
    */
@@ -248,7 +247,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code HashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new {@code HashMap} initialized with the mappings from {@code map}
@@ -308,7 +308,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code LinkedHashMap}
    */
@@ -325,7 +326,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}
@@ -369,10 +371,12 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }
@@ -386,7 +390,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the sorted map whose mappings are to be placed in the new map and whose comparator
    *     is to be used to sort the new map
@@ -406,7 +411,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
@@ -437,7 +443,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code EnumMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the map from which to initialize this {@code EnumMap}
    * @return a new {@code EnumMap} initialized with the mappings from {@code map}
@@ -454,7 +461,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code IdentityHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code IdentityHashMap}
    */
@@ -684,7 +692,7 @@ public final class Maps {
     private final V right;
 
     static <V extends @Nullable Object> ValueDifference<V> create(V left, V right) {
-      return new ValueDifferenceImpl<V>(left, right);
+      return new ValueDifferenceImpl<>(left, right);
     }
 
     private ValueDifferenceImpl(V left, V right) {
@@ -1223,6 +1231,18 @@ public final class Maps {
    * <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of a copy using {@link
    * Maps#asMap(Set, Function)}.
    *
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
+   *
+   * <pre>{@code
+   * import static com.google.common.collect.ImmutableMap.toImmutableMap;
+   * ...
+   * ImmutableMap<Color, String> colorNames =
+   *     allColors.stream().collect(toImmutableMap(c -> c, c -> c.toString()));
+   * }</pre>
+   *
+   * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+   * and values in the map are.
+   *
    * @throws NullPointerException if any element of {@code keys} is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
@@ -1276,7 +1296,7 @@ public final class Maps {
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
-   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
    * <pre>{@code
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;
@@ -1629,6 +1649,7 @@ public final class Maps {
    * @param bimap the bimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified bimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
@@ -1657,8 +1678,8 @@ public final class Maps {
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    @RetainedWith @Nullable BiMap<V, K> inverse;
-    transient @Nullable Set<V> values;
+    @LazyInit @RetainedWith @Nullable BiMap<V, K> inverse;
+    @LazyInit transient @Nullable Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
@@ -1708,20 +1729,28 @@ public final class Maps {
     }
 
     @Override
-    public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    /*
+     * Our checker arguably should produce a nullness error here until we see @NonNull in JDK APIs.
+     * But it doesn't, which may be a sign that we still permit parameter contravariance in some
+     * cases?
+     */
+    public @Nullable V computeIfPresent(
+        K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+    public @Nullable V compute(
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    public @Nullable V merge(
+        K key,
+        @NonNull V value,
+        BiFunction<? super @NonNull V, ? super @NonNull V, ? extends @Nullable V> function) {
       throw new UnsupportedOperationException();
     }
 
@@ -3354,7 +3383,8 @@ public final class Maps {
       return new Predicate<Entry<V, K>>() {
         @Override
         public boolean apply(Entry<V, K> input) {
-          return forwardPredicate.apply(Maps.immutableEntry(input.getValue(), input.getKey()));
+          return forwardPredicate.apply(
+              Maps.<K, V>immutableEntry(input.getValue(), input.getKey()));
         }
       };
     }
@@ -3386,7 +3416,7 @@ public final class Maps {
       unfiltered()
           .replaceAll(
               (key, value) ->
-                  predicate.apply(Maps.immutableEntry(key, value))
+                  predicate.apply(Maps.<K, V>immutableEntry(key, value))
                       ? function.apply(key, value)
                       : value);
     }
@@ -3433,8 +3463,8 @@ public final class Maps {
     }
   }
 
-  private static <K extends @Nullable Object, V extends @Nullable Object> @Nullable
-      Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      @Nullable Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
@@ -3549,25 +3579,37 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
+    /*
+     * TODO(cpovirk): Uncomment the @NonNull annotations below once our JDK stubs and J2KT
+     * emulations include them.
+     */
     @Override
-    public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    /*
+     * Our checker arguably should produce a nullness error here until we see @NonNull in JDK APIs.
+     * But it doesn't, which may be a sign that we still permit parameter contravariance in some
+     * cases?
+     */
+    public @Nullable V computeIfPresent(
+        K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+    public @Nullable V compute(
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    public @Nullable V merge(
+        K key,
+        @NonNull V value,
+        BiFunction<? super @NonNull V, ? super @NonNull V, ? extends @Nullable V> function) {
       throw new UnsupportedOperationException();
     }
 
-    private transient @Nullable UnmodifiableNavigableMap<K, V> descendingMap;
+    @LazyInit private transient @Nullable UnmodifiableNavigableMap<K, V> descendingMap;
 
     @Override
     public NavigableMap<K, V> descendingMap() {
@@ -3675,6 +3717,7 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       NavigableMap<K, V> synchronizedNavigableMap(NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);
@@ -3694,7 +3737,7 @@ public final class Maps {
      */
     abstract Set<Entry<K, V>> createEntrySet();
 
-    private transient @Nullable Set<Entry<K, V>> entrySet;
+    @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -3702,7 +3745,7 @@ public final class Maps {
       return (result == null) ? entrySet = createEntrySet() : result;
     }
 
-    private transient @Nullable Set<K> keySet;
+    @LazyInit private transient @Nullable Set<K> keySet;
 
     @Override
     public Set<K> keySet() {
@@ -3714,7 +3757,7 @@ public final class Maps {
       return new KeySet<>(this);
     }
 
-    private transient @Nullable Collection<V> values;
+    @LazyInit private transient @Nullable Collection<V> values;
 
     @Override
     public Collection<V> values() {
@@ -4260,7 +4303,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient @Nullable Comparator<? super K> comparator;
+    @LazyInit private transient @Nullable Comparator<? super K> comparator;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -4356,7 +4399,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient @Nullable Set<Entry<K, V>> entrySet;
+    @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -4387,7 +4430,7 @@ public final class Maps {
       return navigableKeySet();
     }
 
-    private transient @Nullable NavigableSet<K> navigableKeySet;
+    @LazyInit private transient @Nullable NavigableSet<K> navigableKeySet;
 
     @Override
     public NavigableSet<K> navigableKeySet() {

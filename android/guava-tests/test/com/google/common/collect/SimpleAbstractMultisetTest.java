@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -31,6 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -41,7 +43,9 @@ import org.jspecify.annotations.Nullable;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@NullMarked
 public class SimpleAbstractMultisetTest extends TestCase {
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -92,7 +96,8 @@ public class SimpleAbstractMultisetTest extends TestCase {
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
+  private static class NoRemoveMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
+      implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
     @Override
@@ -116,7 +121,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    public int add(@Nullable E element, int occurrences) {
+    public int add(E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

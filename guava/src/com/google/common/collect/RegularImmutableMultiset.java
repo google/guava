@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
@@ -50,8 +52,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     int tableSize = Hashing.closedTableSize(distinct, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
     @SuppressWarnings({"unchecked", "rawtypes"})
-    @Nullable
-    ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
+    @Nullable ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
 
     int index = 0;
     int hashCode = 0;
@@ -71,7 +72,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
         newEntry =
             canReuseEntry ? (ImmutableEntry<E>) entry : new ImmutableEntry<E>(element, count);
       } else {
-        newEntry = new NonTerminalEntry<E>(element, count, bucketHead);
+        newEntry = new NonTerminalEntry<>(element, count, bucketHead);
       }
       hashCode += hash ^ count;
       entryArray[index++] = newEntry;
@@ -182,7 +183,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<E>(Arrays.asList(entries), this) : result;
+    return (result == null) ? elementSet = new ElementSet<>(Arrays.asList(entries), this) : result;
   }
 
   @Override
@@ -193,5 +194,14 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public int hashCode() {
     return hashCode;
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 }

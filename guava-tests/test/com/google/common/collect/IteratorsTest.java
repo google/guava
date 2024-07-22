@@ -29,6 +29,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -39,6 +40,7 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +59,8 @@ import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code Iterators}.
@@ -64,8 +68,10 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class IteratorsTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
@@ -157,7 +163,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void test_contains_nonnull_yes() {
-    Iterator<String> set = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> set = Arrays.<@Nullable String>asList("a", null, "b").iterator();
     assertTrue(Iterators.contains(set, "b"));
   }
 
@@ -167,7 +173,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void test_contains_null_yes() {
-    Iterator<String> set = asList("a", null, "b").iterator();
+    Iterator<@Nullable String> set = Arrays.<@Nullable String>asList("a", null, "b").iterator();
     assertTrue(Iterators.contains(set, null));
   }
 
@@ -236,7 +242,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getOnlyElement(iterator, null));
+    assertNull(Iterators.<@Nullable String>getOnlyElement(iterator, null));
   }
 
   public void testGetOnlyElement_withDefault_two() {
@@ -488,7 +494,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testPoorlyBehavedTransform() {
-    Iterator<String> input = asList("1", null, "3").iterator();
+    Iterator<String> input = asList("1", "not a number", "3").iterator();
     Iterator<Integer> result =
         Iterators.transform(
             input,
@@ -508,13 +514,13 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testNullFriendlyTransform() {
-    Iterator<Integer> input = asList(1, 2, null, 3).iterator();
+    Iterator<@Nullable Integer> input = Arrays.<@Nullable Integer>asList(1, 2, null, 3).iterator();
     Iterator<String> result =
         Iterators.transform(
             input,
-            new Function<Integer, String>() {
+            new Function<@Nullable Integer, String>() {
               @Override
-              public String apply(Integer from) {
+              public String apply(@Nullable Integer from) {
                 return String.valueOf(from);
               }
             });
@@ -674,7 +680,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testCycleRemoveAfterHasNextExtraPicky() {
-    PickyIterable<String> iterable = new PickyIterable("a");
+    PickyIterable<String> iterable = new PickyIterable<>("a");
     Iterator<String> cycle = Iterators.cycle(iterable);
     assertTrue(cycle.hasNext());
     assertEquals("a", cycle.next());
@@ -715,7 +721,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~5s)
   public void testConcatNoIteratorsYieldsEmpty() {
     new EmptyIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat();
@@ -726,7 +731,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~5s)
   public void testConcatOneEmptyIteratorYieldsEmpty() {
     new EmptyIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat(iterateOver());
@@ -747,7 +751,6 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // slow (~3s)
   public void testConcatSingletonYieldsSingleton() {
     new SingletonIteratorTester() {
-      @SuppressWarnings("unchecked")
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return Iterators.concat(iterateOver(1));
@@ -819,8 +822,10 @@ public class IteratorsTest extends TestCase {
 
   /** Illustrates the somewhat bizarre behavior when a null is passed in. */
   public void testConcatContainingNull() {
-    @SuppressWarnings("unchecked")
-    Iterator<Iterator<Integer>> input = asList(iterateOver(1, 2), null, iterateOver(3)).iterator();
+    Iterator<Iterator<Integer>> input =
+        (Iterator<Iterator<Integer>>)
+            Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
+                .iterator();
     Iterator<Integer> result = Iterators.concat(input);
     assertEquals(1, (int) result.next());
     assertEquals(2, (int) result.next());
@@ -837,7 +842,6 @@ public class IteratorsTest extends TestCase {
     // There is no way to get "through" to the 3.  Buh-bye
   }
 
-  @SuppressWarnings("unchecked")
   public void testConcatVarArgsContainingNull() {
     try {
       Iterators.concat(iterateOver(1, 2), null, iterateOver(3), iterateOver(4), iterateOver(5));
@@ -891,6 +895,7 @@ public class IteratorsTest extends TestCase {
     assertFalse(changed);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -918,8 +923,9 @@ public class IteratorsTest extends TestCase {
     }
   }
 
-  private static Iterator<Integer> iterateOver(final Integer... values) {
-    return newArrayList(values).iterator();
+  private static Iterator<Integer> iterateOver(int... values) {
+    // Note: Ints.asList's iterator does not support remove which we need for testing.
+    return new ArrayList<>(Ints.asList(values)).iterator();
   }
 
   public void testElementsEqual() {
@@ -937,8 +943,8 @@ public class IteratorsTest extends TestCase {
     assertTrue(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // The same, but with nulls.
-    a = asList(4, 8, null, 16, 23, 42);
-    b = asList(4, 8, null, 16, 23, 42);
+    a = Arrays.<@Nullable Integer>asList(4, 8, null, 16, 23, 42);
+    b = Arrays.<@Nullable Integer>asList(4, 8, null, 16, 23, 42);
     assertTrue(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // Different Iterable types (still equal elements, though).
@@ -952,7 +958,7 @@ public class IteratorsTest extends TestCase {
     assertFalse(Iterators.elementsEqual(a.iterator(), b.iterator()));
 
     // null versus non-null.
-    a = asList(4, 8, 15, null, 23, 42);
+    a = Arrays.<@Nullable Integer>asList(4, 8, 15, null, 23, 42);
     b = asList(4, 8, 15, 16, 23, 42);
     assertFalse(Iterators.elementsEqual(a.iterator(), b.iterator()));
     assertFalse(Iterators.elementsEqual(b.iterator(), a.iterator()));
@@ -1032,8 +1038,8 @@ public class IteratorsTest extends TestCase {
     assertEquals(ImmutableList.of(3), first);
   }
 
-  @GwtIncompatible // ?
-  // TODO: Figure out why this is failing in GWT.
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
+  @GwtIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in GWT
   public void testPartitionRandomAccess() {
     Iterator<Integer> source = asList(1, 2, 3).iterator();
     Iterator<List<Integer>> partitions = Iterators.partition(source, 2);
@@ -1070,17 +1076,17 @@ public class IteratorsTest extends TestCase {
     Iterator<List<Integer>> partitions = Iterators.paddedPartition(source, 2);
     assertTrue(partitions.hasNext());
     assertTrue(partitions.hasNext());
-    assertEquals(asList(1, null), partitions.next());
+    assertEquals(Arrays.<@Nullable Integer>asList(1, null), partitions.next());
     assertFalse(partitions.hasNext());
   }
 
   @GwtIncompatible // fairly slow (~50s)
   public void testPaddedPartition_general() {
+    ImmutableList<List<@Nullable Integer>> expectedElements =
+        ImmutableList.of(
+            asList(1, 2, 3), asList(4, 5, 6), Arrays.<@Nullable Integer>asList(7, null, null));
     new IteratorTester<List<Integer>>(
-        5,
-        IteratorFeature.UNMODIFIABLE,
-        ImmutableList.of(asList(1, 2, 3), asList(4, 5, 6), asList(7, null, null)),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
+        5, IteratorFeature.UNMODIFIABLE, expectedElements, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<List<Integer>> newTargetIterator() {
         Iterator<Integer> source = Iterators.forArray(1, 2, 3, 4, 5, 6, 7);
@@ -1119,6 +1125,11 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (NoSuchElementException expected) {
     }
+    try {
+      Iterators.forArrayWithPosition(array, 1);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
   }
 
   @SuppressWarnings("DoNotCall")
@@ -1142,33 +1153,26 @@ public class IteratorsTest extends TestCase {
     }
   }
 
-  public void testForArrayOffset() {
-    String[] array = {"foo", "bar", "cat", "dog"};
-    Iterator<String> iterator = Iterators.forArray(array, 1, 2, 0);
+  public void testForArrayWithPosition() {
+    String[] array = {"foo", "bar", "cat"};
+    Iterator<String> iterator = Iterators.forArrayWithPosition(array, 1);
     assertTrue(iterator.hasNext());
     assertEquals("bar", iterator.next());
     assertTrue(iterator.hasNext());
     assertEquals("cat", iterator.next());
     assertFalse(iterator.hasNext());
-    try {
-      Iterators.forArray(array, 2, 3, 0);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
   }
 
-  public void testForArrayLength0() {
+  public void testForArrayLengthWithPositionBoundaryCases() {
     String[] array = {"foo", "bar"};
-    assertFalse(Iterators.forArray(array, 0, 0, 0).hasNext());
-    assertFalse(Iterators.forArray(array, 1, 0, 0).hasNext());
-    assertFalse(Iterators.forArray(array, 2, 0, 0).hasNext());
+    assertFalse(Iterators.forArrayWithPosition(array, 2).hasNext());
     try {
-      Iterators.forArray(array, -1, 0, 0);
+      Iterators.forArrayWithPosition(array, -1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
     try {
-      Iterators.forArray(array, 3, 0, 0);
+      Iterators.forArrayWithPosition(array, 3);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
@@ -1185,16 +1189,10 @@ public class IteratorsTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible // unreasonably slow
-  public void testForArrayWithOffsetUsingTester() {
-    new IteratorTester<Integer>(
-        6, UNMODIFIABLE, asList(1, 2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override
-      protected Iterator<Integer> newTargetIterator() {
-        return Iterators.forArray(new Integer[] {0, 1, 2, 3, 4}, 1, 3, 0);
-      }
-    }.test();
-  }
+  /*
+   * TODO(cpovirk): Test forArray with ListIteratorTester (not just IteratorTester), including with
+   * a start position other than 0.
+   */
 
   public void testForEnumerationEmpty() {
     Enumeration<Integer> enumer = enumerate();
@@ -1282,8 +1280,8 @@ public class IteratorsTest extends TestCase {
     assertFalse(enumer.hasMoreElements());
   }
 
-  private static Enumeration<Integer> enumerate(Integer... ints) {
-    Vector<Integer> vector = new Vector<>(asList(ints));
+  private static Enumeration<Integer> enumerate(int... ints) {
+    Vector<Integer> vector = new Vector<>(Ints.asList(ints));
     return vector.elements();
   }
 
@@ -1293,7 +1291,8 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testToStringWithNull() {
-    Iterator<String> iterator = Lists.newArrayList("hello", null, "world").iterator();
+    Iterator<@Nullable String> iterator =
+        Lists.<@Nullable String>newArrayList("hello", null, "world").iterator();
     assertEquals("[hello, null, world]", Iterators.toString(iterator));
   }
 
@@ -1361,7 +1360,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetNext_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getNext(iterator, null));
+    assertNull(Iterators.<@Nullable String>getNext(iterator, null));
   }
 
   public void testGetNext_withDefault_two() {
@@ -1397,7 +1396,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetLast_withDefault_empty_null() {
     Iterator<String> iterator = Iterators.emptyIterator();
-    assertNull(Iterators.getLast(iterator, null));
+    assertNull(Iterators.<@Nullable String>getLast(iterator, null));
   }
 
   public void testGetLast_withDefault_two() {
@@ -1531,7 +1530,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testFrequency() {
-    List<String> list = newArrayList("a", null, "b", null, "a", null);
+    List<@Nullable String> list = newArrayList("a", null, "b", null, "a", null);
     assertEquals(2, Iterators.frequency(list.iterator(), "a"));
     assertEquals(1, Iterators.frequency(list.iterator(), "b"));
     assertEquals(0, Iterators.frequency(list.iterator(), "c"));
@@ -1590,6 +1589,7 @@ public class IteratorsTest extends TestCase {
     assertEquals(newArrayList("b", "d"), list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // ListTestSuiteBuilder
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
@@ -157,8 +158,8 @@ public class ArbitraryInstancesTest extends TestCase {
     assertEquals(Long.valueOf(0), ArbitraryInstances.get(Long.class));
     assertEquals(Float.valueOf(0), ArbitraryInstances.get(float.class));
     assertEquals(Float.valueOf(0), ArbitraryInstances.get(Float.class));
-    assertEquals(Double.valueOf(0), ArbitraryInstances.get(double.class));
-    assertEquals(Double.valueOf(0), ArbitraryInstances.get(Double.class));
+    assertThat(ArbitraryInstances.get(double.class)).isEqualTo(Double.valueOf(0));
+    assertThat(ArbitraryInstances.get(Double.class)).isEqualTo(Double.valueOf(0));
     assertEquals(UnsignedInteger.ZERO, ArbitraryInstances.get(UnsignedInteger.class));
     assertEquals(UnsignedLong.ZERO, ArbitraryInstances.get(UnsignedLong.class));
     assertEquals(0, ArbitraryInstances.get(BigDecimal.class).intValue());
@@ -286,11 +287,7 @@ public class ArbitraryInstancesTest extends TestCase {
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
     assertEquals(0, comparable.compareTo(comparable));
     assertTrue(comparable.compareTo("") > 0);
-    try {
-      comparable.compareTo(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> comparable.compareTo(null));
   }
 
   public void testGet_array() {

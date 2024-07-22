@@ -21,12 +21,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * MapMaker emulation.
  *
  * @author Charles Fry
  */
+@NullMarked
 public final class MapMaker {
   private int initialCapacity = 16;
 

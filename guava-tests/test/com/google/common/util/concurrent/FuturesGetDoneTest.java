@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit tests for {@link Futures#getDone}. */
 @GwtCompatible
@@ -33,7 +34,7 @@ public class FuturesGetDoneTest extends TestCase {
   }
 
   public void testSuccessfulNull() throws ExecutionException {
-    assertThat(getDone(immediateFuture((String) null))).isEqualTo(null);
+    assertThat(getDone(Futures.<@Nullable String>immediateFuture(null))).isEqualTo(null);
   }
 
   public void testFailed() {

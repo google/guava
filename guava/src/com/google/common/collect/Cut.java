@@ -32,6 +32,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtCompatible
 @NullMarked
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
@@ -372,8 +373,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
-    @Nullable
-    C greatestValueBelow(DiscreteDomain<C> domain) {
+    @Nullable C greatestValueBelow(DiscreteDomain<C> domain) {
       return domain.previous(endpoint);
     }
 
@@ -451,8 +451,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
-    @Nullable
-    C leastValueAbove(DiscreteDomain<C> domain) {
+    @Nullable C leastValueAbove(DiscreteDomain<C> domain) {
       return domain.next(endpoint);
     }
 

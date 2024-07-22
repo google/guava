@@ -78,7 +78,6 @@ public class CharMatcherBenchmark {
     if (size == Size.SMALL) {
       BitSet tmp = new BitSet();
       matcher.setBits(tmp);
-      int matchedCharCount = tmp.cardinality();
       this.matcher = SmallCharMatcher.from(tmp, "");
     }
     this.string = checkString(length, percent, config.matchingChars, new Random(), forceSlow, web);

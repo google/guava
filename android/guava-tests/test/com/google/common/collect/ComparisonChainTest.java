@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link ComparisonChain}.
@@ -28,6 +29,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@NullMarked
 public class ComparisonChainTest extends TestCase {
   private static final DontCompareMe DONT_COMPARE_ME = new DontCompareMe();
 

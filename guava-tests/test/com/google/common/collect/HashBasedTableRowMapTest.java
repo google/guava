@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowMapTests;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class HashBasedTableRowMapTest extends RowMapTests {
   public HashBasedTableRowMapTest() {
     super(false, true, true, true);

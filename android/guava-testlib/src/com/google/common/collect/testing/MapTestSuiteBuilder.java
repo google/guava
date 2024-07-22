@@ -62,7 +62,7 @@ public class MapTestSuiteBuilder<K, V>
     return new MapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }
 
-  @SuppressWarnings("unchecked") // Class parameters must be raw.
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     return Arrays.<Class<? extends AbstractTester>>asList(

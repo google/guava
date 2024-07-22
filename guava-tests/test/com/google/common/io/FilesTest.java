@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -133,11 +134,7 @@ public class FilesTest extends IoTestCase {
     Files.write(data, temp);
     assertTrue(Arrays.equals(data, Files.toByteArray(temp)));
 
-    try {
-      Files.write(null, temp);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Files.write(null, temp));
   }
 
   public void testAppendString() throws IOException {
@@ -176,22 +173,14 @@ public class FilesTest extends IoTestCase {
     File temp2 = file(temp1.getPath());
     assertEquals(temp1, temp2);
     Files.write(ASCII, temp1, Charsets.UTF_8);
-    try {
-      Files.copy(temp1, temp2);
-      fail("Expected an IAE to be thrown but wasn't");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Files.copy(temp1, temp2));
     assertEquals(ASCII, Files.toString(temp1, Charsets.UTF_8));
   }
 
   public void testCopySameFile() throws IOException {
     File temp = createTempFile();
     Files.write(ASCII, temp, Charsets.UTF_8);
-    try {
-      Files.copy(temp, temp);
-      fail("Expected an IAE to be thrown but wasn't");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Files.copy(temp, temp));
     assertEquals(ASCII, Files.toString(temp, Charsets.UTF_8));
   }
 
@@ -232,17 +221,9 @@ public class FilesTest extends IoTestCase {
 
   public void testNewReader() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
-    try {
-      Files.newReader(asciiFile, null);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Files.newReader(asciiFile, null));
 
-    try {
-      Files.newReader(null, Charsets.UTF_8);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Files.newReader(null, Charsets.UTF_8));
 
     BufferedReader r = Files.newReader(asciiFile, Charsets.US_ASCII);
     try {
@@ -254,17 +235,9 @@ public class FilesTest extends IoTestCase {
 
   public void testNewWriter() throws IOException {
     File temp = createTempFile();
-    try {
-      Files.newWriter(temp, null);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Files.newWriter(temp, null));
 
-    try {
-      Files.newWriter(null, Charsets.UTF_8);
-      fail("expected exception");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Files.newWriter(null, Charsets.UTF_8));
 
     BufferedWriter w = Files.newWriter(temp, Charsets.UTF_8);
     try {
@@ -287,19 +260,18 @@ public class FilesTest extends IoTestCase {
     Files.touch(temp);
     assertTrue(temp.exists());
 
-    try {
-      Files.touch(
-          new File(temp.getPath()) {
-            @Override
-            public boolean setLastModified(long t) {
-              return false;
-            }
+    assertThrows(
+        IOException.class,
+        () ->
+            Files.touch(
+                new File(temp.getPath()) {
+                  @Override
+                  public boolean setLastModified(long t) {
+                    return false;
+                  }
 
-            private static final long serialVersionUID = 0;
-          });
-      fail("expected exception");
-    } catch (IOException expected) {
-    }
+                  private static final long serialVersionUID = 0;
+                }));
   }
 
   public void testTouchTime() throws IOException {
@@ -356,11 +328,7 @@ public class FilesTest extends IoTestCase {
     File parent = getTestFile("ascii.txt");
     assertTrue(parent.isFile());
     File file = file(parent, "foo");
-    try {
-      Files.createParentDirs(file);
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> Files.createParentDirs(file));
   }
 
   public void testMove() throws IOException {
@@ -391,12 +359,8 @@ public class FilesTest extends IoTestCase {
     moveHelper(
         false, new UnmovableFile(temp1, false, false), new UnmovableFile(temp2, true, false));
 
-    try {
-      File asciiFile = getTestFile("ascii.txt");
-      moveHelper(false, asciiFile, asciiFile);
-      fail("expected exception");
-    } catch (IllegalArgumentException expected) {
-    }
+    File asciiFile = getTestFile("ascii.txt");
+    assertThrows(IllegalArgumentException.class, () -> moveHelper(false, asciiFile, asciiFile));
   }
 
   private void moveHelper(boolean success, File from, File to) throws IOException {
@@ -547,11 +511,7 @@ public class FilesTest extends IoTestCase {
     assertTrue(deleted);
 
     // Test
-    try {
-      Files.map(file);
-      fail("Should have thrown FileNotFoundException.");
-    } catch (FileNotFoundException expected) {
-    }
+    assertThrows(FileNotFoundException.class, () -> Files.map(file));
   }
 
   public void testMap_readWrite() throws IOException {
@@ -603,11 +563,9 @@ public class FilesTest extends IoTestCase {
     // Setup
     File file = createTempFile();
     // Test
-    try {
-      Files.map(file, MapMode.READ_WRITE, (long) Integer.MAX_VALUE + 1);
-      fail("Should throw when size exceeds Integer.MAX_VALUE");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Files.map(file, MapMode.READ_WRITE, (long) Integer.MAX_VALUE + 1));
   }
 
   public void testGetFileExtension() {

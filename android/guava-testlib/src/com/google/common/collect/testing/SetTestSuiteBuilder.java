@@ -48,6 +48,7 @@ public class SetTestSuiteBuilder<E>
     return new SetTestSuiteBuilder<E>().usingGenerator(generator);
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());

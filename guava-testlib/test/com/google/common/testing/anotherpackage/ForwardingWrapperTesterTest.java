@@ -17,6 +17,7 @@
 package com.google.common.testing.anotherpackage;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -265,11 +266,11 @@ public class ForwardingWrapperTesterTest extends TestCase {
   }
 
   public void testNotInterfaceType() {
-    try {
-      new ForwardingWrapperTester().testForwarding(String.class, Functions.<String>identity());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            new ForwardingWrapperTester()
+                .testForwarding(String.class, Functions.<String>identity()));
   }
 
   public void testNulls() {
@@ -583,6 +584,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     // A method that is defined to 'return this'
     @CanIgnoreReturnValue
     ChainingCalls chainingCall();
+
     // A method that just happens to return a ChainingCalls object
     ChainingCalls nonChainingCall();
   }

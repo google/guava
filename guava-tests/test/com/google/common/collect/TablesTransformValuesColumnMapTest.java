@@ -21,8 +21,10 @@ import static com.google.common.collect.TableCollectionTest.FIRST_CHARACTER;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class TablesTransformValuesColumnMapTest extends ColumnMapTests {
   public TablesTransformValuesColumnMapTest() {
     super(false, true, true, false);

@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -135,7 +134,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * illustrated <a
    * href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. (See a <a
-   * href="https://goo.gl/Y6SLWx">comparison of several definitions of "whitespace"</a>.)
+   * href="https://docs.google.com/spreadsheets/d/1kq4ECwPjHX9B8QUCTPclgsDCXYaj7T-FlT4tB5q3ahk/edit">comparison
+   * of several definitions of "whitespace"</a>.)
    *
    * <p>All Unicode White_Space characters are on the BMP and thus supported by this API.
    *
@@ -414,7 +414,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    * constructs an eight-kilobyte bit array and queries that. In many situations this produces a
    * matcher which is faster to query than the original.
    */
-  @J2ktIncompatible
   @GwtIncompatible // SmallCharMatcher
   CharMatcher precomputedInternal() {
     final BitSet table = new BitSet();
@@ -445,7 +444,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Helper method for {@link #precomputedInternal} that doesn't test if the negation is cheaper.
    */
-  @J2ktIncompatible
   @GwtIncompatible // SmallCharMatcher
   private static CharMatcher precomputedPositive(
       int totalCharacters, BitSet table, String description) {
@@ -465,7 +463,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // SmallCharMatcher
   private static boolean isSmall(int totalCharacters, int tableLength) {
     return totalCharacters <= SmallCharMatcher.MAX_SIZE
@@ -474,7 +471,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Sets bits in {@code table} matched by this matcher. */
-  @J2ktIncompatible
   @GwtIncompatible // used only from other GwtIncompatible code
   void setBits(BitSet table) {
     for (int c = Character.MAX_VALUE; c >= Character.MIN_VALUE; c--) {
@@ -972,7 +968,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Negation of a {@link FastMatcher}. */
-  static class NegatedFastMatcher extends Negated {
+  private static class NegatedFastMatcher extends Negated {
 
     NegatedFastMatcher(CharMatcher original) {
       super(original);
@@ -985,7 +981,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Fast matcher using a {@link BitSet} table of matching characters. */
-  @J2ktIncompatible
   @GwtIncompatible // used only from other GwtIncompatible code
   private static final class BitSetMatcher extends NamedFastMatcher {
 
@@ -1016,7 +1011,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #any()}. */
   private static final class Any extends NamedFastMatcher {
 
-    static final Any INSTANCE = new Any();
+    static final CharMatcher INSTANCE = new Any();
 
     private Any() {
       super("CharMatcher.any()");
@@ -1113,7 +1108,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #none()}. */
   private static final class None extends NamedFastMatcher {
 
-    static final None INSTANCE = new None();
+    static final CharMatcher INSTANCE = new None();
 
     private None() {
       super("CharMatcher.none()");
@@ -1229,7 +1224,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     static final int MULTIPLIER = 1682554634;
     static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);
 
-    static final Whitespace INSTANCE = new Whitespace();
+    static final CharMatcher INSTANCE = new Whitespace();
 
     Whitespace() {
       super("CharMatcher.whitespace()");
@@ -1240,7 +1235,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1287,7 +1281,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #ascii()}. */
   private static final class Ascii extends NamedFastMatcher {
 
-    static final Ascii INSTANCE = new Ascii();
+    static final CharMatcher INSTANCE = new Ascii();
 
     Ascii() {
       super("CharMatcher.ascii()");
@@ -1361,7 +1355,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return nines;
     }
 
-    static final Digit INSTANCE = new Digit();
+    static final CharMatcher INSTANCE = new Digit();
 
     private Digit() {
       super("CharMatcher.digit()", zeroes(), nines());
@@ -1371,7 +1365,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaDigit()}. */
   private static final class JavaDigit extends CharMatcher {
 
-    static final JavaDigit INSTANCE = new JavaDigit();
+    static final CharMatcher INSTANCE = new JavaDigit();
 
     @Override
     public boolean matches(char c) {
@@ -1387,7 +1381,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaLetter()}. */
   private static final class JavaLetter extends CharMatcher {
 
-    static final JavaLetter INSTANCE = new JavaLetter();
+    static final CharMatcher INSTANCE = new JavaLetter();
 
     @Override
     public boolean matches(char c) {
@@ -1403,7 +1397,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaLetterOrDigit()}. */
   private static final class JavaLetterOrDigit extends CharMatcher {
 
-    static final JavaLetterOrDigit INSTANCE = new JavaLetterOrDigit();
+    static final CharMatcher INSTANCE = new JavaLetterOrDigit();
 
     @Override
     public boolean matches(char c) {
@@ -1419,7 +1413,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaUpperCase()}. */
   private static final class JavaUpperCase extends CharMatcher {
 
-    static final JavaUpperCase INSTANCE = new JavaUpperCase();
+    static final CharMatcher INSTANCE = new JavaUpperCase();
 
     @Override
     public boolean matches(char c) {
@@ -1435,7 +1429,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaLowerCase()}. */
   private static final class JavaLowerCase extends CharMatcher {
 
-    static final JavaLowerCase INSTANCE = new JavaLowerCase();
+    static final CharMatcher INSTANCE = new JavaLowerCase();
 
     @Override
     public boolean matches(char c) {
@@ -1451,7 +1445,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #javaIsoControl()}. */
   private static final class JavaIsoControl extends NamedFastMatcher {
 
-    static final JavaIsoControl INSTANCE = new JavaIsoControl();
+    static final CharMatcher INSTANCE = new JavaIsoControl();
 
     private JavaIsoControl() {
       super("CharMatcher.javaIsoControl()");
@@ -1476,7 +1470,7 @@ public abstract class CharMatcher implements Predicate<Character> {
         "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u0891\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"
             + "\u3000\uf8ff\ufeff\ufffb";
 
-    static final Invisible INSTANCE = new Invisible();
+    static final CharMatcher INSTANCE = new Invisible();
 
     private Invisible() {
       super("CharMatcher.invisible()", RANGE_STARTS.toCharArray(), RANGE_ENDS.toCharArray());
@@ -1486,7 +1480,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** Implementation of {@link #singleWidth()}. */
   private static final class SingleWidth extends RangesMatcher {
 
-    static final SingleWidth INSTANCE = new SingleWidth();
+    static final CharMatcher INSTANCE = new SingleWidth();
 
     private SingleWidth() {
       super(
@@ -1527,7 +1521,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return sequence.length() - original.countIn(sequence);
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1564,7 +1557,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return first.matches(c) && second.matches(c);
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1593,7 +1585,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       second = checkNotNull(b);
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1648,7 +1639,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return isNot(match);
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1685,7 +1675,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return other.matches(match) ? any() : this;
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1724,7 +1713,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return c == match1 || c == match2;
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
@@ -1754,7 +1742,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     @Override
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     void setBits(BitSet table) {
       for (char c : chars) {
@@ -1790,7 +1777,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return startInclusive <= c && c <= endInclusive;
     }
 
-    @J2ktIncompatible
     @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {

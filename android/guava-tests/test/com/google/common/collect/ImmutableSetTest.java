@@ -17,9 +17,11 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -40,6 +42,7 @@ import java.util.Iterator;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link ImmutableSet}.
@@ -49,8 +52,10 @@ import junit.framework.TestSuite;
  * @author Nick Kralevich
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -168,7 +173,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     return ImmutableSet.of(e1, e2, e3, e4, e5);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
@@ -279,11 +283,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
-    try {
-      ImmutableSet.chooseTableSize(1 << 30);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableSet.chooseTableSize(1 << 30));
   }
 
   @GwtIncompatible // RegularImmutableSet.table not in emulation
@@ -327,11 +327,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     ImmutableSet.Builder<String> zat = ImmutableSet.<String>builder().add("c", "b", "d", "c");
     ImmutableSet<String> set = zis.combine(zat).build();
     assertThat(set).containsExactly("a", "b", "c", "d").inOrder();
-  }
-
-  @GwtIncompatible // GWT is single threaded
-  public void testCopyOf_threadSafe() {
-    verifyThreadSafe();
   }
 
   @Override

@@ -25,6 +25,7 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -100,11 +101,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the unchecked exception to propagate as-is
-    try {
-      sample.noneDeclared();
-      fail();
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, () -> sample.noneDeclared());
   }
 
   @J2ktIncompatible
@@ -124,11 +121,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the undeclared exception to have been chained inside another
-    try {
-      sample.noneDeclared();
-      fail();
-    } catch (SomeChainingException expected) {
-    }
+    assertThrows(SomeChainingException.class, () -> sample.noneDeclared());
   }
 
   @J2ktIncompatible
@@ -170,11 +163,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the unchecked exception to propagate as-is
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, () -> sample.oneDeclared());
   }
 
   @J2ktIncompatible
@@ -194,11 +183,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the checked exception to propagate as-is
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (SomeCheckedException expected) {
-    }
+    assertThrows(SomeCheckedException.class, () -> sample.oneDeclared());
   }
 
   @J2ktIncompatible
@@ -218,11 +203,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the undeclared exception to have been chained inside another
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (SomeChainingException expected) {
-    }
+    assertThrows(SomeChainingException.class, () -> sample.oneDeclared());
   }
 
   @J2ktIncompatible
@@ -266,11 +247,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the unchecked exception to propagate as-is
-    try {
-      sample.twoDeclared();
-      fail();
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, () -> sample.twoDeclared());
   }
 
   @J2ktIncompatible
@@ -291,11 +268,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the checked exception to propagate as-is
-    try {
-      sample.twoDeclared();
-      fail();
-    } catch (SomeCheckedException expected) {
-    }
+    assertThrows(SomeCheckedException.class, () -> sample.twoDeclared());
   }
 
   @J2ktIncompatible
@@ -316,11 +289,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the checked exception to propagate as-is
-    try {
-      sample.twoDeclared();
-      fail();
-    } catch (SomeOtherCheckedException expected) {
-    }
+    assertThrows(SomeOtherCheckedException.class, () -> sample.twoDeclared());
   }
 
   public void testThrowIfUnchecked_null() throws SomeCheckedException {
@@ -384,11 +353,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the unchecked exception to propagate as-is
-    try {
-      sample.noneDeclared();
-      fail();
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, () -> sample.noneDeclared());
   }
 
   @J2ktIncompatible
@@ -407,11 +372,7 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the error to propagate as-is
-    try {
-      sample.noneDeclared();
-      fail();
-    } catch (SomeError expected) {
-    }
+    assertThrows(SomeError.class, () -> sample.noneDeclared());
   }
 
   @J2ktIncompatible
@@ -430,48 +391,36 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect the undeclared exception to have been chained inside another
-    try {
-      sample.noneDeclared();
-      fail();
-    } catch (RuntimeException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(SomeCheckedException.class);
-    }
+    RuntimeException expected = assertThrows(RuntimeException.class, () -> sample.noneDeclared());
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_Unchecked() throws SomeCheckedException {
     throwIfInstanceOf(new SomeUncheckedException(), SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedDifferent() throws SomeCheckedException {
     throwIfInstanceOf(new SomeOtherCheckedException(), SomeCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedSame() {
-    try {
-      throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class);
-      fail();
-    } catch (SomeCheckedException expected) {
-    }
+    assertThrows(
+        SomeCheckedException.class,
+        () -> throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_CheckedSubclass() {
-    try {
-      throwIfInstanceOf(new SomeCheckedException() {}, SomeCheckedException.class);
-      fail();
-    } catch (SomeCheckedException expected) {
-    }
+    assertThrows(
+        SomeCheckedException.class,
+        () -> throwIfInstanceOf(new SomeCheckedException() {}, SomeCheckedException.class));
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagate]IfInstanceOf
   public void testPropagateIfInstanceOf_NoneThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -491,7 +440,7 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_DeclaredThrown() {
     Sample sample =
         new Sample() {
@@ -507,15 +456,11 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect declared exception to be thrown as-is
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (SomeCheckedException expected) {
-    }
+    assertThrows(SomeCheckedException.class, () -> sample.oneDeclared());
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_UncheckedThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -531,15 +476,11 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect unchecked exception to be thrown as-is
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, () -> sample.oneDeclared());
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropagateIfInstanceOf_UndeclaredThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
@@ -555,26 +496,18 @@ public class ThrowablesTest extends TestCase {
         };
 
     // Expect undeclared exception wrapped by RuntimeException to be thrown
-    try {
-      sample.oneDeclared();
-      fail();
-    } catch (RuntimeException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(SomeOtherCheckedException.class);
-    }
+    RuntimeException expected = assertThrows(RuntimeException.class, () -> sample.oneDeclared());
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeOtherCheckedException.class);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public void testThrowIfInstanceOf_null() throws SomeCheckedException {
-    try {
-      throwIfInstanceOf(null, SomeCheckedException.class);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> throwIfInstanceOf(null, SomeCheckedException.class));
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // throwIfInstanceOf
+  @GwtIncompatible // propagateIfInstanceOf
   public void testPropageIfInstanceOf_null() throws SomeCheckedException {
     Throwables.propagateIfInstanceOf(null, SomeCheckedException.class);
   }
@@ -654,7 +587,7 @@ public class ThrowablesTest extends TestCase {
     throw new SomeUndeclaredCheckedException();
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // Format does not match
   @GwtIncompatible // getStackTraceAsString(Throwable)
   public void testGetStackTraceAsString() {
     class StackTraceException extends Exception {
@@ -710,7 +643,6 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Throwables.getCauseAs(Throwable, Class)
   public void testGetCauseAs() {
     SomeCheckedException cause = new SomeCheckedException();
@@ -720,12 +652,11 @@ public class ThrowablesTest extends TestCase {
     assertThat(Throwables.getCauseAs(thrown, SomeCheckedException.class)).isSameInstanceAs(cause);
     assertThat(Throwables.getCauseAs(thrown, Exception.class)).isSameInstanceAs(cause);
 
-    try {
-      Throwables.getCauseAs(thrown, IllegalStateException.class);
-      fail("Should have thrown CCE");
-    } catch (ClassCastException expected) {
-      assertThat(expected).hasCauseThat().isSameInstanceAs(thrown);
-    }
+    ClassCastException expected =
+        assertThrows(
+            ClassCastException.class,
+            () -> Throwables.getCauseAs(thrown, IllegalStateException.class));
+    assertThat(expected).hasCauseThat().isSameInstanceAs(thrown);
   }
 
   @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
@@ -749,11 +680,7 @@ public class ThrowablesTest extends TestCase {
 
     assertThat(lazyStackTrace(e)).containsExactly((Object[]) originalStackTrace).inOrder();
 
-    try {
-      lazyStackTrace(e).set(0, null);
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> lazyStackTrace(e).set(0, null));
 
     // Now we test a property that holds only for the lazy implementation.
 

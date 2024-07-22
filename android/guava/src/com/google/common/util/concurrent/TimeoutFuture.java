@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,8 +76,8 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
    * write-barriers).
    */
 
-  private @Nullable ListenableFuture<V> delegateRef;
-  private @Nullable ScheduledFuture<?> timer;
+  @LazyInit private @Nullable ListenableFuture<V> delegateRef;
+  @LazyInit private @Nullable ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
@@ -84,7 +85,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   /** A runnable that is called when the delegate or the timer completes. */
   private static final class Fire<V extends @Nullable Object> implements Runnable {
-    @Nullable TimeoutFuture<V> timeoutFutureRef;
+    @LazyInit @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
       this.timeoutFutureRef = timeoutFuture;

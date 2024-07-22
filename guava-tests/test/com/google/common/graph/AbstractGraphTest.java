@@ -16,13 +16,13 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.TestUtil.ERROR_NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
+import static com.google.common.graph.TestUtil.assertNodeRemovedFromGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
@@ -235,12 +235,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void adjacentNodes_nodeNotInGraph() {
-    try {
-      graph.adjacentNodes(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.adjacentNodes(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -251,12 +247,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void predecessors_nodeNotInGraph() {
-    try {
-      graph.predecessors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.predecessors(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -267,12 +259,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void successors_nodeNotInGraph() {
-    try {
-      graph.successors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.successors(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -283,12 +271,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void incidentEdges_nodeNotInGraph() {
-    try {
-      graph.incidentEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.incidentEdges(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -306,12 +290,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void degree_nodeNotInGraph() {
-    try {
-      graph.degree(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.degree(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -322,12 +302,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void inDegree_nodeNotInGraph() {
-    try {
-      graph.inDegree(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.inDegree(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -338,12 +314,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void outDegree_nodeNotInGraph() {
-    try {
-      graph.outDegree(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.outDegree(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -373,8 +345,24 @@ public abstract class AbstractGraphTest {
     assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
     assertThat(graphAsMutableGraph.removeNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactly(N2, N4);
+
     assertThat(graph.adjacentNodes(N2)).isEmpty();
+    assertThat(graph.predecessors(N2)).isEmpty();
+    assertThat(graph.successors(N2)).isEmpty();
+    assertThat(graph.incidentEdges(N2)).isEmpty();
     assertThat(graph.adjacentNodes(N4)).isEmpty();
+    assertThat(graph.predecessors(N4)).isEmpty();
+    assertThat(graph.successors(N4)).isEmpty();
+    assertThat(graph.incidentEdges(N4)).isEmpty();
+
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.adjacentNodes(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.predecessors(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.successors(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.incidentEdges(N1)));
   }
 
   @Test
@@ -404,19 +392,48 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  public void removeNode_queryAfterRemoval() {
+  public void queryAccessorSetAfterElementRemoval() {
     assume().that(graphIsMutable()).isTrue();
 
-    addNode(N1);
-    @SuppressWarnings("unused")
-    Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
+    putEdge(N1, N2);
+    putEdge(N2, N1);
+    Set<Integer> n1AdjacentNodes = graph.adjacentNodes(N1);
+    Set<Integer> n2AdjacentNodes = graph.adjacentNodes(N2);
+    Set<Integer> n1Predecessors = graph.predecessors(N1);
+    Set<Integer> n2Predecessors = graph.predecessors(N2);
+    Set<Integer> n1Successors = graph.successors(N1);
+    Set<Integer> n2Successors = graph.successors(N2);
+    Set<EndpointPair<Integer>> n1IncidentEdges = graph.incidentEdges(N1);
+    Set<EndpointPair<Integer>> n2IncidentEdges = graph.incidentEdges(N2);
     assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
-    try {
-      graph.adjacentNodes(N1);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+
+    // The choice of the size() method to call here is arbitrary.  We assume that if any of the Set
+    // methods executes the validation check, they all will, and thus we only need to test one of
+    // them to ensure that the validation check happens and has the expected behavior.
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1AdjacentNodes::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1Predecessors::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1Successors::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1IncidentEdges::size));
+
+    assertThat(n2AdjacentNodes).isEmpty();
+    assertThat(n2Predecessors).isEmpty();
+    assertThat(n2Successors).isEmpty();
+    assertThat(n2IncidentEdges).isEmpty();
+  }
+
+  @Test
+  public void queryGraphAfterElementRemoval() {
+    assume().that(graphIsMutable()).isTrue();
+
+    putEdge(N1, N2);
+    putEdge(N2, N1);
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> graph.adjacentNodes(N1)));
   }
 
   @Test

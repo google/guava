@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -214,7 +215,7 @@ class FreshValueGenerator {
       return pickInstance(rawType.getEnumConstants(), null);
     }
     if (type.isArray()) {
-      TypeToken<?> componentType = checkNotNull(type.getComponentType());
+      TypeToken<?> componentType = requireNonNull(type.getComponentType());
       Object array = Array.newInstance(componentType.getRawType(), 1);
       Array.set(array, 0, generate(componentType));
       return array;
@@ -293,7 +294,8 @@ class FreshValueGenerator {
     }
 
     @Override
-    protected Object handleInvocation(Object proxy, Method method, @Nullable Object[] args) {
+    protected @Nullable Object handleInvocation(
+        Object proxy, Method method, @Nullable Object[] args) {
       return interfaceMethodCalled(interfaceType, method);
     }
 
@@ -318,7 +320,7 @@ class FreshValueGenerator {
   }
 
   /** Subclasses can override to provide different return value for proxied interface methods. */
-  Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
+  @Nullable Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
     throw new UnsupportedOperationException();
   }
 
@@ -380,6 +382,7 @@ class FreshValueGenerator {
     return freshness.get();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Integer generateInteger() {
     return new Integer(generateInt());
@@ -390,6 +393,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Long generateLongObject() {
     return new Long(generateLong());
@@ -400,6 +404,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Float generateFloatObject() {
     return new Float(generateFloat());
@@ -410,6 +415,7 @@ class FreshValueGenerator {
     return generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Double generateDoubleObject() {
     return new Double(generateDouble());
@@ -420,6 +426,7 @@ class FreshValueGenerator {
     return (short) generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Short generateShortObject() {
     return new Short(generateShort());
@@ -430,6 +437,7 @@ class FreshValueGenerator {
     return (byte) generateInt();
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Byte generateByteObject() {
     return new Byte(generateByte());
@@ -440,6 +448,7 @@ class FreshValueGenerator {
     return generateString().charAt(0);
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Character generateCharacter() {
     return new Character(generateChar());
@@ -450,6 +459,7 @@ class FreshValueGenerator {
     return generateInt() % 2 == 0;
   }
 
+  @SuppressWarnings("removal") // b/321209431 -- maybe just use valueOf here?
   @Generates
   Boolean generateBooleanObject() {
     return new Boolean(generateBoolean());
@@ -507,37 +517,7 @@ class FreshValueGenerator {
 
   @Generates
   Currency generateCurrency() {
-    try {
-      Method method = Currency.class.getMethod("getAvailableCurrencies");
-      @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
-      Set<Currency> currencies = (Set<Currency>) method.invoke(null);
-      return pickInstance(currencies, Currency.getInstance(Locale.US));
-      /*
-       * Do not merge the 2 catch blocks below. javac would infer a type of
-       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
-       * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
-       */
-    } catch (NoSuchMethodException notJava7) {
-      return preJava7FreshCurrency();
-    } catch (InvocationTargetException notJava7) {
-      return preJava7FreshCurrency();
-    } catch (IllegalAccessException impossible) {
-      throw new AssertionError(impossible);
-    }
-  }
-
-  private Currency preJava7FreshCurrency() {
-    for (Set<Locale> uselessLocales = Sets.newHashSet(); ; ) {
-      Locale locale = generateLocale();
-      if (uselessLocales.contains(locale)) { // exhausted all locales
-        return Currency.getInstance(Locale.US);
-      }
-      try {
-        return Currency.getInstance(locale);
-      } catch (IllegalArgumentException e) {
-        uselessLocales.add(locale);
-      }
-    }
+    return pickInstance(Currency.getAvailableCurrencies(), Currency.getInstance(Locale.US));
   }
 
   @Empty

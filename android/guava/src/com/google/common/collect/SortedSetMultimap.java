@@ -115,6 +115,5 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Returns the comparator that orders the multimap values, with {@code null} indicating that
    * natural ordering is used.
    */
-  @Nullable
-  Comparator<? super V> valueComparator();
+  @Nullable Comparator<? super V> valueComparator();
 }

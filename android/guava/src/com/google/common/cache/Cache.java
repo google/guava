@@ -53,8 +53,7 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
-  @Nullable
-  V getIfPresent(@CompatibleWith("K") Object key);
+  @Nullable V getIfPresent(@CompatibleWith("K") Object key);
 
   /**
    * Returns the value associated with {@code key} in this cache, obtaining that value from {@code

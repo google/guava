@@ -33,10 +33,10 @@ public class ForwardingMultimapTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             Multimap.class,
-            new Function<Multimap, Multimap>() {
+            new Function<Multimap, Multimap<?, ?>>() {
               @Override
-              public Multimap apply(Multimap delegate) {
-                return wrap(delegate);
+              public Multimap<?, ?> apply(Multimap delegate) {
+                return wrap((Multimap<?, ?>) delegate);
               }
             });
   }

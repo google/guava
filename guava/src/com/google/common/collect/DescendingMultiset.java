@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -37,7 +38,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
-  private transient @Nullable Comparator<? super E> comparator;
+  @LazyInit private transient @Nullable Comparator<? super E> comparator;
 
   @Override
   public Comparator<? super E> comparator() {
@@ -48,7 +49,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
     return result;
   }
 
-  private transient @Nullable NavigableSet<E> elementSet;
+  @LazyInit private transient @Nullable NavigableSet<E> elementSet;
 
   @Override
   public NavigableSet<E> elementSet() {
@@ -109,7 +110,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
 
   abstract Iterator<Entry<E>> entryIterator();
 
-  private transient @Nullable Set<Entry<E>> entrySet;
+  @LazyInit private transient @Nullable Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {

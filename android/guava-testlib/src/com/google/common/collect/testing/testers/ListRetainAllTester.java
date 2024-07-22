@@ -50,7 +50,6 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
     expectContents(array);
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_duplicatesRemoved() {
@@ -63,7 +62,6 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
     expectContents(e2());
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_countIgnored() {

@@ -90,25 +90,34 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Maps an "entry" to the key of that entry. */
   transient @Nullable K[] keys;
+
   /** Maps an "entry" to the value of that entry. */
   transient @Nullable V[] values;
 
   transient int size;
   transient int modCount;
+
   /** Maps a bucket to the "entry" of its first element. */
   private transient int[] hashTableKToV;
+
   /** Maps a bucket to the "entry" of its first element. */
   private transient int[] hashTableVToK;
+
   /** Maps an "entry" to the "entry" that follows it in its bucket. */
   private transient int[] nextInBucketKToV;
+
   /** Maps an "entry" to the "entry" that follows it in its bucket. */
   private transient int[] nextInBucketVToK;
+
   /** The "entry" of the first element in insertion order. */
   private transient int firstInInsertionOrder;
+
   /** The "entry" of the last element in insertion order. */
   private transient int lastInInsertionOrder;
+
   /** Maps an "entry" to the "entry" that precedes it in insertion order. */
   private transient int[] prevInInsertionOrder;
+
   /** Maps an "entry" to the "entry" that follows it in insertion order. */
   private transient int[] nextInInsertionOrder;
 
@@ -265,8 +274,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return (entry == ABSENT) ? null : values[entry];
   }
 
-  @Nullable
-  K getInverse(@Nullable Object value) {
+  @Nullable K getInverse(@Nullable Object value) {
     int entry = findEntryByValue(value);
     return (entry == ABSENT) ? null : keys[entry];
   }
@@ -277,8 +285,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return put(key, value, false);
   }
 
-  @Nullable
-  V put(K key, V value, boolean force) {
+  @Nullable V put(K key, V value, boolean force) {
     int keyHash = Hashing.smearedHash(key);
     int entryForKey = findEntryByKey(key, keyHash);
     if (entryForKey != ABSENT) {
@@ -322,8 +329,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @CanIgnoreReturnValue
-  @Nullable
-  K putInverse(V value, K key, boolean force) {
+  @Nullable K putInverse(V value, K key, boolean force) {
     int valueHash = Hashing.smearedHash(value);
     int entryForValue = findEntryByValue(value, valueHash);
     if (entryForValue != ABSENT) {
@@ -551,8 +557,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @Nullable
-  K removeInverse(@Nullable Object value) {
+  @Nullable K removeInverse(@Nullable Object value) {
     int valueHash = Hashing.smearedHash(value);
     int entry = findEntryByValue(value, valueHash);
     if (entry == ABSENT) {

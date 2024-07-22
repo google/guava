@@ -312,8 +312,7 @@ public final class Monitor {
 
     /** The next active guard */
     @GuardedBy("monitor.lock")
-    @Nullable
-    Guard next;
+    @Nullable Guard next;
 
     protected Guard(Monitor monitor) {
       this.monitor = checkNotNull(monitor, "monitor");
@@ -1013,7 +1012,8 @@ public final class Monitor {
   private boolean isSatisfied(Guard guard) {
     try {
       return guard.isSatisfied();
-    } catch (RuntimeException | Error throwable) {
+    } catch (Throwable throwable) {
+      // Any Exception is either a RuntimeException or sneaky checked exception.
       signalAllWaiters();
       throw throwable;
     }

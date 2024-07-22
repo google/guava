@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Strings;
 import java.util.List;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Create string sets for collection tests.
@@ -27,6 +28,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@NullMarked
 public abstract class TestStringSetGenerator implements TestSetGenerator<String> {
   @Override
   public SampleElements<String> samples() {

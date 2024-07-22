@@ -486,8 +486,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return changed;
     }
 
-    @Nullable
-    WrappedCollection getAncestor() {
+    @Nullable WrappedCollection getAncestor() {
       return ancestor;
     }
 
@@ -1016,7 +1015,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @WeakOuter
-  class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
+  private final class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
       super(subMap);
     }
@@ -1455,7 +1454,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
+  private final class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
 
     NavigableAsMap(NavigableMap<K, Collection<V>> submap) {
       super(submap);
@@ -1532,8 +1531,8 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return pollAsMapEntry(descendingMap().entrySet().iterator());
     }
 
-    @Nullable
-    Entry<K, Collection<V>> pollAsMapEntry(Iterator<Entry<K, Collection<V>>> entryIterator) {
+    @Nullable Entry<K, Collection<V>> pollAsMapEntry(
+        Iterator<Entry<K, Collection<V>>> entryIterator) {
       if (!entryIterator.hasNext()) {
         return null;
       }

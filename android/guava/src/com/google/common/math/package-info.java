@@ -13,7 +13,8 @@
  */
 
 /**
- * Arithmetic functions operating on primitive values and {@link java.math.BigInteger} instances.
+ * Arithmetic functions operating on primitive values and on {@link java.math.BigInteger} and {@link
+ * java.math.BigDecimal} instances.
  *
  * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.

@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -51,13 +52,13 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
                   // Other tests will verify what real, warning-free usage looks like
                   // but here we have to do some serious fudging
                   @Override
-                  @SuppressWarnings("unchecked")
+                  @SuppressWarnings({"unchecked", "rawtypes"})
                   public Map<TypeToken, Object> create(Object... elements) {
                     ImmutableTypeToInstanceMap.Builder<Object> builder =
                         ImmutableTypeToInstanceMap.builder();
                     for (Object object : elements) {
-                      Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
-                      builder.put(entry.getKey(), entry.getValue());
+                      Entry<?, ?> entry = (Entry<?, ?>) object;
+                      builder.put((TypeToken) entry.getKey(), entry.getValue());
                     }
                     return (Map) builder.build();
                   }
@@ -102,7 +103,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testGenericArrayType() {
     @SuppressWarnings("unchecked") // Trying to test generic array
-    ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
+    ImmutableList<Integer>[] array =
+        (ImmutableList<Integer>[]) new ImmutableList<?>[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     ImmutableTypeToInstanceMap<Iterable<?>[]> map =
         ImmutableTypeToInstanceMap.<Iterable<?>[]>builder().put(type, array).build();
@@ -121,33 +123,29 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testGetInstance_containsTypeVariable() {
     ImmutableTypeToInstanceMap<Iterable<Number>> map = ImmutableTypeToInstanceMap.of();
-    try {
-      map.getInstance(this.<Number>anyIterableType());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> map.getInstance(this.<Number>anyIterableType()));
   }
 
   public void testPut_containsTypeVariable() {
     ImmutableTypeToInstanceMap.Builder<Iterable<Integer>> builder =
         ImmutableTypeToInstanceMap.builder();
-    try {
-      builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1)));
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {
     return new TypeToken<Iterable<T>>() {};
   }
 
+  @SuppressWarnings("rawtypes") // TODO(cpovirk): Can we at least use Class<?> in some places?
   abstract static class TestTypeToInstanceMapGenerator
       implements TestMapGenerator<TypeToken, Object> {
 
     @Override
-    public TypeToken[] createKeyArray(int length) {
-      return new TypeToken[length];
+    public TypeToken<?>[] createKeyArray(int length) {
+      return new TypeToken<?>[length];
     }
 
     @Override
@@ -172,7 +170,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     @Override
     @SuppressWarnings("unchecked")
     public Entry<TypeToken, Object>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<TypeToken, Object>[]) new Entry<?, ?>[length];
     }
 
     @Override

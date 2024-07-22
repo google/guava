@@ -57,29 +57,25 @@ public interface SortedMultiset<E extends @Nullable Object>
    * Returns the entry of the first element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @Nullable
-  Entry<E> firstEntry();
+  @Nullable Entry<E> firstEntry();
 
   /**
    * Returns the entry of the last element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @Nullable
-  Entry<E> lastEntry();
+  @Nullable Entry<E> lastEntry();
 
   /**
    * Returns and removes the entry associated with the lowest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @Nullable
-  Entry<E> pollFirstEntry();
+  @Nullable Entry<E> pollFirstEntry();
 
   /**
    * Returns and removes the entry associated with the greatest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @Nullable
-  Entry<E> pollLastEntry();
+  @Nullable Entry<E> pollLastEntry();
 
   /**
    * Returns a {@link NavigableSet} view of the distinct elements in this multiset.

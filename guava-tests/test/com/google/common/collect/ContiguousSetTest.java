@@ -30,6 +30,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetGenerators.ContiguousSetDescendingGenerator;
@@ -44,7 +45,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/** @author Gregory Kick */
+/**
+ * @author Gregory Kick
+ */
 @GwtCompatible(emulated = true)
 public class ContiguousSetTest extends TestCase {
   private static final DiscreteDomain<Integer> NOT_EQUAL_TO_INTEGERS =
@@ -155,10 +158,28 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(enormous, enormousReserialized);
   }
 
+  private static final DiscreteDomain<Integer> UNBOUNDED_THROWING_DOMAIN =
+      new DiscreteDomain<Integer>() {
+        @Override
+        public Integer next(Integer value) {
+          throw new AssertionError();
+        }
+
+        @Override
+        public Integer previous(Integer value) {
+          throw new AssertionError();
+        }
+
+        @Override
+        public long distance(Integer start, Integer end) {
+          throw new AssertionError();
+        }
+      };
+
   public void testCreate_noMin() {
     Range<Integer> range = Range.lessThan(0);
     try {
-      ContiguousSet.create(range, RangeTest.UNBOUNDED_DOMAIN);
+      ContiguousSet.create(range, UNBOUNDED_THROWING_DOMAIN);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -167,7 +188,7 @@ public class ContiguousSetTest extends TestCase {
   public void testCreate_noMax() {
     Range<Integer> range = Range.greaterThan(0);
     try {
-      ContiguousSet.create(range, RangeTest.UNBOUNDED_DOMAIN);
+      ContiguousSet.create(range, UNBOUNDED_THROWING_DOMAIN);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -388,6 +409,7 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(ImmutableList.of(1, 2, 3), ImmutableList.copyOf(list.toArray(new Integer[0])));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static class BuiltTests extends TestCase {
     public static Test suite() {

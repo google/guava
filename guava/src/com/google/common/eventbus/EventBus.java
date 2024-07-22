@@ -83,8 +83,6 @@ import org.jspecify.annotations.NullMarked;
  *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
  * </ul>
  *
- * -->
- *
  * <h2>EventBus Summary</h2>
  *
  * <p>The EventBus allows publish-subscribe-style communication between components without requiring

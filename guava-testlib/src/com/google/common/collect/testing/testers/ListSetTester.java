@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SE
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -112,7 +113,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
     try {
       getList().set(0, e3());
       fail("set() should throw UnsupportedOperationException or IndexOutOfBoundsException");
-    } catch (UnsupportedOperationException | IndexOutOfBoundsException tolerated) {
+    } catch (UnsupportedOperationException | IndexOutOfBoundsException expected) {
     }
     expectUnchanged();
   }
@@ -142,6 +143,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
    * will be to permit them, as it seems more likely that code would depend on that behavior than on
    * the other. Thus, we say the bug is in set(), which fails to support null.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetNullSupportedMethod() {
     return Helpers.getMethod(ListSetTester.class, "testSet_null");

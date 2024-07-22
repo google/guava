@@ -218,10 +218,18 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lazyWeakLock(int stripes) {
-    return lazy(stripes, () -> new ReentrantLock(false));
+    return lazyWeakCustom(stripes, () -> new ReentrantLock(false));
   }
 
-  private static <L> Striped<L> lazy(int stripes, Supplier<L> supplier) {
+  /**
+   * Creates a {@code Striped<L>} with lazily initialized, weakly referenced locks. Every lock is
+   * obtained from the passed supplier.
+   *
+   * @param stripes the minimum number of stripes (locks) required
+   * @param supplier a {@code Supplier<L>} object to obtain locks from
+   * @return a new {@code Striped<L>}
+   */
+  static <L> Striped<L> lazyWeakCustom(int stripes, Supplier<L> supplier) {
     return stripes < LARGE_LAZY_CUTOFF
         ? new SmallLazyStriped<L>(stripes, supplier)
         : new LargeLazyStriped<L>(stripes, supplier);
@@ -248,7 +256,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Semaphore>}
    */
   public static Striped<Semaphore> lazyWeakSemaphore(int stripes, int permits) {
-    return lazy(stripes, () -> new Semaphore(permits, false));
+    return lazyWeakCustom(stripes, () -> new Semaphore(permits, false));
   }
 
   /**
@@ -270,8 +278,9 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> lazyWeakReadWriteLock(int stripes) {
-    return lazy(stripes, WeakSafeReadWriteLock::new);
+    return lazyWeakCustom(stripes, WeakSafeReadWriteLock::new);
   }
+
   /**
    * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.
    * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure

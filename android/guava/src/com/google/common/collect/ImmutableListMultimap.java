@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -31,6 +33,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -48,6 +53,82 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableListMultimap}
+   * whose keys and values are the result of applying the provided mapping functions to the input
+   * elements.
+   *
+   * <p>For streams with defined encounter order (as defined in the Ordering section of the {@link
+   * java.util.stream} Javadoc), that order is preserved, but entries are <a
+   * href="ImmutableMultimap.html#iteration">grouped by key</a>.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
+   *
+   * // is equivalent to
+   *
+   * static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+   *     new ImmutableListMultimap.Builder<Character, String>()
+   *         .put('b', "anana")
+   *         .putAll('a', "pple", "sparagus")
+   *         .putAll('c', "arrot", "herry")
+   *         .build();
+   * }</pre>
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableListMultimap(keyFunction, valueFunction);
+  }
+
+  /**
+   * Returns a {@code Collector} accumulating entries into an {@code ImmutableListMultimap}. Each
+   * input element is mapped to a key and a stream of values, each of which are put into the
+   * resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
+   * streams of values.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(
+   *             flatteningToImmutableListMultimap(
+   *                  str -> str.charAt(0),
+   *                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
+   *
+   * // is equivalent to
+   *
+   * static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     ImmutableListMultimap.<Character, Character>builder()
+   *         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+   *         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+   *         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+   *         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+   *         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+   *         .build();
+   * }
+   * }</pre>
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
+   */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableListMultimap<K, V>> flatteningToImmutableListMultimap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
+    return CollectCollectors.flatteningToImmutableListMultimap(keyFunction, valuesFunction);
+  }
 
   /**
    * Returns the empty multimap.
@@ -195,6 +276,13 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @Override
+    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
+      super.combine(other);
+      return this;
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -216,13 +304,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
-      return this;
-    }
-
-    @CanIgnoreReturnValue
-    @Override
-    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
-      super.combine(other);
       return this;
     }
 
@@ -297,6 +378,29 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
         builder.put(key, list);
         size += list.size();
       }
+    }
+
+    return new ImmutableListMultimap<>(builder.buildOrThrow(), size);
+  }
+
+  /** Creates an ImmutableListMultimap from an asMap.entrySet. */
+  static <K, V> ImmutableListMultimap<K, V> fromMapBuilderEntries(
+      Collection<? extends Map.Entry<K, ImmutableCollection.Builder<V>>> mapEntries,
+      @Nullable Comparator<? super V> valueComparator) {
+    if (mapEntries.isEmpty()) {
+      return of();
+    }
+    ImmutableMap.Builder<K, ImmutableList<V>> builder =
+        new ImmutableMap.Builder<>(mapEntries.size());
+    int size = 0;
+
+    for (Entry<K, ImmutableCollection.Builder<V>> entry : mapEntries) {
+      K key = entry.getKey();
+      ImmutableList.Builder<V> values = (ImmutableList.Builder<V>) entry.getValue();
+      ImmutableList<V> list =
+          (valueComparator == null) ? values.build() : values.buildSorted(valueComparator);
+      builder.put(key, list);
+      size += list.size();
     }
 
     return new ImmutableListMultimap<>(builder.buildOrThrow(), size);
@@ -398,7 +502,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     int tmpSize = 0;
 
     for (int i = 0; i < keyCount; i++) {
-      Object key = stream.readObject();
+      Object key = requireNonNull(stream.readObject());
       int valueCount = stream.readInt();
       if (valueCount <= 0) {
         throw new InvalidObjectException("Invalid value count " + valueCount);
@@ -406,7 +510,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
 
       ImmutableList.Builder<Object> valuesBuilder = ImmutableList.builder();
       for (int j = 0; j < valueCount; j++) {
-        valuesBuilder.add(stream.readObject());
+        valuesBuilder.add(requireNonNull(stream.readObject()));
       }
       builder.put(key, valuesBuilder.build());
       tmpSize += valueCount;

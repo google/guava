@@ -232,8 +232,7 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
-    @Nullable
-    Class<?> loadFinalizer();
+    @Nullable Class<?> loadFinalizer();
   }
 
   /**
@@ -284,17 +283,16 @@ public class FinalizableReferenceQueue implements Closeable {
 
     @Override
     public @Nullable Class<?> loadFinalizer() {
-      try {
-        /*
-         * We use URLClassLoader because it's the only concrete class loader implementation in the
-         * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this
-         * class loader:
-         *
-         * Finalizer.class -> CustomClassLoader -> CustomClassLoader.class -> This class loader
-         *
-         * System class loader will (and must) be the parent.
-         */
-        ClassLoader finalizerLoader = newLoader(getBaseUrl());
+      /*
+       * We use URLClassLoader because it's the only concrete class loader implementation in the
+       * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this
+       * class loader:
+       *
+       * Finalizer.class -> CustomClassLoader -> CustomClassLoader.class -> This class loader
+       *
+       * System class loader will (and must) be the parent.
+       */
+      try (URLClassLoader finalizerLoader = newLoader(getBaseUrl())) {
         return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);
       } catch (Exception e) {
         logger.log(Level.WARNING, LOADING_ERROR, e);

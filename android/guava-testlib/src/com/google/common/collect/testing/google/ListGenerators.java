@@ -30,6 +30,7 @@ import com.google.common.primitives.Chars;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Common generators of different types of lists.
@@ -37,6 +38,7 @@ import java.util.List;
  * @author Hayward Chan
  */
 @GwtCompatible
+@NullMarked
 public final class ListGenerators {
 
   private ListGenerators() {}

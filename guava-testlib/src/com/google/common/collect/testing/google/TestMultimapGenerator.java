@@ -22,6 +22,8 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestContainerGenerator;
 import java.util.Collection;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates multimaps, containing sample elements, to be tested.
@@ -29,7 +31,9 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface TestMultimapGenerator<K, V, M extends Multimap<K, V>>
+@NullMarked
+public interface TestMultimapGenerator<
+        K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends TestContainerGenerator<M, Entry<K, V>> {
 
   K[] createKeyArray(int length);

@@ -19,8 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class UnmodifiableRowSortedTableColumnMapTest extends ColumnMapTests {
   public UnmodifiableRowSortedTableColumnMapTest() {
     super(false, false, false, false);

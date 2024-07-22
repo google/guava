@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -25,6 +26,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Hayward Chan
  */
+@NullMarked
 abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   ForwardingImmutableList() {}
@@ -55,7 +57,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return delegateList().equals(obj);
   }
 
@@ -89,7 +91,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegateList().toArray(other);
   }
 

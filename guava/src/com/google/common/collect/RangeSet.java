@@ -49,6 +49,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @DoNotMock("Use ImmutableRangeSet or TreeRangeSet")
 @GwtIncompatible
 @NullMarked
@@ -64,8 +65,7 @@ public interface RangeSet<C extends Comparable> {
    * Returns the unique range from this range set that {@linkplain Range#contains contains} {@code
    * value}, or {@code null} if this range set does not contain {@code value}.
    */
-  @Nullable
-  Range<C> rangeContaining(C value);
+  @Nullable Range<C> rangeContaining(C value);
 
   /**
    * Returns {@code true} if there exists a non-empty range enclosed by both a member range in this

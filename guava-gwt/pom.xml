@@ -17,7 +17,7 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <gwt.version>2.10.0</gwt.version>
+    <gwt.version>2.11.0</gwt.version>
     <gwt.plugin.version>2.10.0</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
@@ -45,12 +45,22 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <!-- We redeclare the j2objc-annotations dependency from `guava`: Our Gradle
+         Module Metadata hides the dependency declared in `guava` from runtime
+         configurations downstream, and GWT uses the runtime configuration for
+         its builds. Thus, GWT doesn't get j2objc-annotations transitively, in
+         contrast to the other deps of `guava`, which it does get transitively.
+         (Arguably we should redeclare *all* the `guava` deps here.) -->
+    <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -90,6 +100,13 @@
       <version>${truth.version}</version>
       <classifier>gwt</classifier>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <!-- use the guava we're building. -->
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.truth.extensions</groupId>
@@ -97,6 +114,13 @@
       <version>${truth.version}</version>
       <classifier>gwt</classifier>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <!-- use the guava we're building. -->
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
@@ -235,7 +259,7 @@
           <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>failureaccess</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <classifier>sources</classifier>
           </dependency>
           <dependency>
@@ -321,6 +345,7 @@
           </execution>
         </executions>
       </plugin>
+      <!-- TODO(cpovirk): We really should try tbroyer's plugin instead of this legacy one. -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
@@ -335,6 +360,7 @@
               <module>com.google.common.ForceGuavaCompilation</module>
               <failOnError>true</failOnError>
               <logLevel>${gwt.logLevel}</logLevel>
+              <generateJsInteropExports>true</generateJsInteropExports>
               <validateOnly>true</validateOnly>
               <sourceLevel>1.8</sourceLevel>
               <!--

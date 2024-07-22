@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link UnmodifiableIterator}.
@@ -27,6 +28,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible
+@NullMarked
 public class UnmodifiableIteratorTest extends TestCase {
 
   @SuppressWarnings("DoNotCall")

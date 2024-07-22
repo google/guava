@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded by {@code Enum<E>}
@@ -27,6 +28,7 @@ import java.util.Map.Entry;
  *
  * @author Hayward Chan
  */
+@NullMarked
 final class ImmutableEnumMap<K, V> extends ForwardingImmutableMap<K, V> {
   static <K, V> ImmutableMap<K, V> asImmutable(Map<K, V> map) {
     for (Entry<K, V> entry : checkNotNull(map).entrySet()) {

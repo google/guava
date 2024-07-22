@@ -36,6 +36,7 @@ public class ToStringHelperBenchmark {
 
   enum Dataset {
     SMALL {
+      @Override
       void addEntries(MoreObjects.ToStringHelper helper) {
         helper
             .add(SHORT_NAME, 10)
@@ -47,6 +48,7 @@ public class ToStringHelperBenchmark {
       }
     },
     CONDITIONAL {
+      @Override
       void addEntries(MoreObjects.ToStringHelper helper) {
         helper
             .add(SHORT_NAME, "x")
@@ -82,6 +84,7 @@ public class ToStringHelperBenchmark {
       }
     },
     UNCONDITIONAL {
+      @Override
       void addEntries(MoreObjects.ToStringHelper helper) {
         helper
             .add(SHORT_NAME, false)

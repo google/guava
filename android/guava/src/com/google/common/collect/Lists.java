@@ -77,7 +77,9 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
@@ -119,7 +121,9 @@ public final class Lists {
    *
    * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
    * the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
@@ -160,9 +164,10 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. (Unlike here, there is no risk
-   * of overload ambiguity, since the {@code ArrayList} constructors very wisely did not accept
-   * varargs.)
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>. (Unlike here, there is no risk of overload ambiguity, since the {@code ArrayList}
+   * constructors very wisely did not accept varargs.)
    *
    * @param initialArraySize the exact size of the initial backing array for the returned array list
    *     ({@code ArrayList} documentation calls this value the "capacity")
@@ -210,7 +215,9 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
@@ -231,7 +238,9 @@ public final class Lists {
    *
    * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
    * the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
-   * taking advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * taking advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
@@ -524,7 +533,7 @@ public final class Lists {
    * serialize the copy. Other methods similar to this do not implement serialization at all for
    * this reason.
    *
-   * <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+   * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
    * java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
    * to migrate to streams.
    */
@@ -563,6 +572,11 @@ public final class Lists {
     @Override
     public int size() {
       return fromList.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return fromList.isEmpty();
     }
 
     @Override
@@ -624,8 +638,6 @@ public final class Lists {
         }
       };
     }
-
-    // TODO: cpovirk - Why override `isEmpty` here but not in TransformingSequentialList?
 
     @Override
     public boolean isEmpty() {
@@ -764,6 +776,15 @@ public final class Lists {
     @Override
     public int size() {
       return string.length();
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
     }
   }
 

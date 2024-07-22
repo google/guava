@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -69,8 +70,7 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   }
 
   @Override
-  @Nullable
-  Object @Nullable [] internalArray() {
+  @Nullable Object @Nullable [] internalArray() {
     return delegateList.internalArray();
   }
 
@@ -87,5 +87,14 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   @Override
   public E get(int index) {
     return delegateList.get(index);
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 }

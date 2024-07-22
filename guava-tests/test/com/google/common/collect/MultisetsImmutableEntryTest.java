@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset.Entry;
 import java.util.Collections;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -28,14 +29,15 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible
+@NullMarked
 public class MultisetsImmutableEntryTest extends TestCase {
   private static final @Nullable String NE = null;
 
-  private static <E> Entry<E> entry(final E element, final int count) {
+  private static <E extends @Nullable Object> Entry<E> entry(final E element, final int count) {
     return Multisets.immutableEntry(element, count);
   }
 
-  private static <E> Entry<E> control(E element, int count) {
+  private static <E extends @Nullable Object> Entry<E> control(E element, int count) {
     return HashMultiset.create(Collections.nCopies(count, element)).entrySet().iterator().next();
   }
 

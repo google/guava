@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -42,7 +43,6 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  */
 @NullMarked
-@J2ktIncompatible // TODO(b/278877942): Enable
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
@@ -125,6 +125,7 @@ public class PreconditionsTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible // TODO(b/319404022): Allow passing null array as varargs
   public void testCheckArgument_singleNullArray_failure() {
     try {
       Preconditions.checkArgument(false, "A %s C", (Object[]) null);
@@ -398,12 +399,11 @@ public class PreconditionsTest extends TestCase {
       checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
 
       Object[] failingParams = getParametersForSignature(false, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), IllegalArgumentException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), IllegalArgumentException.class, failingParams);
     }
   }
 
@@ -416,12 +416,11 @@ public class PreconditionsTest extends TestCase {
       checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
 
       Object[] failingParams = getParametersForSignature(false, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), IllegalStateException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), IllegalStateException.class, failingParams);
     }
   }
 
@@ -435,12 +434,11 @@ public class PreconditionsTest extends TestCase {
           null /* static method */, getParametersForSignature(new Object(), sig));
 
       Object[] failingParams = getParametersForSignature(null, sig);
-      try {
-        checkArgumentMethod.invoke(null /* static method */, failingParams);
-        fail();
-      } catch (InvocationTargetException ite) {
-        assertFailureCause(ite.getCause(), NullPointerException.class, failingParams);
-      }
+      InvocationTargetException ite =
+          assertThrows(
+              InvocationTargetException.class,
+              () -> checkArgumentMethod.invoke(null /* static method */, failingParams));
+      assertFailureCause(ite.getCause(), NullPointerException.class, failingParams);
     }
   }
 

@@ -23,13 +23,12 @@ import static java.util.Comparator.naturalOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
-import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -38,8 +37,8 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 public class ComparatorsTest extends TestCase {
-  @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {
     Comparator<String> comparator = Ordering.natural();
     Comparator<Iterable<String>> lexy = Comparators.lexicographical(comparator);
@@ -79,20 +78,6 @@ public class ComparatorsTest extends TestCase {
     assertTrue(Comparators.isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
   }
 
-  public void testLeastCollector() {
-    CollectorTester.of(Comparators.<Integer>least(2, Comparator.naturalOrder()))
-        .expectCollects(Arrays.asList(1, 2), 1, 2, 3, 4, 5, 6)
-        .expectCollects(Arrays.asList(1), 1)
-        .expectCollects(Collections.emptyList());
-  }
-
-  public void testGreatestCollector() {
-    CollectorTester.of(Comparators.<Integer>greatest(2, Comparator.naturalOrder()))
-        .expectCollects(Arrays.asList(6, 5), 1, 2, 3, 4, 5, 6)
-        .expectCollects(Arrays.asList(1), 1)
-        .expectCollects(Collections.emptyList());
-  }
-
   public void testEmptiesFirst() {
     Optional<String> empty = Optional.empty();
     Optional<String> abc = Optional.of("abc");
@@ -102,7 +87,7 @@ public class ComparatorsTest extends TestCase {
     Helpers.testComparator(comparator, empty, z, abc);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesFirst(naturalOrder());
+    Comparator<Optional<String>> unused = Comparators.emptiesFirst(naturalOrder());
   }
 
   public void testEmptiesLast() {
@@ -114,7 +99,7 @@ public class ComparatorsTest extends TestCase {
     Helpers.testComparator(comparator, z, abc, empty);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesLast(naturalOrder());
+    Comparator<Optional<String>> unused = Comparators.emptiesLast(naturalOrder());
   }
 
   public void testMinMaxNatural() {
@@ -138,6 +123,29 @@ public class ComparatorsTest extends TestCase {
     assertThat(Comparators.min(2, 1, reverse)).isEqualTo(2);
     assertThat(Comparators.max(1, 2, reverse)).isEqualTo(1);
     assertThat(Comparators.max(2, 1, reverse)).isEqualTo(1);
+  }
+
+  /**
+   * Fails compilation if the signature of min and max is changed to take {@code Comparator<T>}
+   * instead of {@code Comparator<? super T>}.
+   */
+  public void testMinMaxWithSupertypeComparator() {
+    Comparator<Number> numberComparator =
+        // Can't use Comparator.comparing(Number::intValue) due to Java 7 compatibility.
+        new Comparator<Number>() {
+          @Override
+          public int compare(Number a, Number b) {
+            return a.intValue() - b.intValue();
+          }
+        };
+    Integer comparand1 = 1;
+    Integer comparand2 = 2;
+
+    Integer min = Comparators.min(comparand1, comparand2, numberComparator);
+    Integer max = Comparators.max(comparand1, comparand2, numberComparator);
+
+    assertThat(min).isEqualTo(1);
+    assertThat(max).isEqualTo(2);
   }
 
   public void testMinMaxComparator_equalInstances() {

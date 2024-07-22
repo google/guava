@@ -116,7 +116,7 @@ public interface ListeningExecutorService extends ExecutorService {
   /**
    * Duration-based overload of {@link #invokeAll(Collection, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 32.1.0
    */
   @J2ktIncompatible
   default <T extends @Nullable Object> List<Future<T>> invokeAll(
@@ -127,7 +127,7 @@ public interface ListeningExecutorService extends ExecutorService {
   /**
    * Duration-based overload of {@link #invokeAny(Collection, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 32.1.0
    */
   @J2ktIncompatible
   default <T extends @Nullable Object> T invokeAny(
@@ -139,7 +139,7 @@ public interface ListeningExecutorService extends ExecutorService {
   /**
    * Duration-based overload of {@link #awaitTermination(long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 32.1.0
    */
   @J2ktIncompatible
   default boolean awaitTermination(Duration timeout) throws InterruptedException {

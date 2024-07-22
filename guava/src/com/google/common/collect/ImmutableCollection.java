@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -366,7 +367,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       case 1:
         return ImmutableList.of(iterator().next());
       default:
-        return new RegularImmutableAsList<E>(this, toArray());
+        return new RegularImmutableAsList<>(this, toArray());
     }
   }
 
@@ -391,6 +392,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
@@ -503,4 +505,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      */
     public abstract ImmutableCollection<E> build();
   }
+
+  private static final long serialVersionUID = 0xcafebabe;
 }

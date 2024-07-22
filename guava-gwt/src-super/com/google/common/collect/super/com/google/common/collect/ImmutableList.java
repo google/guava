@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
+import jsinterop.annotations.JsMethod;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -37,10 +39,9 @@ import org.jspecify.annotations.Nullable;
  * @author Hayward Chan
  */
 @SuppressWarnings("serial") // we're overriding default serialization
+@NullMarked
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-  static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(Collections.emptyList());
 
   ImmutableList() {}
 
@@ -51,11 +52,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableList<E> of() {
-    return (ImmutableList<E>) EMPTY;
+    return (ImmutableList<E>) RegularImmutableList.EMPTY;
   }
 
-  public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(checkNotNull(element));
+  public static <E> ImmutableList<E> of(E e1) {
+    return new SingletonImmutableList<E>(checkNotNull(e1));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2) {
@@ -118,6 +119,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     System.arraycopy(source, 0, dest, pos, source.length);
   }
 
+  /** ImmutableList.of API that is friendly to use from JavaScript. */
+  @JsMethod(name = "of")
+  static <E> ImmutableList<E> jsOf(E... elements) {
+    return copyOf(elements);
+  }
+
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
     return (elements instanceof Collection)
@@ -142,6 +149,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return copyFromCollection(elements);
   }
 
+  @JsMethod
   public static <E> ImmutableList<E> copyOf(E[] elements) {
     checkNotNull(elements); // eager for GWT
     return copyOf(Arrays.asList(elements));
@@ -153,7 +161,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       case 0:
         return of();
       case 1:
-        return of((E) elements[0]);
+        @SuppressWarnings("unchecked") // safe because it came from `collection`
+        E element = (E) elements[0];
+        return of(element);
       default:
         return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
     }
@@ -186,8 +196,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
       Iterable<? extends E> elements) {
-    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
-    checkElementsNotNull(array);
+    Comparable<?>[] array = Iterables.toArray(elements, new Comparable<?>[0]);
+    checkElementsNotNull((Object[]) array);
     Arrays.sort(array);
     return asImmutableList(array);
   }
@@ -342,6 +352,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
     @Override
     public ImmutableList<E> build() {
+      return copyOf(contents);
+    }
+
+    ImmutableList<E> buildSorted(Comparator<? super E> comparator) {
+      Collections.sort(contents, comparator);
       return copyOf(contents);
     }
   }

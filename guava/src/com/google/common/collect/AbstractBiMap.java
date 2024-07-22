@@ -19,12 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -219,7 +221,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return inverse;
   }
 
-  private transient @Nullable Set<K> keySet;
+  @LazyInit private transient @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -264,7 +266,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient @Nullable Set<V> valueSet;
+  @LazyInit private transient @Nullable Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -307,7 +309,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient @Nullable Set<Entry<K, V>> entrySet;
+  @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -488,7 +490,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
-      setInverse((AbstractBiMap<V, K>) stream.readObject());
+      setInverse((AbstractBiMap<V, K>) requireNonNull(stream.readObject()));
     }
 
     @GwtIncompatible // Not needed in the emulated source.

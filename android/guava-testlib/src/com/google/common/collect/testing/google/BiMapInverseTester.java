@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SERIA
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -72,11 +73,13 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
    * Returns {@link Method} instances for the tests that assume that the inverse will be the same
    * after serialization.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getInverseSameAfterSerializingMethods() {
     return Collections.singletonList(getMethod("testInverseSerialization"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   private static Method getMethod(String methodName) {
     return Helpers.getMethod(BiMapInverseTester.class, methodName);

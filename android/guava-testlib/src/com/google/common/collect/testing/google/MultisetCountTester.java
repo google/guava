@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -86,6 +87,7 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
    * Returns {@link Method} instances for the read tests that assume multisets support duplicates so
    * that the test of {@code Multisets.forSet()} can suppress them.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getCountDuplicateInitializingMethods() {
     return Arrays.asList(Helpers.getMethod(MultisetCountTester.class, "testCount_3"));

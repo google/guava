@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -57,6 +58,7 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
    * Returns the {@link Method} instance for {@link #testAdd_supportedNullPresent()} so that tests
    * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddSupportedNullPresentMethod() {
     return Helpers.getMethod(SetAddTester.class, "testAdd_supportedNullPresent");

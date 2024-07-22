@@ -162,33 +162,6 @@ public final class Escapers {
   }
 
   /**
-   * Returns a {@link UnicodeEscaper} equivalent to the given escaper instance. If the escaper is
-   * already a UnicodeEscaper then it is simply returned, otherwise it is wrapped in a
-   * UnicodeEscaper.
-   *
-   * <p>When a {@link CharEscaper} escaper is wrapped by this method it acquires extra behavior with
-   * respect to the well-formedness of Unicode character sequences and will throw {@link
-   * IllegalArgumentException} when given bad input.
-   *
-   * @param escaper the instance to be wrapped
-   * @return a UnicodeEscaper with the same behavior as the given instance
-   * @throws NullPointerException if escaper is null
-   * @throws IllegalArgumentException if escaper is not a UnicodeEscaper or a CharEscaper
-   */
-  static UnicodeEscaper asUnicodeEscaper(Escaper escaper) {
-    checkNotNull(escaper);
-    if (escaper instanceof UnicodeEscaper) {
-      return (UnicodeEscaper) escaper;
-    } else if (escaper instanceof CharEscaper) {
-      return wrap((CharEscaper) escaper);
-    }
-    // In practice this shouldn't happen because it would be very odd not to
-    // extend either CharEscaper or UnicodeEscaper for non-trivial cases.
-    throw new IllegalArgumentException(
-        "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());
-  }
-
-  /**
    * Returns a string that would replace the given character in the specified escaper, or {@code
    * null} if no replacement should be made. This method is intended for use in tests through the
    * {@code EscaperAsserts} class; production users of {@link CharEscaper} should limit themselves
@@ -216,55 +189,5 @@ public final class Escapers {
 
   private static @Nullable String stringOrNull(char @Nullable [] in) {
     return (in == null) ? null : new String(in);
-  }
-
-  /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
-  private static UnicodeEscaper wrap(CharEscaper escaper) {
-    return new UnicodeEscaper() {
-      @Override
-      protected char @Nullable [] escape(int cp) {
-        // If a code point maps to a single character, just escape that.
-        if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-          return escaper.escape((char) cp);
-        }
-        // Convert the code point to a surrogate pair and escape them both.
-        // Note: This code path is horribly slow and typically allocates 4 new
-        // char[] each time it is invoked. However this avoids any
-        // synchronization issues and makes the escaper thread safe.
-        char[] surrogateChars = new char[2];
-        Character.toChars(cp, surrogateChars, 0);
-        char[] hiChars = escaper.escape(surrogateChars[0]);
-        char[] loChars = escaper.escape(surrogateChars[1]);
-
-        // If either hiChars or lowChars are non-null, the CharEscaper is trying
-        // to escape the characters of a surrogate pair separately. This is
-        // uncommon and applies only to escapers that assume UCS-2 rather than
-        // UTF-16. See: http://en.wikipedia.org/wiki/UTF-16/UCS-2
-        if (hiChars == null && loChars == null) {
-          // We expect this to be the common code path for most escapers.
-          return null;
-        }
-        // Combine the characters and/or escaped sequences into a single array.
-        int hiCount = hiChars != null ? hiChars.length : 1;
-        int loCount = loChars != null ? loChars.length : 1;
-        char[] output = new char[hiCount + loCount];
-        if (hiChars != null) {
-          // TODO: Is this faster than System.arraycopy() for small arrays?
-          for (int n = 0; n < hiChars.length; ++n) {
-            output[n] = hiChars[n];
-          }
-        } else {
-          output[0] = surrogateChars[0];
-        }
-        if (loChars != null) {
-          for (int n = 0; n < loChars.length; ++n) {
-            output[hiCount + n] = loChars[n];
-          }
-        } else {
-          output[hiCount] = surrogateChars[1];
-        }
-        return output;
-      }
-    };
   }
 }

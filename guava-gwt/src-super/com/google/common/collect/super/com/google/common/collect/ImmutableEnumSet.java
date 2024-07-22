@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWT emulation of {@link ImmutableEnumSet}. The type parameter is not bounded by {@code Enum<E>}
@@ -24,6 +25,7 @@ import java.util.Set;
  *
  * @author Hayward Chan
  */
+@NullMarked
 final class ImmutableEnumSet<E> extends ForwardingImmutableSet<E> {
   static <E> ImmutableSet<E> asImmutable(Set<E> delegate) {
     switch (delegate.size()) {

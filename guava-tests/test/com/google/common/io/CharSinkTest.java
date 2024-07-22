@@ -20,6 +20,7 @@ import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -104,11 +105,7 @@ public class CharSinkTest extends IoTestCase {
     for (TestOption option : EnumSet.of(OPEN_THROWS, READ_THROWS, CLOSE_THROWS)) {
       TestCharSource failSource = new TestCharSource(STRING, option);
       TestCharSink okSink = new TestCharSink();
-      try {
-        failSource.copyTo(okSink);
-        fail();
-      } catch (IOException expected) {
-      }
+      assertThrows(IOException.class, () -> failSource.copyTo(okSink));
       // ensure writer was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if source.newReader() throws).
       assertTrue(
@@ -119,21 +116,13 @@ public class CharSinkTest extends IoTestCase {
 
   public void testClosesOnErrors_whenWriteThrows() {
     TestCharSink failSink = new TestCharSink(WRITE_THROWS);
-    try {
-      new TestCharSource(STRING).copyTo(failSink);
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> new TestCharSource(STRING).copyTo(failSink));
     assertTrue(failSink.wasStreamClosed());
   }
 
   public void testClosesOnErrors_whenWritingFromReaderThatThrows() {
     TestCharSink okSink = new TestCharSink();
-    try {
-      okSink.writeFrom(new TestReader(READ_THROWS));
-      fail();
-    } catch (IOException expected) {
-    }
+    assertThrows(IOException.class, () -> okSink.writeFrom(new TestReader(READ_THROWS)));
     assertTrue(okSink.wasStreamClosed());
   }
 }

@@ -26,9 +26,11 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /** Tests for {@code CollectSpliterators}. */
 @GwtCompatible
+@NullMarked
 public class CollectSpliteratorsTest extends TestCase {
   public void testMap() {
     SpliteratorTester.of(

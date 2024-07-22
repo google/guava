@@ -45,7 +45,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
       case 1:
         return ImmutableSet.of(Iterables.getOnlyElement(set));
       default:
-        return new ImmutableEnumSet<E>(set);
+        return new ImmutableEnumSet<>(set);
     }
   }
 

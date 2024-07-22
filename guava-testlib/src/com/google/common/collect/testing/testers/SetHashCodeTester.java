@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -69,6 +70,7 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
    * hashCode()} on the set values so that set tests on unhashable objects can suppress it with
    * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method[] getHashCodeMethods() {
     return new Method[] {

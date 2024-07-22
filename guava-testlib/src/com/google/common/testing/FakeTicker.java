@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ticker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import org.jspecify.annotations.NullMarked;
@@ -68,7 +69,8 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  public FakeTicker advance(java.time.Duration duration) {
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
+  public FakeTicker advance(Duration duration) {
     return advance(duration.toNanos());
   }
 
@@ -97,7 +99,8 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  public FakeTicker setAutoIncrementStep(java.time.Duration autoIncrementStep) {
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
+  public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
     return setAutoIncrementStep(autoIncrementStep.toNanos(), TimeUnit.NANOSECONDS);
   }
 

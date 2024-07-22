@@ -43,7 +43,6 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
 import org.junit.Test;
@@ -309,7 +308,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     this.classFilter = and(this.classFilter, not(condition));
   }
 
-  private static AssertionFailedError sanityError(
+  private static AssertionError sanityError(
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
     String message =
         String.format(
@@ -320,9 +319,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
             cls,
             explicitTestNames.get(0),
             cls.getName());
-    AssertionFailedError error = new AssertionFailedError(message);
-    error.initCause(e);
-    return error;
+    return new AssertionError(message, e);
   }
 
   /**

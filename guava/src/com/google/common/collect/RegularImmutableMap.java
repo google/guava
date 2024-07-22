@@ -35,7 +35,10 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} with two or more entries.
+ * Implementation of {@link ImmutableMap} used for 0 entries and for 2+ entries. Additional
+ * implementations exist for particular cases, like {@link ImmutableTable} views and hash flooding.
+ * (This doc discusses {@link ImmutableMap} subclasses only for the JRE flavor; the Android flavor
+ * differs.)
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
@@ -65,7 +68,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
    * implementation. Experimentally determined.
    */
-  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 8;
+  static final int MAX_HASH_BUCKET_LENGTH = 8;
 
   // entries in insertion order
   @VisibleForTesting final transient Entry<K, V>[] entries;
@@ -341,6 +344,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return map.size();
     }
 
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
+
     // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
     @J2ktIncompatible
@@ -389,6 +401,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return true;
     }
 
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible // serialization
+    @GwtIncompatible // serialization
+    Object writeReplace() {
+      return super.writeReplace();
+    }
+
     // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
     @J2ktIncompatible
@@ -407,6 +428,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       @J2ktIncompatible // serialization
       private static final long serialVersionUID = 0;
     }
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  @GwtIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 
   // This class is never actually serialized directly, but we have to make the

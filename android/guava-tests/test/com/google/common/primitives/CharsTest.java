@@ -42,7 +42,6 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class CharsTest extends TestCase {
   private static final char[] EMPTY = {};
   private static final char[] ARRAY1 = {(char) 1};
@@ -90,14 +89,12 @@ public class CharsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {
-        // note: spec requires only that the sign is the same
         assertWithMessage(x + ", " + y)
-            .that(Chars.compare(x, y))
-            .isEqualTo(Character.valueOf(x).compareTo(y));
+            .that(Math.signum(Chars.compare(x, y)))
+            .isEqualTo(Math.signum(Character.valueOf(x).compareTo(y)));
       }
     }
   }
@@ -226,14 +223,12 @@ public class CharsTest extends TestCase {
         .isEqualTo(new char[] {(char) 1, (char) 2, (char) 3, (char) 4});
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArray() {
     assertThat(Chars.fromByteArray(new byte[] {0x23, 0x45, (byte) 0xDC})).isEqualTo('\u2345');
     assertThat(Chars.fromByteArray(new byte[] {(byte) 0xFE, (byte) 0xDC})).isEqualTo('\uFEDC');
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
@@ -243,14 +238,12 @@ public class CharsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Chars.fromBytes
   public void testFromBytes() {
     assertThat(Chars.fromBytes((byte) 0x23, (byte) 0x45)).isEqualTo('\u2345');
     assertThat(Chars.fromBytes((byte) 0xFE, (byte) 0xDC)).isEqualTo('\uFEDC');
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTrips() {
     char c = 0;
@@ -278,7 +271,6 @@ public class CharsTest extends TestCase {
     assertThat(c).isEqualTo((char) 0); // sanity check
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {

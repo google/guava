@@ -22,6 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 import java.util.Map;
 import java.util.TreeMap;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Tables#newCustomTable}.
@@ -29,10 +31,11 @@ import java.util.TreeMap;
  * @author Jared Levy
  */
 @GwtCompatible
-public class NewCustomTableTest extends AbstractTableTest {
+@NullMarked
+public class NewCustomTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Supplier<TreeMap<Integer, Character>> factory =
         new Supplier<TreeMap<Integer, Character>>() {
           @Override

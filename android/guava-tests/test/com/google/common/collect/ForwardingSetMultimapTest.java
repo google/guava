@@ -33,10 +33,10 @@ public class ForwardingSetMultimapTest extends TestCase {
     new ForwardingWrapperTester()
         .testForwarding(
             SetMultimap.class,
-            new Function<SetMultimap, SetMultimap>() {
+            new Function<SetMultimap, SetMultimap<?, ?>>() {
               @Override
-              public SetMultimap apply(SetMultimap delegate) {
-                return wrap(delegate);
+              public SetMultimap<?, ?> apply(SetMultimap delegate) {
+                return wrap((SetMultimap<?, ?>) delegate);
               }
             });
   }

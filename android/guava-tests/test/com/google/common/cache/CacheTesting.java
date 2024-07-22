@@ -79,7 +79,6 @@ class CacheTesting {
    * that the given entry is a weak or soft reference, and throws an IllegalStateException if that
    * assumption does not hold.
    */
-  @SuppressWarnings("unchecked") // the instanceof check and the cast generate this warning
   static <K, V> void simulateKeyReclamation(Cache<K, V> cache, K key) {
     ReferenceEntry<K, V> entry = getReferenceEntry(cache, key);
 

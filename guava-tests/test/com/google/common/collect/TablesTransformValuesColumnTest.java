@@ -21,8 +21,10 @@ import static com.google.common.collect.TableCollectionTest.DIVIDE_BY_2;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
+@NullMarked
 public class TablesTransformValuesColumnTest extends ColumnTests {
   public TablesTransformValuesColumnTest() {
     super(false, false, true, true, false);

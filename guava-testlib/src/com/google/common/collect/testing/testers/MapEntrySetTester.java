@@ -27,6 +27,7 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -141,26 +142,31 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableKeyMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableKey");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableValue");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testSetValue");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetValueWithNullValuesPresentMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesPresent");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetValueWithNullValuesAbsentMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesAbsent");

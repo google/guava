@@ -31,6 +31,7 @@ import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -135,7 +136,7 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(command, "command must not be null");
     Preconditions.checkNotNull(unit, "unit must not be null!");
-    return schedule(java.util.concurrent.Executors.callable(command), delay, unit);
+    return schedule(Executors.callable(command), delay, unit);
   }
 
   @Override
@@ -147,11 +148,9 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
     return new ImmediateScheduledFuture<>(delegateFuture);
   }
 
-  private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
+  private static final class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
       implements ListenableScheduledFuture<V> {
-    private ExecutionException exception;
-
-    protected ImmediateScheduledFuture(ListenableFuture<V> future) {
+    ImmediateScheduledFuture(ListenableFuture<V> future) {
       super(future);
     }
 

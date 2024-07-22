@@ -46,8 +46,7 @@ import java.util.List;
 public abstract class AbstractCollectionTestSuiteBuilder<
         B extends AbstractCollectionTestSuiteBuilder<B, E>, E>
     extends PerCollectionSizeTestSuiteBuilder<B, TestCollectionGenerator<E>, Collection<E>, E> {
-  // Class parameters must be raw.
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     return Arrays.<Class<? extends AbstractTester>>asList(

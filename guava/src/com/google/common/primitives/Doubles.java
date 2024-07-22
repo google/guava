@@ -24,7 +24,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -57,7 +56,7 @@ public final class Doubles extends DoublesMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code double} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#BYTES} instead.
    *
    * @since 10.0
    */
@@ -67,7 +66,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#hashCode(double)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#hashCode(double)} instead.
    *
    * @param value a primitive {@code double} value
    * @return a hash code for the value
@@ -101,7 +100,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#isFinite(double)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#isFinite(double)} instead.
    *
    * @since 10.0
    */
@@ -290,7 +289,7 @@ public final class Doubles extends DoublesMethodsForWeb {
 
   private static final class DoubleConverter extends Converter<String, Double>
       implements Serializable {
-    static final DoubleConverter INSTANCE = new DoubleConverter();
+    static final Converter<String, Double> INSTANCE = new DoubleConverter();
 
     @Override
     protected Double doForward(String value) {
@@ -713,7 +712,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs
    * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.
    */
-  @J2ktIncompatible @GwtIncompatible // regular expressions
+  @GwtIncompatible // regular expressions
   static final java.util.regex.Pattern FLOATING_POINT_PATTERN = fpPattern();
 
   @GwtIncompatible // regular expressions
@@ -749,7 +748,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @J2ktIncompatible
   @GwtIncompatible // regular expressions
   public static @Nullable Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {

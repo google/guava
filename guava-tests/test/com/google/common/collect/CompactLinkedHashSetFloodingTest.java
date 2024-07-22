@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Set;
 
+@GwtIncompatible
 public class CompactLinkedHashSetFloodingTest extends AbstractHashFloodingTest<Set<Object>> {
   public CompactLinkedHashSetFloodingTest() {
     super(
