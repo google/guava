@@ -433,10 +433,10 @@
 <span class="sourceLineNo">424</span><a id="line.424">   *     context.getCacheDir()}), and create your own directory under that. (For example, you might</a>
 <span class="sourceLineNo">425</span><a id="line.425">   *     use {@code new File(context.getCacheDir(), "directoryname").mkdir()}, or, if you need an</a>
 <span class="sourceLineNo">426</span><a id="line.426">   *     arbitrary number of temporary directories, you might have to generate multiple directory</a>
-<span class="sourceLineNo">427</span><a id="line.427">   *     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer</a>
-<span class="sourceLineNo">428</span><a id="line.428">   *     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using</a>
-<span class="sourceLineNo">429</span><a id="line.429">   *     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this</a>
-<span class="sourceLineNo">430</span><a id="line.430">   *     method does, pass {@code</a>
+<span class="sourceLineNo">427</span><a id="line.427">   *     names in a loop until {@code mkdir()} returns {@code true}.) For JRE users, prefer {@link</a>
+<span class="sourceLineNo">428</span><a id="line.428">   *     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link</a>
+<span class="sourceLineNo">429</span><a id="line.429">   *     java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this method</a>
+<span class="sourceLineNo">430</span><a id="line.430">   *     does, pass {@code</a>
 <span class="sourceLineNo">431</span><a id="line.431">   *     PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))} to your</a>
 <span class="sourceLineNo">432</span><a id="line.432">   *     call to {@code createTempDirectory}.</a>
 <span class="sourceLineNo">433</span><a id="line.433">   */</a>

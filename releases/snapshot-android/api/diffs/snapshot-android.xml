@@ -3331,7 +3331,7 @@
  <p>This assumes that any non-null objects passed to this function conform to the {@code
  equals()} contract.
 
- <p><b>Java 7+ users:</b> This method should be treated as deprecated; use {@link
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
  java.util.Objects#equals} instead.]]>
       </doc>
     </method>
@@ -3358,7 +3358,7 @@
  <p><b>Warning:</b> When a single object is supplied, the returned hash code does not equal the
  hash code of that object.
 
- <p><b>Java 7+ users:</b> This method should be treated as deprecated; use {@link
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
  java.util.Objects#hash} instead.]]>
       </doc>
     </method>
@@ -46918,10 +46918,10 @@
      context.getCacheDir()}), and create your own directory under that. (For example, you might
      use {@code new File(context.getCacheDir(), quote_cHaRdirectorynamequote_cHaR).mkdir()}, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer
-     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using
-     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this
-     method does, pass {@code
+     names in a loop until {@code mkdir()} returns {@code true}.) For JRE users, prefer {@link
+     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link
+     java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this method
+     does, pass {@code
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString(quote_cHaRrwx------quote_cHaR))} to your
      call to {@code createTempDirectory}.">
       <doc>
@@ -46956,10 +46956,10 @@
      context.getCacheDir()}), and create your own directory under that. (For example, you might
      use {@code new File(context.getCacheDir(), "directoryname").mkdir()}, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until {@code mkdir()} returns {@code true}.) For Java 7+ users, prefer
-     {@link java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using
-     {@link java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this
-     method does, pass {@code
+     names in a loop until {@code mkdir()} returns {@code true}.) For JRE users, prefer {@link
+     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link
+     java.nio.file.Path#toFile() toFile()} if needed. To restrict permissions as this method
+     does, pass {@code
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))} to your
      call to {@code createTempDirectory}.]]>
       </doc>
@@ -55266,8 +55266,8 @@
  considered less than {@code true}). The sign of the value returned is the same as that of
  {@code ((Boolean) a).compareTo(b)}.
 
- <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
- Boolean#compare} method instead.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+ equivalent {@link Boolean#compare} method instead.
 
  @param a the first {@code boolean} to compare
  @param b the second {@code boolean} to compare
@@ -55836,8 +55836,8 @@
       <![CDATA[Compares the two specified {@code char} values. The sign of the value returned is the same as
  that of {@code ((Character) a).compareTo(b)}.
 
- <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
- Character#compare} method instead.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+ equivalent {@link Character#compare} method instead.
 
  @param a the first {@code char} to compare
  @param b the second {@code char} to compare
@@ -58395,8 +58395,8 @@
       <![CDATA[Compares the two specified {@code int} values. The sign of the value returned is the same as
  that of {@code ((Integer) a).compareTo(b)}.
 
- <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
- Integer#compare} method instead.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+ equivalent {@link Integer#compare} method instead.
 
  @param a the first {@code int} to compare
  @param b the second {@code int} to compare
@@ -58894,8 +58894,8 @@
       <![CDATA[Compares the two specified {@code long} values. The sign of the value returned is the same as
  that of {@code ((Long) a).compareTo(b)}.
 
- <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
- Long#compare} method instead.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+ equivalent {@link Long#compare} method instead.
 
  @param a the first {@code long} to compare
  @param b the second {@code long} to compare
@@ -59504,8 +59504,8 @@
       <![CDATA[Compares the two specified {@code short} values. The sign of the value returned is the same as
  that of {@code ((Short) a).compareTo(b)}.
 
- <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
- Short#compare} method instead.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+ equivalent {@link Short#compare} method instead.
 
  @param a the first {@code short} to compare
  @param b the second {@code short} to compare
