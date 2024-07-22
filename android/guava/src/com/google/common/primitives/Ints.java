@@ -772,8 +772,8 @@ public final class Ints extends IntsMethodsForWeb {
    * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
    * and returns {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
-   * the change to {@link Integer#parseInt(String)} for that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link
+   * Integer#parseInt(String)} accepts them.
    *
    * @param string the string representation of an integer value
    * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
@@ -794,8 +794,8 @@ public final class Ints extends IntsMethodsForWeb {
    * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
    * and returns {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
-   * the change to {@link Integer#parseInt(String, int)} for that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link
+   * Integer#parseInt(String)} accepts them.
    *
    * @param string the string representation of an integer value
    * @param radix the radix to use when parsing

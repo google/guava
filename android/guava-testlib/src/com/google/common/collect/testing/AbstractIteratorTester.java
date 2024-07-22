@@ -400,19 +400,13 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
         @SuppressWarnings("unchecked")
         E targetReturnValueFromNext = (E) targetReturnValue;
         /*
-         * We have an Iterator<E> and want to cast it to
-         * MultiExceptionListIterator. Because we're inside an
-         * AbstractIteratorTester<E>, that's implicitly a cast to
-         * AbstractIteratorTester<E>.MultiExceptionListIterator. The runtime
-         * won't be able to verify the AbstractIteratorTester<E> part, so it's
-         * an unchecked cast. We know, however, that the only possible value for
-         * the type parameter is <E>, since otherwise the
-         * MultiExceptionListIterator wouldn't be an Iterator<E>. The cast is
-         * safe, even though javac can't tell.
-         *
-         * Sun bug 6665356 is an additional complication. Until OpenJDK 7, javac
-         * doesn't recognize this kind of cast as unchecked cast. Neither does
-         * Eclipse 3.4. Right now, this suppression is mostly unnecessary.
+         * We have an Iterator<E> and want to cast it to MultiExceptionListIterator. Because we're
+         * inside an AbstractIteratorTester<E>, that's implicitly a cast to
+         * AbstractIteratorTester<E>.MultiExceptionListIterator. The runtime won't be able to verify
+         * the AbstractIteratorTester<E> part, so it's an unchecked cast. We know, however, that the
+         * only possible value for the type parameter is <E>, since otherwise the
+         * MultiExceptionListIterator wouldn't be an Iterator<E>. The cast is safe, even though
+         * javac can't tell.
          */
         @SuppressWarnings("unchecked")
         MultiExceptionListIterator multiExceptionListIterator =

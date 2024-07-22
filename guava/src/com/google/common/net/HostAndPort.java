@@ -190,7 +190,7 @@ public final class HostAndPort implements Serializable {
     int port = NO_PORT;
     if (!Strings.isNullOrEmpty(portString)) {
       // Try to parse the whole port string as a number.
-      // JDK7 accepts leading plus signs. We don't want to.
+      // Java accepts leading plus signs. We don't want to.
       checkArgument(
           !portString.startsWith("+") && CharMatcher.ascii().matchesAllOf(portString),
           "Unparseable port number: %s",
