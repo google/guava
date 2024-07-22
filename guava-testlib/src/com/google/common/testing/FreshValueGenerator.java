@@ -634,6 +634,7 @@ class FreshValueGenerator {
   <T extends @Nullable Object> Ordering<T> generateOrdering() {
     return new Ordering<T>() {
       @Override
+      @SuppressWarnings("UnusedVariable") // intentionally weird Comparator
       public int compare(T left, T right) {
         return 0;
       }

@@ -497,6 +497,7 @@ public final class ArbitraryInstances {
     private static final AlwaysEqual INSTANCE = new AlwaysEqual();
 
     @Override
+    @SuppressWarnings("UnusedVariable") // intentionally weird Comparator
     public int compare(@Nullable Object o1, @Nullable Object o2) {
       return 0;
     }
