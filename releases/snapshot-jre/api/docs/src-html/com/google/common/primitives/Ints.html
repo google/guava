@@ -788,8 +788,8 @@
 <span class="sourceLineNo">779</span><a id="line.779">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
 <span class="sourceLineNo">780</span><a id="line.780">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
 <span class="sourceLineNo">781</span><a id="line.781">   *</a>
-<span class="sourceLineNo">782</span><a id="line.782">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">783</span><a id="line.783">   * the change to {@link Integer#parseInt(String)} for that version.</a>
+<span class="sourceLineNo">782</span><a id="line.782">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">783</span><a id="line.783">   * Integer#parseInt(String)} accepts them.</a>
 <span class="sourceLineNo">784</span><a id="line.784">   *</a>
 <span class="sourceLineNo">785</span><a id="line.785">   * @param string the string representation of an integer value</a>
 <span class="sourceLineNo">786</span><a id="line.786">   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has</a>
@@ -810,8 +810,8 @@
 <span class="sourceLineNo">801</span><a id="line.801">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
 <span class="sourceLineNo">802</span><a id="line.802">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
 <span class="sourceLineNo">803</span><a id="line.803">   *</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">805</span><a id="line.805">   * the change to {@link Integer#parseInt(String, int)} for that version.</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * Integer#parseInt(String)} accepts them.</a>
 <span class="sourceLineNo">806</span><a id="line.806">   *</a>
 <span class="sourceLineNo">807</span><a id="line.807">   * @param string the string representation of an integer value</a>
 <span class="sourceLineNo">808</span><a id="line.808">   * @param radix the radix to use when parsing</a>

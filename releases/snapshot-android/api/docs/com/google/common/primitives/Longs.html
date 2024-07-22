@@ -768,8 +768,7 @@ public static&nbsp;java.lang.Long&nbsp;<a href="../../../../src-html/com/google/
  an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
  <code>null</code> if non-ASCII digits are present in the string.
 
- <p>Note that strings prefixed with ASCII <code>'+'</code> are rejected, even under JDK 7, despite
- the change to <code>Long.parseLong(String)</code> for that version.</div>
+ <p>Note that strings prefixed with ASCII <code>'+'</code> are rejected, even though <code>Integer.parseInt(String)</code> accepts them.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>string</code> - the string representation of a long value</dd>
@@ -799,8 +798,7 @@ public static&nbsp;java.lang.Long&nbsp;<a href="../../../../src-html/com/google/
  throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
  and returns <code>null</code> if non-ASCII digits are present in the string.
 
- <p>Note that strings prefixed with ASCII <code>'+'</code> are rejected, even under JDK 7, despite
- the change to <code>Long.parseLong(String, int)</code> for that version.</div>
+ <p>Note that strings prefixed with ASCII <code>'+'</code> are rejected, even though <code>Integer.parseInt(String)</code> accepts them.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>string</code> - the string representation of a long value</dd>

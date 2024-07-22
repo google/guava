@@ -371,8 +371,8 @@
 <span class="sourceLineNo">362</span><a id="line.362">   * an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns</a>
 <span class="sourceLineNo">363</span><a id="line.363">   * {@code null} if non-ASCII digits are present in the string.</a>
 <span class="sourceLineNo">364</span><a id="line.364">   *</a>
-<span class="sourceLineNo">365</span><a id="line.365">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">366</span><a id="line.366">   * the change to {@link Long#parseLong(String)} for that version.</a>
+<span class="sourceLineNo">365</span><a id="line.365">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">366</span><a id="line.366">   * Integer#parseInt(String)} accepts them.</a>
 <span class="sourceLineNo">367</span><a id="line.367">   *</a>
 <span class="sourceLineNo">368</span><a id="line.368">   * @param string the string representation of a long value</a>
 <span class="sourceLineNo">369</span><a id="line.369">   * @return the long value represented by {@code string}, or {@code null} if {@code string} has a</a>
@@ -393,8 +393,8 @@
 <span class="sourceLineNo">384</span><a id="line.384">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
 <span class="sourceLineNo">385</span><a id="line.385">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
 <span class="sourceLineNo">386</span><a id="line.386">   *</a>
-<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * the change to {@link Long#parseLong(String, int)} for that version.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * Integer#parseInt(String)} accepts them.</a>
 <span class="sourceLineNo">389</span><a id="line.389">   *</a>
 <span class="sourceLineNo">390</span><a id="line.390">   * @param string the string representation of a long value</a>
 <span class="sourceLineNo">391</span><a id="line.391">   * @param radix the radix to use when parsing</a>

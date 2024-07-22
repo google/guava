@@ -199,7 +199,7 @@
 <span class="sourceLineNo">190</span><a id="line.190">    int port = NO_PORT;</a>
 <span class="sourceLineNo">191</span><a id="line.191">    if (!Strings.isNullOrEmpty(portString)) {</a>
 <span class="sourceLineNo">192</span><a id="line.192">      // Try to parse the whole port string as a number.</a>
-<span class="sourceLineNo">193</span><a id="line.193">      // JDK7 accepts leading plus signs. We don't want to.</a>
+<span class="sourceLineNo">193</span><a id="line.193">      // Java accepts leading plus signs. We don't want to.</a>
 <span class="sourceLineNo">194</span><a id="line.194">      checkArgument(</a>
 <span class="sourceLineNo">195</span><a id="line.195">          !portString.startsWith("+") &amp;&amp; CharMatcher.ascii().matchesAllOf(portString),</a>
 <span class="sourceLineNo">196</span><a id="line.196">          "Unparseable port number: %s",</a>
