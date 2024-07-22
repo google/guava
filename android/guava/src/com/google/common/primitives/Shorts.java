@@ -109,8 +109,8 @@ public final class Shorts extends ShortsMethodsForWeb {
    * Compares the two specified {@code short} values. The sign of the value returned is the same as
    * that of {@code ((Short) a).compareTo(b)}.
    *
-   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
-   * Short#compare} method instead.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+   * equivalent {@link Short#compare} method instead.
    *
    * @param a the first {@code short} to compare
    * @param b the second {@code short} to compare

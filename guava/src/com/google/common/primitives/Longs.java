@@ -83,8 +83,8 @@ public final class Longs {
    * Compares the two specified {@code long} values. The sign of the value returned is the same as
    * that of {@code ((Long) a).compareTo(b)}.
    *
-   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
-   * Long#compare} method instead.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+   * equivalent {@link Long#compare} method instead.
    *
    * @param a the first {@code long} to compare
    * @param b the second {@code long} to compare

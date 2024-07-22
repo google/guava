@@ -110,8 +110,8 @@ public final class Ints extends IntsMethodsForWeb {
    * Compares the two specified {@code int} values. The sign of the value returned is the same as
    * that of {@code ((Integer) a).compareTo(b)}.
    *
-   * <p><b>Java 7+ users:</b> this method should be treated as deprecated; use the equivalent {@link
-   * Integer#compare} method instead.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+   * equivalent {@link Integer#compare} method instead.
    *
    * @param a the first {@code int} to compare
    * @param b the second {@code int} to compare
