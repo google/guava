@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -113,8 +114,9 @@ public final class Chars {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Character.compare(a, b)")
   public static int compare(char a, char b) {
-    return a - b; // safe due to restricted range
+    return Character.compare(a, b);
   }
 
   /**
@@ -391,7 +393,7 @@ public final class Chars {
     public int compare(char[] left, char[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Chars.compare(left[i], right[i]);
+        int result = Character.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }

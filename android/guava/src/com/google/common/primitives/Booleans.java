@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -121,8 +122,9 @@ public final class Booleans {
    * @return a positive number if only {@code a} is {@code true}, a negative number if only {@code
    *     b} is true, or zero if {@code a == b}
    */
+  @InlineMe(replacement = "Boolean.compare(a, b)")
   public static int compare(boolean a, boolean b) {
-    return (a == b) ? 0 : (a ? 1 : -1);
+    return Boolean.compare(a, b);
   }
 
   /**
@@ -310,7 +312,7 @@ public final class Booleans {
     public int compare(boolean[] left, boolean[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Booleans.compare(left[i], right[i]);
+        int result = Boolean.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }

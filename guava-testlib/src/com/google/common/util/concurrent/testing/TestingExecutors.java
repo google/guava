@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.AbstractListeningExecutorService;
 import com.google.common.util.concurrent.ListenableScheduledFuture;
@@ -166,7 +165,7 @@ public final class TestingExecutors {
 
       @Override
       public int compareTo(Delayed other) {
-        return Longs.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
+        return Long.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
       }
     }
   }

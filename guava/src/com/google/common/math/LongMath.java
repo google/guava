@@ -28,7 +28,6 @@ import static java.math.RoundingMode.HALF_UP;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -1255,7 +1254,7 @@ public final class LongMath {
     if (roundArbitrarilyAsLong == Long.MAX_VALUE) {
       /*
        * For most values, the conversion from roundArbitrarily to roundArbitrarilyAsLong is
-       * lossless. In that case we can compare x to roundArbitrarily using Longs.compare(x,
+       * lossless. In that case we can compare x to roundArbitrarily using Long.compare(x,
        * roundArbitrarilyAsLong). The exception is for values where the conversion to double rounds
        * up to give roundArbitrarily equal to 2^63, so the conversion back to long overflows and
        * roundArbitrarilyAsLong is Long.MAX_VALUE. (This is the only way this condition can occur as
@@ -1265,7 +1264,7 @@ public final class LongMath {
        */
       cmpXToRoundArbitrarily = -1;
     } else {
-      cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+      cmpXToRoundArbitrarily = Long.compare(x, roundArbitrarilyAsLong);
     }
 
     switch (mode) {
@@ -1324,7 +1323,7 @@ public final class LongMath {
             deltaToCeiling++;
           }
 
-          int diff = Longs.compare(deltaToFloor, deltaToCeiling);
+          int diff = Long.compare(deltaToFloor, deltaToCeiling);
           if (diff < 0) { // closer to floor
             return roundFloorAsDouble;
           } else if (diff > 0) { // closer to ceiling

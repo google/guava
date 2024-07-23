@@ -366,6 +366,8 @@ public final class UnsignedBytes {
       }
 
       @Override
+      // Long.compareUnsigned is available under Android, which is what we really care about.
+      @SuppressWarnings("Java7ApiChecker")
       public int compare(byte[] left, byte[] right) {
         int stride = 8;
         int minLength = Math.min(left.length, right.length);
@@ -381,7 +383,7 @@ public final class UnsignedBytes {
           long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);
           if (lw != rw) {
             if (BIG_ENDIAN) {
-              return UnsignedLongs.compare(lw, rw);
+              return Long.compareUnsigned(lw, rw);
             }
 
             /*

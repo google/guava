@@ -20,7 +20,6 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -230,7 +229,7 @@ public class GeneratedMonitorTest extends TestCase {
             if (nameComparison != 0) {
               return nameComparison;
             } else {
-              return Ints.compare(m1.getParameterTypes().length, m2.getParameterTypes().length);
+              return Integer.compare(m1.getParameterTypes().length, m2.getParameterTypes().length);
             }
           }
         });

@@ -91,8 +91,8 @@ public class UnsignedBytesTest extends TestCase {
         byte y = VALUES[j];
         // note: spec requires only that the sign is the same
         assertWithMessage(x + ", " + y)
-            .that(Math.signum(Ints.compare(i, j)))
-            .isEqualTo(Math.signum(UnsignedBytes.compare(x, y)));
+            .that(Math.signum(UnsignedBytes.compare(x, y)))
+            .isEqualTo(Math.signum(Integer.compare(i, j)));
       }
     }
   }

@@ -33,7 +33,6 @@ import static java.lang.Math.rint;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.primitives.Booleans;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -393,7 +392,7 @@ public final class DoubleMath {
     } else if (a > b) {
       return 1;
     } else {
-      return Booleans.compare(Double.isNaN(a), Double.isNaN(b));
+      return Boolean.compare(Double.isNaN(a), Double.isNaN(b));
     }
   }
 

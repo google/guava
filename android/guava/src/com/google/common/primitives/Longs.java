@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -89,8 +90,9 @@ public final class Longs {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Long.compare(a, b)")
   public static int compare(long a, long b) {
-    return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    return Long.compare(a, b);
   }
 
   /**
@@ -543,7 +545,7 @@ public final class Longs {
     public int compare(long[] left, long[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Longs.compare(left[i], right[i]);
+        int result = Long.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }

@@ -33,7 +33,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.primitives.Ints;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
@@ -104,7 +103,7 @@ public final class ClassSanityTester {
       new Ordering<Invokable<?, ?>>() {
         @Override
         public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
-          return Ints.compare(left.getParameters().size(), right.getParameters().size());
+          return Integer.compare(left.getParameters().size(), right.getParameters().size());
         }
       };
 

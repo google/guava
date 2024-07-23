@@ -31,7 +31,6 @@ import com.google.common.base.Functions;
 import com.google.common.collect.Ordering.ArbitraryOrdering;
 import com.google.common.collect.Ordering.IncomparableValueException;
 import com.google.common.collect.testing.Helpers;
-import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -209,6 +208,7 @@ public class OrderingTest extends TestCase {
     reserializeAndAssert(c);
   }
 
+  @SuppressWarnings("DistinctVarargsChecker") // test of buggy call
   public void testExplicit_withDuplicates() {
     try {
       Ordering.explicit(1, 2, 3, 4, 2);
@@ -1143,7 +1143,7 @@ public class OrderingTest extends TestCase {
     // order of 't'.
     @Override
     public int compareTo(Composite<T> that) {
-      return Ints.compare(rank, that.rank);
+      return Integer.compare(rank, that.rank);
     }
 
     static <T extends @Nullable Object> Function<Composite<T>, T> getValueFunction() {
