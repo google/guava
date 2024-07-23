@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.59">ComparisonChain</a>
+public abstract class <a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.56">ComparisonChain</a>
 extends java.lang.Object</pre>
 <div class="block">A utility for performing a chained comparison statement. For example:
 
@@ -210,8 +210,8 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compare(int,int)">compare</a></span>&#8203;(int&nbsp;left,
        int&nbsp;right)</code></th>
 <td class="colLast">
-<div class="block">Compares two <code>int</code> values as specified by <a href="../primitives/Ints.html#compare(int,int)"><code>Ints.compare(int, int)</code></a>, <i>if</i> the result of
- this comparison chain has not already been determined.</div>
+<div class="block">Compares two <code>int</code> values as specified by <code>Integer.compare(int, int)</code>, <i>if</i> the result
+ of this comparison chain has not already been determined.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -219,7 +219,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compare(long,long)">compare</a></span>&#8203;(long&nbsp;left,
        long&nbsp;right)</code></th>
 <td class="colLast">
-<div class="block">Compares two <code>long</code> values as specified by <a href="../primitives/Longs.html#compare(long,long)"><code>Longs.compare(long, long)</code></a>, <i>if</i> the result of
+<div class="block">Compares two <code>long</code> values as specified by <code>Long.compare(long, long)</code>, <i>if</i> the result of
  this comparison chain has not already been determined.</div>
 </td>
 </tr>
@@ -316,7 +316,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>start</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.65">start</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.62">start</a>()</pre>
 <div class="block">Begins a new chained comparison statement. See example in the class documentation.</div>
 </li>
 </ul>
@@ -326,7 +326,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.197">compare</a>&#8203;(java.lang.Comparable&lt;?&gt;&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.194">compare</a>&#8203;(java.lang.Comparable&lt;?&gt;&nbsp;left,
                                         java.lang.Comparable&lt;?&gt;&nbsp;right)</pre>
 <div class="block">Compares two comparable objects as specified by <code>Comparable.compareTo(T)</code>, <i>if</i> the
  result of this comparison chain has not already been determined.
@@ -352,7 +352,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.203">compare</a>&#8203;(T&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.200">compare</a>&#8203;(T&nbsp;left,
                                                                                T&nbsp;right,
                                                                                java.util.Comparator&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
@@ -365,10 +365,10 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.210">compare</a>&#8203;(int&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.207">compare</a>&#8203;(int&nbsp;left,
                                         int&nbsp;right)</pre>
-<div class="block">Compares two <code>int</code> values as specified by <a href="../primitives/Ints.html#compare(int,int)"><code>Ints.compare(int, int)</code></a>, <i>if</i> the result of
- this comparison chain has not already been determined.</div>
+<div class="block">Compares two <code>int</code> values as specified by <code>Integer.compare(int, int)</code>, <i>if</i> the result
+ of this comparison chain has not already been determined.</div>
 </li>
 </ul>
 <a id="compare(long,long)">
@@ -377,9 +377,9 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.216">compare</a>&#8203;(long&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.213">compare</a>&#8203;(long&nbsp;left,
                                         long&nbsp;right)</pre>
-<div class="block">Compares two <code>long</code> values as specified by <a href="../primitives/Longs.html#compare(long,long)"><code>Longs.compare(long, long)</code></a>, <i>if</i> the result of
+<div class="block">Compares two <code>long</code> values as specified by <code>Long.compare(long, long)</code>, <i>if</i> the result of
  this comparison chain has not already been determined.</div>
 </li>
 </ul>
@@ -389,7 +389,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.222">compare</a>&#8203;(float&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.219">compare</a>&#8203;(float&nbsp;left,
                                         float&nbsp;right)</pre>
 <div class="block">Compares two <code>float</code> values as specified by <code>Float.compare(float, float)</code>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
@@ -401,7 +401,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.228">compare</a>&#8203;(double&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.225">compare</a>&#8203;(double&nbsp;left,
                                         double&nbsp;right)</pre>
 <div class="block">Compares two <code>double</code> values as specified by <code>Double.compare(double, double)</code>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
@@ -414,7 +414,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>compare</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.237">compare</a>&#8203;(java.lang.Boolean&nbsp;left,
+public final&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.234">compare</a>&#8203;(java.lang.Boolean&nbsp;left,
                                      java.lang.Boolean&nbsp;right)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#compareFalseFirst(boolean,boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed are being either
@@ -433,7 +433,7 @@ public final&nbsp;<a href="ComparisonChain.html" title="class in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>compareTrueFirst</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.248">compareTrueFirst</a>&#8203;(boolean&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.245">compareTrueFirst</a>&#8203;(boolean&nbsp;left,
                                                  boolean&nbsp;right)</pre>
 <div class="block">Compares two <code>boolean</code> values, considering <code>true</code> to be less than <code>false</code>,
  <i>if</i> the result of this comparison chain has not already been determined.</div>
@@ -449,7 +449,7 @@ public final&nbsp;<a href="ComparisonChain.html" title="class in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>compareFalseFirst</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.256">compareFalseFirst</a>&#8203;(boolean&nbsp;left,
+<pre class="methodSignature">public abstract&nbsp;<a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.253">compareFalseFirst</a>&#8203;(boolean&nbsp;left,
                                                   boolean&nbsp;right)</pre>
 <div class="block">Compares two <code>boolean</code> values, considering <code>false</code> to be less than <code>true</code>,
  <i>if</i> the result of this comparison chain has not already been determined.</div>
@@ -465,7 +465,7 @@ public final&nbsp;<a href="ComparisonChain.html" title="class in com.google.comm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>result</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.262">result</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.259">result</a>()</pre>
 <div class="block">Ends this comparison chain and returns its result: a value having the same sign as the first
  nonzero comparison result in the chain, or zero if every result was zero.</div>
 </li>

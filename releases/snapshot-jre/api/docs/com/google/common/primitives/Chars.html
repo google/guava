@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.47">Chars</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.48">Chars</a>
 extends java.lang.Object</pre>
 <div class="block">Static utility methods pertaining to <code>char</code> primitives, that are not already found in
  either <code>Character</code> or <code>Arrays</code>.
@@ -438,7 +438,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>BYTES</h4>
-<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.57">BYTES</a></pre>
+<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.58">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>char</code> value.
 
  <p><b>Java 8+ users:</b> use <code>Character.BYTES</code> instead.</div>
@@ -464,7 +464,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.68">hashCode</a>&#8203;(char&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.69">hashCode</a>&#8203;(char&nbsp;value)</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Character)
  value).hashCode()</code>.
 
@@ -483,7 +483,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedCast</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.80">checkedCast</a>&#8203;(long&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.81">checkedCast</a>&#8203;(long&nbsp;value)</pre>
 <div class="block">Returns the <code>char</code> value that is equal to <code>value</code>, if possible.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -502,7 +502,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedCast</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.94">saturatedCast</a>&#8203;(long&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.95">saturatedCast</a>&#8203;(long&nbsp;value)</pre>
 <div class="block">Returns the <code>char</code> nearest in value to <code>value</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -520,7 +520,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.116">compare</a>&#8203;(char&nbsp;a,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Character.compare(a, b)")
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.117">compare</a>&#8203;(char&nbsp;a,
                           char&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>char</code> values. The sign of the value returned is the same as
  that of <code>((Character) a).compareTo(b)</code>.
@@ -543,7 +544,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.127">contains</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.129">contains</a>&#8203;(char[]&nbsp;array,
                                char&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 <dl>
@@ -561,7 +562,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.144">indexOf</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.146">indexOf</a>&#8203;(char[]&nbsp;array,
                           char&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -580,7 +581,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.168">indexOf</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.170">indexOf</a>&#8203;(char[]&nbsp;array,
                           char[]&nbsp;target)</pre>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
  <code>array</code>, or <code>-1</code> if there is no such occurrence.
@@ -600,7 +601,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.195">lastIndexOf</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.197">lastIndexOf</a>&#8203;(char[]&nbsp;array,
                               char&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -619,7 +620,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.217">min</a>&#8203;(char...&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.219">min</a>&#8203;(char...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -638,7 +639,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.236">max</a>&#8203;(char...&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.238">max</a>&#8203;(char...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -657,7 +658,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>constrainToRange</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.260">constrainToRange</a>&#8203;(char&nbsp;value,
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.262">constrainToRange</a>&#8203;(char&nbsp;value,
                                     char&nbsp;min,
                                     char&nbsp;max)</pre>
 <div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.
@@ -683,7 +684,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.272">concat</a>&#8203;(char[]...&nbsp;arrays)</pre>
+<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.274">concat</a>&#8203;(char[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example, <code>
  concat(new char[] {a, b}, new char[] {}, new char[] {c}</code> returns the array <code>{a, b, c}</code>.</div>
 <dl>
@@ -701,7 +702,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>toByteArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.295">toByteArray</a>&#8203;(char&nbsp;value)</pre>
+public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.297">toByteArray</a>&#8203;(char&nbsp;value)</pre>
 <div class="block">Returns a big-endian representation of <code>value</code> in a 2-element byte array; equivalent to
  <code>ByteBuffer.allocate(2).putChar(value).array()</code>. For example, the input value <code>
  '\\u5432'</code> would yield the byte array <code>{0x54, 0x32}</code>.
@@ -717,7 +718,7 @@ public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/p
 <li class="blockList">
 <h4>fromByteArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.310">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
+public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.312">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns the <code>char</code> value whose big-endian representation is stored in the first 2 bytes
  of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getChar()</code>. For example, the
  input byte array <code>{0x54, 0x32}</code> would yield the <code>char</code> value <code>'\\u5432'</code>.
@@ -737,7 +738,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>fromBytes</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.322">fromBytes</a>&#8203;(byte&nbsp;b1,
+public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.324">fromBytes</a>&#8203;(byte&nbsp;b1,
                              byte&nbsp;b2)</pre>
 <div class="block">Returns the <code>char</code> value whose byte representation is the given 2 bytes, in big-endian
  order; equivalent to <code>Chars.fromByteArray(new byte[] {b1, b2})</code>.</div>
@@ -753,7 +754,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.340">ensureCapacity</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.342">ensureCapacity</a>&#8203;(char[]&nbsp;array,
                                     int&nbsp;minLength,
                                     int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -779,7 +780,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.354">join</a>&#8203;(java.lang.String&nbsp;separator,
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.356">join</a>&#8203;(java.lang.String&nbsp;separator,
                                     char...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>char</code> values separated by <code>separator</code>.
  For example, <code>join("-", '1', '2', '3')</code> returns the string <code>"1-2-3"</code>.</div>
@@ -797,7 +798,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;char[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.383">lexicographicalComparator</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;char[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.385">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>char</code> arrays <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>; not advisable
  for sorting user-visible strings as the ordering may not match the conventions of the user's
  locale. That is, it compares, using <a href="#compare(char,char)"><code>compare(char, char)</code></a>), the first pair of values
@@ -819,7 +820,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.420">toArray</a>&#8203;(java.util.Collection&lt;java.lang.Character&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.422">toArray</a>&#8203;(java.util.Collection&lt;java.lang.Character&gt;&nbsp;collection)</pre>
 <div class="block">Copies a collection of <code>Character</code> instances into a new array of primitive <code>char</code>
  values.
 
@@ -842,7 +843,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.440">sortDescending</a>&#8203;(char[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.442">sortDescending</a>&#8203;(char[]&nbsp;array)</pre>
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -856,7 +857,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.451">sortDescending</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.453">sortDescending</a>&#8203;(char[]&nbsp;array,
                                   int&nbsp;fromIndex,
                                   int&nbsp;toIndex)</pre>
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -873,7 +874,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.464">reverse</a>&#8203;(char[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.466">reverse</a>&#8203;(char[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>
  Collections.reverse(Chars.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
@@ -888,7 +889,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.479">reverse</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.481">reverse</a>&#8203;(char[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -910,7 +911,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.499">rotate</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.501">rotate</a>&#8203;(char[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -930,7 +931,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.515">rotate</a>&#8203;(char[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.517">rotate</a>&#8203;(char[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>
@@ -955,7 +956,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Character&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.553">asList</a>&#8203;(char...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Character&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.555">asList</a>&#8203;(char...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 

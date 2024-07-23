@@ -1508,8 +1508,8 @@
       <doc>
       <![CDATA[US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#US_ASCII} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#US_ASCII} instead.]]>
       </doc>
     </field>
     <field name="ISO_8859_1" type="java.nio.charset.Charset"
@@ -1519,8 +1519,8 @@
       <doc>
       <![CDATA[ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#ISO_8859_1} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#ISO_8859_1} instead.]]>
       </doc>
     </field>
     <field name="UTF_8" type="java.nio.charset.Charset"
@@ -1530,8 +1530,8 @@
       <doc>
       <![CDATA[UTF-8: eight-bit UCS Transformation Format.
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#UTF_8} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#UTF_8} instead.]]>
       </doc>
     </field>
     <field name="UTF_16BE" type="java.nio.charset.Charset"
@@ -1541,8 +1541,8 @@
       <doc>
       <![CDATA[UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#UTF_16BE} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#UTF_16BE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16LE" type="java.nio.charset.Charset"
@@ -1552,8 +1552,8 @@
       <doc>
       <![CDATA[UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#UTF_16LE} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#UTF_16LE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16" type="java.nio.charset.Charset"
@@ -1564,8 +1564,8 @@
       <![CDATA[UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
  mark.
 
- <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
- java.nio.charset.StandardCharsets#UTF_16} instead.]]>
+ <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+ {@link java.nio.charset.StandardCharsets#UTF_16} instead.]]>
       </doc>
     </field>
     <doc>
@@ -11009,8 +11009,8 @@
       <param name="left" type="int"/>
       <param name="right" type="int"/>
       <doc>
-      <![CDATA[Compares two {@code int} values as specified by {@link Ints#compare}, <i>if</i> the result of
- this comparison chain has not already been determined.]]>
+      <![CDATA[Compares two {@code int} values as specified by {@link Integer#compare}, <i>if</i> the result
+ of this comparison chain has not already been determined.]]>
       </doc>
     </method>
     <method name="compare" return="com.google.common.collect.ComparisonChain"
@@ -11020,7 +11020,7 @@
       <param name="left" type="long"/>
       <param name="right" type="long"/>
       <doc>
-      <![CDATA[Compares two {@code long} values as specified by {@link Longs#compare}, <i>if</i> the result of
+      <![CDATA[Compares two {@code long} values as specified by {@link Long#compare}, <i>if</i> the result of
  this comparison chain has not already been determined.]]>
       </doc>
     </method>
@@ -44487,7 +44487,7 @@
  href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
 
  <pre>{@code
- BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
+ BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
  }</pre>
 
  <p>returns the string {@code "MZXW6==="}, and
