@@ -39,8 +39,8 @@ public final class Charsets {
   /**
    * US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#US_ASCII} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#US_ASCII} instead.
    *
    */
   @J2ktIncompatible
@@ -50,8 +50,8 @@ public final class Charsets {
   /**
    * ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#ISO_8859_1} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#ISO_8859_1} instead.
    *
    */
   public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
@@ -59,8 +59,8 @@ public final class Charsets {
   /**
    * UTF-8: eight-bit UCS Transformation Format.
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#UTF_8} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#UTF_8} instead.
    *
    */
   public static final Charset UTF_8 = Charset.forName("UTF-8");
@@ -68,8 +68,8 @@ public final class Charsets {
   /**
    * UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#UTF_16BE} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#UTF_16BE} instead.
    *
    */
   @J2ktIncompatible
@@ -79,8 +79,8 @@ public final class Charsets {
   /**
    * UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#UTF_16LE} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#UTF_16LE} instead.
    *
    */
   @J2ktIncompatible
@@ -91,8 +91,8 @@ public final class Charsets {
    * UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
    * mark.
    *
-   * <p><b>Java 7+ users:</b> this constant should be treated as deprecated; use {@link
-   * java.nio.charset.StandardCharsets#UTF_16} instead.
+   * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
+   * {@link java.nio.charset.StandardCharsets#UTF_16} instead.
    *
    */
   @J2ktIncompatible

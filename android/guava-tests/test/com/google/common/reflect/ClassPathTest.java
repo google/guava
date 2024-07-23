@@ -15,11 +15,11 @@
  */
 package com.google.common.reflect;
 
-import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

@@ -24,10 +24,10 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.SKIP_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -174,7 +174,7 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testHash() throws IOException {
-    ByteSource byteSource = new TestByteSource("hamburger\n".getBytes(Charsets.US_ASCII));
+    ByteSource byteSource = new TestByteSource("hamburger\n".getBytes(US_ASCII));
 
     // Pasted this expected string from `echo hamburger | md5sum`
     assertEquals("cfa0c5002275c90508338a5cdb2a9781", byteSource.hash(Hashing.md5()).toString());

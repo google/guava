@@ -45,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
  *
  * <pre>{@code
- * BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
+ * BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
  * }</pre>
  *
  * <p>returns the string {@code "MZXW6==="}, and

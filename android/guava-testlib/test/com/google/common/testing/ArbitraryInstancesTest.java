@@ -17,10 +17,10 @@
 package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -165,7 +165,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertEquals(TimeUnit.SECONDS, ArbitraryInstances.get(TimeUnit.class));
     assertNotNull(ArbitraryInstances.get(Object.class));
     assertEquals(0, ArbitraryInstances.get(Number.class));
-    assertEquals(Charsets.UTF_8, ArbitraryInstances.get(Charset.class));
+    assertEquals(UTF_8, ArbitraryInstances.get(Charset.class));
     assertNotNull(ArbitraryInstances.get(UUID.class));
   }
 

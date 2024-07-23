@@ -17,12 +17,12 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
@@ -206,7 +206,7 @@ public final class ArbitraryInstances {
           .put(Pattern.class, Pattern.compile(""))
           .put(MatchResult.class, createMatchResult())
           .put(TimeUnit.class, TimeUnit.SECONDS)
-          .put(Charset.class, Charsets.UTF_8)
+          .put(Charset.class, UTF_8)
           .put(Currency.class, Currency.getInstance(Locale.US))
           .put(Locale.class, Locale.US)
           .put(UUID.class, UUID.randomUUID())
@@ -237,7 +237,7 @@ public final class ArbitraryInstances {
           .put(ByteSource.class, ByteSource.empty())
           .put(CharSource.class, CharSource.empty())
           .put(ByteSink.class, NullByteSink.INSTANCE)
-          .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(Charsets.UTF_8))
+          .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(UTF_8))
           // All collections are immutable empty. So safe for any type parameter.
           .put(Iterator.class, ImmutableSet.of().iterator())
           .put(PeekingIterator.class, Iterators.peekingIterator(ImmutableSet.of().iterator()))

@@ -28,8 +28,8 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.primitives.UnsignedBytes.toInt;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Charsets;
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -151,7 +151,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
   @SuppressWarnings("deprecation") // need to use Charsets for Android tests to pass
   @Override
   public HashCode hashString(CharSequence input, Charset charset) {
-    if (Charsets.UTF_8.equals(charset)) {
+    if (UTF_8.equals(charset)) {
       int utf16Length = input.length();
       int h1 = seed;
       int i = 0;
@@ -355,7 +355,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     @SuppressWarnings("deprecation") // need to use Charsets for Android tests to pass
     @Override
     public Hasher putString(CharSequence input, Charset charset) {
-      if (Charsets.UTF_8.equals(charset)) {
+      if (UTF_8.equals(charset)) {
         int utf16Length = input.length();
         int i = 0;
 

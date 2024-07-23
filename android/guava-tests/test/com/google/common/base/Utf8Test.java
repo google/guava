@@ -23,6 +23,7 @@ import static java.lang.Character.MAX_LOW_SURROGATE;
 import static java.lang.Character.MIN_HIGH_SURROGATE;
 import static java.lang.Character.MIN_LOW_SURROGATE;
 import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -332,8 +333,8 @@ public class Utf8Test extends TestCase {
       }
       boolean isRoundTrippable = Utf8.isWellFormed(bytes);
       assertEquals(isRoundTrippable, Utf8.isWellFormed(bytes, 0, numBytes));
-      String s = new String(bytes, Charsets.UTF_8);
-      byte[] bytesReencoded = s.getBytes(Charsets.UTF_8);
+      String s = new String(bytes, UTF_8);
+      byte[] bytesReencoded = s.getBytes(UTF_8);
       boolean bytesEqual = Arrays.equals(bytes, bytesReencoded);
 
       if (bytesEqual != isRoundTrippable) {
