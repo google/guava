@@ -12,6 +12,12 @@
   <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
   <properties>
+    <!--
+    We could override this to change which version we run tests under.
+    However, I think that our -Djava.security.manager=allow profile is based on the *Maven* JDK.
+    If we want to use overrides here, we should change that profile to also be based on surefire.toolchain.version.
+    -->
+    <surefire.toolchain.version>${java.specification.version}</surefire.toolchain.version>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.4</truth.version>
@@ -19,7 +25,6 @@
     <checker.version>3.43.0</checker.version>
     <errorprone.version>2.28.0</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
-    <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
@@ -140,7 +145,32 @@
               <arg>doesnotexist</arg>
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
-              <!-- -Xplugin:ErrorProne is set conditionally by a profile. -->
+
+              <!-- https://errorprone.info/docs/installation#maven -->
+              <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
+                   prod code. It's disabled automatically for "test code"
+                   (which is good: our tests have intentional violations), but
+                   Error Prone doesn't know it's building test code unless we
+                   pass -XepCompilingTestOnlyCode, and that argument needs to
+                   be passed as part of the same <arg> as -Xplugin:ErrorProne,
+                   and I gave up trying to figure out how to do that for test
+                   compilation only. -->
+              <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
+              <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
+              <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
+                   https://errorprone.info/docs/installation#maven) if it can
+                   be made not to interfere with JDK8 or if we stop building
+                   with JDK8. -->
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
             </compilerArgs>
             <annotationProcessorPaths>
               <path>
@@ -156,6 +186,70 @@
                  - for JDK9+ because we need args like add-exports
                  -->
             <fork>true</fork>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.mvnsearch</groupId>
+          <artifactId>toolchains-maven-plugin</artifactId>
+          <version>4.5.0</version>
+          <executions>
+            <!--
+            We can apparently have only one <jdk> per execution: Others are silently ignored :(
+            To properly test this, you need to remove existing toolchains:
+            rm -rf ~/.m2/jdks/ ~/.m2/toolchains.xml
+            (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
+            -->
+            <execution>
+              <id>download-11</id>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+              <configuration>
+                <toolchains>
+                  <jdk>
+                    <version>11</version>
+                    <vendor>zulu</vendor>
+                  </jdk>
+                </toolchains>
+              </configuration>
+            </execution>
+            <execution>
+              <id>download-22-and-surefire-version</id>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+              <configuration>
+                <toolchains>
+                  <jdk>
+                    <version>22</version>
+                    <vendor>zulu</vendor>
+                  </jdk>
+                  <testJdk>
+                    <version>${surefire.toolchain.version}</version>
+                    <vendor>zulu</vendor>
+                  </testJdk>
+                </toolchains>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <toolchains>
+              <jdk>
+                <version>22</version>
+                <vendor>zulu</vendor>
+              </jdk>
+            </toolchains>
           </configuration>
         </plugin>
         <plugin>
@@ -216,6 +310,11 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.8.0</version>
           <configuration>
+            <!-- TODO: b/286965322 - Use a newer version (probably the default toolchain we set up?) if it doesn't break Javadoc (including causing trouble for our later run of JDiff, which we do outside Maven, during snapshots/releases). -->
+            <jdkToolchain>
+              <version>11</version>
+              <vendor>zulu</vendor>
+            </jdkToolchain>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
             <encoding>UTF-8</encoding>
@@ -226,7 +325,7 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
-            <source>${java.specification.version}</source>
+            <source>8</source>
             <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>
@@ -248,6 +347,10 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.3.1</version>
           <configuration>
+            <jdkToolchain>
+              <version>${surefire.toolchain.version}</version>
+              <vendor>zulu</vendor>
+            </jdkToolchain>
             <includes>
               <include>${test.include}</include>
             </includes>
@@ -388,90 +491,6 @@
           --add-opens java.base/sun.security.jca=ALL-UNNAMED
         </test.add.opens>
       </properties>
-    </profile>
-    <profile>
-      <id>javac9-for-jdk8</id>
-      <activation>
-        <jdk>1.8</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- Under JDK8, we continue to use errorprone's javac9 (even
-                   though we don't run Error Prone itself, which no longer
-                   supports JDK8!).
-
-                   Why? At some point, presumably after
-                   https://github.com/google/guava/commit/e06a8cec65815599e510d7f9c1ea9d2a8eaa438a,
-                   builds with JDK8 began failing animal-sniffer with the error:
-
-                   Failed to check signatures: Bad class file .../CollectionFuture$ListFuture.class
-
-                   One way of dealing with that would be to disable
-                   animal-sniffer. And that would be fine for our -jre builds:
-                   If we're building with JDK8, then clearly we're sticking to
-                   JDK8 APIs. However, I assume (but did not confirm) that we'd
-                   have the same issue with our -android builds, which need
-                   animal-sniffer so that they can check that we're sticking to
-                   JDK6-like APIs.
-
-                   So instead, we use javac9, which doesn't lead to this error.
-              -->
-              <compilerArgs combine.children="append">
-                <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
-              </compilerArgs>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>run-error-prone</id>
-      <activation>
-        <!--
-        Error Prone requires 11+: https://errorprone.info/docs/installation
-        We skip 12-15 because of https://github.com/google/error-prone/issues/3540.
-        -->
-        <jdk>[11,12),[16,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArgs combine.children="append">
-                <!-- https://errorprone.info/docs/installation#maven -->
-                <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
-                     prod code. It's disabled automatically for "test code"
-                     (which is good: our tests have intentional violations), but
-                     Error Prone doesn't know it's building test code unless we
-                     pass -XepCompilingTestOnlyCode, and that argument needs to
-                     be passed as part of the same <arg> as -Xplugin:ErrorProne,
-                     and I gave up trying to figure out how to do that for test
-                     compilation only. -->
-                <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
-                <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
-                <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
-                     https://errorprone.info/docs/installation#maven) if it can
-                     be made not to interfere with JDK8 or if we stop building
-                     with JDK8. -->
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
-                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
-                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
-                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
-              </compilerArgs>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
       <id>javac-for-jvm18plus</id>

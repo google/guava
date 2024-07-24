@@ -78,6 +78,14 @@ public class WriteReplaceOverridesTest extends TestCase {
            * well be a JDK bug.
            */
           || info.getName().contains("TypeTokenTest")
+          /*
+           * "IllegalAccess tried to access class
+           * com.google.common.collect.testing.AbstractIteratorTester from class
+           * com.google.common.collect.MultimapsTest"
+           *
+           * ...when we build with JDK 22 and run under JDK 8.
+           */
+          || info.getName().contains("MultimapsTest")
       /*
        * Luckily, we don't care about analyzing tests at all. We'd skip them all if we could do so
        * trivially, but it's enough to skip these ones.
