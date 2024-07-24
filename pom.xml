@@ -123,7 +123,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.13.0</version>
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
@@ -177,7 +177,7 @@
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
               <artifactId>plexus-io</artifactId>
-              <!-- DO NOT UPGRADE this past 3.4.1 until https://github.com/codehaus-plexus/plexus-io/issues/109 is fixed. -->
+              <!-- DO NOT UPGRADE this past 3.4.1 until https://github.com/codehaus-plexus/plexus-io/issues/109 is fixed (probably in 3.5.1). -->
               <version>3.4.1</version>
             </dependency>
           </dependencies>
@@ -214,7 +214,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.8.0</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -246,7 +246,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.7.2</version>
+          <version>3.3.1</version>
           <configuration>
             <includes>
               <include>${test.include}</include>
