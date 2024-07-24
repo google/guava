@@ -241,7 +241,7 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
-  public void testToString_ToStringTwice() {
+  public void testToString_toStringTwice() {
     MoreObjects.ToStringHelper helper =
         MoreObjects.toStringHelper(new TestClass())
             .add("field1", 1)

@@ -156,7 +156,7 @@ public class StreamsTest extends TestCase {
     assertThat(closeCountB.get()).isEqualTo(1);
   }
 
-  public void testConcat_refStream_closeIsPropagated_Stream_concat() {
+  public void testConcat_refStream_closeIsPropagated_stream_concat() {
     // Just to demonstrate behavior of Stream::concat in the standard library
     AtomicInteger closeCountB = new AtomicInteger(0);
     Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
@@ -168,7 +168,7 @@ public class StreamsTest extends TestCase {
     assertThat(closeCountB.get()).isEqualTo(1);
   }
 
-  public void testConcat_refStream_closeIsPropagated_Stream_flatMap() {
+  public void testConcat_refStream_closeIsPropagated_stream_flatMap() {
     // Just to demonstrate behavior of Stream::flatMap in the standard library
     AtomicInteger closeCountB = new AtomicInteger(0);
     Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);

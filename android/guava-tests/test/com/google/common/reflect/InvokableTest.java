@@ -636,7 +636,7 @@ public class InvokableTest extends TestCase {
     }
   }
 
-  public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
+  public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_bug() {
     LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
         new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }

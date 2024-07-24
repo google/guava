@@ -118,7 +118,7 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals("ab", sb.toString());
   }
 
-  public void testSkipFully_EOF() throws IOException {
+  public void testSkipFully_eof() throws IOException {
     Reader reader = new StringReader("abcde");
     assertThrows(EOFException.class, () -> CharStreams.skipFully(reader, 6));
   }

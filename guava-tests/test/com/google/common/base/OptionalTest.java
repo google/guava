@@ -107,11 +107,11 @@ public final class OptionalTest extends TestCase {
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
-  public void testOr_T_present() {
+  public void testOr_t_present() {
     assertEquals("a", Optional.of("a").or("default"));
   }
 
-  public void testOr_T_absent() {
+  public void testOr_t_absent() {
     assertEquals("default", Optional.absent().or("default"));
   }
 
@@ -141,11 +141,11 @@ public final class OptionalTest extends TestCase {
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
-  public void testOr_Optional_present() {
+  public void testOr_optional_present() {
     assertEquals(Optional.of("a"), Optional.of("a").or(Optional.of("fallback")));
   }
 
-  public void testOr_Optional_absent() {
+  public void testOr_optional_absent() {
     assertEquals(Optional.of("fallback"), Optional.absent().or(Optional.of("fallback")));
   }
 

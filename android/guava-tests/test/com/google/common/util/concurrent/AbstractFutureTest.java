@@ -1078,51 +1078,51 @@ public class AbstractFutureTest extends TestCase {
     new SneakyThrower<Error>().throwIt(t);
   }
 
-  public void testTrustedGetFailure_Completed() {
+  public void testTrustedGetFailure_completed() {
     SettableFuture<String> future = SettableFuture.create();
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_Failed() {
+  public void testTrustedGetFailure_failed() {
     SettableFuture<String> future = SettableFuture.create();
     Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isEqualTo(failure);
   }
 
-  public void testTrustedGetFailure_NotCompleted() {
+  public void testTrustedGetFailure_notCompleted() {
     SettableFuture<String> future = SettableFuture.create();
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_CanceledNoCause() {
+  public void testTrustedGetFailure_canceledNoCause() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Completed() {
+  public void testGetFailure_completed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Failed() {
+  public void testGetFailure_failed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     final Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_NotCompleted() {
+  public void testGetFailure_notCompleted() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_CanceledNoCause() {
+  public void testGetFailure_canceledNoCause() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();

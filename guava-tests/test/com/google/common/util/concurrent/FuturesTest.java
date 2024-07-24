@@ -282,7 +282,7 @@ public class FuturesTest extends TestCase {
   @AndroidIncompatible
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
-  public void testTransform_StackOverflow() throws Exception {
+  public void testTransform_stackOverflow() throws Exception {
     {
       /*
        * Initialize all relevant classes before running the test, which may otherwise poison any
@@ -305,7 +305,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testTransform_ErrorAfterCancellation() throws Exception {
+  public void testTransform_errorAfterCancellation() throws Exception {
     class Transformer implements Function<Object, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -326,7 +326,7 @@ public class FuturesTest extends TestCase {
     assertTrue(output.isCancelled());
   }
 
-  public void testTransform_ExceptionAfterCancellation() throws Exception {
+  public void testTransform_exceptionAfterCancellation() throws Exception {
     class Transformer implements Function<Object, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -518,7 +518,7 @@ public class FuturesTest extends TestCase {
   @AndroidIncompatible
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
-  public void testTransformAsync_StackOverflow() throws Exception {
+  public void testTransformAsync_stackOverflow() throws Exception {
     {
       /*
        * Initialize all relevant classes before running the test, which may otherwise poison any
@@ -541,7 +541,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testTransformAsync_ErrorAfterCancellation() throws Exception {
+  public void testTransformAsync_errorAfterCancellation() throws Exception {
     class Transformer implements AsyncFunction<Object, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -562,7 +562,7 @@ public class FuturesTest extends TestCase {
     assertTrue(output.isCancelled());
   }
 
-  public void testTransformAsync_ExceptionAfterCancellation() throws Exception {
+  public void testTransformAsync_exceptionAfterCancellation() throws Exception {
     class Transformer implements AsyncFunction<Object, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -809,7 +809,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testTransform_Executor() throws Exception {
+  public void testTransform_executor() throws Exception {
     Object value = new Object();
     ExecutorSpy spy = new ExecutorSpy(directExecutor());
 
@@ -1364,7 +1364,7 @@ public class FuturesTest extends TestCase {
 
   // Some tests of the exceptionType parameter:
 
-  public void testCatching_Throwable() throws Exception {
+  public void testCatching_throwable() throws Exception {
     Function<Throwable, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
     ListenableFuture<Integer> faultTolerantFuture =
@@ -1399,7 +1399,7 @@ public class FuturesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
-  public void testCatching_StackOverflow() throws Exception {
+  public void testCatching_stackOverflow() throws Exception {
     {
       /*
        * Initialize all relevant classes before running the test, which may otherwise poison any
@@ -1423,7 +1423,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testCatching_ErrorAfterCancellation() throws Exception {
+  public void testCatching_errorAfterCancellation() throws Exception {
     class Fallback implements Function<Throwable, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -1444,7 +1444,7 @@ public class FuturesTest extends TestCase {
     assertTrue(output.isCancelled());
   }
 
-  public void testCatching_ExceptionAfterCancellation() throws Exception {
+  public void testCatching_exceptionAfterCancellation() throws Exception {
     class Fallback implements Function<Throwable, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -1504,7 +1504,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testCatchingAsync_Throwable() throws Exception {
+  public void testCatchingAsync_throwable() throws Exception {
     AsyncFunction<Throwable, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
     ListenableFuture<Integer> faultTolerantFuture =
@@ -1539,7 +1539,7 @@ public class FuturesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
-  public void testCatchingAsync_StackOverflow() throws Exception {
+  public void testCatchingAsync_stackOverflow() throws Exception {
     {
       /*
        * Initialize all relevant classes before running the test, which may otherwise poison any
@@ -1563,7 +1563,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testCatchingAsync_ErrorAfterCancellation() throws Exception {
+  public void testCatchingAsync_errorAfterCancellation() throws Exception {
     class Fallback implements AsyncFunction<Throwable, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -1585,7 +1585,7 @@ public class FuturesTest extends TestCase {
     assertTrue(output.isCancelled());
   }
 
-  public void testCatchingAsync_ExceptionAfterCancellation() throws Exception {
+  public void testCatchingAsync_exceptionAfterCancellation() throws Exception {
     class Fallback implements AsyncFunction<Throwable, Object> {
       @SuppressWarnings("nullness:initialization.field.uninitialized")
       ListenableFuture<Object> output;
@@ -1705,7 +1705,7 @@ public class FuturesTest extends TestCase {
   }
 
   @J2ktIncompatible // Wildcard generics
-  public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
+  public void testTransformAsync_genericsWildcard_asyncFunction() throws Exception {
     ListenableFuture<?> nullFuture = immediateFuture(null);
     ListenableFuture<?> chainedFuture =
         transformAsync(nullFuture, constantAsyncFunction(nullFuture), directExecutor());
@@ -1713,7 +1713,7 @@ public class FuturesTest extends TestCase {
   }
 
   @J2ktIncompatible // TODO(b/324550390): Enable
-  public void testTransformAsync_genericsHierarchy_AsyncFunction() throws Exception {
+  public void testTransformAsync_genericsHierarchy_asyncFunction() throws Exception {
     ListenableFuture<FooChild> future = immediateFuture(null);
     final BarChild barChild = new BarChild();
     AsyncFunction<Foo, BarChild> function =
@@ -2897,7 +2897,7 @@ public class FuturesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // threads
-  public void testWhenAllCompleteRunnable_resultCanceledWithInterrupt_InterruptsRunnable()
+  public void testWhenAllCompleteRunnable_resultCanceledWithInterrupt_interruptsRunnable()
       throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
     SettableFuture<Boolean> booleanFuture = SettableFuture.create();

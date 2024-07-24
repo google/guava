@@ -825,7 +825,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
-  public void testBuilderGenerics_SelfComparable() {
+  public void testBuilderGenerics_selfComparable() {
     ImmutableSortedMap.Builder<SelfComparableExample, Object> unusedNatural =
         ImmutableSortedMap.naturalOrder();
 
@@ -835,7 +835,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   private static class SuperComparableExample extends SelfComparableExample {}
 
-  public void testBuilderGenerics_SuperComparable() {
+  public void testBuilderGenerics_superComparable() {
     ImmutableSortedMap.Builder<SuperComparableExample, Object> unusedNatural =
         ImmutableSortedMap.naturalOrder();
 

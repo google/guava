@@ -44,14 +44,14 @@ public class ObjectArraysTest extends TestCase {
   }
 
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
-  public void testNewArray_fromClass_Empty() {
+  public void testNewArray_fromClass_empty() {
     String[] empty = ObjectArrays.newArray(String.class, 0);
     assertEquals(String[].class, empty.getClass());
     assertThat(empty).isEmpty();
   }
 
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
-  public void testNewArray_fromClass_Nonempty() {
+  public void testNewArray_fromClass_nonempty() {
     String[] array = ObjectArrays.newArray(String.class, 2);
     assertEquals(String[].class, array.getClass());
     assertThat(array).hasLength(2);
@@ -60,27 +60,27 @@ public class ObjectArraysTest extends TestCase {
 
   @J2ktIncompatible // Array<String>::class literal not available in Kotlin KMP
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
-  public void testNewArray_fromClass_OfArray() {
+  public void testNewArray_fromClass_ofArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
     assertEquals(String[][].class, array.getClass());
     assertThat(array).hasLength(1);
     assertNull(array[0]);
   }
 
-  public void testNewArray_fromArray_Empty() {
+  public void testNewArray_fromArray_empty() {
     String[] in = new String[0];
     String[] empty = ObjectArrays.newArray(in, 0);
     assertThat(empty).isEmpty();
   }
 
-  public void testNewArray_fromArray_Nonempty() {
+  public void testNewArray_fromArray_nonempty() {
     String[] array = ObjectArrays.newArray(new String[0], 2);
     assertEquals(String[].class, array.getClass());
     assertThat(array).hasLength(2);
     assertNull(array[0]);
   }
 
-  public void testNewArray_fromArray_OfArray() {
+  public void testNewArray_fromArray_ofArray() {
     String[][] array = ObjectArrays.newArray(new String[0][0], 1);
     assertEquals(String[][].class, array.getClass());
     assertThat(array).hasLength(1);

@@ -857,21 +857,21 @@ public class FluentIterableTest extends TestCase {
     }
   }
 
-  public void testCopyInto_List() {
+  public void testCopyInto_list() {
     assertThat(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
         .containsExactly(1, 2, 1, 3, 5)
         .inOrder();
   }
 
-  public void testCopyInto_Set() {
+  public void testCopyInto_set() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2))).containsExactly(1, 2, 3, 5);
   }
 
-  public void testCopyInto_SetAllDuplicates() {
+  public void testCopyInto_setAllDuplicates() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5))).containsExactly(1, 2, 3, 5);
   }
 
-  public void testCopyInto_NonCollection() {
+  public void testCopyInto_nonCollection() {
     final ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
 
     final ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);

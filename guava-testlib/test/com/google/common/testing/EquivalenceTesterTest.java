@@ -45,7 +45,7 @@ public class EquivalenceTesterTest extends TestCase {
   }
 
   /** Test null reference yields error */
-  public void testOf_NullPointerException() {
+  public void testOf_nullPointerException() {
     try {
       EquivalenceTester.of(null);
       fail("Should fail on null reference");
@@ -53,7 +53,7 @@ public class EquivalenceTesterTest extends TestCase {
     }
   }
 
-  public void testTest_NoData() {
+  public void testTest_noData() {
     tester.test();
   }
 

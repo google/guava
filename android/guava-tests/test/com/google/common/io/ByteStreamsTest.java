@@ -258,7 +258,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0, in.skipBytes(1));
   }
 
-  public void testNewDataInput_BAIS() {
+  public void testNewDataInput_bais() {
     ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] {0x12, 0x34, 0x56, 0x78});
     ByteArrayDataInput in = ByteStreams.newDataInput(bais);
     assertEquals(0x12345678, in.readInt());
@@ -372,7 +372,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
-  public void testNewDataOutput_BAOS() {
+  public void testNewDataOutput_baos() {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ByteArrayDataOutput out = ByteStreams.newDataOutput(baos);
     out.writeInt(0x12345678);

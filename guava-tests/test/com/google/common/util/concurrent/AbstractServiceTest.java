@@ -348,7 +348,7 @@ public class AbstractServiceTest extends TestCase {
     assertFalse(waiter.isAlive());
   }
 
-  public void testAwaitTerminated_FailedService() throws Exception {
+  public void testAwaitTerminated_failedService() throws Exception {
     final ManualSwitchedService service = new ManualSwitchedService();
     final AtomicReference<Throwable> exception = Atomics.newReference();
     Thread waiter =

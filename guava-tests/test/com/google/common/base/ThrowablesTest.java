@@ -43,7 +43,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class ThrowablesTest extends TestCase {
-  public void testThrowIfUnchecked_Unchecked() {
+  public void testThrowIfUnchecked_unchecked() {
     try {
       throwIfUnchecked(new SomeUncheckedException());
       fail();
@@ -51,7 +51,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testThrowIfUnchecked_Error() {
+  public void testThrowIfUnchecked_error() {
     try {
       throwIfUnchecked(new SomeError());
       fail();
@@ -60,13 +60,13 @@ public class ThrowablesTest extends TestCase {
   }
 
   @SuppressWarnings("ThrowIfUncheckedKnownChecked")
-  public void testThrowIfUnchecked_Checked() {
+  public void testThrowIfUnchecked_checked() {
     throwIfUnchecked(new SomeCheckedException());
   }
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible
-  public void testPropagateIfPossible_NoneDeclared_NoneThrown() {
+  public void testPropagateIfPossible_noneDeclared_noneThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -86,7 +86,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible
-  public void testPropagateIfPossible_NoneDeclared_UncheckedThrown() {
+  public void testPropagateIfPossible_noneDeclared_uncheckedThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -106,7 +106,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible
-  public void testPropagateIfPossible_NoneDeclared_UndeclaredThrown() {
+  public void testPropagateIfPossible_noneDeclared_undeclaredThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -126,7 +126,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class)
-  public void testPropagateIfPossible_OneDeclared_NoneThrown() throws SomeCheckedException {
+  public void testPropagateIfPossible_oneDeclared_noneThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -148,7 +148,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class)
-  public void testPropagateIfPossible_OneDeclared_UncheckedThrown() throws SomeCheckedException {
+  public void testPropagateIfPossible_oneDeclared_uncheckedThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -168,7 +168,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class)
-  public void testPropagateIfPossible_OneDeclared_CheckedThrown() {
+  public void testPropagateIfPossible_oneDeclared_checkedThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -188,7 +188,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class)
-  public void testPropagateIfPossible_OneDeclared_UndeclaredThrown() throws SomeCheckedException {
+  public void testPropagateIfPossible_oneDeclared_undeclaredThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -208,7 +208,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class, Class)
-  public void testPropagateIfPossible_TwoDeclared_NoneThrown()
+  public void testPropagateIfPossible_twoDeclared_noneThrown()
       throws SomeCheckedException, SomeOtherCheckedException {
     Sample sample =
         new Sample() {
@@ -230,7 +230,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class, Class)
-  public void testPropagateIfPossible_TwoDeclared_UncheckedThrown()
+  public void testPropagateIfPossible_twoDeclared_uncheckedThrown()
       throws SomeCheckedException, SomeOtherCheckedException {
     Sample sample =
         new Sample() {
@@ -252,7 +252,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class, Class)
-  public void testPropagateIfPossible_TwoDeclared_CheckedThrown() throws SomeOtherCheckedException {
+  public void testPropagateIfPossible_twoDeclared_checkedThrown() throws SomeOtherCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -273,7 +273,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class, Class)
-  public void testPropagateIfPossible_TwoDeclared_OtherCheckedThrown() throws SomeCheckedException {
+  public void testPropagateIfPossible_twoDeclared_otherCheckedThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -308,19 +308,19 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class)
-  public void testPropageIfPossible_OneDeclared_null() throws SomeCheckedException {
+  public void testPropageIfPossible_oneDeclared_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null, SomeCheckedException.class);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfPossible(Throwable, Class, Class)
-  public void testPropageIfPossible_TwoDeclared_null() throws SomeCheckedException {
+  public void testPropageIfPossible_twoDeclared_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null, SomeCheckedException.class, SomeUncheckedException.class);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // propagate
-  public void testPropagate_NoneDeclared_NoneThrown() {
+  public void testPropagate_noneDeclared_noneThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -339,7 +339,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagate
-  public void testPropagate_NoneDeclared_UncheckedThrown() {
+  public void testPropagate_noneDeclared_uncheckedThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -358,7 +358,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagate
-  public void testPropagate_NoneDeclared_ErrorThrown() {
+  public void testPropagate_noneDeclared_errorThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -377,7 +377,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagate
-  public void testPropagate_NoneDeclared_CheckedThrown() {
+  public void testPropagate_noneDeclared_checkedThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -396,24 +396,24 @@ public class ThrowablesTest extends TestCase {
   }
 
   @GwtIncompatible // throwIfInstanceOf
-  public void testThrowIfInstanceOf_Unchecked() throws SomeCheckedException {
+  public void testThrowIfInstanceOf_unchecked() throws SomeCheckedException {
     throwIfInstanceOf(new SomeUncheckedException(), SomeCheckedException.class);
   }
 
   @GwtIncompatible // throwIfInstanceOf
-  public void testThrowIfInstanceOf_CheckedDifferent() throws SomeCheckedException {
+  public void testThrowIfInstanceOf_checkedDifferent() throws SomeCheckedException {
     throwIfInstanceOf(new SomeOtherCheckedException(), SomeCheckedException.class);
   }
 
   @GwtIncompatible // throwIfInstanceOf
-  public void testThrowIfInstanceOf_CheckedSame() {
+  public void testThrowIfInstanceOf_checkedSame() {
     assertThrows(
         SomeCheckedException.class,
         () -> throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class));
   }
 
   @GwtIncompatible // throwIfInstanceOf
-  public void testThrowIfInstanceOf_CheckedSubclass() {
+  public void testThrowIfInstanceOf_checkedSubclass() {
     assertThrows(
         SomeCheckedException.class,
         () -> throwIfInstanceOf(new SomeCheckedException() {}, SomeCheckedException.class));
@@ -421,7 +421,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagate]IfInstanceOf
-  public void testPropagateIfInstanceOf_NoneThrown() throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_noneThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -441,7 +441,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfInstanceOf
-  public void testPropagateIfInstanceOf_DeclaredThrown() {
+  public void testPropagateIfInstanceOf_declaredThrown() {
     Sample sample =
         new Sample() {
           @Override
@@ -461,7 +461,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfInstanceOf
-  public void testPropagateIfInstanceOf_UncheckedThrown() throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_uncheckedThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -481,7 +481,7 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // propagateIfInstanceOf
-  public void testPropagateIfInstanceOf_UndeclaredThrown() throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_undeclaredThrown() throws SomeCheckedException {
     Sample sample =
         new Sample() {
           @Override
@@ -512,24 +512,24 @@ public class ThrowablesTest extends TestCase {
     Throwables.propagateIfInstanceOf(null, SomeCheckedException.class);
   }
 
-  public void testGetRootCause_NoCause() {
+  public void testGetRootCause_noCause() {
     SomeCheckedException exception = new SomeCheckedException();
     assertSame(exception, Throwables.getRootCause(exception));
   }
 
-  public void testGetRootCause_SingleWrapped() {
+  public void testGetRootCause_singleWrapped() {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException exception = new SomeChainingException(cause);
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
-  public void testGetRootCause_DoubleWrapped() {
+  public void testGetRootCause_doubleWrapped() {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException exception = new SomeChainingException(new SomeChainingException(cause));
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
-  public void testGetRootCause_Loop() {
+  public void testGetRootCause_loop() {
     Exception cause = new Exception();
     Exception exception = new Exception(cause);
     cause.initCause(exception);

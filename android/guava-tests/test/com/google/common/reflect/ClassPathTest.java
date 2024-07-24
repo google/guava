@@ -74,7 +74,7 @@ public class ClassPathTest extends TestCase {
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
-  public void testClassPathEntries_URLClassLoader_noParent() throws Exception {
+  public void testClassPathEntries_urlClassLoader_noParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
@@ -83,7 +83,7 @@ public class ClassPathTest extends TestCase {
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
-  public void testClassPathEntries_URLClassLoader_withParent() throws Exception {
+  public void testClassPathEntries_urlClassLoader_withParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
@@ -135,7 +135,7 @@ public class ClassPathTest extends TestCase {
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
-  public void testClassPathEntries_URLClassLoader_pathWithSpace() throws Exception {
+  public void testClassPathEntries_urlClassLoader_pathWithSpace() throws Exception {
     URL url = new URL("file:///c:/Documents and Settings/");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
     assertThat(ClassPath.getClassPathEntries(classloader))
@@ -144,7 +144,7 @@ public class ClassPathTest extends TestCase {
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
-  public void testClassPathEntries_URLClassLoader_pathWithEscapedSpace() throws Exception {
+  public void testClassPathEntries_urlClassLoader_pathWithEscapedSpace() throws Exception {
     URL url = new URL("file:///c:/Documents%20and%20Settings/");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
     assertThat(ClassPath.getClassPathEntries(classloader))
@@ -161,7 +161,7 @@ public class ClassPathTest extends TestCase {
 
   // https://github.com/google/guava/issues/2152
   @AndroidIncompatible // works in newer Android versions but fails at the version we test with
-  public void testToFile_AndroidIncompatible() throws Exception {
+  public void testToFile_androidIncompatible() throws Exception {
     assertThat(ClassPath.toFile(new URL("file:///c:\\Documents ~ Settings, or not\\11-12 12:05")))
         .isEqualTo(new File("/c:\\Documents ~ Settings, or not\\11-12 12:05"));
     assertThat(ClassPath.toFile(new URL("file:///C:\\Program Files\\Apache Software Foundation")))

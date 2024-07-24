@@ -64,7 +64,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionChecked() {
+  public void testGetUnchecked_executionExceptionChecked() {
     try {
       getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION);
       fail();
@@ -73,7 +73,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionUnchecked() {
+  public void testGetUnchecked_executionExceptionUnchecked() {
     try {
       getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION);
       fail();
@@ -82,7 +82,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionError() {
+  public void testGetUnchecked_executionExceptionError() {
     try {
       getUnchecked(FAILED_FUTURE_ERROR);
       fail();
@@ -91,7 +91,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionOtherThrowable() {
+  public void testGetUnchecked_executionExceptionOtherThrowable() {
     try {
       getUnchecked(FAILED_FUTURE_OTHER_THROWABLE);
       fail();
@@ -100,7 +100,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_RuntimeException() {
+  public void testGetUnchecked_runtimeException() {
     try {
       getUnchecked(RUNTIME_EXCEPTION_FUTURE);
       fail();
@@ -109,7 +109,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_Error() {
+  public void testGetUnchecked_error() {
     try {
       getUnchecked(ERROR_FUTURE);
     } catch (Error expected) {

@@ -774,7 +774,7 @@ public class LocalCacheTest extends TestCase {
     assertEquals(1, map.size());
   }
 
-  public void testComputeIfAbsent_RemovalListener() {
+  public void testComputeIfAbsent_removalListener() {
     List<RemovalNotification<Object, Object>> notifications = new ArrayList<>();
     RemovalListener<Object, Object> removalListener =
         new RemovalListener<Object, Object>() {

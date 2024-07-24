@@ -600,7 +600,7 @@ public class BigIntegerMathTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible
-  public void testRoundToDouble_Zero() {
+  public void testRoundToDouble_zero() {
     new RoundToDoubleTester(BigInteger.ZERO).setExpectation(0.0, values()).test();
   }
 

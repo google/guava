@@ -764,13 +764,13 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(set, complex);
   }
 
-  public void testEquals_bothDefaultOrdering_StringVsInt() {
+  public void testEquals_bothDefaultOrdering_stringVsInt() {
     SortedSet<String> set = of("a", "b", "c");
     assertFalse(set.equals(Sets.newTreeSet(asList(4, 5, 6))));
     assertNotEqualLenient(Sets.newTreeSet(asList(4, 5, 6)), set);
   }
 
-  public void testEquals_bothExplicitOrdering_StringVsInt() {
+  public void testEquals_bothExplicitOrdering_stringVsInt() {
     SortedSet<String> set = of("in", "the", "a");
     assertFalse(set.equals(Sets.newTreeSet(asList(4, 5, 6))));
     assertNotEqualLenient(Sets.newTreeSet(asList(4, 5, 6)), set);
@@ -802,7 +802,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   @SuppressWarnings("CollectionIncompatibleType") // testing incompatible types
-  public void testContainsAll_sameComparator_StringVsInt() {
+  public void testContainsAll_sameComparator_stringVsInt() {
     SortedSet<String> set = of("a", "b", "f");
     SortedSet<Integer> unexpected = Sets.newTreeSet(Ordering.natural());
     unexpected.addAll(asList(1, 2, 3));
@@ -1146,7 +1146,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
-  public void testBuilderGenerics_SelfComparable() {
+  public void testBuilderGenerics_selfComparable() {
     // testing simple creation
     ImmutableSortedSet.Builder<SelfComparableExample> natural = ImmutableSortedSet.naturalOrder();
     assertThat(natural).isNotNull();
@@ -1156,7 +1156,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   private static class SuperComparableExample extends SelfComparableExample {}
 
-  public void testBuilderGenerics_SuperComparable() {
+  public void testBuilderGenerics_superComparable() {
     // testing simple creation
     ImmutableSortedSet.Builder<SuperComparableExample> natural = ImmutableSortedSet.naturalOrder();
     assertThat(natural).isNotNull();

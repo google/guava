@@ -1468,13 +1468,13 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  public void testConstructor_Ignored_ShouldPass() throws Exception {
+  public void testConstructor_ignored_shouldPass() throws Exception {
     new NullPointerTester()
         .ignore(FailOnOneOfTwoConstructors.class.getDeclaredConstructor(String.class))
         .testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
   }
 
-  public void testConstructor_ShouldFail() throws Exception {
+  public void testConstructor_shouldFail() throws Exception {
     try {
       new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
     } catch (AssertionError expected) {
