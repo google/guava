@@ -30,6 +30,7 @@ import org.junit.Ignore;
 /** Tester for {@code BiMap.entrySet} and methods on the entries in the set. */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class BiMapEntrySetTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)

@@ -32,6 +32,7 @@ import org.junit.Ignore;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class AbstractListTester<E extends @Nullable Object> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named list that was initialized to the value of

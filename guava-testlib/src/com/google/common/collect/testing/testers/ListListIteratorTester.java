@@ -49,6 +49,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 @ElementTypesAreNonnullByDefault
 public class ListListIteratorTester<E extends @Nullable Object> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)

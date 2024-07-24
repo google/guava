@@ -39,6 +39,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultisetForEachEntryTester<E> extends AbstractMultisetTester<E> {
   public void testForEachEntry() {
     List<Entry<E>> expected = new ArrayList<>(getMultiset().entrySet());

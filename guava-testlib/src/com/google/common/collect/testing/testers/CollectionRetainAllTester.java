@@ -40,6 +40,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   /** A collection of elements to retain, along with a description for use in failure messages. */

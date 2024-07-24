@@ -44,6 +44,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 @ElementTypesAreNonnullByDefault
 public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
