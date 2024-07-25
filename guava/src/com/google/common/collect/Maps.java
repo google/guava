@@ -237,6 +237,7 @@ public final class Maps {
    *
    * @return a new, empty {@code HashMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMap<K, V> newHashMap() {
     return new HashMap<>();
@@ -257,6 +258,7 @@ public final class Maps {
    * @param map the mappings to be placed in the new map
    * @return a new {@code HashMap} initialized with the mappings from {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object> HashMap<K, V> newHashMap(
       Map<? extends K, ? extends V> map) {
     return new HashMap<>(map);
@@ -273,6 +275,7 @@ public final class Maps {
    *     without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return new HashMap<>(capacity(expectedSize));
@@ -317,6 +320,7 @@ public final class Maps {
    *
    * @return a new, empty {@code LinkedHashMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMap() {
     return new LinkedHashMap<>();
@@ -336,6 +340,7 @@ public final class Maps {
    * @param map the mappings to be placed in the new map
    * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<>(map);
@@ -353,6 +358,7 @@ public final class Maps {
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    * @since 19.0
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return new LinkedHashMap<>(capacity(expectedSize));
@@ -380,7 +386,10 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
-  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
+  @SuppressWarnings({
+    "rawtypes", // https://github.com/google/guava/issues/989
+    "NonApiType", // acts as a direct substitute for a constructor call
+  })
   public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }
@@ -402,6 +411,7 @@ public final class Maps {
    * @return a new {@code TreeMap} initialized with the mappings from {@code map} and using the
    *     comparator of {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object> TreeMap<K, V> newTreeMap(
       SortedMap<K, ? extends V> map) {
     return new TreeMap<>(map);
@@ -421,6 +431,7 @@ public final class Maps {
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <C extends @Nullable Object, K extends C, V extends @Nullable Object>
       TreeMap<K, V> newTreeMap(@CheckForNull Comparator<C> comparator) {
     // Ideally, the extra type parameter "C" shouldn't be necessary. It is a

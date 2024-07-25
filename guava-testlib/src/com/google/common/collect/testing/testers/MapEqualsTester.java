@@ -121,7 +121,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
         getMap().equals(Helpers.copyToList(getMap().entrySet())));
   }
 
-  private static <K, V> HashMap<K, V> newHashMap(
+  private static <K, V> Map<K, V> newHashMap(
       Collection<? extends Entry<? extends K, ? extends V>> entries) {
     HashMap<K, V> map = new HashMap<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
