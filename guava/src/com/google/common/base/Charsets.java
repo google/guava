@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Contains constant definitions for the six standard {@link Charset} instances, which are
@@ -40,64 +41,64 @@ public final class Charsets {
    * US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#US_ASCII} instead.
+   * {@link StandardCharsets#US_ASCII} instead.
    *
    */
   @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
-  public static final Charset US_ASCII = Charset.forName("US-ASCII");
+  public static final Charset US_ASCII = StandardCharsets.US_ASCII;
 
   /**
    * ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#ISO_8859_1} instead.
+   * {@link StandardCharsets#ISO_8859_1} instead.
    *
    */
-  public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+  public static final Charset ISO_8859_1 = StandardCharsets.ISO_8859_1;
 
   /**
    * UTF-8: eight-bit UCS Transformation Format.
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#UTF_8} instead.
+   * {@link StandardCharsets#UTF_8} instead.
    *
    */
-  public static final Charset UTF_8 = Charset.forName("UTF-8");
+  public static final Charset UTF_8 = StandardCharsets.UTF_8;
 
   /**
    * UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#UTF_16BE} instead.
+   * {@link StandardCharsets#UTF_16BE} instead.
    *
    */
   @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
-  public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
+  public static final Charset UTF_16BE = StandardCharsets.UTF_16BE;
 
   /**
    * UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#UTF_16LE} instead.
+   * {@link StandardCharsets#UTF_16LE} instead.
    *
    */
   @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
-  public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+  public static final Charset UTF_16LE = StandardCharsets.UTF_16LE;
 
   /**
    * UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
    * mark.
    *
    * <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
-   * {@link java.nio.charset.StandardCharsets#UTF_16} instead.
+   * {@link StandardCharsets#UTF_16} instead.
    *
    */
   @J2ktIncompatible
   @GwtIncompatible // Charset not supported by GWT
-  public static final Charset UTF_16 = Charset.forName("UTF-16");
+  public static final Charset UTF_16 = StandardCharsets.UTF_16;
 
   /*
    * Please do not add new Charset references to this class, unless those character encodings are
