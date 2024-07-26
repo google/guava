@@ -1509,7 +1509,7 @@
       <![CDATA[US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#US_ASCII} instead.]]>
+ {@link StandardCharsets#US_ASCII} instead.]]>
       </doc>
     </field>
     <field name="ISO_8859_1" type="java.nio.charset.Charset"
@@ -1520,7 +1520,7 @@
       <![CDATA[ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#ISO_8859_1} instead.]]>
+ {@link StandardCharsets#ISO_8859_1} instead.]]>
       </doc>
     </field>
     <field name="UTF_8" type="java.nio.charset.Charset"
@@ -1531,7 +1531,7 @@
       <![CDATA[UTF-8: eight-bit UCS Transformation Format.
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#UTF_8} instead.]]>
+ {@link StandardCharsets#UTF_8} instead.]]>
       </doc>
     </field>
     <field name="UTF_16BE" type="java.nio.charset.Charset"
@@ -1542,7 +1542,7 @@
       <![CDATA[UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#UTF_16BE} instead.]]>
+ {@link StandardCharsets#UTF_16BE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16LE" type="java.nio.charset.Charset"
@@ -1553,7 +1553,7 @@
       <![CDATA[UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#UTF_16LE} instead.]]>
+ {@link StandardCharsets#UTF_16LE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16" type="java.nio.charset.Charset"
@@ -1565,7 +1565,7 @@
  mark.
 
  <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link java.nio.charset.StandardCharsets#UTF_16} instead.]]>
+ {@link StandardCharsets#UTF_16} instead.]]>
       </doc>
     </field>
     <doc>

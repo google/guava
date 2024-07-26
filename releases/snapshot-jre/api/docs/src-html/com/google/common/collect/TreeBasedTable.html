@@ -79,7 +79,7 @@
 <span class="sourceLineNo">070</span><a id="line.70">public class TreeBasedTable&lt;R, C, V&gt; extends StandardRowSortedTable&lt;R, C, V&gt; {</a>
 <span class="sourceLineNo">071</span><a id="line.71">  private final Comparator&lt;? super C&gt; columnComparator;</a>
 <span class="sourceLineNo">072</span><a id="line.72"></a>
-<span class="sourceLineNo">073</span><a id="line.73">  private static class Factory&lt;C, V&gt; implements Supplier&lt;TreeMap&lt;C, V&gt;&gt;, Serializable {</a>
+<span class="sourceLineNo">073</span><a id="line.73">  private static class Factory&lt;C, V&gt; implements Supplier&lt;Map&lt;C, V&gt;&gt;, Serializable {</a>
 <span class="sourceLineNo">074</span><a id="line.74">    final Comparator&lt;? super C&gt; comparator;</a>
 <span class="sourceLineNo">075</span><a id="line.75"></a>
 <span class="sourceLineNo">076</span><a id="line.76">    Factory(Comparator&lt;? super C&gt; comparator) {</a>
@@ -87,7 +87,7 @@
 <span class="sourceLineNo">078</span><a id="line.78">    }</a>
 <span class="sourceLineNo">079</span><a id="line.79"></a>
 <span class="sourceLineNo">080</span><a id="line.80">    @Override</a>
-<span class="sourceLineNo">081</span><a id="line.81">    public TreeMap&lt;C, V&gt; get() {</a>
+<span class="sourceLineNo">081</span><a id="line.81">    public Map&lt;C, V&gt; get() {</a>
 <span class="sourceLineNo">082</span><a id="line.82">      return new TreeMap&lt;&gt;(comparator);</a>
 <span class="sourceLineNo">083</span><a id="line.83">    }</a>
 <span class="sourceLineNo">084</span><a id="line.84"></a>
