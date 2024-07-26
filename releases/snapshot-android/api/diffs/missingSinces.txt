@@ -1,4 +1,5 @@
 OK: com.google.common.cache.CacheBuilder Method expireAfterAccess(java.time.Duration)
 OK: com.google.common.cache.CacheBuilder Method expireAfterWrite(java.time.Duration)
 OK: com.google.common.cache.CacheBuilder Method refreshAfterWrite(java.time.Duration)
+OK: com.google.common.net.MediaType Field MD_UTF_8
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FORM_FACTORS

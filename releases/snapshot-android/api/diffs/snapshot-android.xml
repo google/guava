@@ -54056,6 +54056,17 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="MD_UTF_8" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[As described in <a href="https://www.rfc-editor.org/rfc/rfc7763.html">RFC 7763</a>, this
+ constant ({@code text/markdown}) is used for Markdown documents.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="PLAIN_TEXT_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
