@@ -154,6 +154,15 @@ public final class MediaType {
   public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");
   public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");
   public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");
+
+  /**
+   * As described in <a href="https://www.rfc-editor.org/rfc/rfc7763.html">RFC 7763</a>, this
+   * constant ({@code text/markdown}) is used for Markdown documents.
+   *
+   * @since NEXT
+   */
+  public static final MediaType MD_UTF_8 = createConstantUtf8(TEXT_TYPE, "markdown");
+
   public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");
 
   /**
