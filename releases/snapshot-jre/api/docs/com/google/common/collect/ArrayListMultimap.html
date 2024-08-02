@@ -428,11 +428,12 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.77">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.78">create</a>()</pre>
 <div class="block">Creates a new, empty <code>ArrayListMultimap</code> with the default initial capacities.
 
- <p>This method will soon be deprecated in favor of <code>
- MultimapBuilder.hashKeys().arrayListValues().build()</code>.</div>
+ <p>You may also consider the equivalent <code>
+ MultimapBuilder.hashKeys().arrayListValues().build()</code>, which provides more control over the
+ underlying data structure.</div>
 </li>
 </ul>
 <a id="create(int,int)">
@@ -441,13 +442,14 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.94">create</a>&#8203;(int&nbsp;expectedKeys,
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.96">create</a>&#8203;(int&nbsp;expectedKeys,
                                                                                                                                     int&nbsp;expectedValuesPerKey)</pre>
 <div class="block">Constructs an empty <code>ArrayListMultimap</code> with enough capacity to hold the specified
  numbers of keys and values without resizing.
 
- <p>This method will soon be deprecated in favor of <code>
- MultimapBuilder.hashKeys(expectedKeys).arrayListValues(expectedValuesPerKey).build()</code>.</div>
+ <p>You may also consider the equivalent <code>
+ MultimapBuilder.hashKeys(expectedKeys).arrayListValues(expectedValuesPerKey).build()</code>, which
+ provides more control over the underlying data structure.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>expectedKeys</code> - the expected number of distinct keys</dd>
@@ -464,11 +466,12 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.107">create</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.110">create</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
 <div class="block">Constructs an <code>ArrayListMultimap</code> with the same mappings as the specified multimap.
 
- <p>This method will soon be deprecated in favor of <code>
- MultimapBuilder.hashKeys().arrayListValues().build(multimap)</code>.</div>
+ <p>You may also consider the equivalent <code>
+ MultimapBuilder.hashKeys().arrayListValues().build(multimap)</code>, which provides more control over
+ the underlying data structure.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>multimap</code> - the multimap whose contents are copied to this multimap</dd>
@@ -482,7 +485,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>trimToSize</h4>
 <pre class="methodSignature">@Deprecated
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.146">trimToSize</a>()</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayListMultimap.html#line.149">trimToSize</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">For a <a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
      call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>.</div>
