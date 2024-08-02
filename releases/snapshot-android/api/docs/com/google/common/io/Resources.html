@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Resources.html#line.43">Resources</a>
+public final class <a href="../../../../src-html/com/google/common/io/Resources.html#line.44">Resources</a>
 extends java.lang.Object</pre>
 <div class="block">Provides utility methods for working with resources in the classpath. Note that even though these
  methods use <code>URL</code> parameters, they are usually not appropriate for HTTP or other
@@ -267,7 +267,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asByteSource</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.54">asByteSource</a>&#8203;(java.net.URL&nbsp;url)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.55">asByteSource</a>&#8203;(java.net.URL&nbsp;url)</pre>
 <div class="block">Returns a <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> that reads from the given URL.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -281,7 +281,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSource</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.83">asCharSource</a>&#8203;(java.net.URL&nbsp;url,
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.84">asCharSource</a>&#8203;(java.net.URL&nbsp;url,
                                       java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Returns a <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> that reads from the given URL using the given character set.</div>
 <dl>
@@ -296,7 +296,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.94">toByteArray</a>&#8203;(java.net.URL&nbsp;url)
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.95">toByteArray</a>&#8203;(java.net.URL&nbsp;url)
                           throws java.io.IOException</pre>
 <div class="block">Reads all bytes from a URL into a byte array.</div>
 <dl>
@@ -315,15 +315,15 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.107">toString</a>&#8203;(java.net.URL&nbsp;url,
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.108">toString</a>&#8203;(java.net.URL&nbsp;url,
                                         java.nio.charset.Charset&nbsp;charset)
                                  throws java.io.IOException</pre>
 <div class="block">Reads all characters from a URL into a <code>String</code>, using the given character set.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>url</code> - the URL to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>Charsets</code> for helpful
-     predefined constants</dd>
+<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+     helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string containing all the characters from the URL</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -338,7 +338,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>readLines</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.122">readLines</a>&#8203;(java.net.URL&nbsp;url,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.123">readLines</a>&#8203;(java.net.URL&nbsp;url,
                                                                  java.nio.charset.Charset&nbsp;charset,
                                                                  <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)
                                                           throws java.io.IOException</pre>
@@ -347,8 +347,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>url</code> - the URL to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>Charsets</code> for helpful
-     predefined constants</dd>
+<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+     helpful predefined constants</dd>
 <dd><code>callback</code> - the LineProcessor to use to handle the lines</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the output of processing the lines</dd>
@@ -363,7 +363,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.142">readLines</a>&#8203;(java.net.URL&nbsp;url,
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.143">readLines</a>&#8203;(java.net.URL&nbsp;url,
                                                          java.nio.charset.Charset&nbsp;charset)
                                                   throws java.io.IOException</pre>
 <div class="block">Reads all of the lines from a URL. The lines do not include line-termination characters, but do
@@ -374,8 +374,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>url</code> - the URL to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>Charsets</code> for helpful
-     predefined constants</dd>
+<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+     helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a mutable <code>List</code> containing all the lines</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -389,7 +389,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.171">copy</a>&#8203;(java.net.URL&nbsp;from,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.172">copy</a>&#8203;(java.net.URL&nbsp;from,
                         java.io.OutputStream&nbsp;to)
                  throws java.io.IOException</pre>
 <div class="block">Copies all bytes from a URL to an output stream.</div>
@@ -409,7 +409,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>getResource</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;java.net.URL&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.187">getResource</a>&#8203;(java.lang.String&nbsp;resourceName)</pre>
+public static&nbsp;java.net.URL&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.188">getResource</a>&#8203;(java.lang.String&nbsp;resourceName)</pre>
 <div class="block">Returns a <code>URL</code> pointing to <code>resourceName</code> if the resource is found using the
  context class loader. In simple environments, the
  context class loader will find resources from the class path. In environments where different
@@ -431,7 +431,7 @@ public static&nbsp;java.net.URL&nbsp;<a href="../../../../src-html/com/google/co
 <li class="blockList">
 <h4>getResource</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;java.net.URL&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.205">getResource</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;contextClass,
+public static&nbsp;java.net.URL&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.206">getResource</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;contextClass,
                                        java.lang.String&nbsp;resourceName)</pre>
 <div class="block">Given a <code>resourceName</code> that is relative to <code>contextClass</code>, returns a <code>URL</code>
  pointing to the named resource.</div>

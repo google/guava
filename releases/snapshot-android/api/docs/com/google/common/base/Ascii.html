@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Ascii.html#line.39">Ascii</a>
+public final class <a href="../../../../src-html/com/google/common/base/Ascii.html#line.40">Ascii</a>
 extends java.lang.Object</pre>
 <div class="block">Static methods pertaining to ASCII characters (those in the range of values <code>0x00</code> through
  <code>0x7F</code>), and to strings containing such characters.
@@ -142,7 +142,7 @@ extends java.lang.Object</pre>
 
  <ul>
    <!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? -->
-   <li><a href="Charsets.html#US_ASCII"><code>Charsets.US_ASCII</code></a> specifies the <code>Charset</code> of ASCII characters.
+   <li><code>StandardCharsets.US_ASCII</code> specifies the <code>Charset</code> of ASCII characters.
    <li><a href="CharMatcher.html#ascii()"><code>CharMatcher.ascii()</code></a> matches ASCII characters and provides text processing methods
        which operate only on the ASCII characters of a string.
  </ul></div>
@@ -616,7 +616,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>NUL</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.55">NUL</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.56">NUL</a></pre>
 <div class="block">Null ('\0'): The all-zeros character which may serve to accomplish time fill and media fill.
  Normally used as a C string terminator.
 
@@ -636,7 +636,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SOH</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.64">SOH</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.65">SOH</a></pre>
 <div class="block">Start of Heading: A communication control character used at the beginning of a sequence of
  characters which constitute a machine-sensible address or routing information. Such a sequence
  is referred to as the "heading." An STX character has the effect of terminating a heading.</div>
@@ -654,7 +654,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>STX</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.74">STX</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.75">STX</a></pre>
 <div class="block">Start of Text: A communication control character which precedes a sequence of characters that
  is to be treated as an entity and entirely transmitted through to the ultimate destination.
  Such a sequence is referred to as "text." STX may be used to terminate a sequence of characters
@@ -673,7 +673,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ETX</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.82">ETX</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.83">ETX</a></pre>
 <div class="block">End of Text: A communication control character used to terminate a sequence of characters
  started with STX and transmitted as an entity.</div>
 <dl>
@@ -690,7 +690,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>EOT</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.90">EOT</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.91">EOT</a></pre>
 <div class="block">End of Transmission: A communication control character used to indicate the conclusion of a
  transmission, which may have contained one or more texts and any associated headings.</div>
 <dl>
@@ -707,7 +707,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ENQ</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.99">ENQ</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.100">ENQ</a></pre>
 <div class="block">Enquiry: A communication control character used in data communication systems as a request for
  a response from a remote station. It may be used as a "Who Are You" (WRU) to obtain
  identification, or may be used to obtain station status, or both.</div>
@@ -725,7 +725,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ACK</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.107">ACK</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.108">ACK</a></pre>
 <div class="block">Acknowledge: A communication control character transmitted by a receiver as an affirmative
  response to a sender.</div>
 <dl>
@@ -742,7 +742,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>BEL</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.115">BEL</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.116">BEL</a></pre>
 <div class="block">Bell ('\a'): A character for use when there is a need to call for human attention. It may
  control alarm or attention devices.</div>
 <dl>
@@ -759,7 +759,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>BS</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.123">BS</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.124">BS</a></pre>
 <div class="block">Backspace ('\b'): A format effector which controls the movement of the printing position one
  printing space backward on the same printing line. (Applicable also to display devices.)</div>
 <dl>
@@ -776,7 +776,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>HT</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.132">HT</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.133">HT</a></pre>
 <div class="block">Horizontal Tabulation ('\t'): A format effector which controls the movement of the printing
  position to the next in a series of predetermined positions along the printing line.
  (Applicable also to display devices and the skip function on punched cards.)</div>
@@ -794,7 +794,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>LF</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.143">LF</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.144">LF</a></pre>
 <div class="block">Line Feed ('\n'): A format effector which controls the movement of the printing position to the
  next printing line. (Applicable also to display devices.) Where appropriate, this character may
  have the meaning "New Line" (NL), a format effector which controls the movement of the printing
@@ -814,7 +814,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>NL</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.150">NL</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.151">NL</a></pre>
 <div class="block">Alternate name for <a href="#LF"><code>LF</code></a>. (<code>LF</code> is preferred.)</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -830,7 +830,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>VT</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.159">VT</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.160">VT</a></pre>
 <div class="block">Vertical Tabulation ('\v'): A format effector which controls the movement of the printing
  position to the next in a series of predetermined printing lines. (Applicable also to display
  devices.)</div>
@@ -848,7 +848,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>FF</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.168">FF</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.169">FF</a></pre>
 <div class="block">Form Feed ('\f'): A format effector which controls the movement of the printing position to the
  first pre-determined printing line on the next form or page. (Applicable also to display
  devices.)</div>
@@ -866,7 +866,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>CR</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.176">CR</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.177">CR</a></pre>
 <div class="block">Carriage Return ('\r'): A format effector which controls the movement of the printing position
  to the first printing position on the same printing line. (Applicable also to display devices.)</div>
 <dl>
@@ -883,7 +883,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SO</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.185">SO</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.186">SO</a></pre>
 <div class="block">Shift Out: A control character indicating that the code combinations which follow shall be
  interpreted as outside of the character set of the standard code table until a Shift In
  character is reached.</div>
@@ -901,7 +901,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SI</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.193">SI</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.194">SI</a></pre>
 <div class="block">Shift In: A control character indicating that the code combinations which follow shall be
  interpreted according to the standard code table.</div>
 <dl>
@@ -918,7 +918,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DLE</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.202">DLE</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.203">DLE</a></pre>
 <div class="block">Data Link Escape: A communication control character which will change the meaning of a limited
  number of contiguously following characters. It is used exclusively to provide supplementary
  controls in data communication networks.</div>
@@ -936,7 +936,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DC1</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.212">DC1</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.213">DC1</a></pre>
 <div class="block">Device Control 1. Characters for the control of ancillary devices associated with data
  processing or telecommunication systems, more especially switching devices "on" or "off." (If a
  single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the
@@ -955,7 +955,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>XON</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.221">XON</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.222">XON</a></pre>
 <div class="block">Transmission On: Although originally defined as DC1, this ASCII control character is now better
  known as the XON code used for software flow control in serial communications. The main use is
  restarting the transmission after the communication has been stopped by the XOFF control code.</div>
@@ -973,7 +973,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DC2</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.231">DC2</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.232">DC2</a></pre>
 <div class="block">Device Control 2. Characters for the control of ancillary devices associated with data
  processing or telecommunication systems, more especially switching devices "on" or "off." (If a
  single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the
@@ -992,7 +992,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DC3</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.241">DC3</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.242">DC3</a></pre>
 <div class="block">Device Control 3. Characters for the control of ancillary devices associated with data
  processing or telecommunication systems, more especially switching devices "on" or "off." (If a
  single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the
@@ -1011,7 +1011,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>XOFF</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.248">XOFF</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.249">XOFF</a></pre>
 <div class="block">Transmission off. See <a href="#XON"><code>XON</code></a> for explanation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1027,7 +1027,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DC4</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.258">DC4</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.259">DC4</a></pre>
 <div class="block">Device Control 4. Characters for the control of ancillary devices associated with data
  processing or telecommunication systems, more especially switching devices "on" or "off." (If a
  single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the
@@ -1046,7 +1046,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>NAK</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.266">NAK</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.267">NAK</a></pre>
 <div class="block">Negative Acknowledge: A communication control character transmitted by a receiver as a negative
  response to the sender.</div>
 <dl>
@@ -1063,7 +1063,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SYN</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.275">SYN</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.276">SYN</a></pre>
 <div class="block">Synchronous Idle: A communication control character used by a synchronous transmission system
  in the absence of any other character to provide a signal from which synchronism may be
  achieved or retained.</div>
@@ -1081,7 +1081,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ETB</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.284">ETB</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.285">ETB</a></pre>
 <div class="block">End of Transmission Block: A communication control character used to indicate the end of a
  block of data for communication purposes. ETB is used for blocking data where the block
  structure is not necessarily related to the processing format.</div>
@@ -1099,7 +1099,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>CAN</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.292">CAN</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.293">CAN</a></pre>
 <div class="block">Cancel: A control character used to indicate that the data with which it is sent is in error or
  is to be disregarded.</div>
 <dl>
@@ -1116,7 +1116,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>EM</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.302">EM</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.303">EM</a></pre>
 <div class="block">End of Medium: A control character associated with the sent data which may be used to identify
  the physical end of the medium, or the end of the used, or wanted, portion of information
  recorded on a medium. (The position of this character does not necessarily correspond to the
@@ -1135,7 +1135,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SUB</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.310">SUB</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.311">SUB</a></pre>
 <div class="block">Substitute: A character that may be substituted for a character which is determined to be
  invalid or in error.</div>
 <dl>
@@ -1152,7 +1152,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ESC</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.319">ESC</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.320">ESC</a></pre>
 <div class="block">Escape: A control character intended to provide code extension (supplementary characters) in
  general information interchange. The Escape character itself is a prefix affecting the
  interpretation of a limited number of contiguously following characters.</div>
@@ -1170,7 +1170,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>FS</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.329">FS</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.330">FS</a></pre>
 <div class="block">File Separator: These four information separators may be used within data in optional fashion,
  except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then
  RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are
@@ -1189,7 +1189,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>GS</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.339">GS</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.340">GS</a></pre>
 <div class="block">Group Separator: These four information separators may be used within data in optional fashion,
  except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then
  RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are
@@ -1208,7 +1208,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>RS</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.349">RS</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.350">RS</a></pre>
 <div class="block">Record Separator: These four information separators may be used within data in optional
  fashion, except that their hierarchical relationship shall be: FS is the most inclusive, then
  GS, then RS, and US is least inclusive. (The content and length of a File, Group, Record, or
@@ -1227,7 +1227,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>US</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.359">US</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.360">US</a></pre>
 <div class="block">Unit Separator: These four information separators may be used within data in optional fashion,
  except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then
  RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are
@@ -1246,7 +1246,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SP</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.368">SP</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.369">SP</a></pre>
 <div class="block">Space: A normally non-printing graphic character used to separate words. It is also a format
  effector which controls the movement of the printing position, one printing position forward.
  (Applicable also to display devices.)</div>
@@ -1264,7 +1264,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>SPACE</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.375">SPACE</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.376">SPACE</a></pre>
 <div class="block">Alternate name for <a href="#SP"><code>SP</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1280,7 +1280,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DEL</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.383">DEL</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/base/Ascii.html#line.384">DEL</a></pre>
 <div class="block">Delete: This character is used primarily to "erase" or "obliterate" erroneous or unwanted
  characters in perforated tape.</div>
 <dl>
@@ -1297,7 +1297,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>MIN</h4>
-<pre>public static final&nbsp;char <a href="../../../../src-html/com/google/common/base/Ascii.html#line.390">MIN</a></pre>
+<pre>public static final&nbsp;char <a href="../../../../src-html/com/google/common/base/Ascii.html#line.391">MIN</a></pre>
 <div class="block">The minimum value of an ASCII character.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1313,7 +1313,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MAX</h4>
-<pre>public static final&nbsp;char <a href="../../../../src-html/com/google/common/base/Ascii.html#line.397">MAX</a></pre>
+<pre>public static final&nbsp;char <a href="../../../../src-html/com/google/common/base/Ascii.html#line.398">MAX</a></pre>
 <div class="block">The maximum value of an ASCII character.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1339,7 +1339,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toLowerCase</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.407">toLowerCase</a>&#8203;(java.lang.String&nbsp;string)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.408">toLowerCase</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Returns a copy of the input string in which all <a href="#isUpperCase(char)">uppercase ASCII
  characters</a> have been converted to lowercase. All other characters are copied without
  modification.</div>
@@ -1351,7 +1351,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toLowerCase</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.431">toLowerCase</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.432">toLowerCase</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Returns a copy of the input character sequence in which all <a href="#isUpperCase(char)">uppercase ASCII characters</a> have been converted to lowercase. All other characters are copied
  without modification.</div>
 <dl>
@@ -1366,7 +1366,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toLowerCase</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.446">toLowerCase</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.447">toLowerCase</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">If the argument is an <a href="#isUpperCase(char)">uppercase ASCII character</a>, returns the
  lowercase equivalent. Otherwise returns the argument.</div>
 </li>
@@ -1377,7 +1377,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toUpperCase</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.455">toUpperCase</a>&#8203;(java.lang.String&nbsp;string)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.456">toUpperCase</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Returns a copy of the input string in which all <a href="#isLowerCase(char)">lowercase ASCII
  characters</a> have been converted to uppercase. All other characters are copied without
  modification.</div>
@@ -1389,7 +1389,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toUpperCase</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.479">toUpperCase</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.480">toUpperCase</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Returns a copy of the input character sequence in which all <a href="#isLowerCase(char)">lowercase ASCII characters</a> have been converted to uppercase. All other characters are copied
  without modification.</div>
 <dl>
@@ -1404,7 +1404,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toUpperCase</h4>
-<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.494">toUpperCase</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.495">toUpperCase</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">If the argument is a <a href="#isLowerCase(char)">lowercase ASCII character</a>, returns the
  uppercase equivalent. Otherwise returns the argument.</div>
 </li>
@@ -1415,7 +1415,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isLowerCase</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.503">isLowerCase</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.504">isLowerCase</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Indicates whether <code>c</code> is one of the twenty-six lowercase ASCII alphabetic characters
  between <code>'a'</code> and <code>'z'</code> inclusive. All others (including non-ASCII characters)
  return <code>false</code>.</div>
@@ -1427,7 +1427,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isUpperCase</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.514">isUpperCase</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.515">isUpperCase</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Indicates whether <code>c</code> is one of the twenty-six uppercase ASCII alphabetic characters
  between <code>'A'</code> and <code>'Z'</code> inclusive. All others (including non-ASCII characters)
  return <code>false</code>.</div>
@@ -1439,7 +1439,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>truncate</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.550">truncate</a>&#8203;(java.lang.CharSequence&nbsp;seq,
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.551">truncate</a>&#8203;(java.lang.CharSequence&nbsp;seq,
                                         int&nbsp;maxLength,
                                         java.lang.String&nbsp;truncationIndicator)</pre>
 <div class="block">Truncates the given character sequence to the given maximum length. If the length of the
@@ -1483,7 +1483,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equalsIgnoreCase</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.601">equalsIgnoreCase</a>&#8203;(java.lang.CharSequence&nbsp;s1,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ascii.html#line.602">equalsIgnoreCase</a>&#8203;(java.lang.CharSequence&nbsp;s1,
                                        java.lang.CharSequence&nbsp;s2)</pre>
 <div class="block">Indicates whether the contents of the given character sequences <code>s1</code> and <code>s2</code> are
  equal, ignoring the case of any ASCII alphabetic characters between <code>'a'</code> and <code>'z'</code>
