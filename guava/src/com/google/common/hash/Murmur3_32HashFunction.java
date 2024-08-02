@@ -148,7 +148,6 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     return fmix(h1, Chars.BYTES * input.length());
   }
 
-  @SuppressWarnings("deprecation") // need to use Charsets for Android tests to pass
   @Override
   public HashCode hashString(CharSequence input, Charset charset) {
     if (UTF_8.equals(charset)) {
@@ -352,7 +351,6 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     }
 
     @CanIgnoreReturnValue
-    @SuppressWarnings("deprecation") // need to use Charsets for Android tests to pass
     @Override
     public Hasher putString(CharSequence input, Charset charset) {
       if (UTF_8.equals(charset)) {
