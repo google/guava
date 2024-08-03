@@ -77,7 +77,6 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
   private static final int DEFAULT_EXPECTED_KEYS = 8;
 
-  boolean useCustomMap;
   @CheckForNull
   Strength keyStrength;
 
