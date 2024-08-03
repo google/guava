@@ -86,6 +86,16 @@ public class LocalCacheMapComputeTest extends TestCase {
     assertThat(c.asMap().computeIfAbsent("hash-2", k -> "")).isEqualTo("");
   }
 
+    public void testComputeIfPresent_error() {
+        Cache<String, String> cache = CacheBuilder.newBuilder().build();
+        cache.put(key, "1");
+        try {
+            cache.asMap().computeIfPresent(key, (key, value) -> { throw new Error(); });
+        } catch (Error e) {}
+        assertEquals("1", cache.getIfPresent(key));
+        assertEquals("2", cache.asMap().computeIfPresent(key, (k, v) -> "2"));
+    }
+
   public void testComputeIfPresent() {
     cache.put(key, "1");
     // simultaneous update for same key, expect count successful updates
