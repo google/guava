@@ -159,6 +159,36 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
   }
 
+  static class HashHostileComparable implements Comparable<HashHostileComparable> {
+    final String string;
+
+    public HashHostileComparable(String string) {
+      this.string = string;
+    }
+
+    @Override
+    public int hashCode() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int compareTo(HashHostileComparable o) {
+      return string.compareTo(o.string);
+    }
+  }
+
+  public void testSortedBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableSetMultimap.Builder<String, HashHostileComparable> builder =
+        ImmutableSetMultimap.<String, HashHostileComparable>builder()
+            .expectedValuesPerKey(2)
+            .orderValuesBy(Ordering.natural());
+    HashHostileComparable v1 = new HashHostileComparable("value1");
+    HashHostileComparable v2 = new HashHostileComparable("value2");
+    builder.put("key", v1);
+    builder.put("key", v2);
+    assertThat(builder.build().entries()).hasSize(2);
+  }
+
   public void testBuilder_withImmutableEntry() {
     ImmutableSetMultimap<String, Integer> multimap =
         new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();

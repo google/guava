@@ -452,7 +452,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     }
 
     Builder(Comparator<? super E> comparator, int expectedKeys) {
-      super(expectedKeys);
+      super(expectedKeys, false);
       this.comparator = checkNotNull(comparator);
     }
 

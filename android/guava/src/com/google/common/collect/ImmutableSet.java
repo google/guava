@@ -436,7 +436,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<>(expectedSize);
+    return new Builder<>(expectedSize, true);
   }
 
   /**
@@ -469,9 +469,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       super(DEFAULT_INITIAL_CAPACITY);
     }
 
-    Builder(int capacity) {
+    Builder(int capacity, boolean makeHashTable) {
       super(capacity);
-      this.hashTable = new @Nullable Object[chooseTableSize(capacity)];
+      if (makeHashTable) {
+        this.hashTable = new @Nullable Object[chooseTableSize(capacity)];
+      }
     }
 
     /**
