@@ -123,6 +123,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   /** GWT emulated version of {@link ImmutableCollection.Builder}. */
   public abstract static class Builder<E> {
+    static final int DEFAULT_INITIAL_CAPACITY = 4;
 
     Builder() {}
 

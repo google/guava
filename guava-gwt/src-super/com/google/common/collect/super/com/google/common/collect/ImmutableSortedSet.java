@@ -421,6 +421,11 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
       this.comparator = checkNotNull(comparator);
     }
 
+    Builder(Comparator<? super E> comparator, int expectedSize) {
+      super(expectedSize);
+      this.comparator = checkNotNull(comparator);
+    }
+
     @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {

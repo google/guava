@@ -69,6 +69,15 @@ final class Platform {
   }
 
   /**
+   * Returns the platform preferred map implementation that preserves insertion order when used only
+   * for insertions, with a hint for how many entries to expect.
+   */
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> preservesInsertionOrderOnPutsMapWithExpectedSize(int expectedSize) {
+    return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
+  }
+
+  /**
    * Returns the platform preferred set implementation that preserves insertion order when used only
    * for insertions.
    */

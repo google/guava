@@ -92,6 +92,79 @@ public class ImmutableSetMultimapTest extends TestCase {
     return suite;
   }
 
+  public void testBuilderWithExpectedKeysNegative() {
+    try {
+      ImmutableSetMultimap.builderWithExpectedKeys(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedKeysZero() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.builderWithExpectedKeys(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedKeysPositive() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.builderWithExpectedKeys(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegative() {
+    ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
+    try {
+      builder.expectedValuesPerKey(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZero() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.<String, String>builder().expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.<String, String>builder().expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegativeOrderValuesBy() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.<String, String>builder().orderValuesBy(Ordering.natural());
+    try {
+      builder.expectedValuesPerKey(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZeroOrderValuesBy() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.<String, String>builder()
+            .orderValuesBy(Ordering.natural())
+            .expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositiveOrderValuesBy() {
+    ImmutableSetMultimap.Builder<String, String> builder =
+        ImmutableSetMultimap.<String, String>builder()
+            .orderValuesBy(Ordering.natural())
+            .expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
   public void testBuilder_withImmutableEntry() {
     ImmutableSetMultimap<String, Integer> multimap =
         new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -58,6 +60,50 @@ public class ImmutableMultimapTest extends TestCase {
       fail();
     } catch (NullPointerException expected) {
     }
+  }
+
+  public void testBuilderWithExpectedKeysNegative() {
+    try {
+      ImmutableMultimap.builderWithExpectedKeys(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedKeysZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedKeysPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegative() {
+    try {
+      ImmutableMultimap.builder().expectedValuesPerKey(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
   }
 
   private static class StringHolder {

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -37,6 +38,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
@@ -221,6 +223,19 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   /**
+   * Returns a new builder with a hint for how many distinct keys are expected to be added. The
+   * generated builder is equivalent to that returned by {@link #builder}, but may perform better if
+   * {@code expectedKeys} is a good estimate.
+   *
+   * @throws IllegalArgumentException if {@code expectedKeys} is negative
+   * @since NEXT
+   */
+  public static <K, V> Builder<K, V> builderWithExpectedKeys(int expectedKeys) {
+    checkNonnegative(expectedKeys, "expectedKeys");
+    return new Builder<>(expectedKeys);
+  }
+
+  /**
    * A builder for creating immutable {@code SetMultimap} instances, especially {@code public static
    * final} multimaps ("constant multimaps"). Example:
    *
@@ -248,11 +263,41 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       super();
     }
 
+    Builder(int expectedKeys) {
+      super(expectedKeys);
+    }
+
     @Override
-    ImmutableCollection.Builder<V> newValueCollectionBuilder() {
+    ImmutableCollection.Builder<V> newValueCollectionBuilderWithExpectedSize(int expectedSize) {
       return (valueComparator == null)
-          ? ImmutableSet.builder()
-          : new ImmutableSortedSet.Builder<V>(valueComparator);
+          ? ImmutableSet.builderWithExpectedSize(expectedSize)
+          : new ImmutableSortedSet.Builder<V>(valueComparator, expectedSize);
+    }
+
+    @Override
+    int expectedValueCollectionSize(int defaultExpectedValues, Iterable<?> values) {
+      // Only trust the size of `values` if it is a Set and therefore probably already deduplicated.
+      if (values instanceof Set<?>) {
+        Set<?> collection = (Set<?>) values;
+        return Math.max(defaultExpectedValues, collection.size());
+      } else {
+        return defaultExpectedValues;
+      }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Note that {@code expectedValuesPerKey} is taken to mean the expected number of
+     * <i>distinct</i> values per key.
+     *
+     * @since NEXT
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> expectedValuesPerKey(int expectedValuesPerKey) {
+      super.expectedValuesPerKey(expectedValuesPerKey);
+      return this;
     }
 
     /** Adds a key-value mapping to the built multimap if it is not already present. */
