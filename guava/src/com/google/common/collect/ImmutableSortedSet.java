@@ -544,7 +544,10 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
-      super.addAll(elements);
+      checkNotNull(elements);
+      for (E e : elements) {
+        add(e);
+      }
       return this;
     }
 

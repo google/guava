@@ -491,6 +491,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
 
+    // Used in subclass ImmutableSortedSet.Builder to avoid doing irrelevant initialization there.
     Builder(@SuppressWarnings("unused") boolean subclass) {
       this.impl = null; // unused
     }
@@ -541,7 +542,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @Override
     @CanIgnoreReturnValue
     public Builder<E> addAll(Iterable<? extends E> elements) {
-      super.addAll(elements);
+      requireNonNull(impl);
+      checkNotNull(elements);
+      copyIfNecessary();
+
+      // this may do some smart presizing if elements is a Set
+      impl = impl.addAll(elements);
       return this;
     }
 
@@ -601,7 +607,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * Resizes internal data structures if necessary to store the specified number of distinct
      * elements.
      */
-    private void ensureCapacity(int minCapacity) {
+    void ensureCapacity(int minCapacity) {
       if (minCapacity > dedupedElements.length) {
         int newCapacity =
             ImmutableCollection.Builder.expandedCapacity(dedupedElements.length, minCapacity);
@@ -620,6 +626,19 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * SetBuilderImpl, since we may switch implementations if e.g. hash flooding is detected.
      */
     abstract SetBuilderImpl<E> add(E e);
+
+    /**
+     * Adds all of the specified elements to this SetBuilderImpl, returning the updated result. May
+     * do something smart for presizing. (Currently, this is done in EmptySetBuilderImpl and
+     * RegularSetBuilderImpl.)
+     */
+    SetBuilderImpl<E> addAll(Iterable<? extends E> elements) {
+      SetBuilderImpl<E> impl = this;
+      for (E e : elements) {
+        impl = impl.add(e);
+      }
+      return impl;
+    }
 
     /** Adds all the elements from the specified SetBuilderImpl to this SetBuilderImpl. */
     final SetBuilderImpl<E> combine(SetBuilderImpl<E> other) {
@@ -666,6 +685,17 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @Override
     SetBuilderImpl<E> add(E e) {
       return new RegularSetBuilderImpl<E>(Builder.DEFAULT_INITIAL_CAPACITY).add(e);
+    }
+
+    @Override
+    SetBuilderImpl<E> addAll(Iterable<? extends E> elements) {
+      if (elements instanceof Set) {
+        Set<? extends E> set = (Set<? extends E>) elements;
+        return new RegularSetBuilderImpl<E>(Math.max(set.size(), Builder.DEFAULT_INITIAL_CAPACITY))
+            .addAll(set);
+      } else {
+        return super.addAll(elements);
+      }
     }
 
     @Override
@@ -756,6 +786,17 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         }
       }
       return insertInHashTable(e);
+    }
+
+    @Override
+    SetBuilderImpl<E> addAll(Iterable<? extends E> elements) {
+      if (elements instanceof Set) {
+        Set<? extends E> set = (Set<? extends E>) elements;
+        int n = set.size();
+        ensureCapacity(n);
+        ensureTableCapacity(n);
+      }
+      return super.addAll(elements);
     }
 
     private SetBuilderImpl<E> insertInHashTable(E e) {
