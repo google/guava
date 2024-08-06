@@ -1300,6 +1300,7 @@ public class IteratorsTest extends TestCase {
     assertEquals("[]", Iterators.toString(iterator));
   }
 
+  @SuppressWarnings("JUnitIncompatibleType") // Fails with j2kt.
   public void testLimit() {
     List<String> list = newArrayList();
     try {

@@ -39,6 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public class ImmutableMultimapTest extends TestCase {
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withImmutableEntry() {
     ImmutableMultimap<String, Integer> multimap =
         new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
@@ -63,6 +64,7 @@ public class ImmutableMultimapTest extends TestCase {
     @Nullable String string;
   }
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withMutableEntry() {
     ImmutableMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();

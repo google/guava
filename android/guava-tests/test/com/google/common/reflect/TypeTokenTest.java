@@ -1461,8 +1461,11 @@ public class TypeTokenTest extends TestCase {
                 (TypeToken<T>) TypeToken.of(new TypeCapture<T>() {}.capture())));
   }
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testWhere() {
     assertEquals(new TypeToken<Map<String, Integer>>() {}, mapOf(String.class, Integer.class));
+    // Type inference is doomed here: int.class is the same as Integer.class, so this is comparing
+    // TypeToken<int[]> and TypeToken<Integer[]>.
     assertEquals(new TypeToken<int[]>() {}, arrayOf(int.class));
     assertEquals(int[].class, arrayOf(int.class).getRawType());
   }
