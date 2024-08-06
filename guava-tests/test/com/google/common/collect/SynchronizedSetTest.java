@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class SynchronizedSetTest extends TestCase {
 
-  public static final Object MUTEX = new Integer(1); // something Serializable
+  public static final Object MUTEX = new Object[0]; // something Serializable
 
   public static Test suite() {
     return SetTestSuiteBuilder.using(
