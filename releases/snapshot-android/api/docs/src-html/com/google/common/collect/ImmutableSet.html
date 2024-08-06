@@ -445,7 +445,7 @@
 <span class="sourceLineNo">436</span><a id="line.436">   */</a>
 <span class="sourceLineNo">437</span><a id="line.437">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
 <span class="sourceLineNo">438</span><a id="line.438">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">439</span><a id="line.439">    return new Builder&lt;&gt;(expectedSize);</a>
+<span class="sourceLineNo">439</span><a id="line.439">    return new Builder&lt;&gt;(expectedSize, true);</a>
 <span class="sourceLineNo">440</span><a id="line.440">  }</a>
 <span class="sourceLineNo">441</span><a id="line.441"></a>
 <span class="sourceLineNo">442</span><a id="line.442">  /**</a>
@@ -478,166 +478,168 @@
 <span class="sourceLineNo">469</span><a id="line.469">      super(DEFAULT_INITIAL_CAPACITY);</a>
 <span class="sourceLineNo">470</span><a id="line.470">    }</a>
 <span class="sourceLineNo">471</span><a id="line.471"></a>
-<span class="sourceLineNo">472</span><a id="line.472">    Builder(int capacity) {</a>
+<span class="sourceLineNo">472</span><a id="line.472">    Builder(int capacity, boolean makeHashTable) {</a>
 <span class="sourceLineNo">473</span><a id="line.473">      super(capacity);</a>
-<span class="sourceLineNo">474</span><a id="line.474">      this.hashTable = new @Nullable Object[chooseTableSize(capacity)];</a>
-<span class="sourceLineNo">475</span><a id="line.475">    }</a>
-<span class="sourceLineNo">476</span><a id="line.476"></a>
-<span class="sourceLineNo">477</span><a id="line.477">    /**</a>
-<span class="sourceLineNo">478</span><a id="line.478">     * Adds {@code element} to the {@code ImmutableSet}. If the {@code ImmutableSet} already</a>
-<span class="sourceLineNo">479</span><a id="line.479">     * contains {@code element}, then {@code add} has no effect (only the previously added element</a>
-<span class="sourceLineNo">480</span><a id="line.480">     * is retained).</a>
-<span class="sourceLineNo">481</span><a id="line.481">     *</a>
-<span class="sourceLineNo">482</span><a id="line.482">     * @param element the element to add</a>
-<span class="sourceLineNo">483</span><a id="line.483">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">484</span><a id="line.484">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">485</span><a id="line.485">     */</a>
-<span class="sourceLineNo">486</span><a id="line.486">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">487</span><a id="line.487">    @Override</a>
-<span class="sourceLineNo">488</span><a id="line.488">    public Builder&lt;E&gt; add(E element) {</a>
-<span class="sourceLineNo">489</span><a id="line.489">      checkNotNull(element);</a>
-<span class="sourceLineNo">490</span><a id="line.490">      if (hashTable != null &amp;&amp; chooseTableSize(size) &lt;= hashTable.length) {</a>
-<span class="sourceLineNo">491</span><a id="line.491">        addDeduping(element);</a>
-<span class="sourceLineNo">492</span><a id="line.492">        return this;</a>
-<span class="sourceLineNo">493</span><a id="line.493">      } else {</a>
-<span class="sourceLineNo">494</span><a id="line.494">        hashTable = null;</a>
-<span class="sourceLineNo">495</span><a id="line.495">        super.add(element);</a>
-<span class="sourceLineNo">496</span><a id="line.496">        return this;</a>
-<span class="sourceLineNo">497</span><a id="line.497">      }</a>
-<span class="sourceLineNo">498</span><a id="line.498">    }</a>
-<span class="sourceLineNo">499</span><a id="line.499"></a>
-<span class="sourceLineNo">500</span><a id="line.500">    /**</a>
-<span class="sourceLineNo">501</span><a id="line.501">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
-<span class="sourceLineNo">502</span><a id="line.502">     * elements (only the first duplicate element is added).</a>
-<span class="sourceLineNo">503</span><a id="line.503">     *</a>
-<span class="sourceLineNo">504</span><a id="line.504">     * @param elements the elements to add</a>
-<span class="sourceLineNo">505</span><a id="line.505">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">506</span><a id="line.506">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">507</span><a id="line.507">     */</a>
-<span class="sourceLineNo">508</span><a id="line.508">    @Override</a>
-<span class="sourceLineNo">509</span><a id="line.509">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">510</span><a id="line.510">    public Builder&lt;E&gt; add(E... elements) {</a>
-<span class="sourceLineNo">511</span><a id="line.511">      if (hashTable != null) {</a>
-<span class="sourceLineNo">512</span><a id="line.512">        for (E e : elements) {</a>
-<span class="sourceLineNo">513</span><a id="line.513">          add(e);</a>
-<span class="sourceLineNo">514</span><a id="line.514">        }</a>
-<span class="sourceLineNo">515</span><a id="line.515">      } else {</a>
-<span class="sourceLineNo">516</span><a id="line.516">        super.add(elements);</a>
-<span class="sourceLineNo">517</span><a id="line.517">      }</a>
-<span class="sourceLineNo">518</span><a id="line.518">      return this;</a>
-<span class="sourceLineNo">519</span><a id="line.519">    }</a>
-<span class="sourceLineNo">520</span><a id="line.520"></a>
-<span class="sourceLineNo">521</span><a id="line.521">    private void addDeduping(E element) {</a>
-<span class="sourceLineNo">522</span><a id="line.522">      requireNonNull(hashTable); // safe because we check for null before calling this method</a>
-<span class="sourceLineNo">523</span><a id="line.523">      int mask = hashTable.length - 1;</a>
-<span class="sourceLineNo">524</span><a id="line.524">      int hash = element.hashCode();</a>
-<span class="sourceLineNo">525</span><a id="line.525">      for (int i = Hashing.smear(hash); ; i++) {</a>
-<span class="sourceLineNo">526</span><a id="line.526">        i &amp;= mask;</a>
-<span class="sourceLineNo">527</span><a id="line.527">        Object previous = hashTable[i];</a>
-<span class="sourceLineNo">528</span><a id="line.528">        if (previous == null) {</a>
-<span class="sourceLineNo">529</span><a id="line.529">          hashTable[i] = element;</a>
-<span class="sourceLineNo">530</span><a id="line.530">          hashCode += hash;</a>
-<span class="sourceLineNo">531</span><a id="line.531">          super.add(element);</a>
-<span class="sourceLineNo">532</span><a id="line.532">          return;</a>
-<span class="sourceLineNo">533</span><a id="line.533">        } else if (previous.equals(element)) {</a>
+<span class="sourceLineNo">474</span><a id="line.474">      if (makeHashTable) {</a>
+<span class="sourceLineNo">475</span><a id="line.475">        this.hashTable = new @Nullable Object[chooseTableSize(capacity)];</a>
+<span class="sourceLineNo">476</span><a id="line.476">      }</a>
+<span class="sourceLineNo">477</span><a id="line.477">    }</a>
+<span class="sourceLineNo">478</span><a id="line.478"></a>
+<span class="sourceLineNo">479</span><a id="line.479">    /**</a>
+<span class="sourceLineNo">480</span><a id="line.480">     * Adds {@code element} to the {@code ImmutableSet}. If the {@code ImmutableSet} already</a>
+<span class="sourceLineNo">481</span><a id="line.481">     * contains {@code element}, then {@code add} has no effect (only the previously added element</a>
+<span class="sourceLineNo">482</span><a id="line.482">     * is retained).</a>
+<span class="sourceLineNo">483</span><a id="line.483">     *</a>
+<span class="sourceLineNo">484</span><a id="line.484">     * @param element the element to add</a>
+<span class="sourceLineNo">485</span><a id="line.485">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">486</span><a id="line.486">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">487</span><a id="line.487">     */</a>
+<span class="sourceLineNo">488</span><a id="line.488">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">489</span><a id="line.489">    @Override</a>
+<span class="sourceLineNo">490</span><a id="line.490">    public Builder&lt;E&gt; add(E element) {</a>
+<span class="sourceLineNo">491</span><a id="line.491">      checkNotNull(element);</a>
+<span class="sourceLineNo">492</span><a id="line.492">      if (hashTable != null &amp;&amp; chooseTableSize(size) &lt;= hashTable.length) {</a>
+<span class="sourceLineNo">493</span><a id="line.493">        addDeduping(element);</a>
+<span class="sourceLineNo">494</span><a id="line.494">        return this;</a>
+<span class="sourceLineNo">495</span><a id="line.495">      } else {</a>
+<span class="sourceLineNo">496</span><a id="line.496">        hashTable = null;</a>
+<span class="sourceLineNo">497</span><a id="line.497">        super.add(element);</a>
+<span class="sourceLineNo">498</span><a id="line.498">        return this;</a>
+<span class="sourceLineNo">499</span><a id="line.499">      }</a>
+<span class="sourceLineNo">500</span><a id="line.500">    }</a>
+<span class="sourceLineNo">501</span><a id="line.501"></a>
+<span class="sourceLineNo">502</span><a id="line.502">    /**</a>
+<span class="sourceLineNo">503</span><a id="line.503">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
+<span class="sourceLineNo">504</span><a id="line.504">     * elements (only the first duplicate element is added).</a>
+<span class="sourceLineNo">505</span><a id="line.505">     *</a>
+<span class="sourceLineNo">506</span><a id="line.506">     * @param elements the elements to add</a>
+<span class="sourceLineNo">507</span><a id="line.507">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">508</span><a id="line.508">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">509</span><a id="line.509">     */</a>
+<span class="sourceLineNo">510</span><a id="line.510">    @Override</a>
+<span class="sourceLineNo">511</span><a id="line.511">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">512</span><a id="line.512">    public Builder&lt;E&gt; add(E... elements) {</a>
+<span class="sourceLineNo">513</span><a id="line.513">      if (hashTable != null) {</a>
+<span class="sourceLineNo">514</span><a id="line.514">        for (E e : elements) {</a>
+<span class="sourceLineNo">515</span><a id="line.515">          add(e);</a>
+<span class="sourceLineNo">516</span><a id="line.516">        }</a>
+<span class="sourceLineNo">517</span><a id="line.517">      } else {</a>
+<span class="sourceLineNo">518</span><a id="line.518">        super.add(elements);</a>
+<span class="sourceLineNo">519</span><a id="line.519">      }</a>
+<span class="sourceLineNo">520</span><a id="line.520">      return this;</a>
+<span class="sourceLineNo">521</span><a id="line.521">    }</a>
+<span class="sourceLineNo">522</span><a id="line.522"></a>
+<span class="sourceLineNo">523</span><a id="line.523">    private void addDeduping(E element) {</a>
+<span class="sourceLineNo">524</span><a id="line.524">      requireNonNull(hashTable); // safe because we check for null before calling this method</a>
+<span class="sourceLineNo">525</span><a id="line.525">      int mask = hashTable.length - 1;</a>
+<span class="sourceLineNo">526</span><a id="line.526">      int hash = element.hashCode();</a>
+<span class="sourceLineNo">527</span><a id="line.527">      for (int i = Hashing.smear(hash); ; i++) {</a>
+<span class="sourceLineNo">528</span><a id="line.528">        i &amp;= mask;</a>
+<span class="sourceLineNo">529</span><a id="line.529">        Object previous = hashTable[i];</a>
+<span class="sourceLineNo">530</span><a id="line.530">        if (previous == null) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">          hashTable[i] = element;</a>
+<span class="sourceLineNo">532</span><a id="line.532">          hashCode += hash;</a>
+<span class="sourceLineNo">533</span><a id="line.533">          super.add(element);</a>
 <span class="sourceLineNo">534</span><a id="line.534">          return;</a>
-<span class="sourceLineNo">535</span><a id="line.535">        }</a>
-<span class="sourceLineNo">536</span><a id="line.536">      }</a>
-<span class="sourceLineNo">537</span><a id="line.537">    }</a>
-<span class="sourceLineNo">538</span><a id="line.538"></a>
-<span class="sourceLineNo">539</span><a id="line.539">    /**</a>
-<span class="sourceLineNo">540</span><a id="line.540">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
-<span class="sourceLineNo">541</span><a id="line.541">     * elements (only the first duplicate element is added).</a>
-<span class="sourceLineNo">542</span><a id="line.542">     *</a>
-<span class="sourceLineNo">543</span><a id="line.543">     * @param elements the {@code Iterable} to add to the {@code ImmutableSet}</a>
-<span class="sourceLineNo">544</span><a id="line.544">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">545</span><a id="line.545">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">546</span><a id="line.546">     */</a>
-<span class="sourceLineNo">547</span><a id="line.547">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">548</span><a id="line.548">    @Override</a>
-<span class="sourceLineNo">549</span><a id="line.549">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">550</span><a id="line.550">      checkNotNull(elements);</a>
-<span class="sourceLineNo">551</span><a id="line.551">      if (hashTable != null) {</a>
-<span class="sourceLineNo">552</span><a id="line.552">        for (E e : elements) {</a>
-<span class="sourceLineNo">553</span><a id="line.553">          add(e);</a>
-<span class="sourceLineNo">554</span><a id="line.554">        }</a>
-<span class="sourceLineNo">555</span><a id="line.555">      } else {</a>
-<span class="sourceLineNo">556</span><a id="line.556">        super.addAll(elements);</a>
-<span class="sourceLineNo">557</span><a id="line.557">      }</a>
-<span class="sourceLineNo">558</span><a id="line.558">      return this;</a>
-<span class="sourceLineNo">559</span><a id="line.559">    }</a>
-<span class="sourceLineNo">560</span><a id="line.560"></a>
-<span class="sourceLineNo">561</span><a id="line.561">    /**</a>
-<span class="sourceLineNo">562</span><a id="line.562">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
-<span class="sourceLineNo">563</span><a id="line.563">     * elements (only the first duplicate element is added).</a>
-<span class="sourceLineNo">564</span><a id="line.564">     *</a>
-<span class="sourceLineNo">565</span><a id="line.565">     * @param elements the elements to add to the {@code ImmutableSet}</a>
-<span class="sourceLineNo">566</span><a id="line.566">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">567</span><a id="line.567">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">568</span><a id="line.568">     */</a>
-<span class="sourceLineNo">569</span><a id="line.569">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">570</span><a id="line.570">    @Override</a>
-<span class="sourceLineNo">571</span><a id="line.571">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">572</span><a id="line.572">      checkNotNull(elements);</a>
-<span class="sourceLineNo">573</span><a id="line.573">      while (elements.hasNext()) {</a>
-<span class="sourceLineNo">574</span><a id="line.574">        add(elements.next());</a>
-<span class="sourceLineNo">575</span><a id="line.575">      }</a>
-<span class="sourceLineNo">576</span><a id="line.576">      return this;</a>
-<span class="sourceLineNo">577</span><a id="line.577">    }</a>
-<span class="sourceLineNo">578</span><a id="line.578"></a>
-<span class="sourceLineNo">579</span><a id="line.579">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">580</span><a id="line.580">    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.</a>
-<span class="sourceLineNo">581</span><a id="line.581">    Builder&lt;E&gt; combine(Builder&lt;E&gt; other) {</a>
-<span class="sourceLineNo">582</span><a id="line.582">      if (hashTable != null) {</a>
-<span class="sourceLineNo">583</span><a id="line.583">        for (int i = 0; i &lt; other.size; ++i) {</a>
-<span class="sourceLineNo">584</span><a id="line.584">          // requireNonNull is safe because the first `size` elements are non-null.</a>
-<span class="sourceLineNo">585</span><a id="line.585">          add((E) requireNonNull(other.contents[i]));</a>
-<span class="sourceLineNo">586</span><a id="line.586">        }</a>
-<span class="sourceLineNo">587</span><a id="line.587">      } else {</a>
-<span class="sourceLineNo">588</span><a id="line.588">        addAll(other.contents, other.size);</a>
-<span class="sourceLineNo">589</span><a id="line.589">      }</a>
-<span class="sourceLineNo">590</span><a id="line.590">      return this;</a>
-<span class="sourceLineNo">591</span><a id="line.591">    }</a>
-<span class="sourceLineNo">592</span><a id="line.592"></a>
-<span class="sourceLineNo">593</span><a id="line.593">    /**</a>
-<span class="sourceLineNo">594</span><a id="line.594">     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.</a>
-<span class="sourceLineNo">595</span><a id="line.595">     */</a>
-<span class="sourceLineNo">596</span><a id="line.596">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">597</span><a id="line.597">    @Override</a>
-<span class="sourceLineNo">598</span><a id="line.598">    public ImmutableSet&lt;E&gt; build() {</a>
-<span class="sourceLineNo">599</span><a id="line.599">      switch (size) {</a>
-<span class="sourceLineNo">600</span><a id="line.600">        case 0:</a>
-<span class="sourceLineNo">601</span><a id="line.601">          return of();</a>
-<span class="sourceLineNo">602</span><a id="line.602">        case 1:</a>
-<span class="sourceLineNo">603</span><a id="line.603">          /*</a>
-<span class="sourceLineNo">604</span><a id="line.604">           * requireNonNull is safe because we ensure that the first `size` elements have been</a>
-<span class="sourceLineNo">605</span><a id="line.605">           * populated.</a>
-<span class="sourceLineNo">606</span><a id="line.606">           */</a>
-<span class="sourceLineNo">607</span><a id="line.607">          return (ImmutableSet&lt;E&gt;) of(requireNonNull(contents[0]));</a>
-<span class="sourceLineNo">608</span><a id="line.608">        default:</a>
-<span class="sourceLineNo">609</span><a id="line.609">          ImmutableSet&lt;E&gt; result;</a>
-<span class="sourceLineNo">610</span><a id="line.610">          if (hashTable != null &amp;&amp; chooseTableSize(size) == hashTable.length) {</a>
-<span class="sourceLineNo">611</span><a id="line.611">            @Nullable</a>
-<span class="sourceLineNo">612</span><a id="line.612">            Object[] uniqueElements =</a>
-<span class="sourceLineNo">613</span><a id="line.613">                shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;</a>
-<span class="sourceLineNo">614</span><a id="line.614">            result =</a>
-<span class="sourceLineNo">615</span><a id="line.615">                new RegularImmutableSet&lt;E&gt;(</a>
-<span class="sourceLineNo">616</span><a id="line.616">                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);</a>
-<span class="sourceLineNo">617</span><a id="line.617">          } else {</a>
-<span class="sourceLineNo">618</span><a id="line.618">            result = construct(size, contents);</a>
-<span class="sourceLineNo">619</span><a id="line.619">            // construct has the side effect of deduping contents, so we update size</a>
-<span class="sourceLineNo">620</span><a id="line.620">            // accordingly.</a>
-<span class="sourceLineNo">621</span><a id="line.621">            size = result.size();</a>
-<span class="sourceLineNo">622</span><a id="line.622">          }</a>
-<span class="sourceLineNo">623</span><a id="line.623">          forceCopy = true;</a>
-<span class="sourceLineNo">624</span><a id="line.624">          hashTable = null;</a>
-<span class="sourceLineNo">625</span><a id="line.625">          return result;</a>
-<span class="sourceLineNo">626</span><a id="line.626">      }</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628">  }</a>
-<span class="sourceLineNo">629</span><a id="line.629"></a>
-<span class="sourceLineNo">630</span><a id="line.630">  private static final long serialVersionUID = 0xdecaf;</a>
-<span class="sourceLineNo">631</span><a id="line.631">}</a>
+<span class="sourceLineNo">535</span><a id="line.535">        } else if (previous.equals(element)) {</a>
+<span class="sourceLineNo">536</span><a id="line.536">          return;</a>
+<span class="sourceLineNo">537</span><a id="line.537">        }</a>
+<span class="sourceLineNo">538</span><a id="line.538">      }</a>
+<span class="sourceLineNo">539</span><a id="line.539">    }</a>
+<span class="sourceLineNo">540</span><a id="line.540"></a>
+<span class="sourceLineNo">541</span><a id="line.541">    /**</a>
+<span class="sourceLineNo">542</span><a id="line.542">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
+<span class="sourceLineNo">543</span><a id="line.543">     * elements (only the first duplicate element is added).</a>
+<span class="sourceLineNo">544</span><a id="line.544">     *</a>
+<span class="sourceLineNo">545</span><a id="line.545">     * @param elements the {@code Iterable} to add to the {@code ImmutableSet}</a>
+<span class="sourceLineNo">546</span><a id="line.546">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">547</span><a id="line.547">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">548</span><a id="line.548">     */</a>
+<span class="sourceLineNo">549</span><a id="line.549">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">550</span><a id="line.550">    @Override</a>
+<span class="sourceLineNo">551</span><a id="line.551">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">552</span><a id="line.552">      checkNotNull(elements);</a>
+<span class="sourceLineNo">553</span><a id="line.553">      if (hashTable != null) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">        for (E e : elements) {</a>
+<span class="sourceLineNo">555</span><a id="line.555">          add(e);</a>
+<span class="sourceLineNo">556</span><a id="line.556">        }</a>
+<span class="sourceLineNo">557</span><a id="line.557">      } else {</a>
+<span class="sourceLineNo">558</span><a id="line.558">        super.addAll(elements);</a>
+<span class="sourceLineNo">559</span><a id="line.559">      }</a>
+<span class="sourceLineNo">560</span><a id="line.560">      return this;</a>
+<span class="sourceLineNo">561</span><a id="line.561">    }</a>
+<span class="sourceLineNo">562</span><a id="line.562"></a>
+<span class="sourceLineNo">563</span><a id="line.563">    /**</a>
+<span class="sourceLineNo">564</span><a id="line.564">     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate</a>
+<span class="sourceLineNo">565</span><a id="line.565">     * elements (only the first duplicate element is added).</a>
+<span class="sourceLineNo">566</span><a id="line.566">     *</a>
+<span class="sourceLineNo">567</span><a id="line.567">     * @param elements the elements to add to the {@code ImmutableSet}</a>
+<span class="sourceLineNo">568</span><a id="line.568">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">569</span><a id="line.569">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">570</span><a id="line.570">     */</a>
+<span class="sourceLineNo">571</span><a id="line.571">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">572</span><a id="line.572">    @Override</a>
+<span class="sourceLineNo">573</span><a id="line.573">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">574</span><a id="line.574">      checkNotNull(elements);</a>
+<span class="sourceLineNo">575</span><a id="line.575">      while (elements.hasNext()) {</a>
+<span class="sourceLineNo">576</span><a id="line.576">        add(elements.next());</a>
+<span class="sourceLineNo">577</span><a id="line.577">      }</a>
+<span class="sourceLineNo">578</span><a id="line.578">      return this;</a>
+<span class="sourceLineNo">579</span><a id="line.579">    }</a>
+<span class="sourceLineNo">580</span><a id="line.580"></a>
+<span class="sourceLineNo">581</span><a id="line.581">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">582</span><a id="line.582">    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.</a>
+<span class="sourceLineNo">583</span><a id="line.583">    Builder&lt;E&gt; combine(Builder&lt;E&gt; other) {</a>
+<span class="sourceLineNo">584</span><a id="line.584">      if (hashTable != null) {</a>
+<span class="sourceLineNo">585</span><a id="line.585">        for (int i = 0; i &lt; other.size; ++i) {</a>
+<span class="sourceLineNo">586</span><a id="line.586">          // requireNonNull is safe because the first `size` elements are non-null.</a>
+<span class="sourceLineNo">587</span><a id="line.587">          add((E) requireNonNull(other.contents[i]));</a>
+<span class="sourceLineNo">588</span><a id="line.588">        }</a>
+<span class="sourceLineNo">589</span><a id="line.589">      } else {</a>
+<span class="sourceLineNo">590</span><a id="line.590">        addAll(other.contents, other.size);</a>
+<span class="sourceLineNo">591</span><a id="line.591">      }</a>
+<span class="sourceLineNo">592</span><a id="line.592">      return this;</a>
+<span class="sourceLineNo">593</span><a id="line.593">    }</a>
+<span class="sourceLineNo">594</span><a id="line.594"></a>
+<span class="sourceLineNo">595</span><a id="line.595">    /**</a>
+<span class="sourceLineNo">596</span><a id="line.596">     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.</a>
+<span class="sourceLineNo">597</span><a id="line.597">     */</a>
+<span class="sourceLineNo">598</span><a id="line.598">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">599</span><a id="line.599">    @Override</a>
+<span class="sourceLineNo">600</span><a id="line.600">    public ImmutableSet&lt;E&gt; build() {</a>
+<span class="sourceLineNo">601</span><a id="line.601">      switch (size) {</a>
+<span class="sourceLineNo">602</span><a id="line.602">        case 0:</a>
+<span class="sourceLineNo">603</span><a id="line.603">          return of();</a>
+<span class="sourceLineNo">604</span><a id="line.604">        case 1:</a>
+<span class="sourceLineNo">605</span><a id="line.605">          /*</a>
+<span class="sourceLineNo">606</span><a id="line.606">           * requireNonNull is safe because we ensure that the first `size` elements have been</a>
+<span class="sourceLineNo">607</span><a id="line.607">           * populated.</a>
+<span class="sourceLineNo">608</span><a id="line.608">           */</a>
+<span class="sourceLineNo">609</span><a id="line.609">          return (ImmutableSet&lt;E&gt;) of(requireNonNull(contents[0]));</a>
+<span class="sourceLineNo">610</span><a id="line.610">        default:</a>
+<span class="sourceLineNo">611</span><a id="line.611">          ImmutableSet&lt;E&gt; result;</a>
+<span class="sourceLineNo">612</span><a id="line.612">          if (hashTable != null &amp;&amp; chooseTableSize(size) == hashTable.length) {</a>
+<span class="sourceLineNo">613</span><a id="line.613">            @Nullable</a>
+<span class="sourceLineNo">614</span><a id="line.614">            Object[] uniqueElements =</a>
+<span class="sourceLineNo">615</span><a id="line.615">                shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;</a>
+<span class="sourceLineNo">616</span><a id="line.616">            result =</a>
+<span class="sourceLineNo">617</span><a id="line.617">                new RegularImmutableSet&lt;E&gt;(</a>
+<span class="sourceLineNo">618</span><a id="line.618">                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);</a>
+<span class="sourceLineNo">619</span><a id="line.619">          } else {</a>
+<span class="sourceLineNo">620</span><a id="line.620">            result = construct(size, contents);</a>
+<span class="sourceLineNo">621</span><a id="line.621">            // construct has the side effect of deduping contents, so we update size</a>
+<span class="sourceLineNo">622</span><a id="line.622">            // accordingly.</a>
+<span class="sourceLineNo">623</span><a id="line.623">            size = result.size();</a>
+<span class="sourceLineNo">624</span><a id="line.624">          }</a>
+<span class="sourceLineNo">625</span><a id="line.625">          forceCopy = true;</a>
+<span class="sourceLineNo">626</span><a id="line.626">          hashTable = null;</a>
+<span class="sourceLineNo">627</span><a id="line.627">          return result;</a>
+<span class="sourceLineNo">628</span><a id="line.628">      }</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630">  }</a>
+<span class="sourceLineNo">631</span><a id="line.631"></a>
+<span class="sourceLineNo">632</span><a id="line.632">  private static final long serialVersionUID = 0xdecaf;</a>
+<span class="sourceLineNo">633</span><a id="line.633">}</a>
 
 
 
