@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>
-public static class <a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.149">ImmutableMultimap.Builder</a>&lt;K,&#8203;V&gt;
+public static class <a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.163">ImmutableMultimap.Builder</a>&lt;K,&#8203;V&gt;
 extends java.lang.Object</pre>
 <div class="block">A builder for creating immutable multimap instances, especially <code>public static final</code>
  multimaps ("constant multimaps"). Example:
@@ -214,26 +214,34 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expectedValuesPerKey(int)">expectedValuesPerKey</a></span>&#8203;(int&nbsp;expectedValuesPerKey)</code></th>
+<td class="colLast">
+<div class="block">Provides a hint for how many values will be associated with each key newly added to the
+ builder after this call.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderKeysBy(java.util.Comparator)">orderKeysBy</a></span>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&gt;&nbsp;keyComparator)</code></th>
 <td class="colLast">
 <div class="block">Specifies the ordering of the generated multimap's keys.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderValuesBy(java.util.Comparator)">orderValuesBy</a></span>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
 <td class="colLast">
 <div class="block">Specifies the ordering of the generated multimap's values for each key.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(java.util.Map.Entry)">put</a></span>&#8203;(java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;entry)</code></th>
 <td class="colLast">
 <div class="block">Adds an entry to the built multimap.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
    <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&nbsp;value)</code></th>
@@ -241,21 +249,21 @@ extends java.lang.Object</pre>
 <div class="block">Adds a key-value mapping to the built multimap.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(com.google.common.collect.Multimap)">putAll</a></span>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;multimap)</code></th>
 <td class="colLast">
 <div class="block">Stores another multimap's entries in the built multimap.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(K,java.lang.Iterable)">putAll</a></span>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
       java.lang.Iterable&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;values)</code></th>
@@ -263,7 +271,7 @@ extends java.lang.Object</pre>
 <div class="block">Stores a collection of values with the same key in the built multimap.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(K,V...)">putAll</a></span>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
       <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>...&nbsp;values)</code></th>
@@ -301,7 +309,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.159">Builder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.174">Builder</a>()</pre>
 <div class="block">Creates a new builder. The returned builder is equivalent to the builder generated by <a href="ImmutableMultimap.html#builder()"><code>ImmutableMultimap.builder()</code></a>.</div>
 </li>
 </ul>
@@ -315,6 +323,28 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="expectedValuesPerKey(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>expectedValuesPerKey</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.208">expectedValuesPerKey</a>&#8203;(int&nbsp;expectedValuesPerKey)</pre>
+<div class="block">Provides a hint for how many values will be associated with each key newly added to the
+ builder after this call. This does not change semantics, but may improve performance if
+ <code>expectedValuesPerKey</code> is a good estimate.
+
+ <p>This may be called more than once; each newly added key will use the most recent call to
+ <code>expectedValuesPerKey</code> as its hint.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>expectedValuesPerKey</code> is negative</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a id="put(java.lang.Object,java.lang.Object)">
 <!--   -->
 </a><a id="put(K,V)">
@@ -324,7 +354,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.175">put</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.236">put</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
                                                 <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&nbsp;value)</pre>
 <div class="block">Adds a key-value mapping to the built multimap.</div>
 </li>
@@ -336,7 +366,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.192">put</a>&#8203;(java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;entry)</pre>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.253">put</a>&#8203;(java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;entry)</pre>
 <div class="block">Adds an entry to the built multimap.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -351,7 +381,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.202">putAll</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</pre>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.263">putAll</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Adds entries to the built multimap.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -368,7 +398,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.216">putAll</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.277">putAll</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
                                                    java.lang.Iterable&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key in the built multimap.</div>
 <dl>
@@ -387,7 +417,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.244">putAll</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.307">putAll</a>&#8203;(<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&nbsp;key,
                                                    <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>...&nbsp;values)</pre>
 <div class="block">Stores an array of values with the same key in the built multimap.</div>
 <dl>
@@ -404,7 +434,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.257">putAll</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;multimap)</pre>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.320">putAll</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;? extends <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;multimap)</pre>
 <div class="block">Stores another multimap's entries in the built multimap. The generated multimap's key and
  value orderings correspond to the iteration ordering of the <code>multimap.asMap()</code> view,
  with new keys and values following any existing keys and values.</div>
@@ -422,7 +452,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>orderKeysBy</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.271">orderKeysBy</a>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&gt;&nbsp;keyComparator)</pre>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.334">orderKeysBy</a>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>&gt;&nbsp;keyComparator)</pre>
 <div class="block">Specifies the ordering of the generated multimap's keys.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -437,7 +467,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>orderValuesBy</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.282">orderValuesBy</a>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;valueComparator)</pre>
+public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.345">orderValuesBy</a>&#8203;(java.util.Comparator&lt;? super <a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;valueComparator)</pre>
 <div class="block">Specifies the ordering of the generated multimap's values for each key.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -451,7 +481,7 @@ public&nbsp;<a href="ImmutableMultimap.Builder.html" title="class in com.google.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.299">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,&#8203;<a href="ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.Builder.html#line.362">build</a>()</pre>
 <div class="block">Returns a newly-created immutable multimap.</div>
 </li>
 </ul>

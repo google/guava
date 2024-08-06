@@ -18478,6 +18478,20 @@
  Builder} constructor.]]>
       </doc>
     </method>
+    <method name="builderWithExpectedKeys" return="com.google.common.collect.ImmutableListMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedKeys" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder with a hint for how many distinct keys are expected to be added. The
+ generated builder is equivalent to that returned by {@link #builder}, but may perform better if
+ {@code expectedKeys} is a good estimate.
+
+ @throws IllegalArgumentException if {@code expectedKeys} is negative
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -18584,6 +18598,17 @@
  ImmutableListMultimap#builder}.]]>
       </doc>
     </constructor>
+    <method name="expectedValuesPerKey" return="com.google.common.collect.ImmutableListMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedValuesPerKey" type="int"/>
+      <doc>
+      <![CDATA[{@inheritDoc}
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="put" return="com.google.common.collect.ImmutableListMultimap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -19445,6 +19470,20 @@
  Builder} constructor.]]>
       </doc>
     </method>
+    <method name="builderWithExpectedKeys" return="com.google.common.collect.ImmutableMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedKeys" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder with a hint for how many distinct keys are expected to be added. The
+ generated builder is equivalent to that returned by {@link #builder}, but may perform better if
+ {@code expectedKeys} is a good estimate.
+
+ @throws IllegalArgumentException if {@code expectedKeys} is negative
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19687,6 +19726,23 @@
  ImmutableMultimap#builder}.]]>
       </doc>
     </constructor>
+    <method name="expectedValuesPerKey" return="com.google.common.collect.ImmutableMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedValuesPerKey" type="int"/>
+      <doc>
+      <![CDATA[Provides a hint for how many values will be associated with each key newly added to the
+ builder after this call. This does not change semantics, but may improve performance if
+ {@code expectedValuesPerKey} is a good estimate.
+
+ <p>This may be called more than once; each newly added key will use the most recent call to
+ {@link #expectedValuesPerKey} as its hint.
+
+ @throws IllegalArgumentException if {@code expectedValuesPerKey} is negative
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="put" return="com.google.common.collect.ImmutableMultimap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -21317,6 +21373,20 @@
       <![CDATA[Returns a new {@link Builder}.]]>
       </doc>
     </method>
+    <method name="builderWithExpectedKeys" return="com.google.common.collect.ImmutableSetMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedKeys" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder with a hint for how many distinct keys are expected to be added. The
+ generated builder is equivalent to that returned by {@link #builder}, but may perform better if
+ {@code expectedKeys} is a good estimate.
+
+ @throws IllegalArgumentException if {@code expectedKeys} is negative
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -21436,6 +21506,20 @@
  ImmutableSetMultimap#builder}.]]>
       </doc>
     </constructor>
+    <method name="expectedValuesPerKey" return="com.google.common.collect.ImmutableSetMultimap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedValuesPerKey" type="int"/>
+      <doc>
+      <![CDATA[{@inheritDoc}
+
+ <p>Note that {@code expectedValuesPerKey} is taken to mean the expected number of
+ <i>distinct</i> values per key.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="put" return="com.google.common.collect.ImmutableSetMultimap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
