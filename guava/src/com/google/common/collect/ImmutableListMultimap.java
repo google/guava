@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -195,6 +196,19 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   /**
+   * Returns a new builder with a hint for how many distinct keys are expected to be added. The
+   * generated builder is equivalent to that returned by {@link #builder}, but may perform better if
+   * {@code expectedKeys} is a good estimate.
+   *
+   * @throws IllegalArgumentException if {@code expectedKeys} is negative
+   * @since NEXT
+   */
+  public static <K, V> Builder<K, V> builderWithExpectedKeys(int expectedKeys) {
+    checkNonnegative(expectedKeys, "expectedKeys");
+    return new Builder<>(expectedKeys);
+  }
+
+  /**
    * A builder for creating immutable {@code ListMultimap} instances, especially {@code public
    * static final} multimaps ("constant multimaps"). Example:
    *
@@ -219,6 +233,23 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      * ImmutableListMultimap#builder}.
      */
     public Builder() {}
+
+    /** Creates a new builder with a hint for the number of distinct keys. */
+    Builder(int expectedKeys) {
+      super(expectedKeys);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since NEXT
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> expectedValuesPerKey(int expectedValuesPerKey) {
+      super.expectedValuesPerKey(expectedValuesPerKey);
+      return this;
+    }
 
     @CanIgnoreReturnValue
     @Override

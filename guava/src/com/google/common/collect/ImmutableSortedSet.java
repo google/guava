@@ -448,11 +448,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
      * used Object[], we might be able to optimize toArray() to use clone() sometimes. (See
      * cl/592273615 and cl/592273683.)
      */
-    @SuppressWarnings("unchecked")
     public Builder(Comparator<? super E> comparator) {
+      this(comparator, ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
+    }
+
+    /** Creates a new builder with an expected size. */
+    @SuppressWarnings("unchecked")
+    Builder(Comparator<? super E> comparator, int expectedSize) {
       super(true); // don't construct guts of hash-based set builder
       this.comparator = checkNotNull(comparator);
-      this.elements = (E[]) new Object[ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY];
+      this.elements = (E[]) new Object[expectedSize];
       this.n = 0;
     }
 

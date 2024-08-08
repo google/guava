@@ -36,7 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 public class SynchronizedMapTest extends TestCase {
-  public final Object mutex = new Integer(1); // something Serializable
+  public final Object mutex = new Object[0]; // something Serializable
 
   protected <K, V> Map<K, V> create() {
     TestMap<K, V> inner = new TestMap<>(new HashMap<K, V>(), mutex);

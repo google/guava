@@ -447,8 +447,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
      * used Object[], we might be able to optimize toArray() to use clone() sometimes. (See
      * cl/592273615 and cl/592273683.)
      */
-    @SuppressWarnings("unchecked")
     public Builder(Comparator<? super E> comparator) {
+      this.comparator = checkNotNull(comparator);
+    }
+
+    Builder(Comparator<? super E> comparator, int expectedKeys) {
+      super(expectedKeys, false);
       this.comparator = checkNotNull(comparator);
     }
 

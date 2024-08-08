@@ -72,6 +72,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings("JUnitIncompatibleType") // Many intentional violations here.
 public class MapsTest extends TestCase {
 
   private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();

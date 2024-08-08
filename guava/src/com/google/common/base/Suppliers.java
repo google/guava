@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -120,8 +122,7 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
-    private final Object lock =
-        new Integer(1); // something serializable
+    private transient Object lock = new Object();
 
     final Supplier<T> delegate;
     transient volatile boolean initialized;
@@ -135,6 +136,8 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
+    // We set the field only once (during construction or deserialization).
+    @SuppressWarnings("SynchronizeOnNonFinalField")
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -156,6 +159,13 @@ public final class Suppliers {
       return "Suppliers.memoize("
           + (initialized ? "<supplier that returned " + value + ">" : delegate)
           + ")";
+    }
+
+    @GwtIncompatible // serialization
+    @J2ktIncompatible // serialization
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      lock = new Object();
     }
 
     private static final long serialVersionUID = 0;
@@ -275,8 +285,7 @@ public final class Suppliers {
   @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-    private final Object lock =
-        new Integer(1); // something serializable
+    private transient Object lock = new Object();
 
     final Supplier<T> delegate;
     final long durationNanos;
@@ -291,6 +300,8 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
+    // We set the field only once (during construction or deserialization).
+    @SuppressWarnings("SynchronizeOnNonFinalField")
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -322,6 +333,13 @@ public final class Suppliers {
       // This is a little strange if the unit the user provided was not NANOS,
       // but we don't want to store the unit just for toString
       return "Suppliers.memoizeWithExpiration(" + delegate + ", " + durationNanos + ", NANOS)";
+    }
+
+    @GwtIncompatible // serialization
+    @J2ktIncompatible // serialization
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      lock = new Object();
     }
 
     private static final long serialVersionUID = 0;

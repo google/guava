@@ -86,6 +86,51 @@ public class ImmutableListMultimapTest extends TestCase {
     return suite;
   }
 
+  public void testBuilderWithExpectedKeysNegative() {
+    try {
+      ImmutableListMultimap.builderWithExpectedKeys(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedKeysZero() {
+    ImmutableListMultimap.Builder<String, String> builder =
+        ImmutableListMultimap.builderWithExpectedKeys(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedKeysPositive() {
+    ImmutableListMultimap.Builder<String, String> builder =
+        ImmutableListMultimap.builderWithExpectedKeys(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegative() {
+    ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
+    try {
+      builder.expectedValuesPerKey(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZero() {
+    ImmutableListMultimap.Builder<String, String> builder =
+        ImmutableListMultimap.<String, String>builder().expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableListMultimap.Builder<String, String> builder =
+        ImmutableListMultimap.<String, String>builder().expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
   public void testBuilder_withImmutableEntry() {
     ImmutableListMultimap<String, Integer> multimap =
         new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
