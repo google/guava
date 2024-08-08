@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -278,7 +279,7 @@ final class SortedLists {
     checkNotNull(presentBehavior);
     checkNotNull(absentBehavior);
     if (!(list instanceof RandomAccess)) {
-      list = Lists.newArrayList(list);
+      list = new ArrayList<>(list);
     }
     // TODO(lowasser): benchmark when it's best to do a linear search
 
