@@ -501,10 +501,15 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       copyIfNecessary();
       if (n == elements.length) {
         sortAndDedup();
-        /*
-         * Sorting operations can only be allowed to occur once every O(n) operations to keep
-         * amortized O(n log n) performance.  Therefore, ensure there are at least O(n) *unused*
-         * spaces in the builder array.
+        /**
+         * sortAndDedup may have made enough room for this element, but that's not necessarily good
+         * enough. Consider, for example, the case where we have a buffer of size (n+1), add n
+         * distinct elements, and add the last element over again many times over. We don't want a
+         * situation where we re-sort the entire buffer every time the last element is re-added.
+         *
+         * <p>The solution is to ensure there are O(n) spaces left over in the buffer after
+         * sortAndDedup -- that is, at least c*n for some constant c > 0. Ensuring the buffer size
+         * is at least expandedCapacity(n, n + 1) satisfies this property.
          */
         int newLength = ImmutableCollection.Builder.expandedCapacity(n, n + 1);
         if (newLength > elements.length) {

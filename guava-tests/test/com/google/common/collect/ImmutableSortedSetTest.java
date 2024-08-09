@@ -1216,4 +1216,24 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     ImmutableSortedSet.Builder<SuperComparableExample> reverse = ImmutableSortedSet.reverseOrder();
     assertThat(reverse).isNotNull();
   }
+
+  public void testBuilderAsymptotics() {
+    int[] compares = {0};
+    Comparator<Integer> countingComparator =
+        (i, j) -> {
+          compares[0]++;
+          return i.compareTo(j);
+        };
+    ImmutableSortedSet.Builder<Integer> builder =
+        new ImmutableSortedSet.Builder<Integer>(countingComparator, 10);
+    for (int i = 0; i < 9; i++) {
+      builder.add(i);
+    }
+    for (int j = 0; j < 1000; j++) {
+      builder.add(9);
+    }
+    ImmutableSortedSet<Integer> unused = builder.build();
+    assertThat(compares[0]).isAtMost(10000);
+    // hopefully something quadratic would have more digits
+  }
 }
