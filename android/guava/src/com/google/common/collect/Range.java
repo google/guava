@@ -671,6 +671,14 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     return toString(lowerBound, upperBound);
   }
 
+  private static String toString(Cut<?> lowerBound, Cut<?> upperBound) {
+    StringBuilder sb = new StringBuilder(16);
+    lowerBound.describeAsLowerBound(sb);
+    sb.append("..");
+    upperBound.describeAsUpperBound(sb);
+    return sb.toString();
+  }
+
   // We declare accessors so that we can use method references like `Range::lowerBound`.
 
   Cut<C> lowerBound() {
@@ -679,14 +687,6 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
 
   Cut<C> upperBound() {
     return upperBound;
-  }
-
-  private static String toString(Cut<?> lowerBound, Cut<?> upperBound) {
-    StringBuilder sb = new StringBuilder(16);
-    lowerBound.describeAsLowerBound(sb);
-    sb.append("..");
-    upperBound.describeAsUpperBound(sb);
-    return sb.toString();
   }
 
   Object readResolve() {
