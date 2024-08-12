@@ -67,7 +67,8 @@ public final class UnsignedLongs {
    * Compares the two specified {@code long} values, treating them as unsigned values between {@code
    * 0} and {@code 2^64 - 1} inclusive.
    *
-   * <p><b>Java 8+ users:</b> use {@link Long#compareUnsigned(long, long)} instead.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+   * equivalent {@link Long#compareUnsigned(long, long)} method instead.
    *
    * @param a the first unsigned {@code long} to compare
    * @param b the second unsigned {@code long} to compare

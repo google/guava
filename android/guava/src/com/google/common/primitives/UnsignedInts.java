@@ -59,7 +59,8 @@ public final class UnsignedInts {
    * Compares the two specified {@code int} values, treating them as unsigned values between {@code
    * 0} and {@code 2^32 - 1} inclusive.
    *
-   * <p><b>Java 8+ users:</b> use {@link Integer#compareUnsigned(int, int)} instead.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
+   * equivalent {@link Integer#compareUnsigned(int, int)} method instead.
    *
    * @param a the first unsigned {@code int} to compare
    * @param b the second unsigned {@code int} to compare
