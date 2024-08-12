@@ -404,7 +404,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {
       if (minCapacity < 0) {
-        throw new AssertionError("cannot store more than MAX_VALUE elements");
+        throw new IllegalArgumentException("cannot store more than MAX_VALUE elements");
+      } else if (minCapacity <= oldCapacity) {
+        return oldCapacity;
       }
       // careful of overflow!
       int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
@@ -513,13 +515,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * elements without being resized. Also, if we've already built a collection backed by the
      * current array, create a new array.
      */
-    private void getReadyToExpandTo(int minCapacity) {
-      if (contents.length < minCapacity) {
-        this.contents =
-            Arrays.copyOf(this.contents, expandedCapacity(contents.length, minCapacity));
-        forceCopy = false;
-      } else if (forceCopy) {
-        this.contents = contents.clone();
+    private void ensureRoomFor(int newElements) {
+      Object[] contents = this.contents;
+      int newCapacity = expandedCapacity(contents.length, size + newElements);
+      // expandedCapacity handles the overflow case
+      if (newCapacity > contents.length || forceCopy) {
+        this.contents = Arrays.copyOf(this.contents, newCapacity);
         forceCopy = false;
       }
     }
@@ -528,7 +529,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
-      getReadyToExpandTo(size + 1);
+      ensureRoomFor(1);
       contents[size++] = element;
       return this;
     }
@@ -542,7 +543,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     final void addAll(@Nullable Object[] elements, int n) {
       checkElementsNotNull(elements, n);
-      getReadyToExpandTo(size + n);
+      ensureRoomFor(n);
       /*
        * The following call is not statically checked, since arraycopy accepts plain Object for its
        * parameters. If it were statically checked, the checker would still be OK with it, since
@@ -560,7 +561,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        getReadyToExpandTo(size + collection.size());
+        ensureRoomFor(collection.size());
         if (collection instanceof ImmutableCollection) {
           ImmutableCollection<?> immutableCollection = (ImmutableCollection<?>) collection;
           size = immutableCollection.copyIntoArray(contents, size);

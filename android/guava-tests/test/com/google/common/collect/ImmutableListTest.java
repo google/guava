@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -665,5 +666,21 @@ public class ImmutableListTest extends TestCase {
     RegularImmutableList<String> list = (RegularImmutableList<String>) builder.build();
     builder.add("baz");
     assertTrue(list.array != builder.contents);
+  }
+
+  @SuppressWarnings("ModifiedButNotUsed")
+  @GwtIncompatible // actually allocates nCopies
+  @J2ktIncompatible // actually allocates nCopies
+  public void testAddOverflowCollection() {
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    for (int i = 0; i < 100; i++) {
+      builder.add("a");
+    }
+    try {
+      builder.addAll(Collections.nCopies(Integer.MAX_VALUE - 50, "a"));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("cannot store more than MAX_VALUE elements");
+    }
   }
 }

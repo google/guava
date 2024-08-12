@@ -415,7 +415,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {
       if (minCapacity < 0) {
-        throw new AssertionError("cannot store more than MAX_VALUE elements");
+        throw new IllegalArgumentException("cannot store more than MAX_VALUE elements");
+      } else if (minCapacity <= oldCapacity) {
+        return oldCapacity;
       }
       // careful of overflow!
       int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
