@@ -680,22 +680,22 @@
 <span class="sourceLineNo">671</span><a id="line.671">    return toString(lowerBound, upperBound);</a>
 <span class="sourceLineNo">672</span><a id="line.672">  }</a>
 <span class="sourceLineNo">673</span><a id="line.673"></a>
-<span class="sourceLineNo">674</span><a id="line.674">  // We declare accessors so that we can use method references like `Range::lowerBound`.</a>
-<span class="sourceLineNo">675</span><a id="line.675"></a>
-<span class="sourceLineNo">676</span><a id="line.676">  Cut&lt;C&gt; lowerBound() {</a>
-<span class="sourceLineNo">677</span><a id="line.677">    return lowerBound;</a>
-<span class="sourceLineNo">678</span><a id="line.678">  }</a>
-<span class="sourceLineNo">679</span><a id="line.679"></a>
-<span class="sourceLineNo">680</span><a id="line.680">  Cut&lt;C&gt; upperBound() {</a>
-<span class="sourceLineNo">681</span><a id="line.681">    return upperBound;</a>
-<span class="sourceLineNo">682</span><a id="line.682">  }</a>
+<span class="sourceLineNo">674</span><a id="line.674">  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {</a>
+<span class="sourceLineNo">675</span><a id="line.675">    StringBuilder sb = new StringBuilder(16);</a>
+<span class="sourceLineNo">676</span><a id="line.676">    lowerBound.describeAsLowerBound(sb);</a>
+<span class="sourceLineNo">677</span><a id="line.677">    sb.append("..");</a>
+<span class="sourceLineNo">678</span><a id="line.678">    upperBound.describeAsUpperBound(sb);</a>
+<span class="sourceLineNo">679</span><a id="line.679">    return sb.toString();</a>
+<span class="sourceLineNo">680</span><a id="line.680">  }</a>
+<span class="sourceLineNo">681</span><a id="line.681"></a>
+<span class="sourceLineNo">682</span><a id="line.682">  // We declare accessors so that we can use method references like `Range::lowerBound`.</a>
 <span class="sourceLineNo">683</span><a id="line.683"></a>
-<span class="sourceLineNo">684</span><a id="line.684">  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {</a>
-<span class="sourceLineNo">685</span><a id="line.685">    StringBuilder sb = new StringBuilder(16);</a>
-<span class="sourceLineNo">686</span><a id="line.686">    lowerBound.describeAsLowerBound(sb);</a>
-<span class="sourceLineNo">687</span><a id="line.687">    sb.append("..");</a>
-<span class="sourceLineNo">688</span><a id="line.688">    upperBound.describeAsUpperBound(sb);</a>
-<span class="sourceLineNo">689</span><a id="line.689">    return sb.toString();</a>
+<span class="sourceLineNo">684</span><a id="line.684">  Cut&lt;C&gt; lowerBound() {</a>
+<span class="sourceLineNo">685</span><a id="line.685">    return lowerBound;</a>
+<span class="sourceLineNo">686</span><a id="line.686">  }</a>
+<span class="sourceLineNo">687</span><a id="line.687"></a>
+<span class="sourceLineNo">688</span><a id="line.688">  Cut&lt;C&gt; upperBound() {</a>
+<span class="sourceLineNo">689</span><a id="line.689">    return upperBound;</a>
 <span class="sourceLineNo">690</span><a id="line.690">  }</a>
 <span class="sourceLineNo">691</span><a id="line.691"></a>
 <span class="sourceLineNo">692</span><a id="line.692">  Object readResolve() {</a>
