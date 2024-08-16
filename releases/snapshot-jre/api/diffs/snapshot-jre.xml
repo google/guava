@@ -18695,7 +18695,7 @@
  {@code expectedKeys} is a good estimate.
 
  @throws IllegalArgumentException if {@code expectedKeys} is negative
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
@@ -18812,7 +18812,7 @@
       <doc>
       <![CDATA[{@inheritDoc}
 
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="put" return="com.google.common.collect.ImmutableListMultimap.Builder&lt;K, V&gt;"
@@ -19799,7 +19799,7 @@
  {@code expectedKeys} is a good estimate.
 
  @throws IllegalArgumentException if {@code expectedKeys} is negative
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMultimap&lt;K, V&gt;"
@@ -20064,7 +20064,7 @@
  {@link #expectedValuesPerKey} as its hint.
 
  @throws IllegalArgumentException if {@code expectedValuesPerKey} is negative
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="put" return="com.google.common.collect.ImmutableMultimap.Builder&lt;K, V&gt;"
@@ -21686,7 +21686,7 @@
  {@code expectedKeys} is a good estimate.
 
  @throws IllegalArgumentException if {@code expectedKeys} is negative
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
@@ -21819,7 +21819,7 @@
  <p>Note that {@code expectedValuesPerKey} is taken to mean the expected number of
  <i>distinct</i> values per key.
 
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </method>
     <method name="put" return="com.google.common.collect.ImmutableSetMultimap.Builder&lt;K, V&gt;"
@@ -54217,7 +54217,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factors">{@code
  Sec-CH-UA-Form-Factors}</a> header field name.
 
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </field>
     <field name="SEC_CH_VIEWPORT_WIDTH" type="java.lang.String"
@@ -55813,7 +55813,7 @@
       <![CDATA[As described in <a href="https://www.rfc-editor.org/rfc/rfc7763.html">RFC 7763</a>, this
  constant ({@code text/markdown}) is used for Markdown documents.
 
- @since NEXT]]>
+ @since 33.3.0]]>
       </doc>
     </field>
     <field name="PLAIN_TEXT_UTF_8" type="com.google.common.net.MediaType"
