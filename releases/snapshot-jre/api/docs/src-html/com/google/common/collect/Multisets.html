@@ -1140,7 +1140,7 @@
 <span class="sourceLineNo">1131</span><a id="line.1131">    Spliterator&lt;Entry&lt;E&gt;&gt; entrySpliterator = multiset.entrySet().spliterator();</a>
 <span class="sourceLineNo">1132</span><a id="line.1132">    return CollectSpliterators.flatMap(</a>
 <span class="sourceLineNo">1133</span><a id="line.1133">        entrySpliterator,</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">        entry -&gt; Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">        (Entry&lt;E&gt; entry) -&gt; Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),</a>
 <span class="sourceLineNo">1135</span><a id="line.1135">        Spliterator.SIZED</a>
 <span class="sourceLineNo">1136</span><a id="line.1136">            | (entrySpliterator.characteristics()</a>
 <span class="sourceLineNo">1137</span><a id="line.1137">                &amp; (Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE)),</a>

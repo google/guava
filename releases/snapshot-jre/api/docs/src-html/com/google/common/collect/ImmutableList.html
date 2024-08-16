@@ -828,7 +828,7 @@
 <span class="sourceLineNo">819</span><a id="line.819">    }</a>
 <span class="sourceLineNo">820</span><a id="line.820"></a>
 <span class="sourceLineNo">821</span><a id="line.821">    private void ensureRoomFor(int newElements) {</a>
-<span class="sourceLineNo">822</span><a id="line.822">      Object[] contents = this.contents;</a>
+<span class="sourceLineNo">822</span><a id="line.822">      @Nullable Object[] contents = this.contents;</a>
 <span class="sourceLineNo">823</span><a id="line.823">      int newCapacity = expandedCapacity(contents.length, size + newElements);</a>
 <span class="sourceLineNo">824</span><a id="line.824">      // expandedCapacity handles the overflow case</a>
 <span class="sourceLineNo">825</span><a id="line.825">      if (contents.length &lt; newCapacity || copyOnWrite) {</a>

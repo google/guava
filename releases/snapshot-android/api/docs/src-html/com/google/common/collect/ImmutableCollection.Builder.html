@@ -525,7 +525,7 @@
 <span class="sourceLineNo">516</span><a id="line.516">     * current array, create a new array.</a>
 <span class="sourceLineNo">517</span><a id="line.517">     */</a>
 <span class="sourceLineNo">518</span><a id="line.518">    private void ensureRoomFor(int newElements) {</a>
-<span class="sourceLineNo">519</span><a id="line.519">      Object[] contents = this.contents;</a>
+<span class="sourceLineNo">519</span><a id="line.519">      @Nullable Object[] contents = this.contents;</a>
 <span class="sourceLineNo">520</span><a id="line.520">      int newCapacity = expandedCapacity(contents.length, size + newElements);</a>
 <span class="sourceLineNo">521</span><a id="line.521">      // expandedCapacity handles the overflow case</a>
 <span class="sourceLineNo">522</span><a id="line.522">      if (newCapacity &gt; contents.length || forceCopy) {</a>
