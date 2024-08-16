@@ -1,0 +1,595 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2017 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.graph;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import static java.util.Objects.requireNonNull;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.Beta;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.collect.AbstractIterator;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.common.collect.ImmutableSet;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.ArrayDeque;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.util.Deque;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.HashSet;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.Iterator;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Set;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">/**</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * using a specified {@link SuccessorsFunction}.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * &lt;p&gt;There are two entry points for creating a {@code Traverser}: {@link</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * #forTree(SuccessorsFunction)} and {@link #forGraph(SuccessorsFunction)}. You should choose one</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * based on your answers to the following questions:</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * &lt;ol&gt;</a>
+<span class="sourceLineNo">043</span><a id="line.43"> *   &lt;li&gt;Is there only one path to any node that's reachable from any start node? (If so, the graph</a>
+<span class="sourceLineNo">044</span><a id="line.44"> *       to be traversed is a tree or forest even if it is a subgraph of a graph which is neither.)</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *   &lt;li&gt;Are the node objects' implementations of {@code equals()}/{@code hashCode()} &lt;a</a>
+<span class="sourceLineNo">046</span><a id="line.46"> *       href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness"&gt;recursive&lt;/a&gt;?</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * &lt;/ol&gt;</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * &lt;p&gt;If your answers are:</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">052</span><a id="line.52"> *   &lt;li&gt;(1) "no" and (2) "no", use {@link #forGraph(SuccessorsFunction)}.</a>
+<span class="sourceLineNo">053</span><a id="line.53"> *   &lt;li&gt;(1) "yes" and (2) "yes", use {@link #forTree(SuccessorsFunction)}.</a>
+<span class="sourceLineNo">054</span><a id="line.54"> *   &lt;li&gt;(1) "yes" and (2) "no", you can use either, but {@code forTree()} will be more efficient.</a>
+<span class="sourceLineNo">055</span><a id="line.55"> *   &lt;li&gt;(1) "no" and (2) "yes", &lt;b&gt;&lt;i&gt;neither will work&lt;/i&gt;&lt;/b&gt;, but if you transform your node</a>
+<span class="sourceLineNo">056</span><a id="line.56"> *       objects into a non-recursive form, you can use {@code forGraph()}.</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58"> *</a>
+<span class="sourceLineNo">059</span><a id="line.59"> * @author Jens Nyman</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * @param &lt;N&gt; Node parameter type</a>
+<span class="sourceLineNo">061</span><a id="line.61"> * @since 23.1</a>
+<span class="sourceLineNo">062</span><a id="line.62"> */</a>
+<span class="sourceLineNo">063</span><a id="line.63">@Beta</a>
+<span class="sourceLineNo">064</span><a id="line.64">@DoNotMock(</a>
+<span class="sourceLineNo">065</span><a id="line.65">    "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"</a>
+<span class="sourceLineNo">066</span><a id="line.66">        + " GraphBuilder)")</a>
+<span class="sourceLineNo">067</span><a id="line.67">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">068</span><a id="line.68">public abstract class Traverser&lt;N&gt; {</a>
+<span class="sourceLineNo">069</span><a id="line.69">  private final SuccessorsFunction&lt;N&gt; successorFunction;</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  private Traverser(SuccessorsFunction&lt;N&gt; successorFunction) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    this.successorFunction = checkNotNull(successorFunction);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  /**</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * Creates a new traverser for the given general {@code graph}.</a>
+<span class="sourceLineNo">077</span><a id="line.77">   *</a>
+<span class="sourceLineNo">078</span><a id="line.78">   * &lt;p&gt;Traversers created using this method are guaranteed to visit each node reachable from the</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * start node(s) at most once.</a>
+<span class="sourceLineNo">080</span><a id="line.80">   *</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * &lt;p&gt;If you know that no node in {@code graph} is reachable by more than one path from the start</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * node(s), consider using {@link #forTree(SuccessorsFunction)} instead.</a>
+<span class="sourceLineNo">083</span><a id="line.83">   *</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * &lt;p&gt;&lt;b&gt;Performance notes&lt;/b&gt;</a>
+<span class="sourceLineNo">085</span><a id="line.85">   *</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">087</span><a id="line.87">   *   &lt;li&gt;Traversals require &lt;i&gt;O(n)&lt;/i&gt; time (where &lt;i&gt;n&lt;/i&gt; is the number of nodes reachable from</a>
+<span class="sourceLineNo">088</span><a id="line.88">   *       the start node), assuming that the node objects have &lt;i&gt;O(1)&lt;/i&gt; {@code equals()} and</a>
+<span class="sourceLineNo">089</span><a id="line.89">   *       {@code hashCode()} implementations. (See the &lt;a</a>
+<span class="sourceLineNo">090</span><a id="line.90">   *       href="https://github.com/google/guava/wiki/GraphsExplained#elements-must-be-useable-as-map-keys"&gt;</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *       notes on element objects&lt;/a&gt; for more information.)</a>
+<span class="sourceLineNo">092</span><a id="line.92">   *   &lt;li&gt;While traversing, the traverser will use &lt;i&gt;O(n)&lt;/i&gt; space (where &lt;i&gt;n&lt;/i&gt; is the number</a>
+<span class="sourceLineNo">093</span><a id="line.93">   *       of nodes that have thus far been visited), plus &lt;i&gt;O(H)&lt;/i&gt; space (where &lt;i&gt;H&lt;/i&gt; is the</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *       number of nodes that have been seen but not yet visited, that is, the "horizon").</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">096</span><a id="line.96">   *</a>
+<span class="sourceLineNo">097</span><a id="line.97">   * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.</a>
+<span class="sourceLineNo">098</span><a id="line.98">   */</a>
+<span class="sourceLineNo">099</span><a id="line.99">  public static &lt;N&gt; Traverser&lt;N&gt; forGraph(SuccessorsFunction&lt;N&gt; graph) {</a>
+<span class="sourceLineNo">100</span><a id="line.100">    return new Traverser&lt;N&gt;(graph) {</a>
+<span class="sourceLineNo">101</span><a id="line.101">      @Override</a>
+<span class="sourceLineNo">102</span><a id="line.102">      Traversal&lt;N&gt; newTraversal() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">        return Traversal.inGraph(graph);</a>
+<span class="sourceLineNo">104</span><a id="line.104">      }</a>
+<span class="sourceLineNo">105</span><a id="line.105">    };</a>
+<span class="sourceLineNo">106</span><a id="line.106">  }</a>
+<span class="sourceLineNo">107</span><a id="line.107"></a>
+<span class="sourceLineNo">108</span><a id="line.108">  /**</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * Creates a new traverser for a directed acyclic graph that has at most one path from the start</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * node(s) to any node reachable from the start node(s), and has no paths from any start node to</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * any other start node, such as a tree or forest.</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;p&gt;{@code forTree()} is especially useful (versus {@code forGraph()}) in cases where the data</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * structure being traversed is, in addition to being a tree/forest, also defined &lt;a</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness"&gt;recursively&lt;/a&gt;.</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * This is because the {@code forTree()}-based implementations don't keep track of visited nodes,</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * both time and space versus traversing the same graph using {@code forGraph()}.</a>
+<span class="sourceLineNo">119</span><a id="line.119">   *</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * &lt;p&gt;Providing a graph to be traversed for which there is more than one path from the start</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * node(s) to any node may lead to:</a>
+<span class="sourceLineNo">122</span><a id="line.122">   *</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">124</span><a id="line.124">   *   &lt;li&gt;Traversal not terminating (if the graph has cycles)</a>
+<span class="sourceLineNo">125</span><a id="line.125">   *   &lt;li&gt;Nodes being visited multiple times (if multiple paths exist from any start node to any</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *       node reachable from any start node)</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">128</span><a id="line.128">   *</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * &lt;p&gt;&lt;b&gt;Performance notes&lt;/b&gt;</a>
+<span class="sourceLineNo">130</span><a id="line.130">   *</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *   &lt;li&gt;Traversals require &lt;i&gt;O(n)&lt;/i&gt; time (where &lt;i&gt;n&lt;/i&gt; is the number of nodes reachable from</a>
+<span class="sourceLineNo">133</span><a id="line.133">   *       the start node).</a>
+<span class="sourceLineNo">134</span><a id="line.134">   *   &lt;li&gt;While traversing, the traverser will use &lt;i&gt;O(H)&lt;/i&gt; space (where &lt;i&gt;H&lt;/i&gt; is the number</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *       of nodes that have been seen but not yet visited, that is, the "horizon").</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">137</span><a id="line.137">   *</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * &lt;p&gt;&lt;b&gt;Examples&lt;/b&gt; (all edges are directed facing downwards)</a>
+<span class="sourceLineNo">139</span><a id="line.139">   *</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * &lt;p&gt;The graph below would be valid input with start nodes of {@code a, f, c}. However, if {@code</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * b} were &lt;i&gt;also&lt;/i&gt; a start node, then there would be multiple paths to reach {@code e} and</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * {@code h}.</a>
+<span class="sourceLineNo">143</span><a id="line.143">   *</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">145</span><a id="line.145">   *    a     b      c</a>
+<span class="sourceLineNo">146</span><a id="line.146">   *   / \   / \     |</a>
+<span class="sourceLineNo">147</span><a id="line.147">   *  /   \ /   \    |</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * d     e     f   g</a>
+<span class="sourceLineNo">149</span><a id="line.149">   *       |</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *       |</a>
+<span class="sourceLineNo">151</span><a id="line.151">   *       h</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * &lt;p&gt;.</a>
+<span class="sourceLineNo">155</span><a id="line.155">   *</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * &lt;p&gt;The graph below would be a valid input with start nodes of {@code a, f}. However, if {@code</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * b} were a start node, there would be multiple paths to {@code f}.</a>
+<span class="sourceLineNo">158</span><a id="line.158">   *</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *    a     b</a>
+<span class="sourceLineNo">161</span><a id="line.161">   *   / \   / \</a>
+<span class="sourceLineNo">162</span><a id="line.162">   *  /   \ /   \</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * c     d     e</a>
+<span class="sourceLineNo">164</span><a id="line.164">   *        \   /</a>
+<span class="sourceLineNo">165</span><a id="line.165">   *         \ /</a>
+<span class="sourceLineNo">166</span><a id="line.166">   *          f</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * &lt;p&gt;&lt;b&gt;Note on binary trees&lt;/b&gt;</a>
+<span class="sourceLineNo">170</span><a id="line.170">   *</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * &lt;p&gt;This method can be used to traverse over a binary tree. Given methods {@code</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * leftChild(node)} and {@code rightChild(node)}, this method can be called as</a>
+<span class="sourceLineNo">173</span><a id="line.173">   *</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * Traverser.forTree(node -&gt; ImmutableList.of(leftChild(node), rightChild(node)));</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">177</span><a id="line.177">   *</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most</a>
+<span class="sourceLineNo">179</span><a id="line.179">   *     one path between any two nodes</a>
+<span class="sourceLineNo">180</span><a id="line.180">   */</a>
+<span class="sourceLineNo">181</span><a id="line.181">  public static &lt;N&gt; Traverser&lt;N&gt; forTree(SuccessorsFunction&lt;N&gt; tree) {</a>
+<span class="sourceLineNo">182</span><a id="line.182">    if (tree instanceof BaseGraph) {</a>
+<span class="sourceLineNo">183</span><a id="line.183">      checkArgument(((BaseGraph&lt;?&gt;) tree).isDirected(), "Undirected graphs can never be trees.");</a>
+<span class="sourceLineNo">184</span><a id="line.184">    }</a>
+<span class="sourceLineNo">185</span><a id="line.185">    if (tree instanceof Network) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">      checkArgument(((Network&lt;?, ?&gt;) tree).isDirected(), "Undirected networks can never be trees.");</a>
+<span class="sourceLineNo">187</span><a id="line.187">    }</a>
+<span class="sourceLineNo">188</span><a id="line.188">    return new Traverser&lt;N&gt;(tree) {</a>
+<span class="sourceLineNo">189</span><a id="line.189">      @Override</a>
+<span class="sourceLineNo">190</span><a id="line.190">      Traversal&lt;N&gt; newTraversal() {</a>
+<span class="sourceLineNo">191</span><a id="line.191">        return Traversal.inTree(tree);</a>
+<span class="sourceLineNo">192</span><a id="line.192">      }</a>
+<span class="sourceLineNo">193</span><a id="line.193">    };</a>
+<span class="sourceLineNo">194</span><a id="line.194">  }</a>
+<span class="sourceLineNo">195</span><a id="line.195"></a>
+<span class="sourceLineNo">196</span><a id="line.196">  /**</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * the order of a breadth-first traversal. That is, all the nodes of depth 0 are returned, then</a>
+<span class="sourceLineNo">199</span><a id="line.199">   * depth 1, then 2, and so on.</a>
+<span class="sourceLineNo">200</span><a id="line.200">   *</a>
+<span class="sourceLineNo">201</span><a id="line.201">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</a>
+<span class="sourceLineNo">202</span><a id="line.202">   * the order {@code abcdef} (assuming successors are returned in alphabetical order).</a>
+<span class="sourceLineNo">203</span><a id="line.203">   *</a>
+<span class="sourceLineNo">204</span><a id="line.204">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * b ---- a ---- d</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * |      |</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * |      |</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * e ---- c ---- f</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">210</span><a id="line.210">   *</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</a>
+<span class="sourceLineNo">212</span><a id="line.212">   * while iteration is in progress.</a>
+<span class="sourceLineNo">213</span><a id="line.213">   *</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * &lt;p&gt;The returned {@code Iterable} can be iterated over multiple times. Every iterator will</a>
+<span class="sourceLineNo">215</span><a id="line.215">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * number of nodes as follows:</a>
+<span class="sourceLineNo">217</span><a id="line.217">   *</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">219</span><a id="line.219">   * Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">221</span><a id="line.221">   *</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Breadth-first_search"&gt;Wikipedia&lt;/a&gt; for more</a>
+<span class="sourceLineNo">223</span><a id="line.223">   * info.</a>
+<span class="sourceLineNo">224</span><a id="line.224">   *</a>
+<span class="sourceLineNo">225</span><a id="line.225">   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph</a>
+<span class="sourceLineNo">226</span><a id="line.226">   */</a>
+<span class="sourceLineNo">227</span><a id="line.227">  public final Iterable&lt;N&gt; breadthFirst(N startNode) {</a>
+<span class="sourceLineNo">228</span><a id="line.228">    return breadthFirst(ImmutableSet.of(startNode));</a>
+<span class="sourceLineNo">229</span><a id="line.229">  }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">  /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * startNodes}, in the order of a breadth-first traversal. This is equivalent to a breadth-first</a>
+<span class="sourceLineNo">234</span><a id="line.234">   * traversal of a graph with an additional root node whose successors are the listed {@code</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * startNodes}.</a>
+<span class="sourceLineNo">236</span><a id="line.236">   *</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * @see #breadthFirst(Object)</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * @since 24.1</a>
+<span class="sourceLineNo">240</span><a id="line.240">   */</a>
+<span class="sourceLineNo">241</span><a id="line.241">  public final Iterable&lt;N&gt; breadthFirst(Iterable&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">242</span><a id="line.242">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">243</span><a id="line.243">    return new Iterable&lt;N&gt;() {</a>
+<span class="sourceLineNo">244</span><a id="line.244">      @Override</a>
+<span class="sourceLineNo">245</span><a id="line.245">      public Iterator&lt;N&gt; iterator() {</a>
+<span class="sourceLineNo">246</span><a id="line.246">        return newTraversal().breadthFirst(validated.iterator());</a>
+<span class="sourceLineNo">247</span><a id="line.247">      }</a>
+<span class="sourceLineNo">248</span><a id="line.248">    };</a>
+<span class="sourceLineNo">249</span><a id="line.249">  }</a>
+<span class="sourceLineNo">250</span><a id="line.250"></a>
+<span class="sourceLineNo">251</span><a id="line.251">  /**</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * the order of a depth-first pre-order traversal. "Pre-order" implies that nodes appear in the</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * {@code Iterable} in the order in which they are first visited.</a>
+<span class="sourceLineNo">255</span><a id="line.255">   *</a>
+<span class="sourceLineNo">256</span><a id="line.256">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * the order {@code abecfd} (assuming successors are returned in alphabetical order).</a>
+<span class="sourceLineNo">258</span><a id="line.258">   *</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * b ---- a ---- d</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * |      |</a>
+<span class="sourceLineNo">262</span><a id="line.262">   * |      |</a>
+<span class="sourceLineNo">263</span><a id="line.263">   * e ---- c ---- f</a>
+<span class="sourceLineNo">264</span><a id="line.264">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">265</span><a id="line.265">   *</a>
+<span class="sourceLineNo">266</span><a id="line.266">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</a>
+<span class="sourceLineNo">267</span><a id="line.267">   * while iteration is in progress.</a>
+<span class="sourceLineNo">268</span><a id="line.268">   *</a>
+<span class="sourceLineNo">269</span><a id="line.269">   * &lt;p&gt;The returned {@code Iterable} can be iterated over multiple times. Every iterator will</a>
+<span class="sourceLineNo">270</span><a id="line.270">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</a>
+<span class="sourceLineNo">271</span><a id="line.271">   * number of nodes as follows:</a>
+<span class="sourceLineNo">272</span><a id="line.272">   *</a>
+<span class="sourceLineNo">273</span><a id="line.273">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * Iterables.limit(</a>
+<span class="sourceLineNo">275</span><a id="line.275">   *     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);</a>
+<span class="sourceLineNo">276</span><a id="line.276">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">277</span><a id="line.277">   *</a>
+<span class="sourceLineNo">278</span><a id="line.278">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Depth-first_search"&gt;Wikipedia&lt;/a&gt; for more info.</a>
+<span class="sourceLineNo">279</span><a id="line.279">   *</a>
+<span class="sourceLineNo">280</span><a id="line.280">   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph</a>
+<span class="sourceLineNo">281</span><a id="line.281">   */</a>
+<span class="sourceLineNo">282</span><a id="line.282">  public final Iterable&lt;N&gt; depthFirstPreOrder(N startNode) {</a>
+<span class="sourceLineNo">283</span><a id="line.283">    return depthFirstPreOrder(ImmutableSet.of(startNode));</a>
+<span class="sourceLineNo">284</span><a id="line.284">  }</a>
+<span class="sourceLineNo">285</span><a id="line.285"></a>
+<span class="sourceLineNo">286</span><a id="line.286">  /**</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * startNodes}, in the order of a depth-first pre-order traversal. This is equivalent to a</a>
+<span class="sourceLineNo">289</span><a id="line.289">   * depth-first pre-order traversal of a graph with an additional root node whose successors are</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * the listed {@code startNodes}.</a>
+<span class="sourceLineNo">291</span><a id="line.291">   *</a>
+<span class="sourceLineNo">292</span><a id="line.292">   * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * @see #depthFirstPreOrder(Object)</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * @since 24.1</a>
+<span class="sourceLineNo">295</span><a id="line.295">   */</a>
+<span class="sourceLineNo">296</span><a id="line.296">  public final Iterable&lt;N&gt; depthFirstPreOrder(Iterable&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">298</span><a id="line.298">    return new Iterable&lt;N&gt;() {</a>
+<span class="sourceLineNo">299</span><a id="line.299">      @Override</a>
+<span class="sourceLineNo">300</span><a id="line.300">      public Iterator&lt;N&gt; iterator() {</a>
+<span class="sourceLineNo">301</span><a id="line.301">        return newTraversal().preOrder(validated.iterator());</a>
+<span class="sourceLineNo">302</span><a id="line.302">      }</a>
+<span class="sourceLineNo">303</span><a id="line.303">    };</a>
+<span class="sourceLineNo">304</span><a id="line.304">  }</a>
+<span class="sourceLineNo">305</span><a id="line.305"></a>
+<span class="sourceLineNo">306</span><a id="line.306">  /**</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * the order of a depth-first post-order traversal. "Post-order" implies that nodes appear in the</a>
+<span class="sourceLineNo">309</span><a id="line.309">   * {@code Iterable} in the order in which they are visited for the last time.</a>
+<span class="sourceLineNo">310</span><a id="line.310">   *</a>
+<span class="sourceLineNo">311</span><a id="line.311">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</a>
+<span class="sourceLineNo">312</span><a id="line.312">   * the order {@code fcebda} (assuming successors are returned in alphabetical order).</a>
+<span class="sourceLineNo">313</span><a id="line.313">   *</a>
+<span class="sourceLineNo">314</span><a id="line.314">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * b ---- a ---- d</a>
+<span class="sourceLineNo">316</span><a id="line.316">   * |      |</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * |      |</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * e ---- c ---- f</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">320</span><a id="line.320">   *</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * while iteration is in progress.</a>
+<span class="sourceLineNo">323</span><a id="line.323">   *</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * &lt;p&gt;The returned {@code Iterable} can be iterated over multiple times. Every iterator will</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</a>
+<span class="sourceLineNo">326</span><a id="line.326">   * number of nodes as follows:</a>
+<span class="sourceLineNo">327</span><a id="line.327">   *</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * Iterables.limit(</a>
+<span class="sourceLineNo">330</span><a id="line.330">   *     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">332</span><a id="line.332">   *</a>
+<span class="sourceLineNo">333</span><a id="line.333">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Depth-first_search"&gt;Wikipedia&lt;/a&gt; for more info.</a>
+<span class="sourceLineNo">334</span><a id="line.334">   *</a>
+<span class="sourceLineNo">335</span><a id="line.335">   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph</a>
+<span class="sourceLineNo">336</span><a id="line.336">   */</a>
+<span class="sourceLineNo">337</span><a id="line.337">  public final Iterable&lt;N&gt; depthFirstPostOrder(N startNode) {</a>
+<span class="sourceLineNo">338</span><a id="line.338">    return depthFirstPostOrder(ImmutableSet.of(startNode));</a>
+<span class="sourceLineNo">339</span><a id="line.339">  }</a>
+<span class="sourceLineNo">340</span><a id="line.340"></a>
+<span class="sourceLineNo">341</span><a id="line.341">  /**</a>
+<span class="sourceLineNo">342</span><a id="line.342">   * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code</a>
+<span class="sourceLineNo">343</span><a id="line.343">   * startNodes}, in the order of a depth-first post-order traversal. This is equivalent to a</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * depth-first post-order traversal of a graph with an additional root node whose successors are</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * the listed {@code startNodes}.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   *</a>
+<span class="sourceLineNo">347</span><a id="line.347">   * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * @see #depthFirstPostOrder(Object)</a>
+<span class="sourceLineNo">349</span><a id="line.349">   * @since 24.1</a>
+<span class="sourceLineNo">350</span><a id="line.350">   */</a>
+<span class="sourceLineNo">351</span><a id="line.351">  public final Iterable&lt;N&gt; depthFirstPostOrder(Iterable&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">352</span><a id="line.352">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">353</span><a id="line.353">    return new Iterable&lt;N&gt;() {</a>
+<span class="sourceLineNo">354</span><a id="line.354">      @Override</a>
+<span class="sourceLineNo">355</span><a id="line.355">      public Iterator&lt;N&gt; iterator() {</a>
+<span class="sourceLineNo">356</span><a id="line.356">        return newTraversal().postOrder(validated.iterator());</a>
+<span class="sourceLineNo">357</span><a id="line.357">      }</a>
+<span class="sourceLineNo">358</span><a id="line.358">    };</a>
+<span class="sourceLineNo">359</span><a id="line.359">  }</a>
+<span class="sourceLineNo">360</span><a id="line.360"></a>
+<span class="sourceLineNo">361</span><a id="line.361">  abstract Traversal&lt;N&gt; newTraversal();</a>
+<span class="sourceLineNo">362</span><a id="line.362"></a>
+<span class="sourceLineNo">363</span><a id="line.363">  @SuppressWarnings("CheckReturnValue")</a>
+<span class="sourceLineNo">364</span><a id="line.364">  private ImmutableSet&lt;N&gt; validate(Iterable&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">365</span><a id="line.365">    ImmutableSet&lt;N&gt; copy = ImmutableSet.copyOf(startNodes);</a>
+<span class="sourceLineNo">366</span><a id="line.366">    for (N node : copy) {</a>
+<span class="sourceLineNo">367</span><a id="line.367">      successorFunction.successors(node); // Will throw if node doesn't exist</a>
+<span class="sourceLineNo">368</span><a id="line.368">    }</a>
+<span class="sourceLineNo">369</span><a id="line.369">    return copy;</a>
+<span class="sourceLineNo">370</span><a id="line.370">  }</a>
+<span class="sourceLineNo">371</span><a id="line.371"></a>
+<span class="sourceLineNo">372</span><a id="line.372">  /**</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * Abstracts away the difference between traversing a graph vs. a tree. For a tree, we just take</a>
+<span class="sourceLineNo">374</span><a id="line.374">   * the next element from the next non-empty iterator; for graph, we need to loop through the next</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * non-empty iterator to find first unvisited node.</a>
+<span class="sourceLineNo">376</span><a id="line.376">   */</a>
+<span class="sourceLineNo">377</span><a id="line.377">  private abstract static class Traversal&lt;N&gt; {</a>
+<span class="sourceLineNo">378</span><a id="line.378">    final SuccessorsFunction&lt;N&gt; successorFunction;</a>
+<span class="sourceLineNo">379</span><a id="line.379"></a>
+<span class="sourceLineNo">380</span><a id="line.380">    Traversal(SuccessorsFunction&lt;N&gt; successorFunction) {</a>
+<span class="sourceLineNo">381</span><a id="line.381">      this.successorFunction = successorFunction;</a>
+<span class="sourceLineNo">382</span><a id="line.382">    }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">    static &lt;N&gt; Traversal&lt;N&gt; inGraph(SuccessorsFunction&lt;N&gt; graph) {</a>
+<span class="sourceLineNo">385</span><a id="line.385">      Set&lt;N&gt; visited = new HashSet&lt;&gt;();</a>
+<span class="sourceLineNo">386</span><a id="line.386">      return new Traversal&lt;N&gt;(graph) {</a>
+<span class="sourceLineNo">387</span><a id="line.387">        @Override</a>
+<span class="sourceLineNo">388</span><a id="line.388">        @CheckForNull</a>
+<span class="sourceLineNo">389</span><a id="line.389">        N visitNext(Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon) {</a>
+<span class="sourceLineNo">390</span><a id="line.390">          Iterator&lt;? extends N&gt; top = horizon.getFirst();</a>
+<span class="sourceLineNo">391</span><a id="line.391">          while (top.hasNext()) {</a>
+<span class="sourceLineNo">392</span><a id="line.392">            N element = top.next();</a>
+<span class="sourceLineNo">393</span><a id="line.393">            // requireNonNull is safe because horizon contains only graph nodes.</a>
+<span class="sourceLineNo">394</span><a id="line.394">            /*</a>
+<span class="sourceLineNo">395</span><a id="line.395">             * TODO(cpovirk): Replace these two statements with one (`N element =</a>
+<span class="sourceLineNo">396</span><a id="line.396">             * requireNonNull(top.next())`) once our checker supports it.</a>
+<span class="sourceLineNo">397</span><a id="line.397">             *</a>
+<span class="sourceLineNo">398</span><a id="line.398">             * (The problem is likely</a>
+<span class="sourceLineNo">399</span><a id="line.399">             * https://github.com/jspecify/jspecify-reference-checker/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecAnnotatedTypeFactory.java#L896)</a>
+<span class="sourceLineNo">400</span><a id="line.400">             */</a>
+<span class="sourceLineNo">401</span><a id="line.401">            requireNonNull(element);</a>
+<span class="sourceLineNo">402</span><a id="line.402">            if (visited.add(element)) {</a>
+<span class="sourceLineNo">403</span><a id="line.403">              return element;</a>
+<span class="sourceLineNo">404</span><a id="line.404">            }</a>
+<span class="sourceLineNo">405</span><a id="line.405">          }</a>
+<span class="sourceLineNo">406</span><a id="line.406">          horizon.removeFirst();</a>
+<span class="sourceLineNo">407</span><a id="line.407">          return null;</a>
+<span class="sourceLineNo">408</span><a id="line.408">        }</a>
+<span class="sourceLineNo">409</span><a id="line.409">      };</a>
+<span class="sourceLineNo">410</span><a id="line.410">    }</a>
+<span class="sourceLineNo">411</span><a id="line.411"></a>
+<span class="sourceLineNo">412</span><a id="line.412">    static &lt;N&gt; Traversal&lt;N&gt; inTree(SuccessorsFunction&lt;N&gt; tree) {</a>
+<span class="sourceLineNo">413</span><a id="line.413">      return new Traversal&lt;N&gt;(tree) {</a>
+<span class="sourceLineNo">414</span><a id="line.414">        @CheckForNull</a>
+<span class="sourceLineNo">415</span><a id="line.415">        @Override</a>
+<span class="sourceLineNo">416</span><a id="line.416">        N visitNext(Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon) {</a>
+<span class="sourceLineNo">417</span><a id="line.417">          Iterator&lt;? extends N&gt; top = horizon.getFirst();</a>
+<span class="sourceLineNo">418</span><a id="line.418">          if (top.hasNext()) {</a>
+<span class="sourceLineNo">419</span><a id="line.419">            return checkNotNull(top.next());</a>
+<span class="sourceLineNo">420</span><a id="line.420">          }</a>
+<span class="sourceLineNo">421</span><a id="line.421">          horizon.removeFirst();</a>
+<span class="sourceLineNo">422</span><a id="line.422">          return null;</a>
+<span class="sourceLineNo">423</span><a id="line.423">        }</a>
+<span class="sourceLineNo">424</span><a id="line.424">      };</a>
+<span class="sourceLineNo">425</span><a id="line.425">    }</a>
+<span class="sourceLineNo">426</span><a id="line.426"></a>
+<span class="sourceLineNo">427</span><a id="line.427">    final Iterator&lt;N&gt; breadthFirst(Iterator&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">428</span><a id="line.428">      return topDown(startNodes, InsertionOrder.BACK);</a>
+<span class="sourceLineNo">429</span><a id="line.429">    }</a>
+<span class="sourceLineNo">430</span><a id="line.430"></a>
+<span class="sourceLineNo">431</span><a id="line.431">    final Iterator&lt;N&gt; preOrder(Iterator&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">432</span><a id="line.432">      return topDown(startNodes, InsertionOrder.FRONT);</a>
+<span class="sourceLineNo">433</span><a id="line.433">    }</a>
+<span class="sourceLineNo">434</span><a id="line.434"></a>
+<span class="sourceLineNo">435</span><a id="line.435">    /**</a>
+<span class="sourceLineNo">436</span><a id="line.436">     * In top-down traversal, an ancestor node is always traversed before any of its descendant</a>
+<span class="sourceLineNo">437</span><a id="line.437">     * nodes. The traversal order among descendant nodes (particularly aunts and nieces) are</a>
+<span class="sourceLineNo">438</span><a id="line.438">     * determined by the {@code InsertionOrder} parameter: nieces are placed at the FRONT before</a>
+<span class="sourceLineNo">439</span><a id="line.439">     * aunts for pre-order; while in BFS they are placed at the BACK after aunts.</a>
+<span class="sourceLineNo">440</span><a id="line.440">     */</a>
+<span class="sourceLineNo">441</span><a id="line.441">    private Iterator&lt;N&gt; topDown(Iterator&lt;? extends N&gt; startNodes, InsertionOrder order) {</a>
+<span class="sourceLineNo">442</span><a id="line.442">      Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">443</span><a id="line.443">      horizon.add(startNodes);</a>
+<span class="sourceLineNo">444</span><a id="line.444">      return new AbstractIterator&lt;N&gt;() {</a>
+<span class="sourceLineNo">445</span><a id="line.445">        @Override</a>
+<span class="sourceLineNo">446</span><a id="line.446">        @CheckForNull</a>
+<span class="sourceLineNo">447</span><a id="line.447">        protected N computeNext() {</a>
+<span class="sourceLineNo">448</span><a id="line.448">          do {</a>
+<span class="sourceLineNo">449</span><a id="line.449">            N next = visitNext(horizon);</a>
+<span class="sourceLineNo">450</span><a id="line.450">            if (next != null) {</a>
+<span class="sourceLineNo">451</span><a id="line.451">              Iterator&lt;? extends N&gt; successors = successorFunction.successors(next).iterator();</a>
+<span class="sourceLineNo">452</span><a id="line.452">              if (successors.hasNext()) {</a>
+<span class="sourceLineNo">453</span><a id="line.453">                // BFS: horizon.addLast(successors)</a>
+<span class="sourceLineNo">454</span><a id="line.454">                // Pre-order: horizon.addFirst(successors)</a>
+<span class="sourceLineNo">455</span><a id="line.455">                order.insertInto(horizon, successors);</a>
+<span class="sourceLineNo">456</span><a id="line.456">              }</a>
+<span class="sourceLineNo">457</span><a id="line.457">              return next;</a>
+<span class="sourceLineNo">458</span><a id="line.458">            }</a>
+<span class="sourceLineNo">459</span><a id="line.459">          } while (!horizon.isEmpty());</a>
+<span class="sourceLineNo">460</span><a id="line.460">          return endOfData();</a>
+<span class="sourceLineNo">461</span><a id="line.461">        }</a>
+<span class="sourceLineNo">462</span><a id="line.462">      };</a>
+<span class="sourceLineNo">463</span><a id="line.463">    }</a>
+<span class="sourceLineNo">464</span><a id="line.464"></a>
+<span class="sourceLineNo">465</span><a id="line.465">    final Iterator&lt;N&gt; postOrder(Iterator&lt;? extends N&gt; startNodes) {</a>
+<span class="sourceLineNo">466</span><a id="line.466">      Deque&lt;N&gt; ancestorStack = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">467</span><a id="line.467">      Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">468</span><a id="line.468">      horizon.add(startNodes);</a>
+<span class="sourceLineNo">469</span><a id="line.469">      return new AbstractIterator&lt;N&gt;() {</a>
+<span class="sourceLineNo">470</span><a id="line.470">        @Override</a>
+<span class="sourceLineNo">471</span><a id="line.471">        @CheckForNull</a>
+<span class="sourceLineNo">472</span><a id="line.472">        protected N computeNext() {</a>
+<span class="sourceLineNo">473</span><a id="line.473">          for (N next = visitNext(horizon); next != null; next = visitNext(horizon)) {</a>
+<span class="sourceLineNo">474</span><a id="line.474">            Iterator&lt;? extends N&gt; successors = successorFunction.successors(next).iterator();</a>
+<span class="sourceLineNo">475</span><a id="line.475">            if (!successors.hasNext()) {</a>
+<span class="sourceLineNo">476</span><a id="line.476">              return next;</a>
+<span class="sourceLineNo">477</span><a id="line.477">            }</a>
+<span class="sourceLineNo">478</span><a id="line.478">            horizon.addFirst(successors);</a>
+<span class="sourceLineNo">479</span><a id="line.479">            ancestorStack.push(next);</a>
+<span class="sourceLineNo">480</span><a id="line.480">          }</a>
+<span class="sourceLineNo">481</span><a id="line.481">          // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.</a>
+<span class="sourceLineNo">482</span><a id="line.482">          if (!ancestorStack.isEmpty()) {</a>
+<span class="sourceLineNo">483</span><a id="line.483">            return ancestorStack.pop();</a>
+<span class="sourceLineNo">484</span><a id="line.484">          }</a>
+<span class="sourceLineNo">485</span><a id="line.485">          return endOfData();</a>
+<span class="sourceLineNo">486</span><a id="line.486">        }</a>
+<span class="sourceLineNo">487</span><a id="line.487">      };</a>
+<span class="sourceLineNo">488</span><a id="line.488">    }</a>
+<span class="sourceLineNo">489</span><a id="line.489"></a>
+<span class="sourceLineNo">490</span><a id="line.490">    /**</a>
+<span class="sourceLineNo">491</span><a id="line.491">     * Visits the next node from the top iterator of {@code horizon} and returns the visited node.</a>
+<span class="sourceLineNo">492</span><a id="line.492">     * Null is returned to indicate reaching the end of the top iterator.</a>
+<span class="sourceLineNo">493</span><a id="line.493">     *</a>
+<span class="sourceLineNo">494</span><a id="line.494">     * &lt;p&gt;For example, if horizon is {@code [[a, b], [c, d], [e]]}, {@code visitNext()} will return</a>
+<span class="sourceLineNo">495</span><a id="line.495">     * {@code [a, b, null, c, d, null, e, null]} sequentially, encoding the topological structure.</a>
+<span class="sourceLineNo">496</span><a id="line.496">     * (Note, however, that the callers of {@code visitNext()} often insert additional iterators</a>
+<span class="sourceLineNo">497</span><a id="line.497">     * into {@code horizon} between calls to {@code visitNext()}. This causes them to receive</a>
+<span class="sourceLineNo">498</span><a id="line.498">     * additional values interleaved with those shown above.)</a>
+<span class="sourceLineNo">499</span><a id="line.499">     */</a>
+<span class="sourceLineNo">500</span><a id="line.500">    @CheckForNull</a>
+<span class="sourceLineNo">501</span><a id="line.501">    abstract N visitNext(Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon);</a>
+<span class="sourceLineNo">502</span><a id="line.502">  }</a>
+<span class="sourceLineNo">503</span><a id="line.503"></a>
+<span class="sourceLineNo">504</span><a id="line.504">  /** Poor man's method reference for {@code Deque::addFirst} and {@code Deque::addLast}. */</a>
+<span class="sourceLineNo">505</span><a id="line.505">  private enum InsertionOrder {</a>
+<span class="sourceLineNo">506</span><a id="line.506">    FRONT {</a>
+<span class="sourceLineNo">507</span><a id="line.507">      @Override</a>
+<span class="sourceLineNo">508</span><a id="line.508">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
+<span class="sourceLineNo">509</span><a id="line.509">        deque.addFirst(value);</a>
+<span class="sourceLineNo">510</span><a id="line.510">      }</a>
+<span class="sourceLineNo">511</span><a id="line.511">    },</a>
+<span class="sourceLineNo">512</span><a id="line.512">    BACK {</a>
+<span class="sourceLineNo">513</span><a id="line.513">      @Override</a>
+<span class="sourceLineNo">514</span><a id="line.514">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
+<span class="sourceLineNo">515</span><a id="line.515">        deque.addLast(value);</a>
+<span class="sourceLineNo">516</span><a id="line.516">      }</a>
+<span class="sourceLineNo">517</span><a id="line.517">    };</a>
+<span class="sourceLineNo">518</span><a id="line.518"></a>
+<span class="sourceLineNo">519</span><a id="line.519">    abstract &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value);</a>
+<span class="sourceLineNo">520</span><a id="line.520">  }</a>
+<span class="sourceLineNo">521</span><a id="line.521">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
