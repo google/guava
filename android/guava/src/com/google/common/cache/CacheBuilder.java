@@ -717,7 +717,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #expireAfterWrite} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT (but since 25.0 in the JRE <a
+   * @since 33.3.0 (but since 25.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
    */
   @J2ObjCIncompatible
@@ -794,7 +794,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #expireAfterAccess} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT (but since 25.0 in the JRE <a
+   * @since 33.3.0 (but since 25.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
    */
   @J2ObjCIncompatible
@@ -880,7 +880,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #refreshAfterWrite} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT (but since 25.0 in the JRE <a
+   * @since 33.3.0 (but since 25.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
    */
   @J2ObjCIncompatible

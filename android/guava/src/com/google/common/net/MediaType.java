@@ -159,7 +159,7 @@ public final class MediaType {
    * As described in <a href="https://www.rfc-editor.org/rfc/rfc7763.html">RFC 7763</a>, this
    * constant ({@code text/markdown}) is used for Markdown documents.
    *
-   * @since NEXT
+   * @since 33.3.0
    */
   public static final MediaType MD_UTF_8 = createConstantUtf8(TEXT_TYPE, "markdown");
 

@@ -136,7 +136,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * {@code expectedKeys} is a good estimate.
    *
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
-   * @since NEXT
+   * @since 33.3.0
    */
   public static <K, V> Builder<K, V> builderWithExpectedKeys(int expectedKeys) {
     checkNonnegative(expectedKeys, "expectedKeys");
@@ -205,7 +205,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
      * {@link #expectedValuesPerKey} as its hint.
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey} is negative
-     * @since NEXT
+     * @since 33.3.0
      */
     @CanIgnoreReturnValue
     public Builder<K, V> expectedValuesPerKey(int expectedValuesPerKey) {

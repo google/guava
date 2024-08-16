@@ -232,7 +232,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * {@code expectedKeys} is a good estimate.
    *
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
-   * @since NEXT
+   * @since 33.3.0
    */
   public static <K, V> Builder<K, V> builderWithExpectedKeys(int expectedKeys) {
     checkNonnegative(expectedKeys, "expectedKeys");
@@ -295,7 +295,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      * <p>Note that {@code expectedValuesPerKey} is taken to mean the expected number of
      * <i>distinct</i> values per key.
      *
-     * @since NEXT
+     * @since 33.3.0
      */
     @CanIgnoreReturnValue
     @Override

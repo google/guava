@@ -201,7 +201,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * {@code expectedKeys} is a good estimate.
    *
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
-   * @since NEXT
+   * @since 33.3.0
    */
   public static <K, V> Builder<K, V> builderWithExpectedKeys(int expectedKeys) {
     checkNonnegative(expectedKeys, "expectedKeys");
@@ -242,7 +242,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     /**
      * {@inheritDoc}
      *
-     * @since NEXT
+     * @since 33.3.0
      */
     @CanIgnoreReturnValue
     @Override

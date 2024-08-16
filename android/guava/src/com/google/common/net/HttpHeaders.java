@@ -755,7 +755,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-form-factors">{@code
    * Sec-CH-UA-Form-Factors}</a> header field name.
    *
-   * @since NEXT
+   * @since 33.3.0
    */
   public static final String SEC_CH_UA_FORM_FACTORS = "Sec-CH-UA-Form-Factors";
 
