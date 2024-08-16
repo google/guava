@@ -516,7 +516,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * current array, create a new array.
      */
     private void ensureRoomFor(int newElements) {
-      Object[] contents = this.contents;
+      @Nullable Object[] contents = this.contents;
       int newCapacity = expandedCapacity(contents.length, size + newElements);
       // expandedCapacity handles the overflow case
       if (newCapacity > contents.length || forceCopy) {

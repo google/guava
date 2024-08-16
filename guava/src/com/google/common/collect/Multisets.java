@@ -1131,7 +1131,7 @@ public final class Multisets {
     Spliterator<Entry<E>> entrySpliterator = multiset.entrySet().spliterator();
     return CollectSpliterators.flatMap(
         entrySpliterator,
-        entry -> Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),
+        (Entry<E> entry) -> Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),
         Spliterator.SIZED
             | (entrySpliterator.characteristics()
                 & (Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE)),

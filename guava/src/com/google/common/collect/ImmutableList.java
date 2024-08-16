@@ -819,7 +819,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     private void ensureRoomFor(int newElements) {
-      Object[] contents = this.contents;
+      @Nullable Object[] contents = this.contents;
       int newCapacity = expandedCapacity(contents.length, size + newElements);
       // expandedCapacity handles the overflow case
       if (contents.length < newCapacity || copyOnWrite) {
