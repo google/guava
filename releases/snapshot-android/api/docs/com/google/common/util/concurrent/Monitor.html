@@ -765,7 +765,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhenUninterruptibly</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.516">enterWhenUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.519">enterWhenUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely.</div>
 </li>
 </ul>
@@ -775,7 +775,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhenUninterruptibly</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.543">enterWhenUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.546">enterWhenUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                         long&nbsp;time,
                                         java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
@@ -792,7 +792,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.610">enterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.613">enterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied.</div>
 <dl>
@@ -807,7 +807,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.633">enterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.636">enterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
                        java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
@@ -824,7 +824,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIfInterruptibly</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.659">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.662">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
                              throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied, and may be interrupted.</div>
@@ -842,7 +842,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIfInterruptibly</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.682">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.685">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                     long&nbsp;time,
                                     java.util.concurrent.TimeUnit&nbsp;unit)
                              throws java.lang.InterruptedException</pre>
@@ -862,7 +862,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>tryEnterIf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.711">tryEnterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.714">tryEnterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor if it is possible to do so immediately and the guard is satisfied. Does not
  block acquiring the lock and does not wait for the guard to be satisfied.
 
@@ -879,7 +879,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>waitFor</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.736">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.739">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
              throws java.lang.InterruptedException</pre>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be called
  only by a thread currently occupying this monitor.</div>
@@ -895,7 +895,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>waitFor</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.752">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.755">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
                        java.util.concurrent.TimeUnit&nbsp;unit)
                 throws java.lang.InterruptedException</pre>
@@ -915,7 +915,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>waitForUninterruptibly</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.771">waitForUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.774">waitForUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
  currently occupying this monitor.</div>
 </li>
@@ -926,7 +926,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>waitForUninterruptibly</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.786">waitForUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.789">waitForUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                       long&nbsp;time,
                                       java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
@@ -943,7 +943,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>leave</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.819">leave</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.822">leave</a>()</pre>
 <div class="block">Leaves this monitor. May be called only by a thread currently occupying this monitor.</div>
 </li>
 </ul>
@@ -953,7 +953,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isFair</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.832">isFair</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.835">isFair</a>()</pre>
 <div class="block">Returns whether this monitor is using a fair ordering policy.</div>
 </li>
 </ul>
@@ -963,7 +963,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupied</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.840">isOccupied</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.843">isOccupied</a>()</pre>
 <div class="block">Returns whether this monitor is occupied by any thread. This method is designed for use in
  monitoring of the system state, not for synchronization control.</div>
 </li>
@@ -974,7 +974,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupiedByCurrentThread</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.848">isOccupiedByCurrentThread</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.851">isOccupiedByCurrentThread</a>()</pre>
 <div class="block">Returns whether the current thread is occupying this monitor (has entered more times than it
  has left).</div>
 </li>
@@ -985,7 +985,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getOccupiedDepth</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.856">getOccupiedDepth</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.859">getOccupiedDepth</a>()</pre>
 <div class="block">Returns the number of times the current thread has entered this monitor in excess of the number
  of times it has left. Returns 0 if the current thread is not occupying this monitor.</div>
 </li>
@@ -996,7 +996,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getQueueLength</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.866">getQueueLength</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.869">getQueueLength</a>()</pre>
 <div class="block">Returns an estimate of the number of threads waiting to enter this monitor. The value is only
  an estimate because the number of threads may change dynamically while this method traverses
  internal data structures. This method is designed for use in monitoring of the system state,
@@ -1009,7 +1009,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThreads</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.876">hasQueuedThreads</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.879">hasQueuedThreads</a>()</pre>
 <div class="block">Returns whether any threads are waiting to enter this monitor. Note that because cancellations
  may occur at any time, a <code>true</code> return does not guarantee that any other thread will ever
  enter this monitor. This method is designed primarily for use in monitoring of the system
@@ -1022,7 +1022,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThread</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.886">hasQueuedThread</a>&#8203;(java.lang.Thread&nbsp;thread)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.889">hasQueuedThread</a>&#8203;(java.lang.Thread&nbsp;thread)</pre>
 <div class="block">Queries whether the given thread is waiting to enter this monitor. Note that because
  cancellations may occur at any time, a <code>true</code> return does not guarantee that this thread
  will ever enter this monitor. This method is designed primarily for use in monitoring of the
@@ -1035,7 +1035,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hasWaiters</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.896">hasWaiters</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.899">hasWaiters</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Queries whether any threads are waiting for the given guard to become satisfied. Note that
  because timeouts and interrupts may occur at any time, a <code>true</code> return does not guarantee
  that the guard becoming satisfied in the future will awaken any threads. This method is
@@ -1048,7 +1048,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getWaitQueueLength</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.906">getWaitQueueLength</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.909">getWaitQueueLength</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Returns an estimate of the number of threads waiting for the given guard to become satisfied.
  Note that because timeouts and interrupts may occur at any time, the estimate serves only as an
  upper bound on the actual number of waiters. This method is designed for use in monitoring of
