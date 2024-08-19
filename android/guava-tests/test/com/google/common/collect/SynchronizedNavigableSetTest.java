@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 public class SynchronizedNavigableSetTest extends TestCase {
-  private static final Object MUTEX = new Integer(1); // something Serializable
+  private static final Object MUTEX = new Object[0]; // something Serializable
 
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
