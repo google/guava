@@ -55,7 +55,8 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
 
   private static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
-  @SuppressWarnings("unchecked")
+  // TODO(b/345814817): Move this to RegularImmutableSortedSet?
+  @SuppressWarnings({"unchecked", "ClassInitializationDeadlock"})
   private static final ImmutableSortedSet<Object> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<Object>(
           new TreeSet<Object>((Comparator<Object>) NATURAL_ORDER), false);

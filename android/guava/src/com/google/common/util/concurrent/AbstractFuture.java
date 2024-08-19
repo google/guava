@@ -429,6 +429,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    *
    * @throws CancellationException {@inheritDoc}
    */
+  @SuppressWarnings("LabelledBreakTarget") // TODO(b/345814817): Maybe fix?
   @CanIgnoreReturnValue
   @Override
   @ParametricNullness

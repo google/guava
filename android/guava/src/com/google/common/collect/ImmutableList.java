@@ -390,6 +390,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /** A singleton implementation of iterator() for the empty ImmutableList. */
+  // TODO(b/345814817): Move this to RegularImmutableList?
+  @SuppressWarnings("ClassInitializationDeadlock")
   private static final UnmodifiableListIterator<Object> EMPTY_ITR =
       new Itr<Object>(RegularImmutableList.EMPTY, 0);
 
