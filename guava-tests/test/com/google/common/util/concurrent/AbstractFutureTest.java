@@ -280,26 +280,26 @@ public class AbstractFutureTest extends TestCase {
    * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
    * derived from observing how much time actually passed for various operations.
    */
-  @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
+  @SuppressWarnings("ThreadPriorityCheck")
   @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
     Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
     // Parsing to an integer might fail because Java 8 returns "1.8" instead of "8."
     // We can continue if it's 1.8, and we can continue if it's an integer in [9, 20).
     if (javaVersion != null && javaVersion >= 20) {
-      // TODO(b/261217224): Make this test work under newer JDKs.
+      // TODO(b/261217224, b/361604053): Make this test work under newer JDKs.
       return;
     }
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
     thread.start();
     thread.awaitWaiting();
-    thread.suspend();
+    Thread.class.getMethod("suspend").invoke(thread);
     // Sleep for enough time to add 1500 milliseconds of overwait to the get() call.
     long toWaitMillis = 3500 - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - thread.startTime);
     Thread.sleep(toWaitMillis);
     thread.setPriority(Thread.MAX_PRIORITY);
-    thread.resume();
+    Thread.class.getMethod("resume").invoke(thread);
     thread.join();
     // It's possible to race and suspend the thread just before the park call actually takes effect,
     // causing the thread to be suspended for 3.5 seconds, and then park itself for 2 seconds after
