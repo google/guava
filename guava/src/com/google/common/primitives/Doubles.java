@@ -25,6 +25,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -91,6 +92,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Double.compare(a, b)")
   public static int compare(double a, double b) {
     return Double.compare(a, b);
   }

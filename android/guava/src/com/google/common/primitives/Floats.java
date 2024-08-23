@@ -25,6 +25,7 @@ import static java.lang.Float.POSITIVE_INFINITY;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -86,6 +87,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * @param b the second {@code float} to compare
    * @return the result of invoking {@link Float#compare(float, float)}
    */
+  @InlineMe(replacement = "Float.compare(a, b)")
   public static int compare(float a, float b) {
     return Float.compare(a, b);
   }
