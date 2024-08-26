@@ -37,6 +37,8 @@ public final class HttpHeaders {
 
   // HTTP Request and Response header fields
 
+    /** The HTTP {@code Accept} header field name. */
+  public static final String ALT_SVC =  "Alt-Svc";
   /** The HTTP {@code Cache-Control} header field name. */
   public static final String CACHE_CONTROL = "Cache-Control";
   /** The HTTP {@code Content-Length} header field name. */
