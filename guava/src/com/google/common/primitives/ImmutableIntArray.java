@@ -169,8 +169,8 @@ public final class ImmutableIntArray implements Serializable {
   /** Returns an immutable array containing all the values from {@code stream}, in order. */
   public static ImmutableIntArray copyOf(IntStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
-    int[] array = stream.toArray();
-    return (array.length == 0) ? EMPTY : new ImmutableIntArray(array);
+    // Also note defensive copying.
+    return copyOf(stream.toArray());
   }
 
   /**

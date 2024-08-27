@@ -17,6 +17,8 @@ package com.google.common.primitives;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -145,6 +147,15 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(ImmutableDoubleArray.copyOf(DoubleStream.of(0, 1, 3)).asList())
         .containsExactly(0.0, 1.0, 3.0)
         .inOrder();
+  }
+  
+  public void testCopyOf_stream_malicious() {
+    double[] array = {0.0};
+    DoubleStream stream = mock(DoubleStream.class);
+    when(stream.toArray()).thenReturn(array);
+    ImmutableDoubleArray iia = ImmutableDoubleArray.copyOf(stream);
+    array[0] = 1.0;
+    assertThat(iia.asList()).containsExactly(0.0);
   }
 
   public void testBuilder_presize_zero() {

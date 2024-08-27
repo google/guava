@@ -172,8 +172,8 @@ public final class ImmutableDoubleArray implements Serializable {
   /** Returns an immutable array containing all the values from {@code stream}, in order. */
   public static ImmutableDoubleArray copyOf(DoubleStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
-    double[] array = stream.toArray();
-    return (array.length == 0) ? EMPTY : new ImmutableDoubleArray(array);
+    // Also note defensive copying.
+    return copyOf(stream.toArray());
   }
 
   /**

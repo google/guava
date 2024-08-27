@@ -17,6 +17,8 @@ package com.google.common.primitives;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -144,6 +146,15 @@ public class ImmutableLongArrayTest extends TestCase {
     assertThat(ImmutableLongArray.copyOf(LongStream.of(0, 1, 3)).asList())
         .containsExactly(0L, 1L, 3L)
         .inOrder();
+  }
+
+  public void testCopyOf_stream_malicious() {
+    long[] array = {0L};
+    LongStream stream = mock(LongStream.class);
+    when(stream.toArray()).thenReturn(array);
+    ImmutableLongArray iia = ImmutableLongArray.copyOf(stream);
+    array[0] = 1L;
+    assertThat(iia.asList()).containsExactly(0L);
   }
 
   public void testBuilder_presize_zero() {
