@@ -131,6 +131,37 @@ public class BytesTest extends TestCase {
         .isEqualTo(new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    byte[][] arrays = new byte[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    byte[] sharedArray = new byte[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Bytes.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testEnsureCapacity() {
     assertThat(Bytes.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
     assertThat(Bytes.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);

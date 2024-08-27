@@ -224,6 +224,37 @@ public class IntsTest extends TestCase {
         .isEqualTo(new int[] {(int) 1, (int) 2, (int) 3, (int) 4});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    int[][] arrays = new int[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    int[] sharedArray = new int[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Ints.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testToByteArray() {
     assertThat(Ints.toByteArray(0x12131415)).isEqualTo(new byte[] {0x12, 0x13, 0x14, 0x15});
     assertThat(Ints.toByteArray(0xFFEEDDCC))
