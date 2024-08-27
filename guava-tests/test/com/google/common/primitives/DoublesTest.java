@@ -280,6 +280,37 @@ public class DoublesTest extends TestCase {
         .isEqualTo(new double[] {(double) 1, (double) 2, (double) 3, (double) 4});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcat_overflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcat_overflow(dim1, dim2);
+  }
+
+  private static void testConcat_overflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    double[][] arrays = new double[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    double[] sharedArray = new double[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+        Doubles.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testEnsureCapacity() {
     assertThat(Doubles.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
     assertThat(Doubles.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);
