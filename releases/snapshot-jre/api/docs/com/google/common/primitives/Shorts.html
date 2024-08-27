@@ -710,7 +710,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.283">concat</a>&#8203;(short[]...&nbsp;arrays)</pre>
+<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.285">concat</a>&#8203;(short[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example, <code>
  concat(new short[] {a, b}, new short[] {}, new short[] {c}</code> returns the array <code>{a, b,
  c}</code>.</div>
@@ -719,6 +719,9 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <dd><code>arrays</code> - zero or more <code>short</code> arrays</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a single array containing all the values from the source arrays, in order</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the total number of elements in <code>arrays</code> does not fit
+     in an <code>int</code></dd>
 </dl>
 </li>
 </ul>
@@ -729,7 +732,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <li class="blockList">
 <h4>toByteArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.306">toByteArray</a>&#8203;(short&nbsp;value)</pre>
+public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.316">toByteArray</a>&#8203;(short&nbsp;value)</pre>
 <div class="block">Returns a big-endian representation of <code>value</code> in a 2-element byte array; equivalent to
  <code>ByteBuffer.allocate(2).putShort(value).array()</code>. For example, the input value <code>
  (short) 0x1234</code> would yield the byte array <code>{0x12, 0x34}</code>.
@@ -745,7 +748,7 @@ public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/p
 <li class="blockList">
 <h4>fromByteArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.321">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
+public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.331">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns the <code>short</code> value whose big-endian representation is stored in the first 2 bytes
  of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getShort()</code>. For example, the
  input byte array <code>{0x54, 0x32}</code> would yield the <code>short</code> value <code>0x5432</code>.
@@ -765,7 +768,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <li class="blockList">
 <h4>fromBytes</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.333">fromBytes</a>&#8203;(byte&nbsp;b1,
+public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.343">fromBytes</a>&#8203;(byte&nbsp;b1,
                               byte&nbsp;b2)</pre>
 <div class="block">Returns the <code>short</code> value whose byte representation is the given 2 bytes, in big-endian
  order; equivalent to <code>Shorts.fromByteArray(new byte[] {b1, b2})</code>.</div>
@@ -781,7 +784,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>stringConverter</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.375">stringConverter</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.385">stringConverter</a>()</pre>
 <div class="block">Returns a serializable converter object that converts between strings and shorts using <code>Short.decode(java.lang.String)</code> and <code>Short.toString()</code>. The returned converter throws <code>NumberFormatException</code> if the input string is invalid.
 
  <p><b>Warning:</b> please see <code>Short.decode(java.lang.String)</code> to understand exactly how strings are
@@ -799,7 +802,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.392">ensureCapacity</a>&#8203;(short[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.402">ensureCapacity</a>&#8203;(short[]&nbsp;array,
                                      int&nbsp;minLength,
                                      int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -825,7 +828,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.407">join</a>&#8203;(java.lang.String&nbsp;separator,
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.417">join</a>&#8203;(java.lang.String&nbsp;separator,
                                     short...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>short</code> values separated by <code>separator</code>.
  For example, <code>join("-", (short) 1, (short) 2, (short) 3)</code> returns the string <code>
@@ -844,7 +847,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;short[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.435">lexicographicalComparator</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;short[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.445">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>short</code> arrays <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="#compare(short,short)"><code>compare(short, short)</code></a>), the first pair of values that follow any
  common prefix, or when one array is a prefix of the other, treats the shorter array as the
@@ -865,7 +868,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.465">sortDescending</a>&#8203;(short[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.475">sortDescending</a>&#8203;(short[]&nbsp;array)</pre>
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -879,7 +882,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.476">sortDescending</a>&#8203;(short[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.486">sortDescending</a>&#8203;(short[]&nbsp;array,
                                   int&nbsp;fromIndex,
                                   int&nbsp;toIndex)</pre>
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -896,7 +899,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.489">reverse</a>&#8203;(short[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.499">reverse</a>&#8203;(short[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>
  Collections.reverse(Shorts.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
@@ -911,7 +914,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.504">reverse</a>&#8203;(short[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.514">reverse</a>&#8203;(short[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -933,7 +936,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.524">rotate</a>&#8203;(short[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.534">rotate</a>&#8203;(short[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -953,7 +956,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.540">rotate</a>&#8203;(short[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.550">rotate</a>&#8203;(short[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>
@@ -978,7 +981,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.577">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;short[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.587">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>short</code>
  value in the manner of <code>Number.shortValue()</code>.
 
@@ -1003,7 +1006,7 @@ public static&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/pr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.606">asList</a>&#8203;(short...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Short&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Shorts.html#line.616">asList</a>&#8203;(short...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 

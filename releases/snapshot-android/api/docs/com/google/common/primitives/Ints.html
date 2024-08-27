@@ -728,7 +728,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.283">concat</a>&#8203;(int[]...&nbsp;arrays)</pre>
+<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.285">concat</a>&#8203;(int[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example, <code>
  concat(new int[] {a, b}, new int[] {}, new int[] {c}</code> returns the array <code>{a, b, c}</code>.</div>
 <dl>
@@ -736,6 +736,9 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <dd><code>arrays</code> - zero or more <code>int</code> arrays</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a single array containing all the values from the source arrays, in order</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the total number of elements in <code>arrays</code> does not fit
+     in an <code>int</code></dd>
 </dl>
 </li>
 </ul>
@@ -745,7 +748,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.306">toByteArray</a>&#8203;(int&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.316">toByteArray</a>&#8203;(int&nbsp;value)</pre>
 <div class="block">Returns a big-endian representation of <code>value</code> in a 4-element byte array; equivalent to
  <code>ByteBuffer.allocate(4).putInt(value).array()</code>. For example, the input value <code>
  0x12131415</code> would yield the byte array <code>{0x12, 0x13, 0x14, 0x15}</code>.
@@ -760,7 +763,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.323">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.333">fromByteArray</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns the <code>int</code> value whose big-endian representation is stored in the first 4 bytes of
  <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getInt()</code>. For example, the input
  byte array <code>{0x12, 0x13, 0x14, 0x15, 0x33}</code> would yield the <code>int</code> value <code>
@@ -780,7 +783,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>fromBytes</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.334">fromBytes</a>&#8203;(byte&nbsp;b1,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.344">fromBytes</a>&#8203;(byte&nbsp;b1,
                             byte&nbsp;b2,
                             byte&nbsp;b3,
                             byte&nbsp;b4)</pre>
@@ -798,7 +801,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>stringConverter</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.375">stringConverter</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.385">stringConverter</a>()</pre>
 <div class="block">Returns a serializable converter object that converts between strings and integers using <code>Integer.decode(java.lang.String)</code> and <code>Integer.toString()</code>. The returned converter throws <code>NumberFormatException</code> if the input string is invalid.
 
  <p><b>Warning:</b> please see <code>Integer.decode(java.lang.String)</code> to understand exactly how strings are
@@ -816,7 +819,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.392">ensureCapacity</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.402">ensureCapacity</a>&#8203;(int[]&nbsp;array,
                                    int&nbsp;minLength,
                                    int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -842,7 +845,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.406">join</a>&#8203;(java.lang.String&nbsp;separator,
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.416">join</a>&#8203;(java.lang.String&nbsp;separator,
                                     int...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>int</code> values separated by <code>separator</code>. For
  example, <code>join("-", 1, 2, 3)</code> returns the string <code>"1-2-3"</code>.</div>
@@ -860,7 +863,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;int[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.433">lexicographicalComparator</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.util.Comparator&lt;int[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.443">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>int</code> arrays <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="#compare(int,int)"><code>compare(int, int)</code></a>), the first pair of values that follow any common
  prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For
@@ -880,7 +883,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.463">sortDescending</a>&#8203;(int[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.473">sortDescending</a>&#8203;(int[]&nbsp;array)</pre>
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -894,7 +897,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.474">sortDescending</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.484">sortDescending</a>&#8203;(int[]&nbsp;array,
                                   int&nbsp;fromIndex,
                                   int&nbsp;toIndex)</pre>
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -911,7 +914,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.487">reverse</a>&#8203;(int[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.497">reverse</a>&#8203;(int[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>
  Collections.reverse(Ints.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
@@ -926,7 +929,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.502">reverse</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.512">reverse</a>&#8203;(int[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -948,7 +951,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.522">rotate</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.532">rotate</a>&#8203;(int[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -968,7 +971,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.538">rotate</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.548">rotate</a>&#8203;(int[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>
@@ -993,7 +996,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.601">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.611">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>int</code> value
  in the manner of <code>Number.intValue()</code>.
 
@@ -1018,7 +1021,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.633">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.643">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
@@ -1045,7 +1048,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <li class="blockList">
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.786">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
+public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.796">tryParse</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII character <code>'-'</code>
  (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 
@@ -1074,7 +1077,7 @@ public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/goog
 <li class="blockList">
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.811">tryParse</a>&#8203;(java.lang.String&nbsp;string,
+public static&nbsp;java.lang.Integer&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.821">tryParse</a>&#8203;(java.lang.String&nbsp;string,
                                          int&nbsp;radix)</pre>
 <div class="block">Parses the specified string as a signed integer value using the specified radix. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.

@@ -57114,7 +57114,9 @@
  b, c}}.
 
  @param arrays zero or more {@code boolean} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="ensureCapacity" return="boolean[]"
@@ -57393,7 +57395,9 @@
  concat(new byte[] {a, b}, new byte[] {}, new byte[] {c}} returns the array {@code {a, b, c}}.
 
  @param arrays zero or more {@code byte} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="ensureCapacity" return="byte[]"
@@ -57725,7 +57729,9 @@
  concat(new char[] {a, b}, new char[] {}, new char[] {c}} returns the array {@code {a, b, c}}.
 
  @param arrays zero or more {@code char} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="toByteArray" return="byte[]"
@@ -58166,7 +58172,9 @@
  c}}.
 
  @param arrays zero or more {@code double} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="stringConverter" return="com.google.common.base.Converter&lt;java.lang.String, java.lang.Double&gt;"
@@ -58611,7 +58619,9 @@
  c}}.
 
  @param arrays zero or more {@code float} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="stringConverter" return="com.google.common.base.Converter&lt;java.lang.String, java.lang.Float&gt;"
@@ -60401,7 +60411,9 @@
  concat(new int[] {a, b}, new int[] {}, new int[] {c}} returns the array {@code {a, b, c}}.
 
  @param arrays zero or more {@code int} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="toByteArray" return="byte[]"
@@ -61511,7 +61523,9 @@
  c}}.
 
  @param arrays zero or more {@code short} arrays
- @return a single array containing all the values from the source arrays, in order]]>
+ @return a single array containing all the values from the source arrays, in order
+ @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+     in an {@code int}]]>
       </doc>
     </method>
     <method name="toByteArray" return="byte[]"

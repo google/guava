@@ -403,7 +403,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.160">concat</a>&#8203;(byte[]...&nbsp;arrays)</pre>
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.162">concat</a>&#8203;(byte[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example, <code>
  concat(new byte[] {a, b}, new byte[] {}, new byte[] {c}</code> returns the array <code>{a, b, c}</code>.</div>
 <dl>
@@ -411,6 +411,9 @@ extends java.lang.Object</pre>
 <dd><code>arrays</code> - zero or more <code>byte</code> arrays</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a single array containing all the values from the source arrays, in order</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the total number of elements in <code>arrays</code> does not fit
+     in an <code>int</code></dd>
 </dl>
 </li>
 </ul>
@@ -420,7 +423,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.187">ensureCapacity</a>&#8203;(byte[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.197">ensureCapacity</a>&#8203;(byte[]&nbsp;array,
                                     int&nbsp;minLength,
                                     int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -446,7 +449,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.206">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.216">toArray</a>&#8203;(java.util.Collection&lt;? extends java.lang.Number&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>byte</code> value
  in the manner of <code>Number.byteValue()</code>.
 
@@ -471,7 +474,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Byte&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.235">asList</a>&#8203;(byte...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.Byte&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.245">asList</a>&#8203;(byte...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <code>Arrays.asList(Object[])</code>. The list supports <code>List.set(int, Object)</code>, but any attempt to
  set a value to <code>null</code> will result in a <code>NullPointerException</code>.
 
@@ -494,7 +497,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.377">reverse</a>&#8203;(byte[]&nbsp;array)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.387">reverse</a>&#8203;(byte[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>
  Collections.reverse(Bytes.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
@@ -509,7 +512,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.392">reverse</a>&#8203;(byte[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.402">reverse</a>&#8203;(byte[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -531,7 +534,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.412">rotate</a>&#8203;(byte[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.422">rotate</a>&#8203;(byte[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -551,7 +554,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.428">rotate</a>&#8203;(byte[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.438">rotate</a>&#8203;(byte[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>

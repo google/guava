@@ -282,508 +282,518 @@
 <span class="sourceLineNo">273</span><a id="line.273">   *</a>
 <span class="sourceLineNo">274</span><a id="line.274">   * @param arrays zero or more {@code double} arrays</a>
 <span class="sourceLineNo">275</span><a id="line.275">   * @return a single array containing all the values from the source arrays, in order</a>
-<span class="sourceLineNo">276</span><a id="line.276">   */</a>
-<span class="sourceLineNo">277</span><a id="line.277">  public static double[] concat(double[]... arrays) {</a>
-<span class="sourceLineNo">278</span><a id="line.278">    int length = 0;</a>
-<span class="sourceLineNo">279</span><a id="line.279">    for (double[] array : arrays) {</a>
-<span class="sourceLineNo">280</span><a id="line.280">      length += array.length;</a>
-<span class="sourceLineNo">281</span><a id="line.281">    }</a>
-<span class="sourceLineNo">282</span><a id="line.282">    double[] result = new double[length];</a>
-<span class="sourceLineNo">283</span><a id="line.283">    int pos = 0;</a>
-<span class="sourceLineNo">284</span><a id="line.284">    for (double[] array : arrays) {</a>
-<span class="sourceLineNo">285</span><a id="line.285">      System.arraycopy(array, 0, result, pos, array.length);</a>
-<span class="sourceLineNo">286</span><a id="line.286">      pos += array.length;</a>
-<span class="sourceLineNo">287</span><a id="line.287">    }</a>
-<span class="sourceLineNo">288</span><a id="line.288">    return result;</a>
-<span class="sourceLineNo">289</span><a id="line.289">  }</a>
-<span class="sourceLineNo">290</span><a id="line.290"></a>
-<span class="sourceLineNo">291</span><a id="line.291">  private static final class DoubleConverter extends Converter&lt;String, Double&gt;</a>
-<span class="sourceLineNo">292</span><a id="line.292">      implements Serializable {</a>
-<span class="sourceLineNo">293</span><a id="line.293">    static final Converter&lt;String, Double&gt; INSTANCE = new DoubleConverter();</a>
-<span class="sourceLineNo">294</span><a id="line.294"></a>
-<span class="sourceLineNo">295</span><a id="line.295">    @Override</a>
-<span class="sourceLineNo">296</span><a id="line.296">    protected Double doForward(String value) {</a>
-<span class="sourceLineNo">297</span><a id="line.297">      return Double.valueOf(value);</a>
-<span class="sourceLineNo">298</span><a id="line.298">    }</a>
-<span class="sourceLineNo">299</span><a id="line.299"></a>
-<span class="sourceLineNo">300</span><a id="line.300">    @Override</a>
-<span class="sourceLineNo">301</span><a id="line.301">    protected String doBackward(Double value) {</a>
-<span class="sourceLineNo">302</span><a id="line.302">      return value.toString();</a>
-<span class="sourceLineNo">303</span><a id="line.303">    }</a>
+<span class="sourceLineNo">276</span><a id="line.276">   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit</a>
+<span class="sourceLineNo">277</span><a id="line.277">   *     in an {@code int}</a>
+<span class="sourceLineNo">278</span><a id="line.278">   */</a>
+<span class="sourceLineNo">279</span><a id="line.279">  public static double[] concat(double[]... arrays) {</a>
+<span class="sourceLineNo">280</span><a id="line.280">    long length = 0;</a>
+<span class="sourceLineNo">281</span><a id="line.281">    for (double[] array : arrays) {</a>
+<span class="sourceLineNo">282</span><a id="line.282">      length += array.length;</a>
+<span class="sourceLineNo">283</span><a id="line.283">    }</a>
+<span class="sourceLineNo">284</span><a id="line.284">    double[] result = new double[checkNoOverflow(length)];</a>
+<span class="sourceLineNo">285</span><a id="line.285">    int pos = 0;</a>
+<span class="sourceLineNo">286</span><a id="line.286">    for (double[] array : arrays) {</a>
+<span class="sourceLineNo">287</span><a id="line.287">      System.arraycopy(array, 0, result, pos, array.length);</a>
+<span class="sourceLineNo">288</span><a id="line.288">      pos += array.length;</a>
+<span class="sourceLineNo">289</span><a id="line.289">    }</a>
+<span class="sourceLineNo">290</span><a id="line.290">    return result;</a>
+<span class="sourceLineNo">291</span><a id="line.291">  }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">  private static int checkNoOverflow(long result) {</a>
+<span class="sourceLineNo">294</span><a id="line.294">    checkArgument(</a>
+<span class="sourceLineNo">295</span><a id="line.295">        result == (int) result,</a>
+<span class="sourceLineNo">296</span><a id="line.296">        "the total number of elements (%s) in the arrays must fit in an int",</a>
+<span class="sourceLineNo">297</span><a id="line.297">        result);</a>
+<span class="sourceLineNo">298</span><a id="line.298">    return (int) result;</a>
+<span class="sourceLineNo">299</span><a id="line.299">  }</a>
+<span class="sourceLineNo">300</span><a id="line.300"></a>
+<span class="sourceLineNo">301</span><a id="line.301">  private static final class DoubleConverter extends Converter&lt;String, Double&gt;</a>
+<span class="sourceLineNo">302</span><a id="line.302">      implements Serializable {</a>
+<span class="sourceLineNo">303</span><a id="line.303">    static final Converter&lt;String, Double&gt; INSTANCE = new DoubleConverter();</a>
 <span class="sourceLineNo">304</span><a id="line.304"></a>
 <span class="sourceLineNo">305</span><a id="line.305">    @Override</a>
-<span class="sourceLineNo">306</span><a id="line.306">    public String toString() {</a>
-<span class="sourceLineNo">307</span><a id="line.307">      return "Doubles.stringConverter()";</a>
+<span class="sourceLineNo">306</span><a id="line.306">    protected Double doForward(String value) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">      return Double.valueOf(value);</a>
 <span class="sourceLineNo">308</span><a id="line.308">    }</a>
 <span class="sourceLineNo">309</span><a id="line.309"></a>
-<span class="sourceLineNo">310</span><a id="line.310">    private Object readResolve() {</a>
-<span class="sourceLineNo">311</span><a id="line.311">      return INSTANCE;</a>
-<span class="sourceLineNo">312</span><a id="line.312">    }</a>
-<span class="sourceLineNo">313</span><a id="line.313"></a>
-<span class="sourceLineNo">314</span><a id="line.314">    private static final long serialVersionUID = 1;</a>
-<span class="sourceLineNo">315</span><a id="line.315">  }</a>
-<span class="sourceLineNo">316</span><a id="line.316"></a>
-<span class="sourceLineNo">317</span><a id="line.317">  /**</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * Returns a serializable converter object that converts between strings and doubles using {@link</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * Double#valueOf} and {@link Double#toString()}.</a>
-<span class="sourceLineNo">320</span><a id="line.320">   *</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * @since 16.0</a>
-<span class="sourceLineNo">322</span><a id="line.322">   */</a>
-<span class="sourceLineNo">323</span><a id="line.323">  public static Converter&lt;String, Double&gt; stringConverter() {</a>
-<span class="sourceLineNo">324</span><a id="line.324">    return DoubleConverter.INSTANCE;</a>
+<span class="sourceLineNo">310</span><a id="line.310">    @Override</a>
+<span class="sourceLineNo">311</span><a id="line.311">    protected String doBackward(Double value) {</a>
+<span class="sourceLineNo">312</span><a id="line.312">      return value.toString();</a>
+<span class="sourceLineNo">313</span><a id="line.313">    }</a>
+<span class="sourceLineNo">314</span><a id="line.314"></a>
+<span class="sourceLineNo">315</span><a id="line.315">    @Override</a>
+<span class="sourceLineNo">316</span><a id="line.316">    public String toString() {</a>
+<span class="sourceLineNo">317</span><a id="line.317">      return "Doubles.stringConverter()";</a>
+<span class="sourceLineNo">318</span><a id="line.318">    }</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">    private Object readResolve() {</a>
+<span class="sourceLineNo">321</span><a id="line.321">      return INSTANCE;</a>
+<span class="sourceLineNo">322</span><a id="line.322">    }</a>
+<span class="sourceLineNo">323</span><a id="line.323"></a>
+<span class="sourceLineNo">324</span><a id="line.324">    private static final long serialVersionUID = 1;</a>
 <span class="sourceLineNo">325</span><a id="line.325">  }</a>
 <span class="sourceLineNo">326</span><a id="line.326"></a>
 <span class="sourceLineNo">327</span><a id="line.327">  /**</a>
-<span class="sourceLineNo">328</span><a id="line.328">   * Returns an array containing the same values as {@code array}, but guaranteed to be of a</a>
-<span class="sourceLineNo">329</span><a id="line.329">   * specified minimum length. If {@code array} already has a length of at least {@code minLength},</a>
-<span class="sourceLineNo">330</span><a id="line.330">   * it is returned directly. Otherwise, a new array of size {@code minLength + padding} is</a>
-<span class="sourceLineNo">331</span><a id="line.331">   * returned, containing the values of {@code array}, and zeroes in the remaining places.</a>
-<span class="sourceLineNo">332</span><a id="line.332">   *</a>
-<span class="sourceLineNo">333</span><a id="line.333">   * @param array the source array</a>
-<span class="sourceLineNo">334</span><a id="line.334">   * @param minLength the minimum length the returned array must guarantee</a>
-<span class="sourceLineNo">335</span><a id="line.335">   * @param padding an extra amount to "grow" the array by if growth is necessary</a>
-<span class="sourceLineNo">336</span><a id="line.336">   * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative</a>
-<span class="sourceLineNo">337</span><a id="line.337">   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code</a>
-<span class="sourceLineNo">338</span><a id="line.338">   *     minLength}</a>
-<span class="sourceLineNo">339</span><a id="line.339">   */</a>
-<span class="sourceLineNo">340</span><a id="line.340">  public static double[] ensureCapacity(double[] array, int minLength, int padding) {</a>
-<span class="sourceLineNo">341</span><a id="line.341">    checkArgument(minLength &gt;= 0, "Invalid minLength: %s", minLength);</a>
-<span class="sourceLineNo">342</span><a id="line.342">    checkArgument(padding &gt;= 0, "Invalid padding: %s", padding);</a>
-<span class="sourceLineNo">343</span><a id="line.343">    return (array.length &lt; minLength) ? Arrays.copyOf(array, minLength + padding) : array;</a>
-<span class="sourceLineNo">344</span><a id="line.344">  }</a>
-<span class="sourceLineNo">345</span><a id="line.345"></a>
-<span class="sourceLineNo">346</span><a id="line.346">  /**</a>
-<span class="sourceLineNo">347</span><a id="line.347">   * Returns a string containing the supplied {@code double} values, converted to strings as</a>
-<span class="sourceLineNo">348</span><a id="line.348">   * specified by {@link Double#toString(double)}, and separated by {@code separator}. For example,</a>
-<span class="sourceLineNo">349</span><a id="line.349">   * {@code join("-", 1.0, 2.0, 3.0)} returns the string {@code "1.0-2.0-3.0"}.</a>
-<span class="sourceLineNo">350</span><a id="line.350">   *</a>
-<span class="sourceLineNo">351</span><a id="line.351">   * &lt;p&gt;Note that {@link Double#toString(double)} formats {@code double} differently in GWT</a>
-<span class="sourceLineNo">352</span><a id="line.352">   * sometimes. In the previous example, it returns the string {@code "1-2-3"}.</a>
-<span class="sourceLineNo">353</span><a id="line.353">   *</a>
-<span class="sourceLineNo">354</span><a id="line.354">   * @param separator the text that should appear between consecutive values in the resulting string</a>
-<span class="sourceLineNo">355</span><a id="line.355">   *     (but not at the start or end)</a>
-<span class="sourceLineNo">356</span><a id="line.356">   * @param array an array of {@code double} values, possibly empty</a>
-<span class="sourceLineNo">357</span><a id="line.357">   */</a>
-<span class="sourceLineNo">358</span><a id="line.358">  public static String join(String separator, double... array) {</a>
-<span class="sourceLineNo">359</span><a id="line.359">    checkNotNull(separator);</a>
-<span class="sourceLineNo">360</span><a id="line.360">    if (array.length == 0) {</a>
-<span class="sourceLineNo">361</span><a id="line.361">      return "";</a>
-<span class="sourceLineNo">362</span><a id="line.362">    }</a>
-<span class="sourceLineNo">363</span><a id="line.363"></a>
-<span class="sourceLineNo">364</span><a id="line.364">    // For pre-sizing a builder, just get the right order of magnitude</a>
-<span class="sourceLineNo">365</span><a id="line.365">    StringBuilder builder = new StringBuilder(array.length * 12);</a>
-<span class="sourceLineNo">366</span><a id="line.366">    builder.append(array[0]);</a>
-<span class="sourceLineNo">367</span><a id="line.367">    for (int i = 1; i &lt; array.length; i++) {</a>
-<span class="sourceLineNo">368</span><a id="line.368">      builder.append(separator).append(array[i]);</a>
-<span class="sourceLineNo">369</span><a id="line.369">    }</a>
-<span class="sourceLineNo">370</span><a id="line.370">    return builder.toString();</a>
-<span class="sourceLineNo">371</span><a id="line.371">  }</a>
-<span class="sourceLineNo">372</span><a id="line.372"></a>
-<span class="sourceLineNo">373</span><a id="line.373">  /**</a>
-<span class="sourceLineNo">374</span><a id="line.374">   * Returns a comparator that compares two {@code double} arrays &lt;a</a>
-<span class="sourceLineNo">375</span><a id="line.375">   * href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;lexicographically&lt;/a&gt;. That is, it</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * compares, using {@link #compare(double, double)}), the first pair of values that follow any</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * common prefix, or when one array is a prefix of the other, treats the shorter array as the</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * lesser. For example, {@code [] &lt; [1.0] &lt; [1.0, 2.0] &lt; [2.0]}.</a>
-<span class="sourceLineNo">379</span><a id="line.379">   *</a>
-<span class="sourceLineNo">380</span><a id="line.380">   * &lt;p&gt;The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * support only identity equality), but it is consistent with {@link Arrays#equals(double[],</a>
-<span class="sourceLineNo">382</span><a id="line.382">   * double[])}.</a>
-<span class="sourceLineNo">383</span><a id="line.383">   *</a>
-<span class="sourceLineNo">384</span><a id="line.384">   * @since 2.0</a>
-<span class="sourceLineNo">385</span><a id="line.385">   */</a>
-<span class="sourceLineNo">386</span><a id="line.386">  public static Comparator&lt;double[]&gt; lexicographicalComparator() {</a>
-<span class="sourceLineNo">387</span><a id="line.387">    return LexicographicalComparator.INSTANCE;</a>
-<span class="sourceLineNo">388</span><a id="line.388">  }</a>
-<span class="sourceLineNo">389</span><a id="line.389"></a>
-<span class="sourceLineNo">390</span><a id="line.390">  private enum LexicographicalComparator implements Comparator&lt;double[]&gt; {</a>
-<span class="sourceLineNo">391</span><a id="line.391">    INSTANCE;</a>
-<span class="sourceLineNo">392</span><a id="line.392"></a>
-<span class="sourceLineNo">393</span><a id="line.393">    @Override</a>
-<span class="sourceLineNo">394</span><a id="line.394">    public int compare(double[] left, double[] right) {</a>
-<span class="sourceLineNo">395</span><a id="line.395">      int minLength = Math.min(left.length, right.length);</a>
-<span class="sourceLineNo">396</span><a id="line.396">      for (int i = 0; i &lt; minLength; i++) {</a>
-<span class="sourceLineNo">397</span><a id="line.397">        int result = Double.compare(left[i], right[i]);</a>
-<span class="sourceLineNo">398</span><a id="line.398">        if (result != 0) {</a>
-<span class="sourceLineNo">399</span><a id="line.399">          return result;</a>
-<span class="sourceLineNo">400</span><a id="line.400">        }</a>
-<span class="sourceLineNo">401</span><a id="line.401">      }</a>
-<span class="sourceLineNo">402</span><a id="line.402">      return left.length - right.length;</a>
-<span class="sourceLineNo">403</span><a id="line.403">    }</a>
-<span class="sourceLineNo">404</span><a id="line.404"></a>
-<span class="sourceLineNo">405</span><a id="line.405">    @Override</a>
-<span class="sourceLineNo">406</span><a id="line.406">    public String toString() {</a>
-<span class="sourceLineNo">407</span><a id="line.407">      return "Doubles.lexicographicalComparator()";</a>
-<span class="sourceLineNo">408</span><a id="line.408">    }</a>
-<span class="sourceLineNo">409</span><a id="line.409">  }</a>
-<span class="sourceLineNo">410</span><a id="line.410"></a>
-<span class="sourceLineNo">411</span><a id="line.411">  /**</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * Sorts the elements of {@code array} in descending order.</a>
-<span class="sourceLineNo">413</span><a id="line.413">   *</a>
-<span class="sourceLineNo">414</span><a id="line.414">   * &lt;p&gt;Note that this method uses the total order imposed by {@link Double#compare}, which treats</a>
-<span class="sourceLineNo">415</span><a id="line.415">   * all NaN values as equal and 0.0 as greater than -0.0.</a>
-<span class="sourceLineNo">416</span><a id="line.416">   *</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * @since 23.1</a>
-<span class="sourceLineNo">418</span><a id="line.418">   */</a>
-<span class="sourceLineNo">419</span><a id="line.419">  public static void sortDescending(double[] array) {</a>
-<span class="sourceLineNo">420</span><a id="line.420">    checkNotNull(array);</a>
-<span class="sourceLineNo">421</span><a id="line.421">    sortDescending(array, 0, array.length);</a>
-<span class="sourceLineNo">422</span><a id="line.422">  }</a>
-<span class="sourceLineNo">423</span><a id="line.423"></a>
-<span class="sourceLineNo">424</span><a id="line.424">  /**</a>
-<span class="sourceLineNo">425</span><a id="line.425">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * exclusive in descending order.</a>
-<span class="sourceLineNo">427</span><a id="line.427">   *</a>
-<span class="sourceLineNo">428</span><a id="line.428">   * &lt;p&gt;Note that this method uses the total order imposed by {@link Double#compare}, which treats</a>
-<span class="sourceLineNo">429</span><a id="line.429">   * all NaN values as equal and 0.0 as greater than -0.0.</a>
-<span class="sourceLineNo">430</span><a id="line.430">   *</a>
-<span class="sourceLineNo">431</span><a id="line.431">   * @since 23.1</a>
-<span class="sourceLineNo">432</span><a id="line.432">   */</a>
-<span class="sourceLineNo">433</span><a id="line.433">  public static void sortDescending(double[] array, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">434</span><a id="line.434">    checkNotNull(array);</a>
-<span class="sourceLineNo">435</span><a id="line.435">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">436</span><a id="line.436">    Arrays.sort(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">437</span><a id="line.437">    reverse(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">438</span><a id="line.438">  }</a>
-<span class="sourceLineNo">439</span><a id="line.439"></a>
-<span class="sourceLineNo">440</span><a id="line.440">  /**</a>
-<span class="sourceLineNo">441</span><a id="line.441">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
-<span class="sourceLineNo">442</span><a id="line.442">   * Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.</a>
-<span class="sourceLineNo">443</span><a id="line.443">   *</a>
-<span class="sourceLineNo">444</span><a id="line.444">   * @since 23.1</a>
-<span class="sourceLineNo">445</span><a id="line.445">   */</a>
-<span class="sourceLineNo">446</span><a id="line.446">  public static void reverse(double[] array) {</a>
-<span class="sourceLineNo">447</span><a id="line.447">    checkNotNull(array);</a>
-<span class="sourceLineNo">448</span><a id="line.448">    reverse(array, 0, array.length);</a>
-<span class="sourceLineNo">449</span><a id="line.449">  }</a>
-<span class="sourceLineNo">450</span><a id="line.450"></a>
-<span class="sourceLineNo">451</span><a id="line.451">  /**</a>
-<span class="sourceLineNo">452</span><a id="line.452">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
-<span class="sourceLineNo">453</span><a id="line.453">   * exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">454</span><a id="line.454">   * Collections.reverse(Doubles.asList(array).subList(fromIndex, toIndex))}, but is likely to be</a>
-<span class="sourceLineNo">455</span><a id="line.455">   * more efficient.</a>
-<span class="sourceLineNo">456</span><a id="line.456">   *</a>
-<span class="sourceLineNo">457</span><a id="line.457">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">458</span><a id="line.458">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">459</span><a id="line.459">   * @since 23.1</a>
-<span class="sourceLineNo">460</span><a id="line.460">   */</a>
-<span class="sourceLineNo">461</span><a id="line.461">  public static void reverse(double[] array, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">462</span><a id="line.462">    checkNotNull(array);</a>
-<span class="sourceLineNo">463</span><a id="line.463">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">464</span><a id="line.464">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
-<span class="sourceLineNo">465</span><a id="line.465">      double tmp = array[i];</a>
-<span class="sourceLineNo">466</span><a id="line.466">      array[i] = array[j];</a>
-<span class="sourceLineNo">467</span><a id="line.467">      array[j] = tmp;</a>
-<span class="sourceLineNo">468</span><a id="line.468">    }</a>
-<span class="sourceLineNo">469</span><a id="line.469">  }</a>
-<span class="sourceLineNo">470</span><a id="line.470"></a>
-<span class="sourceLineNo">471</span><a id="line.471">  /**</a>
-<span class="sourceLineNo">472</span><a id="line.472">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
-<span class="sourceLineNo">473</span><a id="line.473">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
-<span class="sourceLineNo">474</span><a id="line.474">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),</a>
-<span class="sourceLineNo">475</span><a id="line.475">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
-<span class="sourceLineNo">476</span><a id="line.476">   *</a>
-<span class="sourceLineNo">477</span><a id="line.477">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
-<span class="sourceLineNo">478</span><a id="line.478">   *</a>
-<span class="sourceLineNo">479</span><a id="line.479">   * @since 32.0.0</a>
-<span class="sourceLineNo">480</span><a id="line.480">   */</a>
-<span class="sourceLineNo">481</span><a id="line.481">  public static void rotate(double[] array, int distance) {</a>
-<span class="sourceLineNo">482</span><a id="line.482">    rotate(array, distance, 0, array.length);</a>
-<span class="sourceLineNo">483</span><a id="line.483">  }</a>
-<span class="sourceLineNo">484</span><a id="line.484"></a>
-<span class="sourceLineNo">485</span><a id="line.485">  /**</a>
-<span class="sourceLineNo">486</span><a id="line.486">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
-<span class="sourceLineNo">487</span><a id="line.487">   * toIndex} exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">488</span><a id="line.488">   * Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
-<span class="sourceLineNo">489</span><a id="line.489">   * considerably faster and avoids allocations and garbage collection.</a>
-<span class="sourceLineNo">490</span><a id="line.490">   *</a>
-<span class="sourceLineNo">491</span><a id="line.491">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
-<span class="sourceLineNo">492</span><a id="line.492">   *</a>
-<span class="sourceLineNo">493</span><a id="line.493">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">494</span><a id="line.494">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">495</span><a id="line.495">   * @since 32.0.0</a>
-<span class="sourceLineNo">496</span><a id="line.496">   */</a>
-<span class="sourceLineNo">497</span><a id="line.497">  public static void rotate(double[] array, int distance, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">498</span><a id="line.498">    // See Ints.rotate for more details about possible algorithms here.</a>
-<span class="sourceLineNo">499</span><a id="line.499">    checkNotNull(array);</a>
-<span class="sourceLineNo">500</span><a id="line.500">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">501</span><a id="line.501">    if (array.length &lt;= 1) {</a>
-<span class="sourceLineNo">502</span><a id="line.502">      return;</a>
-<span class="sourceLineNo">503</span><a id="line.503">    }</a>
-<span class="sourceLineNo">504</span><a id="line.504"></a>
-<span class="sourceLineNo">505</span><a id="line.505">    int length = toIndex - fromIndex;</a>
-<span class="sourceLineNo">506</span><a id="line.506">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
-<span class="sourceLineNo">507</span><a id="line.507">    // places left to rotate.</a>
-<span class="sourceLineNo">508</span><a id="line.508">    int m = -distance % length;</a>
-<span class="sourceLineNo">509</span><a id="line.509">    m = (m &lt; 0) ? m + length : m;</a>
-<span class="sourceLineNo">510</span><a id="line.510">    // The current index of what will become the first element of the rotated section.</a>
-<span class="sourceLineNo">511</span><a id="line.511">    int newFirstIndex = m + fromIndex;</a>
-<span class="sourceLineNo">512</span><a id="line.512">    if (newFirstIndex == fromIndex) {</a>
-<span class="sourceLineNo">513</span><a id="line.513">      return;</a>
-<span class="sourceLineNo">514</span><a id="line.514">    }</a>
-<span class="sourceLineNo">515</span><a id="line.515"></a>
-<span class="sourceLineNo">516</span><a id="line.516">    reverse(array, fromIndex, newFirstIndex);</a>
-<span class="sourceLineNo">517</span><a id="line.517">    reverse(array, newFirstIndex, toIndex);</a>
-<span class="sourceLineNo">518</span><a id="line.518">    reverse(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">519</span><a id="line.519">  }</a>
-<span class="sourceLineNo">520</span><a id="line.520"></a>
-<span class="sourceLineNo">521</span><a id="line.521">  /**</a>
-<span class="sourceLineNo">522</span><a id="line.522">   * Returns an array containing each value of {@code collection}, converted to a {@code double}</a>
-<span class="sourceLineNo">523</span><a id="line.523">   * value in the manner of {@link Number#doubleValue}.</a>
-<span class="sourceLineNo">524</span><a id="line.524">   *</a>
-<span class="sourceLineNo">525</span><a id="line.525">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
-<span class="sourceLineNo">526</span><a id="line.526">   * Calling this method is as thread-safe as calling that method.</a>
-<span class="sourceLineNo">527</span><a id="line.527">   *</a>
-<span class="sourceLineNo">528</span><a id="line.528">   * @param collection a collection of {@code Number} instances</a>
-<span class="sourceLineNo">529</span><a id="line.529">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
-<span class="sourceLineNo">530</span><a id="line.530">   *     to primitives</a>
-<span class="sourceLineNo">531</span><a id="line.531">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
-<span class="sourceLineNo">532</span><a id="line.532">   * @since 1.0 (parameter was {@code Collection&lt;Double&gt;} before 12.0)</a>
-<span class="sourceLineNo">533</span><a id="line.533">   */</a>
-<span class="sourceLineNo">534</span><a id="line.534">  public static double[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
-<span class="sourceLineNo">535</span><a id="line.535">    if (collection instanceof DoubleArrayAsList) {</a>
-<span class="sourceLineNo">536</span><a id="line.536">      return ((DoubleArrayAsList) collection).toDoubleArray();</a>
-<span class="sourceLineNo">537</span><a id="line.537">    }</a>
-<span class="sourceLineNo">538</span><a id="line.538"></a>
-<span class="sourceLineNo">539</span><a id="line.539">    Object[] boxedArray = collection.toArray();</a>
-<span class="sourceLineNo">540</span><a id="line.540">    int len = boxedArray.length;</a>
-<span class="sourceLineNo">541</span><a id="line.541">    double[] array = new double[len];</a>
-<span class="sourceLineNo">542</span><a id="line.542">    for (int i = 0; i &lt; len; i++) {</a>
-<span class="sourceLineNo">543</span><a id="line.543">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">544</span><a id="line.544">      array[i] = ((Number) checkNotNull(boxedArray[i])).doubleValue();</a>
-<span class="sourceLineNo">545</span><a id="line.545">    }</a>
-<span class="sourceLineNo">546</span><a id="line.546">    return array;</a>
-<span class="sourceLineNo">547</span><a id="line.547">  }</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * Returns a serializable converter object that converts between strings and doubles using {@link</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * Double#valueOf} and {@link Double#toString()}.</a>
+<span class="sourceLineNo">330</span><a id="line.330">   *</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * @since 16.0</a>
+<span class="sourceLineNo">332</span><a id="line.332">   */</a>
+<span class="sourceLineNo">333</span><a id="line.333">  public static Converter&lt;String, Double&gt; stringConverter() {</a>
+<span class="sourceLineNo">334</span><a id="line.334">    return DoubleConverter.INSTANCE;</a>
+<span class="sourceLineNo">335</span><a id="line.335">  }</a>
+<span class="sourceLineNo">336</span><a id="line.336"></a>
+<span class="sourceLineNo">337</span><a id="line.337">  /**</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * Returns an array containing the same values as {@code array}, but guaranteed to be of a</a>
+<span class="sourceLineNo">339</span><a id="line.339">   * specified minimum length. If {@code array} already has a length of at least {@code minLength},</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * it is returned directly. Otherwise, a new array of size {@code minLength + padding} is</a>
+<span class="sourceLineNo">341</span><a id="line.341">   * returned, containing the values of {@code array}, and zeroes in the remaining places.</a>
+<span class="sourceLineNo">342</span><a id="line.342">   *</a>
+<span class="sourceLineNo">343</span><a id="line.343">   * @param array the source array</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * @param minLength the minimum length the returned array must guarantee</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * @param padding an extra amount to "grow" the array by if growth is necessary</a>
+<span class="sourceLineNo">346</span><a id="line.346">   * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative</a>
+<span class="sourceLineNo">347</span><a id="line.347">   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code</a>
+<span class="sourceLineNo">348</span><a id="line.348">   *     minLength}</a>
+<span class="sourceLineNo">349</span><a id="line.349">   */</a>
+<span class="sourceLineNo">350</span><a id="line.350">  public static double[] ensureCapacity(double[] array, int minLength, int padding) {</a>
+<span class="sourceLineNo">351</span><a id="line.351">    checkArgument(minLength &gt;= 0, "Invalid minLength: %s", minLength);</a>
+<span class="sourceLineNo">352</span><a id="line.352">    checkArgument(padding &gt;= 0, "Invalid padding: %s", padding);</a>
+<span class="sourceLineNo">353</span><a id="line.353">    return (array.length &lt; minLength) ? Arrays.copyOf(array, minLength + padding) : array;</a>
+<span class="sourceLineNo">354</span><a id="line.354">  }</a>
+<span class="sourceLineNo">355</span><a id="line.355"></a>
+<span class="sourceLineNo">356</span><a id="line.356">  /**</a>
+<span class="sourceLineNo">357</span><a id="line.357">   * Returns a string containing the supplied {@code double} values, converted to strings as</a>
+<span class="sourceLineNo">358</span><a id="line.358">   * specified by {@link Double#toString(double)}, and separated by {@code separator}. For example,</a>
+<span class="sourceLineNo">359</span><a id="line.359">   * {@code join("-", 1.0, 2.0, 3.0)} returns the string {@code "1.0-2.0-3.0"}.</a>
+<span class="sourceLineNo">360</span><a id="line.360">   *</a>
+<span class="sourceLineNo">361</span><a id="line.361">   * &lt;p&gt;Note that {@link Double#toString(double)} formats {@code double} differently in GWT</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * sometimes. In the previous example, it returns the string {@code "1-2-3"}.</a>
+<span class="sourceLineNo">363</span><a id="line.363">   *</a>
+<span class="sourceLineNo">364</span><a id="line.364">   * @param separator the text that should appear between consecutive values in the resulting string</a>
+<span class="sourceLineNo">365</span><a id="line.365">   *     (but not at the start or end)</a>
+<span class="sourceLineNo">366</span><a id="line.366">   * @param array an array of {@code double} values, possibly empty</a>
+<span class="sourceLineNo">367</span><a id="line.367">   */</a>
+<span class="sourceLineNo">368</span><a id="line.368">  public static String join(String separator, double... array) {</a>
+<span class="sourceLineNo">369</span><a id="line.369">    checkNotNull(separator);</a>
+<span class="sourceLineNo">370</span><a id="line.370">    if (array.length == 0) {</a>
+<span class="sourceLineNo">371</span><a id="line.371">      return "";</a>
+<span class="sourceLineNo">372</span><a id="line.372">    }</a>
+<span class="sourceLineNo">373</span><a id="line.373"></a>
+<span class="sourceLineNo">374</span><a id="line.374">    // For pre-sizing a builder, just get the right order of magnitude</a>
+<span class="sourceLineNo">375</span><a id="line.375">    StringBuilder builder = new StringBuilder(array.length * 12);</a>
+<span class="sourceLineNo">376</span><a id="line.376">    builder.append(array[0]);</a>
+<span class="sourceLineNo">377</span><a id="line.377">    for (int i = 1; i &lt; array.length; i++) {</a>
+<span class="sourceLineNo">378</span><a id="line.378">      builder.append(separator).append(array[i]);</a>
+<span class="sourceLineNo">379</span><a id="line.379">    }</a>
+<span class="sourceLineNo">380</span><a id="line.380">    return builder.toString();</a>
+<span class="sourceLineNo">381</span><a id="line.381">  }</a>
+<span class="sourceLineNo">382</span><a id="line.382"></a>
+<span class="sourceLineNo">383</span><a id="line.383">  /**</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * Returns a comparator that compares two {@code double} arrays &lt;a</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;lexicographically&lt;/a&gt;. That is, it</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * compares, using {@link #compare(double, double)}), the first pair of values that follow any</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * common prefix, or when one array is a prefix of the other, treats the shorter array as the</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * lesser. For example, {@code [] &lt; [1.0] &lt; [1.0, 2.0] &lt; [2.0]}.</a>
+<span class="sourceLineNo">389</span><a id="line.389">   *</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * &lt;p&gt;The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays</a>
+<span class="sourceLineNo">391</span><a id="line.391">   * support only identity equality), but it is consistent with {@link Arrays#equals(double[],</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * double[])}.</a>
+<span class="sourceLineNo">393</span><a id="line.393">   *</a>
+<span class="sourceLineNo">394</span><a id="line.394">   * @since 2.0</a>
+<span class="sourceLineNo">395</span><a id="line.395">   */</a>
+<span class="sourceLineNo">396</span><a id="line.396">  public static Comparator&lt;double[]&gt; lexicographicalComparator() {</a>
+<span class="sourceLineNo">397</span><a id="line.397">    return LexicographicalComparator.INSTANCE;</a>
+<span class="sourceLineNo">398</span><a id="line.398">  }</a>
+<span class="sourceLineNo">399</span><a id="line.399"></a>
+<span class="sourceLineNo">400</span><a id="line.400">  private enum LexicographicalComparator implements Comparator&lt;double[]&gt; {</a>
+<span class="sourceLineNo">401</span><a id="line.401">    INSTANCE;</a>
+<span class="sourceLineNo">402</span><a id="line.402"></a>
+<span class="sourceLineNo">403</span><a id="line.403">    @Override</a>
+<span class="sourceLineNo">404</span><a id="line.404">    public int compare(double[] left, double[] right) {</a>
+<span class="sourceLineNo">405</span><a id="line.405">      int minLength = Math.min(left.length, right.length);</a>
+<span class="sourceLineNo">406</span><a id="line.406">      for (int i = 0; i &lt; minLength; i++) {</a>
+<span class="sourceLineNo">407</span><a id="line.407">        int result = Double.compare(left[i], right[i]);</a>
+<span class="sourceLineNo">408</span><a id="line.408">        if (result != 0) {</a>
+<span class="sourceLineNo">409</span><a id="line.409">          return result;</a>
+<span class="sourceLineNo">410</span><a id="line.410">        }</a>
+<span class="sourceLineNo">411</span><a id="line.411">      }</a>
+<span class="sourceLineNo">412</span><a id="line.412">      return left.length - right.length;</a>
+<span class="sourceLineNo">413</span><a id="line.413">    }</a>
+<span class="sourceLineNo">414</span><a id="line.414"></a>
+<span class="sourceLineNo">415</span><a id="line.415">    @Override</a>
+<span class="sourceLineNo">416</span><a id="line.416">    public String toString() {</a>
+<span class="sourceLineNo">417</span><a id="line.417">      return "Doubles.lexicographicalComparator()";</a>
+<span class="sourceLineNo">418</span><a id="line.418">    }</a>
+<span class="sourceLineNo">419</span><a id="line.419">  }</a>
+<span class="sourceLineNo">420</span><a id="line.420"></a>
+<span class="sourceLineNo">421</span><a id="line.421">  /**</a>
+<span class="sourceLineNo">422</span><a id="line.422">   * Sorts the elements of {@code array} in descending order.</a>
+<span class="sourceLineNo">423</span><a id="line.423">   *</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * &lt;p&gt;Note that this method uses the total order imposed by {@link Double#compare}, which treats</a>
+<span class="sourceLineNo">425</span><a id="line.425">   * all NaN values as equal and 0.0 as greater than -0.0.</a>
+<span class="sourceLineNo">426</span><a id="line.426">   *</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * @since 23.1</a>
+<span class="sourceLineNo">428</span><a id="line.428">   */</a>
+<span class="sourceLineNo">429</span><a id="line.429">  public static void sortDescending(double[] array) {</a>
+<span class="sourceLineNo">430</span><a id="line.430">    checkNotNull(array);</a>
+<span class="sourceLineNo">431</span><a id="line.431">    sortDescending(array, 0, array.length);</a>
+<span class="sourceLineNo">432</span><a id="line.432">  }</a>
+<span class="sourceLineNo">433</span><a id="line.433"></a>
+<span class="sourceLineNo">434</span><a id="line.434">  /**</a>
+<span class="sourceLineNo">435</span><a id="line.435">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
+<span class="sourceLineNo">436</span><a id="line.436">   * exclusive in descending order.</a>
+<span class="sourceLineNo">437</span><a id="line.437">   *</a>
+<span class="sourceLineNo">438</span><a id="line.438">   * &lt;p&gt;Note that this method uses the total order imposed by {@link Double#compare}, which treats</a>
+<span class="sourceLineNo">439</span><a id="line.439">   * all NaN values as equal and 0.0 as greater than -0.0.</a>
+<span class="sourceLineNo">440</span><a id="line.440">   *</a>
+<span class="sourceLineNo">441</span><a id="line.441">   * @since 23.1</a>
+<span class="sourceLineNo">442</span><a id="line.442">   */</a>
+<span class="sourceLineNo">443</span><a id="line.443">  public static void sortDescending(double[] array, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">444</span><a id="line.444">    checkNotNull(array);</a>
+<span class="sourceLineNo">445</span><a id="line.445">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">446</span><a id="line.446">    Arrays.sort(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">447</span><a id="line.447">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">448</span><a id="line.448">  }</a>
+<span class="sourceLineNo">449</span><a id="line.449"></a>
+<span class="sourceLineNo">450</span><a id="line.450">  /**</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
+<span class="sourceLineNo">452</span><a id="line.452">   * Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.</a>
+<span class="sourceLineNo">453</span><a id="line.453">   *</a>
+<span class="sourceLineNo">454</span><a id="line.454">   * @since 23.1</a>
+<span class="sourceLineNo">455</span><a id="line.455">   */</a>
+<span class="sourceLineNo">456</span><a id="line.456">  public static void reverse(double[] array) {</a>
+<span class="sourceLineNo">457</span><a id="line.457">    checkNotNull(array);</a>
+<span class="sourceLineNo">458</span><a id="line.458">    reverse(array, 0, array.length);</a>
+<span class="sourceLineNo">459</span><a id="line.459">  }</a>
+<span class="sourceLineNo">460</span><a id="line.460"></a>
+<span class="sourceLineNo">461</span><a id="line.461">  /**</a>
+<span class="sourceLineNo">462</span><a id="line.462">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
+<span class="sourceLineNo">463</span><a id="line.463">   * exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">464</span><a id="line.464">   * Collections.reverse(Doubles.asList(array).subList(fromIndex, toIndex))}, but is likely to be</a>
+<span class="sourceLineNo">465</span><a id="line.465">   * more efficient.</a>
+<span class="sourceLineNo">466</span><a id="line.466">   *</a>
+<span class="sourceLineNo">467</span><a id="line.467">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">468</span><a id="line.468">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">469</span><a id="line.469">   * @since 23.1</a>
+<span class="sourceLineNo">470</span><a id="line.470">   */</a>
+<span class="sourceLineNo">471</span><a id="line.471">  public static void reverse(double[] array, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">472</span><a id="line.472">    checkNotNull(array);</a>
+<span class="sourceLineNo">473</span><a id="line.473">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">474</span><a id="line.474">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
+<span class="sourceLineNo">475</span><a id="line.475">      double tmp = array[i];</a>
+<span class="sourceLineNo">476</span><a id="line.476">      array[i] = array[j];</a>
+<span class="sourceLineNo">477</span><a id="line.477">      array[j] = tmp;</a>
+<span class="sourceLineNo">478</span><a id="line.478">    }</a>
+<span class="sourceLineNo">479</span><a id="line.479">  }</a>
+<span class="sourceLineNo">480</span><a id="line.480"></a>
+<span class="sourceLineNo">481</span><a id="line.481">  /**</a>
+<span class="sourceLineNo">482</span><a id="line.482">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
+<span class="sourceLineNo">483</span><a id="line.483">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
+<span class="sourceLineNo">484</span><a id="line.484">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),</a>
+<span class="sourceLineNo">485</span><a id="line.485">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
+<span class="sourceLineNo">486</span><a id="line.486">   *</a>
+<span class="sourceLineNo">487</span><a id="line.487">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">488</span><a id="line.488">   *</a>
+<span class="sourceLineNo">489</span><a id="line.489">   * @since 32.0.0</a>
+<span class="sourceLineNo">490</span><a id="line.490">   */</a>
+<span class="sourceLineNo">491</span><a id="line.491">  public static void rotate(double[] array, int distance) {</a>
+<span class="sourceLineNo">492</span><a id="line.492">    rotate(array, distance, 0, array.length);</a>
+<span class="sourceLineNo">493</span><a id="line.493">  }</a>
+<span class="sourceLineNo">494</span><a id="line.494"></a>
+<span class="sourceLineNo">495</span><a id="line.495">  /**</a>
+<span class="sourceLineNo">496</span><a id="line.496">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * toIndex} exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">498</span><a id="line.498">   * Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
+<span class="sourceLineNo">499</span><a id="line.499">   * considerably faster and avoids allocations and garbage collection.</a>
+<span class="sourceLineNo">500</span><a id="line.500">   *</a>
+<span class="sourceLineNo">501</span><a id="line.501">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">502</span><a id="line.502">   *</a>
+<span class="sourceLineNo">503</span><a id="line.503">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">504</span><a id="line.504">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">505</span><a id="line.505">   * @since 32.0.0</a>
+<span class="sourceLineNo">506</span><a id="line.506">   */</a>
+<span class="sourceLineNo">507</span><a id="line.507">  public static void rotate(double[] array, int distance, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">508</span><a id="line.508">    // See Ints.rotate for more details about possible algorithms here.</a>
+<span class="sourceLineNo">509</span><a id="line.509">    checkNotNull(array);</a>
+<span class="sourceLineNo">510</span><a id="line.510">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">511</span><a id="line.511">    if (array.length &lt;= 1) {</a>
+<span class="sourceLineNo">512</span><a id="line.512">      return;</a>
+<span class="sourceLineNo">513</span><a id="line.513">    }</a>
+<span class="sourceLineNo">514</span><a id="line.514"></a>
+<span class="sourceLineNo">515</span><a id="line.515">    int length = toIndex - fromIndex;</a>
+<span class="sourceLineNo">516</span><a id="line.516">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
+<span class="sourceLineNo">517</span><a id="line.517">    // places left to rotate.</a>
+<span class="sourceLineNo">518</span><a id="line.518">    int m = -distance % length;</a>
+<span class="sourceLineNo">519</span><a id="line.519">    m = (m &lt; 0) ? m + length : m;</a>
+<span class="sourceLineNo">520</span><a id="line.520">    // The current index of what will become the first element of the rotated section.</a>
+<span class="sourceLineNo">521</span><a id="line.521">    int newFirstIndex = m + fromIndex;</a>
+<span class="sourceLineNo">522</span><a id="line.522">    if (newFirstIndex == fromIndex) {</a>
+<span class="sourceLineNo">523</span><a id="line.523">      return;</a>
+<span class="sourceLineNo">524</span><a id="line.524">    }</a>
+<span class="sourceLineNo">525</span><a id="line.525"></a>
+<span class="sourceLineNo">526</span><a id="line.526">    reverse(array, fromIndex, newFirstIndex);</a>
+<span class="sourceLineNo">527</span><a id="line.527">    reverse(array, newFirstIndex, toIndex);</a>
+<span class="sourceLineNo">528</span><a id="line.528">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">529</span><a id="line.529">  }</a>
+<span class="sourceLineNo">530</span><a id="line.530"></a>
+<span class="sourceLineNo">531</span><a id="line.531">  /**</a>
+<span class="sourceLineNo">532</span><a id="line.532">   * Returns an array containing each value of {@code collection}, converted to a {@code double}</a>
+<span class="sourceLineNo">533</span><a id="line.533">   * value in the manner of {@link Number#doubleValue}.</a>
+<span class="sourceLineNo">534</span><a id="line.534">   *</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
+<span class="sourceLineNo">536</span><a id="line.536">   * Calling this method is as thread-safe as calling that method.</a>
+<span class="sourceLineNo">537</span><a id="line.537">   *</a>
+<span class="sourceLineNo">538</span><a id="line.538">   * @param collection a collection of {@code Number} instances</a>
+<span class="sourceLineNo">539</span><a id="line.539">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
+<span class="sourceLineNo">540</span><a id="line.540">   *     to primitives</a>
+<span class="sourceLineNo">541</span><a id="line.541">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
+<span class="sourceLineNo">542</span><a id="line.542">   * @since 1.0 (parameter was {@code Collection&lt;Double&gt;} before 12.0)</a>
+<span class="sourceLineNo">543</span><a id="line.543">   */</a>
+<span class="sourceLineNo">544</span><a id="line.544">  public static double[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
+<span class="sourceLineNo">545</span><a id="line.545">    if (collection instanceof DoubleArrayAsList) {</a>
+<span class="sourceLineNo">546</span><a id="line.546">      return ((DoubleArrayAsList) collection).toDoubleArray();</a>
+<span class="sourceLineNo">547</span><a id="line.547">    }</a>
 <span class="sourceLineNo">548</span><a id="line.548"></a>
-<span class="sourceLineNo">549</span><a id="line.549">  /**</a>
-<span class="sourceLineNo">550</span><a id="line.550">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
-<span class="sourceLineNo">551</span><a id="line.551">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
-<span class="sourceLineNo">552</span><a id="line.552">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
-<span class="sourceLineNo">553</span><a id="line.553">   *</a>
-<span class="sourceLineNo">554</span><a id="line.554">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Double} objects</a>
-<span class="sourceLineNo">555</span><a id="line.555">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
-<span class="sourceLineNo">556</span><a id="line.556">   * the returned list is unspecified.</a>
-<span class="sourceLineNo">557</span><a id="line.557">   *</a>
-<span class="sourceLineNo">558</span><a id="line.558">   * &lt;p&gt;The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}</a>
-<span class="sourceLineNo">559</span><a id="line.559">   * is used as a parameter to any of its methods.</a>
-<span class="sourceLineNo">560</span><a id="line.560">   *</a>
-<span class="sourceLineNo">561</span><a id="line.561">   * &lt;p&gt;The returned list is serializable.</a>
-<span class="sourceLineNo">562</span><a id="line.562">   *</a>
-<span class="sourceLineNo">563</span><a id="line.563">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link</a>
-<span class="sourceLineNo">564</span><a id="line.564">   * ImmutableDoubleArray} instead, which has an {@link ImmutableDoubleArray#asList asList} view.</a>
-<span class="sourceLineNo">565</span><a id="line.565">   *</a>
-<span class="sourceLineNo">566</span><a id="line.566">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">567</span><a id="line.567">   * @return a list view of the array</a>
-<span class="sourceLineNo">568</span><a id="line.568">   */</a>
-<span class="sourceLineNo">569</span><a id="line.569">  public static List&lt;Double&gt; asList(double... backingArray) {</a>
-<span class="sourceLineNo">570</span><a id="line.570">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">571</span><a id="line.571">      return Collections.emptyList();</a>
-<span class="sourceLineNo">572</span><a id="line.572">    }</a>
-<span class="sourceLineNo">573</span><a id="line.573">    return new DoubleArrayAsList(backingArray);</a>
-<span class="sourceLineNo">574</span><a id="line.574">  }</a>
-<span class="sourceLineNo">575</span><a id="line.575"></a>
-<span class="sourceLineNo">576</span><a id="line.576">  @GwtCompatible</a>
-<span class="sourceLineNo">577</span><a id="line.577">  private static class DoubleArrayAsList extends AbstractList&lt;Double&gt;</a>
-<span class="sourceLineNo">578</span><a id="line.578">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">579</span><a id="line.579">    final double[] array;</a>
-<span class="sourceLineNo">580</span><a id="line.580">    final int start;</a>
-<span class="sourceLineNo">581</span><a id="line.581">    final int end;</a>
-<span class="sourceLineNo">582</span><a id="line.582"></a>
-<span class="sourceLineNo">583</span><a id="line.583">    DoubleArrayAsList(double[] array) {</a>
-<span class="sourceLineNo">584</span><a id="line.584">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">585</span><a id="line.585">    }</a>
-<span class="sourceLineNo">586</span><a id="line.586"></a>
-<span class="sourceLineNo">587</span><a id="line.587">    DoubleArrayAsList(double[] array, int start, int end) {</a>
-<span class="sourceLineNo">588</span><a id="line.588">      this.array = array;</a>
-<span class="sourceLineNo">589</span><a id="line.589">      this.start = start;</a>
-<span class="sourceLineNo">590</span><a id="line.590">      this.end = end;</a>
-<span class="sourceLineNo">591</span><a id="line.591">    }</a>
+<span class="sourceLineNo">549</span><a id="line.549">    Object[] boxedArray = collection.toArray();</a>
+<span class="sourceLineNo">550</span><a id="line.550">    int len = boxedArray.length;</a>
+<span class="sourceLineNo">551</span><a id="line.551">    double[] array = new double[len];</a>
+<span class="sourceLineNo">552</span><a id="line.552">    for (int i = 0; i &lt; len; i++) {</a>
+<span class="sourceLineNo">553</span><a id="line.553">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">554</span><a id="line.554">      array[i] = ((Number) checkNotNull(boxedArray[i])).doubleValue();</a>
+<span class="sourceLineNo">555</span><a id="line.555">    }</a>
+<span class="sourceLineNo">556</span><a id="line.556">    return array;</a>
+<span class="sourceLineNo">557</span><a id="line.557">  }</a>
+<span class="sourceLineNo">558</span><a id="line.558"></a>
+<span class="sourceLineNo">559</span><a id="line.559">  /**</a>
+<span class="sourceLineNo">560</span><a id="line.560">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
+<span class="sourceLineNo">561</span><a id="line.561">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
+<span class="sourceLineNo">562</span><a id="line.562">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
+<span class="sourceLineNo">563</span><a id="line.563">   *</a>
+<span class="sourceLineNo">564</span><a id="line.564">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Double} objects</a>
+<span class="sourceLineNo">565</span><a id="line.565">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
+<span class="sourceLineNo">566</span><a id="line.566">   * the returned list is unspecified.</a>
+<span class="sourceLineNo">567</span><a id="line.567">   *</a>
+<span class="sourceLineNo">568</span><a id="line.568">   * &lt;p&gt;The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}</a>
+<span class="sourceLineNo">569</span><a id="line.569">   * is used as a parameter to any of its methods.</a>
+<span class="sourceLineNo">570</span><a id="line.570">   *</a>
+<span class="sourceLineNo">571</span><a id="line.571">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">572</span><a id="line.572">   *</a>
+<span class="sourceLineNo">573</span><a id="line.573">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link</a>
+<span class="sourceLineNo">574</span><a id="line.574">   * ImmutableDoubleArray} instead, which has an {@link ImmutableDoubleArray#asList asList} view.</a>
+<span class="sourceLineNo">575</span><a id="line.575">   *</a>
+<span class="sourceLineNo">576</span><a id="line.576">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">577</span><a id="line.577">   * @return a list view of the array</a>
+<span class="sourceLineNo">578</span><a id="line.578">   */</a>
+<span class="sourceLineNo">579</span><a id="line.579">  public static List&lt;Double&gt; asList(double... backingArray) {</a>
+<span class="sourceLineNo">580</span><a id="line.580">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">581</span><a id="line.581">      return Collections.emptyList();</a>
+<span class="sourceLineNo">582</span><a id="line.582">    }</a>
+<span class="sourceLineNo">583</span><a id="line.583">    return new DoubleArrayAsList(backingArray);</a>
+<span class="sourceLineNo">584</span><a id="line.584">  }</a>
+<span class="sourceLineNo">585</span><a id="line.585"></a>
+<span class="sourceLineNo">586</span><a id="line.586">  @GwtCompatible</a>
+<span class="sourceLineNo">587</span><a id="line.587">  private static class DoubleArrayAsList extends AbstractList&lt;Double&gt;</a>
+<span class="sourceLineNo">588</span><a id="line.588">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">589</span><a id="line.589">    final double[] array;</a>
+<span class="sourceLineNo">590</span><a id="line.590">    final int start;</a>
+<span class="sourceLineNo">591</span><a id="line.591">    final int end;</a>
 <span class="sourceLineNo">592</span><a id="line.592"></a>
-<span class="sourceLineNo">593</span><a id="line.593">    @Override</a>
-<span class="sourceLineNo">594</span><a id="line.594">    public int size() {</a>
-<span class="sourceLineNo">595</span><a id="line.595">      return end - start;</a>
-<span class="sourceLineNo">596</span><a id="line.596">    }</a>
-<span class="sourceLineNo">597</span><a id="line.597"></a>
-<span class="sourceLineNo">598</span><a id="line.598">    @Override</a>
-<span class="sourceLineNo">599</span><a id="line.599">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">600</span><a id="line.600">      return false;</a>
+<span class="sourceLineNo">593</span><a id="line.593">    DoubleArrayAsList(double[] array) {</a>
+<span class="sourceLineNo">594</span><a id="line.594">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">595</span><a id="line.595">    }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">    DoubleArrayAsList(double[] array, int start, int end) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">      this.array = array;</a>
+<span class="sourceLineNo">599</span><a id="line.599">      this.start = start;</a>
+<span class="sourceLineNo">600</span><a id="line.600">      this.end = end;</a>
 <span class="sourceLineNo">601</span><a id="line.601">    }</a>
 <span class="sourceLineNo">602</span><a id="line.602"></a>
 <span class="sourceLineNo">603</span><a id="line.603">    @Override</a>
-<span class="sourceLineNo">604</span><a id="line.604">    public Double get(int index) {</a>
-<span class="sourceLineNo">605</span><a id="line.605">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">606</span><a id="line.606">      return array[start + index];</a>
-<span class="sourceLineNo">607</span><a id="line.607">    }</a>
-<span class="sourceLineNo">608</span><a id="line.608"></a>
-<span class="sourceLineNo">609</span><a id="line.609">    @Override</a>
-<span class="sourceLineNo">610</span><a id="line.610">    public Spliterator.OfDouble spliterator() {</a>
-<span class="sourceLineNo">611</span><a id="line.611">      return Spliterators.spliterator(array, start, end, 0);</a>
-<span class="sourceLineNo">612</span><a id="line.612">    }</a>
-<span class="sourceLineNo">613</span><a id="line.613"></a>
-<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
-<span class="sourceLineNo">615</span><a id="line.615">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">616</span><a id="line.616">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">617</span><a id="line.617">      return (target instanceof Double)</a>
-<span class="sourceLineNo">618</span><a id="line.618">          &amp;&amp; Doubles.indexOf(array, (Double) target, start, end) != -1;</a>
-<span class="sourceLineNo">619</span><a id="line.619">    }</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">    @Override</a>
-<span class="sourceLineNo">622</span><a id="line.622">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">623</span><a id="line.623">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">624</span><a id="line.624">      if (target instanceof Double) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">        int i = Doubles.indexOf(array, (Double) target, start, end);</a>
-<span class="sourceLineNo">626</span><a id="line.626">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">627</span><a id="line.627">          return i - start;</a>
-<span class="sourceLineNo">628</span><a id="line.628">        }</a>
-<span class="sourceLineNo">629</span><a id="line.629">      }</a>
-<span class="sourceLineNo">630</span><a id="line.630">      return -1;</a>
-<span class="sourceLineNo">631</span><a id="line.631">    }</a>
-<span class="sourceLineNo">632</span><a id="line.632"></a>
-<span class="sourceLineNo">633</span><a id="line.633">    @Override</a>
-<span class="sourceLineNo">634</span><a id="line.634">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">635</span><a id="line.635">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">636</span><a id="line.636">      if (target instanceof Double) {</a>
-<span class="sourceLineNo">637</span><a id="line.637">        int i = Doubles.lastIndexOf(array, (Double) target, start, end);</a>
-<span class="sourceLineNo">638</span><a id="line.638">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">          return i - start;</a>
-<span class="sourceLineNo">640</span><a id="line.640">        }</a>
-<span class="sourceLineNo">641</span><a id="line.641">      }</a>
-<span class="sourceLineNo">642</span><a id="line.642">      return -1;</a>
-<span class="sourceLineNo">643</span><a id="line.643">    }</a>
-<span class="sourceLineNo">644</span><a id="line.644"></a>
-<span class="sourceLineNo">645</span><a id="line.645">    @Override</a>
-<span class="sourceLineNo">646</span><a id="line.646">    public Double set(int index, Double element) {</a>
-<span class="sourceLineNo">647</span><a id="line.647">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">648</span><a id="line.648">      double oldValue = array[start + index];</a>
-<span class="sourceLineNo">649</span><a id="line.649">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">650</span><a id="line.650">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">651</span><a id="line.651">      return oldValue;</a>
-<span class="sourceLineNo">652</span><a id="line.652">    }</a>
-<span class="sourceLineNo">653</span><a id="line.653"></a>
-<span class="sourceLineNo">654</span><a id="line.654">    @Override</a>
-<span class="sourceLineNo">655</span><a id="line.655">    public List&lt;Double&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">656</span><a id="line.656">      int size = size();</a>
-<span class="sourceLineNo">657</span><a id="line.657">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">658</span><a id="line.658">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">659</span><a id="line.659">        return Collections.emptyList();</a>
-<span class="sourceLineNo">660</span><a id="line.660">      }</a>
-<span class="sourceLineNo">661</span><a id="line.661">      return new DoubleArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">604</span><a id="line.604">    public int size() {</a>
+<span class="sourceLineNo">605</span><a id="line.605">      return end - start;</a>
+<span class="sourceLineNo">606</span><a id="line.606">    }</a>
+<span class="sourceLineNo">607</span><a id="line.607"></a>
+<span class="sourceLineNo">608</span><a id="line.608">    @Override</a>
+<span class="sourceLineNo">609</span><a id="line.609">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">610</span><a id="line.610">      return false;</a>
+<span class="sourceLineNo">611</span><a id="line.611">    }</a>
+<span class="sourceLineNo">612</span><a id="line.612"></a>
+<span class="sourceLineNo">613</span><a id="line.613">    @Override</a>
+<span class="sourceLineNo">614</span><a id="line.614">    public Double get(int index) {</a>
+<span class="sourceLineNo">615</span><a id="line.615">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">616</span><a id="line.616">      return array[start + index];</a>
+<span class="sourceLineNo">617</span><a id="line.617">    }</a>
+<span class="sourceLineNo">618</span><a id="line.618"></a>
+<span class="sourceLineNo">619</span><a id="line.619">    @Override</a>
+<span class="sourceLineNo">620</span><a id="line.620">    public Spliterator.OfDouble spliterator() {</a>
+<span class="sourceLineNo">621</span><a id="line.621">      return Spliterators.spliterator(array, start, end, 0);</a>
+<span class="sourceLineNo">622</span><a id="line.622">    }</a>
+<span class="sourceLineNo">623</span><a id="line.623"></a>
+<span class="sourceLineNo">624</span><a id="line.624">    @Override</a>
+<span class="sourceLineNo">625</span><a id="line.625">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">626</span><a id="line.626">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">627</span><a id="line.627">      return (target instanceof Double)</a>
+<span class="sourceLineNo">628</span><a id="line.628">          &amp;&amp; Doubles.indexOf(array, (Double) target, start, end) != -1;</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630"></a>
+<span class="sourceLineNo">631</span><a id="line.631">    @Override</a>
+<span class="sourceLineNo">632</span><a id="line.632">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">634</span><a id="line.634">      if (target instanceof Double) {</a>
+<span class="sourceLineNo">635</span><a id="line.635">        int i = Doubles.indexOf(array, (Double) target, start, end);</a>
+<span class="sourceLineNo">636</span><a id="line.636">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">637</span><a id="line.637">          return i - start;</a>
+<span class="sourceLineNo">638</span><a id="line.638">        }</a>
+<span class="sourceLineNo">639</span><a id="line.639">      }</a>
+<span class="sourceLineNo">640</span><a id="line.640">      return -1;</a>
+<span class="sourceLineNo">641</span><a id="line.641">    }</a>
+<span class="sourceLineNo">642</span><a id="line.642"></a>
+<span class="sourceLineNo">643</span><a id="line.643">    @Override</a>
+<span class="sourceLineNo">644</span><a id="line.644">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">646</span><a id="line.646">      if (target instanceof Double) {</a>
+<span class="sourceLineNo">647</span><a id="line.647">        int i = Doubles.lastIndexOf(array, (Double) target, start, end);</a>
+<span class="sourceLineNo">648</span><a id="line.648">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">649</span><a id="line.649">          return i - start;</a>
+<span class="sourceLineNo">650</span><a id="line.650">        }</a>
+<span class="sourceLineNo">651</span><a id="line.651">      }</a>
+<span class="sourceLineNo">652</span><a id="line.652">      return -1;</a>
+<span class="sourceLineNo">653</span><a id="line.653">    }</a>
+<span class="sourceLineNo">654</span><a id="line.654"></a>
+<span class="sourceLineNo">655</span><a id="line.655">    @Override</a>
+<span class="sourceLineNo">656</span><a id="line.656">    public Double set(int index, Double element) {</a>
+<span class="sourceLineNo">657</span><a id="line.657">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">658</span><a id="line.658">      double oldValue = array[start + index];</a>
+<span class="sourceLineNo">659</span><a id="line.659">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">660</span><a id="line.660">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">661</span><a id="line.661">      return oldValue;</a>
 <span class="sourceLineNo">662</span><a id="line.662">    }</a>
 <span class="sourceLineNo">663</span><a id="line.663"></a>
 <span class="sourceLineNo">664</span><a id="line.664">    @Override</a>
-<span class="sourceLineNo">665</span><a id="line.665">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">666</span><a id="line.666">      if (object == this) {</a>
-<span class="sourceLineNo">667</span><a id="line.667">        return true;</a>
-<span class="sourceLineNo">668</span><a id="line.668">      }</a>
-<span class="sourceLineNo">669</span><a id="line.669">      if (object instanceof DoubleArrayAsList) {</a>
-<span class="sourceLineNo">670</span><a id="line.670">        DoubleArrayAsList that = (DoubleArrayAsList) object;</a>
-<span class="sourceLineNo">671</span><a id="line.671">        int size = size();</a>
-<span class="sourceLineNo">672</span><a id="line.672">        if (that.size() != size) {</a>
-<span class="sourceLineNo">673</span><a id="line.673">          return false;</a>
-<span class="sourceLineNo">674</span><a id="line.674">        }</a>
-<span class="sourceLineNo">675</span><a id="line.675">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">676</span><a id="line.676">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">677</span><a id="line.677">            return false;</a>
-<span class="sourceLineNo">678</span><a id="line.678">          }</a>
-<span class="sourceLineNo">679</span><a id="line.679">        }</a>
-<span class="sourceLineNo">680</span><a id="line.680">        return true;</a>
-<span class="sourceLineNo">681</span><a id="line.681">      }</a>
-<span class="sourceLineNo">682</span><a id="line.682">      return super.equals(object);</a>
-<span class="sourceLineNo">683</span><a id="line.683">    }</a>
-<span class="sourceLineNo">684</span><a id="line.684"></a>
-<span class="sourceLineNo">685</span><a id="line.685">    @Override</a>
-<span class="sourceLineNo">686</span><a id="line.686">    public int hashCode() {</a>
-<span class="sourceLineNo">687</span><a id="line.687">      int result = 1;</a>
-<span class="sourceLineNo">688</span><a id="line.688">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">689</span><a id="line.689">        result = 31 * result + Doubles.hashCode(array[i]);</a>
-<span class="sourceLineNo">690</span><a id="line.690">      }</a>
-<span class="sourceLineNo">691</span><a id="line.691">      return result;</a>
-<span class="sourceLineNo">692</span><a id="line.692">    }</a>
-<span class="sourceLineNo">693</span><a id="line.693"></a>
-<span class="sourceLineNo">694</span><a id="line.694">    @Override</a>
-<span class="sourceLineNo">695</span><a id="line.695">    public String toString() {</a>
-<span class="sourceLineNo">696</span><a id="line.696">      StringBuilder builder = new StringBuilder(size() * 12);</a>
-<span class="sourceLineNo">697</span><a id="line.697">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">698</span><a id="line.698">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">699</span><a id="line.699">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">665</span><a id="line.665">    public List&lt;Double&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">666</span><a id="line.666">      int size = size();</a>
+<span class="sourceLineNo">667</span><a id="line.667">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">668</span><a id="line.668">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">        return Collections.emptyList();</a>
+<span class="sourceLineNo">670</span><a id="line.670">      }</a>
+<span class="sourceLineNo">671</span><a id="line.671">      return new DoubleArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">672</span><a id="line.672">    }</a>
+<span class="sourceLineNo">673</span><a id="line.673"></a>
+<span class="sourceLineNo">674</span><a id="line.674">    @Override</a>
+<span class="sourceLineNo">675</span><a id="line.675">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      if (object == this) {</a>
+<span class="sourceLineNo">677</span><a id="line.677">        return true;</a>
+<span class="sourceLineNo">678</span><a id="line.678">      }</a>
+<span class="sourceLineNo">679</span><a id="line.679">      if (object instanceof DoubleArrayAsList) {</a>
+<span class="sourceLineNo">680</span><a id="line.680">        DoubleArrayAsList that = (DoubleArrayAsList) object;</a>
+<span class="sourceLineNo">681</span><a id="line.681">        int size = size();</a>
+<span class="sourceLineNo">682</span><a id="line.682">        if (that.size() != size) {</a>
+<span class="sourceLineNo">683</span><a id="line.683">          return false;</a>
+<span class="sourceLineNo">684</span><a id="line.684">        }</a>
+<span class="sourceLineNo">685</span><a id="line.685">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">686</span><a id="line.686">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">687</span><a id="line.687">            return false;</a>
+<span class="sourceLineNo">688</span><a id="line.688">          }</a>
+<span class="sourceLineNo">689</span><a id="line.689">        }</a>
+<span class="sourceLineNo">690</span><a id="line.690">        return true;</a>
+<span class="sourceLineNo">691</span><a id="line.691">      }</a>
+<span class="sourceLineNo">692</span><a id="line.692">      return super.equals(object);</a>
+<span class="sourceLineNo">693</span><a id="line.693">    }</a>
+<span class="sourceLineNo">694</span><a id="line.694"></a>
+<span class="sourceLineNo">695</span><a id="line.695">    @Override</a>
+<span class="sourceLineNo">696</span><a id="line.696">    public int hashCode() {</a>
+<span class="sourceLineNo">697</span><a id="line.697">      int result = 1;</a>
+<span class="sourceLineNo">698</span><a id="line.698">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">699</span><a id="line.699">        result = 31 * result + Doubles.hashCode(array[i]);</a>
 <span class="sourceLineNo">700</span><a id="line.700">      }</a>
-<span class="sourceLineNo">701</span><a id="line.701">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">701</span><a id="line.701">      return result;</a>
 <span class="sourceLineNo">702</span><a id="line.702">    }</a>
 <span class="sourceLineNo">703</span><a id="line.703"></a>
-<span class="sourceLineNo">704</span><a id="line.704">    double[] toDoubleArray() {</a>
-<span class="sourceLineNo">705</span><a id="line.705">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">706</span><a id="line.706">    }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">709</span><a id="line.709">  }</a>
-<span class="sourceLineNo">710</span><a id="line.710"></a>
-<span class="sourceLineNo">711</span><a id="line.711">  /**</a>
-<span class="sourceLineNo">712</span><a id="line.712">   * This is adapted from the regex suggested by {@link Double#valueOf(String)} for prevalidating</a>
-<span class="sourceLineNo">713</span><a id="line.713">   * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs</a>
-<span class="sourceLineNo">714</span><a id="line.714">   * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.</a>
-<span class="sourceLineNo">715</span><a id="line.715">   */</a>
-<span class="sourceLineNo">716</span><a id="line.716">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">717</span><a id="line.717">  static final</a>
-<span class="sourceLineNo">718</span><a id="line.718">  java.util.regex.Pattern</a>
-<span class="sourceLineNo">719</span><a id="line.719">      FLOATING_POINT_PATTERN = fpPattern();</a>
+<span class="sourceLineNo">704</span><a id="line.704">    @Override</a>
+<span class="sourceLineNo">705</span><a id="line.705">    public String toString() {</a>
+<span class="sourceLineNo">706</span><a id="line.706">      StringBuilder builder = new StringBuilder(size() * 12);</a>
+<span class="sourceLineNo">707</span><a id="line.707">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">708</span><a id="line.708">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">709</span><a id="line.709">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">710</span><a id="line.710">      }</a>
+<span class="sourceLineNo">711</span><a id="line.711">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">712</span><a id="line.712">    }</a>
+<span class="sourceLineNo">713</span><a id="line.713"></a>
+<span class="sourceLineNo">714</span><a id="line.714">    double[] toDoubleArray() {</a>
+<span class="sourceLineNo">715</span><a id="line.715">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">716</span><a id="line.716">    }</a>
+<span class="sourceLineNo">717</span><a id="line.717"></a>
+<span class="sourceLineNo">718</span><a id="line.718">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">719</span><a id="line.719">  }</a>
 <span class="sourceLineNo">720</span><a id="line.720"></a>
-<span class="sourceLineNo">721</span><a id="line.721">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">722</span><a id="line.722">  private static</a>
-<span class="sourceLineNo">723</span><a id="line.723">  java.util.regex.Pattern</a>
-<span class="sourceLineNo">724</span><a id="line.724">      fpPattern() {</a>
-<span class="sourceLineNo">725</span><a id="line.725">    /*</a>
-<span class="sourceLineNo">726</span><a id="line.726">     * We use # instead of * for possessive quantifiers. This lets us strip them out when building</a>
-<span class="sourceLineNo">727</span><a id="line.727">     * the regex for RE2 (which doesn't support them) but leave them in when building it for</a>
-<span class="sourceLineNo">728</span><a id="line.728">     * java.util.regex (where we want them in order to avoid catastrophic backtracking).</a>
-<span class="sourceLineNo">729</span><a id="line.729">     */</a>
-<span class="sourceLineNo">730</span><a id="line.730">    String decimal = "(?:\\d+#(?:\\.\\d*#)?|\\.\\d+#)";</a>
-<span class="sourceLineNo">731</span><a id="line.731">    String completeDec = decimal + "(?:[eE][+-]?\\d+#)?[fFdD]?";</a>
-<span class="sourceLineNo">732</span><a id="line.732">    String hex = "(?:[0-9a-fA-F]+#(?:\\.[0-9a-fA-F]*#)?|\\.[0-9a-fA-F]+#)";</a>
-<span class="sourceLineNo">733</span><a id="line.733">    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d+#[fFdD]?";</a>
-<span class="sourceLineNo">734</span><a id="line.734">    String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";</a>
-<span class="sourceLineNo">735</span><a id="line.735">    fpPattern =</a>
-<span class="sourceLineNo">736</span><a id="line.736">        fpPattern.replace(</a>
-<span class="sourceLineNo">737</span><a id="line.737">            "#",</a>
-<span class="sourceLineNo">738</span><a id="line.738">            "+"</a>
-<span class="sourceLineNo">739</span><a id="line.739">            );</a>
-<span class="sourceLineNo">740</span><a id="line.740">    return</a>
-<span class="sourceLineNo">741</span><a id="line.741">    java.util.regex.Pattern</a>
-<span class="sourceLineNo">742</span><a id="line.742">        .compile(fpPattern);</a>
-<span class="sourceLineNo">743</span><a id="line.743">  }</a>
-<span class="sourceLineNo">744</span><a id="line.744"></a>
-<span class="sourceLineNo">745</span><a id="line.745">  /**</a>
-<span class="sourceLineNo">746</span><a id="line.746">   * Parses the specified string as a double-precision floating point value. The ASCII character</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">748</span><a id="line.748">   *</a>
-<span class="sourceLineNo">749</span><a id="line.749">   * &lt;p&gt;Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">750</span><a id="line.750">   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link</a>
-<span class="sourceLineNo">751</span><a id="line.751">   * Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.</a>
-<span class="sourceLineNo">752</span><a id="line.752">   *</a>
-<span class="sourceLineNo">753</span><a id="line.753">   * &lt;p&gt;This implementation is likely to be faster than {@code Double.parseDouble} if many failures</a>
-<span class="sourceLineNo">754</span><a id="line.754">   * are expected.</a>
-<span class="sourceLineNo">755</span><a id="line.755">   *</a>
-<span class="sourceLineNo">756</span><a id="line.756">   * @param string the string representation of a {@code double} value</a>
-<span class="sourceLineNo">757</span><a id="line.757">   * @return the floating point value represented by {@code string}, or {@code null} if {@code</a>
-<span class="sourceLineNo">758</span><a id="line.758">   *     string} has a length of zero or cannot be parsed as a {@code double} value</a>
-<span class="sourceLineNo">759</span><a id="line.759">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">760</span><a id="line.760">   * @since 14.0</a>
-<span class="sourceLineNo">761</span><a id="line.761">   */</a>
-<span class="sourceLineNo">762</span><a id="line.762">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">763</span><a id="line.763">  @CheckForNull</a>
-<span class="sourceLineNo">764</span><a id="line.764">  public static Double tryParse(String string) {</a>
-<span class="sourceLineNo">765</span><a id="line.765">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
-<span class="sourceLineNo">766</span><a id="line.766">      // TODO(lowasser): could be potentially optimized, but only with</a>
-<span class="sourceLineNo">767</span><a id="line.767">      // extensive testing</a>
-<span class="sourceLineNo">768</span><a id="line.768">      try {</a>
-<span class="sourceLineNo">769</span><a id="line.769">        return Double.parseDouble(string);</a>
-<span class="sourceLineNo">770</span><a id="line.770">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">771</span><a id="line.771">        // Double.parseDouble has changed specs several times, so fall through</a>
-<span class="sourceLineNo">772</span><a id="line.772">        // gracefully</a>
-<span class="sourceLineNo">773</span><a id="line.773">      }</a>
-<span class="sourceLineNo">774</span><a id="line.774">    }</a>
-<span class="sourceLineNo">775</span><a id="line.775">    return null;</a>
-<span class="sourceLineNo">776</span><a id="line.776">  }</a>
-<span class="sourceLineNo">777</span><a id="line.777">}</a>
+<span class="sourceLineNo">721</span><a id="line.721">  /**</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * This is adapted from the regex suggested by {@link Double#valueOf(String)} for prevalidating</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs</a>
+<span class="sourceLineNo">724</span><a id="line.724">   * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.</a>
+<span class="sourceLineNo">725</span><a id="line.725">   */</a>
+<span class="sourceLineNo">726</span><a id="line.726">  @GwtIncompatible // regular expressions</a>
+<span class="sourceLineNo">727</span><a id="line.727">  static final</a>
+<span class="sourceLineNo">728</span><a id="line.728">  java.util.regex.Pattern</a>
+<span class="sourceLineNo">729</span><a id="line.729">      FLOATING_POINT_PATTERN = fpPattern();</a>
+<span class="sourceLineNo">730</span><a id="line.730"></a>
+<span class="sourceLineNo">731</span><a id="line.731">  @GwtIncompatible // regular expressions</a>
+<span class="sourceLineNo">732</span><a id="line.732">  private static</a>
+<span class="sourceLineNo">733</span><a id="line.733">  java.util.regex.Pattern</a>
+<span class="sourceLineNo">734</span><a id="line.734">      fpPattern() {</a>
+<span class="sourceLineNo">735</span><a id="line.735">    /*</a>
+<span class="sourceLineNo">736</span><a id="line.736">     * We use # instead of * for possessive quantifiers. This lets us strip them out when building</a>
+<span class="sourceLineNo">737</span><a id="line.737">     * the regex for RE2 (which doesn't support them) but leave them in when building it for</a>
+<span class="sourceLineNo">738</span><a id="line.738">     * java.util.regex (where we want them in order to avoid catastrophic backtracking).</a>
+<span class="sourceLineNo">739</span><a id="line.739">     */</a>
+<span class="sourceLineNo">740</span><a id="line.740">    String decimal = "(?:\\d+#(?:\\.\\d*#)?|\\.\\d+#)";</a>
+<span class="sourceLineNo">741</span><a id="line.741">    String completeDec = decimal + "(?:[eE][+-]?\\d+#)?[fFdD]?";</a>
+<span class="sourceLineNo">742</span><a id="line.742">    String hex = "(?:[0-9a-fA-F]+#(?:\\.[0-9a-fA-F]*#)?|\\.[0-9a-fA-F]+#)";</a>
+<span class="sourceLineNo">743</span><a id="line.743">    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d+#[fFdD]?";</a>
+<span class="sourceLineNo">744</span><a id="line.744">    String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";</a>
+<span class="sourceLineNo">745</span><a id="line.745">    fpPattern =</a>
+<span class="sourceLineNo">746</span><a id="line.746">        fpPattern.replace(</a>
+<span class="sourceLineNo">747</span><a id="line.747">            "#",</a>
+<span class="sourceLineNo">748</span><a id="line.748">            "+"</a>
+<span class="sourceLineNo">749</span><a id="line.749">            );</a>
+<span class="sourceLineNo">750</span><a id="line.750">    return</a>
+<span class="sourceLineNo">751</span><a id="line.751">    java.util.regex.Pattern</a>
+<span class="sourceLineNo">752</span><a id="line.752">        .compile(fpPattern);</a>
+<span class="sourceLineNo">753</span><a id="line.753">  }</a>
+<span class="sourceLineNo">754</span><a id="line.754"></a>
+<span class="sourceLineNo">755</span><a id="line.755">  /**</a>
+<span class="sourceLineNo">756</span><a id="line.756">   * Parses the specified string as a double-precision floating point value. The ASCII character</a>
+<span class="sourceLineNo">757</span><a id="line.757">   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">758</span><a id="line.758">   *</a>
+<span class="sourceLineNo">759</span><a id="line.759">   * &lt;p&gt;Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">760</span><a id="line.760">   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link</a>
+<span class="sourceLineNo">761</span><a id="line.761">   * Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.</a>
+<span class="sourceLineNo">762</span><a id="line.762">   *</a>
+<span class="sourceLineNo">763</span><a id="line.763">   * &lt;p&gt;This implementation is likely to be faster than {@code Double.parseDouble} if many failures</a>
+<span class="sourceLineNo">764</span><a id="line.764">   * are expected.</a>
+<span class="sourceLineNo">765</span><a id="line.765">   *</a>
+<span class="sourceLineNo">766</span><a id="line.766">   * @param string the string representation of a {@code double} value</a>
+<span class="sourceLineNo">767</span><a id="line.767">   * @return the floating point value represented by {@code string}, or {@code null} if {@code</a>
+<span class="sourceLineNo">768</span><a id="line.768">   *     string} has a length of zero or cannot be parsed as a {@code double} value</a>
+<span class="sourceLineNo">769</span><a id="line.769">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">770</span><a id="line.770">   * @since 14.0</a>
+<span class="sourceLineNo">771</span><a id="line.771">   */</a>
+<span class="sourceLineNo">772</span><a id="line.772">  @GwtIncompatible // regular expressions</a>
+<span class="sourceLineNo">773</span><a id="line.773">  @CheckForNull</a>
+<span class="sourceLineNo">774</span><a id="line.774">  public static Double tryParse(String string) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
+<span class="sourceLineNo">776</span><a id="line.776">      // TODO(lowasser): could be potentially optimized, but only with</a>
+<span class="sourceLineNo">777</span><a id="line.777">      // extensive testing</a>
+<span class="sourceLineNo">778</span><a id="line.778">      try {</a>
+<span class="sourceLineNo">779</span><a id="line.779">        return Double.parseDouble(string);</a>
+<span class="sourceLineNo">780</span><a id="line.780">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">781</span><a id="line.781">        // Double.parseDouble has changed specs several times, so fall through</a>
+<span class="sourceLineNo">782</span><a id="line.782">        // gracefully</a>
+<span class="sourceLineNo">783</span><a id="line.783">      }</a>
+<span class="sourceLineNo">784</span><a id="line.784">    }</a>
+<span class="sourceLineNo">785</span><a id="line.785">    return null;</a>
+<span class="sourceLineNo">786</span><a id="line.786">  }</a>
+<span class="sourceLineNo">787</span><a id="line.787">}</a>
 
 
 
