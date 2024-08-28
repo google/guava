@@ -201,7 +201,7 @@ public class LongsTest extends TestCase {
     int dim1 = 1 << 16;
     int dim2 = 1 << 15;
     assertThat(dim1 * dim2).isLessThan(0);
-    testConcat_overflow(dim1, dim2);
+    testConcatOverflow(dim1, dim2);
   }
 
   @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
@@ -209,10 +209,10 @@ public class LongsTest extends TestCase {
     int dim1 = 1 << 16;
     int dim2 = 1 << 16;
     assertThat(dim1 * dim2).isAtLeast(0);
-    testConcat_overflow(dim1, dim2);
+    testConcatOverflow(dim1, dim2);
   }
 
-  private static void testConcat_overflow(int arraysDim1, int arraysDim2) {
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
     assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
 
     long[][] arrays = new long[arraysDim1][];
