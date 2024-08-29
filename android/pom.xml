@@ -157,9 +157,7 @@
               <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
               <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
               <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
-                   https://errorprone.info/docs/installation#maven) if it can
-                   be made not to interfere with JDK8 or if we stop building
-                   with JDK8. -->
+                   https://errorprone.info/docs/installation#maven). -->
               <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
               <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
               <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
@@ -178,12 +176,7 @@
                 <version>2.23.0</version>
               </path>
             </annotationProcessorPaths>
-            <!-- Fork:
-
-                 - for JDK8 because we use a javac9 bootclasspath
-
-                 - for JDK9+ because we need args like add-exports
-                 -->
+            <!-- Fork because we need args like add-exports. (But see the TODO above about .mvn/jvm.config.) -->
             <fork>true</fork>
           </configuration>
         </plugin>
