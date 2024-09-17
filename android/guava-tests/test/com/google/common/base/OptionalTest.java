@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -51,11 +52,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOf_null() {
-    try {
-      Optional.of(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Optional.of(null));
   }
 
   public void testFromNullable() {
@@ -79,11 +76,7 @@ public final class OptionalTest extends TestCase {
 
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
-    try {
-      optional.get();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, optional::get);
   }
 
   public void testGet_present() {
@@ -111,11 +104,7 @@ public final class OptionalTest extends TestCase {
   public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = (Supplier<Object>) Suppliers.<@Nullable Object>ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
-    try {
-      absentOptional.or(nullSupplier);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> absentOptional.or(nullSupplier));
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
@@ -153,20 +142,12 @@ public final class OptionalTest extends TestCase {
 
   public void testAsSet_presentIsImmutable() {
     Set<String> presentAsSet = Optional.of("a").asSet();
-    try {
-      presentAsSet.add("b");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> presentAsSet.add("b"));
   }
 
   public void testAsSet_absentIsImmutable() {
     Set<Object> absentAsSet = Optional.absent().asSet();
-    try {
-      absentAsSet.add("foo");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> absentAsSet.add("foo"));
   }
 
   public void testTransform_absent() {
@@ -183,34 +164,11 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testTransform_present_functionReturnsNull() {
-    try {
-      Optional<String> unused =
-          Optional.of("a")
-              .transform(
-                  (Function<String, String>)
-                      new Function<String, @Nullable String>() {
-                        @Override
-                        public @Nullable String apply(String input) {
-                          return null;
-                        }
-                      });
-      fail("Should throw if Function returns null.");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Optional.of("a").transform(input -> null));
   }
 
   public void testTransform_absent_functionReturnsNull() {
-    assertEquals(
-        Optional.absent(),
-        Optional.absent()
-            .transform(
-                (Function<Object, Object>)
-                    new Function<Object, @Nullable Object>() {
-                      @Override
-                      public @Nullable Object apply(Object input) {
-                        return null;
-                      }
-                    }));
+    assertEquals(Optional.absent(), Optional.absent().transform(input -> null));
   }
 
   public void testEqualsAndHashCode() {

@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
@@ -221,11 +223,7 @@ public class ToStringHelperTest extends TestCase {
 
   public void testToString_addWithNullName() {
     MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(new TestClass());
-    try {
-      helper.add(null, "Hello");
-      fail("No exception was thrown.");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> helper.add(null, "Hello"));
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT

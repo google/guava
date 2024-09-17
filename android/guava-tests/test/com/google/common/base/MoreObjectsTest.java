@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -40,11 +42,7 @@ public class MoreObjectsTest extends TestCase {
   }
 
   public void testFirstNonNull_throwsNullPointerException() {
-    try {
-      MoreObjects.firstNonNull(null, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> MoreObjects.firstNonNull(null, null));
   }
 
   // ToStringHelper's tests are in ToStringHelperTest

@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -42,11 +42,7 @@ public class SplitterTest extends TestCase {
   private static final Splitter COMMA_SPLITTER = Splitter.on(',');
 
   public void testSplitNullString() {
-    try {
-      COMMA_SPLITTER.split(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> COMMA_SPLITTER.split(null));
   }
 
   public void testCharacterSimpleSplit() {
@@ -261,11 +257,7 @@ public class SplitterTest extends TestCase {
   }
 
   public void testStringSplitWithEmptyString() {
-    try {
-      Splitter.on("");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Splitter.on(""));
   }
 
   public void testStringSplitOnEmptyString() {
@@ -568,19 +560,11 @@ public class SplitterTest extends TestCase {
   }
 
   public void testFixedLengthSplitZeroChunkLen() {
-    try {
-      Splitter.fixedLength(0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Splitter.fixedLength(0));
   }
 
   public void testFixedLengthSplitNegativeChunkLen() {
-    try {
-      Splitter.fixedLength(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Splitter.fixedLength(-1));
   }
 
   public void testLimitLarge() {
@@ -668,11 +652,7 @@ public class SplitterTest extends TestCase {
   }
 
   public void testInvalidZeroLimit() {
-    try {
-      COMMA_SPLITTER.limit(0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> COMMA_SPLITTER.limit(0));
   }
 
   @J2ktIncompatible
@@ -756,19 +736,13 @@ public class SplitterTest extends TestCase {
   }
 
   public void testMapSplitter_emptySeparator() {
-    try {
-      COMMA_SPLITTER.withKeyValueSeparator("");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> COMMA_SPLITTER.withKeyValueSeparator(""));
   }
 
   public void testMapSplitter_malformedEntry() {
-    try {
-      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2"));
   }
 
   /**
@@ -776,11 +750,9 @@ public class SplitterTest extends TestCase {
    * be changed?
    */
   public void testMapSplitter_extraValueDelimiter() {
-    try {
-      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,c=2=");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,c=2="));
   }
 
   public void testMapSplitter_orderedResults() {
@@ -800,11 +772,9 @@ public class SplitterTest extends TestCase {
   }
 
   public void testMapSplitter_duplicateKeys() {
-    try {
-      COMMA_SPLITTER.withKeyValueSeparator(":").split("a:1,b:2,a:3");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> COMMA_SPLITTER.withKeyValueSeparator(":").split("a:1,b:2,a:3"));
   }
 
   public void testMapSplitter_varyingTrimLevels() {

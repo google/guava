@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -243,35 +243,26 @@ public class SuppliersTest extends TestCase {
 
   @SuppressWarnings("DoNotCall")
   public void testMemoizeWithExpiration_longTimeUnitNegative() throws InterruptedException {
-    try {
-      Supplier<String> unused = Suppliers.memoizeWithExpiration(() -> "", 0, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Suppliers.memoizeWithExpiration(() -> "", 0, TimeUnit.MILLISECONDS));
 
-    try {
-      Supplier<String> unused =
-          Suppliers.memoizeWithExpiration(() -> "", -1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Suppliers.memoizeWithExpiration(() -> "", -1, TimeUnit.MILLISECONDS));
   }
 
   @SuppressWarnings("Java7ApiChecker") // test of Java 8+ API
   @J2ktIncompatible // Duration
   @GwtIncompatible // Duration
   public void testMemoizeWithExpiration_durationNegative() throws InterruptedException {
-    try {
-      Supplier<String> unused = Suppliers.memoizeWithExpiration(() -> "", Duration.ZERO);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Suppliers.memoizeWithExpiration(() -> "", Duration.ZERO));
 
-    try {
-      Supplier<String> unused = Suppliers.memoizeWithExpiration(() -> "", Duration.ofMillis(-1));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Suppliers.memoizeWithExpiration(() -> "", Duration.ofMillis(-1)));
   }
 
   @J2ktIncompatible
@@ -393,6 +384,7 @@ public class SuppliersTest extends TestCase {
           }
 
           @Override
+          @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
           public Boolean get() {
             // Check that this method is called exactly once, by the first
             // thread to synchronize.
@@ -438,6 +430,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread
+  @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
   public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe =
         new Supplier<Integer>() {

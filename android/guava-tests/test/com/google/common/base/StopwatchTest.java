@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -59,11 +60,7 @@ public class StopwatchTest extends TestCase {
 
   public void testStart_whileRunning() {
     stopwatch.start();
-    try {
-      stopwatch.start();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, stopwatch::start);
     assertTrue(stopwatch.isRunning());
   }
 
@@ -74,22 +71,14 @@ public class StopwatchTest extends TestCase {
   }
 
   public void testStop_new() {
-    try {
-      stopwatch.stop();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, stopwatch::stop);
     assertFalse(stopwatch.isRunning());
   }
 
   public void testStop_alreadyStopped() {
     stopwatch.start();
     stopwatch.stop();
-    try {
-      stopwatch.stop();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, stopwatch::stop);
     assertFalse(stopwatch.isRunning());
   }
 

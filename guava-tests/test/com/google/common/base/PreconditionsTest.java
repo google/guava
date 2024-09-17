@@ -16,8 +16,14 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -46,347 +52,248 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
   public void testCheckArgument_simple_success() {
-    Preconditions.checkArgument(true);
+    checkArgument(true);
   }
 
   public void testCheckArgument_simple_failure() {
-    try {
-      Preconditions.checkArgument(false);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> checkArgument(false));
   }
 
   public void testCheckArgument_simpleMessage_success() {
-    Preconditions.checkArgument(true, IGNORE_ME);
+    checkArgument(true, IGNORE_ME);
   }
 
   public void testCheckArgument_simpleMessage_failure() {
-    try {
-      Preconditions.checkArgument(false, new Message());
-      fail("no exception thrown");
-    } catch (IllegalArgumentException expected) {
-      verifySimpleMessage(expected);
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> checkArgument(false, new Message()));
+    verifySimpleMessage(expected);
   }
 
   public void testCheckArgument_nullMessage_failure() {
-    try {
-      Preconditions.checkArgument(false, null);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("null");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> checkArgument(false, null));
+    assertThat(expected).hasMessageThat().isEqualTo("null");
   }
 
   public void testCheckArgument_nullMessageWithArgs_failure() {
-    try {
-      Preconditions.checkArgument(false, null, "b", "d");
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("null [b, d]");
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> checkArgument(false, null, "b", "d"));
+    assertThat(e).hasMessageThat().isEqualTo("null [b, d]");
   }
 
   public void testCheckArgument_nullArgs_failure() {
-    try {
-      Preconditions.checkArgument(false, "A %s C %s E", null, null);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("A null C null E");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> checkArgument(false, "A %s C %s E", null, null));
+    assertThat(e).hasMessageThat().isEqualTo("A null C null E");
   }
 
   public void testCheckArgument_notEnoughArgs_failure() {
-    try {
-      Preconditions.checkArgument(false, "A %s C %s E", "b");
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("A b C %s E");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> checkArgument(false, "A %s C %s E", "b"));
+    assertThat(e).hasMessageThat().isEqualTo("A b C %s E");
   }
 
   public void testCheckArgument_tooManyArgs_failure() {
-    try {
-      Preconditions.checkArgument(false, "A %s C %s E", "b", "d", "f");
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("A b C d E [f]");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> checkArgument(false, "A %s C %s E", "b", "d", "f"));
+    assertThat(e).hasMessageThat().isEqualTo("A b C d E [f]");
   }
 
   public void testCheckArgument_singleNullArg_failure() {
-    try {
-      Preconditions.checkArgument(false, "A %s C", (Object) null);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("A null C");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> checkArgument(false, "A %s C", (Object) null));
+    assertThat(e).hasMessageThat().isEqualTo("A null C");
   }
 
   @J2ktIncompatible // TODO(b/319404022): Allow passing null array as varargs
   public void testCheckArgument_singleNullArray_failure() {
-    try {
-      Preconditions.checkArgument(false, "A %s C", (Object[]) null);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().isEqualTo("A (Object[])null C");
-    }
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class, () -> checkArgument(false, "A %s C", (Object[]) null));
+    assertThat(e).hasMessageThat().isEqualTo("A (Object[])null C");
   }
 
   public void testCheckArgument_complexMessage_success() {
-    Preconditions.checkArgument(true, "%s", IGNORE_ME);
+    checkArgument(true, "%s", IGNORE_ME);
   }
 
   public void testCheckArgument_complexMessage_failure() {
-    try {
-      Preconditions.checkArgument(false, FORMAT, 5);
-      fail("no exception thrown");
-    } catch (IllegalArgumentException expected) {
-      verifyComplexMessage(expected);
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> checkArgument(false, FORMAT, 5));
+    verifyComplexMessage(expected);
   }
 
   public void testCheckState_simple_success() {
-    Preconditions.checkState(true);
+    checkState(true);
   }
 
   public void testCheckState_simple_failure() {
-    try {
-      Preconditions.checkState(false);
-      fail("no exception thrown");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> checkState(false));
   }
 
   public void testCheckState_simpleMessage_success() {
-    Preconditions.checkState(true, IGNORE_ME);
+    checkState(true, IGNORE_ME);
   }
 
   public void testCheckState_simpleMessage_failure() {
-    try {
-      Preconditions.checkState(false, new Message());
-      fail("no exception thrown");
-    } catch (IllegalStateException expected) {
-      verifySimpleMessage(expected);
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> checkState(false, new Message()));
+    verifySimpleMessage(expected);
   }
 
   public void testCheckState_nullMessage_failure() {
-    try {
-      Preconditions.checkState(false, null);
-      fail("no exception thrown");
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("null");
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> checkState(false, null));
+    assertThat(expected).hasMessageThat().isEqualTo("null");
   }
 
   public void testCheckState_complexMessage_success() {
-    Preconditions.checkState(true, "%s", IGNORE_ME);
+    checkState(true, "%s", IGNORE_ME);
   }
 
   public void testCheckState_complexMessage_failure() {
-    try {
-      Preconditions.checkState(false, FORMAT, 5);
-      fail("no exception thrown");
-    } catch (IllegalStateException expected) {
-      verifyComplexMessage(expected);
-    }
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> checkState(false, FORMAT, 5));
+    verifyComplexMessage(expected);
   }
 
   private static final String NON_NULL_STRING = "foo";
 
   public void testCheckNotNull_simple_success() {
-    String result = Preconditions.checkNotNull(NON_NULL_STRING);
+    String result = checkNotNull(NON_NULL_STRING);
     assertSame(NON_NULL_STRING, result);
   }
 
   public void testCheckNotNull_simple_failure() {
-    try {
-      Preconditions.checkNotNull(null);
-      fail("no exception thrown");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> checkNotNull(null));
   }
 
   public void testCheckNotNull_simpleMessage_success() {
-    String result = Preconditions.checkNotNull(NON_NULL_STRING, IGNORE_ME);
+    String result = checkNotNull(NON_NULL_STRING, IGNORE_ME);
     assertSame(NON_NULL_STRING, result);
   }
 
   public void testCheckNotNull_simpleMessage_failure() {
-    try {
-      Preconditions.checkNotNull(null, new Message());
-      fail("no exception thrown");
-    } catch (NullPointerException expected) {
-      verifySimpleMessage(expected);
-    }
+    NullPointerException expected =
+        assertThrows(NullPointerException.class, () -> checkNotNull(null, new Message()));
+    verifySimpleMessage(expected);
   }
 
   public void testCheckNotNull_complexMessage_success() {
-    String result = Preconditions.checkNotNull(NON_NULL_STRING, "%s", IGNORE_ME);
+    String result = checkNotNull(NON_NULL_STRING, "%s", IGNORE_ME);
     assertSame(NON_NULL_STRING, result);
   }
 
   public void testCheckNotNull_complexMessage_failure() {
-    try {
-      Preconditions.checkNotNull(null, FORMAT, 5);
-      fail("no exception thrown");
-    } catch (NullPointerException expected) {
-      verifyComplexMessage(expected);
-    }
+    NullPointerException expected =
+        assertThrows(NullPointerException.class, () -> checkNotNull(null, FORMAT, 5));
+    verifyComplexMessage(expected);
   }
 
   public void testCheckElementIndex_ok() {
-    assertEquals(0, Preconditions.checkElementIndex(0, 1));
-    assertEquals(0, Preconditions.checkElementIndex(0, 2));
-    assertEquals(1, Preconditions.checkElementIndex(1, 2));
+    assertEquals(0, checkElementIndex(0, 1));
+    assertEquals(0, checkElementIndex(0, 2));
+    assertEquals(1, checkElementIndex(1, 2));
   }
 
   public void testCheckElementIndex_badSize() {
-    try {
-      Preconditions.checkElementIndex(1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      // don't care what the message text is, as this is an invalid usage of
-      // the Preconditions class, unlike all the other exceptions it throws
-    }
+    assertThrows(IllegalArgumentException.class, () -> checkElementIndex(1, -1));
   }
 
   public void testCheckElementIndex_negative() {
-    try {
-      Preconditions.checkElementIndex(-1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkElementIndex(-1, 1));
+    assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
   }
 
   public void testCheckElementIndex_tooHigh() {
-    try {
-      Preconditions.checkElementIndex(1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("index (1) must be less than size (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkElementIndex(1, 1));
+    assertThat(expected).hasMessageThat().isEqualTo("index (1) must be less than size (1)");
   }
 
   public void testCheckElementIndex_withDesc_negative() {
-    try {
-      Preconditions.checkElementIndex(-1, 1, "foo");
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkElementIndex(-1, 1, "foo"));
+    assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
   }
 
   public void testCheckElementIndex_withDesc_tooHigh() {
-    try {
-      Preconditions.checkElementIndex(1, 1, "foo");
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("foo (1) must be less than size (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkElementIndex(1, 1, "foo"));
+    assertThat(expected).hasMessageThat().isEqualTo("foo (1) must be less than size (1)");
   }
 
   public void testCheckPositionIndex_ok() {
-    assertEquals(0, Preconditions.checkPositionIndex(0, 0));
-    assertEquals(0, Preconditions.checkPositionIndex(0, 1));
-    assertEquals(1, Preconditions.checkPositionIndex(1, 1));
+    assertEquals(0, checkPositionIndex(0, 0));
+    assertEquals(0, checkPositionIndex(0, 1));
+    assertEquals(1, checkPositionIndex(1, 1));
   }
 
   public void testCheckPositionIndex_badSize() {
-    try {
-      Preconditions.checkPositionIndex(1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      // don't care what the message text is, as this is an invalid usage of
-      // the Preconditions class, unlike all the other exceptions it throws
-    }
+    assertThrows(IllegalArgumentException.class, () -> checkPositionIndex(1, -1));
   }
 
   public void testCheckPositionIndex_negative() {
-    try {
-      Preconditions.checkPositionIndex(-1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndex(-1, 1));
+    assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
   }
 
   public void testCheckPositionIndex_tooHigh() {
-    try {
-      Preconditions.checkPositionIndex(2, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo("index (2) must not be greater than size (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndex(2, 1));
+    assertThat(expected).hasMessageThat().isEqualTo("index (2) must not be greater than size (1)");
   }
 
   public void testCheckPositionIndex_withDesc_negative() {
-    try {
-      Preconditions.checkPositionIndex(-1, 1, "foo");
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndex(-1, 1, "foo"));
+    assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
   }
 
   public void testCheckPositionIndex_withDesc_tooHigh() {
-    try {
-      Preconditions.checkPositionIndex(2, 1, "foo");
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("foo (2) must not be greater than size (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndex(2, 1, "foo"));
+    assertThat(expected).hasMessageThat().isEqualTo("foo (2) must not be greater than size (1)");
   }
 
   public void testCheckPositionIndexes_ok() {
-    Preconditions.checkPositionIndexes(0, 0, 0);
-    Preconditions.checkPositionIndexes(0, 0, 1);
-    Preconditions.checkPositionIndexes(0, 1, 1);
-    Preconditions.checkPositionIndexes(1, 1, 1);
+    checkPositionIndexes(0, 0, 0);
+    checkPositionIndexes(0, 0, 1);
+    checkPositionIndexes(0, 1, 1);
+    checkPositionIndexes(1, 1, 1);
   }
 
   public void testCheckPositionIndexes_badSize() {
-    try {
-      Preconditions.checkPositionIndexes(1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> checkPositionIndexes(1, 1, -1));
   }
 
   public void testCheckPositionIndex_startNegative() {
-    try {
-      Preconditions.checkPositionIndexes(-1, 1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("start index (-1) must not be negative");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndexes(-1, 1, 1));
+    assertThat(expected).hasMessageThat().isEqualTo("start index (-1) must not be negative");
   }
 
   public void testCheckPositionIndexes_endTooHigh() {
-    try {
-      Preconditions.checkPositionIndexes(0, 2, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo("end index (2) must not be greater than size (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndexes(0, 2, 1));
+    assertThat(expected)
+        .hasMessageThat()
+        .isEqualTo("end index (2) must not be greater than size (1)");
   }
 
   public void testCheckPositionIndexes_reversed() {
-    try {
-      Preconditions.checkPositionIndexes(1, 0, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo("end index (0) must not be less than start index (1)");
-    }
+    IndexOutOfBoundsException expected =
+        assertThrows(IndexOutOfBoundsException.class, () -> checkPositionIndexes(1, 0, 1));
+    assertThat(expected)
+        .hasMessageThat()
+        .isEqualTo("end index (0) must not be less than start index (1)");
   }
 
   @GwtIncompatible("Reflection")
@@ -528,20 +435,20 @@ public class PreconditionsTest extends TestCase {
     int anInt = 1;
     // With a boxed predicate, no overloads can be selected in phase 1
     // ambiguous without the call to .booleanValue to unbox the Boolean
-    Preconditions.checkState(boxedBoolean.booleanValue(), "", 1);
+    checkState(boxedBoolean.booleanValue(), "", 1);
     // ambiguous without the cast to Object because the boxed predicate prevents any overload from
     // being selected in phase 1
-    Preconditions.checkState(boxedBoolean, "", (Object) boxedLong);
+    checkState(boxedBoolean, "", (Object) boxedLong);
 
     // ternaries introduce their own problems. because of the ternary (which requires a boxing
     // operation) no overload can be selected in phase 1.  and in phase 2 it is ambiguous since it
     // matches with the second parameter being boxed and without it being boxed.  The cast to Object
     // avoids this.
-    Preconditions.checkState(aBoolean, "", aBoolean ? "" : anInt, (Object) anInt);
+    checkState(aBoolean, "", aBoolean ? "" : anInt, (Object) anInt);
 
     // ambiguous without the .booleanValue() call since the boxing forces us into phase 2 resolution
     short s = 2;
-    Preconditions.checkState(boxedBoolean.booleanValue(), "", s);
+    checkState(boxedBoolean.booleanValue(), "", s);
   }
 
   @J2ktIncompatible

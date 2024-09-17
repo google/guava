@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -72,11 +73,7 @@ public class StringsTest extends TestCase {
 
   // TODO: could remove if we got NPT working in GWT somehow
   public void testPadStart_null() {
-    try {
-      Strings.padStart(null, 5, '0');
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Strings.padStart(null, 5, '0'));
   }
 
   public void testPadEnd_noPadding() {
@@ -99,15 +96,11 @@ public class StringsTest extends TestCase {
     assertSame("x", Strings.padEnd("x", -1, '-'));
   }
 
-  // TODO: could remove if we got NPT working in GWT somehow
   public void testPadEnd_null() {
-    try {
-      Strings.padEnd(null, 5, '0');
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Strings.padEnd(null, 5, '0'));
   }
 
+  @SuppressWarnings("InlineMeInliner") // test of method that doesn't just delegate
   public void testRepeat() {
     String input = "20";
     assertEquals("", Strings.repeat(input, 0));
@@ -121,28 +114,17 @@ public class StringsTest extends TestCase {
       assertEquals(2 * i, Strings.repeat(input, i).length());
     }
 
-    try {
-      Strings.repeat("x", -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // Massive string
-      Strings.repeat("12345678", (1 << 30) + 3);
-      fail();
-    } catch (ArrayIndexOutOfBoundsException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Strings.repeat("x", -1));
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class, () -> Strings.repeat("12345678", (1 << 30) + 3));
   }
 
-  // TODO: could remove if we got NPT working in GWT somehow
+  @SuppressWarnings("InlineMeInliner") // test of method that doesn't just delegate
   public void testRepeat_null() {
-    try {
-      Strings.repeat(null, 5);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Strings.repeat(null, 5));
   }
 
+  @SuppressWarnings("UnnecessaryStringBuilder") // We want to test a non-String CharSequence
   public void testCommonPrefix() {
     assertEquals("", Strings.commonPrefix("", ""));
     assertEquals("", Strings.commonPrefix("abc", ""));
@@ -152,7 +134,7 @@ public class StringsTest extends TestCase {
     assertEquals("", Strings.commonPrefix("xyz", "abcxyz"));
     assertEquals("a", Strings.commonPrefix("abc", "aaaaa"));
     assertEquals("aa", Strings.commonPrefix("aa", "aaaaa"));
-    assertEquals("abc", Strings.commonPrefix(new StringBuffer("abcdef"), "abcxyz"));
+    assertEquals("abc", Strings.commonPrefix(new StringBuilder("abcdef"), "abcxyz"));
 
     // Identical valid surrogate pairs.
     assertEquals(
@@ -172,6 +154,7 @@ public class StringsTest extends TestCase {
     assertEquals("\uD8AB", Strings.commonPrefix("\uD8AB", "\uD8AB"));
   }
 
+  @SuppressWarnings("UnnecessaryStringBuilder") // We want to test a non-String CharSequence
   public void testCommonSuffix() {
     assertEquals("", Strings.commonSuffix("", ""));
     assertEquals("", Strings.commonSuffix("abc", ""));
@@ -181,7 +164,7 @@ public class StringsTest extends TestCase {
     assertEquals("", Strings.commonSuffix("xyz", "xyzabc"));
     assertEquals("c", Strings.commonSuffix("abc", "ccccc"));
     assertEquals("aa", Strings.commonSuffix("aa", "aaaaa"));
-    assertEquals("abc", Strings.commonSuffix(new StringBuffer("xyzabc"), "xxxabc"));
+    assertEquals("abc", Strings.commonSuffix(new StringBuilder("xyzabc"), "xxxabc"));
 
     // Identical valid surrogate pairs.
     assertEquals(
