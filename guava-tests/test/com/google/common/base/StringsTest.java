@@ -130,7 +130,7 @@ public class StringsTest extends TestCase {
       // Massive string
       Strings.repeat("12345678", (1 << 30) + 3);
       fail();
-    } catch (ArrayIndexOutOfBoundsException expected) {
+    } catch (StringIndexOutOfBoundsException expected) {
     }
   }
 
