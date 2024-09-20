@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    outputs:
+      working-directory: ${{ steps.checkout.outputs.working-directory }}
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4
+      - name: Print working directory
+        run: pwd
+      - name: List files
+        run: ls -al
+
+  lint:
+    runs-on: ubuntu-20.04
+    needs: checkout
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run DevSkim scanner
+        uses: microsoft/DevSkim-Action@v1
+      - name: Upload DevSkim scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: devskim-results.sarif
