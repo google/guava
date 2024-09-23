@@ -133,6 +133,13 @@
           "version": {
             "requires": "${errorprone.version}"
           }
+        },
+        {
+          "group": "com.google.j2objc",
+          "module": "j2objc-annotations",
+          "version": {
+            "requires": "${j2objc.version}"
+          }
         }
       ],
       "files": [
@@ -271,6 +278,13 @@
           "module": "error_prone_annotations",
           "version": {
             "requires": "${errorprone.version}"
+          }
+        },
+        {
+          "group": "com.google.j2objc",
+          "module": "j2objc-annotations",
+          "version": {
+            "requires": "${j2objc.version}"
           }
         }
       ],
