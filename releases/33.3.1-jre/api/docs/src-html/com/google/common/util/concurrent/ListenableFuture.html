@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.util.concurrent;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import java.util.concurrent.Executor;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.util.concurrent.Future;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.concurrent.RejectedExecutionException;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">/**</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * it is invoked using this executor once the future's computation is {@linkplain Future#isDone()</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * complete}. If the computation has already completed when the listener is added, the listener will</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * execute immediately.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> *</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * href="https://github.com/google/guava/wiki/ListenableFutureExplained"&gt;{@code</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * ListenableFuture}&lt;/a&gt;.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;This class is GWT-compatible.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * &lt;h3&gt;Purpose&lt;/h3&gt;</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;The main purpose of {@code ListenableFuture} is to help you chain together a graph of</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * asynchronous operations. You can chain them together manually with calls to methods like {@link</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * Futures#transform(ListenableFuture, com.google.common.base.Function, Executor) Futures.transform}</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * (or {@link FluentFuture#transform(com.google.common.base.Function, Executor)</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * FluentFuture.transform}), but you will often find it easier to use a framework. Frameworks</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * automate the process, often adding features like monitoring, debugging, and cancellation.</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * Examples of frameworks include:</a>
+<span class="sourceLineNo">044</span><a id="line.44"> *</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">046</span><a id="line.46"> *   &lt;li&gt;&lt;a href="https://dagger.dev/producers.html"&gt;Dagger Producers&lt;/a&gt;</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * &lt;p&gt;The main purpose of {@link #addListener addListener} is to support this chaining. You will</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * rarely use it directly, in part because it does not provide direct access to the {@code Future}</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * result. (If you want such access, you may prefer {@link Futures#addCallback</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:</a>
+<span class="sourceLineNo">053</span><a id="line.53"> *</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">055</span><a id="line.55"> * final String name = ...;</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * inFlight.add(name);</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * ListenableFuture&lt;Result&gt; future = service.query(name);</a>
+<span class="sourceLineNo">058</span><a id="line.58"> * future.addListener(new Runnable() {</a>
+<span class="sourceLineNo">059</span><a id="line.59"> *   public void run() {</a>
+<span class="sourceLineNo">060</span><a id="line.60"> *     processedCount.incrementAndGet();</a>
+<span class="sourceLineNo">061</span><a id="line.61"> *     inFlight.remove(name);</a>
+<span class="sourceLineNo">062</span><a id="line.62"> *     lastProcessed.set(name);</a>
+<span class="sourceLineNo">063</span><a id="line.63"> *     logger.info("Done with {0}", name);</a>
+<span class="sourceLineNo">064</span><a id="line.64"> *   }</a>
+<span class="sourceLineNo">065</span><a id="line.65"> * }, executor);</a>
+<span class="sourceLineNo">066</span><a id="line.66"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">067</span><a id="line.67"> *</a>
+<span class="sourceLineNo">068</span><a id="line.68"> * &lt;h3&gt;How to get an instance&lt;/h3&gt;</a>
+<span class="sourceLineNo">069</span><a id="line.69"> *</a>
+<span class="sourceLineNo">070</span><a id="line.70"> * &lt;p&gt;We encourage you to return {@code ListenableFuture} from your methods so that your users can</a>
+<span class="sourceLineNo">071</span><a id="line.71"> * take advantage of the {@linkplain Futures utilities built atop the class}. The way that you will</a>
+<span class="sourceLineNo">072</span><a id="line.72"> * create {@code ListenableFuture} instances depends on how you currently create {@code Future}</a>
+<span class="sourceLineNo">073</span><a id="line.73"> * instances:</a>
+<span class="sourceLineNo">074</span><a id="line.74"> *</a>
+<span class="sourceLineNo">075</span><a id="line.75"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">076</span><a id="line.76"> *   &lt;li&gt;If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that</a>
+<span class="sourceLineNo">077</span><a id="line.77"> *       service to a {@link ListeningExecutorService}, usually by calling {@link</a>
+<span class="sourceLineNo">078</span><a id="line.78"> *       MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)</a>
+<span class="sourceLineNo">079</span><a id="line.79"> *       MoreExecutors.listeningDecorator}.</a>
+<span class="sourceLineNo">080</span><a id="line.80"> *   &lt;li&gt;If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method,</a>
+<span class="sourceLineNo">081</span><a id="line.81"> *       create a {@link SettableFuture} instead. (If your needs are more complex, you may prefer</a>
+<span class="sourceLineNo">082</span><a id="line.82"> *       {@link AbstractFuture}.)</a>
+<span class="sourceLineNo">083</span><a id="line.83"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">084</span><a id="line.84"> *</a>
+<span class="sourceLineNo">085</span><a id="line.85"> * &lt;p&gt;&lt;b&gt;Test doubles&lt;/b&gt;: If you need a {@code ListenableFuture} for your test, try a {@link</a>
+<span class="sourceLineNo">086</span><a id="line.86"> * SettableFuture} or one of the methods in the {@link Futures#immediateFuture Futures.immediate*}</a>
+<span class="sourceLineNo">087</span><a id="line.87"> * family. &lt;b&gt;Avoid&lt;/b&gt; creating a mock or stub {@code Future}. Mock and stub implementations are</a>
+<span class="sourceLineNo">088</span><a id="line.88"> * fragile because they assume that only certain methods will be called and because they often</a>
+<span class="sourceLineNo">089</span><a id="line.89"> * implement subtleties of the API improperly.</a>
+<span class="sourceLineNo">090</span><a id="line.90"> *</a>
+<span class="sourceLineNo">091</span><a id="line.91"> * &lt;p&gt;&lt;b&gt;Custom implementation&lt;/b&gt;: Avoid implementing {@code ListenableFuture} from scratch. If you</a>
+<span class="sourceLineNo">092</span><a id="line.92"> * can't get by with the standard implementations, prefer to derive a new {@code Future} instance</a>
+<span class="sourceLineNo">093</span><a id="line.93"> * with the methods in {@link Futures} or, if necessary, to extend {@link AbstractFuture}.</a>
+<span class="sourceLineNo">094</span><a id="line.94"> *</a>
+<span class="sourceLineNo">095</span><a id="line.95"> * &lt;p&gt;Occasionally, an API will return a plain {@code Future} and it will be impossible to change</a>
+<span class="sourceLineNo">096</span><a id="line.96"> * the return type. For this case, we provide a more expensive workaround in {@code</a>
+<span class="sourceLineNo">097</span><a id="line.97"> * JdkFutureAdapters}. However, when possible, it is more efficient and reliable to create a {@code</a>
+<span class="sourceLineNo">098</span><a id="line.98"> * ListenableFuture} directly.</a>
+<span class="sourceLineNo">099</span><a id="line.99"> *</a>
+<span class="sourceLineNo">100</span><a id="line.100"> * @author Sven Mawson</a>
+<span class="sourceLineNo">101</span><a id="line.101"> * @author Nishant Thakkar</a>
+<span class="sourceLineNo">102</span><a id="line.102"> * @since 1.0</a>
+<span class="sourceLineNo">103</span><a id="line.103"> */</a>
+<span class="sourceLineNo">104</span><a id="line.104">/*</a>
+<span class="sourceLineNo">105</span><a id="line.105"> * Some of the annotations below were added after we released our separate</a>
+<span class="sourceLineNo">106</span><a id="line.106"> * com.google.guava:listenablefuture:1.0 artifact. (For more on that artifact, see</a>
+<span class="sourceLineNo">107</span><a id="line.107"> * https://github.com/google/guava/releases/tag/v27.0) This means that the copy of ListenableFuture</a>
+<span class="sourceLineNo">108</span><a id="line.108"> * in com.google.guava:guava differs from the "frozen" copy in the listenablefuture artifact. This</a>
+<span class="sourceLineNo">109</span><a id="line.109"> * could in principle cause problems for some users. Still, we expect that the benefits of the</a>
+<span class="sourceLineNo">110</span><a id="line.110"> * nullness annotations in particular will outweigh the costs. (And it's worth noting that we have</a>
+<span class="sourceLineNo">111</span><a id="line.111"> * released multiple ListenableFuture.class files that are not byte-for-byte compatible even from</a>
+<span class="sourceLineNo">112</span><a id="line.112"> * the beginning, thanks to using different `-source -target` values for compiling our `-jre` and</a>
+<span class="sourceLineNo">113</span><a id="line.113"> * `-android` "flavors.")</a>
+<span class="sourceLineNo">114</span><a id="line.114"> *</a>
+<span class="sourceLineNo">115</span><a id="line.115"> * (We could consider releasing a listenablefuture:1.0.1 someday. But we would want to look into how</a>
+<span class="sourceLineNo">116</span><a id="line.116"> * that affects users, especially users of the Android Gradle Plugin, since the plugin developers</a>
+<span class="sourceLineNo">117</span><a id="line.117"> * put in a special hack for us: https://issuetracker.google.com/issues/131431257)</a>
+<span class="sourceLineNo">118</span><a id="line.118"> */</a>
+<span class="sourceLineNo">119</span><a id="line.119">@DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")</a>
+<span class="sourceLineNo">120</span><a id="line.120">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">121</span><a id="line.121">public interface ListenableFuture&lt;V extends @Nullable Object&gt; extends Future&lt;V&gt; {</a>
+<span class="sourceLineNo">122</span><a id="line.122">  /**</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * complete} or, if the computation is already complete, immediately.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * &lt;p&gt;There is no guaranteed ordering of execution of listeners, but any listener added through</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * this method is guaranteed to be called once the computation is complete.</a>
+<span class="sourceLineNo">129</span><a id="line.129">   *</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * &lt;p&gt;Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * logged.</a>
+<span class="sourceLineNo">134</span><a id="line.134">   *</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * &lt;p&gt;Note: If your listener is lightweight -- and will not cause stack overflow by completing</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * more futures or adding more {@code directExecutor()} listeners inline -- consider {@link</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * MoreExecutors#directExecutor}. Otherwise, avoid it: See the warnings on the docs for {@code</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * directExecutor}.</a>
+<span class="sourceLineNo">139</span><a id="line.139">   *</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * &lt;p&gt;This is the most general listener interface. For common operations performed using</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * listeners, see {@link Futures}. For a simplified but general listener interface, see {@link</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * Futures#addCallback addCallback()}.</a>
+<span class="sourceLineNo">143</span><a id="line.143">   *</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * &lt;p&gt;Memory consistency effects: Actions in a thread prior to adding a listener &lt;a</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5"&gt;</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * &lt;i&gt;happen-before&lt;/i&gt;&lt;/a&gt; its execution begins, perhaps in another thread.</a>
+<span class="sourceLineNo">147</span><a id="line.147">   *</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * &lt;p&gt;Guava implementations of {@code ListenableFuture} promptly release references to listeners</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * after executing them.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * @param listener the listener to run when the computation is complete</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * @param executor the executor to run the listener in</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * @throws RejectedExecutionException if we tried to execute the listener immediately but the</a>
+<span class="sourceLineNo">154</span><a id="line.154">   *     executor rejected it.</a>
+<span class="sourceLineNo">155</span><a id="line.155">   */</a>
+<span class="sourceLineNo">156</span><a id="line.156">  void addListener(Runnable listener, Executor executor);</a>
+<span class="sourceLineNo">157</span><a id="line.157">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
