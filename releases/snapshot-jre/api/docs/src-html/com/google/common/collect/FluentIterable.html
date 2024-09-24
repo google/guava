@@ -471,9 +471,9 @@
 <span class="sourceLineNo">462</span><a id="line.462">   *</a>
 <span class="sourceLineNo">463</span><a id="line.463">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(predicate).findFirst()}.</a>
 <span class="sourceLineNo">464</span><a id="line.464">   */</a>
-<span class="sourceLineNo">465</span><a id="line.465">  @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.</a>
-<span class="sourceLineNo">466</span><a id="line.466">  public final Optional&lt;@NonNull E&gt; firstMatch(Predicate&lt;? super E&gt; predicate) {</a>
-<span class="sourceLineNo">467</span><a id="line.467">    return Iterables.&lt;E&gt;tryFind((Iterable&lt;@NonNull E&gt;) getDelegate(), predicate);</a>
+<span class="sourceLineNo">465</span><a id="line.465">  public final Optional&lt;@NonNull E&gt; firstMatch(Predicate&lt;? super E&gt; predicate) {</a>
+<span class="sourceLineNo">466</span><a id="line.466">    // Unsafe, but we can't do much about it now.</a>
+<span class="sourceLineNo">467</span><a id="line.467">    return Iterables.&lt;@NonNull E&gt;tryFind((Iterable&lt;@NonNull E&gt;) getDelegate(), predicate);</a>
 <span class="sourceLineNo">468</span><a id="line.468">  }</a>
 <span class="sourceLineNo">469</span><a id="line.469"></a>
 <span class="sourceLineNo">470</span><a id="line.470">  /**</a>
