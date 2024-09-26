@@ -56272,6 +56272,18 @@
  @since 14.0]]>
       </doc>
     </field>
+    <field name="CBOR" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[As described in <a href="https://www.rfc-editor.org/rfc/rfc8949.html">RFC 8949</a>, this
+ constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
+ data format.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="GEO_JSON" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
