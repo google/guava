@@ -171,6 +171,7 @@ public final class MediaType {
    * may be necessary in certain situations for compatibility.
    */
   public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");
+
   /**
    * <a href="http://www.iana.org/assignments/media-types/text/tab-separated-values">Tab separated
    * values</a>.
@@ -457,6 +458,15 @@ public final class MediaType {
    * @since 14.0
    */
   public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
+
+  /**
+   * As described in <a href="https://www.rfc-editor.org/rfc/rfc8949.html">RFC 8949</a>, this
+   * constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
+   * data format.
+   *
+   * @since NEXT
+   */
+  public static final MediaType CBOR = createConstant(APPLICATION_TYPE, "cbor");
 
   /**
    * Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
