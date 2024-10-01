@@ -79,23 +79,28 @@ public final class HttpHeaders {
    * @since 28.0
    */
   public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
-   * name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc8470">{@code Early-Data}</a> header
+   * field name.
    *
    * @since 27.0
    */
   public static final String EARLY_DATA = "Early-Data";
+
   /** The HTTP {@code Expect} header field name. */
   public static final String EXPECT = "Expect";
   /** The HTTP {@code From} header field name. */
   public static final String FROM = "From";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc7239">{@code Forwarded}</a> header field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7239">{@code Forwarded}</a> header
+   * field name.
    *
    * @since 20.0
    */
   public static final String FORWARDED = "Forwarded";
+
   /**
    * The HTTP {@code Follow-Only-When-Prerender-Shown} header field name.
    *
@@ -104,13 +109,15 @@ public final class HttpHeaders {
   public static final String FOLLOW_ONLY_WHEN_PRERENDER_SHOWN = "Follow-Only-When-Prerender-Shown";
   /** The HTTP {@code Host} header field name. */
   public static final String HOST = "Host";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
-   * </a> header field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7540#section-3.2.1">{@code
+   * HTTP2-Settings} </a> header field name.
    *
    * @since 24.0
    */
   public static final String HTTP2_SETTINGS = "HTTP2-Settings";
+
   /** The HTTP {@code If-Match} header field name. */
   public static final String IF_MATCH = "If-Match";
   /** The HTTP {@code If-Modified-Since} header field name. */
@@ -817,62 +824,71 @@ public final class HttpHeaders {
    * @since 26.0
    */
   public static final String SEC_METADATA = "Sec-Metadata";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-https">{@code
    * Sec-Token-Binding}</a> header field name.
    *
    * @since 25.1
    */
   public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-ttrp">{@code
    * Sec-Provided-Token-Binding-ID}</a> header field name.
    *
    * @since 25.1
    */
   public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-ttrp">{@code
    * Sec-Referred-Token-Binding-ID}</a> header field name.
    *
    * @since 25.1
    */
   public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
-   * field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+   * Sec-WebSocket-Accept}</a> header field name.
    *
    * @since 28.0
    */
   public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
-   * header field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+   * Sec-WebSocket-Extensions}</a> header field name.
    *
    * @since 28.0
    */
   public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
-   * field name.
-   *
-   * @since 28.0
-   */
-  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
-  /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code Sec-WebSocket-Key}</a>
    * header field name.
    *
    * @since 28.0
    */
-  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
+  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
+
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
-   * field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+   * Sec-WebSocket-Protocol}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
+
+  /**
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+   * Sec-WebSocket-Version}</a> header field name.
    *
    * @since 28.0
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+
   /**
    * The HTTP <a href="https://patcg-individual-drafts.github.io/topics/">{@code
    * Sec-Browsing-Topics}</a> header field name.
@@ -924,9 +940,18 @@ public final class HttpHeaders {
   public static final String AD_AUCTION_ALLOWED = "Ad-Auction-Allowed";
 
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc8586">{@code CDN-Loop}</a> header
+   * field name.
    *
    * @since 28.0
    */
   public static final String CDN_LOOP = "CDN-Loop";
+
+  /**
+   * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7838#page-8">{@code Alt-Svc}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String ALT_SVC = "Alt-Svc";
 }
