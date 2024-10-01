@@ -52980,8 +52980,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
- name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc8470">{@code Early-Data}</a> header
+ field name.
 
  @since 27.0]]>
       </doc>
@@ -53007,7 +53007,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc7239">{@code Forwarded}</a> header field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7239">{@code Forwarded}</a> header
+ field name.
 
  @since 20.0]]>
       </doc>
@@ -53035,8 +53036,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
- </a> header field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7540#section-3.2.1">{@code
+ HTTP2-Settings} </a> header field name.
 
  @since 24.0]]>
       </doc>
@@ -54315,7 +54316,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-https">{@code
  Sec-Token-Binding}</a> header field name.
 
  @since 25.1]]>
@@ -54326,7 +54327,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-ttrp">{@code
  Sec-Provided-Token-Binding-ID}</a> header field name.
 
  @since 25.1]]>
@@ -54337,7 +54338,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tokbind-ttrp">{@code
  Sec-Referred-Token-Binding-ID}</a> header field name.
 
  @since 25.1]]>
@@ -54348,8 +54349,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+ Sec-WebSocket-Accept}</a> header field name.
 
  @since 28.0]]>
       </doc>
@@ -54359,8 +54360,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
- header field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+ Sec-WebSocket-Extensions}</a> header field name.
 
  @since 28.0]]>
       </doc>
@@ -54370,8 +54371,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code Sec-WebSocket-Key}</a>
+ header field name.
 
  @since 28.0]]>
       </doc>
@@ -54381,8 +54382,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
- header field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+ Sec-WebSocket-Protocol}</a> header field name.
 
  @since 28.0]]>
       </doc>
@@ -54392,8 +54393,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc6455">{@code
+ Sec-WebSocket-Version}</a> header field name.
 
  @since 28.0]]>
       </doc>
@@ -54472,9 +54473,21 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc8586">{@code CDN-Loop}</a> header
+ field name.
 
  @since 28.0]]>
+      </doc>
+    </field>
+    <field name="ALT_SVC" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7838#page-8">{@code Alt-Svc}</a>
+ header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <doc>
