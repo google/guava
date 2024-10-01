@@ -140,7 +140,9 @@ public class ConverterTest extends TestCase {
 
     assertEquals("StringWrapper.andThen(string2long)", converter.toString());
 
-    assertEquals(first.andThen(STR_TO_LONG), first.andThen(STR_TO_LONG));
+    new EqualsTester()
+        .addEqualityGroup(first.andThen(STR_TO_LONG), first.andThen(STR_TO_LONG))
+        .testEquals();
   }
 
   @GwtIncompatible // J2CL generics problem

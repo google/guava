@@ -173,7 +173,7 @@
               <path>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <version>2.23.0</version>
+                <version>2.33.0</version>
               </path>
             </annotationProcessorPaths>
             <!-- Fork because we need args like add-exports. (But see the TODO above about .mvn/jvm.config.) -->
@@ -206,14 +206,14 @@
               </configuration>
             </execution>
             <execution>
-              <id>download-22-and-surefire-version</id>
+              <id>download-23-and-surefire-version</id>
               <goals>
                 <goal>toolchain</goal>
               </goals>
               <configuration>
                 <toolchains>
                   <jdk>
-                    <version>22</version>
+                    <version>23</version>
                     <vendor>zulu</vendor>
                   </jdk>
                   <testJdk>
@@ -238,7 +238,7 @@
           <configuration>
             <toolchains>
               <jdk>
-                <version>22</version>
+                <version>23</version>
                 <vendor>zulu</vendor>
               </jdk>
             </toolchains>
