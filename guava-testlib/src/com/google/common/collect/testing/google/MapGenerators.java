@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.annotations.GwtCompatible;
@@ -53,6 +54,7 @@ public class MapGenerators {
     protected Map<String, String> create(Entry<String, String>[] entries) {
       ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
       for (Entry<String, String> entry : entries) {
+        checkNotNull(entry);
         builder.put(entry.getKey(), entry.getValue());
       }
       return builder.buildOrThrow();
@@ -142,7 +144,7 @@ public class MapGenerators {
       ImmutableMap.Builder<String, Integer> builder = ImmutableMap.builder();
       for (Object o : elements) {
         @SuppressWarnings("unchecked")
-        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        Entry<String, Integer> entry = (Entry<String, Integer>) checkNotNull(o);
         builder.put(entry);
       }
       return builder.buildOrThrow().entrySet().asList();
@@ -154,7 +156,7 @@ public class MapGenerators {
     protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
       Map<AnEnum, String> map = Maps.newHashMap();
       for (Entry<AnEnum, String> entry : entries) {
-        // checkArgument(!map.containsKey(entry.getKey()));
+        checkNotNull(entry);
         map.put(entry.getKey(), entry.getValue());
       }
       return Maps.immutableEnumMap(map);

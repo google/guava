@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.DerivedGenerator;
@@ -112,6 +114,7 @@ public final class DerivedGoogleCollectionGenerators {
     }
 
     private Entry<V, K> reverse(Entry<K, V> entry) {
+      checkNotNull(entry);
       return Helpers.mapEntry(entry.getValue(), entry.getKey());
     }
 

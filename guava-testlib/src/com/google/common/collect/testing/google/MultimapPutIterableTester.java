@@ -157,7 +157,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertGet(null, v3(), v4());
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_KEYS)
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAllNullForbidden() {
     try {
       multimap().putAll(null, Collections.singletonList(v3()));

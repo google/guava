@@ -102,6 +102,9 @@ public class ListMultimapTestSuiteBuilder<K, V>
     if (derivedFeatures.contains(CollectionFeature.SUPPORTS_ADD)) {
       derivedFeatures.add(ListFeature.SUPPORTS_ADD_WITH_INDEX);
     }
+    if (derivedFeatures.contains(CollectionFeature.SUPPORTS_REMOVE)) {
+      derivedFeatures.add(ListFeature.SUPPORTS_REMOVE_WITH_INDEX);
+    }
     if (derivedFeatures.contains(CollectionFeature.GENERAL_PURPOSE)) {
       derivedFeatures.add(ListFeature.GENERAL_PURPOSE);
     }

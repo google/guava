@@ -50,7 +50,7 @@ public class MultisetsCollectionTest extends TestCase {
                 CollectionSize.ANY,
                 CollectionFeature.KNOWN_ORDER,
                 CollectionFeature.SERIALIZABLE,
-                CollectionFeature.ALLOWS_NULL_QUERIES)
+                CollectionFeature.ALLOWS_NULL_VALUES)
             .named("Multisets.unmodifiableMultiset[LinkedHashMultiset]")
             .createTestSuite());
 

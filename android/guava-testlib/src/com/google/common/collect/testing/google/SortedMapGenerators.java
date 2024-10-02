@@ -98,7 +98,7 @@ public class SortedMapGenerators {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       for (Object o : elements) {
         @SuppressWarnings("unchecked")
-        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        Entry<String, Integer> entry = (Entry<String, Integer>) checkNotNull(o);
         builder.put(entry);
       }
       return builder.build().entrySet().asList();
