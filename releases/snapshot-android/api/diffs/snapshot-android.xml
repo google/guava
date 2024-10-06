@@ -36837,6 +36837,12 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="copyOf" return="com.google.common.collect.TreeRangeMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
+    </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
