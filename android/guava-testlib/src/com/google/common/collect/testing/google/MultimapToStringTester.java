@@ -14,18 +14,21 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
-import static com.google.common.collect.testing.features.CollectionSize.ONE;
-import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
+import org.junit.Ignore;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionFeature;
+import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
 import com.google.common.collect.testing.features.CollectionSize;
+import static com.google.common.collect.testing.features.CollectionSize.ONE;
+import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.collect.testing.features.MapFeature;
-import org.junit.Ignore;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 /**
  * Tester for {@code Multimap.toString()}.
@@ -66,6 +69,14 @@ public class MultimapToStringTester<K, V> extends AbstractMultimapTester<K, V, M
 
   @CollectionFeature.Require(absent = NON_STANDARD_TOSTRING)
   public void testToStringMatchesAsMap() {
-    assertEquals(multimap().asMap().toString(), multimap().toString());
+    assertEquals(sortedToString(multimap().asMap().toString()), sortedToString(multimap().toString()));
+  }
+
+  private String sortedToString(String mapToString) {
+    String content = mapToString.substring(1, mapToString.length() - 1);
+    Pattern pattern = Pattern.compile(", (?![^\\{]*\\})");
+    String[] entries = pattern.split(content);
+    Arrays.sort(entries);
+    return "{" + String.join(", ", entries) + "}";
   }
 }
