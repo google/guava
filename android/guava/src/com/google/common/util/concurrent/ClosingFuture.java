@@ -1113,6 +1113,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *     completed normally; {@code true} otherwise
    */
   @CanIgnoreReturnValue
+  @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
   public boolean cancel(boolean mayInterruptIfRunning) {
     logger.get().log(FINER, "cancelling {0}", this);
     boolean cancelled = future.cancel(mayInterruptIfRunning);

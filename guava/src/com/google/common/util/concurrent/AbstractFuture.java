@@ -849,6 +849,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * @since 19.0
    */
   @CanIgnoreReturnValue
+  @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
     @RetainedLocalRef Object localValue = value;

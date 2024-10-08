@@ -1043,6 +1043,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       delegateIndex = delegates.size();
     }
 
+    @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
     private void recordCompletion() {
       if (incompleteOutputCount.decrementAndGet() == 0 && wasCancelled) {
         for (ListenableFuture<? extends T> toCancel : inputFutures) {
