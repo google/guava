@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -442,7 +443,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
-    Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     if (localValue != null & !(localValue instanceof SetFuture)) {
       return getDoneValue(localValue);
     }
@@ -550,7 +551,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
-    Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     if (localValue != null & !(localValue instanceof SetFuture)) {
       return getDoneValue(localValue);
     }
@@ -609,13 +610,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
   @Override
   public boolean isDone() {
-    final Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     return localValue != null & !(localValue instanceof SetFuture);
   }
 
   @Override
   public boolean isCancelled() {
-    final Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     return localValue instanceof Cancellation;
   }
 
@@ -638,7 +639,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @CanIgnoreReturnValue
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
-    Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     boolean rValue = false;
     if (localValue == null | localValue instanceof SetFuture) {
       // Try to delay allocating the exception. At this point we may still lose the CAS, but it is
@@ -724,7 +725,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * @since 14.0
    */
   protected final boolean wasInterrupted() {
-    final Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     return (localValue instanceof Cancellation) && ((Cancellation) localValue).wasInterrupted;
   }
 
@@ -846,7 +847,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
-    Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     if (localValue == null) {
       if (future.isDone()) {
         Object value = getFutureValue(future);
@@ -1109,9 +1110,9 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @CheckForNull
   protected final Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {
-      Object obj = value;
-      if (obj instanceof Failure) {
-        return ((Failure) obj).exception;
+      @RetainedLocalRef Object localValue = value;
+      if (localValue instanceof Failure) {
+        return ((Failure) localValue).exception;
       }
     }
     return null;
@@ -1204,7 +1205,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     builder.append("PENDING");
 
-    Object localValue = value;
+    @RetainedLocalRef Object localValue = value;
     if (localValue instanceof SetFuture) {
       builder.append(", setFuture=[");
       appendUserObject(builder, ((SetFuture) localValue).future);
