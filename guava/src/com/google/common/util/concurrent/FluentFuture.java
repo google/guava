@@ -412,4 +412,15 @@ public abstract class FluentFuture<V extends @Nullable Object>
   public final void addCallback(FutureCallback<? super V> callback, Executor executor) {
     Futures.addCallback(this, callback, executor);
   }
+
+  /**
+   * Returns a {@code ListenableFuture} whose result is set from this future when it
+   * completes. Cancelling this future will also cancel the returned future, but cancelling
+   * the returned future will have no effect on this future.
+   *
+   * @since NEXT
+   */
+  public final FluentFuture<V> blockCancellation() {
+    return (FluentFuture<V>) Futures.nonCancellationPropagating(this);
+  }
 }
