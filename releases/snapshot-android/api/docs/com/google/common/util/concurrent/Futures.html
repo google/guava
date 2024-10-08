@@ -1105,7 +1105,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>addCallback</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1063">addCallback</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1064">addCallback</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
                                                                       <a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback,
                                                                       java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Registers separate success and failure callbacks to be run when the <code>Future</code>'s
@@ -1158,7 +1158,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>getDone</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1130">getDone</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1131">getDone</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)
                                                         throws java.util.concurrent.ExecutionException</pre>
 <div class="block">Returns the result of the input <code>Future</code>, which must have already completed.
 
@@ -1189,7 +1189,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>getChecked</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1190">getChecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1191">getChecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                                                                                                       java.lang.Class&lt;X&gt;&nbsp;exceptionClass)
                                                                                                throws X extends java.lang.Exception</pre>
 <div class="block">Returns the result of <code>Future.get()</code>, converting most exceptions to a new instance of the
@@ -1245,7 +1245,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>getChecked</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1242">getChecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;X extends java.lang.Exception&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1243">getChecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                                                                                                       java.lang.Class&lt;X&gt;&nbsp;exceptionClass,
                                                                                                       long&nbsp;timeout,
                                                                                                       java.util.concurrent.TimeUnit&nbsp;unit)
@@ -1303,7 +1303,7 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>getUnchecked</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1286">getUnchecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)</pre>
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1287">getUnchecked</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Returns the result of calling <code>Future.get()</code> uninterruptibly on a task known not to throw
  a checked exception. This makes <code>Future</code> more suitable for lightweight, fast-running
  tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior
