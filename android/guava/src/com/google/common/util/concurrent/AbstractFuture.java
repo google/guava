@@ -592,9 +592,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
     // unmeasurable (comparing done AbstractFutures with immediateFuture)
     if (obj instanceof Cancellation) {
-      throw cancellationExceptionWithCause("Task was cancelled.", ((Cancellation) obj).cause);
+      Cancellation cancellation = (Cancellation) obj;
+      Throwable cause = cancellation.cause;
+      throw cancellationExceptionWithCause("Task was cancelled.", cause);
     } else if (obj instanceof Failure) {
-      throw new ExecutionException(((Failure) obj).exception);
+      Failure failure = (Failure) obj;
+      Throwable exception = failure.exception;
+      throw new ExecutionException(exception);
     } else if (obj == NULL) {
       /*
        * It's safe to return null because we would only have stored it in the first place if it were
