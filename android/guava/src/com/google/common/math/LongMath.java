@@ -547,7 +547,6 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
-  @GwtIncompatible // TODO
   // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedSubtract(long a, long b) {

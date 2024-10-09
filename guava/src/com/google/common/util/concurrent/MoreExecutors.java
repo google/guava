@@ -680,6 +680,7 @@ public final class MoreExecutors {
   @SuppressWarnings({
     "GoodTime", // should accept a java.time.Duration
     "CatchingUnchecked", // sneaky checked exception
+    "Interruption", // We copy AbstractExecutorService.invokeAny. Maybe we shouldn't: b/227335009.
   })
   @J2ktIncompatible
   @GwtIncompatible

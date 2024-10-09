@@ -76,6 +76,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   @Override
+  @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
   protected final void afterDone() {
     super.afterDone();
 
