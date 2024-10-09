@@ -14,22 +14,25 @@
 
 package com.google.common.collect.testing.testers;
 
-import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
-import static com.google.common.collect.testing.features.CollectionSize.ONE;
-import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.features.CollectionFeature;
-import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.features.MapFeature;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.junit.Ignore;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.testing.AbstractMapTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
+import com.google.common.collect.testing.features.CollectionSize;
+import static com.google.common.collect.testing.features.CollectionSize.ONE;
+import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import com.google.common.collect.testing.features.MapFeature;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 /**
  * A generic JUnit test which tests {@code toString()} operations on a map. Can't be invoked
@@ -77,7 +80,7 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionFeature.Require(absent = NON_STANDARD_TOSTRING)
   public void testToString_formatting() {
     assertEquals(
-        "map.toString() incorrect", expectedToString(getMap().entrySet()), getMap().toString());
+        "map.toString() incorrect", expectedToString(getMap().entrySet()), sortedToString(getMap().toString()));
   }
 
   private String expectedToString(Set<Entry<K, V>> entries) {
@@ -85,6 +88,14 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
     for (Entry<K, V> entry : entries) {
       reference.put(entry.getKey(), entry.getValue());
     }
-    return reference.toString();
+    return sortedToString(reference.toString());
+  }
+
+  private String sortedToString(String mapToString) {
+    String content = mapToString.substring(1, mapToString.length() - 1);
+    Pattern pattern = Pattern.compile(", (?![^\\{]*\\})");
+    String[] entries = pattern.split(content);
+    Arrays.sort(entries);
+    return "{" + String.join(", ", entries) + "}";
   }
 }
