@@ -3104,6 +3104,23 @@
  @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).]]>
       </doc>
     </method>
+    <method name="omitEmptyValues" return="com.google.common.base.MoreObjects.ToStringHelper"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Configures the {@link ToStringHelper} so {@link #toString()} will ignore properties with
+ empty values. The order of calling this method, relative to the {@code add()}/{@code
+ addValue()} methods, is not significant.
+
+ <p><b>Note:</b> in general, code should assume that the string form returned by
+ `ToStringHelper` for a given object may change. In particular, the list of types which are
+ checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
+ Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
