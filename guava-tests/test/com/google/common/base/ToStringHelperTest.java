@@ -20,9 +20,16 @@ import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
+import java.nio.CharBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import junit.framework.TestCase;
 
 /**
@@ -317,11 +324,30 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_oneField() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass()).omitEmptyValues().add("field1", "").toString();
+    assertEquals("TestClass{}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyFieldsFirstNull() {
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
             .omitNullValues()
             .add("field1", null)
+            .add("field2", "Googley")
+            .add("field3", "World")
+            .toString();
+    assertEquals("TestClass{field2=Googley, field3=World}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_manyFieldsFirstEmpty() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .add("field1", "")
             .add("field2", "Googley")
             .add("field3", "World")
             .toString();
@@ -341,6 +367,18 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_manyFieldsOmitAfterEmpty() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .add("field1", "")
+            .add("field2", "Googley")
+            .add("field3", "World")
+            .omitEmptyValues()
+            .toString();
+    assertEquals("TestClass{field2=Googley, field3=World}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyFieldsLastNull() {
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
@@ -350,6 +388,25 @@ public class ToStringHelperTest extends TestCase {
             .add("field3", null)
             .toString();
     assertEquals("TestClass{field1=Hello, field2=Googley}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_manyFieldsLastEmpty() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .add("field1", "Hello")
+            .add("field2", "Googley")
+            .add("field3", "")
+            .toString();
+    assertEquals("TestClass{field1=Hello, field2=Googley}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitNullValues_oneValue() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass()).omitEmptyValues().addValue("").toString();
+    assertEquals("TestClass{}", toTest);
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
@@ -372,6 +429,18 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_manyValuesFirstEmpty() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .addValue("")
+            .addValue("Googley")
+            .addValue("World")
+            .toString();
+    assertEquals("TestClass{Googley, World}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_manyValuesLastNull() {
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
@@ -379,6 +448,18 @@ public class ToStringHelperTest extends TestCase {
             .addValue("Hello")
             .addValue("Googley")
             .addValue(null)
+            .toString();
+    assertEquals("TestClass{Hello, Googley}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_manyValuesLastEmpty() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .addValue("Hello")
+            .addValue("Googley")
+            .addValue("")
             .toString();
     assertEquals("TestClass{Hello, Googley}", toTest);
   }
@@ -405,6 +486,27 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_differentOrder() {
+    String expected = "TestClass{field1=Hello, field2=Googley, field3=World}";
+    String toTest1 =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .add("field1", "Hello")
+            .add("field2", "Googley")
+            .add("field3", "World")
+            .toString();
+    String toTest2 =
+        MoreObjects.toStringHelper(new TestClass())
+            .add("field1", "Hello")
+            .add("field2", "Googley")
+            .omitEmptyValues()
+            .add("field3", "World")
+            .toString();
+    assertEquals(expected, toTest1);
+    assertEquals(expected, toTest2);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringOmitNullValues_canBeCalledManyTimes() {
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
@@ -417,6 +519,72 @@ public class ToStringHelperTest extends TestCase {
             .add("field3", "World")
             .toString();
     assertEquals("TestClass{field1=Hello, field2=Googley, field3=World}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_canBeCalledManyTimes() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .omitEmptyValues()
+            .add("field1", "Hello")
+            .omitEmptyValues()
+            .add("field2", "Googley")
+            .omitEmptyValues()
+            .add("field3", "World")
+            .toString();
+    assertEquals("TestClass{field1=Hello, field2=Googley, field3=World}", toTest);
+  }
+
+  @GwtIncompatible // Class names are obfuscated in GWT
+  public void testToStringOmitEmptyValues_allEmptyTypes() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            // CharSequences
+            .add("field1", "")
+            .add("field2", new StringBuilder())
+            // nio CharBuffer (implements CharSequence) is tested separately below
+            // Collections and Maps
+            .add("field11", Arrays.asList("Hello"))
+            .add("field12", new ArrayList<>())
+            .add("field13", new HashMap<>())
+            // Optionals
+            .add("field21", java.util.Optional.of("Googley"))
+            .add("field22", java.util.Optional.empty())
+            .add("field23", OptionalInt.empty())
+            .add("field24", OptionalLong.empty())
+            .add("field25", OptionalDouble.empty())
+            .add("field26", Optional.of("World"))
+            .add("field27", Optional.absent())
+            // Arrays
+            .add("field31", new Object[] {"!!!"})
+            .add("field32", new boolean[0])
+            .add("field33", new byte[0])
+            .add("field34", new char[0])
+            .add("field35", new short[0])
+            .add("field36", new int[0])
+            .add("field37", new long[0])
+            .add("field38", new float[0])
+            .add("field39", new double[0])
+            .add("field40", new Object[0])
+            .toString();
+    assertEquals(
+        "TestClass{field11=[Hello], field21=Optional[Googley], field26=Optional.of(World),"
+            + " field31=[!!!]}",
+        toTest);
+  }
+
+  @J2ktIncompatible // J2kt CharBuffer does not implement CharSequence so not recognized as empty
+  @GwtIncompatible // CharBuffer not available
+  public void testToStringOmitEmptyValues_charBuffer() {
+    String toTest =
+        MoreObjects.toStringHelper(new TestClass())
+            .omitEmptyValues()
+            .add("field1", "Hello")
+            .add("field2", CharBuffer.allocate(0))
+            .toString();
+    assertEquals("TestClass{field1=Hello}", toTest);
   }
 
   public void testToStringHelperWithArrays() {
