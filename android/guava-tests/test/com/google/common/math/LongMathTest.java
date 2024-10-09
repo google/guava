@@ -587,7 +587,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
