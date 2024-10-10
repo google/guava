@@ -177,8 +177,8 @@ public final class MoreObjects {
      * empty values. The order of calling this method, relative to the {@code add()}/{@code
      * addValue()} methods, is not significant.
      *
-     * <p><b>Note:</b> in general, code should assume that the string form returned by
-     * `ToStringHelper` for a given object may change. In particular, the list of types which are
+     * <p><b>Note:</b> in general, code should assume that the string form returned by {@code
+     * ToStringHelper} for a given object may change. In particular, the list of types which are
      * checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
      * Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
      *
