@@ -3115,8 +3115,8 @@
  empty values. The order of calling this method, relative to the {@code add()}/{@code
  addValue()} methods, is not significant.
 
- <p><b>Note:</b> in general, code should assume that the string form returned by
- `ToStringHelper` for a given object may change. In particular, the list of types which are
+ <p><b>Note:</b> in general, code should assume that the string form returned by {@code
+ ToStringHelper} for a given object may change. In particular, the list of types which are
  checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
  Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
 
@@ -39113,8 +39113,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -39139,8 +39139,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -39168,8 +39168,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -39193,8 +39193,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -40632,8 +40632,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40653,9 +40653,9 @@
 
  <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
 
- <p>If {@code node} is removed from the network after this method is called, the `Set` returned
- by this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
- any way.
+ <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+ returned by this method will be invalidated, and will throw {@code IllegalStateException} if it
+ is accessed in any way.
 
  @throws IllegalArgumentException if {@code node} is not an element of this network]]>
       </doc>
@@ -40679,8 +40679,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40705,8 +40705,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40734,8 +40734,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40762,8 +40762,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40844,8 +40844,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code edge} is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -40877,8 +40877,8 @@
  exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code nodeU} or {@code nodeV} are re-added to the network after having been removed,
        {@code view}'s behavior is undefined
@@ -40910,8 +40910,8 @@
  exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if either endpoint is re-added to the network after having been removed, {@code view}'s
        behavior is undefined
@@ -41519,8 +41519,8 @@
  structure being traversed is, in addition to being a tree/forest, also defined <a
  href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursively</a>.
  This is because the {@code forTree()}-based implementations don't keep track of visited nodes,
- and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves
- both time and space versus traversing the same graph using {@code forGraph()}.
+ and therefore don't need to call {@code equals()} or {@code hashCode()} on the node objects;
+ this saves both time and space versus traversing the same graph using {@code forGraph()}.
 
  <p>Providing a graph to be traversed for which there is more than one path from the start
  node(s) to any node may lead to:
@@ -41860,8 +41860,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -41881,9 +41881,9 @@
 
  <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
 
- <p>If {@code node} is removed from the graph after this method is called, the `Set` returned by
- this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
- any way.
+ <p>If {@code node} is removed from the graph after this method is called, the {@code Set}
+ returned by this method will be invalidated, and will throw {@code IllegalStateException} if it
+ is accessed in any way.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
@@ -41907,8 +41907,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -41932,8 +41932,8 @@
  IllegalStateException} if it is accessed in any way, with the following exceptions:
 
  <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-       involving {@code view} will throw)
+   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+       expression involving {@code view} will throw)
    <li>{@code hashCode()} does not throw
    <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
        behavior is undefined
@@ -70715,7 +70715,7 @@
 
  <p>{@linkplain Executor#execute executed} tasks have a happens-before order as defined in the
  Java Language Specification. Tasks execute with the same happens-before order that the function
- calls to {@link Executor#execute `execute()`} that submitted those tasks had.
+ calls to {@link Executor#execute execute()} that submitted those tasks had.
 
  <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
  turn, and does not create any threads of its own.

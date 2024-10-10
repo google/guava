@@ -123,8 +123,8 @@
 <span class="sourceLineNo">114</span><a id="line.114">   * structure being traversed is, in addition to being a tree/forest, also defined &lt;a</a>
 <span class="sourceLineNo">115</span><a id="line.115">   * href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness"&gt;recursively&lt;/a&gt;.</a>
 <span class="sourceLineNo">116</span><a id="line.116">   * This is because the {@code forTree()}-based implementations don't keep track of visited nodes,</a>
-<span class="sourceLineNo">117</span><a id="line.117">   * and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves</a>
-<span class="sourceLineNo">118</span><a id="line.118">   * both time and space versus traversing the same graph using {@code forGraph()}.</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * and therefore don't need to call {@code equals()} or {@code hashCode()} on the node objects;</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * this saves both time and space versus traversing the same graph using {@code forGraph()}.</a>
 <span class="sourceLineNo">119</span><a id="line.119">   *</a>
 <span class="sourceLineNo">120</span><a id="line.120">   * &lt;p&gt;Providing a graph to be traversed for which there is more than one path from the start</a>
 <span class="sourceLineNo">121</span><a id="line.121">   * node(s) to any node may lead to:</a>

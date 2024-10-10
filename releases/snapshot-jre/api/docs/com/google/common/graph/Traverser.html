@@ -321,8 +321,8 @@ extends java.lang.Object</pre>
  <p><code>forTree()</code> is especially useful (versus <code>forGraph()</code>) in cases where the data
  structure being traversed is, in addition to being a tree/forest, also defined <a href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursively</a>.
  This is because the <code>forTree()</code>-based implementations don't keep track of visited nodes,
- and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves
- both time and space versus traversing the same graph using <code>forGraph()</code>.
+ and therefore don't need to call <code>equals()</code> or <code>hashCode()</code> on the node objects;
+ this saves both time and space versus traversing the same graph using <code>forGraph()</code>.
 
  <p>Providing a graph to be traversed for which there is more than one path from the start
  node(s) to any node may lead to:
