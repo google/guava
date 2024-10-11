@@ -170,8 +170,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -187,9 +187,9 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
    *
-   * <p>If {@code node} is removed from the network after this method is called, the `Set` returned
-   * by this method will be invalidated, and will throw `IllegalStateException` if it is accessed in
-   * any way.
+   * <p>If {@code node} is removed from the network after this method is called, the {@code Set}
+   * returned by this method will be invalidated, and will throw {@code IllegalStateException} if it
+   * is accessed in any way.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
@@ -210,8 +210,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -233,8 +233,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -258,8 +258,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -282,8 +282,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -344,8 +344,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code edge} is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
@@ -372,8 +372,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code nodeU} or {@code nodeV} are re-added to the network after having been removed,
    *       {@code view}'s behavior is undefined
@@ -401,8 +401,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if either endpoint is re-added to the network after having been removed, {@code view}'s
    *       behavior is undefined
