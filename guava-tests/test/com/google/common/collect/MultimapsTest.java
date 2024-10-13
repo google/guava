@@ -140,6 +140,31 @@ public class MultimapsTest extends TestCase {
         .expectCollects(filled, "banana", "apple", "carrot", "asparagus", "cherry");
   }
 
+  public void testFlatteningKeysToMultimap() {
+    Collector<String, ?, ListMultimap<Character, String>> collector =
+        Multimaps.flatteningToMultimap(
+            str -> str.chars().mapToObj(c -> (char) c),
+            Function.identity(),
+            MultimapBuilder.linkedHashKeys().arrayListValues()::build);
+    BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
+            .and(Equivalence.equals());
+    ListMultimap<Character, String> empty =
+        MultimapBuilder.linkedHashKeys().arrayListValues().build();
+    ListMultimap<Character, String> filled =
+        MultimapBuilder.linkedHashKeys().arrayListValues().build();
+    filled.putAll('f', Arrays.asList("find", "fine"));
+    filled.putAll('i', Arrays.asList("find", "fine", "wine"));
+    filled.putAll('n', Arrays.asList("find", "fine", "wine"));
+    filled.put('d', "find");
+    filled.putAll('e', Arrays.asList("fine", "wine"));
+    filled.put('w', "wine");
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(empty)
+        .expectCollects(filled, "find", "fine", "wine");
+  }
+
   @SuppressWarnings("deprecation")
   public void testUnmodifiableListMultimapShortCircuit() {
     ListMultimap<String, Integer> mod = ArrayListMultimap.create();
