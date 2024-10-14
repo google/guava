@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.48">ThreadFactoryBuilder</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.52">ThreadFactoryBuilder</a>
 extends java.lang.Object</pre>
 <div class="block">A ThreadFactory builder, providing any combination of these features:
 
@@ -146,7 +146,11 @@ extends java.lang.Object</pre>
  </ul>
 
  <p>If no backing thread factory is provided, a default backing thread factory is used as if by
- calling <code>setThreadFactory(</code><code>Executors.defaultThreadFactory()</code><code>)</code>.</div>
+ calling <code>setThreadFactory(</code><code>Executors.defaultThreadFactory()</code><code>)</code>.
+
+ <p><b>Java 21+ users:</b> consider using the <code>Thread.Builder</code> interface instead. E.g.,
+ instead of <code>new ThreadFactoryBuilder().setPriority(priority).setDaemon(false).build()</code>, use
+ <code>Thread.ofPlatform().priority(priority).daemon(false).factory()</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0</dd>
@@ -269,7 +273,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ThreadFactoryBuilder</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.59">ThreadFactoryBuilder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.63">ThreadFactoryBuilder</a>()</pre>
 <div class="block">Creates a new <code>ThreadFactory</code> builder.</div>
 </li>
 </ul>
@@ -290,7 +294,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setNameFormat</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.72">setNameFormat</a>&#8203;(java.lang.String&nbsp;nameFormat)</pre>
+public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.76">setNameFormat</a>&#8203;(java.lang.String&nbsp;nameFormat)</pre>
 <div class="block">Sets the naming format to use when naming threads (<code>Thread.setName(java.lang.String)</code>) which are created
  with this ThreadFactory.</div>
 <dl>
@@ -312,7 +316,7 @@ public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>setDaemon</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.85">setDaemon</a>&#8203;(boolean&nbsp;daemon)</pre>
+public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.89">setDaemon</a>&#8203;(boolean&nbsp;daemon)</pre>
 <div class="block">Sets daemon or not for new threads created with this ThreadFactory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -329,7 +333,7 @@ public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>setPriority</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.100">setPriority</a>&#8203;(int&nbsp;priority)</pre>
+public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.104">setPriority</a>&#8203;(int&nbsp;priority)</pre>
 <div class="block">Sets the priority for new threads created with this ThreadFactory.
 
  <p><b>Warning:</b> relying on the thread scheduler is <a href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.</div>
@@ -348,7 +352,7 @@ public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>setUncaughtExceptionHandler</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.125">setUncaughtExceptionHandler</a>&#8203;(java.lang.Thread.UncaughtExceptionHandler&nbsp;uncaughtExceptionHandler)</pre>
+public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.129">setUncaughtExceptionHandler</a>&#8203;(java.lang.Thread.UncaughtExceptionHandler&nbsp;uncaughtExceptionHandler)</pre>
 <div class="block">Sets the <code>Thread.UncaughtExceptionHandler</code> for new threads created with this ThreadFactory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -366,7 +370,7 @@ public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>setThreadFactory</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.141">setThreadFactory</a>&#8203;(java.util.concurrent.ThreadFactory&nbsp;backingThreadFactory)</pre>
+public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.145">setThreadFactory</a>&#8203;(java.util.concurrent.ThreadFactory&nbsp;backingThreadFactory)</pre>
 <div class="block">Sets the backing <code>ThreadFactory</code> for new threads created with this ThreadFactory. Threads
  will be created by invoking #newThread(Runnable) on this backing <code>ThreadFactory</code>.</div>
 <dl>
@@ -386,7 +390,7 @@ public&nbsp;<a href="ThreadFactoryBuilder.html" title="class in com.google.commo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.154">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line.158">build</a>()</pre>
 <div class="block">Returns a new thread factory using the options supplied during the building process. After
  building, it is still possible to change the options used to build the ThreadFactory and/or
  build again. State is not shared amongst built instances.</div>
