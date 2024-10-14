@@ -239,7 +239,8 @@ final class SubscriberRegistry {
     try {
       return flattenHierarchyCache.getUnchecked(concreteClass);
     } catch (UncheckedExecutionException e) {
-      throw Throwables.propagate(e.getCause());
+      Throwables.throwIfUnchecked(e);
+      throw new RuntimeException(e.getCause());
     }
   }
 

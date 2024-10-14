@@ -808,7 +808,8 @@ public final class MoreExecutors {
     } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throw Throwables.propagate(e.getCause());
+      Throwables.throwIfUnchecked(e);
+      throw new RuntimeException(e.getCause());
     }
   }
 
