@@ -139,7 +139,7 @@ public final class ForwardingWrapperTester {
             interfaceType,
             new AbstractInvocationHandler() {
               @Override
-              protected Object handleInvocation(Object p, Method m, Object[] args)
+              protected Object handleInvocation(Object p, Method m, @Nullable Object[] args)
                   throws Throwable {
                 throw exception;
               }

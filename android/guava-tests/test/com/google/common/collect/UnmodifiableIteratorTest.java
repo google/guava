@@ -27,6 +27,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableIteratorTest extends TestCase {
 
   @SuppressWarnings("DoNotCall")

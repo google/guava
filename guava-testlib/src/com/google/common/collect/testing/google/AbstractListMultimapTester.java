@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import java.util.Arrays;
 import java.util.Collection;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -29,7 +30,9 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class AbstractListMultimapTester<K, V>
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
+@ElementTypesAreNonnullByDefault
+public class AbstractListMultimapTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 
   @Override
@@ -38,7 +41,7 @@ public class AbstractListMultimapTester<K, V>
   }
 
   @Override
-  protected void assertGet(K key, Collection<V> values) {
+  protected void assertGet(K key, Collection<? extends V> values) {
     assertEqualInOrder(values, multimap().get(key));
 
     if (!values.isEmpty()) {

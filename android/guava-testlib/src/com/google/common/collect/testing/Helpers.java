@@ -20,6 +20,7 @@ import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -40,8 +41,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
@@ -88,13 +87,13 @@ public class Helpers {
 
   public static void assertEmpty(Iterable<?> iterable) {
     if (!isEmpty(iterable)) {
-      Assert.fail("Not true that " + iterable + " is empty");
+      fail("Not true that " + iterable + " is empty");
     }
   }
 
   public static void assertEmpty(Map<?, ?> map) {
     if (!map.isEmpty()) {
-      Assert.fail("Not true that " + map + " is empty");
+      fail("Not true that " + map + " is empty");
     }
   }
 
@@ -104,7 +103,7 @@ public class Helpers {
 
     while (expectedIter.hasNext() && actualIter.hasNext()) {
       if (!equal(expectedIter.next(), actualIter.next())) {
-        Assert.fail(
+        fail(
             "contents were not equal and in the same order: "
                 + "expected = "
                 + expected
@@ -115,7 +114,7 @@ public class Helpers {
 
     if (expectedIter.hasNext() || actualIter.hasNext()) {
       // actual either had too few or too many elements
-      Assert.fail(
+      fail(
           "contents were not equal and in the same order: "
               + "expected = "
               + expected
@@ -139,7 +138,7 @@ public class Helpers {
     // Yeah it's n^2.
     for (Object object : exp) {
       if (!act.remove(object)) {
-        Assert.fail(
+        fail(
             "did not contain expected element "
                 + object
                 + ", "
@@ -170,7 +169,7 @@ public class Helpers {
     }
 
     if (!contained) {
-      Assert.fail("Not true that " + actual + " contains " + expected);
+      fail("Not true that " + actual + " contains " + expected);
     }
   }
 
@@ -182,7 +181,7 @@ public class Helpers {
     }
 
     if (!expectedList.isEmpty()) {
-      Assert.fail("Not true that " + actual + " contains all of " + Arrays.asList(expected));
+      fail("Not true that " + actual + " contains all of " + Arrays.asList(expected));
     }
   }
 
@@ -196,7 +195,7 @@ public class Helpers {
     return modified;
   }
 
-  static <T> Iterable<T> reverse(List<T> list) {
+  static <T extends @Nullable Object> Iterable<T> reverse(List<T> list) {
     return new Iterable<T>() {
       @Override
       public Iterator<T> iterator() {
@@ -221,7 +220,7 @@ public class Helpers {
     };
   }
 
-  static <T> Iterator<T> cycle(Iterable<T> iterable) {
+  static <T extends @Nullable Object> Iterator<T> cycle(Iterable<T> iterable) {
     return new Iterator<T>() {
       Iterator<T> iterator = Collections.<T>emptySet().iterator();
 
@@ -245,17 +244,11 @@ public class Helpers {
     };
   }
 
-  static <T> T get(Iterator<T> iterator, int position) {
+  static <T extends @Nullable Object> T get(Iterator<T> iterator, int position) {
     for (int i = 0; i < position; i++) {
       iterator.next();
     }
     return iterator.next();
-  }
-
-  static void fail(Throwable cause, Object message) {
-    AssertionFailedError assertionFailedError = new AssertionFailedError(String.valueOf(message));
-    assertionFailedError.initCause(cause);
-    throw assertionFailedError;
   }
 
   private static class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
@@ -269,14 +262,14 @@ public class Helpers {
     @Override
     @SuppressWarnings("unchecked") // no less safe than putting it in the map!
     public int compare(Entry<K, V> a, Entry<K, V> b) {
-        return (keyComparator == null)
-            ? ((Comparable) a.getKey()).compareTo(b.getKey())
-            : keyComparator.compare(a.getKey(), b.getKey());
+      return (keyComparator == null)
+          ? ((Comparable) a.getKey()).compareTo(b.getKey())
+          : keyComparator.compare(a.getKey(), b.getKey());
     }
   }
 
-  public static <K, V> Comparator<Entry<K, V>> entryComparator(
-      @Nullable Comparator<? super K> keyComparator) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      Comparator<Entry<K, V>> entryComparator(@Nullable Comparator<? super K> keyComparator) {
     return new EntryComparator<K, V>(keyComparator);
   }
 
@@ -287,7 +280,7 @@ public class Helpers {
    *
    * @see #testComparator(Comparator, List)
    */
-  public static <T> void testComparator(
+  public static <T extends @Nullable Object> void testComparator(
       Comparator<? super T> comparator, T... valuesInExpectedOrder) {
     testComparator(comparator, Arrays.asList(valuesInExpectedOrder));
   }
@@ -468,19 +461,12 @@ public class Helpers {
     return list;
   }
 
-  private static final Comparator<Comparable> NATURAL_ORDER =
-      new Comparator<Comparable>() {
-        @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
-        @Override
-        public int compare(Comparable left, Comparable right) {
-          return left.compareTo(right);
-        }
-      };
-
-  @J2ktIncompatible
-  public static <K extends Comparable, V> Iterable<Entry<K, V>> orderEntriesByKey(
-      List<Entry<K, V>> insertionOrder) {
-    sort(insertionOrder, Helpers.<K, V>entryComparator(NATURAL_ORDER));
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
+  public static <K extends Comparable, V extends @Nullable Object>
+      Iterable<Entry<K, V>> orderEntriesByKey(List<Entry<K, V>> insertionOrder) {
+    @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
+    Comparator<? super K> keyComparator = (Comparator<? super K>) Comparable::compareTo;
+    sort(insertionOrder, Helpers.entryComparator(keyComparator));
     return insertionOrder;
   }
 

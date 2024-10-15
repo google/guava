@@ -33,6 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Isaac Shum
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, String> {
   public AbstractMapsTransformValuesTest() {
     super(false, true, false, true, true);
@@ -114,14 +115,14 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {
-    Map<String, String> underlying = Maps.newHashMap();
+    Map<String, @Nullable String> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", "");
 
     Map<String, Boolean> map =
         Maps.transformValues(
             underlying,
-            new Function<String, Boolean>() {
+            new Function<@Nullable String, Boolean>() {
               @Override
               public Boolean apply(@Nullable String from) {
                 return from == null;
@@ -248,11 +249,12 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
 
     Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
     assertTrue(entries.contains(Maps.immutableEntry("a", true)));
-    assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
-    assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));
+    assertTrue(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("b", null)));
+    assertTrue(
+        entries.contains(Maps.<@Nullable String, @Nullable Boolean>immutableEntry(null, null)));
 
-    assertFalse(entries.contains(Maps.immutableEntry("c", (Boolean) null)));
-    assertFalse(entries.contains(Maps.immutableEntry((String) null, true)));
+    assertFalse(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("c", null)));
+    assertFalse(entries.contains(Maps.<@Nullable String, Boolean>immutableEntry(null, true)));
   }
 
   @Override

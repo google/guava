@@ -21,6 +21,7 @@ import com.google.common.collect.TableCollectionTest.ColumnTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableRowSortedTableColumnTest extends ColumnTests {
   public UnmodifiableRowSortedTableColumnTest() {
     super(false, false, false, false, false);

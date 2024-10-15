@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_AD
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -39,9 +40,9 @@ import org.junit.Ignore;
  *
  * @author Chris Povirk
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
@@ -154,6 +155,7 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * Returns the {@link Method} instance for {@link #testAddAtIndex_nullSupported()} so that tests
    * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
     return Helpers.getMethod(ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");

@@ -40,6 +40,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   public void testToString_minimal() {
     assertNotNull("toString() should not return null", getMap().toString());

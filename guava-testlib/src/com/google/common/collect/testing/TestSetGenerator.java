@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Creates sets, containing sample elements, to be tested.
@@ -25,7 +26,8 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public interface TestSetGenerator<E> extends TestCollectionGenerator<E> {
+@ElementTypesAreNonnullByDefault
+public interface TestSetGenerator<E extends @Nullable Object> extends TestCollectionGenerator<E> {
   @Override
   Set<E> create(Object... elements);
 }

@@ -16,7 +16,8 @@
 
 package com.google.common.io;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import com.google.common.primitives.Bytes;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -92,7 +93,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     /* Read in various values NORMALLY */
     byte[] b = new byte[6];
     in.readFully(b);
-    assertEquals("r\u00C9sum\u00C9".getBytes(Charsets.ISO_8859_1), b);
+    assertEquals("r\u00C9sum\u00C9".getBytes(ISO_8859_1), b);
   }
 
   @SuppressWarnings("deprecation") // testing a deprecated method

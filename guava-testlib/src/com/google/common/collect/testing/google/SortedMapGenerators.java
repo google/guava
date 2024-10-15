@@ -42,6 +42,7 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
     @Override
@@ -79,7 +80,7 @@ public class SortedMapGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, Integer>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, Integer>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -97,7 +98,7 @@ public class SortedMapGenerators {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       for (Object o : elements) {
         @SuppressWarnings("unchecked")
-        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        Entry<String, Integer> entry = (Entry<String, Integer>) checkNotNull(o);
         builder.put(entry);
       }
       return builder.build().entrySet().asList();
@@ -116,7 +117,7 @@ public class SortedMapGenerators {
 
     @Override
     public List<String> order(List<String> insertionOrder) {
-      return Ordering.natural().sortedCopy(insertionOrder);
+      return Ordering.<String>natural().sortedCopy(insertionOrder);
     }
   }
 

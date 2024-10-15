@@ -19,6 +19,7 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -501,6 +502,7 @@ public final class InternetDomainNameTest extends TestCase {
     return InternetDomainName.from(domain);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     final NullPointerTester tester = new NullPointerTester();

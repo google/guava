@@ -22,6 +22,7 @@ import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -40,6 +41,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link TreeMultiset}.
@@ -47,8 +49,10 @@ import junit.framework.TestSuite;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -283,8 +287,8 @@ public class TreeMultisetTest extends TestCase {
   }
 
   public void testNullAcceptingComparator() throws Exception {
-    Comparator<String> comparator = Ordering.<String>natural().nullsFirst();
-    TreeMultiset<String> ms = TreeMultiset.create(comparator);
+    Comparator<@Nullable String> comparator = Ordering.<String>natural().<String>nullsFirst();
+    TreeMultiset<@Nullable String> ms = TreeMultiset.create(comparator);
 
     ms.add("b");
     ms.add(null);
@@ -295,7 +299,7 @@ public class TreeMultisetTest extends TestCase {
     assertThat(ms).containsExactly(null, null, null, "a", "b", "b").inOrder();
     assertEquals(3, ms.count(null));
 
-    SortedSet<String> elementSet = ms.elementSet();
+    SortedSet<@Nullable String> elementSet = ms.elementSet();
     assertEquals(null, elementSet.first());
     assertEquals("b", elementSet.last());
     assertEquals(comparator, elementSet.comparator());
@@ -355,6 +359,7 @@ public class TreeMultisetTest extends TestCase {
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // Reflection bug, or actual binary compatibility problem?
   public void testElementSetBridgeMethods() {

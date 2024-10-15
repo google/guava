@@ -27,6 +27,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MultimapsTransformValuesAsMapTest extends AbstractMultimapAsMapImplementsMapTest {
 
   public MultimapsTransformValuesAsMapTest() {

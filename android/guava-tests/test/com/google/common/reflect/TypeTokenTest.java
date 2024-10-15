@@ -1378,7 +1378,9 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetSubtype_genericSubtypeOfRawTypeWithFewerTypeParameters() {
+    @SuppressWarnings("rawtypes") // test of raw types
     TypeToken<List> supertype = new TypeToken<List>() {};
+    @SuppressWarnings("rawtypes") // test of raw types
     TypeToken<MySpecialList> subtype = new TypeToken<MySpecialList>() {};
     assertTrue(subtype.isSubtypeOf(supertype));
     Class<?> actualSubtype = (Class<?>) supertype.getSubtype(subtype.getRawType()).getType();
@@ -1459,8 +1461,11 @@ public class TypeTokenTest extends TestCase {
                 (TypeToken<T>) TypeToken.of(new TypeCapture<T>() {}.capture())));
   }
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testWhere() {
     assertEquals(new TypeToken<Map<String, Integer>>() {}, mapOf(String.class, Integer.class));
+    // Type inference is doomed here: int.class is the same as Integer.class, so this is comparing
+    // TypeToken<int[]> and TypeToken<Integer[]>.
     assertEquals(new TypeToken<int[]>() {}, arrayOf(int.class));
     assertEquals(int[].class, arrayOf(int.class).getRawType());
   }

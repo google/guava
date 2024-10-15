@@ -31,12 +31,12 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class SetMultimapReplaceValuesTester<K, V>
     extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesHandlesDuplicates() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v1(), v0());
 
     for (K k : sampleKeys()) {

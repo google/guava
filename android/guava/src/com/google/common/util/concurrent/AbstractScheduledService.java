@@ -458,6 +458,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     @Override
+    @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
     public void cancel(boolean mayInterruptIfRunning) {
       delegate.cancel(mayInterruptIfRunning);
     }
@@ -627,6 +628,7 @@ public abstract class AbstractScheduledService implements Service {
       }
 
       @Override
+      @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
       public void cancel(boolean mayInterruptIfRunning) {
         /*
          * Lock to ensure that a task cannot be rescheduled while a cancel is ongoing.

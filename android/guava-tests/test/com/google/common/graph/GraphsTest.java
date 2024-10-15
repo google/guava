@@ -56,10 +56,6 @@ public class GraphsTest {
   // in one class (may be a utility class for error messages).
   private static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
   private static final String ERROR_NEGATIVE_COUNT = "is non-negative";
-  private static final String ERROR_ADDED_PARALLEL_EDGE =
-      "Should not be allowed to add a parallel edge.";
-  private static final String ERROR_ADDED_SELF_LOOP =
-      "Should not be allowed to add a self-loop edge.";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
 
   @Test

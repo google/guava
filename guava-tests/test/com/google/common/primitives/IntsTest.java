@@ -166,7 +166,6 @@ public class IntsTest extends TestCase {
         .isEqualTo(3);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -183,7 +182,6 @@ public class IntsTest extends TestCase {
         .isEqualTo((int) 9);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -224,6 +222,37 @@ public class IntsTest extends TestCase {
         .isEqualTo(new int[] {(int) 1, (int) 1, (int) 1});
     assertThat(Ints.concat(ARRAY1, ARRAY234))
         .isEqualTo(new int[] {(int) 1, (int) 2, (int) 3, (int) 4});
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    int[][] arrays = new int[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    int[] sharedArray = new int[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Ints.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testToByteArray() {
@@ -539,7 +568,7 @@ public class IntsTest extends TestCase {
     assertThat(Ints.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     int[] array = {(int) 0, (int) 1};
     List<Integer> list = Ints.asList(array);

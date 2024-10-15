@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
@@ -70,7 +71,7 @@ public final class Tables {
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
-          V extends @Nullable Object,
+          V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
@@ -99,7 +100,7 @@ public final class Tables {
           T extends @Nullable Object,
           R extends @Nullable Object,
           C extends @Nullable Object,
-          V extends @Nullable Object,
+          V,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
@@ -315,29 +316,21 @@ public final class Tables {
       return original.values();
     }
 
-    // Will cast TRANSPOSE_CELL to a type that always succeeds
-    private static final Function TRANSPOSE_CELL =
-        new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
-          @Override
-          public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
-            return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());
-          }
-        };
-
-    @SuppressWarnings("unchecked")
     @Override
     Iterator<Cell<C, R, V>> cellIterator() {
-      return Iterators.transform(
-          original.cellSet().iterator(), (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
+      return Iterators.transform(original.cellSet().iterator(), Tables::transposeCell);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     Spliterator<Cell<C, R, V>> cellSpliterator() {
-      return CollectSpliterators.map(
-          original.cellSet().spliterator(),
-          (Function<Cell<R, C, V>, Cell<C, R, V>>) TRANSPOSE_CELL);
+      return CollectSpliterators.map(original.cellSet().spliterator(), Tables::transposeCell);
     }
+  }
+
+  private static <
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Cell<C, R, V> transposeCell(Cell<R, C, V> cell) {
+    return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());
   }
 
   /**
@@ -745,6 +738,7 @@ public final class Tables {
    * @return a synchronized view of the specified table
    * @since 22.0
    */
+  @J2ktIncompatible // Synchronized
   public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
     return Synchronized.table(table, null);

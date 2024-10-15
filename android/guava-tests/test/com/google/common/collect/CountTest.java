@@ -23,6 +23,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class CountTest extends TestCase {
   public void testGet() {
     assertEquals(20, new Count(20).get());

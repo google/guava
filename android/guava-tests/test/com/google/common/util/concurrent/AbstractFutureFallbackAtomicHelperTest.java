@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import sun.misc.Unsafe;
 
 /**
  * Tests our AtomicHelper fallback strategies in AbstractFuture.
@@ -53,17 +54,18 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
    * This classloader disallows {@link sun.misc.Unsafe}, which will prevent us from selecting our
    * preferred strategy {@code UnsafeAtomicHelper}.
    */
+  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final ClassLoader NO_UNSAFE =
-      getClassLoader(ImmutableSet.of(sun.misc.Unsafe.class.getName()));
+      getClassLoader(ImmutableSet.of(Unsafe.class.getName()));
 
   /**
    * This classloader disallows {@link sun.misc.Unsafe} and {@link AtomicReferenceFieldUpdater},
    * which will prevent us from selecting our {@code SafeAtomicHelper} strategy.
    */
+  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
       getClassLoader(
-          ImmutableSet.of(
-              sun.misc.Unsafe.class.getName(), AtomicReferenceFieldUpdater.class.getName()));
+          ImmutableSet.of(Unsafe.class.getName(), AtomicReferenceFieldUpdater.class.getName()));
 
   public static TestSuite suite() {
     // we create a test suite containing a test for every AbstractFutureTest test method and we

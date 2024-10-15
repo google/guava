@@ -114,8 +114,8 @@ public abstract class Traverser<N> {
    * structure being traversed is, in addition to being a tree/forest, also defined <a
    * href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursively</a>.
    * This is because the {@code forTree()}-based implementations don't keep track of visited nodes,
-   * and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves
-   * both time and space versus traversing the same graph using {@code forGraph()}.
+   * and therefore don't need to call {@code equals()} or {@code hashCode()} on the node objects;
+   * this saves both time and space versus traversing the same graph using {@code forGraph()}.
    *
    * <p>Providing a graph to be traversed for which there is more than one path from the start
    * node(s) to any node may lead to:

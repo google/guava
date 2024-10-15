@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSortedMap.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
@@ -43,6 +44,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.BiPredicate;
@@ -62,9 +64,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("AlwaysThrows")
+@ElementTypesAreNonnullByDefault
 public class ImmutableSortedMapTest extends TestCase {
   // TODO: Avoid duplicating code in ImmutableMapTest
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -183,7 +187,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableEntry() {
@@ -513,7 +517,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfExplicitComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     Map<String, Integer> original = new LinkedHashMap<>();
     original.put("one", 1);
     original.put("two", 2);
@@ -526,7 +530,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfImmutableSortedSetDifferentComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     Map<String, Integer> original = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(original, comparator);
     assertMapEquals(copy, "two", 2, "three", 3, "one", 1);
@@ -547,7 +551,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfSortedExplicit() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     SortedMap<String, Integer> original = Maps.newTreeMap(comparator);
     original.put("one", 1);
     original.put("two", 2);
@@ -615,11 +619,11 @@ public class ImmutableSortedMapTest extends TestCase {
             .put("five", 5)
             .build();
     assertMapEquals(map, "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
-    assertEquals(Ordering.natural().reverse(), map.comparator());
+    assertEquals(Ordering.<String>natural().reverse(), map.comparator());
   }
 
   public void testBuilderComparator() {
-    Comparator<String> comparator = Ordering.natural().reverse();
+    Comparator<String> comparator = Ordering.<String>natural().reverse();
     ImmutableSortedMap<String, Integer> map =
         new ImmutableSortedMap.Builder<String, Integer>(comparator)
             .put("one", 1)
@@ -684,8 +688,8 @@ public class ImmutableSortedMapTest extends TestCase {
     assertNull(map.get(null));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableSortedMap.class);
@@ -698,13 +702,13 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testNullValuesInCopyOfMap() {
     for (int i = 1; i <= 10; i++) {
       for (int j = 0; j < i; j++) {
-        Map<Integer, Integer> source = new TreeMap<>();
+        Map<Integer, @Nullable Integer> source = new TreeMap<>();
         for (int k = 0; k < i; k++) {
           source.put(k, k);
         }
         source.put(j, null);
         try {
-          ImmutableSortedMap.copyOf(source);
+          ImmutableSortedMap.copyOf((Map<Integer, Integer>) source);
           fail("Expected NullPointerException in copyOf(" + source + ")");
         } catch (NullPointerException expected) {
         }
@@ -715,13 +719,13 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testNullValuesInCopyOfEntries() {
     for (int i = 1; i <= 10; i++) {
       for (int j = 0; j < i; j++) {
-        Map<Integer, Integer> source = new TreeMap<>();
+        Map<Integer, @Nullable Integer> source = new TreeMap<>();
         for (int k = 0; k < i; k++) {
           source.put(k, k);
         }
         source.put(j, null);
         try {
-          ImmutableSortedMap.copyOf(source.entrySet());
+          ImmutableSortedMap.copyOf((Set<Entry<Integer, Integer>>) source.entrySet());
           fail("Expected NullPointerException in copyOf(" + source.entrySet() + ")");
         } catch (NullPointerException expected) {
         }
@@ -768,6 +772,7 @@ public class ImmutableSortedMapTest extends TestCase {
     assertEquals(intMap.hashCode(), map.hashCode());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
@@ -778,7 +783,6 @@ public class ImmutableSortedMapTest extends TestCase {
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testHeadMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", true);
@@ -787,14 +791,12 @@ public class ImmutableSortedMapTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testHeadMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testTailMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", true);
@@ -803,21 +805,18 @@ public class ImmutableSortedMapTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testTailMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("two", 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testSubMapExclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("three", 3));
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testSubMapInclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", false);
@@ -826,7 +825,6 @@ public class ImmutableSortedMapTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testSubMapExclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", true);
@@ -835,7 +833,6 @@ public class ImmutableSortedMapTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
   public void testSubMapInclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", true);
@@ -854,21 +851,21 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
-  public void testBuilderGenerics_SelfComparable() {
-    ImmutableSortedMap.Builder<SelfComparableExample, Object> natural =
+  public void testBuilderGenerics_selfComparable() {
+    ImmutableSortedMap.Builder<SelfComparableExample, Object> unusedNatural =
         ImmutableSortedMap.naturalOrder();
 
-    ImmutableSortedMap.Builder<SelfComparableExample, Object> reverse =
+    ImmutableSortedMap.Builder<SelfComparableExample, Object> unusedReverse =
         ImmutableSortedMap.reverseOrder();
   }
 
   private static class SuperComparableExample extends SelfComparableExample {}
 
-  public void testBuilderGenerics_SuperComparable() {
-    ImmutableSortedMap.Builder<SuperComparableExample, Object> natural =
+  public void testBuilderGenerics_superComparable() {
+    ImmutableSortedMap.Builder<SuperComparableExample, Object> unusedNatural =
         ImmutableSortedMap.naturalOrder();
 
-    ImmutableSortedMap.Builder<SuperComparableExample, Object> reverse =
+    ImmutableSortedMap.Builder<SuperComparableExample, Object> unusedReverse =
         ImmutableSortedMap.reverseOrder();
   }
 }

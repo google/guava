@@ -46,7 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import junit.framework.AssertionFailedError;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -83,8 +83,7 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
 
-    public static void staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(
-        @javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
       // null?  no problem
     }
 
@@ -97,8 +96,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public static void staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(
-        @javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
@@ -106,7 +104,7 @@ public class NullPointerTesterTest extends TestCase {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
-    public static void staticOneArgCheckForNullThrowsNPE(@javax.annotation.CheckForNull String s) {
+    public static void staticOneArgCheckForNullThrowsNPE(@CheckForNull String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
 
@@ -126,8 +124,7 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
 
-    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(
-        @javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
       // null?  no problem
     }
 
@@ -135,8 +132,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(
-        @javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
@@ -144,7 +140,7 @@ public class NullPointerTesterTest extends TestCase {
       throw new FooException(); // ok, as long as it's not NullPointerException
     }
 
-    public void oneArgCheckForNullThrowsNPE(@javax.annotation.CheckForNull String s) {
+    public void oneArgCheckForNullThrowsNPE(@CheckForNull String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
 
@@ -191,19 +187,19 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static class ThrowsUoe {
-    public static void christenPoodle(String name) {
+    public static void christenPoodle(String unused) {
       throw new UnsupportedOperationException();
     }
   }
 
   private static class ThrowsSomethingElse {
-    public static void christenPoodle(String name) {
+    public static void christenPoodle(String unused) {
       throw new RuntimeException();
     }
   }
 
   private interface InterfaceStaticMethodFailsToCheckNull {
-    static String create(String s) {
+    static String create(String unused) {
       return "I don't check";
     }
   }
@@ -219,7 +215,7 @@ public class NullPointerTesterTest extends TestCase {
       return new InterfaceDefaultMethodFailsToCheckNull() {};
     }
 
-    default void doNotCheckNull(String s) {}
+    default void doNotCheckNull(String unused) {}
   }
 
   private interface InterfaceDefaultMethodChecksNull {
@@ -260,7 +256,7 @@ public class NullPointerTesterTest extends TestCase {
     tester.testAllPublicStaticMethods(ThrowsUoe.class);
     try {
       tester.testAllPublicStaticMethods(ThrowsIae.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();
@@ -271,7 +267,7 @@ public class NullPointerTesterTest extends TestCase {
       Method method = OneArg.class.getMethod(methodName, String.class);
       try {
         new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-      } catch (AssertionFailedError unexpected) {
+      } catch (AssertionError unexpected) {
         fail("Should not have flagged method " + methodName);
       }
     }
@@ -283,7 +279,7 @@ public class NullPointerTesterTest extends TestCase {
       boolean foundProblem = false;
       try {
         new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-      } catch (AssertionFailedError expected) {
+      } catch (AssertionError expected) {
         foundProblem = true;
       }
       assertTrue("Should report error in method " + methodName, foundProblem);
@@ -296,7 +292,7 @@ public class NullPointerTesterTest extends TestCase {
       Method method = OneArg.class.getMethod(methodName, String.class);
       try {
         new NullPointerTester().testMethodParameter(foo, method, 0);
-      } catch (AssertionFailedError unexpected) {
+      } catch (AssertionError unexpected) {
         fail("Should not have flagged method " + methodName);
       }
     }
@@ -309,7 +305,7 @@ public class NullPointerTesterTest extends TestCase {
       boolean foundProblem = false;
       try {
         new NullPointerTester().testMethodParameter(foo, method, 0);
-      } catch (AssertionFailedError expected) {
+      } catch (AssertionError expected) {
         foundProblem = true;
       }
       assertTrue("Should report error in method " + methodName, foundProblem);
@@ -321,7 +317,7 @@ public class NullPointerTesterTest extends TestCase {
     boolean foundProblem = false;
     try {
       new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected.getMessage()).contains("index 0");
       assertThat(expected.getMessage()).contains("[null]");
       foundProblem = true;
@@ -334,7 +330,7 @@ public class NullPointerTesterTest extends TestCase {
     boolean foundProblem = false;
     try {
       new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       assertThat(expected.getMessage()).contains("index 0");
       assertThat(expected.getMessage()).contains("[null]");
       foundProblem = true;
@@ -429,7 +425,7 @@ public class NullPointerTesterTest extends TestCase {
   public void verifyBarPass(Method method, TwoArg bar) {
     try {
       new NullPointerTester().testMethod(bar, method);
-    } catch (AssertionFailedError incorrectError) {
+    } catch (AssertionError incorrectError) {
       String errorMessage =
           rootLocaleFormat("Should not have flagged method %s for %s", method.getName(), bar);
       assertNull(errorMessage, incorrectError);
@@ -439,7 +435,7 @@ public class NullPointerTesterTest extends TestCase {
   public void verifyBarFail(Method method, TwoArg bar) {
     try {
       new NullPointerTester().testMethod(bar, method);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return; // good...we wanted a failure
     }
     String errorMessage =
@@ -856,7 +852,7 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class SubclassThatTriesToOverrideBadStaticMethod
       extends ClassThatFailsToThrowForStatic {
-    static void staticOneArg(@Nullable String s) {}
+    static void staticOneArg(String unused) {}
   }
 
   public void testSubclassThatTriesToOverrideBadStaticMethod() {
@@ -864,7 +860,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static final class HardToCreate {
-    private HardToCreate(HardToCreate x) {}
+    private HardToCreate(String unused) {}
   }
 
   @SuppressWarnings("unused") // used by reflection
@@ -905,7 +901,7 @@ public class NullPointerTesterTest extends TestCase {
   private static void shouldFail(Object instance, Visibility visibility) {
     try {
       new NullPointerTester().testInstanceMethods(instance, visibility);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("Should detect problem in " + instance.getClass().getSimpleName());
@@ -920,7 +916,7 @@ public class NullPointerTesterTest extends TestCase {
   private static void shouldFail(Class<?> cls, Visibility visibility) {
     try {
       new NullPointerTester().testStaticMethods(cls, visibility);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("Should detect problem in " + cls.getSimpleName());
@@ -1138,7 +1134,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       try {
         runTester();
-      } catch (AssertionFailedError expected) {
+      } catch (AssertionError expected) {
         return;
       }
       fail("Should have failed because enum has no constant");
@@ -1472,16 +1468,16 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  public void testConstructor_Ignored_ShouldPass() throws Exception {
+  public void testConstructor_ignored_shouldPass() throws Exception {
     new NullPointerTester()
         .ignore(FailOnOneOfTwoConstructors.class.getDeclaredConstructor(String.class))
         .testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
   }
 
-  public void testConstructor_ShouldFail() throws Exception {
+  public void testConstructor_shouldFail() throws Exception {
     try {
       new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());

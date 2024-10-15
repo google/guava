@@ -326,7 +326,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
         }
 
         @Override
-        public java.util.Map.Entry<K, V> next() {
+        public Entry<K, V> next() {
           if (nextOrNull == null) {
             throw new NoSuchElementException();
           }

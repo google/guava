@@ -20,13 +20,16 @@ import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)} for GWT.
  *
  * @author Louis Wasserman
  */
-final class UnmodifiableSortedMultiset<E> extends UnmodifiableMultiset<E>
+@ElementTypesAreNonnullByDefault
+final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends UnmodifiableMultiset<E>
     implements SortedMultiset<E> {
   UnmodifiableSortedMultiset(SortedMultiset<E> delegate) {
     super(delegate);
@@ -52,7 +55,7 @@ final class UnmodifiableSortedMultiset<E> extends UnmodifiableMultiset<E>
     return (SortedSet<E>) super.elementSet();
   }
 
-  private transient UnmodifiableSortedMultiset<E> descendingMultiset;
+  private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {
@@ -66,21 +69,25 @@ final class UnmodifiableSortedMultiset<E> extends UnmodifiableMultiset<E>
   }
 
   @Override
+  @CheckForNull
   public Entry<E> firstEntry() {
     return delegate().firstEntry();
   }
 
   @Override
+  @CheckForNull
   public Entry<E> lastEntry() {
     return delegate().lastEntry();
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }

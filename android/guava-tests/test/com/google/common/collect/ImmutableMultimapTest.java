@@ -16,8 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Unhashables;
@@ -27,6 +30,7 @@ import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultimap}.
@@ -34,8 +38,10 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableMultimapTest extends TestCase {
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withImmutableEntry() {
     ImmutableMultimap<String, Integer> multimap =
         new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
@@ -56,10 +62,55 @@ public class ImmutableMultimapTest extends TestCase {
     }
   }
 
-  private static class StringHolder {
-    String string;
+  public void testBuilderWithExpectedKeysNegative() {
+    try {
+      ImmutableMultimap.builderWithExpectedKeys(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
+  public void testBuilderWithExpectedKeysZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedKeysPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegative() {
+    try {
+      ImmutableMultimap.builder().expectedValuesPerKey(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+  }
+
+  private static class StringHolder {
+    @Nullable String string;
+  }
+
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withMutableEntry() {
     ImmutableMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();
@@ -127,8 +178,8 @@ public class ImmutableMultimapTest extends TestCase {
         .testEquals();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultimap.class);

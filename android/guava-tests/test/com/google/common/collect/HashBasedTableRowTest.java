@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class HashBasedTableRowTest extends RowTests {
   public HashBasedTableRowTest() {
     super(false, true, true, true, true);

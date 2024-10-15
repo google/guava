@@ -17,8 +17,8 @@
 package com.google.common.io;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -51,8 +51,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       if (testAsByteSource) {
         suite.addTest(
-            suiteForBytes(
-                factory, entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+            suiteForBytes(factory, entry.getValue().getBytes(UTF_8), name, entry.getKey(), true));
       } else {
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       }
@@ -62,7 +61,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   static TestSuite suiteForBytes(
       CharSourceFactory factory, byte[] bytes, String name, String desc, boolean slice) {
-    TestSuite suite = suiteForString(factory, new String(bytes, Charsets.UTF_8), name, desc);
+    TestSuite suite = suiteForString(factory, new String(bytes, UTF_8), name, desc);
     ByteSourceFactory byteSourceFactory = SourceSinkFactories.asByteSourceFactory(factory);
     suite.addTest(
         ByteSourceTester.suiteForBytes(

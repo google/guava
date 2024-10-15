@@ -25,7 +25,10 @@ import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import junit.framework.TestCase;
 
 /**
@@ -191,14 +194,10 @@ public class InetAddressesTest extends TestCase {
     }
   }
 
-  // see https://github.com/google/guava/issues/2587
-  private static final ImmutableSet<String> SCOPE_IDS =
-      ImmutableSet.of("eno1", "en1", "eth0", "X", "1", "2", "14", "20");
-
-  public void testIPv4AddressWithScopeId() {
+  public void testIPv4AddressWithScopeId() throws SocketException {
     ImmutableSet<String> ipStrings = ImmutableSet.of("1.2.3.4", "192.168.0.1");
     for (String ipString : ipStrings) {
-      for (String scopeId : SCOPE_IDS) {
+      for (String scopeId : getMachineScopesAndInterfaces()) {
         String withScopeId = ipString + "%" + scopeId;
         assertFalse(
             "InetAddresses.isInetAddress(" + withScopeId + ") should be false but was true",
@@ -207,11 +206,11 @@ public class InetAddressesTest extends TestCase {
     }
   }
 
-  public void testDottedQuadAddressWithScopeId() {
+  public void testDottedQuadAddressWithScopeId() throws SocketException {
     ImmutableSet<String> ipStrings =
         ImmutableSet.of("7::0.128.0.127", "7::0.128.0.128", "7::128.128.0.127", "7::0.128.128.127");
     for (String ipString : ipStrings) {
-      for (String scopeId : SCOPE_IDS) {
+      for (String scopeId : getMachineScopesAndInterfaces()) {
         String withScopeId = ipString + "%" + scopeId;
         assertFalse(
             "InetAddresses.isInetAddress(" + withScopeId + ") should be false but was true",
@@ -220,27 +219,106 @@ public class InetAddressesTest extends TestCase {
     }
   }
 
-  public void testIPv6AddressWithScopeId() {
+  public void testIPv6AddressWithScopeId() throws SocketException, UnknownHostException {
     ImmutableSet<String> ipStrings =
         ImmutableSet.of(
-            "0:0:0:0:0:0:0:1",
-            "fe80::a",
-            "fe80::1",
-            "fe80::2",
-            "fe80::42",
-            "fe80::3dd0:7f8e:57b7:34d5",
-            "fe80::71a3:2b00:ddd3:753f",
-            "fe80::8b2:d61e:e5c:b333",
-            "fe80::b059:65f4:e877:c40");
+            "::1",
+            "1180::a",
+            "1180::1",
+            "1180::2",
+            "1180::42",
+            "1180::3dd0:7f8e:57b7:34d5",
+            "1180::71a3:2b00:ddd3:753f",
+            "1180::8b2:d61e:e5c:b333",
+            "1180::b059:65f4:e877:c40",
+            "fe80::34",
+            "fec0::34");
+    boolean processedNamedInterface = false;
     for (String ipString : ipStrings) {
-      for (String scopeId : SCOPE_IDS) {
+      for (String scopeId : getMachineScopesAndInterfaces()) {
         String withScopeId = ipString + "%" + scopeId;
         assertTrue(
             "InetAddresses.isInetAddress(" + withScopeId + ") should be true but was false",
             InetAddresses.isInetAddress(withScopeId));
-        assertEquals(InetAddresses.forString(withScopeId), InetAddresses.forString(ipString));
+        Inet6Address parsed;
+        boolean isNumeric = scopeId.matches("\\d+");
+        try {
+          parsed = (Inet6Address) InetAddresses.forString(withScopeId);
+        } catch (IllegalArgumentException e) {
+          if (!isNumeric) {
+            // Android doesn't recognize %interface as valid
+            continue;
+          }
+          throw e;
+        }
+        processedNamedInterface |= !isNumeric;
+        assertThat(InetAddresses.toAddrString(parsed)).contains("%");
+        if (isNumeric) {
+          assertEquals(Integer.parseInt(scopeId), parsed.getScopeId());
+        } else {
+          assertEquals(scopeId, parsed.getScopedInterface().getName());
+        }
+        Inet6Address reparsed =
+            (Inet6Address) InetAddresses.forString(InetAddresses.toAddrString(parsed));
+        assertEquals(reparsed, parsed);
+        assertEquals(reparsed.getScopeId(), parsed.getScopeId());
       }
     }
+    assertTrue(processedNamedInterface);
+  }
+
+  public void testIPv6AddressWithScopeId_platformEquivalence()
+      throws SocketException, UnknownHostException {
+    ImmutableSet<String> ipStrings =
+        ImmutableSet.of(
+            "::1",
+            "1180::a",
+            "1180::1",
+            "1180::2",
+            "1180::42",
+            "1180::3dd0:7f8e:57b7:34d5",
+            "1180::71a3:2b00:ddd3:753f",
+            "1180::8b2:d61e:e5c:b333",
+            "1180::b059:65f4:e877:c40",
+            "fe80::34",
+            "fec0::34");
+    for (String ipString : ipStrings) {
+      for (String scopeId : getMachineScopesAndInterfaces()) {
+        String withScopeId = ipString + "%" + scopeId;
+        assertTrue(
+            "InetAddresses.isInetAddress(" + withScopeId + ") should be true but was false",
+            InetAddresses.isInetAddress(withScopeId));
+        Inet6Address parsed;
+        boolean isNumeric = scopeId.matches("\\d+");
+        try {
+          parsed = (Inet6Address) InetAddresses.forString(withScopeId);
+        } catch (IllegalArgumentException e) {
+          if (!isNumeric) {
+            // Android doesn't recognize %interface as valid
+            continue;
+          }
+          throw e;
+        }
+        Inet6Address platformValue;
+        try {
+          platformValue = (Inet6Address) InetAddress.getByName(withScopeId);
+        } catch (UnknownHostException e) {
+          // Android doesn't recognize %interface as valid
+          if (!isNumeric) {
+            continue;
+          }
+          throw e;
+        }
+        assertEquals(platformValue, parsed);
+        assertEquals(platformValue.getScopeId(), parsed.getScopeId());
+      }
+    }
+  }
+
+  public void testIPv6AddressWithBadScopeId() throws SocketException, UnknownHostException {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> InetAddresses.forString("1180::b059:65f4:e877:c40%eth9"));
   }
 
   public void testToAddrStringIPv4() {
@@ -790,6 +868,18 @@ public class InetAddressesTest extends TestCase {
         "BigInteger cannot be converted to InetAddress because it has more than 16 bytes:"
             + " 340282366920938463463374607431768211457",
         expected.getMessage());
+  }
+
+  // see https://github.com/google/guava/issues/2587
+  private static ImmutableSet<String> getMachineScopesAndInterfaces() throws SocketException {
+    ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    assertTrue(interfaces.hasMoreElements());
+    while (interfaces.hasMoreElements()) {
+      NetworkInterface i = interfaces.nextElement();
+      builder.add(i.getName()).add(String.valueOf(i.getIndex()));
+    }
+    return builder.build();
   }
 
   /** Checks that the IP converts to the big integer and the big integer converts to the IP. */

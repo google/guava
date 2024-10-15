@@ -616,9 +616,8 @@ public class AbstractScheduledServiceTest extends TestCase {
       service.secondBarrier.await();
     }
     Thread.sleep(1000);
-    IllegalStateException e =
-        assertThrows(
-            IllegalStateException.class, () -> service.stopAsync().awaitTerminated(100, SECONDS));
+    assertThrows(
+        IllegalStateException.class, () -> service.stopAsync().awaitTerminated(100, SECONDS));
     assertEquals(State.FAILED, service.state());
   }
 

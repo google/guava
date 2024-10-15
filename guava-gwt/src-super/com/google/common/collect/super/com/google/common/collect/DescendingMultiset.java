@@ -21,6 +21,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and
@@ -29,10 +31,12 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements SortedMultiset<E> {
+@ElementTypesAreNonnullByDefault
+abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
+    implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
-  private transient Comparator<? super E> comparator;
+  @Nullable private transient Comparator<? super E> comparator;
 
   @Override
   public Comparator<? super E> comparator() {
@@ -43,7 +47,7 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
     return result;
   }
 
-  private transient SortedSet<E> elementSet;
+  @Nullable private transient SortedSet<E> elementSet;
 
   @Override
   public SortedSet<E> elementSet() {
@@ -55,11 +59,13 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollFirstEntry() {
     return forwardMultiset().pollLastEntry();
   }
 
   @Override
+  @CheckForNull
   public Entry<E> pollLastEntry() {
     return forwardMultiset().pollFirstEntry();
   }
@@ -93,18 +99,20 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   @Override
+  @CheckForNull
   public Entry<E> firstEntry() {
     return forwardMultiset().lastEntry();
   }
 
   @Override
+  @CheckForNull
   public Entry<E> lastEntry() {
     return forwardMultiset().firstEntry();
   }
 
   abstract Iterator<Entry<E>> entryIterator();
 
-  private transient Set<Entry<E>> entrySet;
+  @Nullable private transient Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {
@@ -137,12 +145,13 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   @Override
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return standardToArray();
   }
 
   @Override
-  public <T> T[] toArray(T[] array) {
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+  public <T extends @Nullable Object> T[] toArray(T[] array) {
     return standardToArray(array);
   }
 

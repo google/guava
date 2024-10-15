@@ -84,12 +84,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   /**
-   * Returns an immutable set containing {@code element}. Preferred over {@link
+   * Returns an immutable set containing the given element. Preferred over {@link
    * Collections#singleton} for code consistency, {@code null} rejection, and because the return
    * type conveys the immutability guarantee.
    */
-  public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+  public static <E> ImmutableSet<E> of(E e1) {
+    return new SingletonImmutableSet<>(e1);
   }
 
   /*
@@ -148,7 +148,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
-    SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(6 + others.length);
+    SetBuilderImpl<E> builder = new RegularSetBuilderImpl<>(6 + others.length);
     builder = builder.add(e1).add(e2).add(e3).add(e4).add(e5).add(e6);
     for (int i = 0; i < others.length; i++) {
       builder = builder.add(others[i]);
@@ -168,6 +168,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
+  // This the best we could do to get copyOfEnumSet to compile in the mainline.
+  // The suppression also covers the cast to E[], discussed below.
+  // In the backport, we don't have those cases and thus don't need this suppression.
+  // We keep it to minimize diffs.
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here
@@ -181,15 +186,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return set;
       }
     } else if (elements instanceof EnumSet) {
-      return copyOfEnumSet((EnumSet) elements);
+      return copyOfEnumSet((EnumSet<?>) elements);
     }
 
-    int size = elements.size();
-    if (size == 0) {
+    if (elements.isEmpty()) {
       // We avoid allocating anything.
       return of();
     }
     // Collection<E>.toArray() is required to contain only E instances, and all we do is read them.
+    // TODO(cpovirk): Consider using Object[] anyway.
     E[] array = (E[]) elements.toArray();
     /*
      * For a Set, we guess that it contains no duplicates. That's just a guess for purpose of
@@ -256,7 +261,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 1:
         return of(elements[0]);
       default:
-        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(expectedSize);
+        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<>(expectedSize);
         for (int i = 0; i < elements.length; i++) {
           builder = builder.add(elements[i]);
         }
@@ -264,9 +269,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
-  private static ImmutableSet copyOfEnumSet(EnumSet enumSet) {
-    return ImmutableEnumSet.asImmutable(EnumSet.copyOf(enumSet));
+  @SuppressWarnings({"rawtypes", "unchecked"}) // necessary to compile against Java 8
+  private static ImmutableSet copyOfEnumSet(EnumSet<?> enumSet) {
+    return ImmutableEnumSet.asImmutable(EnumSet.copyOf((EnumSet) enumSet));
   }
 
   ImmutableSet() {}
@@ -315,7 +320,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     ImmutableList<E> createAsList() {
-      return new RegularImmutableAsList<E>(this, toArray());
+      return new RegularImmutableAsList<>(this, toArray());
     }
 
     // redeclare to help optimizers with b/310253115
@@ -427,7 +432,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Builder} constructor.
    */
   public static <E> Builder<E> builder() {
-    return new Builder<E>();
+    return new Builder<>();
   }
 
   /**
@@ -444,7 +449,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<E>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   /**
@@ -480,7 +485,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     Builder(int capacity) {
       if (capacity > 0) {
-        impl = new RegularSetBuilderImpl<E>(capacity);
+        impl = new RegularSetBuilderImpl<>(capacity);
       } else {
         impl = EmptySetBuilderImpl.instance();
       }
@@ -493,7 +498,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @VisibleForTesting
     void forceJdk() {
       requireNonNull(impl); // see the comment on the field
-      this.impl = new JdkBackedSetBuilderImpl<E>(impl);
+      this.impl = new JdkBackedSetBuilderImpl<>(impl);
     }
 
     final void copyIfNecessary() {
@@ -777,7 +782,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     @Override
     SetBuilderImpl<E> copy() {
-      return new RegularSetBuilderImpl<E>(this);
+      return new RegularSetBuilderImpl<>(this);
     }
 
     @Override
@@ -815,7 +820,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
               (distinct == dedupedElements.length)
                   ? dedupedElements
                   : Arrays.copyOf(dedupedElements, distinct);
-          return new RegularImmutableSet<E>(
+          return new RegularImmutableSet<>(
               elements, hashCode, requireNonNull(hashTable), hashTable.length - 1);
       }
     }
@@ -974,7 +979,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
            */
           return of(requireNonNull(dedupedElements[0]));
         default:
-          return new JdkBackedImmutableSet<E>(
+          return new JdkBackedImmutableSet<>(
               delegate, ImmutableList.asImmutableList(dedupedElements, distinct));
       }
     }

@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -31,12 +33,14 @@ import java.util.Map.Entry;
  * @author Hayward Chan
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class BiMapGenerators {
   public static class ImmutableBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
       ImmutableBiMap.Builder<String, String> builder = ImmutableBiMap.builder();
       for (Entry<String, String> entry : entries) {
+        checkNotNull(entry);
         builder.put(entry.getKey(), entry.getValue());
       }
       return builder.build();

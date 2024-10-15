@@ -31,10 +31,10 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListMultimapReplaceValuesTester<K, V> extends AbstractListMultimapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPreservesOrder() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v3(), v1(), v4());
 
     for (K k : sampleKeys()) {

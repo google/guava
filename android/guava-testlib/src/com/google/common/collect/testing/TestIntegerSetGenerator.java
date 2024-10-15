@@ -27,6 +27,7 @@ import java.util.Set;
  * @author Gregory Kick
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestIntegerSetGenerator implements TestSetGenerator<Integer> {
   @Override
   public SampleElements<Integer> samples() {

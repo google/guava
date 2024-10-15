@@ -16,8 +16,8 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
@@ -122,7 +122,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00015);
+    assertThat(actualReportedFpp).isWithin(0.00015).of(expectedReportedFpp);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
@@ -166,7 +166,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
+    assertThat(actualReportedFpp).isWithin(0.00033).of(expectedReportedFpp);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
@@ -209,7 +209,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
+    assertThat(actualReportedFpp).isWithin(0.00033).of(expectedReportedFpp);
   }
 
   /** Sanity checking with many combinations of false positive rates and expected insertions */
@@ -246,7 +246,6 @@ public class BloomFilterTest extends TestCase {
         });
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.unencodedCharsFunnel(), 100));
@@ -324,7 +323,7 @@ public class BloomFilterTest extends TestCase {
   public void testExpectedFpp() {
     BloomFilter<Object> bf = BloomFilter.create(HashTestUtils.BAD_FUNNEL, 10, 0.03);
     double fpp = bf.expectedFpp();
-    assertEquals(0.0, fpp);
+    assertThat(fpp).isEqualTo(0.0);
     // usually completed in less than 200 iterations
     while (fpp != 1.0) {
       boolean changed = bf.put(new Object());
@@ -486,7 +485,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < 10; i++) {
       assertTrue(copy.mightContain(Ints.toByteArray(i)));
     }
-    assertEquals(bf.expectedFpp(), copy.expectedFpp());
+    assertThat(copy.expectedFpp()).isEqualTo(bf.expectedFpp());
 
     SerializableTester.reserializeAndAssert(bf);
   }

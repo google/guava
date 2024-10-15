@@ -38,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  */
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
 
@@ -53,8 +54,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return (ImmutableList<E>) RegularImmutableList.EMPTY;
   }
 
-  public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(checkNotNull(element));
+  public static <E> ImmutableList<E> of(E e1) {
+    return new SingletonImmutableList<E>(checkNotNull(e1));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2) {
@@ -159,7 +160,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       case 0:
         return of();
       case 1:
-        return of((E) elements[0]);
+        @SuppressWarnings("unchecked") // safe because it came from `collection`
+        E element = (E) elements[0];
+        return of(element);
       default:
         return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
     }
@@ -192,8 +195,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
       Iterable<? extends E> elements) {
-    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
-    checkElementsNotNull(array);
+    Comparable<?>[] array = Iterables.toArray(elements, new Comparable<?>[0]);
+    checkElementsNotNull((Object[]) array);
     Arrays.sort(array);
     return asImmutableList(array);
   }
@@ -348,6 +351,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
     @Override
     public ImmutableList<E> build() {
+      return copyOf(contents);
+    }
+
+    ImmutableList<E> buildSorted(Comparator<? super E> comparator) {
+      Collections.sort(contents, comparator);
       return copyOf(contents);
     }
   }

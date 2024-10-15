@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.security.MessageDigest;
@@ -64,9 +64,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
 
     assertEquals(
         "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
-        sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
-            .hash()
-            .toString());
+        sha1.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     assertThrows(IllegalStateException.class, () -> sha1.putInt(42));
   }
 
@@ -75,9 +73,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
 
     assertEquals(
         "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
-        sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
-            .hash()
-            .toString());
+        sha1.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     assertThrows(IllegalStateException.class, () -> sha1.hash());
   }
 

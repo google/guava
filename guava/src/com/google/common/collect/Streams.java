@@ -194,6 +194,7 @@ public final class Streams {
    *
    * @see Stream#concat(Stream, Stream)
    */
+  @SuppressWarnings("unchecked") // could probably be avoided with a forwarding Spliterator
   @SafeVarargs
   public static <T extends @Nullable Object> Stream<T> concat(Stream<? extends T>... streams) {
     // TODO(lowasser): consider an implementation that can support SUBSIZED

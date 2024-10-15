@@ -38,11 +38,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class SynchronizedSetTest extends TestCase {
 
-  public static final Object MUTEX = new Integer(1); // something Serializable
+  public static final Object MUTEX = new Object[0]; // something Serializable
 
-  // TODO(cpovirk): Resolve difference between branches in their choice of mutex:
-  // - The mainline uses `null` (even since the change in cl/99720576 was integrated).
-  // - The backport continued to use MUTEX.
   public static Test suite() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
@@ -132,7 +129,24 @@ public class SynchronizedSetTest extends TestCase {
       return super.isEmpty();
     }
 
-    /* Don't test iterator(); it may or may not hold the mutex. */
+    /*
+     * We don't assert that the lock is held during calls to iterator(), stream(), and spliterator:
+     * `Synchronized` doesn't guarantee that it will hold the mutex for those calls because callers
+     * are responsible for taking the mutex themselves:
+     * https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/Collections.html#synchronizedCollection(java.util.Collection)
+     *
+     * Similarly, we avoid having those methods *implemented* in terms of *other* TestSet methods
+     * that will perform holdsLock assertions:
+     *
+     * - For iterator(), we can accomplish that by not overriding iterator() at all. That way, we
+     *   inherit an implementation that forwards to the delegate collection, which performs no
+     *   holdsLock assertions.
+     *
+     * - For stream() and spliterator(), we have to forward to the delegate ourselves because
+     *   ForwardingSet does not forward `default` methods, as discussed in its Javadoc.
+     */
+
+    // Currently, we don't include stream() and spliterator() for our classes in the Android flavor.
 
     @Override
     public boolean remove(@Nullable Object o) {

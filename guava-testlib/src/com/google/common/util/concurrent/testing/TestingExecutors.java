@@ -18,10 +18,8 @@ package com.google.common.util.concurrent.testing;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.AbstractListeningExecutorService;
 import com.google.common.util.concurrent.ListenableScheduledFuture;
@@ -92,7 +90,6 @@ public final class TestingExecutors {
    *
    * @since 32.0.0 (taking the place of a method with a different return type from 15.0)
    */
-  @Beta
   public static ListeningScheduledExecutorService sameThreadScheduledExecutor() {
     return new SameThreadScheduledExecutorService();
   }
@@ -168,7 +165,7 @@ public final class TestingExecutors {
 
       @Override
       public int compareTo(Delayed other) {
-        return Longs.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
+        return Long.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
       }
     }
   }

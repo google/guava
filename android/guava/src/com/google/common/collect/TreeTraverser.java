@@ -48,8 +48,8 @@ import javax.annotation.CheckForNull;
  *
  * <p>Null nodes are strictly forbidden.
  *
- * <p><b>For Java 8 users:</b> Because this is an abstract class, not an interface, you can't use a
- * lambda expression to extend it:
+ * <p>Because this is an abstract class, not an interface, you can't use a lambda expression to
+ * implement it:
  *
  * <pre>{@code
  * // won't work
@@ -215,7 +215,7 @@ public abstract class TreeTraverser<T> {
     }
 
     private PostOrderNode<T> expand(T t) {
-      return new PostOrderNode<T>(t, children(t).iterator());
+      return new PostOrderNode<>(t, children(t).iterator());
     }
   }
 
@@ -245,7 +245,7 @@ public abstract class TreeTraverser<T> {
     private final Queue<T> queue;
 
     BreadthFirstIterator(T root) {
-      this.queue = new ArrayDeque<T>();
+      this.queue = new ArrayDeque<>();
       queue.add(root);
     }
 

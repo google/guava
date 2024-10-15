@@ -14,8 +14,10 @@
 package com.google.common.collect;
 
 import java.util.Collection;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Never actually created; instead delegates to JdkBackedImmutableMultiset. */
+@ElementTypesAreNonnullByDefault
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final ImmutableMultiset<Object> EMPTY =
       JdkBackedImmutableMultiset.create(ImmutableList.of());
@@ -31,7 +33,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     throw new AssertionError();
   }
 

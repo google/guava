@@ -39,7 +39,7 @@ public class SynchronizedQueueTest extends TestCase {
 
   private static final class TestQueue<E> implements Queue<E> {
     private final Queue<E> delegate = Lists.newLinkedList();
-    public final Object mutex = new Integer(1); // something Serializable
+    public final Object mutex = new Object[0]; // something Serializable
 
     @Override
     public boolean offer(E o) {

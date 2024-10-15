@@ -367,7 +367,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
   @AndroidIncompatible // slow
   public void testExhaustive() {
-    @SuppressWarnings("unchecked")
     ImmutableSet<Range<Integer>> ranges =
         ImmutableSet.of(
             Range.<Integer>all(),
@@ -410,11 +409,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
 
       if (anyOverlaps) {
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
-            });
+        assertThrows(IllegalArgumentException.class, () -> ImmutableRangeSet.copyOf(subset));
       } else {
         RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
         assertEquals(mutable, copy);

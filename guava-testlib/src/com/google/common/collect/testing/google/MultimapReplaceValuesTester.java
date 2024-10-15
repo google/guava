@@ -42,12 +42,12 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultimapReplaceValuesTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testReplaceValuesWithNullValue() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), null, v3());
     multimap().replaceValues(k0(), values);
     assertGet(k0(), values);
@@ -55,7 +55,6 @@ public class MultimapReplaceValuesTester<K, V>
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE, ALLOWS_NULL_KEYS})
   public void testReplaceValuesWithNullKey() {
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v2(), v3());
     multimap().replaceValues(null, values);
     assertGet(null, values);
@@ -64,7 +63,6 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceEmptyValues() {
     int size = multimap().size();
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v2(), v3());
     multimap().replaceValues(k3(), values);
     assertGet(k3(), values);
@@ -75,7 +73,6 @@ public class MultimapReplaceValuesTester<K, V>
   public void testReplaceValuesWithEmpty() {
     int size = multimap().size();
     List<V> oldValues = new ArrayList<>(multimap().get(k0()));
-    @SuppressWarnings("unchecked")
     List<V> values = Collections.emptyList();
     assertEquals(oldValues, new ArrayList<V>(multimap().replaceValues(k0(), values)));
     assertGet(k0());
@@ -96,7 +93,6 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceNonEmptyValues() {
     List<K> keys = Helpers.copyToList(multimap().keySet());
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v2(), v3());
 
     for (K k : keys) {
@@ -113,7 +109,6 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPropagatesToGet() {
     Collection<V> getCollection = multimap().get(k0());
-    @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v2(), v3());
     multimap().replaceValues(k0(), values);
     assertContentsAnyOrder(getCollection, v0(), v2(), v3());

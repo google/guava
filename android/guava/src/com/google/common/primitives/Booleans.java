@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -99,7 +100,7 @@ public final class Booleans {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
    *
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value
@@ -113,7 +114,7 @@ public final class Booleans {
    * considered less than {@code true}). The sign of the value returned is the same as that of
    * {@code ((Boolean) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
    * equivalent {@link Boolean#compare} method instead.
    *
    * @param a the first {@code boolean} to compare
@@ -121,8 +122,9 @@ public final class Booleans {
    * @return a positive number if only {@code a} is {@code true}, a negative number if only {@code
    *     b} is true, or zero if {@code a == b}
    */
+  @InlineMe(replacement = "Boolean.compare(a, b)")
   public static int compare(boolean a, boolean b) {
-    return (a == b) ? 0 : (a ? 1 : -1);
+    return Boolean.compare(a, b);
   }
 
   /**
@@ -228,19 +230,29 @@ public final class Booleans {
    *
    * @param arrays zero or more {@code boolean} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static boolean[] concat(boolean[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (boolean[] array : arrays) {
       length += array.length;
     }
-    boolean[] result = new boolean[length];
+    boolean[] result = new boolean[checkNoOverflow(length)];
     int pos = 0;
     for (boolean[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**
@@ -310,7 +322,7 @@ public final class Booleans {
     public int compare(boolean[] left, boolean[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Booleans.compare(left[i], right[i]);
+        int result = Boolean.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }

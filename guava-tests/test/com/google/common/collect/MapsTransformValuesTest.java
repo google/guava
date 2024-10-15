@@ -27,6 +27,7 @@ import java.util.Map;
  * @author Isaac Shum
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MapsTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected Map<String, String> makeEmptyMap() {

@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.FluentIterableTest.Help.assertThat;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
@@ -31,8 +30,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
-import com.google.common.truth.IterableSubject;
-import com.google.common.truth.Truth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +38,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -861,21 +857,21 @@ public class FluentIterableTest extends TestCase {
     }
   }
 
-  public void testCopyInto_List() {
+  public void testCopyInto_list() {
     assertThat(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
         .containsExactly(1, 2, 1, 3, 5)
         .inOrder();
   }
 
-  public void testCopyInto_Set() {
+  public void testCopyInto_set() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2))).containsExactly(1, 2, 3, 5);
   }
 
-  public void testCopyInto_SetAllDuplicates() {
+  public void testCopyInto_setAllDuplicates() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5))).containsExactly(1, 2, 3, 5);
   }
 
-  public void testCopyInto_NonCollection() {
+  public void testCopyInto_nonCollection() {
     final ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
 
     final ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);
@@ -929,13 +925,6 @@ public class FluentIterableTest extends TestCase {
     assertThat(FluentIterable.of().stream()).isEmpty();
     assertThat(FluentIterable.of("a").stream()).containsExactly("a");
     assertThat(FluentIterable.of(1, 2, 3).stream().filter(n -> n > 1)).containsExactly(2, 3);
-  }
-
-  // TODO(kevinb): add assertThat(Stream) to Truth?
-  static class Help {
-    static IterableSubject assertThat(Stream<?> stream) {
-      return Truth.assertThat(stream.toArray()).asList();
-    }
   }
 
   private static void assertCanIterateAgain(Iterable<?> iterable) {

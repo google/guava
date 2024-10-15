@@ -17,9 +17,12 @@
 package com.google.common.io;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.charset.StandardCharsets.UTF_16;
+import static java.nio.charset.StandardCharsets.UTF_16BE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -168,7 +171,7 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataInput_readLine() {
     ByteArrayDataInput in =
         ByteStreams.newDataInput(
-            "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
+            "This is a line\r\nThis too\rand this\nand also this".getBytes(UTF_8));
     assertEquals("This is a line", in.readLine());
     assertEquals("This too", in.readLine());
     assertEquals("and this", in.readLine());
@@ -178,26 +181,26 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataInput_readFloat() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
-    assertEquals(Float.intBitsToFloat(0x12345678), in.readFloat(), 0.0);
-    assertEquals(Float.intBitsToFloat(0x76543210), in.readFloat(), 0.0);
+    assertThat(in.readFloat()).isEqualTo(Float.intBitsToFloat(0x12345678));
+    assertThat(in.readFloat()).isEqualTo(Float.intBitsToFloat(0x76543210));
   }
 
   public void testNewDataInput_readDouble() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
-    assertEquals(Double.longBitsToDouble(0x1234567876543210L), in.readDouble(), 0.0);
+    assertThat(in.readDouble()).isEqualTo(Double.longBitsToDouble(0x1234567876543210L));
   }
 
   public void testNewDataInput_readUTF() {
     byte[] data = new byte[17];
     data[1] = 15;
-    System.arraycopy("Kilroy was here".getBytes(Charsets.UTF_8), 0, data, 2, 15);
+    System.arraycopy("Kilroy was here".getBytes(UTF_8), 0, data, 2, 15);
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
     assertEquals("Kilroy was here", in.readUTF());
   }
 
   public void testNewDataInput_readChar() {
-    byte[] data = "qed".getBytes(Charsets.UTF_16BE);
+    byte[] data = "qed".getBytes(UTF_16BE);
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
     assertEquals('q', in.readChar());
     assertEquals('e', in.readChar());
@@ -255,7 +258,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0, in.skipBytes(1));
   }
 
-  public void testNewDataInput_BAIS() {
+  public void testNewDataInput_bais() {
     ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] {0x12, 0x34, 0x56, 0x78});
     ByteArrayDataInput in = ByteStreams.newDataInput(bais);
     assertEquals(0x12345678, in.readInt());
@@ -335,14 +338,14 @@ public class ByteStreamsTest extends IoTestCase {
   @AndroidIncompatible // https://issuetracker.google.com/issues/37074504
   public void testUtf16Expected() {
     byte[] hardcodedExpected = utf16ExpectedWithBom;
-    byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_16);
+    byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(UTF_16);
     assertThat(computedExpected).isEqualTo(hardcodedExpected);
   }
 
   public void testNewDataOutput_writeUTF() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeUTF("r\u00C9sum\u00C9");
-    byte[] expected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_8);
+    byte[] expected = "r\u00C9sum\u00C9".getBytes(UTF_8);
     byte[] actual = out.toByteArray();
     // writeUTF writes the length of the string in 2 bytes
     assertEquals(0, actual[0]);
@@ -369,7 +372,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
-  public void testNewDataOutput_BAOS() {
+  public void testNewDataOutput_baos() {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ByteArrayDataOutput out = ByteStreams.newDataOutput(baos);
     out.writeInt(0x12345678);
@@ -514,7 +517,7 @@ public class ByteStreamsTest extends IoTestCase {
     // write to the output stream
     nos.write('n');
     String test = "Test string for NullOutputStream";
-    byte[] bytes = test.getBytes(Charsets.US_ASCII);
+    byte[] bytes = test.getBytes(US_ASCII);
     nos.write(bytes);
     nos.write(bytes, 2, 10);
     nos.write(bytes, bytes.length - 5, 5);

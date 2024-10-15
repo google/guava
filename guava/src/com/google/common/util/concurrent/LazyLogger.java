@@ -22,6 +22,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 final class LazyLogger {
+  private final Object lock = new Object();
+
   private final String loggerName;
   private volatile @Nullable Logger logger;
 
@@ -32,7 +34,7 @@ final class LazyLogger {
   Logger get() {
     /*
      * We use double-checked locking. We could the try racy single-check idiom, but that would
-     * depend on Logger not contain mutable state.
+     * depend on Logger to not contain mutable state.
      *
      * We could use Suppliers.memoizingSupplier here, but I micro-optimized to this implementation
      * to avoid the extra class for the lambda (and maybe more for memoizingSupplier itself) and the
@@ -45,7 +47,7 @@ final class LazyLogger {
     if (local != null) {
       return local;
     }
-    synchronized (this) {
+    synchronized (lock) {
       local = logger;
       if (local != null) {
         return local;

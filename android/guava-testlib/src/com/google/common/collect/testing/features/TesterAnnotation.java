@@ -16,6 +16,7 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -29,7 +30,7 @@ import java.lang.annotation.Target;
  *
  * @author George van den Driessche
  */
-@Target(value = {java.lang.annotation.ElementType.ANNOTATION_TYPE})
+@Target(value = {ElementType.ANNOTATION_TYPE})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Documented
 @GwtCompatible

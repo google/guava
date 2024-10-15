@@ -30,6 +30,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetGenerators.ContiguousSetDescendingGenerator;
@@ -408,6 +409,7 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(ImmutableList.of(1, 2, 3), ImmutableList.copyOf(list.toArray(new Integer[0])));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static class BuiltTests extends TestCase {
     public static Test suite() {

@@ -21,10 +21,15 @@ import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedSetSubsetTestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
+import com.google.common.collect.testing.testers.CollectionAddAllTester;
+import com.google.common.collect.testing.testers.CollectionAddTester;
 import com.google.common.collect.testing.testers.SortedSetNavigationTester;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
@@ -39,6 +44,7 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
     return builder;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
@@ -86,13 +92,20 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
         (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>(parentBuilder.getFeatures());
-    features.remove(CollectionFeature.ALLOWS_NULL_VALUES);
+    Set<Method> suppressing = new HashSet<>(parentBuilder.getSuppressedTests());
     features.add(CollectionFeature.SUBSET_VIEW);
+    if (features.remove(CollectionFeature.ALLOWS_NULL_VALUES)) {
+      // the null value might be out of bounds, so we can't always construct a subset with nulls
+      features.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+      // but add null might still be supported if it happens to be within range of the subset
+      suppressing.add(CollectionAddTester.getAddNullUnsupportedMethod());
+      suppressing.add(CollectionAddAllTester.getAddAllNullUnsupportedMethod());
+    }
 
     return newBuilderUsing(delegate, to, from)
         .named(parentBuilder.getName() + " subSet " + from + "-" + to)
         .withFeatures(features)
-        .suppressing(parentBuilder.getSuppressedTests())
+        .suppressing(suppressing)
         .withSetUp(parentBuilder.getSetUp())
         .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();

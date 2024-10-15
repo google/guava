@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public final class Shorts extends ShortsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code short} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Short#BYTES} instead.
    */
   public static final int BYTES = Short.SIZE / Byte.SIZE;
 
@@ -65,7 +66,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Short#hashCode(short)} instead.
    *
    * @param value a primitive {@code short} value
    * @return a hash code for the value
@@ -109,7 +110,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * Compares the two specified {@code short} values. The sign of the value returned is the same as
    * that of {@code ((Short) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
    * equivalent {@link Short#compare} method instead.
    *
    * @param a the first {@code short} to compare
@@ -117,8 +118,9 @@ public final class Shorts extends ShortsMethodsForWeb {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Short.compare(a, b)")
   public static int compare(short a, short b) {
-    return a - b; // safe due to restricted range
+    return Short.compare(a, b);
   }
 
   /**
@@ -277,19 +279,29 @@ public final class Shorts extends ShortsMethodsForWeb {
    *
    * @param arrays zero or more {@code short} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static short[] concat(short[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (short[] array : arrays) {
       length += array.length;
     }
-    short[] result = new short[length];
+    short[] result = new short[checkNoOverflow(length)];
     int pos = 0;
     for (short[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**
@@ -441,7 +453,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     public int compare(short[] left, short[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Shorts.compare(left[i], right[i]);
+        int result = Short.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }

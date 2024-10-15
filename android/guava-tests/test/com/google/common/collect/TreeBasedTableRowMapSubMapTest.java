@@ -21,6 +21,7 @@ import com.google.common.collect.TableCollectionTest.RowMapTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TreeBasedTableRowMapSubMapTest extends RowMapTests {
   public TreeBasedTableRowMapSubMapTest() {
     super(false, true, true, true);

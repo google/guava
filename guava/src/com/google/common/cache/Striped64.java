@@ -12,15 +12,21 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
+import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Random;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import sun.misc.Unsafe;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic
  * striping on 64bit values. The class extends Number so that concrete subclasses must publicly do
  * so.
  */
+@SuppressWarnings({"SunApi", "removal"}) // b/345822163
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class Striped64 extends Number {
@@ -108,7 +114,7 @@ abstract class Striped64 extends Number {
     }
 
     // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
+    private static final Unsafe UNSAFE;
     private static final long valueOffset;
 
     static {
@@ -266,7 +272,7 @@ abstract class Striped64 extends Number {
   }
 
   // Unsafe mechanics
-  private static final sun.misc.Unsafe UNSAFE;
+  private static final Unsafe UNSAFE;
   private static final long baseOffset;
   private static final long busyOffset;
 
@@ -287,18 +293,18 @@ abstract class Striped64 extends Number {
    *
    * @return a sun.misc.Unsafe
    */
-  private static sun.misc.Unsafe getUnsafe() {
+  private static Unsafe getUnsafe() {
     try {
-      return sun.misc.Unsafe.getUnsafe();
+      return Unsafe.getUnsafe();
     } catch (SecurityException tryReflectionInstead) {
     }
     try {
-      return java.security.AccessController.doPrivileged(
-          new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+      return AccessController.doPrivileged(
+          new PrivilegedExceptionAction<Unsafe>() {
             @Override
-            public sun.misc.Unsafe run() throws Exception {
-              Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-              for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+            public Unsafe run() throws Exception {
+              Class<Unsafe> k = Unsafe.class;
+              for (Field f : k.getDeclaredFields()) {
                 f.setAccessible(true);
                 Object x = f.get(null);
                 if (k.isInstance(x)) return k.cast(x);
@@ -306,7 +312,7 @@ abstract class Striped64 extends Number {
               throw new NoSuchFieldError("the Unsafe");
             }
           });
-    } catch (java.security.PrivilegedActionException e) {
+    } catch (PrivilegedActionException e) {
       throw new RuntimeException("Could not initialize intrinsics", e.getCause());
     }
   }

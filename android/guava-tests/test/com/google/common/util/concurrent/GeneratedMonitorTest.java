@@ -20,7 +20,6 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -215,7 +214,7 @@ public class GeneratedMonitorTest extends TestCase {
             if (nameComparison != 0) {
               return nameComparison;
             } else {
-              return Ints.compare(m1.getParameterTypes().length, m2.getParameterTypes().length);
+              return Integer.compare(m1.getParameterTypes().length, m2.getParameterTypes().length);
             }
           }
         });
@@ -653,10 +652,10 @@ public class GeneratedMonitorTest extends TestCase {
       if (actualException instanceof InterruptedException) {
         return Outcome.INTERRUPT;
       } else {
-        throw newAssertionError("unexpected exception", targetException);
+        throw new AssertionError("unexpected exception", targetException);
       }
     } catch (IllegalAccessException e) {
-      throw newAssertionError("unexpected exception", e);
+      throw new AssertionError("unexpected exception", e);
     }
   }
 
@@ -771,12 +770,5 @@ public class GeneratedMonitorTest extends TestCase {
         }
       }
     };
-  }
-
-  /** Alternative to AssertionError(String, Throwable), which doesn't exist in Java 1.6 */
-  private static AssertionError newAssertionError(String message, Throwable cause) {
-    AssertionError e = new AssertionError(message);
-    e.initCause(cause);
-    return e;
   }
 }

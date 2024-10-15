@@ -26,6 +26,7 @@ import com.google.common.testing.EqualsTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableTable<Character, Integer, String> INSTANCE = ImmutableTable.of();
 

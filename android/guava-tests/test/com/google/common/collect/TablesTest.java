@@ -22,6 +22,7 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Tables}.
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TablesTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
@@ -41,7 +43,8 @@ public class TablesTest extends TestCase {
     Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');
     assertEquals("(foo,1)=a", entry.toString());
 
-    Cell<String, Integer, Character> nullEntry = Tables.immutableCell(null, null, null);
+    Cell<@Nullable String, @Nullable Integer, @Nullable Character> nullEntry =
+        Tables.immutableCell(null, null, null);
     assertEquals("(null,null)=null", nullEntry.toString());
   }
 
@@ -53,18 +56,27 @@ public class TablesTest extends TestCase {
         .addEqualityGroup(Tables.immutableCell("bar", 1, 'a'))
         .addEqualityGroup(Tables.immutableCell("foo", 2, 'a'))
         .addEqualityGroup(Tables.immutableCell("foo", 1, 'b'))
-        .addEqualityGroup(Tables.immutableCell(null, null, null))
+        .addEqualityGroup(
+            Tables.<@Nullable Object, @Nullable Object, @Nullable Object>immutableCell(
+                null, null, null))
         .testEquals();
   }
 
   public void testEntryEqualsNull() {
-    Cell<String, Integer, Character> entry = Tables.immutableCell(null, null, null);
+    Cell<@Nullable String, @Nullable Integer, @Nullable Character> entry =
+        Tables.immutableCell(null, null, null);
 
     new EqualsTester()
-        .addEqualityGroup(entry, Tables.immutableCell(null, null, null))
-        .addEqualityGroup(Tables.immutableCell("bar", null, null))
-        .addEqualityGroup(Tables.immutableCell(null, 2, null))
-        .addEqualityGroup(Tables.immutableCell(null, null, 'b'))
+        .addEqualityGroup(
+            entry,
+            Tables.<@Nullable Object, @Nullable Object, @Nullable Object>immutableCell(
+                null, null, null))
+        .addEqualityGroup(
+            Tables.<String, @Nullable Object, @Nullable Object>immutableCell("bar", null, null))
+        .addEqualityGroup(
+            Tables.<@Nullable Object, Integer, @Nullable Object>immutableCell(null, 2, null))
+        .addEqualityGroup(
+            Tables.<@Nullable Object, @Nullable Object, Character>immutableCell(null, null, 'b'))
         .addEqualityGroup(Tables.immutableCell("foo", 1, 'a'))
         .testEquals();
   }

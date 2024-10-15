@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link HashingOutputStream}.
  *
- * @author Nick Piepmeier
+ * @author Zoe Piepmeier
  */
 public class HashingOutputStreamTest extends TestCase {
   private Hasher hasher;

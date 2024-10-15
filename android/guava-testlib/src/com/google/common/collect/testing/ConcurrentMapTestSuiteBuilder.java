@@ -36,6 +36,7 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
     return result;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   static final List<? extends Class<? extends AbstractTester>> TESTERS =
       Arrays.asList(
           ConcurrentMapPutIfAbsentTester.class,
@@ -43,6 +44,7 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
           ConcurrentMapReplaceTester.class,
           ConcurrentMapReplaceEntryTester.class);
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());

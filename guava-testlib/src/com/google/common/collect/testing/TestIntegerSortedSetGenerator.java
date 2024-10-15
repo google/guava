@@ -28,6 +28,7 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenerator {
   @Override
   protected abstract SortedSet<Integer> create(Integer[] elements);

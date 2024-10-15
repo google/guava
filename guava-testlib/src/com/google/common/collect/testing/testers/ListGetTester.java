@@ -27,6 +27,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListGetTester<E> extends AbstractListTester<E> {
   public void testGet_valid() {
     // This calls get() on each index and checks the result:

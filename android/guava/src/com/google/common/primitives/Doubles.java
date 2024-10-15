@@ -24,8 +24,8 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public final class Doubles extends DoublesMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code double} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#BYTES} instead.
    *
    * @since 10.0
    */
@@ -64,7 +64,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#hashCode(double)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#hashCode(double)} instead.
    *
    * @param value a primitive {@code double} value
    * @return a hash code for the value
@@ -90,6 +90,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Double.compare(a, b)")
   public static int compare(double a, double b) {
     return Double.compare(a, b);
   }
@@ -98,7 +99,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
    *
-   * <p><b>Java 8 users:</b> use {@link Double#isFinite(double)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Double#isFinite(double)} instead.
    *
    * @since 10.0
    */
@@ -270,19 +271,29 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * @param arrays zero or more {@code double} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static double[] concat(double[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (double[] array : arrays) {
       length += array.length;
     }
-    double[] result = new double[length];
+    double[] result = new double[checkNoOverflow(length)];
     int pos = 0;
     for (double[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   private static final class DoubleConverter extends Converter<String, Double>
@@ -705,7 +716,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs
    * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.
    */
-  @J2ktIncompatible @GwtIncompatible // regular expressions
+  @GwtIncompatible // regular expressions
   static final
   java.util.regex.Pattern
       FLOATING_POINT_PATTERN = fpPattern();
@@ -751,7 +762,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @J2ktIncompatible
   @GwtIncompatible // regular expressions
   @CheckForNull
   public static Double tryParse(String string) {

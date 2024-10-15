@@ -25,6 +25,7 @@ import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
@@ -34,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -43,10 +45,11 @@ import org.junit.Ignore;
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
+public class CollectionAddAllTester<E extends @Nullable Object>
+    extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_supportedNothing() {
     assertFalse("addAll(nothing) should return false", collection.addAll(emptyCollection()));
@@ -167,6 +170,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
@@ -175,9 +179,11 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   /**
    * Returns the {@link Method} instance for {@link #testAddAll_unsupportedNonePresent()} so that
    * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
-   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
-   * {@code entrySet().add()}</a>.
+   * figure out what to do with <a
+   * href="https://github.com/openjdk/jdk/blob/c25c4896ad9ef031e3cddec493aef66ff87c48a7/src/java.base/share/classes/java/util/concurrent/ConcurrentHashMap.java#L4830">{@code
+   * ConcurrentHashMap} support for {@code entrySet().add()}</a>.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedNonePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
@@ -186,9 +192,11 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   /**
    * Returns the {@link Method} instance for {@link #testAddAll_unsupportedSomePresent()} so that
    * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
-   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
-   * {@code entrySet().add()}</a>.
+   * figure out what to do with <a
+   * href="https://github.com/openjdk/jdk/blob/c25c4896ad9ef031e3cddec493aef66ff87c48a7/src/java.base/share/classes/java/util/concurrent/ConcurrentHashMap.java#L4830">{@code
+   * ConcurrentHashMap} support for {@code entrySet().add()}</a>.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedSomePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");

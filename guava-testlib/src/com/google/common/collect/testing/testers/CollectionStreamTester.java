@@ -33,6 +33,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionStreamTester<E> extends AbstractCollectionTester<E> {
   /*
    * We're not really testing the implementation of Stream, only that we're getting a Stream
@@ -41,22 +42,16 @@ public class CollectionStreamTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(absent = KNOWN_ORDER)
   public void testStreamToArrayUnknownOrder() {
-    synchronized (collection) { // to allow Collections.synchronized* tests to pass
-      Helpers.assertEqualIgnoringOrder(
-          getSampleElements(), Arrays.asList(collection.stream().toArray()));
-    }
+    Helpers.assertEqualIgnoringOrder(
+        getSampleElements(), Arrays.asList(collection.stream().toArray()));
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testStreamToArrayKnownOrder() {
-    synchronized (collection) { // to allow Collections.synchronized* tests to pass
-      assertEquals(getOrderedElements(), Arrays.asList(collection.stream().toArray()));
-    }
+    assertEquals(getOrderedElements(), Arrays.asList(collection.stream().toArray()));
   }
 
   public void testStreamCount() {
-    synchronized (collection) { // to allow Collections.synchronized* tests to pass
-      assertEquals(getNumElements(), collection.stream().count());
-    }
+    assertEquals(getNumElements(), collection.stream().count());
   }
 }

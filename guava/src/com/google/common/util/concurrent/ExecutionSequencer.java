@@ -26,9 +26,9 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -100,7 +100,7 @@ public final class ExecutionSequencer {
   private final AtomicReference<ListenableFuture<@Nullable Void>> ref =
       new AtomicReference<>(immediateVoidFuture());
 
-  private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();
+  private @LazyInit ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();
 
   /**
    * This object is unsafely published, but avoids problematic races by relying exclusively on the
@@ -131,9 +131,11 @@ public final class ExecutionSequencer {
      * All the states where thread != currentThread are identical for our purposes, and so even
      * though it's racy, we don't care which of those values we get, so no need to synchronize.
      */
-    @CheckForNull Thread thread;
+    @CheckForNull @LazyInit Thread thread;
+
     /** Only used by the thread associated with this object */
     @CheckForNull Runnable nextTask;
+
     /** Only used by the thread associated with this object */
     @CheckForNull Executor nextExecutor;
   }
@@ -308,7 +310,7 @@ public final class ExecutionSequencer {
     @CheckForNull Runnable task;
 
     /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */
-    @CheckForNull Thread submitting;
+    @CheckForNull @LazyInit Thread submitting;
 
     private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {
       super(NOT_RUN);

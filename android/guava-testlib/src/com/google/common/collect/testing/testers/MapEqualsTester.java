@@ -38,6 +38,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithSameEntries() {
     assertTrue(
@@ -120,7 +121,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
         getMap().equals(Helpers.copyToList(getMap().entrySet())));
   }
 
-  private static <K, V> HashMap<K, V> newHashMap(
+  private static <K, V> Map<K, V> newHashMap(
       Collection<? extends Entry<? extends K, ? extends V>> entries) {
     HashMap<K, V> map = new HashMap<>();
     for (Entry<? extends K, ? extends V> entry : entries) {

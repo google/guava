@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -72,12 +73,13 @@ public class RateLimiterTest extends TestCase {
 
   public void testSimpleRateUpdate() {
     RateLimiter limiter = RateLimiter.create(5.0, 5, SECONDS);
-    assertEquals(5.0, limiter.getRate());
+    assertThat(limiter.getRate()).isEqualTo(5.0);
     limiter.setRate(10.0);
-    assertEquals(10.0, limiter.getRate());
+    assertThat(limiter.getRate()).isEqualTo(10.0);
 
     assertThrows(IllegalArgumentException.class, () -> limiter.setRate(0.0));
     assertThrows(IllegalArgumentException.class, () -> limiter.setRate(-10.0));
+    assertThrows(IllegalArgumentException.class, () -> limiter.setRate(Double.NaN));
   }
 
   public void testAcquireParameterValidation() {
@@ -101,20 +103,22 @@ public class RateLimiterTest extends TestCase {
 
   public void testSimpleAcquireReturnValues() {
     RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
-    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.0); // R0.00
     stopwatch.sleepMillis(200); // U0.20, we are ready for the next request...
-    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00, ...which is granted immediately
-    assertEquals(0.2, limiter.acquire(), EPSILON); // R0.20
+    assertThat(limiter.acquire())
+        .isWithin(EPSILON)
+        .of(0.0); // R0.00, ...which is granted immediately
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.2); // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
   public void testSimpleAcquireEarliestAvailableIsInPast() {
     RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
-    assertEquals(0.0, limiter.acquire(), EPSILON);
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.0);
     stopwatch.sleepMillis(400);
-    assertEquals(0.0, limiter.acquire(), EPSILON);
-    assertEquals(0.0, limiter.acquire(), EPSILON);
-    assertEquals(0.2, limiter.acquire(), EPSILON);
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.0);
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.0);
+    assertThat(limiter.acquire()).isWithin(EPSILON).of(0.2);
   }
 
   public void testOneSecondBurst() {
@@ -333,7 +337,7 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.00", "R1.00", "R1.00", "R2.00", "R4.00", "R8.00");
   }
 
-  public void testInfinity_Bursty() {
+  public void testInfinity_bursty() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
@@ -360,7 +364,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   /** https://code.google.com/p/guava-libraries/issues/detail?id=1791 */
-  public void testInfinity_BustyTimeElapsed() {
+  public void testInfinity_bustyTimeElapsed() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     stopwatch.instant += 1000000;
     limiter.setRate(2.0);
@@ -374,7 +378,7 @@ public class RateLimiterTest extends TestCase {
         "R0.50");
   }
 
-  public void testInfinity_WarmUp() {
+  public void testInfinity_warmUp() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
@@ -394,7 +398,7 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R1.00", "R0.00", "R0.00");
   }
 
-  public void testInfinity_WarmUpTimeElapsed() {
+  public void testInfinity_warmUpTimeElapsed() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     stopwatch.instant += 1000000;
     limiter.setRate(1.0);

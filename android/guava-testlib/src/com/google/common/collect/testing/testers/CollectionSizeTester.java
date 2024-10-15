@@ -28,6 +28,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionSizeTester<E> extends AbstractCollectionTester<E> {
   public void testSize() {
     assertEquals("size():", getNumElements(), collection.size());

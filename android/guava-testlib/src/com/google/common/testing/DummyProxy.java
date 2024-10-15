@@ -73,7 +73,8 @@ abstract class DummyProxy {
     }
 
     @Override
-    protected @Nullable Object handleInvocation(Object proxy, Method method, Object[] args) {
+    protected @Nullable Object handleInvocation(
+        Object proxy, Method method, @Nullable Object[] args) {
       Invokable<?, ?> invokable = interfaceType.method(method);
       ImmutableList<Parameter> params = invokable.getParameters();
       for (int i = 0; i < args.length; i++) {

@@ -40,6 +40,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   private SampleElements<K> keys() {
     return new SampleElements<>(k0(), k1(), k2(), k3(), k4());

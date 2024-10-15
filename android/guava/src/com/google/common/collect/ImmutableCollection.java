@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -176,12 +178,25 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
    * the spliterator implementation.
    */
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
+  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
+  static final int SPLITERATOR_CHARACTERISTICS =
+      Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
 
   ImmutableCollection() {}
 
   /** Returns an unmodifiable iterator across the elements in this collection. */
   @Override
   public abstract UnmodifiableIterator<E> iterator();
+
+  @Override
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @IgnoreJRERequirement // used only from APIs with Java 8 types in them
+  // (not used within guava-android as of this writing, but we include it in the jar as a test)
+  public Spliterator<E> spliterator() {
+    return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);
+  }
 
   private static final Object[] EMPTY_ARRAY = {};
 
@@ -343,7 +358,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @since 2.0
    */
   public ImmutableList<E> asList() {
-    return isEmpty() ? ImmutableList.<E>of() : ImmutableList.<E>asImmutableList(toArray());
+    return isEmpty() ? ImmutableList.of() : ImmutableList.asImmutableList(toArray());
   }
 
   /**
@@ -389,7 +404,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {
       if (minCapacity < 0) {
-        throw new AssertionError("cannot store more than MAX_VALUE elements");
+        throw new IllegalArgumentException("cannot store more than MAX_VALUE elements");
+      } else if (minCapacity <= oldCapacity) {
+        return oldCapacity;
       }
       // careful of overflow!
       int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
@@ -498,13 +515,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * elements without being resized. Also, if we've already built a collection backed by the
      * current array, create a new array.
      */
-    private void getReadyToExpandTo(int minCapacity) {
-      if (contents.length < minCapacity) {
-        this.contents =
-            Arrays.copyOf(this.contents, expandedCapacity(contents.length, minCapacity));
-        forceCopy = false;
-      } else if (forceCopy) {
-        this.contents = contents.clone();
+    private void ensureRoomFor(int newElements) {
+      @Nullable Object[] contents = this.contents;
+      int newCapacity = expandedCapacity(contents.length, size + newElements);
+      // expandedCapacity handles the overflow case
+      if (newCapacity > contents.length || forceCopy) {
+        this.contents = Arrays.copyOf(this.contents, newCapacity);
         forceCopy = false;
       }
     }
@@ -513,7 +529,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
-      getReadyToExpandTo(size + 1);
+      ensureRoomFor(1);
       contents[size++] = element;
       return this;
     }
@@ -527,7 +543,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     final void addAll(@Nullable Object[] elements, int n) {
       checkElementsNotNull(elements, n);
-      getReadyToExpandTo(size + n);
+      ensureRoomFor(n);
       /*
        * The following call is not statically checked, since arraycopy accepts plain Object for its
        * parameters. If it were statically checked, the checker would still be OK with it, since
@@ -545,7 +561,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        getReadyToExpandTo(size + collection.size());
+        ensureRoomFor(collection.size());
         if (collection instanceof ImmutableCollection) {
           ImmutableCollection<?> immutableCollection = (ImmutableCollection<?>) collection;
           size = immutableCollection.copyIntoArray(contents, size);

@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
@@ -149,6 +150,7 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(getDone(future2)).isFalse();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible
   @J2ObjCIncompatible // gc
   @AndroidIncompatible
@@ -326,6 +328,7 @@ public class ExecutionSequencerTest extends TestCase {
   private static final int ITERATION_COUNT = 50_000;
   private static final int DIRECT_EXECUTIONS_PER_THREAD = 100;
 
+  @J2ktIncompatible
   @GwtIncompatible // threads
   public void testAvoidsStackOverflow_multipleThreads() throws Exception {
     final LongHolder holder = new LongHolder();

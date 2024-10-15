@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
@@ -57,8 +58,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultimapNaturalTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -141,7 +144,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Collection<String>[] createValueArray(int length) {
-                    return new Collection[length];
+                    return (Collection<String>[]) new Collection<?>[length];
                   }
 
                   @Override
@@ -161,7 +164,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Collection<String>>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Collection<String>>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -351,7 +354,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   private static final Comparator<Double> KEY_COMPARATOR = Ordering.natural();
 
   private static final Comparator<Double> VALUE_COMPARATOR =
-      Ordering.natural().reverse().nullsFirst();
+      Ordering.<Double>natural().reverse().nullsFirst();
 
   /**
    * Test that creating one TreeMultimap from another does not copy the comparators from the source
@@ -407,6 +410,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(Ordering.natural(), multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
@@ -417,6 +421,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapDerived() {
     TreeMultimap<DerivedComparable, DerivedComparable> multimap = TreeMultimap.create();
@@ -443,6 +448,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     SerializableTester.reserializeAndAssert(multimap);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapNonGeneric() {
     TreeMultimap<LegacyComparable, LegacyComparable> multimap = TreeMultimap.create();
@@ -500,6 +506,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(4, multimap.keys().size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testKeySetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -510,6 +517,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     fail("No bridge method found");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testAsMapBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -519,6 +527,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testGetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {

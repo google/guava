@@ -19,11 +19,12 @@ import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -121,6 +122,8 @@ public final class Suppliers {
 
   @VisibleForTesting
   static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
+    private transient Object lock = new Object();
+
     final Supplier<T> delegate;
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
@@ -133,10 +136,12 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
+    // We set the field only once (during construction or deserialization).
+    @SuppressWarnings("SynchronizeOnNonFinalField")
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
-        synchronized (this) {
+        synchronized (lock) {
           if (!initialized) {
             T t = delegate.get();
             value = t;
@@ -156,11 +161,20 @@ public final class Suppliers {
           + ")";
     }
 
+    @GwtIncompatible // serialization
+    @J2ktIncompatible // serialization
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      lock = new Object();
+    }
+
     private static final long serialVersionUID = 0;
   }
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+    private final Object lock = new Object();
+
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
     private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
         () -> {
@@ -181,7 +195,7 @@ public final class Suppliers {
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
       if (delegate != SUCCESSFULLY_COMPUTED) {
-        synchronized (this) {
+        synchronized (lock) {
           if (delegate != SUCCESSFULLY_COMPUTED) {
             T t = delegate.get();
             value = t;
@@ -252,9 +266,8 @@ public final class Suppliers {
    * @param duration the length of time after a value is created that it should stop being returned
    *     by subsequent {@code get()} calls
    * @throws IllegalArgumentException if {@code duration} is not positive
-   * @since NEXT
+   * @since 33.1.0
    */
-  @Beta // only until we're confident that Java 8 APIs are safe for our Android users
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
@@ -265,13 +278,15 @@ public final class Suppliers {
     // The alternative of `duration.compareTo(Duration.ZERO) > 0` causes J2ObjC trouble.
     checkArgument(
         !duration.isNegative() && !duration.isZero(), "duration (%s) must be > 0", duration);
-    return new ExpiringMemoizingSupplier<T>(delegate, toNanosSaturated(duration));
+    return new ExpiringMemoizingSupplier<>(delegate, toNanosSaturated(duration));
   }
 
   @VisibleForTesting
   @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
+    private transient Object lock = new Object();
+
     final Supplier<T> delegate;
     final long durationNanos;
     @CheckForNull transient volatile T value;
@@ -285,6 +300,8 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
+    // We set the field only once (during construction or deserialization).
+    @SuppressWarnings("SynchronizeOnNonFinalField")
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -295,7 +312,7 @@ public final class Suppliers {
       long nanos = expirationNanos;
       long now = System.nanoTime();
       if (nanos == 0 || now - nanos >= 0) {
-        synchronized (this) {
+        synchronized (lock) {
           if (nanos == expirationNanos) { // recheck for lost race
             T t = delegate.get();
             value = t;
@@ -316,6 +333,13 @@ public final class Suppliers {
       // This is a little strange if the unit the user provided was not NANOS,
       // but we don't want to store the unit just for toString
       return "Suppliers.memoizeWithExpiration(" + delegate + ", " + durationNanos + ", NANOS)";
+    }
+
+    @GwtIncompatible // serialization
+    @J2ktIncompatible // serialization
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      lock = new Object();
     }
 
     private static final long serialVersionUID = 0;
@@ -367,11 +391,13 @@ public final class Suppliers {
    * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling
    * it, making it thread-safe.
    */
+  @J2ktIncompatible
   public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
       Supplier<T> delegate) {
     return new ThreadSafeSupplier<>(delegate);
   }
 
+  @J2ktIncompatible
   private static class ThreadSafeSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
@@ -400,7 +426,7 @@ public final class Suppliers {
    * Returns a function that accepts a supplier and returns the result of invoking {@link
    * Supplier#get} on that supplier.
    *
-   * <p><b>Java 8 users:</b> use the method reference {@code Supplier::get} instead.
+   * <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
    *
    * @since 8.0
    */

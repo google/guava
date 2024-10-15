@@ -46,7 +46,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
    */
   @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
   static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
-    return new ImmutableMapEntry[size];
+    return (ImmutableMapEntry<K, V>[]) new ImmutableMapEntry<?, ?>[size];
   }
 
   ImmutableMapEntry(K key, V value) {

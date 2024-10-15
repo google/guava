@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for a {@link Table} implementation supporting reads and writes.
@@ -28,12 +30,15 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class AbstractTableTest extends AbstractTableReadTest {
+@ElementTypesAreNonnullByDefault
+public abstract class AbstractTableTest<C extends @Nullable Character>
+    extends AbstractTableReadTest<C> {
 
-  protected void populate(Table<String, Integer, Character> table, Object... data) {
+  protected void populate(Table<String, Integer, C> table, @Nullable Object... data) {
     checkArgument(data.length % 3 == 0);
     for (int i = 0; i < data.length; i += 3) {
-      table.put((String) data[i], (Integer) data[i + 1], (Character) data[i + 2]);
+      table.put(
+          (String) data[i], (Integer) data[i + 1], nullableCellValue((Character) data[i + 2]));
     }
   }
 
@@ -61,29 +66,28 @@ public abstract class AbstractTableTest extends AbstractTableReadTest {
   }
 
   public void testPut() {
-    assertNull(table.put("foo", 1, 'a'));
-    assertNull(table.put("bar", 1, 'b'));
-    assertNull(table.put("foo", 3, 'c'));
-    assertEquals((Character) 'a', table.put("foo", 1, 'd'));
+    assertNull(table.put("foo", 1, cellValue('a')));
+    assertNull(table.put("bar", 1, cellValue('b')));
+    assertNull(table.put("foo", 3, cellValue('c')));
+    assertEquals((Character) 'a', table.put("foo", 1, cellValue('d')));
     assertEquals((Character) 'd', table.get("foo", 1));
     assertEquals((Character) 'b', table.get("bar", 1));
     assertSize(3);
-    assertEquals((Character) 'd', table.put("foo", 1, 'd'));
+    assertEquals((Character) 'd', table.put("foo", 1, cellValue('d')));
     assertEquals((Character) 'd', table.get("foo", 1));
     assertSize(3);
   }
 
-  // This test assumes that the implementation does not support nulls.
   public void testPutNull() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertSize(3);
     try {
-      table.put(null, 2, 'd');
+      table.put(null, 2, cellValue('d'));
       fail();
     } catch (NullPointerException expected) {
     }
     try {
-      table.put("cat", null, 'd');
+      table.put("cat", null, cellValue('d'));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -104,11 +108,11 @@ public abstract class AbstractTableTest extends AbstractTableReadTest {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
 
     if (supportsNullValues()) {
-      assertEquals((Character) 'b', table.put("bar", 1, null));
+      assertEquals((Character) 'b', table.put("bar", 1, nullableCellValue(null)));
       assertNull(table.get("bar", 1));
     } else {
       try {
-        table.put("bar", 1, null);
+        table.put("bar", 1, nullableCellValue(null));
         fail();
       } catch (NullPointerException expected) {
       }
@@ -117,10 +121,10 @@ public abstract class AbstractTableTest extends AbstractTableReadTest {
 
   public void testPutAllTable() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Table<String, Integer, Character> other = HashBasedTable.create();
-    other.put("foo", 1, 'd');
-    other.put("bar", 2, 'e');
-    other.put("cat", 2, 'f');
+    Table<String, Integer, @NonNull C> other = HashBasedTable.create();
+    other.put("foo", 1, cellValue('d'));
+    other.put("bar", 2, cellValue('e'));
+    other.put("cat", 2, cellValue('f'));
     table.putAll(other);
     assertEquals((Character) 'd', table.get("foo", 1));
     assertEquals((Character) 'b', table.get("bar", 1));
@@ -158,18 +162,29 @@ public abstract class AbstractTableTest extends AbstractTableReadTest {
   public void testRowClearAndPut() {
     if (supportsRemove()) {
       table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-      Map<Integer, Character> row = table.row("foo");
+      Map<Integer, C> row = table.row("foo");
       assertEquals(ImmutableMap.of(1, 'a', 3, 'c'), row);
       table.remove("foo", 3);
       assertEquals(ImmutableMap.of(1, 'a'), row);
       table.remove("foo", 1);
       assertEquals(ImmutableMap.of(), row);
-      table.put("foo", 2, 'b');
+      table.put("foo", 2, cellValue('b'));
       assertEquals(ImmutableMap.of(2, 'b'), row);
       row.clear();
       assertEquals(ImmutableMap.of(), row);
-      table.put("foo", 5, 'x');
+      table.put("foo", 5, cellValue('x'));
       assertEquals(ImmutableMap.of(5, 'x'), row);
     }
+  }
+
+  @SuppressWarnings("unchecked") // C can only be @Nullable Character or Character
+  protected @NonNull C cellValue(Character character) {
+    return (C) character;
+  }
+
+  // Only safe wrt. ClassCastException. Not null-safe (can be used to test expected Table NPEs)
+  @SuppressWarnings("unchecked")
+  protected C nullableCellValue(@Nullable Character character) {
+    return (C) character;
   }
 }

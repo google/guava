@@ -68,6 +68,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
@@ -233,7 +234,7 @@ public class MultisetTestSuiteBuilder<E>
     @SuppressWarnings("unchecked")
     @Override
     public Multiset.Entry<E>[] createArray(int length) {
-      return new Multiset.Entry[length];
+      return (Multiset.Entry<E>[]) new Multiset.Entry<?>[length];
     }
 
     @Override

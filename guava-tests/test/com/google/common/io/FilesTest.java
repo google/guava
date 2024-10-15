@@ -17,9 +17,11 @@
 package com.google.common.io;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.charset.StandardCharsets.UTF_16LE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -53,6 +55,7 @@ import junit.framework.TestSuite;
  * @author Chris Nokleberg
  */
 
+@SuppressWarnings("InlineMeInliner") // many tests of deprecated methods
 public class FilesTest extends IoTestCase {
 
   @AndroidIncompatible // suites, ByteSourceTester (b/230620681)
@@ -85,15 +88,15 @@ public class FilesTest extends IoTestCase {
   public void testRoundTripSources() throws Exception {
     File asciiFile = getTestFile("ascii.txt");
     ByteSource byteSource = Files.asByteSource(asciiFile);
-    assertSame(byteSource, byteSource.asCharSource(Charsets.UTF_8).asByteSource(Charsets.UTF_8));
+    assertSame(byteSource, byteSource.asCharSource(UTF_8).asByteSource(UTF_8));
   }
 
   public void testToByteArray() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), Files.toByteArray(asciiFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.toByteArray(i18nFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.asByteSource(i18nFile).read()));
+    assertTrue(Arrays.equals(ASCII.getBytes(US_ASCII), Files.toByteArray(asciiFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(UTF_8), Files.toByteArray(i18nFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(UTF_8), Files.asByteSource(i18nFile).read()));
   }
 
   /** A {@link File} that provides a specialized value for {@link File#length()}. */
@@ -117,15 +120,15 @@ public class FilesTest extends IoTestCase {
   public void testToString() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertEquals(ASCII, Files.toString(asciiFile, Charsets.US_ASCII));
-    assertEquals(I18N, Files.toString(i18nFile, Charsets.UTF_8));
-    assertThat(Files.toString(i18nFile, Charsets.US_ASCII)).isNotEqualTo(I18N);
+    assertEquals(ASCII, Files.toString(asciiFile, US_ASCII));
+    assertEquals(I18N, Files.toString(i18nFile, UTF_8));
+    assertThat(Files.toString(i18nFile, US_ASCII)).isNotEqualTo(I18N);
   }
 
   public void testWriteString() throws IOException {
     File temp = createTempFile();
-    Files.write(I18N, temp, Charsets.UTF_16LE);
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_16LE));
+    Files.write(I18N, temp, UTF_16LE);
+    assertEquals(I18N, Files.toString(temp, UTF_16LE));
   }
 
   public void testWriteBytes() throws IOException {
@@ -139,12 +142,12 @@ public class FilesTest extends IoTestCase {
 
   public void testAppendString() throws IOException {
     File temp = createTempFile();
-    Files.append(I18N, temp, Charsets.UTF_16LE);
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_16LE));
-    Files.append(I18N, temp, Charsets.UTF_16LE);
-    assertEquals(I18N + I18N, Files.toString(temp, Charsets.UTF_16LE));
-    Files.append(I18N, temp, Charsets.UTF_16LE);
-    assertEquals(I18N + I18N + I18N, Files.toString(temp, Charsets.UTF_16LE));
+    Files.append(I18N, temp, UTF_16LE);
+    assertEquals(I18N, Files.toString(temp, UTF_16LE));
+    Files.append(I18N, temp, UTF_16LE);
+    assertEquals(I18N + I18N, Files.toString(temp, UTF_16LE));
+    Files.append(I18N, temp, UTF_16LE);
+    assertEquals(I18N + I18N + I18N, Files.toString(temp, UTF_16LE));
   }
 
   public void testCopyToOutputStream() throws IOException {
@@ -157,7 +160,7 @@ public class FilesTest extends IoTestCase {
   public void testCopyToAppendable() throws IOException {
     File i18nFile = getTestFile("i18n.txt");
     StringBuilder sb = new StringBuilder();
-    Files.copy(i18nFile, Charsets.UTF_8, sb);
+    Files.copy(i18nFile, UTF_8, sb);
     assertEquals(I18N, sb.toString());
   }
 
@@ -165,32 +168,32 @@ public class FilesTest extends IoTestCase {
     File i18nFile = getTestFile("i18n.txt");
     File temp = createTempFile();
     Files.copy(i18nFile, temp);
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_8));
+    assertEquals(I18N, Files.toString(temp, UTF_8));
   }
 
   public void testCopyEqualFiles() throws IOException {
     File temp1 = createTempFile();
     File temp2 = file(temp1.getPath());
     assertEquals(temp1, temp2);
-    Files.write(ASCII, temp1, Charsets.UTF_8);
+    Files.write(ASCII, temp1, UTF_8);
     assertThrows(IllegalArgumentException.class, () -> Files.copy(temp1, temp2));
-    assertEquals(ASCII, Files.toString(temp1, Charsets.UTF_8));
+    assertEquals(ASCII, Files.toString(temp1, UTF_8));
   }
 
   public void testCopySameFile() throws IOException {
     File temp = createTempFile();
-    Files.write(ASCII, temp, Charsets.UTF_8);
+    Files.write(ASCII, temp, UTF_8);
     assertThrows(IllegalArgumentException.class, () -> Files.copy(temp, temp));
-    assertEquals(ASCII, Files.toString(temp, Charsets.UTF_8));
+    assertEquals(ASCII, Files.toString(temp, UTF_8));
   }
 
   public void testCopyIdenticalFiles() throws IOException {
     File temp1 = createTempFile();
-    Files.write(ASCII, temp1, Charsets.UTF_8);
+    Files.write(ASCII, temp1, UTF_8);
     File temp2 = createTempFile();
-    Files.write(ASCII, temp2, Charsets.UTF_8);
+    Files.write(ASCII, temp2, UTF_8);
     Files.copy(temp1, temp2);
-    assertEquals(ASCII, Files.toString(temp2, Charsets.UTF_8));
+    assertEquals(ASCII, Files.toString(temp2, UTF_8));
   }
 
   public void testEqual() throws IOException {
@@ -223,9 +226,9 @@ public class FilesTest extends IoTestCase {
     File asciiFile = getTestFile("ascii.txt");
     assertThrows(NullPointerException.class, () -> Files.newReader(asciiFile, null));
 
-    assertThrows(NullPointerException.class, () -> Files.newReader(null, Charsets.UTF_8));
+    assertThrows(NullPointerException.class, () -> Files.newReader(null, UTF_8));
 
-    BufferedReader r = Files.newReader(asciiFile, Charsets.US_ASCII);
+    BufferedReader r = Files.newReader(asciiFile, US_ASCII);
     try {
       assertEquals(ASCII, r.readLine());
     } finally {
@@ -237,9 +240,9 @@ public class FilesTest extends IoTestCase {
     File temp = createTempFile();
     assertThrows(NullPointerException.class, () -> Files.newWriter(temp, null));
 
-    assertThrows(NullPointerException.class, () -> Files.newWriter(null, Charsets.UTF_8));
+    assertThrows(NullPointerException.class, () -> Files.newWriter(null, UTF_8));
 
-    BufferedWriter w = Files.newWriter(temp, Charsets.UTF_8);
+    BufferedWriter w = Files.newWriter(temp, UTF_8);
     try {
       w.write(I18N);
     } finally {
@@ -405,19 +408,18 @@ public class FilesTest extends IoTestCase {
 
   public void testLineReading() throws IOException {
     File temp = createTempFile();
-    assertNull(Files.readFirstLine(temp, Charsets.UTF_8));
-    assertTrue(Files.readLines(temp, Charsets.UTF_8).isEmpty());
+    assertNull(Files.readFirstLine(temp, UTF_8));
+    assertTrue(Files.readLines(temp, UTF_8).isEmpty());
 
-    PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
+    PrintWriter w = new PrintWriter(Files.newWriter(temp, UTF_8));
     w.println("hello");
     w.println("");
     w.println(" world  ");
     w.println("");
     w.close();
 
-    assertEquals("hello", Files.readFirstLine(temp, Charsets.UTF_8));
-    assertEquals(
-        ImmutableList.of("hello", "", " world  ", ""), Files.readLines(temp, Charsets.UTF_8));
+    assertEquals("hello", Files.readFirstLine(temp, UTF_8));
+    assertEquals(ImmutableList.of("hello", "", " world  ", ""), Files.readLines(temp, UTF_8));
 
     assertTrue(temp.delete());
   }
@@ -439,15 +441,15 @@ public class FilesTest extends IoTestCase {
             return collector;
           }
         };
-    assertThat(Files.readLines(temp, Charsets.UTF_8, collect)).isEmpty();
+    assertThat(Files.readLines(temp, UTF_8, collect)).isEmpty();
 
-    PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
+    PrintWriter w = new PrintWriter(Files.newWriter(temp, UTF_8));
     w.println("hello");
     w.println("");
     w.println(" world  ");
     w.println("");
     w.close();
-    Files.readLines(temp, Charsets.UTF_8, collect);
+    Files.readLines(temp, UTF_8, collect);
     assertThat(collect.getResult()).containsExactly("hello", "", " world  ", "").inOrder();
 
     LineProcessor<List<String>> collectNonEmptyLines =
@@ -467,7 +469,7 @@ public class FilesTest extends IoTestCase {
             return collector;
           }
         };
-    Files.readLines(temp, Charsets.UTF_8, collectNonEmptyLines);
+    Files.readLines(temp, UTF_8, collectNonEmptyLines);
     assertThat(collectNonEmptyLines.getResult()).containsExactly("hello", " world  ").inOrder();
 
     assertTrue(temp.delete());

@@ -33,12 +33,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * with a {@code com.google.common} type.
  *
  * @author Louis Wasserman
+ * @since 33.2.0 (available since 21.0 in guava-jre)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
 @IgnoreJRERequirement // Users will use this only if they're already using streams.
-final class MoreCollectors {
+public final class MoreCollectors {
 
   /*
    * TODO(lowasser): figure out if we can convert this to a concurrent AtomicReference-based

@@ -62,6 +62,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> f = SettableFuture.create();
     FutureCallback<String> callback =
         new FutureCallback<String>() {
+          private final Object monitor = new Object();
           private boolean called = false;
 
           @Override
@@ -70,10 +71,12 @@ public class FutureCallbackTest extends TestCase {
           }
 
           @Override
-          public synchronized void onFailure(Throwable t) {
-            assertFalse(called);
-            assertThat(t).isInstanceOf(CancellationException.class);
-            called = true;
+          public void onFailure(Throwable t) {
+            synchronized (monitor) {
+              assertFalse(called);
+              assertThat(t).isInstanceOf(CancellationException.class);
+              called = true;
+            }
           }
         };
     addCallback(f, callback, directExecutor());
@@ -180,6 +183,7 @@ public class FutureCallbackTest extends TestCase {
     @Nullable private String value = null;
     @Nullable private Throwable failure = null;
     private boolean wasCalled = false;
+    private final Object monitor = new Object();
 
     MockCallback(String expectedValue) {
       this.value = expectedValue;
@@ -190,17 +194,21 @@ public class FutureCallbackTest extends TestCase {
     }
 
     @Override
-    public synchronized void onSuccess(String result) {
-      assertFalse(wasCalled);
-      wasCalled = true;
-      assertEquals(value, result);
+    public void onSuccess(String result) {
+      synchronized (monitor) {
+        assertFalse(wasCalled);
+        wasCalled = true;
+        assertEquals(value, result);
+      }
     }
 
     @Override
     public synchronized void onFailure(Throwable t) {
-      assertFalse(wasCalled);
-      wasCalled = true;
-      assertEquals(failure, t);
+      synchronized (monitor) {
+        assertFalse(wasCalled);
+        wasCalled = true;
+        assertEquals(failure, t);
+      }
     }
   }
 }

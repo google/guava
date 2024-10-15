@@ -21,6 +21,7 @@ import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableTableColumnMapTest extends ColumnMapTests {
   public UnmodifiableTableColumnMapTest() {
     super(false, false, false, false);

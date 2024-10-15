@@ -20,7 +20,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.SerializableTester;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -28,9 +30,10 @@ import com.google.common.testing.SerializableTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-public class ImmutableTableTest extends AbstractTableReadTest {
+@ElementTypesAreNonnullByDefault
+public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     ImmutableTable.Builder<String, Integer, Character> builder = ImmutableTable.builder();
     for (int i = 0; i < data.length; i = i + 3) {
       builder.put((String) data[i], (Integer) data[i + 1], (Character) data[i + 2]);
@@ -100,7 +103,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
   public void testBuilder_withMutableCell() {
@@ -468,6 +471,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertThat(copy.columnKeySet()).containsExactlyElementsIn(original.columnKeySet()).inOrder();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {
@@ -478,34 +482,5 @@ public class ImmutableTableTest extends AbstractTableReadTest {
       builder.put(0, i, "bar");
     }
     assertTrue(builder.build() instanceof SparseImmutableTable);
-  }
-
-  @GwtIncompatible // NullPointerTester
-  @Override
-  public void testNullPointerInstance() {
-    if (isAndroid()) {
-      /*
-       * NPT fails under the old versions of Android we test under because it performs reflection on
-       * ImmutableTable, which declares static methods that refer to Collector, which is unavailable
-       * under such versions.
-       *
-       * We use a runtime check here instead of @AndroidIncompatible: @AndroidIncompatible operates
-       * by stripping annotated methods entirely, and if we strip this method, then JUnit would just
-       * run the supermethod as usual.
-       *
-       * TODO: b/292578973: Use @AndroidIncompatible if we change our system to keep the methods in
-       * place but to have the test runner skip them. However, note that if we choose to *both*
-       * strip the methods *and* have the test runner not run them (for some unusual cases in which
-       * we don't run the stripping test for technical reasons), then we'd be back to the problem
-       * described above, since the supermethod is *not* annotated @AndroidIncompatible (since it
-       * works fine with the other Table implementations).
-       */
-      return;
-    }
-    super.testNullPointerInstance();
-  }
-
-  private static boolean isAndroid() {
-    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

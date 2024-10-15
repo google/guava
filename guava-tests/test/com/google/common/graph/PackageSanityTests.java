@@ -20,7 +20,6 @@ import static com.google.common.graph.TestUtil.ERROR_ELEMENT_NOT_IN_GRAPH;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.testing.AbstractPackageSanityTests;
-import junit.framework.AssertionFailedError;
 
 /**
  * Covers basic sanity checks for the entire package.
@@ -68,7 +67,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   public void testNulls() throws Exception {
     try {
       super.testNulls();
-    } catch (AssertionFailedError e) {
+    } catch (AssertionError e) {
       assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
           .that(e)
           .hasCauseThat()

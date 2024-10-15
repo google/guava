@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
@@ -28,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link ArrayTable}.
@@ -35,10 +37,11 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class ArrayTableTest extends AbstractTableTest {
+@ElementTypesAreNonnullByDefault
+public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   @Override
-  protected ArrayTable<String, Integer, Character> create(Object... data) {
+  protected ArrayTable<String, Integer, Character> create(@Nullable Object... data) {
     // TODO: Specify different numbers of rows and columns, to detect problems
     // that arise when the wrong size is used.
     ArrayTable<String, Integer, Character> table =
@@ -125,12 +128,12 @@ public class ArrayTableTest extends AbstractTableTest {
     hashCopy.put("foo", 1, 'a');
     hashCopy.put("bar", 1, 'b');
     hashCopy.put("foo", 3, 'c');
-    Table<String, Integer, Character> reordered =
+    Table<String, Integer, @Nullable Character> reordered =
         create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> smaller = create("foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> swapOuter =
+    Table<String, Integer, @Nullable Character> smaller = create("foo", 1, 'a', "bar", 1, 'b');
+    Table<String, Integer, @Nullable Character> swapOuter =
         create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');
-    Table<String, Integer, Character> swapValues =
+    Table<String, Integer, @Nullable Character> swapValues =
         create("foo", 1, 'c', "bar", 1, 'b', "foo", 3, 'a');
 
     new EqualsTester()
@@ -159,7 +162,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<Integer, Character> expected = Maps.newHashMap();
+    Map<Integer, @Nullable Character> expected = Maps.newHashMap();
     expected.put(1, 'a');
     expected.put(3, 'c');
     expected.put(2, null);
@@ -169,7 +172,7 @@ public class ArrayTableTest extends AbstractTableTest {
   @Override
   public void testColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, Character> expected = Maps.newHashMap();
+    Map<String, @Nullable Character> expected = Maps.newHashMap();
     expected.put("foo", 'a');
     expected.put("bar", 'b');
     expected.put("cat", null);
@@ -239,9 +242,9 @@ public class ArrayTableTest extends AbstractTableTest {
   }
 
   public void testCreateCopyArrayTable() {
-    Table<String, Integer, Character> original =
+    Table<String, Integer, @Nullable Character> original =
         create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Table<String, Integer, Character> copy = ArrayTable.create(original);
+    Table<String, Integer, @Nullable Character> copy = ArrayTable.create(original);
     assertEquals(original, copy);
     original.put("foo", 1, 'd');
     assertEquals((Character) 'd', original.get("foo", 1));
@@ -255,7 +258,7 @@ public class ArrayTableTest extends AbstractTableTest {
     original.put("foo", 1, 'a');
     original.put("bar", 1, 'b');
     original.put("foo", 3, 'c');
-    Table<String, Integer, Character> copy = ArrayTable.create(original);
+    Table<String, Integer, @Nullable Character> copy = ArrayTable.create(original);
     assertEquals(4, copy.size());
     assertEquals((Character) 'a', copy.get("foo", 1));
     assertEquals((Character) 'b', copy.get("bar", 1));
@@ -278,7 +281,7 @@ public class ArrayTableTest extends AbstractTableTest {
   }
 
   public void testCreateCopyEmptyArrayTable() {
-    Table<String, Integer, Character> original =
+    Table<String, Integer, @Nullable Character> original =
         ArrayTable.create(Arrays.<String>asList(), Arrays.<Integer>asList());
     ArrayTable<String, Integer, Character> copy = ArrayTable.create(original);
     assertThat(copy).isEqualTo(original);
@@ -290,6 +293,7 @@ public class ArrayTableTest extends AbstractTableTest {
     SerializableTester.reserializeAndAssert(table);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(ArrayTable.class);
@@ -519,11 +523,13 @@ public class ArrayTableTest extends AbstractTableTest {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicInstanceMethods(create());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(create());

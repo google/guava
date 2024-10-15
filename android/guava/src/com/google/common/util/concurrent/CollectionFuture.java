@@ -20,6 +20,7 @@ import static java.util.Collections.unmodifiableList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -36,7 +37,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
    * there: cancel() never reads this field, only writes to it. That makes the race here completely
    * harmless, rather than just 99.99% harmless.
    */
-  @CheckForNull private List<@Nullable Present<V>> values;
+  @CheckForNull @LazyInit private List<@Nullable Present<V>> values;
 
   CollectionFuture(
       ImmutableCollection<? extends ListenableFuture<? extends V>> futures,

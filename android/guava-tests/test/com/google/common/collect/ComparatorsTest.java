@@ -33,8 +33,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ComparatorsTest extends TestCase {
-  @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {
     Comparator<String> comparator = Ordering.natural();
     Comparator<Iterable<String>> lexy = Comparators.lexicographical(comparator);
@@ -95,6 +95,29 @@ public class ComparatorsTest extends TestCase {
     assertThat(Comparators.min(2, 1, reverse)).isEqualTo(2);
     assertThat(Comparators.max(1, 2, reverse)).isEqualTo(1);
     assertThat(Comparators.max(2, 1, reverse)).isEqualTo(1);
+  }
+
+  /**
+   * Fails compilation if the signature of min and max is changed to take {@code Comparator<T>}
+   * instead of {@code Comparator<? super T>}.
+   */
+  public void testMinMaxWithSupertypeComparator() {
+    Comparator<Number> numberComparator =
+        // Can't use Comparator.comparing(Number::intValue) due to Java 7 compatibility.
+        new Comparator<Number>() {
+          @Override
+          public int compare(Number a, Number b) {
+            return a.intValue() - b.intValue();
+          }
+        };
+    Integer comparand1 = 1;
+    Integer comparand2 = 2;
+
+    Integer min = Comparators.min(comparand1, comparand2, numberComparator);
+    Integer max = Comparators.max(comparand1, comparand2, numberComparator);
+
+    assertThat(min).isEqualTo(1);
+    assertThat(max).isEqualTo(2);
   }
 
   public void testMinMaxComparator_equalInstances() {

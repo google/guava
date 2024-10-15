@@ -32,12 +32,13 @@ final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
 
   @SuppressWarnings("unchecked") // Generic array creation
   CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {
-    this.comparators = (Comparator<? super T>[]) new Comparator[] {primary, secondary};
+    this.comparators = (Comparator<? super T>[]) new Comparator<?>[] {primary, secondary};
   }
 
   @SuppressWarnings("unchecked") // Generic array creation
   CompoundOrdering(Iterable<? extends Comparator<? super T>> comparators) {
-    this.comparators = Iterables.toArray(comparators, (Comparator<? super T>[]) new Comparator[0]);
+    this.comparators =
+        Iterables.toArray(comparators, (Comparator<? super T>[]) new Comparator<?>[0]);
   }
 
   @Override

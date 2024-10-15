@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 abstract class AbstractFilteredMapTest extends TestCase {
   private static final Predicate<@Nullable String> NOT_LENGTH_3 =
       input -> input == null || input.length() != 3;
@@ -199,13 +200,7 @@ abstract class AbstractFilteredMapTest extends TestCase {
     unfiltered.put("cat", 3);
     unfiltered.put("dog", 2);
     unfiltered.put("horse", 5);
-    Predicate<Entry<?, ?>> predicate =
-        new Predicate<Entry<?, ?>>() {
-          @Override
-          public boolean apply(Entry<?, ?> input) {
-            return "cat".equals(input.getKey()) || Integer.valueOf(2) == input.getValue();
-          }
-        };
+    Predicate<Entry<?, ?>> predicate = e -> e.getKey().equals("cat") || e.getValue().equals(2);
     Map<String, Integer> filtered = Maps.filterEntries(unfiltered, predicate);
     assertEquals(ImmutableMap.of("cat", 3, "dog", 2), filtered);
   }

@@ -43,6 +43,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private SortedMap<K, V> navigableMap;
@@ -167,7 +168,6 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(absent = ZERO)
   public void testOrderedByComparator() {
-    @SuppressWarnings("unchecked")
     Comparator<? super K> comparator = navigableMap.comparator();
     if (comparator == null) {
       comparator =

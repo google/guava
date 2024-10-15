@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Charles Fry
  */
+@ElementTypesAreNonnullByDefault
 public final class MapMaker {
   private int initialCapacity = 16;
 

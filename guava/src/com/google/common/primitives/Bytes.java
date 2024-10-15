@@ -52,7 +52,7 @@ public final class Bytes {
    * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Byte)
    * value).hashCode()}.
    *
-   * <p><b>Java 8 users:</b> use {@link Byte#hashCode(byte)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Byte#hashCode(byte)} instead.
    *
    * @param value a primitive {@code byte} value
    * @return a hash code for the value
@@ -156,19 +156,29 @@ public final class Bytes {
    *
    * @param arrays zero or more {@code byte} arrays
    * @return a single array containing all the values from the source arrays, in order
+   * @throws IllegalArgumentException if the total number of elements in {@code arrays} does not fit
+   *     in an {@code int}
    */
   public static byte[] concat(byte[]... arrays) {
-    int length = 0;
+    long length = 0;
     for (byte[] array : arrays) {
       length += array.length;
     }
-    byte[] result = new byte[length];
+    byte[] result = new byte[checkNoOverflow(length)];
     int pos = 0;
     for (byte[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
     return result;
+  }
+
+  private static int checkNoOverflow(long result) {
+    checkArgument(
+        result == (int) result,
+        "the total number of elements (%s) in the arrays must fit in an int",
+        result);
+    return (int) result;
   }
 
   /**

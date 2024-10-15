@@ -33,6 +33,7 @@ final class AllEqualOrdering extends Ordering<@Nullable Object> implements Seria
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 
   @Override
+  @SuppressWarnings("UnusedVariable") // intentionally weird Comparator
   public int compare(@CheckForNull Object left, @CheckForNull Object right) {
     return 0;
   }

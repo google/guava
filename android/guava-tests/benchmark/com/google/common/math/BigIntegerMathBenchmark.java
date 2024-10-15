@@ -59,6 +59,7 @@ public class BigIntegerMathBenchmark {
   }
 
   /** Returns the product of {@code n1} exclusive through {@code n2} inclusive. */
+  @SuppressWarnings("UseCorrectAssertInTests") // TODO(b/345814817): Remove or convert assertion.
   private static BigInteger oldSlowFactorial(int n1, int n2) {
     assert n1 <= n2;
     if (IntMath.log2(n2, CEILING) * (n2 - n1) < Long.SIZE - 1) {

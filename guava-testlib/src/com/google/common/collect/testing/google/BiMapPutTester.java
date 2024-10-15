@@ -32,9 +32,9 @@ import org.junit.Ignore;
 /** Tester for {@code BiMap.put} and {@code BiMap.forcePut}. */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutWithSameValueFails() {
@@ -49,7 +49,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     expectAdded(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutPresentKeyDifferentValue() {
@@ -60,7 +59,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     expectContents(Helpers.mapEntry(k0(), v1()));
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void putDistinctKeysDistinctValues() {
@@ -69,7 +67,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     expectAdded(e0(), e1());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ONE)
   public void testForcePutKeyPresent() {
@@ -81,7 +78,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(getMap().containsKey(k0()));
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ONE)
   public void testForcePutValuePresent() {
@@ -92,7 +88,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     assertFalse(getMap().containsKey(k0()));
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(SEVERAL)
   public void testForcePutKeyAndValuePresent() {
@@ -103,7 +98,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     assertFalse(getMap().containsValue(v0()));
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   @CollectionSize.Require(ONE)
   public void testForcePutNullKeyPresent() {
@@ -122,7 +116,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     assertEquals(1, getMap().size());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(ONE)
   public void testForcePutNullValuePresent() {
@@ -143,7 +136,6 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
 
   // nb: inverse is run through its own entire suite
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testInversePut() {

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link Tables#transpose}.
@@ -24,10 +25,11 @@ import com.google.common.annotations.GwtCompatible;
  * @author Jared Levy
  */
 @GwtCompatible
-public class TransposedTableTest extends AbstractTableTest {
+@ElementTypesAreNonnullByDefault
+public class TransposedTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> table = Tables.transpose(original);
     table.clear();

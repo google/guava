@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.primitives.Ints;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -123,7 +122,7 @@ class CollectionBenchmarkSampleData {
 
     @Override
     public int compareTo(Element that) {
-      return Ints.compare(hash, that.hash);
+      return Integer.compare(hash, that.hash);
     }
 
     @Override

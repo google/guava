@@ -53,6 +53,7 @@ public class BiMapTestSuiteBuilder<K, V>
     return new BiMapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = new ArrayList<>();

@@ -71,6 +71,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     return suite;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
@@ -154,7 +155,6 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     SortedMultiset<E> emptyMultiset = (SortedMultiset<E>) delegate.create();
     Comparator<? super E> comparator = emptyMultiset.comparator();
     SampleElements<E> samples = delegate.samples();
-    @SuppressWarnings("unchecked")
     List<E> samplesList =
         Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
 

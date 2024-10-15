@@ -20,10 +20,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link Table} read operations.
@@ -31,8 +33,9 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public abstract class AbstractTableReadTest extends TestCase {
-  protected Table<String, Integer, Character> table;
+@ElementTypesAreNonnullByDefault
+public abstract class AbstractTableReadTest<C extends @Nullable Character> extends TestCase {
+  protected Table<String, Integer, C> table;
 
   /**
    * Creates a table with the specified data.
@@ -41,7 +44,7 @@ public abstract class AbstractTableReadTest extends TestCase {
    * @throws IllegalArgumentException if the size of {@code data} isn't a multiple of 3
    * @throws ClassCastException if a data element has the wrong type
    */
-  protected abstract Table<String, Integer, Character> create(Object... data);
+  protected abstract Table<String, Integer, C> create(@Nullable Object... data);
 
   protected void assertSize(int expectedSize) {
     assertEquals(expectedSize, table.size());
@@ -118,14 +121,13 @@ public abstract class AbstractTableReadTest extends TestCase {
 
   public void testEquals() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Table<String, Integer, Character> hashCopy = HashBasedTable.create(table);
-    Table<String, Integer, Character> reordered =
-        create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> smaller = create("foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> swapOuter =
-        create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');
-    Table<String, Integer, Character> swapValues =
-        create("foo", 1, 'c', "bar", 1, 'b', "foo", 3, 'a');
+    // We know that we have only added non-null Characters.
+    Table<String, Integer, Character> hashCopy =
+        HashBasedTable.create((Table<String, Integer, ? extends Character>) table);
+    Table<String, Integer, C> reordered = create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
+    Table<String, Integer, C> smaller = create("foo", 1, 'a', "bar", 1, 'b');
+    Table<String, Integer, C> swapOuter = create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');
+    Table<String, Integer, C> swapValues = create("foo", 1, 'c', "bar", 1, 'b', "foo", 3, 'a');
 
     new EqualsTester()
         .addEqualityGroup(table, hashCopy, reordered)
@@ -184,6 +186,7 @@ public abstract class AbstractTableReadTest extends TestCase {
     assertThat(table.columnKeySet()).containsExactly(1, 2, 3);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerInstance() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 2, 'c', "bar", 3, 'd');

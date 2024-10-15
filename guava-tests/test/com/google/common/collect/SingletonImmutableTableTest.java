@@ -29,6 +29,7 @@ import com.google.common.testing.EqualsTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   private final ImmutableTable<Character, Integer, String> testTable =
       new SingletonImmutableTable<>('a', 1, "blah");

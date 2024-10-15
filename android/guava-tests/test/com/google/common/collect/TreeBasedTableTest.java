@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -34,6 +35,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link TreeBasedTable}.
@@ -42,7 +44,9 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-public class TreeBasedTableTest extends AbstractTableTest {
+@ElementTypesAreNonnullByDefault
+public class TreeBasedTableTest extends AbstractTableTest<Character> {
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -87,7 +91,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   @Override
-  protected TreeBasedTable<String, Integer, Character> create(Object... data) {
+  protected TreeBasedTable<String, Integer, Character> create(@Nullable Object... data) {
     TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
     table.put("foo", 4, 'a');
     table.put("cat", 1, 'b');
@@ -119,6 +123,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertEquals(original, table);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
@@ -281,7 +286,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     table =
         create(
             String.CASE_INSENSITIVE_ORDER,
-            Ordering.natural().reverse(),
+            Ordering.<Integer>natural().reverse(),
             "a",
             2,
             'X',

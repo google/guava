@@ -484,7 +484,7 @@ public class UninterruptiblesTest extends TestCase {
     requestInterruptIn(500);
     executor.execute(new SleepTask(10000));
     executor.shutdown();
-    assertFalse(awaitTerminationUninterruptibly(executor, Duration.ofMillis(1000)));
+    assertFalse(awaitTerminationUninterruptibly(executor, Duration.ofSeconds(1)));
     assertFalse(executor.isTerminated());
     assertInterrupted();
   }

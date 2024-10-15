@@ -41,6 +41,7 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
@@ -156,7 +157,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertGet(null, v3(), v4());
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_KEYS)
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAllNullForbidden() {
     try {
       multimap().putAll(null, Collections.singletonList(v3()));

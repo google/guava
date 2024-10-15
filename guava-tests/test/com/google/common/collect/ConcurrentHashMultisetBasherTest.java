@@ -42,15 +42,15 @@ import junit.framework.TestCase;
 
 public class ConcurrentHashMultisetBasherTest extends TestCase {
 
-  public void testAddAndRemove_ConcurrentHashMap() throws Exception {
+  public void testAddAndRemove_concurrentHashMap() throws Exception {
     testAddAndRemove(new ConcurrentHashMap<String, AtomicInteger>());
   }
 
-  public void testAddAndRemove_ConcurrentSkipListMap() throws Exception {
+  public void testAddAndRemove_concurrentSkipListMap() throws Exception {
     testAddAndRemove(new ConcurrentSkipListMap<String, AtomicInteger>());
   }
 
-  public void testAddAndRemove_MapMakerMap() throws Exception {
+  public void testAddAndRemove_mapMakerMap() throws Exception {
     MapMaker mapMaker = new MapMaker();
     // force MapMaker to use its own MapMakerInternalMap
     mapMaker.useCustomMap = true;

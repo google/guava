@@ -25,6 +25,7 @@ import junit.framework.TestCase;
  * @author Gregory Kick
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractImmutableTableTest extends TestCase {
 
   abstract Iterable<ImmutableTable<Character, Integer, String>> getTestInstances();

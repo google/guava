@@ -89,7 +89,7 @@ public class PairedStatsTest extends TestCase {
 
   public void testPopulationCovariance() {
     assertThrows(IllegalStateException.class, () -> EMPTY_PAIRED_STATS.populationCovariance());
-    assertThat(ONE_VALUE_PAIRED_STATS.populationCovariance()).isWithin(0.0).of(0.0);
+    assertThat(ONE_VALUE_PAIRED_STATS.populationCovariance()).isEqualTo(0.0);
     assertThat(createSingleStats(Double.POSITIVE_INFINITY, 1.23).populationCovariance()).isNaN();
     assertThat(createSingleStats(Double.NEGATIVE_INFINITY, 1.23).populationCovariance()).isNaN();
     assertThat(createSingleStats(Double.NaN, 1.23).populationCovariance()).isNaN();

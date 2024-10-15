@@ -108,12 +108,12 @@ public class InternersTest extends TestCase {
     new NullPointerTester().testAllPublicStaticMethods(Interners.class);
   }
 
-  public void testConcurrencyLevel_Zero() {
+  public void testConcurrencyLevel_zero() {
     Interners.InternerBuilder builder = Interners.newBuilder();
     assertThrows(IllegalArgumentException.class, () -> builder.concurrencyLevel(0));
   }
 
-  public void testConcurrencyLevel_Negative() {
+  public void testConcurrencyLevel_negative() {
     Interners.InternerBuilder builder = Interners.newBuilder();
     assertThrows(IllegalArgumentException.class, () -> builder.concurrencyLevel(-42));
   }

@@ -26,7 +26,6 @@ import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 /**
@@ -149,7 +148,7 @@ public class IteratorTesterTest extends TestCase {
           return new IteratorWithSunJavaBug6529795<>(iterator);
         }
       }.test();
-    } catch (AssertionFailedError e) {
+    } catch (AssertionError e) {
       return;
     }
     fail("Should have caught jdk6 bug in target iterator");
@@ -201,18 +200,18 @@ public class IteratorTesterTest extends TestCase {
 
           @Override
           protected void verify(List<Integer> elements) {
-            throw new AssertionFailedError(message);
+            throw new AssertionError(message);
           }
         };
-    AssertionFailedError actual = null;
+    AssertionError actual = null;
     try {
       tester.test();
-    } catch (AssertionFailedError e) {
+    } catch (AssertionError e) {
       actual = e;
     }
     assertNotNull("verify() should be able to cause test failure", actual);
     assertTrue(
-        "AssertionFailedError should have info about why test failed",
+        "AssertionError should have info about why test failed",
         actual.getCause().getMessage().contains(message));
   }
 
@@ -323,7 +322,7 @@ public class IteratorTesterTest extends TestCase {
   private static void assertFailure(IteratorTester<?> tester) {
     try {
       tester.test();
-    } catch (AssertionFailedError expected) {
+    } catch (AssertionError expected) {
       return;
     }
     fail();

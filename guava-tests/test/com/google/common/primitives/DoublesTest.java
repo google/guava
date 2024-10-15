@@ -207,7 +207,6 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN)).isEqualTo(-1);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -231,7 +230,6 @@ public class DoublesTest extends TestCase {
     assertThat(Double.isNaN(Doubles.max(VALUES))).isTrue();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -282,6 +280,37 @@ public class DoublesTest extends TestCase {
         .isEqualTo(new double[] {(double) 1, (double) 2, (double) 3, (double) 4});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    double[][] arrays = new double[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    double[] sharedArray = new double[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Doubles.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testEnsureCapacity() {
     assertThat(Doubles.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
     assertThat(Doubles.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);
@@ -307,7 +336,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testJoin() {
     assertThat(Doubles.join(",", EMPTY)).isEmpty();
@@ -577,7 +605,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     double[] array = {(double) 0, (double) 1};
     List<Double> list = Doubles.asList(array);
@@ -627,7 +655,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
@@ -646,7 +673,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertThat(Doubles.tryParse(input)).isEqualTo(Double.valueOf(expected));
@@ -656,7 +682,6 @@ public class DoublesTest extends TestCase {
                 Doubles.FLOATING_POINT_PATTERN.pattern(), Doubles.FLOATING_POINT_PATTERN.flags()));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseHex() {
     for (String signChar : ImmutableList.of("", "+", "-")) {
@@ -678,7 +703,6 @@ public class DoublesTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
@@ -689,7 +713,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -697,7 +720,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
+  @J2ktIncompatible // hexadecimal doubles
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToHexStringIsOriginal() {
     for (double d : NUMBERS) {
@@ -705,7 +728,6 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseNaN() {
     checkTryParse("NaN");
@@ -713,7 +735,6 @@ public class DoublesTest extends TestCase {
     checkTryParse("-NaN");
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseInfinity() {
     checkTryParse(Double.POSITIVE_INFINITY, "Infinity");
@@ -738,7 +759,6 @@ public class DoublesTest extends TestCase {
     "InfinityF"
   };
 
-  @J2ktIncompatible
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
@@ -783,7 +803,6 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.stringConverter().reverse().convert(null)).isNull();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Double.toString returns different value in GWT.
   public void testStringConverter_reverse() {
     Converter<String, Double> converter = Doubles.stringConverter();
@@ -801,7 +820,6 @@ public class DoublesTest extends TestCase {
     tester.testAllPublicInstanceMethods(Doubles.stringConverter());
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testTryParse_withNullNoGwt() {
     assertThat(Doubles.tryParse("null")).isNull();

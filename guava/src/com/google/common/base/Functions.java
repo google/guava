@@ -55,9 +55,9 @@ public final class Functions {
    * {@code equals}, {@code hashCode} or {@code toString} behavior of the returned function. A
    * future migration to {@code java.util.function} will not preserve this behavior.
    *
-   * <p><b>For Java 8 users:</b> use the method reference {@code Object::toString} instead. In the
+   * <p><b>Java 8+ users:</b> use the method reference {@code Object::toString} instead. In the
    * future, when this class requires Java 8, this method will be deprecated. See {@link Function}
-   * for more important information about the Java 8 transition.
+   * for more important information about the Java 8+ transition.
    */
   public static Function<Object, String> toStringFunction() {
     return ToStringFunction.INSTANCE;
@@ -116,7 +116,7 @@ public final class Functions {
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
    * function that also supports reverse conversion.
    *
-   * <p><b>Java 8 users:</b> if you are okay with {@code null} being returned for an unrecognized
+   * <p><b>Java 8+ users:</b> if you are okay with {@code null} being returned for an unrecognized
    * key (instead of an exception being thrown), you can use the method reference {@code map::get}
    * instead.
    */
@@ -130,7 +130,7 @@ public final class Functions {
    * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
    * set. See also {@link #forMap(Map)}, which throws an exception in this case.
    *
-   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
+   * <p><b>Java 8+ users:</b> you can just write the lambda expression {@code k ->
    * map.getOrDefault(k, defaultValue)} instead.
    *
    * @param map source map that determines the function behavior
@@ -230,7 +230,7 @@ public final class Functions {
    * Returns the composition of two functions. For {@code f: A->B} and {@code g: B->C}, composition
    * is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.
    *
-   * <p><b>Java 8 users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
+   * <p><b>Java 8+ users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
    * instead.
    *
    * @param g the second function to apply
@@ -289,7 +289,7 @@ public final class Functions {
    * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
    * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    *
-   * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
+   * <p><b>Java 8+ users:</b> use the method reference {@code predicate::test} instead.
    */
   public static <T extends @Nullable Object> Function<T, Boolean> forPredicate(
       Predicate<T> predicate) {
@@ -335,7 +335,7 @@ public final class Functions {
   /**
    * Returns a function that ignores its input and always returns {@code value}.
    *
-   * <p><b>Java 8 users:</b> use the lambda expression {@code o -> value} instead.
+   * <p><b>Java 8+ users:</b> use the lambda expression {@code o -> value} instead.
    *
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
@@ -384,7 +384,7 @@ public final class Functions {
   /**
    * Returns a function that ignores its input and returns the result of {@code supplier.get()}.
    *
-   * <p><b>Java 8 users:</b> use the lambda expression {@code o -> supplier.get()} instead.
+   * <p><b>Java 8+ users:</b> use the lambda expression {@code o -> supplier.get()} instead.
    *
    * @since 10.0
    */

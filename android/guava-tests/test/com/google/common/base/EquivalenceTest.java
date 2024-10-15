@@ -26,6 +26,7 @@ import com.google.common.testing.EquivalenceTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link Equivalence}.
@@ -35,7 +36,6 @@ import junit.framework.TestCase;
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public class EquivalenceTest extends TestCase {
-  @SuppressWarnings("unchecked") // varargs
   public void testPairwiseEquivalent() {
     EquivalenceTester.of(Equivalence.equals().<String>pairwise())
         .addEquivalenceGroup(ImmutableList.<String>of())
@@ -71,9 +71,11 @@ public class EquivalenceTest extends TestCase {
             LENGTH_EQUIVALENCE.wrap("hello"),
             LENGTH_EQUIVALENCE.wrap("world"))
         .addEqualityGroup(LENGTH_EQUIVALENCE.wrap("hi"), LENGTH_EQUIVALENCE.wrap("yo"))
-        .addEqualityGroup(LENGTH_EQUIVALENCE.wrap(null), LENGTH_EQUIVALENCE.wrap(null))
+        .addEqualityGroup(
+            LENGTH_EQUIVALENCE.<@Nullable String>wrap(null),
+            LENGTH_EQUIVALENCE.<@Nullable String>wrap(null))
         .addEqualityGroup(Equivalence.equals().wrap("hello"))
-        .addEqualityGroup(Equivalence.equals().wrap(null))
+        .addEqualityGroup(Equivalence.equals().<@Nullable Object>wrap(null))
         .testEquals();
   }
 
@@ -122,11 +124,11 @@ public class EquivalenceTest extends TestCase {
   }
 
   public void testEquivalentTo() {
-    Predicate<Object> equalTo1 = Equivalence.equals().equivalentTo("1");
+    Predicate<@Nullable Object> equalTo1 = Equivalence.equals().equivalentTo("1");
     assertTrue(equalTo1.apply("1"));
     assertFalse(equalTo1.apply("2"));
     assertFalse(equalTo1.apply(null));
-    Predicate<Object> isNull = Equivalence.equals().equivalentTo(null);
+    Predicate<@Nullable Object> isNull = Equivalence.equals().equivalentTo(null);
     assertFalse(isNull.apply("1"));
     assertFalse(isNull.apply("2"));
     assertTrue(isNull.apply(null));
@@ -138,17 +140,25 @@ public class EquivalenceTest extends TestCase {
         .testEquals();
   }
 
+  /*
+   * We use large numbers to avoid the integer cache. Normally, we'd accomplish that merely by using
+   * `new Integer` (as we do) instead of `Integer.valueOf`. However, under J2KT, `new Integer`
+   * gets translated back to `Integer.valueOf` because that is the only thing J2KT can support. And
+   * anyway, it's nice to avoid `Integer.valueOf` because the Android toolchain optimizes multiple
+   * `Integer.valueOf` calls into one! So we stick with the deprecated `Integer` constructor.
+   */
+
   public void testEqualsEquivalent() {
     EquivalenceTester.of(Equivalence.equals())
-        .addEquivalenceGroup(new Integer(42), 42)
+        .addEquivalenceGroup(new Integer(42_000_000), 42_000_000)
         .addEquivalenceGroup("a")
         .test();
   }
 
   public void testIdentityEquivalent() {
     EquivalenceTester.of(Equivalence.identity())
-        .addEquivalenceGroup(new Integer(42))
-        .addEquivalenceGroup(new Integer(42))
+        .addEquivalenceGroup(new Integer(42_000_000))
+        .addEquivalenceGroup(new Integer(42_000_000))
         .addEquivalenceGroup("a")
         .test();
   }

@@ -20,8 +20,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test cases for {@link HashBasedTable}.
@@ -29,10 +31,11 @@ import com.google.common.testing.SerializableTester;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashBasedTableTest extends AbstractTableTest {
+@ElementTypesAreNonnullByDefault
+public class HashBasedTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(Object... data) {
+  protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<String, Integer, Character> table = HashBasedTable.create();
     table.put("foo", 4, 'a');
     table.put("cat", 1, 'b');
@@ -91,12 +94,14 @@ public class HashBasedTableTest extends AbstractTableTest {
     assertEquals((Character) 'a', copy.get("foo", 1));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     SerializableTester.reserializeAndAssert(table);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(HashBasedTable.class);

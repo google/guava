@@ -36,6 +36,7 @@ import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -228,6 +229,18 @@ public class CacheBuilderTest extends TestCase {
     assertThrows(IllegalStateException.class, () -> builder2.weakValues());
   }
 
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
+  public void testLargeDurationsAreOk() {
+    Duration threeHundredYears = Duration.ofDays(365 * 300);
+    CacheBuilder<Object, Object> unused =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(threeHundredYears)
+            .expireAfterAccess(threeHundredYears)
+            .refreshAfterWrite(threeHundredYears);
+  }
+
   public void testTimeToLive_negative() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
@@ -235,6 +248,14 @@ public class CacheBuilderTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+  }
+
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testTimeToLive_negative_duration() {
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+    assertThrows(
+        IllegalArgumentException.class, () -> builder.expireAfterWrite(Duration.ofSeconds(-1)));
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -254,6 +275,14 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testTimeToLive_setTwice_duration() {
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().expireAfterWrite(Duration.ofHours(1));
+    assertThrows(IllegalStateException.class, () -> builder.expireAfterWrite(Duration.ofHours(1)));
+  }
+
   public void testTimeToIdle_negative() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
@@ -261,6 +290,14 @@ public class CacheBuilderTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+  }
+
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testTimeToIdle_negative_duration() {
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+    assertThrows(
+        IllegalArgumentException.class, () -> builder.expireAfterAccess(Duration.ofSeconds(-1)));
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -280,12 +317,21 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testTimeToIdle_setTwice_duration() {
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().expireAfterAccess(Duration.ofHours(1));
+    assertThrows(IllegalStateException.class, () -> builder.expireAfterAccess(Duration.ofHours(1)));
+  }
+
+  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToIdleAndToLive() {
-    CacheBuilder.newBuilder()
-        .expireAfterWrite(1, NANOSECONDS)
-        .expireAfterAccess(1, NANOSECONDS)
-        .build(identityLoader());
+    LoadingCache<?, ?> unused =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1, NANOSECONDS)
+            .expireAfterAccess(1, NANOSECONDS)
+            .build(identityLoader());
     // well, it didn't blow up.
   }
 
@@ -295,11 +341,26 @@ public class CacheBuilderTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> builder.refreshAfterWrite(0, SECONDS));
   }
 
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testRefresh_zero_duration() {
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+    assertThrows(IllegalArgumentException.class, () -> builder.refreshAfterWrite(Duration.ZERO));
+  }
+
   @GwtIncompatible // refreshAfterWrite
   public void testRefresh_setTwice() {
     CacheBuilder<Object, Object> builder =
         CacheBuilder.newBuilder().refreshAfterWrite(3600, SECONDS);
     assertThrows(IllegalStateException.class, () -> builder.refreshAfterWrite(3600, SECONDS));
+  }
+
+  @GwtIncompatible // Duration
+  @SuppressWarnings("Java7ApiChecker")
+  public void testRefresh_setTwice_duration() {
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().refreshAfterWrite(Duration.ofHours(1));
+    assertThrows(IllegalStateException.class, () -> builder.refreshAfterWrite(Duration.ofHours(1)));
   }
 
   public void testTicker_setTwice() {
@@ -489,6 +550,8 @@ public class CacheBuilderTest extends TestCase {
     // notification.
     assertEquals(expectedKeys, Sets.union(cache.asMap().keySet(), removalNotifications.keySet()));
     assertTrue(Sets.intersection(cache.asMap().keySet(), removalNotifications.keySet()).isEmpty());
+    threadPool.shutdown();
+    threadPool.awaitTermination(300, SECONDS);
   }
 
   /**
@@ -508,6 +571,7 @@ public class CacheBuilderTest extends TestCase {
     final AtomicInteger computeCount = new AtomicInteger();
     final AtomicInteger exceptionCount = new AtomicInteger();
     final AtomicInteger computeNullCount = new AtomicInteger();
+    @SuppressWarnings("CacheLoaderNull") // test of handling of erroneous implementation
     CacheLoader<String, String> countingIdentityLoader =
         new CacheLoader<String, String>() {
           @Override

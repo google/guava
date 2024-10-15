@@ -17,8 +17,8 @@
 package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.murmur3_128;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Charsets;
 import com.google.common.hash.HashTestUtils.HashFn;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -40,7 +40,7 @@ public class Murmur3Hash128Test extends TestCase {
 
     // Known output from Python smhasher
     HashCode foxHash =
-        murmur3_128(0).hashString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8);
+        murmur3_128(0).hashString("The quick brown fox jumps over the lazy dog", UTF_8);
     assertEquals("6c1b07bc7bbc4be347939ac4a93c437a", foxHash.toString());
   }
 

@@ -18,9 +18,13 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ticker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -58,6 +62,22 @@ public class FakeTicker extends Ticker {
   }
 
   /**
+   * Advances the ticker value by {@code duration}.
+   *
+   * @since 33.1.0 (but since 28.0 in the JRE <a
+   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
+   */
+  @GwtIncompatible
+  @J2ktIncompatible
+  @CanIgnoreReturnValue
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
+  @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
+  @Beta // TODO: b/288085449 - Remove @Beta after we're sure that Java 8 APIs are safe for Android
+  public FakeTicker advance(Duration duration) {
+    return advance(duration.toNanos());
+  }
+
+  /**
    * Sets the increment applied to the ticker whenever it is queried.
    *
    * <p>The default behavior is to auto increment by zero. i.e: The ticker is left unchanged when
@@ -69,6 +89,25 @@ public class FakeTicker extends Ticker {
     checkArgument(autoIncrementStep >= 0, "May not auto-increment by a negative amount");
     this.autoIncrementStepNanos = timeUnit.toNanos(autoIncrementStep);
     return this;
+  }
+
+  /**
+   * Sets the increment applied to the ticker whenever it is queried.
+   *
+   * <p>The default behavior is to auto increment by zero. i.e: The ticker is left unchanged when
+   * queried.
+   *
+   * @since 33.1.0 (but since 28.0 in the JRE <a
+   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)
+   */
+  @GwtIncompatible
+  @J2ktIncompatible
+  @CanIgnoreReturnValue
+  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
+  @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
+  @Beta // TODO: b/288085449 - Remove @Beta after we're sure that Java 8 APIs are safe for Android
+  public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
+    return setAutoIncrementStep(autoIncrementStep.toNanos(), TimeUnit.NANOSECONDS);
   }
 
   @Override

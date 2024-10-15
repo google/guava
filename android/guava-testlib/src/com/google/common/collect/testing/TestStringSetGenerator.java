@@ -27,6 +27,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringSetGenerator implements TestSetGenerator<String> {
   @Override
   public SampleElements<String> samples() {

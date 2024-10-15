@@ -552,19 +552,4 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
       }
     }
   }
-
-  /**
-   * Saves the state to a stream (that is, serializes it). This merely wraps default serialization
-   * within the monitor. The serialization strategy for items is left to underlying Queue. Note that
-   * locking is not needed on deserialization, so readObject is not defined, just relying on
-   * default.
-   */
-  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-    monitor.enter();
-    try {
-      s.defaultWriteObject();
-    } finally {
-      monitor.leave();
-    }
-  }
 }

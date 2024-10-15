@@ -77,9 +77,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     join();
 
     if (uncaughtThrowable != null) {
-      throw (AssertionFailedError)
-          new AssertionFailedError("Uncaught throwable in " + getName())
-              .initCause(uncaughtThrowable);
+      throw new AssertionError("Uncaught throwable in " + getName(), uncaughtThrowable);
     }
   }
 
@@ -283,7 +281,7 @@ public final class TestThread<L> extends Thread implements TearDown {
 
     Object getResult() {
       if (throwable != null) {
-        throw (AssertionFailedError) new AssertionFailedError().initCause(throwable);
+        throw new AssertionError(throwable);
       }
       return result;
     }

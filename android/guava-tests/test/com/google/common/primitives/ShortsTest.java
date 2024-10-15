@@ -42,7 +42,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class ShortsTest extends TestCase {
   private static final short[] EMPTY = {};
   private static final short[] ARRAY1 = {(short) 1};
@@ -184,7 +183,6 @@ public class ShortsTest extends TestCase {
         .isEqualTo(3);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
@@ -202,7 +200,6 @@ public class ShortsTest extends TestCase {
         .isEqualTo((short) 9);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
@@ -246,14 +243,43 @@ public class ShortsTest extends TestCase {
         .isEqualTo(new short[] {(short) 1, (short) 2, (short) 3, (short) 4});
   }
 
-  @J2ktIncompatible
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    short[][] arrays = new short[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    short[] sharedArray = new short[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Shorts.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   @GwtIncompatible // Shorts.toByteArray
   public void testToByteArray() {
     assertThat(Shorts.toByteArray((short) 0x2345)).isEqualTo(new byte[] {0x23, 0x45});
     assertThat(Shorts.toByteArray((short) 0xFEDC)).isEqualTo(new byte[] {(byte) 0xFE, (byte) 0xDC});
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArray() {
     assertThat(Shorts.fromByteArray(new byte[] {0x23, 0x45})).isEqualTo((short) 0x2345);
@@ -261,7 +287,6 @@ public class ShortsTest extends TestCase {
         .isEqualTo((short) 0xFEDC);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArrayFails() {
     try {
@@ -271,14 +296,12 @@ public class ShortsTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Shorts.fromBytes
   public void testFromBytes() {
     assertThat(Shorts.fromBytes((byte) 0x23, (byte) 0x45)).isEqualTo((short) 0x2345);
     assertThat(Shorts.fromBytes((byte) 0xFE, (byte) 0xDC)).isEqualTo((short) 0xFEDC);
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // Shorts.fromByteArray, Shorts.toByteArray
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
@@ -323,7 +346,6 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.join("", (short) 1, (short) 2, (short) 3)).isEqualTo("123");
   }
 
-  @J2ktIncompatible // TODO(b/285297472): Enable
   public void testLexicographicalComparator() {
     List<short[]> ordered =
         Arrays.asList(
@@ -569,7 +591,7 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     short[] array = {(short) 0, (short) 1};
     List<Short> list = Shorts.asList(array);

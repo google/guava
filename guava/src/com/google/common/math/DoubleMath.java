@@ -32,9 +32,7 @@ import static java.lang.Math.rint;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.primitives.Booleans;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -53,7 +51,6 @@ public final class DoubleMath {
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result as
    * rounding x according to the specified mode.
    */
-  @J2ktIncompatible
   @GwtIncompatible // #isMathematicalInteger, com.google.common.math.DoubleUtils
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
@@ -130,8 +127,9 @@ public final class DoubleMath {
    *           RoundingMode#UNNECESSARY}
    *     </ul>
    */
-  @J2ktIncompatible
   @GwtIncompatible // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -156,8 +154,9 @@ public final class DoubleMath {
    *           RoundingMode#UNNECESSARY}
    *     </ul>
    */
-  @J2ktIncompatible
   @GwtIncompatible // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -184,8 +183,9 @@ public final class DoubleMath {
    *     </ul>
    */
   // #roundIntermediate, java.lang.Math.getExponent, com.google.common.math.DoubleUtils
-  @J2ktIncompatible
   @GwtIncompatible
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -201,7 +201,6 @@ public final class DoubleMath {
    * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer
    * {@code k}.
    */
-  @J2ktIncompatible
   @GwtIncompatible // com.google.common.math.DoubleUtils
   public static boolean isPowerOfTwo(double x) {
     if (x > 0.0 && isFinite(x)) {
@@ -240,9 +239,9 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code x <= 0.0}, {@code x} is NaN, or {@code x} is
    *     infinite
    */
-  @J2ktIncompatible
   @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils
-  @SuppressWarnings("fallthrough")
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings({"fallthrough", "ShortCircuitBoolean"})
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
     int exponent = getExponent(x);
@@ -393,7 +392,7 @@ public final class DoubleMath {
     } else if (a > b) {
       return 1;
     } else {
-      return Booleans.compare(Double.isNaN(a), Double.isNaN(b));
+      return Boolean.compare(Double.isNaN(a), Double.isNaN(b));
     }
   }
 
@@ -411,7 +410,6 @@ public final class DoubleMath {
    */
   @Deprecated
   // com.google.common.math.DoubleUtils
-  @J2ktIncompatible
   @GwtIncompatible
   public static double mean(double... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
@@ -492,7 +490,6 @@ public final class DoubleMath {
    */
   @Deprecated
   // com.google.common.math.DoubleUtils
-  @J2ktIncompatible
   @GwtIncompatible
   public static double mean(Iterable<? extends Number> values) {
     return mean(values.iterator());
@@ -513,7 +510,6 @@ public final class DoubleMath {
    */
   @Deprecated
   // com.google.common.math.DoubleUtils
-  @J2ktIncompatible
   @GwtIncompatible
   public static double mean(Iterator<? extends Number> values) {
     checkArgument(values.hasNext(), "Cannot take mean of 0 values");
@@ -528,7 +524,6 @@ public final class DoubleMath {
     return mean;
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // com.google.common.math.DoubleUtils
   @CanIgnoreReturnValue
   private static double checkFinite(double argument) {

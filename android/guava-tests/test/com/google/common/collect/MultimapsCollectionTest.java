@@ -30,7 +30,6 @@ import static java.lang.reflect.Proxy.newProxyInstance;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
@@ -215,22 +214,6 @@ public class MultimapsCollectionTest extends TestCase {
     }
   }
 
-  private static final Predicate<Entry<Integer, String>> FILTER_GET_PREDICATE =
-      new Predicate<Entry<Integer, String>>() {
-        @Override
-        public boolean apply(Entry<Integer, String> entry) {
-          return !"badvalue".equals(entry.getValue()) && 55556 != entry.getKey();
-        }
-      };
-
-  private static final Predicate<Entry<String, Integer>> FILTER_KEYSET_PREDICATE =
-      new Predicate<Entry<String, Integer>>() {
-        @Override
-        public boolean apply(Entry<String, Integer> entry) {
-          return !"badkey".equals(entry.getKey()) && 55556 != entry.getValue();
-        }
-      };
-
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -373,7 +356,7 @@ public class MultimapsCollectionTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, String>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, String>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -492,7 +475,7 @@ public class MultimapsCollectionTest extends TestCase {
     @SuppressWarnings("unchecked")
     @Override
     public Entry<String, Integer>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<String, Integer>[]) new Entry<?, ?>[length];
     }
 
     @Override

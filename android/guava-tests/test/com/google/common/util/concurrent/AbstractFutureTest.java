@@ -24,6 +24,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
@@ -279,26 +280,26 @@ public class AbstractFutureTest extends TestCase {
    * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
    * derived from observing how much time actually passed for various operations.
    */
-  @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
+  @SuppressWarnings("ThreadPriorityCheck")
   @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
     Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
     // Parsing to an integer might fail because Java 8 returns "1.8" instead of "8."
     // We can continue if it's 1.8, and we can continue if it's an integer in [9, 20).
     if (javaVersion != null && javaVersion >= 20) {
-      // TODO(b/261217224): Make this test work under newer JDKs.
+      // TODO(b/261217224, b/361604053): Make this test work under newer JDKs.
       return;
     }
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
     thread.start();
     thread.awaitWaiting();
-    thread.suspend();
+    Thread.class.getMethod("suspend").invoke(thread);
     // Sleep for enough time to add 1500 milliseconds of overwait to the get() call.
     long toWaitMillis = 3500 - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - thread.startTime);
     Thread.sleep(toWaitMillis);
     thread.setPriority(Thread.MAX_PRIORITY);
-    thread.resume();
+    Thread.class.getMethod("resume").invoke(thread);
     thread.join();
     // It's possible to race and suspend the thread just before the park call actually takes effect,
     // causing the thread to be suspended for 3.5 seconds, and then park itself for 2 seconds after
@@ -841,6 +842,7 @@ public class AbstractFutureTest extends TestCase {
 
   // Verify that StackOverflowError in a long chain of SetFuture doesn't cause the entire toString
   // call to fail
+  @J2ktIncompatible
   @GwtIncompatible
   @AndroidIncompatible
   public void testSetFutureToString_stackOverflow() {
@@ -1076,51 +1078,51 @@ public class AbstractFutureTest extends TestCase {
     new SneakyThrower<Error>().throwIt(t);
   }
 
-  public void testTrustedGetFailure_Completed() {
+  public void testTrustedGetFailure_completed() {
     SettableFuture<String> future = SettableFuture.create();
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_Failed() {
+  public void testTrustedGetFailure_failed() {
     SettableFuture<String> future = SettableFuture.create();
     Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isEqualTo(failure);
   }
 
-  public void testTrustedGetFailure_NotCompleted() {
+  public void testTrustedGetFailure_notCompleted() {
     SettableFuture<String> future = SettableFuture.create();
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_CanceledNoCause() {
+  public void testTrustedGetFailure_canceledNoCause() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Completed() {
+  public void testGetFailure_completed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Failed() {
+  public void testGetFailure_failed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     final Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_NotCompleted() {
+  public void testGetFailure_notCompleted() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_CanceledNoCause() {
+  public void testGetFailure_canceledNoCause() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
@@ -1206,11 +1208,8 @@ public class AbstractFutureTest extends TestCase {
         return i;
       }
     }
-    AssertionFailedError failure =
-        new AssertionFailedError(
-            "Expected element " + clazz + "." + method + " not found in stack trace");
-    failure.initCause(e);
-    throw failure;
+    throw new AssertionError(
+        "Expected element " + clazz + "." + method + " not found in stack trace", e);
   }
 
   private ExecutionException getExpectingExecutionException(AbstractFuture<String> future)

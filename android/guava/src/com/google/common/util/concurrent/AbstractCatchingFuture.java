@@ -26,6 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import javax.annotation.CheckForNull;
@@ -34,7 +35,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-@SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
+@SuppressWarnings({
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  "ShortCircuitBoolean",
+  "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
+})
 abstract class AbstractCatchingFuture<
         V extends @Nullable Object, X extends Throwable, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<V> implements Runnable {
@@ -48,7 +53,7 @@ abstract class AbstractCatchingFuture<
     return future;
   }
 
-  static <X extends Throwable, V extends @Nullable Object> ListenableFuture<V> create(
+  static <X extends Throwable, V extends @Nullable Object> ListenableFuture<V> createAsync(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback,
@@ -62,9 +67,9 @@ abstract class AbstractCatchingFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull ListenableFuture<? extends V> inputFuture;
-  @CheckForNull Class<X> exceptionType;
-  @CheckForNull F fallback;
+  @CheckForNull @LazyInit ListenableFuture<? extends V> inputFuture;
+  @CheckForNull @LazyInit Class<X> exceptionType;
+  @CheckForNull @LazyInit F fallback;
 
   AbstractCatchingFuture(
       ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {

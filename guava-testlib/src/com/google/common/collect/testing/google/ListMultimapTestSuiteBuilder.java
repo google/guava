@@ -52,6 +52,7 @@ public class ListMultimapTestSuiteBuilder<K, V>
     return result;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
@@ -100,6 +101,9 @@ public class ListMultimapTestSuiteBuilder<K, V>
     Set<Feature<?>> derivedFeatures = super.computeMultimapGetFeatures(multimapFeatures);
     if (derivedFeatures.contains(CollectionFeature.SUPPORTS_ADD)) {
       derivedFeatures.add(ListFeature.SUPPORTS_ADD_WITH_INDEX);
+    }
+    if (derivedFeatures.contains(CollectionFeature.SUPPORTS_REMOVE)) {
+      derivedFeatures.add(ListFeature.SUPPORTS_REMOVE_WITH_INDEX);
     }
     if (derivedFeatures.contains(CollectionFeature.GENERAL_PURPOSE)) {
       derivedFeatures.add(ListFeature.GENERAL_PURPOSE);
