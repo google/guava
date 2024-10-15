@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -30,6 +31,7 @@ import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import com.google.errorprone.annotations.Keep;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
@@ -108,11 +110,7 @@ public class EnumMultisetTest extends TestCase {
 
   public void testIllegalCreate() {
     Collection<Color> empty = EnumSet.noneOf(Color.class);
-    try {
-      EnumMultiset.create(empty);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> EnumMultiset.create(empty));
   }
 
   public void testCreateEmptyWithClass() {
@@ -121,11 +119,8 @@ public class EnumMultisetTest extends TestCase {
   }
 
   public void testCreateEmptyWithoutClassFails() {
-    try {
-      EnumMultiset.create(ImmutableList.<Color>of());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> EnumMultiset.create(ImmutableList.<Color>of()));
   }
 
   public void testToString() {
@@ -157,6 +152,7 @@ public class EnumMultisetTest extends TestCase {
   // create(Enum1.class) is equal to create(Enum2.class) but testEquals() expects otherwise.
   // For the same reason, we need to skip create(Iterable, Class).
   private static class EnumMultisetFactory {
+    @Keep // used reflectively by testEquals
     public static <E extends Enum<E>> EnumMultiset<E> create(Iterable<E> elements) {
       return EnumMultiset.create(elements);
     }

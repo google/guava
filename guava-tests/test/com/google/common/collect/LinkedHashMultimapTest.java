@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
@@ -270,17 +271,9 @@ public class LinkedHashMultimapTest extends TestCase {
   }
 
   public void testCreateFromIllegalSizes() {
-    try {
-      LinkedHashMultimap.create(-20, 15);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> LinkedHashMultimap.create(-20, 15));
 
-    try {
-      LinkedHashMultimap.create(20, -15);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> LinkedHashMultimap.create(20, -15));
   }
 
   @GwtIncompatible // unreasonably slow

@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -152,16 +153,12 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(Currency.DOLLAR, bimap.inverse().get(Country.CANADA));
 
     /* Map must have at least one entry if not an EnumBiMap. */
-    try {
-      EnumBiMap.create(Collections.<Currency, Country>emptyMap());
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      EnumBiMap.create(EnumHashBiMap.<Currency, Country>create(Currency.class));
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> EnumBiMap.create(Collections.<Currency, Country>emptyMap()));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> EnumBiMap.create(EnumHashBiMap.<Currency, Country>create(Currency.class)));
 
     /* Map can be empty if it's an EnumBiMap. */
     Map<Currency, Country> emptyBimap = EnumBiMap.create(Currency.class, Country.class);

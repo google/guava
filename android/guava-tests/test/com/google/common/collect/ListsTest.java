@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
@@ -330,11 +331,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testNewArrayListWithCapacity_negative() {
-    try {
-      Lists.newArrayListWithCapacity(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Lists.newArrayListWithCapacity(-1));
   }
 
   public void testNewArrayListWithExpectedSize() {
@@ -346,11 +343,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testNewArrayListWithExpectedSize_negative() {
-    try {
-      Lists.newArrayListWithExpectedSize(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Lists.newArrayListWithExpectedSize(-1));
   }
 
   public void testNewArrayListVarArgs() {
@@ -433,18 +426,10 @@ public class ListsTest extends TestCase {
     assertEquals("FOO", otherWay.get(0));
 
     // But it can't grow
-    try {
-      otherWay.add("nope");
-      fail("no exception thrown");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> otherWay.add("nope"));
 
     // And it can't shrink
-    try {
-      otherWay.remove(2);
-      fail("no exception thrown");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> otherWay.remove(2));
   }
 
   @J2ktIncompatible
@@ -658,11 +643,8 @@ public class ListsTest extends TestCase {
 
   public void testCartesianProductTooBig() {
     List<String> list = Collections.nCopies(10000, "foo");
-    try {
-      Lists.cartesianProduct(list, list, list, list, list);
-      fail("Expected IAE");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Lists.cartesianProduct(list, list, list, list, list));
   }
 
   public void testTransformHashCodeRandomAccess() {
@@ -771,20 +753,18 @@ public class ListsTest extends TestCase {
   }
 
   public void testTransformPreservesIOOBEsThrownByFunction() {
-    try {
-      Lists.transform(
-              ImmutableList.of("foo", "bar"),
-              new Function<String, String>() {
-                @Override
-                public String apply(String input) {
-                  throw new IndexOutOfBoundsException();
-                }
-              })
-          .toArray();
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      // success
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () ->
+            Lists.transform(
+                    ImmutableList.of("foo", "bar"),
+                    new Function<String, String>() {
+                      @Override
+                      public String apply(String input) {
+                        throw new IndexOutOfBoundsException();
+                      }
+                    })
+                .toArray());
   }
 
   private static void assertTransformListIterator(List<String> list) {
@@ -900,11 +880,7 @@ public class ListsTest extends TestCase {
 
   public void testPartition_badSize() {
     List<Integer> source = Collections.singletonList(1);
-    try {
-      Lists.partition(source, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Lists.partition(source, 0));
   }
 
   public void testPartition_empty() {

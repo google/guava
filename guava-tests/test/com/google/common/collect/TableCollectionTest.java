@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -853,11 +854,7 @@ public class TableCollectionTest extends TestCase {
         assertFalse(map.containsKey(keyToRemove));
         assertEquals(initialSize - 1, map.size());
       } else {
-        try {
-          map.remove(keyToRemove);
-          fail("Expected UnsupportedOperationException.");
-        } catch (UnsupportedOperationException expected) {
-        }
+        assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
       }
       assertInvariants(map);
     }

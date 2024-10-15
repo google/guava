@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
@@ -124,11 +125,9 @@ public class ImmutableEnumMapTest extends TestCase {
   public void testToImmutableMap_exceptionOnDuplicateKey() {
     Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
         Maps.toImmutableEnumMap(Entry::getKey, Entry::getValue);
-    try {
-      Stream.of(mapEntry(AnEnum.A, 1), mapEntry(AnEnum.A, 11)).collect(collector);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Stream.of(mapEntry(AnEnum.A, 1), mapEntry(AnEnum.A, 11)).collect(collector));
   }
 
   public void testToImmutableMapMerging() {

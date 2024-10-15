@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterators.peekingIterator;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Collections.emptyList;
@@ -114,12 +115,7 @@ public class PeekingIteratorTest extends TestCase {
     Iterator<?> iterator = list.iterator();
     PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
 
-    try {
-      peekingIterator.peek();
-      fail("Should throw NoSuchElementException if nothing to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
   }
 
   public void testPeekDoesntChangeIteration() {
@@ -145,24 +141,9 @@ public class PeekingIteratorTest extends TestCase {
     assertEquals(
         "next() should still return last element after peeking", "C", peekingIterator.next());
 
-    try {
-      peekingIterator.peek();
-      fail("Should throw exception if no next to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
-    try {
-      peekingIterator.peek();
-      fail("Should continue to throw exception if no next to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
-    try {
-      peekingIterator.next();
-      fail("next() should still throw exception after the end of iteration");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.next());
   }
 
   public void testCantRemoveAfterPeek() {
@@ -174,12 +155,7 @@ public class PeekingIteratorTest extends TestCase {
     assertEquals("B", peekingIterator.peek());
 
     /* Should complain on attempt to remove() after peek(). */
-    try {
-      peekingIterator.remove();
-      fail("remove() should throw IllegalStateException after a peek()");
-    } catch (IllegalStateException e) {
-      /* expected */
-    }
+    assertThrows(IllegalStateException.class, () -> peekingIterator.remove());
 
     assertEquals(
         "After remove() throws exception, peek should still be ok", "B", peekingIterator.peek());

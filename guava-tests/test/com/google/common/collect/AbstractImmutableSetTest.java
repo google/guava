@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -132,20 +133,12 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_nullArray() {
-    try {
-      copyOf((String[]) null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> copyOf((String[]) null));
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
     @Nullable String[] array = new @Nullable String[] {null};
-    try {
-      copyOf((String[]) array);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> copyOf((String[]) array));
   }
 
   public void testCopyOf_collection_empty() {
@@ -178,11 +171,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_collectionContainingNull() {
     Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
-    try {
-      copyOf((Collection<String>) c);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> copyOf((Collection<String>) c));
   }
 
   enum TestEnum {
@@ -228,11 +217,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_iteratorContainingNull() {
     Iterator<@Nullable String> c = Iterators.forArray("a", null, "b");
-    try {
-      copyOf((Iterator<String>) c);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> copyOf((Iterator<String>) c));
   }
 
   private static class CountingIterable implements Iterable<String> {
@@ -398,76 +383,59 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   abstract int getComplexBuilderSetLastElement();
 
   public void testBuilderAddHandlesNullsCorrectly() {
+    {
     ImmutableSet.Builder<String> builder = this.<String>builder();
-    try {
-      builder.add((String) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+      assertThrows(NullPointerException.class, () -> builder.add((String) null));
     }
 
-    builder = this.<String>builder();
-    try {
-      builder.add((String[]) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.add((String[]) null));
     }
 
-    builder = this.<String>builder();
-    try {
-      builder.add("a", (String) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.add("a", (String) null));
     }
 
-    builder = this.<String>builder();
-    try {
-      builder.add("a", "b", (String) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.add("a", "b", (String) null));
     }
 
-    builder = this.<String>builder();
-    try {
-      builder.add("a", "b", "c", null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.add("a", "b", "c", null));
     }
 
-    builder = this.<String>builder();
-    try {
-      builder.add("a", "b", null, "c");
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.add("a", "b", null, "c"));
     }
   }
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
+    {
     ImmutableSet.Builder<String> builder = this.<String>builder();
-    try {
-      builder.addAll((Iterable<String>) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+      assertThrows(NullPointerException.class, () -> builder.addAll((Iterable<String>) null));
     }
 
-    try {
-      builder.addAll((Iterator<String>) null);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
+      assertThrows(NullPointerException.class, () -> builder.addAll((Iterator<String>) null));
     }
 
-    builder = this.<String>builder();
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
     List<@Nullable String> listWithNulls = asList("a", null, "b");
-    try {
-      builder.addAll((List<String>) listWithNulls);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+      assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
     }
 
+    {
+      ImmutableSet.Builder<String> builder = this.<String>builder();
     Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
-    try {
-      builder.addAll((Iterable<String>) iterableWithNulls);
-      fail("expected NullPointerException"); // COV_NF_LINE
-    } catch (NullPointerException expected) {
+      assertThrows(
+          NullPointerException.class, () -> builder.addAll((Iterable<String>) iterableWithNulls));
     }
   }
 

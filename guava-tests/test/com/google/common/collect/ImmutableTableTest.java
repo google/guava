@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -88,24 +89,14 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testBuilder_withImmutableCellAndNullContents() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    try {
-      builder.put(Tables.immutableCell((Character) null, 1, "foo"));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put(Tables.immutableCell('a', (Integer) null, "foo"));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put(Tables.immutableCell('a', 1, (String) null));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.put(Tables.immutableCell((Character) null, 1, "foo")));
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.put(Tables.immutableCell('a', (Integer) null, "foo")));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Tables.immutableCell('a', 1, (String) null)));
   }
 
   private static class StringHolder {
@@ -150,34 +141,14 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
         new ImmutableTable.Builder<Character, Integer, String>()
             .put('a', 1, "foo")
             .put('a', 1, "bar");
-    try {
-      builder.build();
-      fail();
-    } catch (IllegalArgumentException e) {
-      // success
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.build());
   }
 
   public void testBuilder_noNulls() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    try {
-      builder.put(null, 1, "foo");
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put('a', null, "foo");
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put('a', 1, null);
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1, "foo"));
+    assertThrows(NullPointerException.class, () -> builder.put('a', null, "foo"));
+    assertThrows(NullPointerException.class, () -> builder.put('a', 1, null));
   }
 
   private static <R, C, V> void validateTableCopies(Table<R, C, V> original) {

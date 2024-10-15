@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
@@ -62,11 +63,7 @@ public class MapMakerTest extends TestCase {
 
   public void testInitialCapacity_negative() {
     MapMaker maker = new MapMaker();
-    try {
-      maker.initialCapacity(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> maker.initialCapacity(-1));
   }
 
   // TODO(cpovirk): enable when ready (apparently after a change to our GWT emulation)

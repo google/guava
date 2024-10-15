@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -151,11 +152,8 @@ public class ImmutableSortedMapTest extends TestCase {
   @SuppressWarnings("DoNotCall")
   public void testBuilder_orderEntriesByValueFails() {
     ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.orderEntriesByValue(Ordering.natural());
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class, () -> builder.orderEntriesByValue(Ordering.natural()));
   }
 
   public void testBuilder_withImmutableEntry() {
@@ -168,16 +166,10 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.put(Maps.immutableEntry("one", (Integer) null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
   }
 
   private static class StringHolder {
@@ -239,38 +231,26 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testBuilderPutNullKey() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.put(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1));
   }
 
   public void testBuilderPutNullValue() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.put("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put("one", null));
   }
 
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap(null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap("one", null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
   }
 
   public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
@@ -279,11 +259,7 @@ public class ImmutableSortedMapTest extends TestCase {
             .put("one", 1)
             .put("one", 2); // throwing on this line would be even better
 
-    try {
-      builder.build();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.build());
   }
 
   public void testOf() {
@@ -447,39 +423,20 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testOfNullKey() {
     Integer n = null;
-    try {
-      ImmutableSortedMap.of(n, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMap.of(n, 1));
 
-    try {
-      ImmutableSortedMap.of("one", 1, null, 2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMap.of("one", 1, null, 2));
   }
 
   public void testOfNullValue() {
-    try {
-      ImmutableSortedMap.of("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMap.of("one", null));
 
-    try {
-      ImmutableSortedMap.of("one", 1, "two", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableSortedMap.of("one", 1, "two", null));
   }
 
+  @SuppressWarnings("DistinctVarargsChecker")
   public void testOfWithDuplicateKey() {
-    try {
-      ImmutableSortedMap.of("one", 1, "one", 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableSortedMap.of("one", 1, "one", 1));
   }
 
   public void testCopyOfEmptyMap() {
@@ -584,11 +541,7 @@ public class ImmutableSortedMapTest extends TestCase {
             new IntegerDiv10(35), "thirty five",
             new IntegerDiv10(12), "twelve");
 
-    try {
-      ImmutableSortedMap.copyOf(original);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableSortedMap.copyOf(original));
   }
 
   public void testImmutableMapCopyOfImmutableSortedMap() {
@@ -646,13 +599,8 @@ public class ImmutableSortedMapTest extends TestCase {
         ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).put("two", 2);
     ImmutableSortedMap.Builder<String, Integer> zat =
         ImmutableSortedMap.<String, Integer>naturalOrder().put("two", 22).put("three", 3);
-    try {
-      ImmutableSortedMap.Builder<String, Integer> combined = zis.combine(zat);
-      combined.build();
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // expected
-    }
+    ImmutableSortedMap.Builder<String, Integer> combined = zis.combine(zat);
+    assertThrows(IllegalArgumentException.class, () -> combined.build());
   }
 
   // Other tests
@@ -681,11 +629,9 @@ public class ImmutableSortedMapTest extends TestCase {
           source.put(k, k);
         }
         source.put(j, null);
-        try {
-          ImmutableSortedMap.copyOf((Map<Integer, Integer>) source);
-          fail("Expected NullPointerException in copyOf(" + source + ")");
-        } catch (NullPointerException expected) {
-        }
+        assertThrows(
+            NullPointerException.class,
+            () -> ImmutableSortedMap.copyOf((Map<Integer, Integer>) source));
       }
     }
   }
@@ -698,11 +644,9 @@ public class ImmutableSortedMapTest extends TestCase {
           source.put(k, k);
         }
         source.put(j, null);
-        try {
-          ImmutableSortedMap.copyOf((Set<Entry<Integer, Integer>>) source.entrySet());
-          fail("Expected NullPointerException in copyOf(" + source.entrySet() + ")");
-        } catch (NullPointerException expected) {
-        }
+        assertThrows(
+            NullPointerException.class,
+            () -> ImmutableSortedMap.copyOf((Set<Entry<Integer, Integer>>) source.entrySet()));
       }
     }
   }

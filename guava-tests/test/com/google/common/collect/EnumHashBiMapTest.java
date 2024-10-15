@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -145,11 +147,9 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(Currency.DOLLAR, bimap.inverse().get("dollar"));
 
     /* Map must have at least one entry if not an EnumHashBiMap. */
-    try {
-      EnumHashBiMap.create(Collections.<Currency, String>emptyMap());
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> EnumHashBiMap.create(Collections.<Currency, String>emptyMap()));
 
     /* Map can be empty if it's an EnumHashBiMap. */
     Map<Currency, String> emptyBimap = EnumHashBiMap.create(Currency.class);

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.skip;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -151,20 +152,12 @@ public class IterablesTest extends TestCase {
 
   public void testGetOnlyElement_noDefault_empty() {
     Iterable<String> iterable = Collections.emptyList();
-    try {
-      Iterables.getOnlyElement(iterable);
-      fail();
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> Iterables.getOnlyElement(iterable));
   }
 
   public void testGetOnlyElement_noDefault_multiple() {
     Iterable<String> iterable = asList("foo", "bar");
-    try {
-      Iterables.getOnlyElement(iterable);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Iterables.getOnlyElement(iterable));
   }
 
   public void testGetOnlyElement_withDefault_singleton() {
@@ -184,11 +177,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_multiple() {
     Iterable<String> iterable = asList("foo", "bar");
-    try {
-      Iterables.getOnlyElement(iterable, "x");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Iterables.getOnlyElement(iterable, "x"));
   }
 
   @GwtIncompatible // Iterables.toArray(Iterable, Class)
@@ -239,11 +228,8 @@ public class IterablesTest extends TestCase {
     Iterable<String> list = newArrayList("cool", "pants");
     assertEquals("cool", Iterables.find(list, Predicates.equalTo("cool")));
     assertEquals("pants", Iterables.find(list, Predicates.equalTo("pants")));
-    try {
-      Iterables.find(list, Predicates.alwaysFalse());
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(
+        NoSuchElementException.class, () -> Iterables.find(list, Predicates.alwaysFalse()));
     assertEquals("cool", Iterables.find(list, Predicates.alwaysTrue()));
     assertCanIterateAgain(list);
   }
@@ -315,11 +301,7 @@ public class IterablesTest extends TestCase {
     Iterator<Integer> resultIterator = result.iterator();
     resultIterator.next();
 
-    try {
-      resultIterator.next();
-      fail("Expected NFE");
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> resultIterator.next());
   }
 
   public void testNullFriendlyTransform() {
@@ -397,11 +379,7 @@ public class IterablesTest extends TestCase {
     List<Integer> list1 = newArrayList(1);
     List<Integer> list2 = newArrayList(4);
 
-    try {
-      Iterables.concat(list1, null, list2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Iterables.concat(list1, null, list2));
   }
 
   public void testConcatPeformingFiniteCycle() {
@@ -413,11 +391,7 @@ public class IterablesTest extends TestCase {
 
   public void testPartition_badSize() {
     Iterable<Integer> source = Collections.singleton(1);
-    try {
-      Iterables.partition(source, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Iterables.partition(source, 0));
   }
 
   public void testPartition_empty() {
@@ -570,11 +544,7 @@ public class IterablesTest extends TestCase {
 
   public void testLimit_illegalArgument() {
     List<String> list = newArrayList("a", "b", "c");
-    try {
-      Iterables.limit(list, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Iterables.limit(list, -1));
   }
 
   public void testIsEmpty() {
@@ -625,31 +595,19 @@ public class IterablesTest extends TestCase {
     } catch (NoSuchElementException suppressed) {
       // We want remove() to fail even after a failed call to next().
     }
-    try {
-      iterator.remove();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> iterator.remove());
   }
 
   public void testSkip_allOfMutableList_modifiable() {
     List<String> list = newArrayList("a", "b");
     Iterator<String> iterator = skip(list, 2).iterator();
-    try {
-      iterator.remove();
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> iterator.remove());
   }
 
   public void testSkip_allOfImmutableList_modifiable() {
     List<String> list = ImmutableList.of("a", "b");
     Iterator<String> iterator = skip(list, 2).iterator();
-    try {
-      iterator.remove();
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
   }
 
   @GwtIncompatible // slow (~35s)
@@ -717,11 +675,7 @@ public class IterablesTest extends TestCase {
 
   public void testSkip_illegalArgument() {
     List<String> list = newArrayList("a", "b", "c");
-    try {
-      skip(list, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> skip(list, -1));
   }
 
   private void testGetOnAbc(Iterable<String> iterable) {
@@ -778,12 +732,8 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGet_withDefault_negativePosition() {
-    try {
-      Iterables.get(newArrayList("a", "b", "c"), -1, "d");
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      // pass
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Iterables.get(newArrayList("a", "b", "c"), -1, "d"));
   }
 
   public void testGet_withDefault_simple() {
@@ -839,11 +789,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetLast_emptyList() {
     List<String> list = Collections.emptyList();
-    try {
-      Iterables.getLast(list);
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> Iterables.getLast(list));
   }
 
   public void testGetLast_sortedSet() {
@@ -893,11 +839,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetLast_emptySortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of();
-    try {
-      Iterables.getLast(sortedSet);
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> Iterables.getLast(sortedSet));
   }
 
   public void testGetLast_iterable() {
@@ -907,11 +849,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetLast_emptyIterable() {
     Set<String> set = Sets.newHashSet();
-    try {
-      Iterables.getLast(set);
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> Iterables.getLast(set));
   }
 
   public void testUnmodifiableIterable() {
@@ -919,11 +857,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> iterable = Iterables.unmodifiableIterable(list);
     Iterator<String> iterator = iterable.iterator();
     iterator.next();
-    try {
-      iterator.remove();
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     assertEquals("[a, b, c]", iterable.toString());
   }
 
@@ -1193,12 +1127,7 @@ public class IterablesTest extends TestCase {
     Iterator<String> i2 = Iterables.consumingIterable(list).iterator();
 
     i1.next();
-    try {
-      i2.next();
-      fail("Concurrent modification should throw an exception.");
-    } catch (ConcurrentModificationException cme) {
-      // Pass
-    }
+    assertThrows(ConcurrentModificationException.class, () -> i2.next());
   }
 
   public void testConsumingIterable_queue_iterator() {
@@ -1313,12 +1242,7 @@ public class IterablesTest extends TestCase {
     // Verify
     Iterator<Integer> iterator = iterable.iterator();
     assertFalse(iterator.hasNext());
-    try {
-      iterator.next();
-      fail("next() on empty iterator should throw NoSuchElementException");
-    } catch (NoSuchElementException e) {
-      // Huzzah!
-    }
+    assertThrows(NoSuchElementException.class, () -> iterator.next());
   }
 
   public void testMergeSorted_single_empty() {

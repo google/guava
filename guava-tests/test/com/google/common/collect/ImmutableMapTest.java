@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
@@ -261,11 +262,8 @@ public class ImmutableMapTest extends TestCase {
   public void testBuilder_orderEntriesByValue_usedTwiceFails() {
     ImmutableMap.Builder<String, Integer> builder =
         new Builder<String, Integer>().orderEntriesByValue(Ordering.natural());
-    try {
-      builder.orderEntriesByValue(Ordering.natural());
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(
+        IllegalStateException.class, () -> builder.orderEntriesByValue(Ordering.natural()));
   }
 
   @GwtIncompatible // we haven't implemented this
@@ -282,11 +280,7 @@ public class ImmutableMapTest extends TestCase {
             .put("two", 2);
     assertMapEquals(
         builder.buildKeepingLast(), "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
-    try {
-      builder.buildOrThrow();
-      fail("Expected exception from duplicate keys");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.buildOrThrow());
   }
 
   @GwtIncompatible // we haven't implemented this
@@ -307,11 +301,7 @@ public class ImmutableMapTest extends TestCase {
             .put("one", 1)
             .put("one", 1);
     assertMapEquals(builder.buildKeepingLast(), "one", 1);
-    try {
-      builder.buildOrThrow();
-      fail("Expected exception from duplicate keys");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.buildOrThrow());
   }
 
   public void testBuilder_withImmutableEntry() {
@@ -322,16 +312,10 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(Maps.immutableEntry("one", (Integer) null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
   }
 
   private static class StringHolder {
@@ -393,22 +377,15 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutNullKeyFailsAtomically() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
   }
 
   public void testBuilderPutImmutableEntryWithNullKeyFailsAtomically() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
   }
@@ -436,49 +413,34 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutMutableEntryWithNullKeyFailsAtomically() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(new SimpleEntry<String, Integer>(null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(new SimpleEntry<String, Integer>(null, 1)));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
   }
 
   public void testBuilderPutNullKey() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1));
   }
 
   public void testBuilderPutNullValue() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put("one", null));
   }
 
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap(null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap("one", null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
   }
 
   public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
@@ -487,11 +449,7 @@ public class ImmutableMapTest extends TestCase {
             .put("one", 1)
             .put("one", 1); // throwing on this line might be better but it's too late to change
 
-    try {
-      builder.buildOrThrow();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.buildOrThrow());
   }
 
   public void testBuildKeepingLast_allowsOverwrite() {
@@ -616,19 +574,16 @@ public class ImmutableMapTest extends TestCase {
             .put("two", 2);
     assertMapEquals(
         builder.buildKeepingLast(), "three", 3, "one", 1, "five", 5, "four", 4, "two", 2);
-    try {
-      builder.buildOrThrow();
-      fail("Expected exception from duplicate keys");
-    } catch (IllegalArgumentException expected) {
-      // We don't really care which values the exception message contains, but they should be
-      // different from each other. If buildKeepingLast() collapsed duplicates, that might end up
-      // not being true.
-      Pattern pattern = Pattern.compile("Multiple entries with same key: four=(.*) and four=(.*)");
-      assertThat(expected).hasMessageThat().matches(pattern);
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> builder.buildOrThrow());
+    // We don't really care which values the exception message contains, but they should be
+    // different from each other. If buildKeepingLast() collapsed duplicates, that might end up not
+    // being true.
+    Pattern pattern = Pattern.compile("Multiple entries with same key: four=(.*) and four=(.*)");
+    assertThat(expected).hasMessageThat().matches(pattern);
       Matcher matcher = pattern.matcher(expected.getMessage());
       assertThat(matcher.matches()).isTrue();
       assertThat(matcher.group(1)).isNotEqualTo(matcher.group(2));
-    }
   }
 
   public void testOf() {
@@ -791,39 +746,19 @@ public class ImmutableMapTest extends TestCase {
   }
 
   public void testOfNullKey() {
-    try {
-      ImmutableMap.of(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableMap.of(null, 1));
 
-    try {
-      ImmutableMap.of("one", 1, null, 2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableMap.of("one", 1, null, 2));
   }
 
   public void testOfNullValue() {
-    try {
-      ImmutableMap.of("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableMap.of("one", null));
 
-    try {
-      ImmutableMap.of("one", 1, "two", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableMap.of("one", 1, "two", null));
   }
 
   public void testOfWithDuplicateKey() {
-    try {
-      ImmutableMap.of("one", 1, "one", 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableMap.of("one", 1, "one", 1));
   }
 
   public void testCopyOfEmptyMap() {
@@ -866,11 +801,9 @@ public class ImmutableMapTest extends TestCase {
   public void testToImmutableMap_exceptionOnDuplicateKey() {
     Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
         ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue);
-    try {
-      Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector));
   }
 
   public void testToImmutableMapMerging() {
@@ -1179,17 +1112,13 @@ public class ImmutableMapTest extends TestCase {
 
   public void testOfEntriesNull() {
     Entry<@Nullable Integer, @Nullable Integer> nullKey = entry(null, 23);
-    try {
-      ImmutableMap.ofEntries((Entry<Integer, Integer>) nullKey);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableMap.ofEntries((Entry<Integer, Integer>) nullKey));
     Entry<@Nullable Integer, @Nullable Integer> nullValue = entry(23, null);
-    try {
-      ImmutableMap.ofEntries((Entry<Integer, Integer>) nullValue);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableMap.ofEntries((Entry<Integer, Integer>) nullValue));
   }
 
   private static <T> Map<T, T> map(T... keysAndValues) {

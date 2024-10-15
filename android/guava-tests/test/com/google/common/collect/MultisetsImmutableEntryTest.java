@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset.Entry;
 import java.util.Collections;
@@ -77,10 +79,6 @@ public class MultisetsImmutableEntryTest extends TestCase {
   }
 
   public void testNegativeCount() {
-    try {
-      entry("foo", -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> entry("foo", -1));
   }
 }

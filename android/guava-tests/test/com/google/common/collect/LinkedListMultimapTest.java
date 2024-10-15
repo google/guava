@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
@@ -147,11 +148,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testCreateFromIllegalSize() {
-    try {
-      LinkedListMultimap.create(-20);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> LinkedListMultimap.create(-20));
   }
 
   public void testLinkedGetAdd() {
@@ -296,18 +293,15 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("foo", 2);
     map.put("bar", 3);
     Iterator<Entry<String, Collection<Integer>>> entries = map.asMap().entrySet().iterator();
-    Entry<String, Collection<Integer>> entry = entries.next();
-    assertEquals("bar", entry.getKey());
-    assertThat(entry.getValue()).containsExactly(1, 3).inOrder();
-    try {
-      entry.setValue(Arrays.<Integer>asList());
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
+    Entry<String, Collection<Integer>> barEntry = entries.next();
+    assertEquals("bar", barEntry.getKey());
+    assertThat(barEntry.getValue()).containsExactly(1, 3).inOrder();
+    assertThrows(
+        UnsupportedOperationException.class, () -> barEntry.setValue(Arrays.<Integer>asList()));
     entries.remove(); // clear
-    entry = entries.next();
-    assertEquals("foo", entry.getKey());
-    assertThat(entry.getValue()).contains(2);
+    Entry<String, Collection<Integer>> fooEntry = entries.next();
+    assertEquals("foo", fooEntry.getKey());
+    assertThat(fooEntry.getValue()).contains(2);
     assertFalse(entries.hasNext());
     assertEquals("{foo=[2]}", map.toString());
   }

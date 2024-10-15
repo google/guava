@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -264,20 +265,12 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   public void testEmpty_first() {
     SortedSet<String> set = of();
-    try {
-      set.first();
-      fail();
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> set.first());
   }
 
   public void testEmpty_last() {
     SortedSet<String> set = of();
-    try {
-      set.last();
-      fail();
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> set.last());
   }
 
   @J2ktIncompatible
@@ -422,11 +415,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(this.<String>of(), set.subSet("a", "b"));
     assertSame(this.<String>of(), set.subSet("g", "h"));
     assertSame(this.<String>of(), set.subSet("c", "c"));
-    try {
-      set.subSet("e", "c");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> set.subSet("e", "c"));
   }
 
   @J2ktIncompatible
@@ -545,11 +534,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.subSet("", "b").isEmpty());
     assertTrue(set.subSet("vermont", "california").isEmpty());
     assertTrue(set.subSet("aaa", "zzz").isEmpty());
-    try {
-      set.subSet("quick", "the");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> set.subSet("quick", "the"));
   }
 
   public void testExplicit_first() {
@@ -976,11 +961,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @SuppressWarnings({"deprecation", "static-access", "DoNotCall"})
   public void testBuilderMethod() {
-    try {
-      ImmutableSortedSet.builder();
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> ImmutableSortedSet.builder());
   }
 
   public void testAsList() {

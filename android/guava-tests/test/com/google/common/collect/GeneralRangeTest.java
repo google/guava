@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -43,22 +44,18 @@ public class GeneralRangeTest extends TestCase {
   public void testCreateEmptyRangeFails() {
     for (BoundType lboundType : BoundType.values()) {
       for (BoundType uboundType : BoundType.values()) {
-        try {
-          GeneralRange.range(ORDERING, 4, lboundType, 2, uboundType);
-          fail("Expected IAE");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> GeneralRange.range(ORDERING, 4, lboundType, 2, uboundType));
       }
     }
   }
 
   public void testCreateEmptyRangeOpenOpenFails() {
     for (Integer i : IN_ORDER_VALUES) {
-      try {
-        GeneralRange.<@Nullable Integer>range(ORDERING, i, OPEN, i, OPEN);
-        fail("Expected IAE");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> GeneralRange.<@Nullable Integer>range(ORDERING, i, OPEN, i, OPEN));
     }
   }
 

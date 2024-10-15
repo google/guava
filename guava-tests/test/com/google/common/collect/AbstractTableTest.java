@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
@@ -57,11 +58,7 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
       assertEquals(0, table.size());
       assertFalse(table.containsRow("foo"));
     } else {
-      try {
-        table.clear();
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> table.clear());
     }
   }
 
@@ -81,25 +78,13 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
   public void testPutNull() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertSize(3);
-    try {
-      table.put(null, 2, cellValue('d'));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      table.put("cat", null, cellValue('d'));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> table.put(null, 2, cellValue('d')));
+    assertThrows(NullPointerException.class, () -> table.put("cat", null, cellValue('d')));
     if (supportsNullValues()) {
       assertNull(table.put("cat", 2, null));
       assertTrue(table.contains("cat", 2));
     } else {
-      try {
-        table.put("cat", 2, null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> table.put("cat", 2, null));
     }
     assertSize(3);
   }
@@ -111,11 +96,7 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
       assertEquals((Character) 'b', table.put("bar", 1, nullableCellValue(null)));
       assertNull(table.get("bar", 1));
     } else {
-      try {
-        table.put("bar", 1, nullableCellValue(null));
-        fail();
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> table.put("bar", 1, nullableCellValue(null)));
     }
   }
 
@@ -150,11 +131,7 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
       assertNull(table.remove(null, null));
       assertSize(2);
     } else {
-      try {
-        table.remove("foo", 3);
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> table.remove("foo", 3));
       assertEquals((Character) 'c', table.get("foo", 3));
     }
   }

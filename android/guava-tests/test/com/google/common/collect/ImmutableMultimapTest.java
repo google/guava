@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -50,24 +51,15 @@ public class ImmutableMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(Maps.immutableEntry("one", (Integer) null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
   }
 
   public void testBuilderWithExpectedKeysNegative() {
-    try {
-      ImmutableMultimap.builderWithExpectedKeys(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> ImmutableMultimap.builderWithExpectedKeys(-1));
   }
 
   public void testBuilderWithExpectedKeysZero() {
@@ -85,11 +77,8 @@ public class ImmutableMultimapTest extends TestCase {
   }
 
   public void testBuilderWithExpectedValuesPerKeyNegative() {
-    try {
-      ImmutableMultimap.builder().expectedValuesPerKey(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> ImmutableMultimap.builder().expectedValuesPerKey(-1));
   }
 
   public void testBuilderWithExpectedValuesPerKeyZero() {

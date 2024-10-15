@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.unmodifiableIterable;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -338,16 +339,8 @@ public class SetsTest extends TestCase {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
     assertThat(units).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
-    try {
-      units.remove(SomeEnum.B);
-      fail("ImmutableEnumSet should throw an exception on remove()");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      units.add(SomeEnum.C);
-      fail("ImmutableEnumSet should throw an exception on add()");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> units.remove(SomeEnum.B));
+    assertThrows(UnsupportedOperationException.class, () -> units.add(SomeEnum.C));
   }
 
   public void testToImmutableEnumSet() {
@@ -681,11 +674,7 @@ public class SetsTest extends TestCase {
   @GwtIncompatible // complementOf
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
     Set<SomeEnum> set = Collections.emptySet();
-    try {
-      Sets.complementOf(set);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Sets.complementOf(set));
   }
 
   @J2ktIncompatible
@@ -715,11 +704,7 @@ public class SetsTest extends TestCase {
   public void testNewSetFromMapIllegal() {
     Map<Integer, Boolean> map = new LinkedHashMap<>();
     map.put(2, true);
-    try {
-      Sets.newSetFromMap(map);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Sets.newSetFromMap(map));
   }
 
   /** The 0-ary cartesian product is a single empty list. */
@@ -823,11 +808,8 @@ public class SetsTest extends TestCase {
 
   public void testCartesianProductTooBig() {
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
-    try {
-      Sets.cartesianProduct(set, set, set, set, set);
-      fail("Expected IAE");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Sets.cartesianProduct(set, set, set, set, set));
   }
 
   public void testCartesianProduct_hashCode() {
@@ -912,11 +894,7 @@ public class SetsTest extends TestCase {
     assertEquals(ImmutableSet.of(3, 2), i.next());
     assertEquals(ImmutableSet.of(3, 2, 1), i.next());
     assertFalse(i.hasNext());
-    try {
-      i.next();
-      fail();
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> i.next());
   }
 
   @GwtIncompatible // too slow for GWT
@@ -968,27 +946,24 @@ public class SetsTest extends TestCase {
   }
 
   public void testPowerSetCreationErrors() {
-    try {
-      Set<Set<Character>> unused =
-          powerSet(
-              newHashSet(
-                  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-                  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5'));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          Set<Set<Character>> unused =
+              powerSet(
+                  newHashSet(
+                      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+                      'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4',
+                      '5'));
+        });
 
-    try {
-      Set<Set<Integer>> unused = powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          Set<Set<Integer>> unused = powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2));
+        });
 
-    try {
-      powerSet(singleton(null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> powerSet(singleton(null)));
   }
 
   public void testPowerSetEqualsAndHashCode_verifyAgainstHashSet() {
@@ -1185,21 +1160,10 @@ public class SetsTest extends TestCase {
 
     /* UnsupportedOperationException on indirect modifications. */
     NavigableSet<Integer> reverse = unmod.descendingSet();
-    try {
-      reverse.add(4);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      reverse.addAll(Collections.singleton(4));
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      reverse.remove(4);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> reverse.add(4));
+    assertThrows(
+        UnsupportedOperationException.class, () -> reverse.addAll(Collections.singleton(4)));
+    assertThrows(UnsupportedOperationException.class, () -> reverse.remove(4));
   }
 
   void ensureNotDirectlyModifiable(SortedSet<Integer> unmod) {
@@ -1338,11 +1302,7 @@ public class SetsTest extends TestCase {
     ImmutableSortedSet<Integer> set =
         ImmutableSortedSet.<Integer>reverseOrder().add(2, 4, 6, 8, 10).build();
 
-    try {
-      Sets.subSet(set, Range.closed(4, 8));
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Sets.subSet(set, Range.closed(4, 8)));
 
     // These results are all incorrect, but there's no way (short of iterating over the result)
     // to verify that with an arbitrary ordering or comparator.

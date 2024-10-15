@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
@@ -312,25 +313,13 @@ public class MultimapsTest extends TestCase {
     Multimap<String, Integer> mod = HashMultimap.create();
     Multimap<String, Integer> unmod = Multimaps.unmodifiableMultimap(mod);
     mod.put("foo", 1);
-    Entry<String, Integer> entry = unmod.entries().iterator().next();
-    try {
-      entry.setValue(2);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    entry = (Entry<String, Integer>) unmod.entries().toArray()[0];
-    try {
-      entry.setValue(2);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
+    Entry<String, Integer> fromIterator = unmod.entries().iterator().next();
+    assertThrows(UnsupportedOperationException.class, () -> fromIterator.setValue(2));
+    Entry<String, Integer> fromToArray = (Entry<String, Integer>) unmod.entries().toArray()[0];
+    assertThrows(UnsupportedOperationException.class, () -> fromToArray.setValue(2));
     Entry<String, Integer>[] array = (Entry<String, Integer>[]) new Entry<?, ?>[2];
     assertSame(array, unmod.entries().toArray(array));
-    try {
-      array[0].setValue(2);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> array[0].setValue(2));
     assertFalse(unmod.entries().contains(nefariousMapEntry("pwnd", 2)));
     assertFalse(unmod.keys().contains("pwnd"));
   }
@@ -496,26 +485,14 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimapView.containsEntry("bar", 2));
     assertEquals(Collections.singleton(1), multimapView.get("foo"));
     assertEquals(Collections.singleton(2), multimapView.get("bar"));
-    try {
-      multimapView.put("baz", 3);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      multimapView.putAll("baz", Collections.singleton(3));
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      multimapView.putAll(multimap);
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      multimapView.replaceValues("foo", Collections.<Integer>emptySet());
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multimapView.put("baz", 3));
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> multimapView.putAll("baz", Collections.singleton(3)));
+    assertThrows(UnsupportedOperationException.class, () -> multimapView.putAll(multimap));
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> multimapView.replaceValues("foo", Collections.<Integer>emptySet()));
     multimapView.remove("bar", 2);
     assertFalse(multimapView.containsKey("bar"));
     assertFalse(map.containsKey("bar"));
@@ -668,18 +645,10 @@ public class MultimapsTest extends TestCase {
 
     Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
     Multimap<Color, Integer> multimap = Multimaps.newMultimap(map, factory);
-    try {
-      multimap.put(Color.BLUE, -1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> multimap.put(Color.BLUE, -1));
     multimap.put(Color.RED, 1);
     multimap.put(Color.BLUE, 2);
-    try {
-      multimap.put(Color.GREEN, -1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> multimap.put(Color.GREEN, -1));
     assertThat(multimap.entries())
         .containsExactly(Maps.immutableEntry(Color.RED, 1), Maps.immutableEntry(Color.BLUE, 2));
   }
@@ -892,20 +861,15 @@ public class MultimapsTest extends TestCase {
 
   public void testIndex_nullValue() {
     List<@Nullable Integer> values = Arrays.asList(1, null);
-    try {
-      Multimaps.index((List<Integer>) values, Functions.identity());
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> Multimaps.index((List<Integer>) values, Functions.identity()));
   }
 
   public void testIndex_nullKey() {
     List<Integer> values = Arrays.asList(1, 2);
-    try {
-      Multimaps.index(values, Functions.constant(null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> Multimaps.index(values, Functions.constant(null)));
   }
 
   @GwtIncompatible(value = "untested")
@@ -1039,11 +1003,8 @@ public class MultimapsTest extends TestCase {
 
     assertEquals(ImmutableSet.of(), filtered.replaceValues("baz", ImmutableSet.<Integer>of()));
 
-    try {
-      filtered.replaceValues("baz", ImmutableSet.of(5));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> filtered.replaceValues("baz", ImmutableSet.of(5)));
   }
 
   public void testFilteredKeysSetMultimapGetBadValue() {
@@ -1057,16 +1018,8 @@ public class MultimapsTest extends TestCase {
         Multimaps.filterKeys(multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     Set<Integer> bazSet = filtered.get("baz");
     assertThat(bazSet).isEmpty();
-    try {
-      bazSet.add(5);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      bazSet.addAll(ImmutableSet.of(6, 7));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> bazSet.add(5));
+    assertThrows(IllegalArgumentException.class, () -> bazSet.addAll(ImmutableSet.of(6, 7)));
   }
 
   public void testFilteredKeysListMultimapGetBadValue() {
@@ -1080,26 +1033,10 @@ public class MultimapsTest extends TestCase {
         Multimaps.filterKeys(multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     List<Integer> bazList = filtered.get("baz");
     assertThat(bazList).isEmpty();
-    try {
-      bazList.add(5);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      bazList.add(0, 6);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      bazList.addAll(ImmutableList.of(7, 8));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      bazList.addAll(0, ImmutableList.of(9, 10));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> bazList.add(5));
+    assertThrows(IllegalArgumentException.class, () -> bazList.add(0, 6));
+    assertThrows(IllegalArgumentException.class, () -> bazList.addAll(ImmutableList.of(7, 8)));
+    assertThrows(IllegalArgumentException.class, () -> bazList.addAll(0, ImmutableList.of(9, 10)));
   }
 
   @J2ktIncompatible

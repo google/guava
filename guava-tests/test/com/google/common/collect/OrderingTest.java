@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
@@ -111,21 +112,9 @@ public class OrderingTest extends TestCase {
   public void testNatural() {
     Ordering<Integer> comparator = Ordering.natural();
     Helpers.testComparator(comparator, Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE);
-    try {
-      comparator.compare(1, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      comparator.compare(null, 2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      comparator.compare(null, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> comparator.compare(1, null));
+    assertThrows(NullPointerException.class, () -> comparator.compare(null, 2));
+    assertThrows(NullPointerException.class, () -> comparator.compare(null, null));
     assertSame(comparator, reserialize(comparator));
     assertEquals("Ordering.natural()", comparator.toString());
   }
@@ -146,24 +135,18 @@ public class OrderingTest extends TestCase {
 
   public void testExplicit_none() {
     Comparator<Integer> c = Ordering.explicit(Collections.<Integer>emptyList());
-    try {
-      c.compare(0, 0);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(0, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(0, 0));
+    assertEquals(0, expected.value);
     reserializeAndAssert(c);
   }
 
   public void testExplicit_one() {
     Comparator<Integer> c = Ordering.explicit(0);
     assertEquals(0, c.compare(0, 0));
-    try {
-      c.compare(0, 1);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(1, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(0, 1));
+    assertEquals(1, expected.value);
     reserializeAndAssert(c);
     assertEquals("Ordering.explicit([0])", c.toString());
   }
@@ -173,12 +156,9 @@ public class OrderingTest extends TestCase {
 
     // TODO(b/297601553): this should probably throw an CCE since 0 isn't explicitly listed
     assertEquals(0, (int) c.max(asList(0)));
-    try {
-      c.max(asList(0, 1));
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(0, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.max(asList(0, 1)));
+    assertEquals(0, expected.value);
   }
 
   public void testExplicit_two() {
@@ -186,12 +166,9 @@ public class OrderingTest extends TestCase {
     assertEquals(0, c.compare(5, 5));
     assertTrue(c.compare(5, 42) > 0);
     assertTrue(c.compare(42, 5) < 0);
-    try {
-      c.compare(5, 666);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(666, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(5, 666));
+    assertEquals(666, expected.value);
     new EqualsTester()
         .addEqualityGroup(c, Ordering.explicit(42, 5))
         .addEqualityGroup(Ordering.explicit(5, 42))
@@ -210,11 +187,7 @@ public class OrderingTest extends TestCase {
 
   @SuppressWarnings("DistinctVarargsChecker") // test of buggy call
   public void testExplicit_withDuplicates() {
-    try {
-      Ordering.explicit(1, 2, 3, 4, 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ordering.explicit(1, 2, 3, 4, 2));
   }
 
   // A more limited test than the one that follows, but this one uses the
@@ -486,11 +459,12 @@ public class OrderingTest extends TestCase {
         numberOrdering.immutableSortedCopy(Collections.<Integer>emptyList()));
 
     List<@Nullable Integer> listWithNull = Arrays.asList(5, 3, null, 9);
-    try {
-      Ordering.<Integer>natural().nullsFirst().immutableSortedCopy((List<Integer>) listWithNull);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            Ordering.<Integer>natural()
+                .nullsFirst()
+                .immutableSortedCopy((List<Integer>) listWithNull));
   }
 
   public void testIsOrdered() {
@@ -542,19 +516,15 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_negativeOne() {
-    try {
-      numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1));
   }
 
   public void testLeastOfIterator_simple_negativeOne() {
-    try {
-      numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1));
   }
 
   public void testLeastOfIterable_singleton_0() {
