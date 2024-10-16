@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
@@ -65,6 +66,67 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
           Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);
   }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into a {@code ImmutableRangeMap},
+   * resolving overlapping ranges using the provided merge function.
+   *
+   * @param keyFunction the function to derive the range key from elements
+   * @param valueFunction the function to derive the value from elements
+   * @param mergeFunction the binary operator used to merge values of overlapping ranges
+   * @param <T> the type of input elements
+   * @param <K> the key type of the map, extending Comparable
+   * @param <V> the value type of the map
+   * @return a {@code Collector} that collects elements into a {@code ImmutableRangeMap}
+   */
+  public static <T, K extends Comparable<? super K>, V> Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
+          Function<? super T, Range<K>> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+
+    return Collector.of(
+            TreeRangeMap::<K, V>create,  // 使用类型推断来创建 TreeRangeMap 实例
+            (map, element) -> {
+              Range<K> key = keyFunction.apply(element);
+              V value = valueFunction.apply(element);
+
+              // 检查是否有重叠的范围
+              RangeMap<K, V> overlappingMap = map.subRangeMap(key);
+              if (!overlappingMap.asMapOfRanges().isEmpty()) {
+                // 如果存在重叠范围，则合并这些值
+                for (Map.Entry<Range<K>, V> entry : overlappingMap.asMapOfRanges().entrySet()) {
+                  V existingValue = entry.getValue();
+                  value = mergeFunction.apply(existingValue, value);
+                }
+                // 移除原有的重叠范围
+                map.remove(key);
+              }
+
+              map.put(key, value);
+            },
+            (left, right) -> {
+              left.putAll(right);
+              return left;
+            },
+            map -> {
+              ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>();
+              ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>();
+
+              // 遍历 map 中的所有范围
+              for (Map.Entry<Range<K>, V> entry : map.asMapOfRanges().entrySet()) {
+                rangesBuilder.add(entry.getKey());
+                valuesBuilder.add(entry.getValue());
+              }
+
+              // 构造不可变的 ImmutableRangeMap
+              return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
+            }
+    );
+  }
+
+
+
+
 
   /**
    * Returns an empty immutable range map.
