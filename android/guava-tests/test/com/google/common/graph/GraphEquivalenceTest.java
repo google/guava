@@ -56,9 +56,8 @@ public final class GraphEquivalenceTest {
         return GraphBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
         return GraphBuilder.directed().allowsSelfLoops(true).build();
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
+    throw new IllegalStateException("Unexpected edge type: " + edgeType);
   }
 
   private static EdgeType oppositeType(EdgeType edgeType) {
@@ -67,9 +66,8 @@ public final class GraphEquivalenceTest {
         return EdgeType.DIRECTED;
       case DIRECTED:
         return EdgeType.UNDIRECTED;
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
+    throw new IllegalStateException("Unexpected edge type: " + edgeType);
   }
 
   @Test
@@ -150,8 +148,6 @@ public final class GraphEquivalenceTest {
       case DIRECTED:
         assertThat(graph).isNotEqualTo(g2);
         break;
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
   }
 }

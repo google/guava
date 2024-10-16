@@ -61,9 +61,8 @@ public final class NetworkEquivalenceTest {
         return NetworkBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
         return NetworkBuilder.directed().allowsSelfLoops(true).build();
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
+    throw new IllegalStateException("Unexpected edge type: " + edgeType);
   }
 
   private static EdgeType oppositeType(EdgeType edgeType) {
@@ -72,9 +71,8 @@ public final class NetworkEquivalenceTest {
         return EdgeType.DIRECTED;
       case DIRECTED:
         return EdgeType.UNDIRECTED;
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
+    throw new IllegalStateException("Unexpected edge type: " + edgeType);
   }
 
   @Test
@@ -184,8 +182,6 @@ public final class NetworkEquivalenceTest {
       case DIRECTED:
         assertThat(network).isNotEqualTo(g2);
         break;
-      default:
-        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
   }
 }

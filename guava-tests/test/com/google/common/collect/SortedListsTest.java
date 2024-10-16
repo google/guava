@@ -73,8 +73,6 @@ public class SortedListsTest extends TestCase {
           return;
         }
         break;
-      default:
-        throw new AssertionError();
     }
     // key is not present
     int nextHigherIndex = list.size();
@@ -91,9 +89,8 @@ public class SortedListsTest extends TestCase {
       case INVERTED_INSERTION_INDEX:
         assertEquals(-1 - nextHigherIndex, answer);
         return;
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   public void testWithoutDups() {

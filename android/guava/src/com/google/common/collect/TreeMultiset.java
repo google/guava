@@ -190,9 +190,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
           return aggr.nodeAggregate(node) + aggr.treeAggregate(node.left);
         case CLOSED:
           return aggr.treeAggregate(node.left);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     } else {
       return aggr.treeAggregate(node.left)
           + aggr.nodeAggregate(node)
@@ -216,9 +215,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
           return aggr.nodeAggregate(node) + aggr.treeAggregate(node.right);
         case CLOSED:
           return aggr.treeAggregate(node.right);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     } else {
       return aggr.treeAggregate(node.right)
           + aggr.nodeAggregate(node)

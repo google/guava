@@ -285,7 +285,6 @@ public class MoreExecutorsTest extends JSR166TestCase {
         case TIMED_WAITING:
           return;
         case TERMINATED:
-        default:
           throw new AssertionError();
       }
     }
