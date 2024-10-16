@@ -178,7 +178,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
    * the spliterator implementation.
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
   // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
   static final int SPLITERATOR_CHARACTERISTICS =
@@ -191,7 +191,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public abstract UnmodifiableIterator<E> iterator();
 
   @Override
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // used only from APIs with Java 8 types in them
   // (not used within guava-android as of this writing, but we include it in the jar as a test)
   public Spliterator<E> spliterator() {

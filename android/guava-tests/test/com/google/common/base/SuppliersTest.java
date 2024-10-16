@@ -231,7 +231,6 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
-  @SuppressWarnings("Java7ApiChecker") // test of Java 8+ API
   public void testMemoizeWithExpiration_duration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -252,7 +251,6 @@ public class SuppliersTest extends TestCase {
         () -> Suppliers.memoizeWithExpiration(() -> "", -1, TimeUnit.MILLISECONDS));
   }
 
-  @SuppressWarnings("Java7ApiChecker") // test of Java 8+ API
   @J2ktIncompatible // Duration
   @GwtIncompatible // Duration
   public void testMemoizeWithExpiration_durationNegative() throws InterruptedException {
@@ -496,7 +494,6 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  @SuppressWarnings("Java7ApiChecker") // includes test of Java 8+ API
   public void testSuppliersNullChecks() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))
@@ -507,7 +504,6 @@ public class SuppliersTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
-  @SuppressWarnings("Java7ApiChecker") // includes test of Java 8+ API
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))

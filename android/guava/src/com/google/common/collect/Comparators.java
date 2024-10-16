@@ -129,7 +129,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
@@ -163,7 +163,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {

@@ -44,7 +44,6 @@ public class FakeTickerTest extends TestCase {
   }
 
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public void testAdvance() {
     FakeTicker ticker = new FakeTicker();
     assertEquals(0, ticker.read());
@@ -83,7 +82,6 @@ public class FakeTickerTest extends TestCase {
   }
 
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public void testAutoIncrementStep_duration() {
     FakeTicker ticker = new FakeTicker().setAutoIncrementStep(Duration.ofMillis(1));
     assertEquals(0, ticker.read());

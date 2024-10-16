@@ -230,7 +230,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   public void testLargeDurationsAreOk() {
     Duration threeHundredYears = Duration.ofDays(365 * 300);
@@ -251,7 +250,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToLive_negative_duration() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     assertThrows(
@@ -276,7 +274,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToLive_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
         CacheBuilder.newBuilder().expireAfterWrite(Duration.ofHours(1));
@@ -293,7 +290,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToIdle_negative_duration() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     assertThrows(
@@ -318,14 +314,12 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToIdle_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
         CacheBuilder.newBuilder().expireAfterAccess(Duration.ofHours(1));
     assertThrows(IllegalStateException.class, () -> builder.expireAfterAccess(Duration.ofHours(1)));
   }
 
-  @SuppressWarnings("Java7ApiChecker")
   public void testTimeToIdleAndToLive() {
     LoadingCache<?, ?> unused =
         CacheBuilder.newBuilder()
@@ -342,7 +336,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testRefresh_zero_duration() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     assertThrows(IllegalArgumentException.class, () -> builder.refreshAfterWrite(Duration.ZERO));
@@ -356,7 +349,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // Duration
-  @SuppressWarnings("Java7ApiChecker")
   public void testRefresh_setTwice_duration() {
     CacheBuilder<Object, Object> builder =
         CacheBuilder.newBuilder().refreshAfterWrite(Duration.ofHours(1));
