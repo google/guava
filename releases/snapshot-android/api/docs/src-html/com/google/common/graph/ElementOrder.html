@@ -206,16 +206,15 @@
 <span class="sourceLineNo">197</span><a id="line.197">        return Maps.newLinkedHashMapWithExpectedSize(expectedSize);</a>
 <span class="sourceLineNo">198</span><a id="line.198">      case SORTED:</a>
 <span class="sourceLineNo">199</span><a id="line.199">        return Maps.newTreeMap(comparator());</a>
-<span class="sourceLineNo">200</span><a id="line.200">      default:</a>
-<span class="sourceLineNo">201</span><a id="line.201">        throw new AssertionError();</a>
-<span class="sourceLineNo">202</span><a id="line.202">    }</a>
-<span class="sourceLineNo">203</span><a id="line.203">  }</a>
-<span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">206</span><a id="line.206">  &lt;T1 extends T&gt; ElementOrder&lt;T1&gt; cast() {</a>
-<span class="sourceLineNo">207</span><a id="line.207">    return (ElementOrder&lt;T1&gt;) this;</a>
-<span class="sourceLineNo">208</span><a id="line.208">  }</a>
-<span class="sourceLineNo">209</span><a id="line.209">}</a>
+<span class="sourceLineNo">200</span><a id="line.200">    }</a>
+<span class="sourceLineNo">201</span><a id="line.201">    throw new AssertionError();</a>
+<span class="sourceLineNo">202</span><a id="line.202">  }</a>
+<span class="sourceLineNo">203</span><a id="line.203"></a>
+<span class="sourceLineNo">204</span><a id="line.204">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">205</span><a id="line.205">  &lt;T1 extends T&gt; ElementOrder&lt;T1&gt; cast() {</a>
+<span class="sourceLineNo">206</span><a id="line.206">    return (ElementOrder&lt;T1&gt;) this;</a>
+<span class="sourceLineNo">207</span><a id="line.207">  }</a>
+<span class="sourceLineNo">208</span><a id="line.208">}</a>
 
 
 

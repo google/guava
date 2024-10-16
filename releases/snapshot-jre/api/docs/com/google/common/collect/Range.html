@@ -711,7 +711,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>greaterThan</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.244">greaterThan</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.243">greaterThan</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -727,7 +727,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>atLeast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.253">atLeast</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.252">atLeast</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -743,7 +743,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>downTo</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.263">downTo</a>&#8203;(C&nbsp;endpoint,
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.262">downTo</a>&#8203;(C&nbsp;endpoint,
                                                                   <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a range from the given endpoint, which may be either inclusive (closed) or exclusive
  (open), with no upper bound.</div>
@@ -759,7 +759,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.281">all</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.279">all</a>()</pre>
 <div class="block">Returns a range that contains every value of type <code>C</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -775,7 +775,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>singleton</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.292">singleton</a>&#8203;(C&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.290">singleton</a>&#8203;(C&nbsp;value)</pre>
 <div class="block">Returns a range that <a href="#contains(C)">contains</a> only the given value. The
  returned range is <a href="BoundType.html#CLOSED">closed</a> on both ends.</div>
 <dl>
@@ -790,7 +790,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>encloseAll</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.305">encloseAll</a>&#8203;(java.lang.Iterable&lt;C&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.303">encloseAll</a>&#8203;(java.lang.Iterable&lt;C&gt;&nbsp;values)</pre>
 <div class="block">Returns the minimal range that <a href="#contains(C)">contains</a> all of the
  given values. The returned range is <a href="BoundType.html#CLOSED">closed</a> on both ends.</div>
 <dl>
@@ -809,7 +809,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>hasLowerBound</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.339">hasLowerBound</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.337">hasLowerBound</a>()</pre>
 <div class="block">Returns <code>true</code> if this range has a lower endpoint.</div>
 </li>
 </ul>
@@ -819,7 +819,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerEndpoint</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.349">lowerEndpoint</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.347">lowerEndpoint</a>()</pre>
 <div class="block">Returns the lower endpoint of this range.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -833,7 +833,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerBoundType</h4>
-<pre class="methodSignature">public&nbsp;<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.360">lowerBoundType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.358">lowerBoundType</a>()</pre>
 <div class="block">Returns the type of this range's lower bound: <a href="BoundType.html#CLOSED"><code>BoundType.CLOSED</code></a> if the range includes
  its lower endpoint, <a href="BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl>
@@ -848,7 +848,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>hasUpperBound</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.365">hasUpperBound</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.363">hasUpperBound</a>()</pre>
 <div class="block">Returns <code>true</code> if this range has an upper endpoint.</div>
 </li>
 </ul>
@@ -858,7 +858,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>upperEndpoint</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.375">upperEndpoint</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.373">upperEndpoint</a>()</pre>
 <div class="block">Returns the upper endpoint of this range.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -872,7 +872,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>upperBoundType</h4>
-<pre class="methodSignature">public&nbsp;<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.386">upperBoundType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.384">upperBoundType</a>()</pre>
 <div class="block">Returns the type of this range's upper bound: <a href="BoundType.html#CLOSED"><code>BoundType.CLOSED</code></a> if the range includes
  its upper endpoint, <a href="BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl>
@@ -887,7 +887,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.399">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.397">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if this range is of the form <code>[v..v)</code> or <code>(v..v]</code>. (This does
  not encompass ranges of the form <code>(v..v)</code>, because such ranges are <i>invalid</i> and
  can't be constructed at all.)
@@ -905,7 +905,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.408">contains</a>&#8203;(<a href="Range.html" title="type parameter in Range">C</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.406">contains</a>&#8203;(<a href="Range.html" title="type parameter in Range">C</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if <code>value</code> is within the bounds of this range. For example, on the
  range <code>[0..2)</code>, <code>contains(1)</code> returns <code>true</code>, while <code>contains(2)</code>
  returns <code>false</code>.</div>
@@ -920,7 +920,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>apply</h4>
 <pre class="methodSignature">@Deprecated
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.418">apply</a>&#8203;(<a href="Range.html" title="type parameter in Range">C</a>&nbsp;input)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.416">apply</a>&#8203;(<a href="Range.html" title="type parameter in Range">C</a>&nbsp;input)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided only to satisfy the <a href="../base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="#contains(C)"><code>contains(C)</code></a>
      instead.</div>
@@ -947,7 +947,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.428">containsAll</a>&#8203;(java.lang.Iterable&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.426">containsAll</a>&#8203;(java.lang.Iterable&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns <code>true</code> if every element in <code>values</code> is <a href="#contains(C)">contained</a> in
  this range.</div>
 </li>
@@ -958,7 +958,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>encloses</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.473">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.471">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns <code>true</code> if the bounds of <code>other</code> do not extend outside the bounds of this
  range. Examples:
 
@@ -988,7 +988,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isConnected</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.503">isConnected</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.501">isConnected</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns <code>true</code> if there exists a (possibly empty) range which is <a href="#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>other</code>.
 
  <p>For example,
@@ -1017,7 +1017,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.524">intersection</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;connectedRange)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.522">intersection</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;connectedRange)</pre>
 <div class="block">Returns the maximal range <a href="#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>
  connectedRange</code>, if such a range exists.
 
@@ -1041,7 +1041,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>gap</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.564">gap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;otherRange)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.562">gap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;otherRange)</pre>
 <div class="block">Returns the maximal range lying between this range and <code>otherRange</code>, if such a range
  exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.
 
@@ -1068,7 +1068,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.598">span</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.596">span</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns the minimal range that <a href="#encloses(com.google.common.collect.Range)">encloses</a> both this range and <code>
  other</code>. For example, the span of <code>[1..3]</code> and <code>(5..7)</code> is <code>[1..7)</code>.
 
@@ -1086,7 +1086,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>canonical</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.636">canonical</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;domain)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.634">canonical</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;domain)</pre>
 <div class="block">Returns the canonical form of this range in the given domain. The canonical form has the
  following properties:
 
@@ -1117,7 +1117,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.650">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.648">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is a range having the same endpoints and bound types as
  this range. Note that discrete ranges such as <code>(1..4)</code> and <code>[2..3]</code> are <b>not</b>
@@ -1138,7 +1138,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.660">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.658">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -1152,7 +1152,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.669">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.667">toString</a>()</pre>
 <div class="block">Returns a string representation of this range, such as <code>"[3..5)"</code> (other examples are
  listed in the class documentation).</div>
 <dl>

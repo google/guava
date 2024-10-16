@@ -1299,36 +1299,31 @@
 <span class="sourceLineNo">1290</span><a id="line.1290">    checkNotNull(future);</a>
 <span class="sourceLineNo">1291</span><a id="line.1291">    try {</a>
 <span class="sourceLineNo">1292</span><a id="line.1292">      return getUninterruptibly(future);</a>
-<span class="sourceLineNo">1293</span><a id="line.1293">    } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">1294</span><a id="line.1294">      wrapAndThrowUnchecked(e.getCause());</a>
-<span class="sourceLineNo">1295</span><a id="line.1295">      throw new AssertionError();</a>
-<span class="sourceLineNo">1296</span><a id="line.1296">    }</a>
-<span class="sourceLineNo">1297</span><a id="line.1297">  }</a>
-<span class="sourceLineNo">1298</span><a id="line.1298"></a>
-<span class="sourceLineNo">1299</span><a id="line.1299">  private static void wrapAndThrowUnchecked(Throwable cause) {</a>
-<span class="sourceLineNo">1300</span><a id="line.1300">    if (cause instanceof Error) {</a>
-<span class="sourceLineNo">1301</span><a id="line.1301">      throw new ExecutionError((Error) cause);</a>
-<span class="sourceLineNo">1302</span><a id="line.1302">    }</a>
-<span class="sourceLineNo">1303</span><a id="line.1303">    /*</a>
-<span class="sourceLineNo">1304</span><a id="line.1304">     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such</a>
-<span class="sourceLineNo">1305</span><a id="line.1305">     * classes, I believe that most users intended to extend Exception, so we'll treat it like an</a>
-<span class="sourceLineNo">1306</span><a id="line.1306">     * Exception.)</a>
-<span class="sourceLineNo">1307</span><a id="line.1307">     */</a>
-<span class="sourceLineNo">1308</span><a id="line.1308">    throw new UncheckedExecutionException(cause);</a>
-<span class="sourceLineNo">1309</span><a id="line.1309">  }</a>
-<span class="sourceLineNo">1310</span><a id="line.1310"></a>
-<span class="sourceLineNo">1311</span><a id="line.1311">  /*</a>
-<span class="sourceLineNo">1312</span><a id="line.1312">   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a</a>
-<span class="sourceLineNo">1313</span><a id="line.1313">   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to</a>
-<span class="sourceLineNo">1314</span><a id="line.1314">   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to</a>
-<span class="sourceLineNo">1315</span><a id="line.1315">   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by</a>
-<span class="sourceLineNo">1316</span><a id="line.1316">   * the computation -- makes sense, and if we don't convert it, the user still has to write a</a>
-<span class="sourceLineNo">1317</span><a id="line.1317">   * try-catch block.</a>
-<span class="sourceLineNo">1318</span><a id="line.1318">   *</a>
-<span class="sourceLineNo">1319</span><a id="line.1319">   * If you think you would use this method, let us know. You might also look into the</a>
-<span class="sourceLineNo">1320</span><a id="line.1320">   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html</a>
-<span class="sourceLineNo">1321</span><a id="line.1321">   */</a>
-<span class="sourceLineNo">1322</span><a id="line.1322">}</a>
+<span class="sourceLineNo">1293</span><a id="line.1293">    } catch (ExecutionException wrapper) {</a>
+<span class="sourceLineNo">1294</span><a id="line.1294">      if (wrapper.getCause() instanceof Error) {</a>
+<span class="sourceLineNo">1295</span><a id="line.1295">        throw new ExecutionError((Error) wrapper.getCause());</a>
+<span class="sourceLineNo">1296</span><a id="line.1296">      }</a>
+<span class="sourceLineNo">1297</span><a id="line.1297">      /*</a>
+<span class="sourceLineNo">1298</span><a id="line.1298">       * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such</a>
+<span class="sourceLineNo">1299</span><a id="line.1299">       * classes, I believe that most users intended to extend Exception, so we'll treat it like an</a>
+<span class="sourceLineNo">1300</span><a id="line.1300">       * Exception.)</a>
+<span class="sourceLineNo">1301</span><a id="line.1301">       */</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">      throw new UncheckedExecutionException(wrapper.getCause());</a>
+<span class="sourceLineNo">1303</span><a id="line.1303">    }</a>
+<span class="sourceLineNo">1304</span><a id="line.1304">  }</a>
+<span class="sourceLineNo">1305</span><a id="line.1305"></a>
+<span class="sourceLineNo">1306</span><a id="line.1306">  /*</a>
+<span class="sourceLineNo">1307</span><a id="line.1307">   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a</a>
+<span class="sourceLineNo">1308</span><a id="line.1308">   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to</a>
+<span class="sourceLineNo">1309</span><a id="line.1309">   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to</a>
+<span class="sourceLineNo">1310</span><a id="line.1310">   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by</a>
+<span class="sourceLineNo">1311</span><a id="line.1311">   * the computation -- makes sense, and if we don't convert it, the user still has to write a</a>
+<span class="sourceLineNo">1312</span><a id="line.1312">   * try-catch block.</a>
+<span class="sourceLineNo">1313</span><a id="line.1313">   *</a>
+<span class="sourceLineNo">1314</span><a id="line.1314">   * If you think you would use this method, let us know. You might also look into the</a>
+<span class="sourceLineNo">1315</span><a id="line.1315">   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html</a>
+<span class="sourceLineNo">1316</span><a id="line.1316">   */</a>
+<span class="sourceLineNo">1317</span><a id="line.1317">}</a>
 
 
 
