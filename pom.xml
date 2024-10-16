@@ -264,8 +264,8 @@
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
               <artifactId>plexus-io</artifactId>
-              <!-- DO NOT UPGRADE this past 3.4.1 until https://github.com/codehaus-plexus/plexus-io/issues/109 is fixed (probably in 3.5.1). -->
-              <version>3.4.1</version>
+              <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-source-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
+              <version>3.5.1</version>
             </dependency>
           </dependencies>
         </plugin>
