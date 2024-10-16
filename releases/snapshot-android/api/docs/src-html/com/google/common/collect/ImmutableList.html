@@ -78,7 +78,7 @@
 <span class="sourceLineNo">069</span><a id="line.69">   *</a>
 <span class="sourceLineNo">070</span><a id="line.70">   * @since 33.2.0 (available since 21.0 in guava-jre)</a>
 <span class="sourceLineNo">071</span><a id="line.71">   */</a>
-<span class="sourceLineNo">072</span><a id="line.72">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">073</span><a id="line.73">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">074</span><a id="line.74">  public static &lt;E&gt; Collector&lt;E, ?, ImmutableList&lt;E&gt;&gt; toImmutableList() {</a>
 <span class="sourceLineNo">075</span><a id="line.75">    return CollectCollectors.toImmutableList();</a>

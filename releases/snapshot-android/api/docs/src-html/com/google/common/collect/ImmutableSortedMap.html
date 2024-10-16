@@ -85,7 +85,7 @@
 <span class="sourceLineNo">076</span><a id="line.76">   *</a>
 <span class="sourceLineNo">077</span><a id="line.77">   * @since 33.2.0 (available since 21.0 in guava-jre)</a>
 <span class="sourceLineNo">078</span><a id="line.78">   */</a>
-<span class="sourceLineNo">079</span><a id="line.79">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">079</span><a id="line.79">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">080</span><a id="line.80">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">081</span><a id="line.81">  public static &lt;T extends @Nullable Object, K, V&gt;</a>
 <span class="sourceLineNo">082</span><a id="line.82">      Collector&lt;T, ?, ImmutableSortedMap&lt;K, V&gt;&gt; toImmutableSortedMap(</a>
@@ -106,7 +106,7 @@
 <span class="sourceLineNo">097</span><a id="line.97">   *</a>
 <span class="sourceLineNo">098</span><a id="line.98">   * @since 33.2.0 (available since 21.0 in guava-jre)</a>
 <span class="sourceLineNo">099</span><a id="line.99">   */</a>
-<span class="sourceLineNo">100</span><a id="line.100">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">100</span><a id="line.100">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">101</span><a id="line.101">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">102</span><a id="line.102">  public static &lt;T extends @Nullable Object, K, V&gt;</a>
 <span class="sourceLineNo">103</span><a id="line.103">      Collector&lt;T, ?, ImmutableSortedMap&lt;K, V&gt;&gt; toImmutableSortedMap(</a>
@@ -1232,7 +1232,7 @@
 <span class="sourceLineNo">1223</span><a id="line.1223">   */</a>
 <span class="sourceLineNo">1224</span><a id="line.1224">  @DoNotCall("Use toImmutableSortedMap")</a>
 <span class="sourceLineNo">1225</span><a id="line.1225">  @Deprecated</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">1227</span><a id="line.1227">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">1228</span><a id="line.1228">  public static &lt;T extends @Nullable Object, K, V&gt;</a>
 <span class="sourceLineNo">1229</span><a id="line.1229">      Collector&lt;T, ?, ImmutableMap&lt;K, V&gt;&gt; toImmutableMap(</a>
@@ -1252,7 +1252,7 @@
 <span class="sourceLineNo">1243</span><a id="line.1243">   */</a>
 <span class="sourceLineNo">1244</span><a id="line.1244">  @DoNotCall("Use toImmutableSortedMap")</a>
 <span class="sourceLineNo">1245</span><a id="line.1245">  @Deprecated</a>
-<span class="sourceLineNo">1246</span><a id="line.1246">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">1246</span><a id="line.1246">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">1247</span><a id="line.1247">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">1248</span><a id="line.1248">  public static &lt;T extends @Nullable Object, K, V&gt;</a>
 <span class="sourceLineNo">1249</span><a id="line.1249">      Collector&lt;T, ?, ImmutableMap&lt;K, V&gt;&gt; toImmutableMap(</a>

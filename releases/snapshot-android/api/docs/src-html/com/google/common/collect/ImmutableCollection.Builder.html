@@ -187,7 +187,7 @@
 <span class="sourceLineNo">178</span><a id="line.178">   * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of</a>
 <span class="sourceLineNo">179</span><a id="line.179">   * the spliterator implementation.</a>
 <span class="sourceLineNo">180</span><a id="line.180">   */</a>
-<span class="sourceLineNo">181</span><a id="line.181">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">181</span><a id="line.181">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">182</span><a id="line.182">  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.</a>
 <span class="sourceLineNo">183</span><a id="line.183">  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)</a>
 <span class="sourceLineNo">184</span><a id="line.184">  static final int SPLITERATOR_CHARACTERISTICS =</a>
@@ -200,7 +200,7 @@
 <span class="sourceLineNo">191</span><a id="line.191">  public abstract UnmodifiableIterator&lt;E&gt; iterator();</a>
 <span class="sourceLineNo">192</span><a id="line.192"></a>
 <span class="sourceLineNo">193</span><a id="line.193">  @Override</a>
-<span class="sourceLineNo">194</span><a id="line.194">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">194</span><a id="line.194">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">195</span><a id="line.195">  @IgnoreJRERequirement // used only from APIs with Java 8 types in them</a>
 <span class="sourceLineNo">196</span><a id="line.196">  // (not used within guava-android as of this writing, but we include it in the jar as a test)</a>
 <span class="sourceLineNo">197</span><a id="line.197">  public Spliterator&lt;E&gt; spliterator() {</a>

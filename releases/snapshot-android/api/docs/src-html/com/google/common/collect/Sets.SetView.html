@@ -156,7 +156,7 @@
 <span class="sourceLineNo">147</span><a id="line.147">   *</a>
 <span class="sourceLineNo">148</span><a id="line.148">   * @since 33.2.0 (available since 21.0 in guava-jre)</a>
 <span class="sourceLineNo">149</span><a id="line.149">   */</a>
-<span class="sourceLineNo">150</span><a id="line.150">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">150</span><a id="line.150">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">151</span><a id="line.151">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">152</span><a id="line.152">  public static &lt;E extends Enum&lt;E&gt;&gt; Collector&lt;E, ?, ImmutableSet&lt;E&gt;&gt; toImmutableEnumSet() {</a>
 <span class="sourceLineNo">153</span><a id="line.153">    return CollectCollectors.toImmutableEnumSet();</a>

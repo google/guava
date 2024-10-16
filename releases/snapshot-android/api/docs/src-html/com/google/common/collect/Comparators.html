@@ -138,7 +138,7 @@
 <span class="sourceLineNo">129</span><a id="line.129">   * @throws IllegalArgumentException if {@code k &lt; 0}</a>
 <span class="sourceLineNo">130</span><a id="line.130">   * @since 33.2.0 (available since 22.0 in guava-jre)</a>
 <span class="sourceLineNo">131</span><a id="line.131">   */</a>
-<span class="sourceLineNo">132</span><a id="line.132">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">132</span><a id="line.132">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">133</span><a id="line.133">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">134</span><a id="line.134">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; least(</a>
 <span class="sourceLineNo">135</span><a id="line.135">      int k, Comparator&lt;? super T&gt; comparator) {</a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">163</span><a id="line.163">   * @throws IllegalArgumentException if {@code k &lt; 0}</a>
 <span class="sourceLineNo">164</span><a id="line.164">   * @since 33.2.0 (available since 22.0 in guava-jre)</a>
 <span class="sourceLineNo">165</span><a id="line.165">   */</a>
-<span class="sourceLineNo">166</span><a id="line.166">  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})</a>
+<span class="sourceLineNo">166</span><a id="line.166">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">167</span><a id="line.167">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</a>
 <span class="sourceLineNo">168</span><a id="line.168">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; greatest(</a>
 <span class="sourceLineNo">169</span><a id="line.169">      int k, Comparator&lt;? super T&gt; comparator) {</a>
