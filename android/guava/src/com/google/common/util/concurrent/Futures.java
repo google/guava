@@ -1290,22 +1290,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     checkNotNull(future);
     try {
       return getUninterruptibly(future);
-    } catch (ExecutionException e) {
-      wrapAndThrowUnchecked(e.getCause());
-      throw new AssertionError();
+    } catch (ExecutionException wrapper) {
+      if (wrapper.getCause() instanceof Error) {
+        throw new ExecutionError((Error) wrapper.getCause());
+      }
+      /*
+       * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
+       * classes, I believe that most users intended to extend Exception, so we'll treat it like an
+       * Exception.)
+       */
+      throw new UncheckedExecutionException(wrapper.getCause());
     }
-  }
-
-  private static void wrapAndThrowUnchecked(Throwable cause) {
-    if (cause instanceof Error) {
-      throw new ExecutionError((Error) cause);
-    }
-    /*
-     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
-     * classes, I believe that most users intended to extend Exception, so we'll treat it like an
-     * Exception.)
-     */
-    throw new UncheckedExecutionException(cause);
   }
 
   /*
