@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -24,8 +26,6 @@ import com.google.common.collect.TestExceptions.SomeCheckedException;
 import com.google.common.collect.TestExceptions.SomeError;
 import com.google.common.collect.TestExceptions.SomeOtherCheckedException;
 import com.google.common.collect.TestExceptions.SomeUncheckedException;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -69,6 +69,8 @@ final class ReflectionFreeAssertThrows {
 
   private static <T extends Throwable> T doAssertThrows(
       Class<T> expectedThrowable, ThrowingSupplier supplier, boolean userPassedSupplier) {
+    checkNotNull(expectedThrowable);
+    checkNotNull(supplier);
     Predicate<Throwable> predicate = INSTANCE_OF.get(expectedThrowable);
     if (predicate == null) {
       throw new IllegalArgumentException(
@@ -134,7 +136,6 @@ final class ReflectionFreeAssertThrows {
           .put(
               ConcurrentModificationException.class,
               e -> e instanceof ConcurrentModificationException)
-          .put(ExecutionError.class, e -> e instanceof ExecutionError)
           .put(ExecutionException.class, e -> e instanceof ExecutionException)
           .put(IllegalArgumentException.class, e -> e instanceof IllegalArgumentException)
           .put(IllegalStateException.class, e -> e instanceof IllegalStateException)
@@ -149,7 +150,6 @@ final class ReflectionFreeAssertThrows {
           .put(SomeOtherCheckedException.class, e -> e instanceof SomeOtherCheckedException)
           .put(SomeUncheckedException.class, e -> e instanceof SomeUncheckedException)
           .put(TimeoutException.class, e -> e instanceof TimeoutException)
-          .put(UncheckedExecutionException.class, e -> e instanceof UncheckedExecutionException)
           .put(UnsupportedCharsetException.class, e -> e instanceof UnsupportedCharsetException)
           .put(UnsupportedOperationException.class, e -> e instanceof UnsupportedOperationException)
           .put(VerifyException.class, e -> e instanceof VerifyException)
