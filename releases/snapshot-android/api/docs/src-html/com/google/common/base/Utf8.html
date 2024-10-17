@@ -94,7 +94,7 @@
 <span class="sourceLineNo">085</span><a id="line.85">        utf8Length += (0x7f - c) &gt;&gt;&gt; 31; // branch free!</a>
 <span class="sourceLineNo">086</span><a id="line.86">      } else {</a>
 <span class="sourceLineNo">087</span><a id="line.87">        utf8Length += 2;</a>
-<span class="sourceLineNo">088</span><a id="line.88">        // jdk7+: if (Character.isSurrogate(c)) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">        // We can't use Character.isSurrogate(c) here and below because of GWT.</a>
 <span class="sourceLineNo">089</span><a id="line.89">        if (MIN_SURROGATE &lt;= c &amp;&amp; c &lt;= MAX_SURROGATE) {</a>
 <span class="sourceLineNo">090</span><a id="line.90">          // Check that we have a well-formed surrogate pair.</a>
 <span class="sourceLineNo">091</span><a id="line.91">          if (Character.codePointAt(sequence, i) == c) {</a>

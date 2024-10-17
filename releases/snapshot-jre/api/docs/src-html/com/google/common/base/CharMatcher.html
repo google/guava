@@ -377,8 +377,8 @@
 <span class="sourceLineNo">368</span><a id="line.368">  // Non-static factories</a>
 <span class="sourceLineNo">369</span><a id="line.369"></a>
 <span class="sourceLineNo">370</span><a id="line.370">  /** Returns a matcher that matches any character not matched by this matcher. */</a>
-<span class="sourceLineNo">371</span><a id="line.371">  // @Override under Java 8 but not under Java 7</a>
-<span class="sourceLineNo">372</span><a id="line.372">  @Override</a>
+<span class="sourceLineNo">371</span><a id="line.371">  // This is not an override in java7, where Guava's Predicate does not extend the JDK's Predicate.</a>
+<span class="sourceLineNo">372</span><a id="line.372">  @SuppressWarnings("MissingOverride")</a>
 <span class="sourceLineNo">373</span><a id="line.373">  public CharMatcher negate() {</a>
 <span class="sourceLineNo">374</span><a id="line.374">    return new Negated(this);</a>
 <span class="sourceLineNo">375</span><a id="line.375">  }</a>
