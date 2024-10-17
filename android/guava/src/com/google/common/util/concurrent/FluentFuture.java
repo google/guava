@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -22,6 +23,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -252,6 +254,25 @@ public abstract class FluentFuture<V extends @Nullable Object>
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
       Class<X> exceptionType, AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catchingAsync(this, exceptionType, fallback, executor);
+  }
+
+  /**
+   * Returns a future that delegates to this future but will finish early (via a {@link
+   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.
+   * If the timeout expires, not only will the output future finish, but also the input future
+   * ({@code this}) will be cancelled and interrupted.
+   *
+   * @param timeout when to time out the future
+   * @param scheduledExecutor The executor service to enforce the timeout.
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @J2ktIncompatible
+  @GwtIncompatible // ScheduledExecutorService
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public final FluentFuture<V> withTimeout(
+      Duration timeout, ScheduledExecutorService scheduledExecutor) {
+    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**
