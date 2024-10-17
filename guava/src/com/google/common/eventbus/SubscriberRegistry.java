@@ -32,6 +32,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Primitives;
 import com.google.common.reflect.TypeToken;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -164,7 +165,29 @@ final class SubscriberRegistry {
   }
 
   private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
-    return subscriberMethodsCache.getUnchecked(clazz);
+    try {
+      return subscriberMethodsCache.getUnchecked(clazz);
+    } catch (UncheckedExecutionException e) {
+      if (e.getCause() instanceof IllegalArgumentException) {
+        /*
+         * IllegalArgumentException is the one unchecked exception that we know is likely to happen
+         * (thanks to the checkArgument calls in getAnnotatedMethodsNotCached). If it happens, we'd
+         * prefer to propagate an IllegalArgumentException to the caller. However, we don't want to
+         * simply rethrow an exception (e.getCause()) that may in rare cases have come from another
+         * thread. To accomplish both goals, we wrap that IllegalArgumentException in a new
+         * instance.
+         */
+        throw new IllegalArgumentException(e.getCause().getMessage(), e.getCause());
+      }
+      /*
+       * If some other exception happened, we just propagate the wrapper
+       * UncheckedExecutionException, which has the stack trace from this thread and which has its
+       * cause set to the underlying exception (which may be from another thread). If we someday
+       * learn that some other exception besides IllegalArgumentException is common, then we could
+       * add another special case to throw an instance of it, too.
+       */
+      throw e;
+    }
   }
 
   private static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
