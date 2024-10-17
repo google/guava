@@ -16,12 +16,10 @@ package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -34,7 +32,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Primitives;
 import com.google.common.reflect.TypeToken;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -150,13 +147,7 @@ final class SubscriberRegistry {
   private static final LoadingCache<Class<?>, ImmutableList<Method>> subscriberMethodsCache =
       CacheBuilder.newBuilder()
           .weakKeys()
-          .build(
-              new CacheLoader<Class<?>, ImmutableList<Method>>() {
-                @Override
-                public ImmutableList<Method> load(Class<?> concreteClass) throws Exception {
-                  return getAnnotatedMethodsNotCached(concreteClass);
-                }
-              });
+          .build(CacheLoader.from(SubscriberRegistry::getAnnotatedMethodsNotCached));
 
   /**
    * Returns all subscribers for the given listener grouped by the type of event they subscribe to.
@@ -173,12 +164,7 @@ final class SubscriberRegistry {
   }
 
   private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
-    try {
-      return subscriberMethodsCache.getUnchecked(clazz);
-    } catch (UncheckedExecutionException e) {
-      throwIfUnchecked(e.getCause());
-      throw e;
-    }
+    return subscriberMethodsCache.getUnchecked(clazz);
   }
 
   private static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
@@ -220,15 +206,9 @@ final class SubscriberRegistry {
       CacheBuilder.newBuilder()
           .weakKeys()
           .build(
-              new CacheLoader<Class<?>, ImmutableSet<Class<?>>>() {
-                // <Class<?>> is actually needed to compile
-                @SuppressWarnings("RedundantTypeArguments")
-                @Override
-                public ImmutableSet<Class<?>> load(Class<?> concreteClass) {
-                  return ImmutableSet.<Class<?>>copyOf(
-                      TypeToken.of(concreteClass).getTypes().rawTypes());
-                }
-              });
+              CacheLoader.from(
+                  concreteClass ->
+                      ImmutableSet.copyOf(TypeToken.of(concreteClass).getTypes().rawTypes())));
 
   /**
    * Flattens a class's type hierarchy into a set of {@code Class} objects including all
@@ -236,11 +216,7 @@ final class SubscriberRegistry {
    */
   @VisibleForTesting
   static ImmutableSet<Class<?>> flattenHierarchy(Class<?> concreteClass) {
-    try {
-      return flattenHierarchyCache.getUnchecked(concreteClass);
-    } catch (UncheckedExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return flattenHierarchyCache.getUnchecked(concreteClass);
   }
 
   private static final class MethodIdentifier {

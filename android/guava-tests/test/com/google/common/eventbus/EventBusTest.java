@@ -16,10 +16,12 @@
 
 package com.google.common.eventbus;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -281,7 +283,10 @@ public class EventBusTest extends TestCase {
       @Subscribe
       public void toInt(int i) {}
     }
-    assertThrows(IllegalArgumentException.class, () -> bus.register(new SubscribesToPrimitive()));
+    UncheckedExecutionException thrown =
+        assertThrows(
+            UncheckedExecutionException.class, () -> bus.register(new SubscribesToPrimitive()));
+    assertThat(thrown).hasCauseThat().isInstanceOf(IllegalArgumentException.class);
   }
 
   /** Records thrown exception information. */
