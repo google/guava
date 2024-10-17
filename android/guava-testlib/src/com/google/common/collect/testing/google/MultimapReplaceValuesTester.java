@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -118,22 +119,12 @@ public class MultimapReplaceValuesTester<K, V>
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceValuesRemoveNotSupported() {
     List<V> values = Collections.singletonList(v3());
-    try {
-      multimap().replaceValues(k0(), values);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multimap().replaceValues(k0(), values));
   }
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testReplaceValuesPutNotSupported() {
     List<V> values = Collections.singletonList(v3());
-    try {
-      multimap().replaceValues(k0(), values);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-      // success
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multimap().replaceValues(k0(), values));
   }
 }

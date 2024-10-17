@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BoundType;
@@ -92,11 +93,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ZERO)
   public void testEmptyMultisetFirst() {
     assertNull(sortedMultiset.firstEntry());
-    try {
-      sortedMultiset.elementSet().first();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedMultiset.elementSet().first());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -116,11 +113,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ZERO)
   public void testEmptyMultisetLast() {
     assertNull(sortedMultiset.lastEntry());
-    try {
-      assertNull(sortedMultiset.elementSet().last());
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(
+        NoSuchElementException.class, () -> assertNull(sortedMultiset.elementSet().last()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -176,11 +170,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollFirstUnsupported() {
-    try {
-      sortedMultiset.pollFirstEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> sortedMultiset.pollFirstEntry());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -231,11 +221,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollLastUnsupported() {
-    try {
-      sortedMultiset.pollLastEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> sortedMultiset.pollLastEntry());
   }
 
   @CollectionSize.Require(SEVERAL)
