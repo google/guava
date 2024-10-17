@@ -717,6 +717,30 @@ public final class IntMath {
   public static boolean isPrime(int n) {
     return LongMath.isPrime(n);
   }
+  /**
+   * Returns multifactorial of Int n with step size k.
+   *
+   * @param n the number to compute. Must be non-negative.
+   * @param k the step size for the multifactorial. Must be positive.
+   * @return the multifactorial of n with step size k. If none-zero n is less than k then return n, else return 1.
+   * @throws IllegalArgumentException if n is negative or if k is less than 1.
+   */
+  public static int multiFactorial(int n, int k) {
+    if (n < 0) {
+      throw new IllegalArgumentException("n cannot be negative!");
+    }
+    if (k < 1) {
+      throw new IllegalArgumentException("k must be positive!");
+    }
+    if (n <= k) {
+      return n == 0 ? 1 : n;
+    }
+    int result = n;
+    for (int i = n - k; i > 1; i -= k) {
+      result *= i;
+    }
+    return result;
+  }
 
   private IntMath() {}
 }

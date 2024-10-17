@@ -516,6 +516,30 @@ public final class BigIntegerMath {
   static boolean fitsInLong(BigInteger x) {
     return x.bitLength() <= Long.SIZE - 1;
   }
-
+  /**
+   * Returns multifactorial of n with step size BigInteger k.
+   * This is used for large values of n.
+   *
+   * @param n the number to compute the multifactorial of. Must be non-negative.
+   * @param k the step size. Must be positive.
+   * @return the multifactorial of n with step size k. If none-zero n is less than k then return n, else return one.
+   * @throws IllegalArgumentException if n is negative or if k is less than 1.
+   */
+  public static BigInteger multiFactorial(int n, int k) {
+    if (n < 0) {
+      throw new IllegalArgumentException("n cannot be negative!");
+    }
+    if (k < 1) {
+      throw new IllegalArgumentException("k must be positive!");
+    }
+    if (n <= k) {
+      return n == 0 ? BigInteger.ONE : BigInteger.valueOf(n);
+    }
+    BigInteger result = BigInteger.valueOf(n);
+    for (int i = n - k; i > 1; i -= k) {
+      result = result.multiply(BigInteger.valueOf(i));
+    }
+    return result;
+  }
   private BigIntegerMath() {}
 }
