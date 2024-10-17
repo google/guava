@@ -590,6 +590,7 @@ public class MoreFilesTest extends TestCase {
    * <p>We can only test this with a file system that supports SecureDirectoryStream, because it's
    * not possible to protect against this if the file system doesn't.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   public void testDirectoryDeletion_directorySymlinkRace() throws IOException {
     int iterations = isAndroid() ? 100 : 5000;
     for (DirectoryDeleteMethod method : EnumSet.allOf(DirectoryDeleteMethod.class)) {
@@ -658,6 +659,7 @@ public class MoreFilesTest extends TestCase {
    * between being a directory and being a symlink, while the given {@code target} is the target the
    * symlink should have.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored

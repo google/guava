@@ -2010,6 +2010,7 @@ public class CacheLoadingTest extends TestCase {
    * {@code getUnchecked}, and threads with an odd index will call {@code get}. If the cache throws
    * exceptions, this difference may be visible in the returned List.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   private static <K> List<Object> doConcurrentGet(
       final LoadingCache<K, ?> cache,
       final K key,
@@ -2248,6 +2249,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
 
+  @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
   public void testExpandDuringLoading() throws InterruptedException {
     final int count = 3;
     final AtomicInteger callCount = new AtomicInteger();
@@ -2337,6 +2339,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
   // Test ignored because it is extremely flaky in CI builds
+  @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
   public void
       ignoreTestExpandDuringRefresh()
       throws InterruptedException, ExecutionException {

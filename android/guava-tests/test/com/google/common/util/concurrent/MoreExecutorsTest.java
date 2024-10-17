@@ -273,6 +273,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   /** Wait for the given thread to reach the {@link State#TIMED_WAITING} thread state. */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   void awaitTimedWaiting(Thread thread) {
     while (true) {
       switch (thread.getState()) {

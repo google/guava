@@ -465,6 +465,7 @@ public class CacheBuilderTest extends TestCase {
    */
   @GwtIncompatible // QueuingRemovalListener
 
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   public void testRemovalNotification_clear_basher() throws InterruptedException {
     // If a clear() happens close to the end of computation, one of two things should happen:
     // - computation ends first: the removal listener is called, and the cache does not contain the

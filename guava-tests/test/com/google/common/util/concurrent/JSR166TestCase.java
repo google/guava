@@ -437,6 +437,7 @@ abstract class JSR166TestCase extends TestCase {
    * Delays, via Thread.sleep, for the given millisecond delay, but if the sleep is shorter than
    * specified, may re-sleep or yield until time elapses.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait?
   static void delay(long millis) throws InterruptedException {
     long startTime = System.nanoTime();
     long ns = millis * 1000 * 1000;
@@ -652,6 +653,7 @@ abstract class JSR166TestCase extends TestCase {
    * Spin-waits up to the specified number of milliseconds for the given thread to enter a wait
    * state: BLOCKED, WAITING, or TIMED_WAITING.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   void waitForThreadToEnterWaitState(Thread thread, long timeoutMillis) {
     long startTime = System.nanoTime();
     for (; ; ) {
