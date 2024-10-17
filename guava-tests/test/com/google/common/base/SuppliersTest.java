@@ -81,12 +81,12 @@ public class SuppliersTest extends TestCase {
   static void checkMemoize(CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {
     // the underlying supplier hasn't executed yet
     assertEquals(0, countingSupplier.calls);
-
+    assertFalse(memoizedSupplier.isInitialized());
     assertEquals(10, (int) memoizedSupplier.get());
 
     // now it has
     assertEquals(1, countingSupplier.calls);
-
+    assertTrue(memoizedSupplier.isInitialized());
     assertEquals(10, (int) memoizedSupplier.get());
 
     // it still should only have executed once due to memoization
@@ -165,7 +165,7 @@ public class SuppliersTest extends TestCase {
     Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
-        (CountingSupplier) ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
+        (CountingSupplier) ((Suppliers.SerializableMemoizingSupplier<Integer>) copy).delegate;
     checkMemoize(countingCopy, copy);
   }
 
