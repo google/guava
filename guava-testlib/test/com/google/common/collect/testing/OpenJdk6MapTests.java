@@ -41,10 +41,7 @@ import junit.framework.Test;
  *
  * @author Kevin Bourrillion
  */
-/*
- * TODO(cpovirk): consider renaming this class in light of our now running it
- * under JDK7
- */
+// TODO(cpovirk): consider renaming this class in light of our now running it under newer JDKs.
 public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
   public static Test suite() {
     return new OpenJdk6MapTests().allTests();

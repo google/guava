@@ -893,7 +893,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *     Note, however, that Java 8+ users can call this method with any version and flavor of
    *     Guava.
    */
-  // @Override under Java 8 / API Level 24
+  @Override
   @CheckForNull
   public final V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {
     /*

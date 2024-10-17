@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
@@ -431,6 +432,36 @@ public class ServiceManagerTest extends TestCase {
     for (LogRecord record : logHandler.getStoredLogRecords()) {
       assertThat(logFormatter.format(record)).doesNotContain("NoOpService");
     }
+  }
+
+  public void testStartupFailureOutput() {
+    Logger logger = Logger.getLogger(ServiceManager.class.getName());
+    logger.setLevel(Level.SEVERE);
+    TestLogHandler logHandler = new TestLogHandler();
+    logger.addHandler(logHandler);
+    ServiceManager manager =
+        new ServiceManager(Arrays.<Service>asList(new FailRunService(), new FailStartService()));
+    // Due to the implementation of the two services we know that both are now failed.  So the
+    // following awaitHealthy call is just to get the exception.
+    manager.startAsync();
+    assertThat(manager.servicesByState().get(State.FAILED)).hasSize(2);
+    IllegalStateException e =
+        assertThrows(IllegalStateException.class, () -> manager.awaitHealthy());
+    assertThat(e.getMessage())
+        .contains(
+            "Expected to be healthy after starting. The following services are not " + "running:");
+
+    Throwable[] suppressed = e.getSuppressed();
+    assertThat(suppressed).hasLength(2);
+    assertThat(suppressed[0]).hasCauseThat().isInstanceOf(IllegalStateException.class);
+    assertThat(suppressed[0]).hasCauseThat().hasMessageThat().isEqualTo("run failure");
+
+    assertThat(suppressed[1]).hasCauseThat().isInstanceOf(IllegalStateException.class);
+    assertThat(suppressed[1]).hasCauseThat().hasMessageThat().isEqualTo("start failure");
+    LogRecord record = Iterables.getOnlyElement(logHandler.getStoredLogRecords());
+    // We log failures that occur after startup
+    assertThat(record.getMessage())
+        .contains("Service FailRunService [FAILED] has failed in the RUNNING state");
   }
 
   /**

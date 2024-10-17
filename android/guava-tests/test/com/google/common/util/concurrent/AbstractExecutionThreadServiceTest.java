@@ -231,6 +231,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
+    assertThat(expected.getCause().getSuppressed()[0]).hasMessageThat().isEqualTo("double kaboom!");
   }
 
   private class ThrowOnRunService extends AbstractExecutionThreadService {
