@@ -1,4 +1,5 @@
 NO DOC BLOCK: com.google.common.collect.TreeRangeMap Method copyOf(com.google.common.collect.RangeMap<K, ? extends V>)
 OK: com.google.common.base.MoreObjects.ToStringHelper Method omitEmptyValues()
+OK: com.google.common.base.Splitter Method splitToStream(java.lang.CharSequence)
 OK: com.google.common.net.HttpHeaders Field ALT_SVC
 OK: com.google.common.net.MediaType Field CBOR

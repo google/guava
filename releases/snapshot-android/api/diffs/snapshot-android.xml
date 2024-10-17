@@ -5647,6 +5647,21 @@
  @since 15.0]]>
       </doc>
     </method>
+    <method name="splitToStream" return="java.util.stream.Stream&lt;java.lang.String&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="sequence" type="java.lang.CharSequence"/>
+      <doc>
+      <![CDATA[Splits {@code sequence} into string components and makes them available through an {@link
+ Stream}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+ {@link #splitToList(CharSequence)}.
+
+ @param sequence the sequence of characters to split
+ @return a stream over the segments split from the parameter
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="withKeyValueSeparator" return="com.google.common.base.Splitter.MapSplitter"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
