@@ -21,7 +21,6 @@ import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.truth.Truth.assertThat;
-import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
@@ -75,7 +74,7 @@ public class CacheLoadingTest extends TestCase {
   public void tearDown() throws Exception {
     super.tearDown();
     // TODO(cpovirk): run tests in other thread instead of messing with main thread interrupt status
-    currentThread().interrupted();
+    Thread.interrupted();
     LocalCache.logger.removeHandler(logHandler);
   }
 
@@ -1148,11 +1147,11 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(0, stats.hitCount());
 
     // Sanity check:
-    assertFalse(currentThread().interrupted());
+    assertFalse(Thread.interrupted());
 
     Exception expected = assertThrows(ExecutionException.class, () -> cache.get(new Object()));
     assertThat(expected).hasCauseThat().isSameInstanceAs(e);
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     stats = cache.stats();
     assertEquals(1, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1162,7 +1161,7 @@ public class CacheLoadingTest extends TestCase {
     expected =
         assertThrows(UncheckedExecutionException.class, () -> cache.getUnchecked(new Object()));
     assertThat(expected).hasCauseThat().isSameInstanceAs(e);
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     stats = cache.stats();
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1170,7 +1169,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(0, stats.hitCount());
 
     cache.refresh(new Object());
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     checkLoggedCause(e);
     stats = cache.stats();
     assertEquals(2, stats.missCount());
@@ -1183,7 +1182,7 @@ public class CacheLoadingTest extends TestCase {
         assertThrows(
             ExecutionException.class, () -> cache.get(new Object(), throwing(callableException)));
     assertThat(expected).hasCauseThat().isSameInstanceAs(callableException);
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     stats = cache.stats();
     assertEquals(3, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1192,7 +1191,7 @@ public class CacheLoadingTest extends TestCase {
 
     expected = assertThrows(ExecutionException.class, () -> cache.getAll(asList(new Object())));
     assertThat(expected).hasCauseThat().isSameInstanceAs(e);
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     stats = cache.stats();
     assertEquals(4, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1392,7 +1391,7 @@ public class CacheLoadingTest extends TestCase {
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> cache.getAll(asList(new Object())));
     assertThat(expected).hasCauseThat().isSameInstanceAs(e);
-    assertTrue(currentThread().interrupted());
+    assertTrue(Thread.interrupted());
     stats = cache.stats();
     assertEquals(1, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1765,16 +1764,11 @@ public class CacheLoadingTest extends TestCase {
     LoadingCache<Object, Object> cacheChecked =
         CacheBuilder.newBuilder().build(exceptionLoader(ee));
 
-    try {
-      cacheUnchecked.get(new Object());
-      fail();
-    } catch (ExecutionException e) {
-      fail();
-    } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
-    }
-
     UncheckedExecutionException caughtUee =
+        assertThrows(UncheckedExecutionException.class, () -> cacheUnchecked.get(new Object()));
+    assertThat(caughtUee).hasCauseThat().isSameInstanceAs(uee);
+
+    caughtUee =
         assertThrows(
             UncheckedExecutionException.class, () -> cacheUnchecked.getUnchecked(new Object()));
     assertThat(caughtUee).hasCauseThat().isSameInstanceAs(uee);
@@ -1782,14 +1776,10 @@ public class CacheLoadingTest extends TestCase {
     cacheUnchecked.refresh(new Object());
     checkLoggedCause(uee);
 
-    try {
-      cacheUnchecked.getAll(asList(new Object()));
-      fail();
-    } catch (ExecutionException e) {
-      fail();
-    } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
-    }
+    caughtUee =
+        assertThrows(
+            UncheckedExecutionException.class, () -> cacheUnchecked.getAll(asList(new Object())));
+    assertThat(caughtUee).hasCauseThat().isSameInstanceAs(uee);
 
     ExecutionException caughtEe =
         assertThrows(ExecutionException.class, () -> cacheChecked.get(new Object()));
@@ -1818,14 +1808,10 @@ public class CacheLoadingTest extends TestCase {
     LoadingCache<Object, Object> cacheChecked =
         CacheBuilder.newBuilder().build(bulkLoader(exceptionLoader(ee)));
 
-    try {
-      cacheUnchecked.getAll(asList(new Object()));
-      fail();
-    } catch (ExecutionException e) {
-      fail();
-    } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
-    }
+    UncheckedExecutionException caughtUee =
+        assertThrows(
+            UncheckedExecutionException.class, () -> cacheUnchecked.getAll(asList(new Object())));
+    assertThat(caughtUee).hasCauseThat().isSameInstanceAs(uee);
 
     ExecutionException caughtEe =
         assertThrows(ExecutionException.class, () -> cacheChecked.getAll(asList(new Object())));
@@ -1897,6 +1883,7 @@ public class CacheLoadingTest extends TestCase {
         builder.build(
             new CacheLoader<String, String>() {
               @Override
+              @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
               public String load(String key) throws InterruptedException {
                 callCount.incrementAndGet();
                 startSignal.await();

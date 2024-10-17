@@ -52,8 +52,7 @@ public class FeatureEnumTest extends TestCase {
       try {
         method = annotationClass.getMethod(propertyName);
       } catch (NoSuchMethodException e) {
-        fail(
-            rootLocaleFormat("%s must have a property named '%s'.", annotationClass, propertyName));
+        throw new AssertionError("Annotation is missing required method", e);
       }
       final Class<?> returnType = method.getReturnType();
       assertTrue(
