@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -74,11 +76,7 @@ public abstract class SortedMapInterfaceTest<K, V> extends MapInterfaceTest<K, V
     subMap.put(key, value);
     assertEquals(secondEntry.getValue(), value);
     assertEquals(map.get(key), value);
-    try {
-      subMap.put(firstEntry.getKey(), value);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> subMap.put(firstEntry.getKey(), value));
   }
 
   public void testTailMapRemoveThrough() {

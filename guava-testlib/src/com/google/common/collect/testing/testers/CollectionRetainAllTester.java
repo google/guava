@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -292,11 +293,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_nullCollectionReferenceNonEmptySubject() {
-    try {
-      collection.retainAll(null);
-      fail("retainAll(null) should throw NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> collection.retainAll(null));
   }
 
   private void expectReturnsTrue(Target target) {

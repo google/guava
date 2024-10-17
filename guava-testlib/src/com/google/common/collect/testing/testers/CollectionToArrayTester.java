@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -165,12 +166,12 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionSize.Require(absent = ZERO)
   public void testToArray_emptyArrayOfWrongTypeForNonEmptyCollection() {
-    try {
-      WrongType[] array = new WrongType[0];
-      collection.toArray(array);
-      fail("toArray(notAssignableTo[]) should throw");
-    } catch (ArrayStoreException expected) {
-    }
+    assertThrows(
+        ArrayStoreException.class,
+        () -> {
+          WrongType[] array = new WrongType[0];
+          collection.toArray(array);
+        });
   }
 
   @CollectionSize.Require(ZERO)

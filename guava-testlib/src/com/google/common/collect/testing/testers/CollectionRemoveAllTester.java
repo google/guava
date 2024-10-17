@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.FAILS
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -83,14 +84,13 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAllSomePresentConcurrentWithIteration() {
-    try {
-      Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.removeAll(MinimalCollection.of(e0(), e3())));
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<E> iterator = collection.iterator();
+          assertTrue(collection.removeAll(MinimalCollection.of(e0(), e3())));
+          iterator.next();
+        });
   }
 
   /** Trigger the {@code other.size() >= this.size()} case in {@link AbstractSet#removeAll}. */
@@ -130,11 +130,9 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_unsupportedPresent() {
-    try {
-      collection.removeAll(MinimalCollection.of(e0()));
-      fail("removeAll(intersectingCollection) should throw UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> collection.removeAll(MinimalCollection.of(e0())));
     expectUnchanged();
     assertTrue(collection.contains(e0()));
   }
@@ -159,11 +157,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_nullCollectionReferenceNonEmptySubject() {
-    try {
-      collection.removeAll(null);
-      fail("removeAll(null) should throw NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> collection.removeAll(null));
   }
 
   @CollectionFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_QUERIES)

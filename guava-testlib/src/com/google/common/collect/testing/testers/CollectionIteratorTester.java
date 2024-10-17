@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -143,10 +144,6 @@ public class CollectionIteratorTester<E extends @Nullable Object>
       iterator.next();
     }
 
-    try {
-      iterator.next();
-      fail("iterator.next() should throw NoSuchElementException");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> iterator.next());
   }
 }

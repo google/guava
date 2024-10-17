@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -41,11 +42,7 @@ public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRemove_empty() {
-    try {
-      getQueue().remove();
-      fail("emptyQueue.remove() should throw");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> getQueue().remove());
     expectUnchanged();
   }
 

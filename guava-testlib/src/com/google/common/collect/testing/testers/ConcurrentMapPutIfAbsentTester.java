@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -65,11 +66,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutIfAbsent_unsupportedAbsent() {
-    try {
-      putIfAbsent(e3());
-      fail("putIfAbsent(notPresent, value) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> putIfAbsent(e3()));
     expectUnchanged();
     expectMissing(e3());
   }
@@ -99,11 +96,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutIfAbsent_nullKeyUnsupported() {
-    try {
-      getMap().putIfAbsent(null, v3());
-      fail("putIfAbsent(null, value) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getMap().putIfAbsent(null, v3()));
     expectUnchanged();
     expectNullKeyMissingWhenNullKeysUnsupported(
         "Should not contain null key after unsupported putIfAbsent(null, value)");
@@ -111,11 +104,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutIfAbsent_nullValueUnsupported() {
-    try {
-      getMap().putIfAbsent(k3(), null);
-      fail("putIfAbsent(key, null) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getMap().putIfAbsent(k3(), null));
     expectUnchanged();
     expectNullValueMissingWhenNullValuesUnsupported(
         "Should not contain null value after unsupported put(key, null)");

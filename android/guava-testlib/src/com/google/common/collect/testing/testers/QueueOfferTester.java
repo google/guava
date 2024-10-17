@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -47,11 +48,7 @@ public class QueueOfferTester<E> extends AbstractQueueTester<E> {
 
   @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testOffer_nullUnsupported() {
-    try {
-      getQueue().offer(null);
-      fail("offer(null) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getQueue().offer(null));
     expectUnchanged();
     expectNullMissingWhenNullUnsupported("Should not contain null after unsupported offer(null)");
   }

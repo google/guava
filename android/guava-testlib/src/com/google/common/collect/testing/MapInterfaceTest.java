@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
@@ -280,11 +281,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       map.clear();
       assertTrue(map.isEmpty());
     } else {
-      try {
-        map.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.clear());
     }
     assertInvariants(map);
   }
@@ -479,18 +476,10 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       // iterator.remove().
       assertFalse(entrySet.contains(entryCopy));
       assertInvariants(map);
-      try {
-        iterator.remove();
-        fail("Expected IllegalStateException.");
-      } catch (IllegalStateException expected) {
-      }
+      assertThrows(IllegalStateException.class, () -> iterator.remove());
     } else {
       iterator.next();
-      try {
-        iterator.remove();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
     assertInvariants(map);
   }
@@ -510,11 +499,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(didRemove);
       assertEquals(initialSize - 1, map.size());
     } else {
-      try {
-        entrySet.remove(entrySet.iterator().next());
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> entrySet.remove(entrySet.iterator().next()));
     }
     assertInvariants(map);
   }
@@ -661,11 +647,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       // have undefined behavior after entrySet.removeAll(entriesToRemove),
       assertFalse(entrySet.contains(entryToRemoveCopy));
     } else {
-      try {
-        entrySet.removeAll(entriesToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.removeAll(entriesToRemove));
     }
     assertInvariants(map);
   }
@@ -680,11 +662,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
     Set<Entry<K, V>> entrySet = map.entrySet();
     if (supportsRemove) {
-      try {
-        entrySet.removeAll(null);
-        fail("Expected NullPointerException.");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> entrySet.removeAll(null));
     } else {
       try {
         entrySet.removeAll(null);
@@ -715,11 +693,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
         assertTrue(entrySet.contains(entry));
       }
     } else {
-      try {
-        entrySet.retainAll(entriesToRetain);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.retainAll(entriesToRetain));
     }
     assertInvariants(map);
   }
@@ -763,11 +737,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       entrySet.clear();
       assertTrue(entrySet.isEmpty());
     } else {
-      try {
-        entrySet.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.clear());
     }
     assertInvariants(map);
   }
@@ -1002,11 +972,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertEquals(initialSize + 1, map.size());
       assertNull(oldValue);
     } else {
-      try {
-        map.put(keyToPut, valueToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.put(keyToPut, valueToPut));
     }
     assertInvariants(map);
   }
@@ -1030,11 +996,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsValue(valueToPut));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.put(keyToPut, valueToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.put(keyToPut, valueToPut));
     }
     assertInvariants(map);
   }
@@ -1058,11 +1020,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsKey(null));
       assertTrue(map.containsValue(valueToPut));
     } else {
-      try {
-        map.put(null, valueToPut);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(null, valueToPut));
     }
     assertInvariants(map);
   }
@@ -1088,11 +1046,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsValue(null));
       assertEquals(initialSize + 1, map.size());
     } else {
-      try {
-        map.put(keyToPut, null);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(keyToPut, null));
     }
     assertInvariants(map);
   }
@@ -1119,11 +1073,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsValue(null));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.put(keyToPut, null);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(keyToPut, null));
     }
     assertInvariants(map);
   }
@@ -1147,11 +1097,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsValue(valueToPut));
       assertEquals(initialSize + 1, map.size());
     } else {
-      try {
-        map.putAll(mapToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.putAll(mapToPut));
     }
     assertInvariants(map);
   }
@@ -1175,11 +1121,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsKey(keyToPut));
       assertTrue(map.containsValue(valueToPut));
     } else {
-      try {
-        map.putAll(mapToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.putAll(mapToPut));
     }
     assertEquals(initialSize, map.size());
     assertInvariants(map);
@@ -1202,11 +1144,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertFalse(map.containsKey(keyToRemove));
       assertEquals(initialSize - 1, map.size());
     } else {
-      try {
-        map.remove(keyToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
     }
     assertInvariants(map);
   }
@@ -1225,11 +1163,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertNull(map.remove(keyToRemove));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.remove(keyToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
     }
     assertInvariants(map);
   }
@@ -1254,11 +1188,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertEquals(initialSize - 1, map.size());
       assertFalse(map.containsKey(key));
     } else {
-      try {
-        keys.remove(key);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keys.remove(key));
     }
     assertInvariants(map);
   }
@@ -1279,11 +1209,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertEquals(initialSize - 1, map.size());
       assertFalse(map.containsKey(key));
     } else {
-      try {
-        keys.removeAll(Collections.singleton(key));
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> keys.removeAll(Collections.singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1303,11 +1230,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertEquals(1, map.size());
       assertTrue(map.containsKey(key));
     } else {
-      try {
-        keys.retainAll(Collections.singleton(key));
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> keys.retainAll(Collections.singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1325,11 +1249,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       keySet.clear();
       assertTrue(keySet.isEmpty());
     } else {
-      try {
-        keySet.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keySet.clear());
     }
     assertInvariants(map);
   }
@@ -1344,11 +1264,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
     Set<K> keySet = map.keySet();
     if (supportsRemove) {
-      try {
-        keySet.removeAll(null);
-        fail("Expected NullPointerException.");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> keySet.removeAll(null));
     } else {
       try {
         keySet.removeAll(null);
@@ -1427,18 +1343,10 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       // removed value, because the underlying map can have multiple mappings
       // to the same value.)
       assertInvariants(map);
-      try {
-        iterator.remove();
-        fail("Expected IllegalStateException.");
-      } catch (IllegalStateException expected) {
-      }
+      assertThrows(IllegalStateException.class, () -> iterator.remove());
     } else {
       iterator.next();
-      try {
-        iterator.remove();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
     assertInvariants(map);
   }
@@ -1460,11 +1368,9 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       // removed value, because the underlying map can have multiple mappings
       // to the same value.)
     } else {
-      try {
-        valueCollection.remove(valueCollection.iterator().next());
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class,
+          () -> valueCollection.remove(valueCollection.iterator().next()));
     }
     assertInvariants(map);
   }
@@ -1513,11 +1419,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
         assertFalse(valuesToRemove.contains(value));
       }
     } else {
-      try {
-        valueCollection.removeAll(valuesToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> valueCollection.removeAll(valuesToRemove));
     }
     assertInvariants(map);
   }
@@ -1567,11 +1470,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
         assertTrue(valuesToRetain.contains(value));
       }
     } else {
-      try {
-        valueCollection.retainAll(valuesToRetain);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> valueCollection.retainAll(valuesToRetain));
     }
     assertInvariants(map);
   }
@@ -1615,11 +1515,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       valueCollection.clear();
       assertTrue(valueCollection.isEmpty());
     } else {
-      try {
-        valueCollection.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> valueCollection.clear());
     }
     assertInvariants(map);
   }

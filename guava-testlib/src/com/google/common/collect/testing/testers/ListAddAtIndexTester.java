@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.FAILS
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -58,11 +59,7 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * throw regardless, but it keeps the method name accurate.
    */
   public void testAddAtIndex_unsupportedPresent() {
-    try {
-      getList().add(0, e0());
-      fail("add(n, present) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().add(0, e0()));
     expectUnchanged();
   }
 
@@ -75,23 +72,18 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(FAILS_FAST_ON_CONCURRENT_MODIFICATION)
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndexConcurrentWithIteration() {
-    try {
-      Iterator<E> iterator = collection.iterator();
-      getList().add(0, e3());
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<E> iterator = collection.iterator();
+          getList().add(0, e3());
+          iterator.next();
+        });
   }
 
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_unsupportedNotPresent() {
-    try {
-      getList().add(0, e3());
-      fail("add(n, notPresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().add(0, e3()));
     expectUnchanged();
     expectMissing(e3());
   }
@@ -120,33 +112,21 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
   public void testAddAtIndex_nullUnsupported() {
-    try {
-      getList().add(0, null);
-      fail("add(n, null) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getList().add(0, null));
     expectUnchanged();
     expectNullMissingWhenNullUnsupported("Should not contain null after unsupported add(n, null)");
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_negative() {
-    try {
-      getList().add(-1, e3());
-      fail("add(-1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().add(-1, e3()));
     expectUnchanged();
     expectMissing(e3());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_tooLarge() {
-    try {
-      getList().add(getNumElements() + 1, e3());
-      fail("add(size + 1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().add(getNumElements() + 1, e3()));
     expectUnchanged();
     expectMissing(e3());
   }

@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
@@ -71,20 +72,12 @@ public class SortedSetNavigationTester<E extends @Nullable Object> extends Abstr
 
   @CollectionSize.Require(ZERO)
   public void testEmptySetFirst() {
-    try {
-      sortedSet.first();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedSet.first());
   }
 
   @CollectionSize.Require(ZERO)
   public void testEmptySetLast() {
-    try {
-      sortedSet.last();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedSet.last());
   }
 
   @CollectionSize.Require(ONE)
