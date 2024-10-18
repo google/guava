@@ -838,13 +838,12 @@ public class TableCollectionTest extends TestCase {
     @Override
     public void testRemove() {
       final Map<String, Map<Integer, Character>> map;
-      final String keyToRemove;
       try {
         map = makePopulatedMap();
       } catch (UnsupportedOperationException e) {
         return;
       }
-      keyToRemove = map.keySet().iterator().next();
+      final String keyToRemove = map.keySet().iterator().next();
       if (supportsRemove) {
         int initialSize = map.size();
         map.get(keyToRemove);

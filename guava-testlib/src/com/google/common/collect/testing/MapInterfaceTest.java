@@ -337,7 +337,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testEntrySet() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -345,7 +344,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     K unmappedKey;
     V unmappedValue;
     try {
@@ -373,7 +372,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
   @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   public void testEntrySetContainsEntryIncompatibleKey() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -381,7 +379,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -400,7 +398,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       return;
     }
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -408,7 +405,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -425,7 +422,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testEntrySetContainsEntryNullKeyMissing() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -433,7 +429,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -565,7 +561,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       return;
     }
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -573,7 +568,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -979,7 +974,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testPutExistingKey() {
     Map<K, V> map;
-    K keyToPut;
     V valueToPut;
     try {
       map = makePopulatedMap();
@@ -987,7 +981,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToPut = map.keySet().iterator().next();
+    K keyToPut = map.keySet().iterator().next();
     if (supportsPut) {
       int initialSize = map.size();
       map.put(keyToPut, valueToPut);
@@ -1104,7 +1098,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testPutAllExistingKey() {
     Map<K, V> map;
-    K keyToPut;
     V valueToPut;
     try {
       map = makePopulatedMap();
@@ -1112,7 +1105,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToPut = map.keySet().iterator().next();
+    K keyToPut = map.keySet().iterator().next();
     Map<K, V> mapToPut = Collections.singletonMap(keyToPut, valueToPut);
     int initialSize = map.size();
     if (supportsPut) {
@@ -1129,13 +1122,12 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testRemove() {
     Map<K, V> map;
-    K keyToRemove;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToRemove = map.keySet().iterator().next();
+    K keyToRemove = map.keySet().iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
       V expectedValue = map.get(keyToRemove);
@@ -1304,7 +1296,6 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
   public void testValues() {
     Map<K, V> map;
-    Collection<V> valueCollection;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -1312,7 +1303,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
     assertInvariants(map);
 
-    valueCollection = map.values();
+    Collection<V> valueCollection = map.values();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
