@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -107,7 +108,7 @@ public class FakeTicker extends Ticker {
   @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
   @Beta // TODO: b/288085449 - Remove @Beta after we're sure that Java 8 APIs are safe for Android
   public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
-    return setAutoIncrementStep(autoIncrementStep.toNanos(), TimeUnit.NANOSECONDS);
+    return setAutoIncrementStep(autoIncrementStep.toNanos(), NANOSECONDS);
   }
 
   @Override

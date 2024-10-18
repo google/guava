@@ -16,8 +16,9 @@
 
 package com.google.common.base;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.caliper.Benchmark;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Simple benchmark: create, start, read. This does not currently report the most useful result
@@ -32,7 +33,7 @@ public class StopwatchBenchmark {
     for (int i = 0; i < reps; i++) {
       Stopwatch s = Stopwatch.createStarted();
       // here is where you would do something
-      total += s.elapsed(TimeUnit.NANOSECONDS);
+      total += s.elapsed(NANOSECONDS);
     }
     return total;
   }

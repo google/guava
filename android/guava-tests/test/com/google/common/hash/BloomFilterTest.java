@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
@@ -36,7 +37,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -557,7 +557,7 @@ public class BloomFilterTest extends TestCase {
               // Don't forget, the bloom filter slowly saturates over time and the
               // expected false positive probability goes up!
               assertThat(bloomFilter.expectedFpp()).isLessThan(safetyFalsePositiveRate);
-            } while (stopwatch.elapsed(TimeUnit.SECONDS) < 1);
+            } while (stopwatch.elapsed(SECONDS) < 1);
           }
         };
 
