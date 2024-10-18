@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -82,7 +83,7 @@ final class CharSequenceReader extends Reader {
     if (!hasRemaining()) {
       return -1;
     }
-    int charsToRead = Math.min(target.remaining(), remaining());
+    int charsToRead = min(target.remaining(), remaining());
     for (int i = 0; i < charsToRead; i++) {
       target.put(seq.charAt(pos++));
     }
@@ -104,7 +105,7 @@ final class CharSequenceReader extends Reader {
     if (!hasRemaining()) {
       return -1;
     }
-    int charsToRead = Math.min(len, remaining());
+    int charsToRead = min(len, remaining());
     for (int i = 0; i < charsToRead; i++) {
       cbuf[off + i] = seq.charAt(pos++);
     }
@@ -115,7 +116,7 @@ final class CharSequenceReader extends Reader {
   public synchronized long skip(long n) throws IOException {
     checkArgument(n >= 0, "n (%s) may not be negative", n);
     checkOpen();
-    int charsToSkip = (int) Math.min(remaining(), n); // safe because remaining is an int
+    int charsToSkip = (int) min(remaining(), n); // safe because remaining is an int
     pos += charsToSkip;
     return charsToSkip;
   }

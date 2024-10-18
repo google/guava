@@ -16,6 +16,7 @@ package com.google.common.net;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -1122,7 +1123,7 @@ public final class InetAddresses {
     byte[] addressBytes = address.toByteArray();
     byte[] targetCopyArray = new byte[numBytes];
 
-    int srcPos = Math.max(0, addressBytes.length - numBytes);
+    int srcPos = max(0, addressBytes.length - numBytes);
     int copyLength = addressBytes.length - srcPos;
     int destPos = numBytes - copyLength;
 

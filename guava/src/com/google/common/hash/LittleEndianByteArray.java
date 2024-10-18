@@ -14,6 +14,8 @@
 
 package com.google.common.hash;
 
+import static java.lang.Math.min;
+
 import com.google.common.primitives.Longs;
 import java.lang.reflect.Field;
 import java.nio.ByteOrder;
@@ -65,7 +67,7 @@ final class LittleEndianByteArray {
     // of the result already being filled with zeros.
 
     // This loop is critical to performance, so please check HashBenchmark if altering it.
-    int limit = Math.min(length, 8);
+    int limit = min(length, 8);
     for (int i = 0; i < limit; i++) {
       // Shift value left while iterating logically through the array.
       result |= (input[offset + i] & 0xFFL) << (i * 8);
