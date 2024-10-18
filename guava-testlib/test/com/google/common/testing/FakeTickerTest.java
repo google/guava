@@ -37,6 +37,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jige Yu
  */
 @GwtCompatible(emulated = true)
+// We also want to test the TimeUnit overload (especially under GWT, where it's the only option).
+@SuppressWarnings("SetAutoIncrementStep_Nanos")
 public class FakeTickerTest extends TestCase {
 
   @GwtIncompatible // NullPointerTester
