@@ -21,6 +21,7 @@ import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -84,7 +85,7 @@ public class ServiceManagerTest extends TestCase {
       new Thread() {
         @Override
         public void run() {
-          Uninterruptibles.sleepUninterruptibly(delay, TimeUnit.MILLISECONDS);
+          Uninterruptibles.sleepUninterruptibly(delay, MILLISECONDS);
           notifyStarted();
         }
       }.start();
@@ -95,7 +96,7 @@ public class ServiceManagerTest extends TestCase {
       new Thread() {
         @Override
         public void run() {
-          Uninterruptibles.sleepUninterruptibly(delay, TimeUnit.MILLISECONDS);
+          Uninterruptibles.sleepUninterruptibly(delay, MILLISECONDS);
           notifyStopped();
         }
       }.start();
@@ -165,7 +166,7 @@ public class ServiceManagerTest extends TestCase {
           protected void doStart() {
             super.doStart();
             // This will delay service listener execution at least 150 milliseconds
-            Uninterruptibles.sleepUninterruptibly(150, TimeUnit.MILLISECONDS);
+            Uninterruptibles.sleepUninterruptibly(150, MILLISECONDS);
           }
         };
     Service a =
@@ -282,11 +283,11 @@ public class ServiceManagerTest extends TestCase {
     Service a = new NoOpDelayedService(50);
     ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
-    assertThrows(TimeoutException.class, () -> manager.awaitHealthy(1, TimeUnit.MILLISECONDS));
+    assertThrows(TimeoutException.class, () -> manager.awaitHealthy(1, MILLISECONDS));
     manager.awaitHealthy(5, SECONDS); // no exception thrown
 
     manager.stopAsync();
-    assertThrows(TimeoutException.class, () -> manager.awaitStopped(1, TimeUnit.MILLISECONDS));
+    assertThrows(TimeoutException.class, () -> manager.awaitStopped(1, MILLISECONDS));
     manager.awaitStopped(5, SECONDS); // no exception thrown
   }
 
@@ -335,7 +336,7 @@ public class ServiceManagerTest extends TestCase {
         },
         directExecutor());
     manager.startAsync();
-    manager.awaitStopped(10, TimeUnit.MILLISECONDS);
+    manager.awaitStopped(10, MILLISECONDS);
   }
 
   public void testDoCancelStart() throws TimeoutException {
@@ -361,7 +362,7 @@ public class ServiceManagerTest extends TestCase {
     final ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
     manager.stopAsync();
-    manager.awaitStopped(10, TimeUnit.MILLISECONDS);
+    manager.awaitStopped(10, MILLISECONDS);
     assertThat(manager.servicesByState().keySet()).containsExactly(Service.State.TERMINATED);
   }
 
@@ -381,7 +382,7 @@ public class ServiceManagerTest extends TestCase {
         };
     final ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
-    manager.awaitStopped(10, TimeUnit.MILLISECONDS);
+    manager.awaitStopped(10, MILLISECONDS);
     assertThat(manager.servicesByState().keySet()).containsExactly(Service.State.FAILED);
   }
 
@@ -632,7 +633,7 @@ public class ServiceManagerTest extends TestCase {
       }
       ServiceManager manager = new ServiceManager(services);
       manager.startAsync().awaitHealthy();
-      manager.stopAsync().awaitStopped(10, TimeUnit.SECONDS);
+      manager.stopAsync().awaitStopped(10, SECONDS);
     }
   }
 

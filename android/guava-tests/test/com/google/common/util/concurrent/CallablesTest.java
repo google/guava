@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -61,7 +62,7 @@ public class CallablesTest extends TestCase {
         };
 
     AsyncCallable<String> asyncCallable =
-        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+        Callables.asAsyncCallable(callable, newDirectExecutorService());
 
     ListenableFuture<String> future = asyncCallable.call();
     assertSame(expected, future.get());
@@ -80,7 +81,7 @@ public class CallablesTest extends TestCase {
         };
 
     AsyncCallable<String> asyncCallable =
-        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+        Callables.asAsyncCallable(callable, newDirectExecutorService());
 
     ListenableFuture<String> future = asyncCallable.call();
     try {

@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -475,7 +476,7 @@ public class RateLimiterTest extends TestCase {
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {
     long startTime = stopwatch.instant;
     while (permits > 0) {
-      int nextPermitsToAcquire = Math.max(1, random.nextInt(permits));
+      int nextPermitsToAcquire = max(1, random.nextInt(permits));
       permits -= nextPermitsToAcquire;
       rateLimiter.acquire(nextPermitsToAcquire);
     }

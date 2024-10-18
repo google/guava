@@ -18,12 +18,12 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
@@ -137,8 +137,7 @@ public class AbstractIdleServiceTest extends TestCase {
         };
     TimeoutException e =
         assertThrows(
-            TimeoutException.class,
-            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+            TimeoutException.class, () -> service.startAsync().awaitRunning(1, MILLISECONDS));
     assertThat(e)
         .hasMessageThat()
         .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");

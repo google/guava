@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.caliper.AfterExperiment;
 import com.google.caliper.BeforeExperiment;
@@ -38,7 +39,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -251,7 +251,7 @@ public class ExecutionListBenchmark {
             NUM_THREADS,
             NUM_THREADS,
             Long.MAX_VALUE,
-            TimeUnit.SECONDS,
+            SECONDS,
             new ArrayBlockingQueue<Runnable>(1000));
     executorService.prestartAllCoreThreads();
     final AtomicInteger integer = new AtomicInteger();

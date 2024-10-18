@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.net.URLClassLoader;
 import java.security.Permission;
@@ -24,7 +25,6 @@ import java.util.Map;
 import java.util.PropertyPermission;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
 import javax.annotation.concurrent.GuardedBy;
 import junit.framework.TestCase;
 
@@ -122,7 +122,7 @@ public class AbstractFutureInnocuousThreadTest extends TestCase {
               }
             });
     // In the failure case, await() will timeout.
-    assertTrue(latch.await(2, TimeUnit.SECONDS));
+    assertTrue(latch.await(2, SECONDS));
   }
 
   // TODO(cpovirk): Write a similar test that doesn't use ForkJoinPool (to run under Android)?
