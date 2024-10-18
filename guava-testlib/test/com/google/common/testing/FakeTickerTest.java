@@ -16,6 +16,8 @@
 
 package com.google.common.testing;
 
+import static com.google.common.testing.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.time.Duration;
@@ -106,11 +108,9 @@ public class FakeTickerTest extends TestCase {
 
   public void testAutoIncrement_negative() {
     FakeTicker ticker = new FakeTicker();
-    try {
-      ticker.setAutoIncrementStep(-1, TimeUnit.NANOSECONDS);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ticker.setAutoIncrementStep(-1, TimeUnit.NANOSECONDS));
   }
 
   @GwtIncompatible // concurrency

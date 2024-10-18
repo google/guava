@@ -16,6 +16,7 @@
 
 package com.google.common.escape;
 
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.escape.testing.EscaperAsserts;

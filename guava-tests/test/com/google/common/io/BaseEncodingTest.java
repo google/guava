@@ -19,6 +19,7 @@ import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
 import static com.google.common.io.BaseEncoding.base64Url;
+import static com.google.common.io.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -53,26 +54,15 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testSeparatorSameAsPadChar() {
-    try {
-      base64().withSeparator("=", 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> base64().withSeparator("=", 3));
 
-    try {
-      base64().withPadChar('#').withSeparator("!#!", 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> base64().withPadChar('#').withSeparator("!#!", 3));
   }
 
   public void testAtMostOneSeparator() {
     BaseEncoding separated = base64().withSeparator("\n", 3);
-    try {
-      separated.withSeparator("$", 4);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> separated.withSeparator("$", 4));
   }
 
   public void testBase64() {
@@ -121,27 +111,15 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase64CannotUpperCase() {
-    try {
-      base64().upperCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().upperCase());
   }
 
   public void testBase64CannotLowerCase() {
-    try {
-      base64().lowerCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().lowerCase());
   }
 
   public void testBase64CannotIgnoreCase() {
-    try {
-      base64().ignoreCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().ignoreCase());
   }
 
   public void testBase64AlternatePadding() {
