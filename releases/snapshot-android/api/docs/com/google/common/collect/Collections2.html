@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Collections2.html#line.54">Collections2</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Collections2.html#line.55">Collections2</a>
 extends java.lang.Object</pre>
 <div class="block">Provides static methods for working with <code>Collection</code> instances.
 
@@ -236,7 +236,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.86">filter</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;unfiltered,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.87">filter</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;unfiltered,
                                                                                     <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The returned collection is
  a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -267,7 +267,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.256">transform</a>&#8203;(java.util.Collection&lt;F&gt;&nbsp;fromCollection,
+<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.257">transform</a>&#8203;(java.util.Collection&lt;F&gt;&nbsp;fromCollection,
                                                                                                                                   <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function)</pre>
 <div class="block">Returns a collection that applies <code>function</code> to each element of <code>fromCollection</code>.
  The returned collection is a live view of <code>fromCollection</code>; changes to one affect the
@@ -292,7 +292,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedPermutations</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.358">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.359">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code>.
 
  <p><i>Notes:</i> This is an implementation of the algorithm for Lexicographical Permutations
@@ -326,7 +326,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedPermutations</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.409">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.410">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
                                                                               java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code> using
  the specified <code>Comparator</code> for establishing the lexicographical ordering.
@@ -385,7 +385,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>permutations</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.570">permutations</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.571">permutations</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Collection</code>.
 
  <p><i>Notes:</i> This is an implementation of the Plain Changes algorithm for permutations
