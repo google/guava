@@ -398,10 +398,12 @@ public final class NullPointerTester {
       if (i != indexOfParamToSetToNull) {
         args[i] = getDefaultValue(param.getType());
         Assert.assertTrue(
-            "Can't find or create a sample instance for type '"
-                + param.getType()
-                + "'; please provide one using NullPointerTester.setDefault()",
-            args[i] != null || isNullable(param));
+                String.format("Can't find or create a sample instance for type '%s'"
+                                + " used by %s"
+                                + "; please provide one using NullPointerTester.setDefault()",
+                        param.getType(),
+                        invokable),
+                args[i] != null || isNullable(param));
       }
     }
     return args;
