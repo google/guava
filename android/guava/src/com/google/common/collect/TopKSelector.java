@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
@@ -178,7 +179,7 @@ final class TopKSelector<
       if (pivotNewIndex > k) {
         right = pivotNewIndex - 1;
       } else if (pivotNewIndex < k) {
-        left = Math.max(pivotNewIndex, left + 1);
+        left = max(pivotNewIndex, left + 1);
         minThresholdPosition = pivotNewIndex;
       } else {
         break;

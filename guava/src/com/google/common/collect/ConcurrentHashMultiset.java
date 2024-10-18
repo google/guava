@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -283,7 +284,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     while (true) {
       int oldValue = existingCounter.get();
       if (oldValue != 0) {
-        int newValue = Math.max(0, oldValue - occurrences);
+        int newValue = max(0, oldValue - occurrences);
         if (existingCounter.compareAndSet(oldValue, newValue)) {
           if (newValue == 0) {
             // Just CASed to 0; remove the entry to clean up the map. If the removal fails,

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -213,7 +214,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
       // Always presize to at least 1, since we only bother creating a value collection if there's
       // at least one element.
-      this.expectedValuesPerKey = Math.max(expectedValuesPerKey, 1);
+      this.expectedValuesPerKey = max(expectedValuesPerKey, 1);
 
       return this;
     }
@@ -228,7 +229,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     int expectedValueCollectionSize(int defaultExpectedValues, Iterable<?> values) {
       if (values instanceof Collection<?>) {
         Collection<?> collection = (Collection<?>) values;
-        return Math.max(defaultExpectedValues, collection.size());
+        return max(defaultExpectedValues, collection.size());
       } else {
         return defaultExpectedValues;
       }

@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -709,7 +711,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   public void testToImmutableSortedSet() {
     Collector<String, ?, ImmutableSortedSet<String>> collector =
-        ImmutableSortedSet.toImmutableSortedSet(Ordering.natural());
+        toImmutableSortedSet(Ordering.natural());
     BiPredicate<ImmutableSortedSet<String>, ImmutableSortedSet<String>> equivalence =
         Equivalence.equals()
             .onResultOf(ImmutableSortedSet<String>::comparator)
@@ -722,7 +724,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   public void testToImmutableSortedSet_customComparator() {
     Collector<String, ?, ImmutableSortedSet<String>> collector =
-        ImmutableSortedSet.toImmutableSortedSet(String.CASE_INSENSITIVE_ORDER);
+        toImmutableSortedSet(String.CASE_INSENSITIVE_ORDER);
     BiPredicate<ImmutableSortedSet<String>, ImmutableSortedSet<String>> equivalence =
         (set1, set2) ->
             set1.equals(set2)
@@ -755,7 +757,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
 
     Collector<TypeWithDuplicates, ?, ImmutableSortedSet<TypeWithDuplicates>> collector =
-        ImmutableSortedSet.toImmutableSortedSet(Ordering.natural());
+        toImmutableSortedSet(Ordering.natural());
     BiPredicate<ImmutableSortedSet<TypeWithDuplicates>, ImmutableSortedSet<TypeWithDuplicates>>
         equivalence =
             (set1, set2) -> {
@@ -1118,7 +1120,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     for (int i = 0; i < strings.length; i++) {
       for (int j = i; j < strings.length; j++) {
         assertThat(set.subSet(strings[i], false, strings[j], false))
-            .containsExactlyElementsIn(sortedNumberNames(Math.min(i + 1, j), j))
+            .containsExactlyElementsIn(sortedNumberNames(min(i + 1, j), j))
             .inOrder();
       }
     }

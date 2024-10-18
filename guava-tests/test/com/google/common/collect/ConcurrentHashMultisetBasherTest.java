@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.Math.min;
+
 import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
 import java.util.List;
@@ -148,7 +150,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
             {
               int delta = random.nextInt(6); // [0, 5]
               int oldValue = multiset.remove(key, delta);
-              deltas[keyIndex] -= Math.min(delta, oldValue);
+              deltas[keyIndex] -= min(delta, oldValue);
               break;
             }
           case REMOVE_EXACTLY:

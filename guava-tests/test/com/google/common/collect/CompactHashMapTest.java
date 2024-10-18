@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
@@ -133,7 +134,7 @@ public class CompactHashMapTest extends TestCase {
 
       map.put(1, "1");
       assertThat(map.needsAllocArrays()).isFalse();
-      int expectedSize = Math.max(1, i);
+      int expectedSize = max(1, i);
       assertThat(map.entries).hasLength(expectedSize);
       assertThat(map.keys).hasLength(expectedSize);
       assertThat(map.values).hasLength(expectedSize);

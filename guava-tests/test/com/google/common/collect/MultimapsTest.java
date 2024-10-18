@@ -18,11 +18,14 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Multimaps.flatteningToMultimap;
+import static com.google.common.collect.Multimaps.toMultimap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
+import static com.google.common.primitives.Chars.asList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -38,7 +41,6 @@ import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
-import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -84,7 +86,7 @@ public class MultimapsTest extends TestCase {
     ListMultimap<Integer, String> unused =
         Stream.of("foo", "bar", "quux")
             .collect(
-                Multimaps.toMultimap(
+                toMultimap(
                     String::length,
                     s -> s,
                     rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues()::build));
@@ -100,7 +102,7 @@ public class MultimapsTest extends TestCase {
 
   public void testToMultimap() {
     Collector<Entry<String, Integer>, ?, TreeMultimap<String, Integer>> collector =
-        Multimaps.toMultimap(Entry::getKey, Entry::getValue, TreeMultimap::create);
+        toMultimap(Entry::getKey, Entry::getValue, TreeMultimap::create);
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
@@ -119,9 +121,9 @@ public class MultimapsTest extends TestCase {
 
   public void testFlatteningToMultimap() {
     Collector<String, ?, ListMultimap<Character, Character>> collector =
-        Multimaps.flatteningToMultimap(
+        flatteningToMultimap(
             str -> str.charAt(0),
-            str -> Chars.asList(str.substring(1).toCharArray()).stream(),
+            str -> asList(str.substring(1).toCharArray()).stream(),
             MultimapBuilder.linkedHashKeys().arrayListValues()::build);
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()

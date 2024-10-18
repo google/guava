@@ -22,6 +22,7 @@ import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.Sets.powerSet;
+import static com.google.common.collect.Sets.toImmutableEnumSet;
 import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
@@ -344,13 +345,13 @@ public class SetsTest extends TestCase {
   }
 
   public void testToImmutableEnumSet() {
-    Set<SomeEnum> units = Stream.of(SomeEnum.D, SomeEnum.B).collect(Sets.toImmutableEnumSet());
+    Set<SomeEnum> units = Stream.of(SomeEnum.D, SomeEnum.B).collect(toImmutableEnumSet());
 
     assertThat(units).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
   public void testToImmutableEnumSetEmpty() {
-    Set<SomeEnum> units = Stream.<SomeEnum>empty().collect(Sets.toImmutableEnumSet());
+    Set<SomeEnum> units = Stream.<SomeEnum>empty().collect(toImmutableEnumSet());
     assertThat(units).isEmpty();
   }
 

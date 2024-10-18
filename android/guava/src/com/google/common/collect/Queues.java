@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -310,7 +312,7 @@ public final class Queues {
       // elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)
       added += q.drainTo(buffer, numElements - added);
       if (added < numElements) { // not enough elements immediately available; will have to poll
-        E e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);
+        E e = q.poll(deadline - System.nanoTime(), NANOSECONDS);
         if (e == null) {
           break; // we already waited enough, and there are no more elements in sight
         }
@@ -357,7 +359,7 @@ public final class Queues {
           E e; // written exactly once, by a successful (uninterrupted) invocation of #poll
           while (true) {
             try {
-              e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);
+              e = q.poll(deadline - System.nanoTime(), NANOSECONDS);
               break;
             } catch (InterruptedException ex) {
               interrupted = true; // note interruption and retry

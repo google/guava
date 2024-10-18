@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
@@ -359,7 +360,7 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     Collector<TypeWithDuplicates, ?, ImmutableMultiset<TypeWithDuplicates>> collector =
-        ImmutableMultiset.toImmutableMultiset();
+        toImmutableMultiset();
     BiPredicate<ImmutableMultiset<TypeWithDuplicates>, ImmutableMultiset<TypeWithDuplicates>>
         equivalence =
             (ms1, ms2) -> {
@@ -386,7 +387,7 @@ public class ImmutableMultisetTest extends TestCase {
             b1,
             c,
             b2);
-    collector = ImmutableMultiset.toImmutableMultiset(e -> e, e -> 1);
+    collector = toImmutableMultiset(e -> e, e -> 1);
     CollectorTester.of(collector, equivalence)
         .expectCollects(
             ImmutableMultiset.<TypeWithDuplicates>builder().add(a).addCopies(b1, 2).add(c).build(),

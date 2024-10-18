@@ -20,6 +20,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -58,15 +59,14 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFromArrayAndAppend() {
-    FluentIterable<TimeUnit> unused =
-        FluentIterable.from(TimeUnit.values()).append(TimeUnit.SECONDS);
+    FluentIterable<TimeUnit> unused = FluentIterable.from(TimeUnit.values()).append(SECONDS);
   }
 
   public void testFromArrayAndIteratorRemove() {
     FluentIterable<TimeUnit> units = FluentIterable.from(TimeUnit.values());
     assertThrows(
         UnsupportedOperationException.class,
-        () -> Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS)));
+        () -> Iterables.removeIf(units, Predicates.equalTo(SECONDS)));
   }
 
   public void testFrom() {

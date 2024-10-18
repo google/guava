@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static java.lang.Math.max;
 import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -365,7 +366,7 @@ public class Helpers {
 
       @Override
       public int size() {
-        return Math.max(0, data.size() + delta);
+        return max(0, data.size() + delta);
       }
 
       @Override

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.EnumSet;
@@ -44,7 +46,7 @@ public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<O
                         keys ->
                             path.create(
                                 Lists.transform(keys, key -> Maps.immutableEntry(key, key)))))
-            .collect(ImmutableList.toImmutableList()),
+            .collect(toImmutableList()),
         n -> n * Math.log(n),
         ImmutableList.of(
             QueryOp.create("BiMap.get", BiMap::get, Math::log),

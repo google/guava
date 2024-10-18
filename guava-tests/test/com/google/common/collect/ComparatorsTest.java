@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Comparators.max;
+import static com.google.common.collect.Comparators.min;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
@@ -102,26 +104,26 @@ public class ComparatorsTest extends TestCase {
   }
 
   public void testMinMaxNatural() {
-    assertThat(Comparators.min(1, 2)).isEqualTo(1);
-    assertThat(Comparators.min(2, 1)).isEqualTo(1);
-    assertThat(Comparators.max(1, 2)).isEqualTo(2);
-    assertThat(Comparators.max(2, 1)).isEqualTo(2);
+    assertThat(min(1, 2)).isEqualTo(1);
+    assertThat(min(2, 1)).isEqualTo(1);
+    assertThat(max(1, 2)).isEqualTo(2);
+    assertThat(max(2, 1)).isEqualTo(2);
   }
 
   public void testMinMaxNatural_equalInstances() {
     Foo a = new Foo(1);
     Foo b = new Foo(1);
-    assertThat(Comparators.min(a, b)).isSameInstanceAs(a);
-    assertThat(Comparators.max(a, b)).isSameInstanceAs(a);
+    assertThat(min(a, b)).isSameInstanceAs(a);
+    assertThat(max(a, b)).isSameInstanceAs(a);
   }
 
   public void testMinMaxComparator() {
     Comparator<Integer> natural = Ordering.natural();
     Comparator<Integer> reverse = Collections.reverseOrder(natural);
-    assertThat(Comparators.min(1, 2, reverse)).isEqualTo(2);
-    assertThat(Comparators.min(2, 1, reverse)).isEqualTo(2);
-    assertThat(Comparators.max(1, 2, reverse)).isEqualTo(1);
-    assertThat(Comparators.max(2, 1, reverse)).isEqualTo(1);
+    assertThat(min(1, 2, reverse)).isEqualTo(2);
+    assertThat(min(2, 1, reverse)).isEqualTo(2);
+    assertThat(max(1, 2, reverse)).isEqualTo(1);
+    assertThat(max(2, 1, reverse)).isEqualTo(1);
   }
 
   /**
@@ -140,8 +142,8 @@ public class ComparatorsTest extends TestCase {
     Integer comparand1 = 1;
     Integer comparand2 = 2;
 
-    Integer min = Comparators.min(comparand1, comparand2, numberComparator);
-    Integer max = Comparators.max(comparand1, comparand2, numberComparator);
+    Integer min = min(comparand1, comparand2, numberComparator);
+    Integer max = max(comparand1, comparand2, numberComparator);
 
     assertThat(min).isEqualTo(1);
     assertThat(max).isEqualTo(2);
@@ -152,8 +154,8 @@ public class ComparatorsTest extends TestCase {
     Comparator<Foo> reverse = Collections.reverseOrder(natural);
     Foo a = new Foo(1);
     Foo b = new Foo(1);
-    assertThat(Comparators.min(a, b, reverse)).isSameInstanceAs(a);
-    assertThat(Comparators.max(a, b, reverse)).isSameInstanceAs(a);
+    assertThat(min(a, b, reverse)).isSameInstanceAs(a);
+    assertThat(max(a, b, reverse)).isSameInstanceAs(a);
   }
 
   private static class Foo implements Comparable<Foo> {

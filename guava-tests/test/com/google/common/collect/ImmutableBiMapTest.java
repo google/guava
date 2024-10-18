@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
@@ -571,7 +572,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testToImmutableBiMap() {
     Collector<Entry<String, Integer>, ?, ImmutableBiMap<String, Integer>> collector =
-        ImmutableBiMap.toImmutableBiMap(Entry::getKey, Entry::getValue);
+        toImmutableBiMap(Entry::getKey, Entry::getValue);
     Equivalence<ImmutableBiMap<String, Integer>> equivalence =
         Equivalence.equals()
             .<Entry<String, Integer>>pairwise()
@@ -586,7 +587,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testToImmutableBiMap_exceptionOnDuplicateKey() {
     Collector<Entry<String, Integer>, ?, ImmutableBiMap<String, Integer>> collector =
-        ImmutableBiMap.toImmutableBiMap(Entry::getKey, Entry::getValue);
+        toImmutableBiMap(Entry::getKey, Entry::getValue);
     assertThrows(
         IllegalArgumentException.class,
         () -> Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector));

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -1065,7 +1066,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     for (int i = 0; i < strings.length; i++) {
       for (int j = i; j < strings.length; j++) {
         assertThat(set.subSet(strings[i], false, strings[j], false))
-            .containsExactlyElementsIn(sortedNumberNames(Math.min(i + 1, j), j))
+            .containsExactlyElementsIn(sortedNumberNames(min(i + 1, j), j))
             .inOrder();
       }
     }

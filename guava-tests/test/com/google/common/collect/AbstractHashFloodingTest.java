@@ -16,6 +16,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -256,7 +257,7 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     for (Object o : haveSameHashes) {
       counter.zero();
       query.apply(collection, o);
-      worstOps = Math.max(worstOps, counter.total());
+      worstOps = max(worstOps, counter.total());
     }
     return worstOps;
   }

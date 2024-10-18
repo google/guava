@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -428,7 +430,7 @@ public final class Multisets {
 
       @Override
       public int count(@CheckForNull Object element) {
-        return Math.max(multiset1.count(element), multiset2.count(element));
+        return max(multiset1.count(element), multiset2.count(element));
       }
 
       @Override
@@ -453,7 +455,7 @@ public final class Multisets {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = Math.max(entry1.getCount(), multiset2.count(element));
+              int count = max(entry1.getCount(), multiset2.count(element));
               return immutableEntry(element, count);
             }
             while (iterator2.hasNext()) {
@@ -491,7 +493,7 @@ public final class Multisets {
       @Override
       public int count(@CheckForNull Object element) {
         int count1 = multiset1.count(element);
-        return (count1 == 0) ? 0 : Math.min(count1, multiset2.count(element));
+        return (count1 == 0) ? 0 : min(count1, multiset2.count(element));
       }
 
       @Override
@@ -515,7 +517,7 @@ public final class Multisets {
             while (iterator1.hasNext()) {
               Entry<E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = Math.min(entry1.getCount(), multiset2.count(element));
+              int count = min(entry1.getCount(), multiset2.count(element));
               if (count > 0) {
                 return immutableEntry(element, count);
               }
@@ -626,7 +628,7 @@ public final class Multisets {
       @Override
       public int count(@CheckForNull Object element) {
         int count1 = multiset1.count(element);
-        return (count1 == 0) ? 0 : Math.max(0, count1 - multiset2.count(element));
+        return (count1 == 0) ? 0 : max(0, count1 - multiset2.count(element));
       }
 
       @Override

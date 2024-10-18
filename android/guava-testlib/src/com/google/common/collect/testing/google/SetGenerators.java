@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAS
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST_2;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST_2;
+import static java.lang.Math.max;
 import static junit.framework.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
@@ -108,7 +109,7 @@ public class SetGenerators {
     @Override
     protected Set<String> create(String[] elements) {
       ImmutableSet.Builder<String> builder =
-          ImmutableSet.builderWithExpectedSize(Math.max(0, Sets.newHashSet(elements).size() - 1));
+          ImmutableSet.builderWithExpectedSize(max(0, Sets.newHashSet(elements).size() - 1));
       for (String e : elements) {
         builder.add(e);
       }

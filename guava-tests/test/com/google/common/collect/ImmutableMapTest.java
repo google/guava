@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.testing.SerializableTester.reserialize;
@@ -787,7 +788,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testToImmutableMap() {
     Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
-        ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue);
+        toImmutableMap(Entry::getKey, Entry::getValue);
     Equivalence<ImmutableMap<String, Integer>> equivalence =
         Equivalence.equals().<Entry<String, Integer>>pairwise().onResultOf(ImmutableMap::entrySet);
     CollectorTester.of(collector, equivalence)
@@ -800,7 +801,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testToImmutableMap_exceptionOnDuplicateKey() {
     Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
-        ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue);
+        toImmutableMap(Entry::getKey, Entry::getValue);
     assertThrows(
         IllegalArgumentException.class,
         () -> Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector));
@@ -808,7 +809,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testToImmutableMapMerging() {
     Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
-        ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue, Integer::sum);
+        toImmutableMap(Entry::getKey, Entry::getValue, Integer::sum);
     Equivalence<ImmutableMap<String, Integer>> equivalence =
         Equivalence.equals().<Entry<String, Integer>>pairwise().onResultOf(ImmutableMap::entrySet);
     CollectorTester.of(collector, equivalence)

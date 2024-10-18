@@ -16,11 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableSetMultimap.flatteningToImmutableSetMultimap;
+import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
+import static com.google.common.primitives.Chars.asList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -32,7 +35,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
-import com.google.common.primitives.Chars;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -467,7 +469,7 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   public void testToImmutableSetMultimap() {
     Collector<Entry<String, Integer>, ?, ImmutableSetMultimap<String, Integer>> collector =
-        ImmutableSetMultimap.toImmutableSetMultimap(Entry::getKey, Entry::getValue);
+        toImmutableSetMultimap(Entry::getKey, Entry::getValue);
     BiPredicate<ImmutableSetMultimap<?, ?>, ImmutableSetMultimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf(
@@ -486,8 +488,8 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   public void testFlatteningToImmutableSetMultimap() {
     Collector<String, ?, ImmutableSetMultimap<Character, Character>> collector =
-        ImmutableSetMultimap.flatteningToImmutableSetMultimap(
-            str -> str.charAt(0), str -> Chars.asList(str.substring(1).toCharArray()).stream());
+        flatteningToImmutableSetMultimap(
+            str -> str.charAt(0), str -> asList(str.substring(1).toCharArray()).stream());
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))

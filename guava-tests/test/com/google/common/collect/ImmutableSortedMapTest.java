@@ -16,9 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Comparator.naturalOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -591,8 +593,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testToImmutableSortedMap() {
     Collector<Entry<String, Integer>, ?, ImmutableSortedMap<String, Integer>> collector =
-        ImmutableSortedMap.toImmutableSortedMap(
-            String.CASE_INSENSITIVE_ORDER, Entry::getKey, Entry::getValue);
+        toImmutableSortedMap(String.CASE_INSENSITIVE_ORDER, Entry::getKey, Entry::getValue);
     BiPredicate<ImmutableSortedMap<String, Integer>, ImmutableSortedMap<String, Integer>>
         equivalence =
             Equivalence.equals()
@@ -611,7 +612,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testToImmutableSortedMap_exceptionOnDuplicateKey() {
     Collector<Entry<String, Integer>, ?, ImmutableSortedMap<String, Integer>> collector =
-        ImmutableSortedMap.toImmutableSortedMap(Ordering.natural(), Entry::getKey, Entry::getValue);
+        toImmutableSortedMap(Ordering.natural(), Entry::getKey, Entry::getValue);
     assertThrows(
         IllegalArgumentException.class,
         () -> Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector));
@@ -619,8 +620,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testToImmutableSortedMapMerging() {
     Collector<Entry<String, Integer>, ?, ImmutableSortedMap<String, Integer>> collector =
-        ImmutableSortedMap.toImmutableSortedMap(
-            Comparator.naturalOrder(), Entry::getKey, Entry::getValue, Integer::sum);
+        toImmutableSortedMap(naturalOrder(), Entry::getKey, Entry::getValue, Integer::sum);
     Equivalence<ImmutableMap<String, Integer>> equivalence =
         Equivalence.equals().<Entry<String, Integer>>pairwise().onResultOf(ImmutableMap::entrySet);
     CollectorTester.of(collector, equivalence)

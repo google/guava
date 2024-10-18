@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableListMultimap.flatteningToImmutableListMultimap;
+import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
@@ -400,7 +402,7 @@ public class ImmutableListMultimapTest extends TestCase {
 
   public void testToImmutableListMultimap() {
     Collector<Entry<String, Integer>, ?, ImmutableListMultimap<String, Integer>> collector =
-        ImmutableListMultimap.toImmutableListMultimap(Entry::getKey, Entry::getValue);
+        toImmutableListMultimap(Entry::getKey, Entry::getValue);
     BiPredicate<ImmutableListMultimap<?, ?>, ImmutableListMultimap<?, ?>> equivalence =
         Equivalence.equals()
             .onResultOf((ImmutableListMultimap<?, ?> mm) -> mm.asMap().entrySet().asList())
@@ -417,7 +419,7 @@ public class ImmutableListMultimapTest extends TestCase {
 
   public void testFlatteningToImmutableListMultimap() {
     Collector<String, ?, ImmutableListMultimap<Character, Character>> collector =
-        ImmutableListMultimap.flatteningToImmutableListMultimap(
+        flatteningToImmutableListMultimap(
             str -> str.charAt(0), str -> Chars.asList(str.substring(1).toCharArray()).stream());
     BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
         Equivalence.equals()

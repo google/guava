@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -83,7 +84,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysRemove() {
     int original = multimap().keys().remove(k0(), 1);
-    assertEquals(Math.max(original - 1, 0), multimap().get(k0()).size());
+    assertEquals(max(original - 1, 0), multimap().get(k0()).size());
   }
 
   @CollectionSize.Require(ONE)

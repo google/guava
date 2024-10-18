@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -279,7 +280,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       // Only trust the size of `values` if it is a Set and therefore probably already deduplicated.
       if (values instanceof Set<?>) {
         Set<?> collection = (Set<?>) values;
-        return Math.max(defaultExpectedValues, collection.size());
+        return max(defaultExpectedValues, collection.size());
       } else {
         return defaultExpectedValues;
       }
