@@ -551,7 +551,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   private static final ImmutableSet<String> NOT_WORKING_ON_MOCKS =
-      ImmutableSet.of("latestPermitAgeSec", "latestPermitAge", "setRate", "getAvailablePermits");
+      ImmutableSet.of("latestPermitAgeSec", "setRate", "getAvailablePermits");
 
   // We would use ArbitraryInstances, but it returns 0, invalid for many RateLimiter methods.
   private static final ImmutableClassToInstanceMap<Object> PARAMETER_VALUES =
