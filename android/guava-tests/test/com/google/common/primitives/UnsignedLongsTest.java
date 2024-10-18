@@ -14,6 +14,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.UnsignedLongs.max;
+import static com.google.common.primitives.UnsignedLongs.min;
 import static com.google.common.truth.Truth.assertThat;
 import static java.math.BigInteger.ONE;
 
@@ -63,35 +65,31 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      UnsignedLongs.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(UnsignedLongs.max(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedLongs.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(
-            UnsignedLongs.max(
-                0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L))
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max(0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L))
         .isEqualTo(0xff1a618b7f65ea12L);
   }
 
   public void testMin_noArgs() {
     try {
-      UnsignedLongs.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(UnsignedLongs.min(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedLongs.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(
-            UnsignedLongs.min(
-                0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L))
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min(0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L))
         .isEqualTo(0L);
   }
 

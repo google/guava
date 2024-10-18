@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.SignedBytes.max;
+import static com.google.common.primitives.SignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -100,32 +102,30 @@ public class SignedBytesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      SignedBytes.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(SignedBytes.max(LEAST)).isEqualTo(LEAST);
-    assertThat(SignedBytes.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(SignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
-        .isEqualTo((byte) 127);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1)).isEqualTo((byte) 127);
   }
 
   public void testMin_noArgs() {
     try {
-      SignedBytes.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(SignedBytes.min(LEAST)).isEqualTo(LEAST);
-    assertThat(SignedBytes.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(SignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
-        .isEqualTo((byte) -128);
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1)).isEqualTo((byte) -128);
   }
 
   public void testJoin() {

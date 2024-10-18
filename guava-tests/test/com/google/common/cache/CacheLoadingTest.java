@@ -21,8 +21,11 @@ import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
@@ -37,7 +40,6 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.IOException;
@@ -49,7 +51,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
@@ -169,7 +170,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFuture(two);
+            return immediateFuture(two);
           }
         };
 
@@ -217,7 +218,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFuture(two);
+            return immediateFuture(two);
           }
         };
 
@@ -279,7 +280,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFuture(two);
+            return immediateFuture(two);
           }
         };
 
@@ -695,7 +696,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFuture(null);
+            return immediateFuture(null);
           }
         };
 
@@ -742,7 +743,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFuture(null);
+            return immediateFuture(null);
           }
         };
 
@@ -962,7 +963,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1010,7 +1011,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1258,7 +1259,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1306,7 +1307,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1516,7 +1517,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1564,7 +1565,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
-            return Futures.immediateFailedFuture(e);
+            return immediateFailedFuture(e);
           }
         };
 
@@ -1833,7 +1834,7 @@ public class CacheLoadingTest extends TestCase {
 
   @AndroidIncompatible // Bug? expected:<1> but was:<2>
   public void testConcurrentExpirationLoading() throws InterruptedException {
-    testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS));
+    testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, SECONDS));
   }
 
   /**

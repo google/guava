@@ -14,6 +14,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.UnsignedInts.max;
+import static com.google.common.primitives.UnsignedInts.min;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -98,17 +100,17 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      UnsignedInts.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(UnsignedInts.max(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedInts.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            UnsignedInts.max(
+            max(
                 (int) 8L,
                 (int) 6L,
                 (int) 7L,
@@ -121,17 +123,17 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      UnsignedInts.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(UnsignedInts.min(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedInts.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            UnsignedInts.min(
+            min(
                 (int) 8L,
                 (int) 6L,
                 (int) 7L,

@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Doubles.max;
+import static com.google.common.primitives.Doubles.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Double.NaN;
@@ -210,47 +212,45 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
-      Doubles.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(Doubles.max(LEAST)).isEqualTo(LEAST);
-    assertThat(Doubles.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            Doubles.max(
-                (double) 8, (double) 6, (double) 7, (double) 5, (double) 3, (double) 0, (double) 9))
+            max((double) 8, (double) 6, (double) 7, (double) 5, (double) 3, (double) 0, (double) 9))
         .isEqualTo((double) 9);
 
-    assertThat(Doubles.max(-0.0, 0.0)).isEqualTo(0.0);
-    assertThat(Doubles.max(0.0, -0.0)).isEqualTo(0.0);
-    assertThat(Doubles.max(NUMBERS)).isEqualTo(GREATEST);
-    assertThat(Double.isNaN(Doubles.max(VALUES))).isTrue();
+    assertThat(max(-0.0, 0.0)).isEqualTo(0.0);
+    assertThat(max(0.0, -0.0)).isEqualTo(0.0);
+    assertThat(max(NUMBERS)).isEqualTo(GREATEST);
+    assertThat(Double.isNaN(max(VALUES))).isTrue();
   }
 
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
-      Doubles.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(Doubles.min(LEAST)).isEqualTo(LEAST);
-    assertThat(Doubles.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            Doubles.min(
-                (double) 8, (double) 6, (double) 7, (double) 5, (double) 3, (double) 0, (double) 9))
+            min((double) 8, (double) 6, (double) 7, (double) 5, (double) 3, (double) 0, (double) 9))
         .isEqualTo((double) 0);
 
-    assertThat(Doubles.min(-0.0, 0.0)).isEqualTo(-0.0);
-    assertThat(Doubles.min(0.0, -0.0)).isEqualTo(-0.0);
-    assertThat(Doubles.min(NUMBERS)).isEqualTo(LEAST);
-    assertThat(Double.isNaN(Doubles.min(VALUES))).isTrue();
+    assertThat(min(-0.0, 0.0)).isEqualTo(-0.0);
+    assertThat(min(0.0, -0.0)).isEqualTo(-0.0);
+    assertThat(min(NUMBERS)).isEqualTo(LEAST);
+    assertThat(Double.isNaN(min(VALUES))).isTrue();
   }
 
   public void testConstrainToRange() {

@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Floats.max;
+import static com.google.common.primitives.Floats.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Float.NaN;
@@ -200,45 +202,43 @@ public class FloatsTest extends TestCase {
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
-      Floats.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(Floats.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(Floats.max(LEAST)).isEqualTo(LEAST);
-    assertThat(
-            Floats.max((float) 8, (float) 6, (float) 7, (float) 5, (float) 3, (float) 0, (float) 9))
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max((float) 8, (float) 6, (float) 7, (float) 5, (float) 3, (float) 0, (float) 9))
         .isEqualTo((float) 9);
 
-    assertThat(Floats.max(-0f, 0f)).isEqualTo(0f);
-    assertThat(Floats.max(0f, -0f)).isEqualTo(0f);
-    assertThat(Floats.max(NUMBERS)).isEqualTo(GREATEST);
-    assertThat(Float.isNaN(Floats.max(VALUES))).isTrue();
+    assertThat(max(-0f, 0f)).isEqualTo(0f);
+    assertThat(max(0f, -0f)).isEqualTo(0f);
+    assertThat(max(NUMBERS)).isEqualTo(GREATEST);
+    assertThat(Float.isNaN(max(VALUES))).isTrue();
   }
 
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
-      Floats.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(Floats.min(LEAST)).isEqualTo(LEAST);
-    assertThat(Floats.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(
-            Floats.min((float) 8, (float) 6, (float) 7, (float) 5, (float) 3, (float) 0, (float) 9))
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min((float) 8, (float) 6, (float) 7, (float) 5, (float) 3, (float) 0, (float) 9))
         .isEqualTo((float) 0);
 
-    assertThat(Floats.min(-0f, 0f)).isEqualTo(-0f);
-    assertThat(Floats.min(0f, -0f)).isEqualTo(-0f);
-    assertThat(Floats.min(NUMBERS)).isEqualTo(LEAST);
-    assertThat(Float.isNaN(Floats.min(VALUES))).isTrue();
+    assertThat(min(-0f, 0f)).isEqualTo(-0f);
+    assertThat(min(0f, -0f)).isEqualTo(-0f);
+    assertThat(min(NUMBERS)).isEqualTo(LEAST);
+    assertThat(Float.isNaN(min(VALUES))).isTrue();
   }
 
   public void testConstrainToRange() {

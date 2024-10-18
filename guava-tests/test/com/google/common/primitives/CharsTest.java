@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Chars.max;
+import static com.google.common.primitives.Chars.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -168,31 +170,31 @@ public class CharsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      Chars.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(Chars.max(LEAST)).isEqualTo(LEAST);
-    assertThat(Chars.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(Chars.max((char) 8, (char) 6, (char) 7, (char) 5, (char) 3, (char) 0, (char) 9))
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max((char) 8, (char) 6, (char) 7, (char) 5, (char) 3, (char) 0, (char) 9))
         .isEqualTo((char) 9);
   }
 
   public void testMin_noArgs() {
     try {
-      Chars.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(Chars.min(LEAST)).isEqualTo(LEAST);
-    assertThat(Chars.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(Chars.min((char) 8, (char) 6, (char) 7, (char) 5, (char) 3, (char) 0, (char) 9))
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min((char) 8, (char) 6, (char) 7, (char) 5, (char) 3, (char) 0, (char) 9))
         .isEqualTo((char) 0);
   }
 

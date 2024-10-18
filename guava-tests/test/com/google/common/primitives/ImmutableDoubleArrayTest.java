@@ -17,6 +17,7 @@ package com.google.common.primitives;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.stream;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -227,7 +228,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
-        builder.addAll(Arrays.stream(array));
+        builder.addAll(stream(array));
       }
     },
     ADD_IIA {

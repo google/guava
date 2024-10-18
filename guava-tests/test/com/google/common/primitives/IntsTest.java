@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Ints.max;
+import static com.google.common.primitives.Ints.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -169,32 +171,32 @@ public class IntsTest extends TestCase {
   @GwtIncompatible
   public void testMax_noArgs() {
     try {
-      Ints.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(Ints.max(LEAST)).isEqualTo(LEAST);
-    assertThat(Ints.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(Ints.max((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
         .isEqualTo((int) 9);
   }
 
   @GwtIncompatible
   public void testMin_noArgs() {
     try {
-      Ints.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(Ints.min(LEAST)).isEqualTo(LEAST);
-    assertThat(Ints.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(Ints.min((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9))
         .isEqualTo((int) 0);
   }
 

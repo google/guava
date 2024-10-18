@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Longs.max;
+import static com.google.common.primitives.Longs.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Long.MAX_VALUE;
@@ -142,31 +144,31 @@ public class LongsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      Longs.max();
+      max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMax() {
-    assertThat(Longs.max(MIN_VALUE)).isEqualTo(MIN_VALUE);
-    assertThat(Longs.max(MAX_VALUE)).isEqualTo(MAX_VALUE);
-    assertThat(Longs.max((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
+    assertThat(max(MIN_VALUE)).isEqualTo(MIN_VALUE);
+    assertThat(max(MAX_VALUE)).isEqualTo(MAX_VALUE);
+    assertThat(max((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
         .isEqualTo((long) 9);
   }
 
   public void testMin_noArgs() {
     try {
-      Longs.min();
+      min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testMin() {
-    assertThat(Longs.min(MIN_VALUE)).isEqualTo(MIN_VALUE);
-    assertThat(Longs.min(MAX_VALUE)).isEqualTo(MAX_VALUE);
-    assertThat(Longs.min((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
+    assertThat(min(MIN_VALUE)).isEqualTo(MIN_VALUE);
+    assertThat(min(MAX_VALUE)).isEqualTo(MAX_VALUE);
+    assertThat(min((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
         .isEqualTo((long) 0);
   }
 
