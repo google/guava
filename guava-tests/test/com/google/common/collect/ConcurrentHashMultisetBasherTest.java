@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.transform;
 import static java.lang.Math.min;
 
 import com.google.common.base.Function;
@@ -83,7 +84,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
       }
 
       List<Integer> actualCounts =
-          Lists.transform(
+          transform(
               keys,
               new Function<String, Integer>() {
                 @Override

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -1379,7 +1380,7 @@ public final class Sets {
    */
   @SafeVarargs
   public static <B> Set<List<B>> cartesianProduct(Set<? extends B>... sets) {
-    return cartesianProduct(Arrays.asList(sets));
+    return cartesianProduct(asList(sets));
   }
 
   private static final class CartesianSet<E> extends ForwardingCollection<List<E>>

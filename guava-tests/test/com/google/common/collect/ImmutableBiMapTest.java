@@ -17,9 +17,12 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,7 +41,6 @@ import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -84,7 +86,7 @@ public class ImmutableBiMapTest extends TestCase {
                   @Override
                   protected BiMap<String, String> create(Entry<String, String>[] entries) {
                     return ImmutableBiMap.<String, String>builder()
-                        .putAll(Arrays.asList(entries))
+                        .putAll(asList(entries))
                         .buildJdkBacked();
                   }
                 })
@@ -140,7 +142,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {
     ImmutableBiMap<String, Integer> map =
-        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
+        new Builder<String, Integer>().put(immutableEntry("one", 1)).build();
     assertMapEquals(map, "one", 1);
   }
 
@@ -605,7 +607,7 @@ public class ImmutableBiMapTest extends TestCase {
     ImmutableBiMap<String, Integer> bimap =
         ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
     Set<String> keys = bimap.keySet();
-    assertEquals(Sets.newHashSet("one", "two", "three", "four"), keys);
+    assertEquals(newHashSet("one", "two", "three", "four"), keys);
     assertThat(keys).containsExactly("one", "two", "three", "four").inOrder();
   }
 
@@ -613,7 +615,7 @@ public class ImmutableBiMapTest extends TestCase {
     ImmutableBiMap<String, Integer> bimap =
         ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
     Set<Integer> values = bimap.values();
-    assertEquals(Sets.newHashSet(1, 2, 3, 4), values);
+    assertEquals(newHashSet(1, 2, 3, 4), values);
     assertThat(values).containsExactly(1, 2, 3, 4).inOrder();
   }
 

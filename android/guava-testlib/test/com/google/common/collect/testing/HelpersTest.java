@@ -18,10 +18,10 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.Helpers.NullsBeforeB;
 import static com.google.common.collect.testing.Helpers.testComparator;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,10 +84,10 @@ public class HelpersTest extends TestCase {
   }
 
   public void testAssertEqualInOrder() {
-    List<?> list = Arrays.asList("a", "b", "c");
+    List<?> list = asList("a", "b", "c");
     Helpers.assertEqualInOrder(list, list);
 
-    List<?> fewer = Arrays.asList("a", "b");
+    List<?> fewer = asList("a", "b");
     try {
       Helpers.assertEqualInOrder(list, fewer);
       throw new Error();
@@ -100,14 +100,14 @@ public class HelpersTest extends TestCase {
     } catch (AssertionFailedError expected) {
     }
 
-    List<?> differentOrder = Arrays.asList("a", "c", "b");
+    List<?> differentOrder = asList("a", "c", "b");
     try {
       Helpers.assertEqualInOrder(list, differentOrder);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
-    List<?> differentContents = Arrays.asList("a", "b", "C");
+    List<?> differentContents = asList("a", "b", "C");
     try {
       Helpers.assertEqualInOrder(list, differentContents);
       throw new Error();
@@ -116,7 +116,7 @@ public class HelpersTest extends TestCase {
   }
 
   public void testAssertContentsInOrder() {
-    List<?> list = Arrays.asList("a", "b", "c");
+    List<?> list = asList("a", "b", "c");
     Helpers.assertContentsInOrder(list, "a", "b", "c");
 
     try {
@@ -145,7 +145,7 @@ public class HelpersTest extends TestCase {
   }
 
   public void testAssertContains() {
-    List<?> list = Arrays.asList("a", "b");
+    List<?> list = asList("a", "b");
     Helpers.assertContains(list, "a");
     Helpers.assertContains(list, "b");
 
@@ -157,7 +157,7 @@ public class HelpersTest extends TestCase {
   }
 
   public void testAssertContainsAllOf() {
-    List<?> list = Arrays.asList("a", "a", "b", "c");
+    List<?> list = asList("a", "a", "b", "c");
     Helpers.assertContainsAllOf(list, "a");
     Helpers.assertContainsAllOf(list, "a", "a");
     Helpers.assertContainsAllOf(list, "a", "b", "c");

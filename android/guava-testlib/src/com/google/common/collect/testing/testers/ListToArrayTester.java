@@ -17,10 +17,10 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import org.junit.Ignore;
 
 /**
@@ -52,6 +52,6 @@ public class ListToArrayTester<E> extends AbstractListTester<E> {
   }
 
   private static void assertArrayEquals(String message, Object[] expected, Object[] actual) {
-    assertEquals(message, Arrays.asList(expected), Arrays.asList(actual));
+    assertEquals(message, asList(expected), asList(actual));
   }
 }

@@ -18,12 +18,14 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newTreeSet;
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST;
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST_2;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST_2;
 import static java.lang.Math.max;
+import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
@@ -45,7 +47,6 @@ import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -85,7 +86,7 @@ public class SetGenerators {
     @Override
     protected Set<String> create(String[] elements) {
       ImmutableSet.Builder<String> builder =
-          ImmutableSet.builderWithExpectedSize(Sets.newHashSet(elements).size());
+          ImmutableSet.builderWithExpectedSize(newHashSet(elements).size());
       for (String e : elements) {
         builder.add(e);
       }
@@ -97,7 +98,7 @@ public class SetGenerators {
     @Override
     protected Set<String> create(String[] elements) {
       ImmutableSet.Builder<String> builder =
-          ImmutableSet.builderWithExpectedSize(Sets.newHashSet(elements).size() + 1);
+          ImmutableSet.builderWithExpectedSize(newHashSet(elements).size() + 1);
       for (String e : elements) {
         builder.add(e);
       }
@@ -109,7 +110,7 @@ public class SetGenerators {
     @Override
     protected Set<String> create(String[] elements) {
       ImmutableSet.Builder<String> builder =
-          ImmutableSet.builderWithExpectedSize(max(0, Sets.newHashSet(elements).size() - 1));
+          ImmutableSet.builderWithExpectedSize(max(0, newHashSet(elements).size() - 1));
       for (String e : elements) {
         builder.add(e);
       }
@@ -218,9 +219,7 @@ public class SetGenerators {
 
     @Override
     protected SortedSet<String> create(String[] elements) {
-      return ImmutableSortedSet.<String>reverseOrder()
-          .addAll(Arrays.asList(elements).iterator())
-          .build();
+      return ImmutableSortedSet.<String>reverseOrder().addAll(asList(elements).iterator()).build();
     }
 
     @Override
@@ -248,7 +247,7 @@ public class SetGenerators {
     @Override
     protected List<String> create(String[] elements) {
       Comparator<String> comparator = createExplicitComparator(elements);
-      ImmutableSet<String> set = ImmutableSortedSet.copyOf(comparator, Arrays.asList(elements));
+      ImmutableSet<String> set = ImmutableSortedSet.copyOf(comparator, asList(elements));
       return set.asList();
     }
   }
@@ -319,7 +318,7 @@ public class SetGenerators {
     Set<String> elementsPlus = Sets.newLinkedHashSet();
     elementsPlus.add(BEFORE_FIRST);
     elementsPlus.add(BEFORE_FIRST_2);
-    elementsPlus.addAll(Arrays.asList(elements));
+    elementsPlus.addAll(asList(elements));
     elementsPlus.add(AFTER_LAST);
     elementsPlus.add(AFTER_LAST_2);
     return Ordering.explicit(Lists.newArrayList(elementsPlus));

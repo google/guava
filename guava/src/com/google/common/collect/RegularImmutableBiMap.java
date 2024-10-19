@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.RegularImmutableMap.MAX_HASH_BUCKET_LENGTH;
 import static com.google.common.collect.RegularImmutableMap.checkNoConflictInKeyBucket;
 import static java.util.Objects.requireNonNull;
@@ -280,7 +281,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
           @Override
           public Entry<V, K> get(int index) {
             Entry<K, V> entry = entries[index];
-            return Maps.immutableEntry(entry.getValue(), entry.getKey());
+            return immutableEntry(entry.getValue(), entry.getKey());
           }
 
           @Override

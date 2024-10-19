@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -28,7 +30,6 @@ import com.google.common.collect.testing.SampleElements.Unhashables;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-import java.util.Arrays;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -45,16 +46,15 @@ public class ImmutableMultimapTest extends TestCase {
   @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withImmutableEntry() {
     ImmutableMultimap<String, Integer> multimap =
-        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
-    assertEquals(Arrays.asList(1), multimap.get("one"));
+        new Builder<String, Integer>().put(immutableEntry("one", 1)).build();
+    assertEquals(asList(1), multimap.get("one"));
   }
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
-    assertThrows(
-        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
+        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
   }
 
   public void testBuilderWithExpectedKeysNegative() {
@@ -66,14 +66,14 @@ public class ImmutableMultimapTest extends TestCase {
     ImmutableMultimap.Builder<String, String> builder =
         ImmutableMultimap.builderWithExpectedKeys(0);
     builder.put("key", "value");
-    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
   }
 
   public void testBuilderWithExpectedKeysPositive() {
     ImmutableMultimap.Builder<String, String> builder =
         ImmutableMultimap.builderWithExpectedKeys(1);
     builder.put("key", "value");
-    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
   }
 
   public void testBuilderWithExpectedValuesPerKeyNegative() {
@@ -85,14 +85,14 @@ public class ImmutableMultimapTest extends TestCase {
     ImmutableMultimap.Builder<String, String> builder =
         ImmutableMultimap.<String, String>builder().expectedValuesPerKey(0);
     builder.put("key", "value");
-    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
   }
 
   public void testBuilderWithExpectedValuesPerKeyPositive() {
     ImmutableMultimap.Builder<String, String> builder =
         ImmutableMultimap.<String, String>builder().expectedValuesPerKey(1);
     builder.put("key", "value");
-    assertThat(builder.build().entries()).containsExactly(Maps.immutableEntry("key", "value"));
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
   }
 
   private static class StringHolder {
@@ -119,7 +119,7 @@ public class ImmutableMultimapTest extends TestCase {
 
     builder.put(entry);
     holder.string = "two";
-    assertEquals(Arrays.asList(1), builder.build().get("one"));
+    assertEquals(asList(1), builder.build().get("one"));
   }
 
   // TODO: test ImmutableMultimap builder and factory methods

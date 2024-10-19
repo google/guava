@@ -14,12 +14,13 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.testers.ConcurrentMapPutIfAbsentTester;
 import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceEntryTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceTester;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
 
   @SuppressWarnings("rawtypes") // class literals
   static final List<? extends Class<? extends AbstractTester>> TESTERS =
-      Arrays.asList(
+      asList(
           ConcurrentMapPutIfAbsentTester.class,
           ConcurrentMapRemoveTester.class,
           ConcurrentMapReplaceTester.class,

@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -34,7 +35,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
@@ -362,7 +362,7 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getSetCountDuplicateInitializingMethods() {
-    return Arrays.asList(
+    return asList(
         getMethod("testSetCount_threeToThree_removeSupported"),
         getMethod("testSetCount_threeToZero_supported"),
         getMethod("testSetCount_threeToOne_supported"));

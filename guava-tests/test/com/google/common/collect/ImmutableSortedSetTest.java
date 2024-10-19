@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.min;
 import static java.util.Arrays.asList;
@@ -785,8 +786,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(Sets.newTreeSet(asList("a", "b", "c")), set);
     assertFalse(set.equals(Sets.newTreeSet(asList("a", "b", "d"))));
     assertFalse(Sets.newTreeSet(asList("a", "b", "d")).equals(set));
-    assertFalse(set.equals(Sets.newHashSet(4, 5, 6)));
-    assertFalse(Sets.newHashSet(4, 5, 6).equals(set));
+    assertFalse(set.equals(newHashSet(4, 5, 6)));
+    assertFalse(newHashSet(4, 5, 6).equals(set));
   }
 
   public void testEquals_bothExplicitOrdering() {
@@ -794,8 +795,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(Sets.newTreeSet(asList("in", "the", "a")), set);
     assertFalse(set.equals(Sets.newTreeSet(asList("in", "the", "house"))));
     assertFalse(Sets.newTreeSet(asList("in", "the", "house")).equals(set));
-    assertFalse(set.equals(Sets.newHashSet(4, 5, 6)));
-    assertFalse(Sets.newHashSet(4, 5, 6).equals(set));
+    assertFalse(set.equals(newHashSet(4, 5, 6)));
+    assertFalse(newHashSet(4, 5, 6).equals(set));
 
     Set<String> complex = Sets.newTreeSet(STRING_LENGTH);
     Collections.addAll(complex, "in", "the", "a");
@@ -876,7 +877,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   public void testReverseOrder() {
     SortedSet<String> set = ImmutableSortedSet.<String>reverseOrder().add("a", "b", "c").build();
     assertThat(set).containsExactly("c", "b", "a").inOrder();
-    assertTrue(Comparators.isInOrder(Arrays.asList("c", "b", "a"), set.comparator()));
+    assertTrue(Comparators.isInOrder(asList("c", "b", "a"), set.comparator()));
   }
 
   private static final Comparator<Object> TO_STRING =

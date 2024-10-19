@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BoundType;
@@ -36,7 +37,6 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -156,7 +156,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     Comparator<? super E> comparator = emptyMultiset.comparator();
     SampleElements<E> samples = delegate.samples();
     List<E> samplesList =
-        Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
+        asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
 
     Collections.sort(samplesList, comparator);
     E firstInclusive = samplesList.get(0);
@@ -171,7 +171,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
                 List<E> extremeValues = (List<E>) getExtremeValues();
                 @SuppressWarnings("unchecked")
                 // map generators must past entry objects
-                List<E> normalValues = (List<E>) Arrays.asList(entries);
+                List<E> normalValues = (List<E>) asList(entries);
 
                 // prepare extreme values to be filtered out of view
                 Collections.sort(extremeValues, comparator);

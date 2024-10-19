@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.disjoint;
 import static java.util.logging.Level.FINER;
 
@@ -27,7 +28,6 @@ import com.google.common.collect.testing.features.TesterRequirements;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -109,7 +109,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
    */
   @CanIgnoreReturnValue
   public B withFeatures(Feature<?>... features) {
-    return withFeatures(Arrays.asList(features));
+    return withFeatures(asList(features));
   }
 
   @CanIgnoreReturnValue
@@ -157,7 +157,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
    */
   @CanIgnoreReturnValue
   public B suppressing(Method... methods) {
-    return suppressing(Arrays.asList(methods));
+    return suppressing(asList(methods));
   }
 
   @CanIgnoreReturnValue

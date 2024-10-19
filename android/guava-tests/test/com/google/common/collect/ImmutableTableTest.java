@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -78,19 +79,17 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   public void testBuilder_withImmutableCell() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(
-        ImmutableTable.of('a', 1, "foo"), builder.put(Tables.immutableCell('a', 1, "foo")).build());
+        ImmutableTable.of('a', 1, "foo"), builder.put(immutableCell('a', 1, "foo")).build());
   }
 
   public void testBuilder_withImmutableCellAndNullContents() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.put(Tables.immutableCell((Character) null, 1, "foo")));
+        NullPointerException.class, () -> builder.put(immutableCell((Character) null, 1, "foo")));
     assertThrows(
-        NullPointerException.class,
-        () -> builder.put(Tables.immutableCell('a', (Integer) null, "foo")));
+        NullPointerException.class, () -> builder.put(immutableCell('a', (Integer) null, "foo")));
     assertThrows(
-        NullPointerException.class, () -> builder.put(Tables.immutableCell('a', 1, (String) null)));
+        NullPointerException.class, () -> builder.put(immutableCell('a', 1, (String) null)));
   }
 
   private static class StringHolder {

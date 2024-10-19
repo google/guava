@@ -21,12 +21,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import org.junit.Ignore;
 
 /**
@@ -67,7 +67,7 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_countIgnored() {
     resetContainer(getSubjectGenerator().create(e0(), e2(), e1(), e0()));
-    assertTrue(getList().retainAll(Arrays.asList(e0(), e1())));
+    assertTrue(getList().retainAll(asList(e0(), e1())));
     assertContentsInOrder(getList(), e0(), e1(), e0());
   }
 }

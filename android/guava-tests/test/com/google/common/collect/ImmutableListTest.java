@@ -361,7 +361,7 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testBuilderAddCollectionHandlesNulls() {
-    List<@Nullable String> elements = Arrays.asList("a", null, "b");
+    List<@Nullable String> elements = asList("a", null, "b");
     ImmutableList.Builder<String> builder = ImmutableList.builder();
     assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) elements));
     ImmutableList<String> result = builder.build();

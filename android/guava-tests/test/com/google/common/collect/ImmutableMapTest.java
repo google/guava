@@ -16,10 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -46,7 +48,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -279,16 +280,15 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {
     ImmutableMap<String, Integer> map =
-        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).buildOrThrow();
+        new Builder<String, Integer>().put(immutableEntry("one", 1)).buildOrThrow();
     assertMapEquals(map, "one", 1);
   }
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
-    assertThrows(
-        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
+        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
   }
 
   private static class StringHolder {
@@ -357,8 +357,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutImmutableEntryWithNullKeyFailsAtomically() {
     Builder<String, Integer> builder = new Builder<>();
-    assertThrows(
-        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
   }
@@ -879,7 +878,7 @@ public class ImmutableMapTest extends TestCase {
     IntHolder holderB = new IntHolder(2);
     Map<String, IntHolder> map = ImmutableMap.of("a", holderA, "b", holderB);
     holderA.value = 3;
-    assertTrue(map.entrySet().contains(Maps.immutableEntry("a", new IntHolder(3))));
+    assertTrue(map.entrySet().contains(immutableEntry("a", new IntHolder(3))));
     Map<String, Integer> intMap = ImmutableMap.of("a", 3, "b", 2);
     assertEquals(intMap.hashCode(), map.entrySet().hashCode());
     assertEquals(intMap.hashCode(), map.hashCode());
@@ -1036,8 +1035,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testCopyOfMutableEntryList() {
     List<Entry<String, String>> entryList =
-        Arrays.asList(
-            new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+        asList(new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
     ImmutableMap<String, String> map = ImmutableMap.copyOf(entryList);
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
     entryList.get(0).setValue("3");
@@ -1046,8 +1044,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutAllEntryList() {
     List<Entry<String, String>> entryList =
-        Arrays.asList(
-            new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+        asList(new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
     ImmutableMap<String, String> map =
         ImmutableMap.<String, String>builder().putAll(entryList).buildOrThrow();
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();

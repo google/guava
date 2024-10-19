@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -349,7 +350,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             });
 
     Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
-    assertTrue(entries.contains(Maps.immutableEntry("a", true)));
+    assertTrue(entries.contains(immutableEntry("a", true)));
     assertTrue(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("b", null)));
     assertTrue(
         entries.contains(Maps.<@Nullable String, @Nullable Boolean>immutableEntry(null, null)));

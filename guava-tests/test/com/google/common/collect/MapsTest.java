@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.transformEntries;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
@@ -567,14 +568,14 @@ public class MapsTest extends TestCase {
     SortedMapDifference<Integer, String> diff1 = Maps.difference(left, right);
     assertFalse(diff1.areEqual());
     assertThat(diff1.entriesOnlyOnLeft().entrySet())
-        .containsExactly(Maps.immutableEntry(4, "d"), Maps.immutableEntry(2, "b"))
+        .containsExactly(immutableEntry(4, "d"), immutableEntry(2, "b"))
         .inOrder();
-    assertThat(diff1.entriesOnlyOnRight().entrySet()).contains(Maps.immutableEntry(6, "z"));
-    assertThat(diff1.entriesInCommon().entrySet()).contains(Maps.immutableEntry(1, "a"));
+    assertThat(diff1.entriesOnlyOnRight().entrySet()).contains(immutableEntry(6, "z"));
+    assertThat(diff1.entriesInCommon().entrySet()).contains(immutableEntry(1, "a"));
     assertThat(diff1.entriesDiffering().entrySet())
         .containsExactly(
-            Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g")),
-            Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f")))
+            immutableEntry(5, ValueDifferenceImpl.create("e", "g")),
+            immutableEntry(3, ValueDifferenceImpl.create("c", "f")))
         .inOrder();
     assertEquals(
         "not equal: only on left={4=d, 2=b}: only on right={6=z}: "
@@ -583,11 +584,11 @@ public class MapsTest extends TestCase {
 
     SortedMapDifference<Integer, String> diff2 = Maps.difference(right, left);
     assertFalse(diff2.areEqual());
-    assertThat(diff2.entriesOnlyOnLeft().entrySet()).contains(Maps.immutableEntry(6, "z"));
+    assertThat(diff2.entriesOnlyOnLeft().entrySet()).contains(immutableEntry(6, "z"));
     assertThat(diff2.entriesOnlyOnRight().entrySet())
-        .containsExactly(Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d"))
+        .containsExactly(immutableEntry(2, "b"), immutableEntry(4, "d"))
         .inOrder();
-    assertThat(diff1.entriesInCommon().entrySet()).contains(Maps.immutableEntry(1, "a"));
+    assertThat(diff1.entriesInCommon().entrySet()).contains(immutableEntry(1, "a"));
     assertEquals(
         ImmutableMap.of(
             3, ValueDifferenceImpl.create("f", "c"),
@@ -609,14 +610,14 @@ public class MapsTest extends TestCase {
     left.put(6, "z");
     assertFalse(diff1.areEqual());
     assertThat(diff1.entriesOnlyOnLeft().entrySet())
-        .containsExactly(Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d"))
+        .containsExactly(immutableEntry(2, "b"), immutableEntry(4, "d"))
         .inOrder();
-    assertThat(diff1.entriesOnlyOnRight().entrySet()).contains(Maps.immutableEntry(6, "z"));
-    assertThat(diff1.entriesInCommon().entrySet()).contains(Maps.immutableEntry(1, "a"));
+    assertThat(diff1.entriesOnlyOnRight().entrySet()).contains(immutableEntry(6, "z"));
+    assertThat(diff1.entriesInCommon().entrySet()).contains(immutableEntry(1, "a"));
     assertThat(diff1.entriesDiffering().entrySet())
         .containsExactly(
-            Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f")),
-            Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g")))
+            immutableEntry(3, ValueDifferenceImpl.create("c", "f")),
+            immutableEntry(5, ValueDifferenceImpl.create("e", "g")))
         .inOrder();
     assertThrows(UnsupportedOperationException.class, () -> diff1.entriesInCommon().put(7, "x"));
     assertThrows(UnsupportedOperationException.class, () -> diff1.entriesOnlyOnLeft().put(7, "x"));
@@ -906,7 +907,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testToMapWithNullKeys() {
-    Iterable<@Nullable String> strings = Arrays.asList("one", null, "three");
+    Iterable<@Nullable String> strings = asList("one", null, "three");
     assertThrows(
         NullPointerException.class,
         () -> Maps.toMap((Iterable<String>) strings, Functions.constant("foo")));
@@ -1033,7 +1034,7 @@ public class MapsTest extends TestCase {
         new Properties() {
           @Override
           public Enumeration<?> propertyNames() {
-            return Iterators.asEnumeration(Arrays.asList(null, "first", "second").iterator());
+            return Iterators.asEnumeration(asList(null, "first", "second").iterator());
           }
         };
     properties.setProperty("first", "true");
@@ -1196,7 +1197,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testImmutableEntry() {
-    Entry<String, Integer> e = Maps.immutableEntry("foo", 1);
+    Entry<String, Integer> e = immutableEntry("foo", 1);
     assertEquals("foo", e.getKey());
     assertEquals(1, (int) e.getValue());
     assertThrows(UnsupportedOperationException.class, () -> e.setValue(2));
@@ -1205,8 +1206,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testImmutableEntryNull() {
-    Entry<@Nullable String, @Nullable Integer> e =
-        Maps.immutableEntry((String) null, (Integer) null);
+    Entry<@Nullable String, @Nullable Integer> e = immutableEntry((String) null, (Integer) null);
     assertNull(e.getKey());
     assertNull(e.getValue());
     assertThrows(UnsupportedOperationException.class, () -> e.setValue(null));

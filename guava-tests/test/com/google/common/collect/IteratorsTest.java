@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
@@ -227,7 +228,7 @@ public class IteratorsTest extends TestCase {
 
   public void testFilterSimple() {
     Iterator<String> unfiltered = Lists.newArrayList("foo", "bar").iterator();
-    Iterator<String> filtered = Iterators.filter(unfiltered, Predicates.equalTo("foo"));
+    Iterator<String> filtered = Iterators.filter(unfiltered, equalTo("foo"));
     List<String> expected = Collections.singletonList("foo");
     List<String> actual = Lists.newArrayList(filtered);
     assertEquals(expected, actual);
@@ -287,7 +288,7 @@ public class IteratorsTest extends TestCase {
 
   public void testAny() {
     List<String> list = Lists.newArrayList();
-    Predicate<String> predicate = Predicates.equalTo("pants");
+    Predicate<String> predicate = equalTo("pants");
 
     assertFalse(Iterators.any(list.iterator(), predicate));
     list.add("cool");
@@ -298,7 +299,7 @@ public class IteratorsTest extends TestCase {
 
   public void testAll() {
     List<String> list = Lists.newArrayList();
-    Predicate<String> predicate = Predicates.equalTo("cool");
+    Predicate<String> predicate = equalTo("cool");
 
     assertTrue(Iterators.all(list.iterator(), predicate));
     list.add("cool");
@@ -310,14 +311,14 @@ public class IteratorsTest extends TestCase {
   public void testFind_firstElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool", Iterators.find(iterator, Predicates.equalTo("cool")));
+    assertEquals("cool", Iterators.find(iterator, equalTo("cool")));
     assertEquals("pants", iterator.next());
   }
 
   public void testFind_lastElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("pants", Iterators.find(iterator, Predicates.equalTo("pants")));
+    assertEquals("pants", Iterators.find(iterator, equalTo("pants")));
     assertFalse(iterator.hasNext());
   }
 
@@ -338,14 +339,14 @@ public class IteratorsTest extends TestCase {
   public void testFind_withDefault_first() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool", Iterators.find(iterator, Predicates.equalTo("cool"), "woot"));
+    assertEquals("cool", Iterators.find(iterator, equalTo("cool"), "woot"));
     assertEquals("pants", iterator.next());
   }
 
   public void testFind_withDefault_last() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("pants", Iterators.find(iterator, Predicates.equalTo("pants"), "woot"));
+    assertEquals("pants", Iterators.find(iterator, equalTo("pants"), "woot"));
     assertFalse(iterator.hasNext());
   }
 
@@ -373,13 +374,13 @@ public class IteratorsTest extends TestCase {
   public void testTryFind_firstElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("cool"))).hasValue("cool");
+    assertThat(Iterators.tryFind(iterator, equalTo("cool"))).hasValue("cool");
   }
 
   public void testTryFind_lastElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("pants"))).hasValue("pants");
+    assertThat(Iterators.tryFind(iterator, equalTo("pants"))).hasValue("pants");
   }
 
   public void testTryFind_alwaysTrue() {
@@ -1493,14 +1494,14 @@ public class IteratorsTest extends TestCase {
 
   public void testIndexOf_consumedData() {
     Iterator<String> iterator = Lists.newArrayList("manny", "mo", "jack").iterator();
-    assertEquals(1, Iterators.indexOf(iterator, Predicates.equalTo("mo")));
+    assertEquals(1, Iterators.indexOf(iterator, equalTo("mo")));
     assertEquals("jack", iterator.next());
     assertFalse(iterator.hasNext());
   }
 
   public void testIndexOf_consumedDataWithDuplicates() {
     Iterator<String> iterator = Lists.newArrayList("manny", "mo", "mo", "jack").iterator();
-    assertEquals(1, Iterators.indexOf(iterator, Predicates.equalTo("mo")));
+    assertEquals(1, Iterators.indexOf(iterator, equalTo("mo")));
     assertEquals("mo", iterator.next());
     assertEquals("jack", iterator.next());
     assertFalse(iterator.hasNext());
@@ -1508,7 +1509,7 @@ public class IteratorsTest extends TestCase {
 
   public void testIndexOf_consumedDataNoMatch() {
     Iterator<String> iterator = Lists.newArrayList("manny", "mo", "mo", "jack").iterator();
-    assertEquals(-1, Iterators.indexOf(iterator, Predicates.equalTo("bob")));
+    assertEquals(-1, Iterators.indexOf(iterator, equalTo("bob")));
     assertFalse(iterator.hasNext());
   }
 

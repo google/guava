@@ -16,8 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.collect.Iterables.removeIf;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -64,9 +68,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testFromArrayAndIteratorRemove() {
     FluentIterable<TimeUnit> units = FluentIterable.from(TimeUnit.values());
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> Iterables.removeIf(units, Predicates.equalTo(SECONDS)));
+    assertThrows(UnsupportedOperationException.class, () -> removeIf(units, equalTo(SECONDS)));
   }
 
   public void testFrom() {
@@ -213,7 +215,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testContains_nullSetYes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<String> set = newHashSet("a", null, "b");
     assertTrue(FluentIterable.from(set).contains(null));
   }
 
@@ -233,12 +235,12 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testContains_nonNullSetYes() {
-    Iterable<String> set = Sets.newHashSet("a", null, "b");
+    Iterable<String> set = newHashSet("a", null, "b");
     assertTrue(FluentIterable.from(set).contains("b"));
   }
 
   public void testContains_nonNullSetNo() {
-    Iterable<String> set = Sets.newHashSet("a", "b");
+    Iterable<String> set = newHashSet("a", "b");
     assertFalse(FluentIterable.from(set).contains("c"));
   }
 
@@ -339,7 +341,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testFilter() {
     FluentIterable<String> filtered =
-        FluentIterable.from(asList("foo", "bar")).filter(Predicates.equalTo("foo"));
+        FluentIterable.from(asList("foo", "bar")).filter(equalTo("foo"));
 
     List<String> expected = Collections.singletonList("foo");
     List<String> actual = Lists.newArrayList(filtered);
@@ -366,7 +368,7 @@ public class FluentIterableTest extends TestCase {
   public void testAnyMatch() {
     ArrayList<String> list = Lists.newArrayList();
     FluentIterable<String> iterable = FluentIterable.<String>from(list);
-    Predicate<String> predicate = Predicates.equalTo("pants");
+    Predicate<String> predicate = equalTo("pants");
 
     assertFalse(iterable.anyMatch(predicate));
     list.add("cool");
@@ -378,7 +380,7 @@ public class FluentIterableTest extends TestCase {
   public void testAllMatch() {
     List<String> list = Lists.newArrayList();
     FluentIterable<String> iterable = FluentIterable.<String>from(list);
-    Predicate<String> predicate = Predicates.equalTo("cool");
+    Predicate<String> predicate = equalTo("cool");
 
     assertTrue(iterable.allMatch(predicate));
     list.add("cool");
@@ -389,8 +391,8 @@ public class FluentIterableTest extends TestCase {
 
   public void testFirstMatch() {
     FluentIterable<String> iterable = FluentIterable.from(Lists.newArrayList("cool", "pants"));
-    assertThat(iterable.firstMatch(Predicates.equalTo("cool"))).hasValue("cool");
-    assertThat(iterable.firstMatch(Predicates.equalTo("pants"))).hasValue("pants");
+    assertThat(iterable.firstMatch(equalTo("cool"))).hasValue("cool");
+    assertThat(iterable.firstMatch(equalTo("pants"))).hasValue("pants");
     assertThat(iterable.firstMatch(Predicates.alwaysFalse())).isAbsent();
     assertThat(iterable.firstMatch(Predicates.alwaysTrue())).hasValue("cool");
   }
@@ -497,7 +499,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFirst_emptyIterable() {
-    Set<String> set = Sets.newHashSet();
+    Set<String> set = newHashSet();
     assertThat(FluentIterable.from(set).first()).isAbsent();
   }
 
@@ -532,7 +534,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testLast_emptyIterable() {
-    Set<String> set = Sets.newHashSet();
+    Set<String> set = newHashSet();
     assertThat(FluentIterable.from(set).last()).isAbsent();
   }
 
@@ -725,8 +727,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testToMap() {
     assertThat(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
-        .containsExactly(
-            Maps.immutableEntry(1, "1"), Maps.immutableEntry(2, "2"), Maps.immutableEntry(3, "3"))
+        .containsExactly(immutableEntry(1, "1"), immutableEntry(2, "2"), immutableEntry(3, "3"))
         .inOrder();
   }
 
@@ -834,11 +835,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testCopyInto_set() {
-    assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2))).containsExactly(1, 2, 3, 5);
+    assertThat(fluent(1, 3, 5).copyInto(newHashSet(1, 2))).containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_setAllDuplicates() {
-    assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5))).containsExactly(1, 2, 3, 5);
+    assertThat(fluent(1, 3, 5).copyInto(newHashSet(1, 2, 3, 5))).containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_nonCollection() {

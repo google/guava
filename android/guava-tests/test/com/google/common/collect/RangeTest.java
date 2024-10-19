@@ -29,7 +29,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -605,9 +604,9 @@ public class RangeTest extends TestCase {
   }
 
   public void testEncloseAll() {
-    assertEquals(Range.closed(0, 0), Range.encloseAll(Arrays.asList(0)));
-    assertEquals(Range.closed(-3, 5), Range.encloseAll(Arrays.asList(5, -3)));
-    assertEquals(Range.closed(-3, 5), Range.encloseAll(Arrays.asList(1, 2, 2, 2, 5, -3, 0, -1)));
+    assertEquals(Range.closed(0, 0), Range.encloseAll(asList(0)));
+    assertEquals(Range.closed(-3, 5), Range.encloseAll(asList(5, -3)));
+    assertEquals(Range.closed(-3, 5), Range.encloseAll(asList(1, 2, 2, 2, 5, -3, 0, -1)));
   }
 
   public void testEncloseAll_empty() {

@@ -21,11 +21,11 @@ import static com.google.common.collect.testing.features.CollectionFeature.REJEC
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Ignore;
 
@@ -47,7 +47,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
     array[0] = null;
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 
@@ -58,7 +58,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
     array[1] = e0();
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 

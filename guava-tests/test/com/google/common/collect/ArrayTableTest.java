@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -424,9 +425,9 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   public void testCellReflectsChanges() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Cell<String, Integer, Character> cell = table.cellSet().iterator().next();
-    assertEquals(Tables.immutableCell("foo", 1, 'a'), cell);
+    assertEquals(immutableCell("foo", 1, 'a'), cell);
     assertEquals((Character) 'a', table.put("foo", 1, 'd'));
-    assertEquals(Tables.immutableCell("foo", 1, 'd'), cell);
+    assertEquals(immutableCell("foo", 1, 'd'), cell);
   }
 
   public void testRowMissing() {

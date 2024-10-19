@@ -33,7 +33,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -293,7 +292,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   @SafeVarargs
   @CanIgnoreReturnValue
   public final Ordered expect(Object... elements) {
-    return expect(Arrays.asList(elements));
+    return expect(asList(elements));
   }
 
   @CanIgnoreReturnValue

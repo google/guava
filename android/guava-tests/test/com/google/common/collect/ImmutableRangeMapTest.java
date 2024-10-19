@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
@@ -146,9 +147,9 @@ public class ImmutableRangeMapTest extends TestCase {
           for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
             Entry<Range<Integer>, Integer> expectedEntry = null;
             if (range1.contains(i)) {
-              expectedEntry = Maps.immutableEntry(range1, 1);
+              expectedEntry = immutableEntry(range1, 1);
             } else if (range2.contains(i)) {
-              expectedEntry = Maps.immutableEntry(range2, 2);
+              expectedEntry = immutableEntry(range2, 2);
             }
 
             assertEquals(expectedEntry, rangeMap.getEntry(i));

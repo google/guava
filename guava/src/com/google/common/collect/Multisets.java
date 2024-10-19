@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -1165,7 +1166,7 @@ public final class Multisets {
     // TODO(cpovirk): Consider storing an Entry<?> instead of Entry<E>.
     Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);
-    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));
+    return ImmutableMultiset.copyFromEntries(asList(entries));
   }
 
   private static final class DecreasingCount implements Comparator<Entry<?>> {

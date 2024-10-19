@@ -17,11 +17,11 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -226,23 +226,23 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
 
     Object[] entrySetToArray1 = entrySet.toArray();
     assertEquals(map.size(), entrySetToArray1.length);
-    assertTrue(Arrays.asList(entrySetToArray1).containsAll(entrySet));
+    assertTrue(asList(entrySetToArray1).containsAll(entrySet));
 
     Entry<?, ?>[] entrySetToArray2 = new Entry<?, ?>[map.size() + 2];
     entrySetToArray2[map.size()] = mapEntry("foo", 1);
     assertSame(entrySetToArray2, entrySet.toArray(entrySetToArray2));
     assertNull(entrySetToArray2[map.size()]);
-    assertTrue(Arrays.asList(entrySetToArray2).containsAll(entrySet));
+    assertTrue(asList(entrySetToArray2).containsAll(entrySet));
 
     Object[] valuesToArray1 = valueCollection.toArray();
     assertEquals(map.size(), valuesToArray1.length);
-    assertTrue(Arrays.asList(valuesToArray1).containsAll(valueCollection));
+    assertTrue(asList(valuesToArray1).containsAll(valueCollection));
 
     Object[] valuesToArray2 = new Object[map.size() + 2];
     valuesToArray2[map.size()] = "foo";
     assertSame(valuesToArray2, valueCollection.toArray(valuesToArray2));
     assertNull(valuesToArray2[map.size()]);
-    assertTrue(Arrays.asList(valuesToArray2).containsAll(valueCollection));
+    assertTrue(asList(valuesToArray2).containsAll(valueCollection));
 
     if (supportsValuesHashCode) {
       int expectedHash = 0;

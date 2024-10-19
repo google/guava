@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
@@ -1278,7 +1279,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     return new Itr<Entry<K, V>>() {
       @Override
       Entry<K, V> output(@ParametricNullness K key, @ParametricNullness V value) {
-        return Maps.immutableEntry(key, value);
+        return immutableEntry(key, value);
       }
     };
   }
@@ -1385,7 +1386,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
     Entry<K, Collection<V>> wrapEntry(Entry<K, Collection<V>> entry) {
       K key = entry.getKey();
-      return Maps.immutableEntry(key, wrapCollection(key, entry.getValue()));
+      return immutableEntry(key, wrapCollection(key, entry.getValue()));
     }
 
     @WeakOuter
@@ -1605,7 +1606,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       Collection<V> output = createCollection();
       output.addAll(entry.getValue());
       entryIterator.remove();
-      return Maps.immutableEntry(entry.getKey(), unmodifiableCollectionSubclass(output));
+      return immutableEntry(entry.getKey(), unmodifiableCollectionSubclass(output));
     }
 
     @Override

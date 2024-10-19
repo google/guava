@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.REJECTS_DUPLICATES_AT_CREATION;
 import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -31,7 +32,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import org.junit.Ignore;
@@ -124,8 +124,7 @@ public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
   private void expectFirstRemoved(Entry<K, V>[] entries) {
     resetMap(entries);
 
-    List<Entry<K, V>> expectedWithDuplicateRemoved =
-        Arrays.asList(entries).subList(1, getNumElements());
+    List<Entry<K, V>> expectedWithDuplicateRemoved = asList(entries).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 

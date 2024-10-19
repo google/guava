@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.max;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -59,7 +60,7 @@ public class CompactLinkedHashSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    return CompactLinkedHashSet.create(Arrays.asList(elements));
+                    return CompactLinkedHashSet.create(asList(elements));
                   }
                 })
             .named("CompactLinkedHashSet")

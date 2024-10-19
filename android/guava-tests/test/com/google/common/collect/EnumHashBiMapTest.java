@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -77,11 +78,11 @@ public class EnumHashBiMapTest extends TestCase {
     @Override
     public SampleElements<Entry<Country, String>> samples() {
       return new SampleElements<>(
-          Maps.immutableEntry(Country.CANADA, "DOLLAR"),
-          Maps.immutableEntry(Country.CHILE, "PESO"),
-          Maps.immutableEntry(Country.UK, "POUND"),
-          Maps.immutableEntry(Country.JAPAN, "YEN"),
-          Maps.immutableEntry(Country.SWITZERLAND, "FRANC"));
+          immutableEntry(Country.CANADA, "DOLLAR"),
+          immutableEntry(Country.CHILE, "PESO"),
+          immutableEntry(Country.UK, "POUND"),
+          immutableEntry(Country.JAPAN, "YEN"),
+          immutableEntry(Country.SWITZERLAND, "FRANC"));
     }
 
     @SuppressWarnings("unchecked")

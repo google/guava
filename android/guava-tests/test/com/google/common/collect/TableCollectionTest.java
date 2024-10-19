@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.immutableCell;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -383,11 +384,11 @@ public class TableCollectionTest extends TestCase {
                   @Override
                   public SampleElements<Cell<String, Integer, Character>> samples() {
                     return new SampleElements<>(
-                        Tables.immutableCell("bar", 1, 'a'),
-                        Tables.immutableCell("bar", 2, 'b'),
-                        Tables.immutableCell("bar", 3, (Character) null),
-                        Tables.immutableCell("bar", 4, 'b'),
-                        Tables.immutableCell("bar", 5, 'b'));
+                        immutableCell("bar", 1, 'a'),
+                        immutableCell("bar", 2, 'b'),
+                        immutableCell("bar", 3, (Character) null),
+                        immutableCell("bar", 4, 'b'),
+                        immutableCell("bar", 5, 'b'));
                   }
 
                   @Override
@@ -683,11 +684,11 @@ public class TableCollectionTest extends TestCase {
     @Override
     public SampleElements<Cell<String, Integer, Character>> samples() {
       return new SampleElements<>(
-          Tables.immutableCell("bar", 1, 'a'),
-          Tables.immutableCell("bar", 2, 'b'),
-          Tables.immutableCell("foo", 3, 'c'),
-          Tables.immutableCell("bar", 1, 'b'),
-          Tables.immutableCell("cat", 2, 'b'));
+          immutableCell("bar", 1, 'a'),
+          immutableCell("bar", 2, 'b'),
+          immutableCell("foo", 3, 'c'),
+          immutableCell("bar", 1, 'b'),
+          immutableCell("cat", 2, 'b'));
     }
 
     @Override

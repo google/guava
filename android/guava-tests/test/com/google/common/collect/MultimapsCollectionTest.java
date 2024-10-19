@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
@@ -174,11 +176,11 @@ public class MultimapsCollectionTest extends TestCase {
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
       return new SampleElements<>(
-          Maps.immutableEntry("bar", 1),
-          Maps.immutableEntry("bar", 2),
-          Maps.immutableEntry("foo", 3),
-          Maps.immutableEntry("bar", 3),
-          Maps.immutableEntry("cat", 2));
+          immutableEntry("bar", 1),
+          immutableEntry("bar", 2),
+          immutableEntry("foo", 3),
+          immutableEntry("bar", 3),
+          immutableEntry("cat", 2));
     }
 
     @Override
@@ -603,10 +605,8 @@ public class MultimapsCollectionTest extends TestCase {
                     multimap.put("foo", 17);
                     multimap.put("bar", 32);
                     multimap.put("foo", 16);
-                    multimap =
-                        Multimaps.filterKeys(multimap, Predicates.not(Predicates.equalTo("foo")));
-                    return Multimaps.filterKeys(
-                        multimap, Predicates.not(Predicates.equalTo("bar")));
+                    multimap = Multimaps.filterKeys(multimap, Predicates.not(equalTo("foo")));
+                    return Multimaps.filterKeys(multimap, Predicates.not(equalTo("bar")));
                   }
                 })
             .named("Multimaps.filterKeys[Multimaps.filterKeys[ListMultimap], Predicate]")
@@ -714,10 +714,8 @@ public class MultimapsCollectionTest extends TestCase {
                     ImmutableSetMultimap<String, Integer> badEntries =
                         ImmutableSetMultimap.of("foo", 314, "bar", 358);
                     multimap.putAll(badEntries);
-                    multimap =
-                        Multimaps.filterKeys(multimap, Predicates.not(Predicates.equalTo("foo")));
-                    multimap =
-                        Multimaps.filterKeys(multimap, Predicates.not(Predicates.equalTo("bar")));
+                    multimap = Multimaps.filterKeys(multimap, Predicates.not(equalTo("foo")));
+                    multimap = Multimaps.filterKeys(multimap, Predicates.not(equalTo("bar")));
                     return multimap;
                   }
                 })

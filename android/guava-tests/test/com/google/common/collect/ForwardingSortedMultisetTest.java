@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -22,7 +24,6 @@ import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -183,7 +184,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
                   @Override
                   protected Multiset<String> create(String[] elements) {
                     return new StandardImplForwardingSortedMultiset<>(
-                        TreeMultiset.create(Arrays.asList(elements)));
+                        TreeMultiset.create(asList(elements)));
                   }
 
                   @Override

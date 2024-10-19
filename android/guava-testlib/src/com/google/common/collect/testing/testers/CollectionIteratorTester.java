@@ -34,7 +34,6 @@ import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -60,7 +59,7 @@ public class CollectionIteratorTester<E extends @Nullable Object>
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
-    Helpers.assertEqualIgnoringOrder(Arrays.asList(createSamplesArray()), iteratorElements);
+    Helpers.assertEqualIgnoringOrder(asList(createSamplesArray()), iteratorElements);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)

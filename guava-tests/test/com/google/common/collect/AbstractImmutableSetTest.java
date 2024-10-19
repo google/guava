@@ -16,7 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -86,37 +88,37 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCreation_twoElements() {
     Set<String> set = of("a", "b");
-    assertEquals(Sets.newHashSet("a", "b"), set);
+    assertEquals(newHashSet("a", "b"), set);
   }
 
   public void testCreation_threeElements() {
     Set<String> set = of("a", "b", "c");
-    assertEquals(Sets.newHashSet("a", "b", "c"), set);
+    assertEquals(newHashSet("a", "b", "c"), set);
   }
 
   public void testCreation_fourElements() {
     Set<String> set = of("a", "b", "c", "d");
-    assertEquals(Sets.newHashSet("a", "b", "c", "d"), set);
+    assertEquals(newHashSet("a", "b", "c", "d"), set);
   }
 
   public void testCreation_fiveElements() {
     Set<String> set = of("a", "b", "c", "d", "e");
-    assertEquals(Sets.newHashSet("a", "b", "c", "d", "e"), set);
+    assertEquals(newHashSet("a", "b", "c", "d", "e"), set);
   }
 
   public void testCreation_sixElements() {
     Set<String> set = of("a", "b", "c", "d", "e", "f");
-    assertEquals(Sets.newHashSet("a", "b", "c", "d", "e", "f"), set);
+    assertEquals(newHashSet("a", "b", "c", "d", "e", "f"), set);
   }
 
   public void testCreation_sevenElements() {
     Set<String> set = of("a", "b", "c", "d", "e", "f", "g");
-    assertEquals(Sets.newHashSet("a", "b", "c", "d", "e", "f", "g"), set);
+    assertEquals(newHashSet("a", "b", "c", "d", "e", "f", "g"), set);
   }
 
   public void testCreation_eightElements() {
     Set<String> set = of("a", "b", "c", "d", "e", "f", "g", "h");
-    assertEquals(Sets.newHashSet("a", "b", "c", "d", "e", "f", "g", "h"), set);
+    assertEquals(newHashSet("a", "b", "c", "d", "e", "f", "g", "h"), set);
   }
 
   public void testCopyOf_emptyArray() {
@@ -476,7 +478,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
               inputIsSet
                   ? new MutatedOnQuerySet<>(infiniteSetsFromStartIndex)
                   : new MutatedOnQueryList<>(
-                      Iterables.transform(infiniteSetsFromStartIndex, ImmutableList::copyOf));
+                      transform(infiniteSetsFromStartIndex, ImmutableList::copyOf));
           Set<String> immutableCopy;
           try {
             immutableCopy = copyOf(input);

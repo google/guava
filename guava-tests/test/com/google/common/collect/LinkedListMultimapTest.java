@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -124,8 +125,8 @@ public class LinkedListMultimapTest extends TestCase {
     Multimap<String, Integer> multimap = create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
-    assertTrue(multimap.replaceValues("foo", Arrays.asList(2, 4)) instanceof RandomAccess);
-    assertTrue(multimap.replaceValues("bar", Arrays.asList(2, 4)) instanceof RandomAccess);
+    assertTrue(multimap.replaceValues("foo", asList(2, 4)) instanceof RandomAccess);
+    assertTrue(multimap.replaceValues("bar", asList(2, 4)) instanceof RandomAccess);
   }
 
   public void testCreateFromMultimap() {
@@ -333,18 +334,16 @@ public class LinkedListMultimapTest extends TestCase {
   public void testEntriesIteration() {
     List<Entry<String, Integer>> addItems =
         ImmutableList.of(
-            Maps.immutableEntry("foo", 99),
-            Maps.immutableEntry("foo", 88),
-            Maps.immutableEntry("bar", 77));
+            immutableEntry("foo", 99), immutableEntry("foo", 88), immutableEntry("bar", 77));
 
     for (final int startIndex : new int[] {0, 3, 5}) {
       List<Entry<String, Integer>> list =
           Lists.newArrayList(
-              Maps.immutableEntry("foo", 2),
-              Maps.immutableEntry("foo", 3),
-              Maps.immutableEntry("bar", 4),
-              Maps.immutableEntry("bar", 5),
-              Maps.immutableEntry("foo", 6));
+              immutableEntry("foo", 2),
+              immutableEntry("foo", 3),
+              immutableEntry("bar", 4),
+              immutableEntry("bar", 5),
+              immutableEntry("foo", 6));
       new ListIteratorTester<Entry<String, Integer>>(
           3, addItems, ImmutableList.of(SUPPORTS_REMOVE), list, startIndex) {
         private @Nullable LinkedListMultimap<String, Integer> multimap;
@@ -408,7 +407,7 @@ public class LinkedListMultimapTest extends TestCase {
         protected ListIterator<Integer> newTargetIterator() {
           multimap = create();
           multimap.put("bar", 2);
-          multimap.putAll("foo", Arrays.asList(3, 4));
+          multimap.putAll("foo", asList(3, 4));
           multimap.put("bar", 5);
           multimap.put("foo", 6);
           return multimap.values().listIterator(startIndex);
@@ -456,11 +455,11 @@ public class LinkedListMultimapTest extends TestCase {
     Set<Entry<String, Collection<Integer>>> set =
         Sets.newLinkedHashSet(
             asList(
-                Maps.immutableEntry("foo", (Collection<Integer>) asList(2, 3, 6)),
-                Maps.immutableEntry("bar", (Collection<Integer>) asList(4, 5, 10, 11)),
-                Maps.immutableEntry("baz", (Collection<Integer>) asList(7, 8)),
-                Maps.immutableEntry("dog", (Collection<Integer>) asList(9)),
-                Maps.immutableEntry("cat", (Collection<Integer>) asList(12, 13, 14))));
+                immutableEntry("foo", (Collection<Integer>) asList(2, 3, 6)),
+                immutableEntry("bar", (Collection<Integer>) asList(4, 5, 10, 11)),
+                immutableEntry("baz", (Collection<Integer>) asList(7, 8)),
+                immutableEntry("dog", (Collection<Integer>) asList(9)),
+                immutableEntry("cat", (Collection<Integer>) asList(12, 13, 14))));
 
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {

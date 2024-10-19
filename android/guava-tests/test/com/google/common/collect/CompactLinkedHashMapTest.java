@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.max;
 
@@ -137,7 +138,7 @@ public class CompactLinkedHashMapTest extends TestCase {
     for (int i = 0; i < map.size(); i++) {
       Object expectedKey = alternatingKeysAndValues[2 * i];
       Object expectedValue = alternatingKeysAndValues[2 * i + 1];
-      Entry<Object, Object> expectedEntry = Maps.immutableEntry(expectedKey, expectedValue);
+      Entry<Object, Object> expectedEntry = immutableEntry(expectedKey, expectedValue);
       assertEquals(expectedEntry, entries.get(i));
       assertEquals(expectedKey, keys.get(i));
       assertEquals(expectedValue, values.get(i));

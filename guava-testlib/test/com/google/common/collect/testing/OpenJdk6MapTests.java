@@ -27,9 +27,9 @@ import static com.google.common.collect.testing.testers.MapEntrySetTester.getCon
 import static com.google.common.collect.testing.testers.MapMergeTester.getMergeNullValueMethod;
 import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
+import static java.util.Arrays.asList;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
 
   @Override
   protected Collection<Method> suppressForTreeMapNatural() {
-    return Arrays.asList(
+    return asList(
         getPutNullKeyUnsupportedMethod(),
         getPutAllNullKeyUnsupportedMethod(),
         getCreateWithNullKeyUnsupportedMethod(),
@@ -71,7 +71,7 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
      * entrySet().add() tests tolerant of either behavior, introduce a map
      * feature for entrySet() that supports add(), or something else
      */
-    return Arrays.asList(
+    return asList(
         getAddUnsupportedNotPresentMethod(),
         getAddAllUnsupportedNonePresentMethod(),
         getAddAllUnsupportedSomePresentMethod());
@@ -88,6 +88,6 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
 
   @Override
   protected Collection<Method> suppressForHashtable() {
-    return Arrays.asList(getMergeNullValueMethod());
+    return asList(getMergeNullValueMethod());
   }
 }

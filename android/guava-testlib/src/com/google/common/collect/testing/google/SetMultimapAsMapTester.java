@@ -14,13 +14,13 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -74,8 +74,8 @@ public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nulla
     resetContainer(
         Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
     Map<K, Collection<V>> expected = Maps.newHashMap();
-    expected.put(k0(), Sets.newHashSet(v0(), v3()));
-    expected.put(k1(), Sets.newHashSet(v0()));
+    expected.put(k0(), newHashSet(v0(), v3()));
+    expected.put(k1(), newHashSet(v0()));
     new EqualsTester().addEqualityGroup(expected, multimap().asMap()).testEquals();
   }
 
@@ -83,9 +83,9 @@ public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nulla
   public void testEntrySetEquals() {
     resetContainer(
         Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
-    Set<Entry<K, Collection<V>>> expected = Sets.newHashSet();
-    expected.add(Helpers.mapEntry(k0(), (Collection<V>) Sets.newHashSet(v0(), v3())));
-    expected.add(Helpers.mapEntry(k1(), (Collection<V>) Sets.newHashSet(v0())));
+    Set<Entry<K, Collection<V>>> expected = newHashSet();
+    expected.add(Helpers.mapEntry(k0(), (Collection<V>) newHashSet(v0(), v3())));
+    expected.add(Helpers.mapEntry(k1(), (Collection<V>) newHashSet(v0())));
     new EqualsTester().addEqualityGroup(expected, multimap().asMap().entrySet()).testEquals();
   }
 
@@ -96,6 +96,6 @@ public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nulla
         Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
     assertTrue(multimap().asMap().values().remove(Collections.singleton(v0())));
     assertEquals(2, multimap().size());
-    assertEquals(Collections.singletonMap(k0(), Sets.newHashSet(v0(), v3())), multimap().asMap());
+    assertEquals(Collections.singletonMap(k0(), newHashSet(v0(), v3())), multimap().asMap());
   }
 }

@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -30,7 +31,6 @@ import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Ignore;
 
@@ -88,6 +88,6 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getCountDuplicateInitializingMethods() {
-    return Arrays.asList(Helpers.getMethod(MultisetCountTester.class, "testCount_3"));
+    return asList(Helpers.getMethod(MultisetCountTester.class, "testCount_3"));
   }
 }

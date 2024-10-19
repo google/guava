@@ -16,9 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.collect.Iterables.removeIf;
 import static com.google.common.collect.Iterables.skip;
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -106,12 +111,12 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_null_set_yes() {
-    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, null));
   }
 
   public void test_contains_null_set_no() {
-    Iterable<String> set = Sets.newHashSet("a", "b");
+    Iterable<String> set = newHashSet("a", "b");
     assertFalse(Iterables.contains(set, null));
   }
 
@@ -126,12 +131,12 @@ public class IterablesTest extends TestCase {
   }
 
   public void test_contains_nonnull_set_yes() {
-    Iterable<@Nullable String> set = Sets.newHashSet("a", null, "b");
+    Iterable<@Nullable String> set = newHashSet("a", null, "b");
     assertTrue(Iterables.contains(set, "b"));
   }
 
   public void test_contains_nonnull_set_no() {
-    Iterable<String> set = Sets.newHashSet("a", "b");
+    Iterable<String> set = newHashSet("a", "b");
     assertFalse(Iterables.contains(set, "c"));
   }
 
@@ -204,7 +209,7 @@ public class IterablesTest extends TestCase {
 
   public void testAny() {
     List<String> list = newArrayList();
-    Predicate<String> predicate = Predicates.equalTo("pants");
+    Predicate<String> predicate = equalTo("pants");
 
     assertFalse(Iterables.any(list, predicate));
     list.add("cool");
@@ -215,7 +220,7 @@ public class IterablesTest extends TestCase {
 
   public void testAll() {
     List<String> list = newArrayList();
-    Predicate<String> predicate = Predicates.equalTo("cool");
+    Predicate<String> predicate = equalTo("cool");
 
     assertTrue(Iterables.all(list, predicate));
     list.add("cool");
@@ -226,8 +231,8 @@ public class IterablesTest extends TestCase {
 
   public void testFind() {
     Iterable<String> list = newArrayList("cool", "pants");
-    assertEquals("cool", Iterables.find(list, Predicates.equalTo("cool")));
-    assertEquals("pants", Iterables.find(list, Predicates.equalTo("pants")));
+    assertEquals("cool", Iterables.find(list, equalTo("cool")));
+    assertEquals("pants", Iterables.find(list, equalTo("pants")));
     assertThrows(
         NoSuchElementException.class, () -> Iterables.find(list, Predicates.alwaysFalse()));
     assertEquals("cool", Iterables.find(list, Predicates.alwaysTrue()));
@@ -236,8 +241,8 @@ public class IterablesTest extends TestCase {
 
   public void testFind_withDefault() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
-    assertEquals("cool", Iterables.find(list, Predicates.equalTo("cool"), "woot"));
-    assertEquals("pants", Iterables.find(list, Predicates.equalTo("pants"), "woot"));
+    assertEquals("cool", Iterables.find(list, equalTo("cool"), "woot"));
+    assertEquals("pants", Iterables.find(list, equalTo("pants"), "woot"));
     assertEquals("woot", Iterables.find(list, Predicates.alwaysFalse(), "woot"));
     assertNull(Iterables.find(list, Predicates.alwaysFalse(), null));
     assertEquals("cool", Iterables.find(list, Predicates.alwaysTrue(), "woot"));
@@ -246,8 +251,8 @@ public class IterablesTest extends TestCase {
 
   public void testTryFind() {
     Iterable<String> list = newArrayList("cool", "pants");
-    assertThat(Iterables.tryFind(list, Predicates.equalTo("cool"))).hasValue("cool");
-    assertThat(Iterables.tryFind(list, Predicates.equalTo("pants"))).hasValue("pants");
+    assertThat(Iterables.tryFind(list, equalTo("cool"))).hasValue("cool");
+    assertThat(Iterables.tryFind(list, equalTo("pants"))).hasValue("pants");
     assertThat(Iterables.tryFind(list, Predicates.alwaysTrue())).hasValue("cool");
     assertThat(Iterables.tryFind(list, Predicates.alwaysFalse())).isAbsent();
     assertCanIterateAgain(list);
@@ -270,7 +275,7 @@ public class IterablesTest extends TestCase {
   public void testTransform_iterator() {
     List<String> input = asList("1", "2", "3");
     Iterable<Integer> result =
-        Iterables.transform(
+        transform(
             input,
             new Function<String, Integer>() {
               @Override
@@ -289,7 +294,7 @@ public class IterablesTest extends TestCase {
   public void testPoorlyBehavedTransform() {
     List<String> input = asList("1", "not a number", "3");
     Iterable<Integer> result =
-        Iterables.transform(
+        transform(
             input,
             new Function<String, Integer>() {
               @Override
@@ -307,7 +312,7 @@ public class IterablesTest extends TestCase {
   public void testNullFriendlyTransform() {
     List<@Nullable Integer> input = asList(1, 2, null, 3);
     Iterable<String> result =
-        Iterables.transform(
+        transform(
             input,
             new Function<@Nullable Integer, String>() {
               @Override
@@ -588,7 +593,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testSkip_removal() {
-    Collection<String> set = Sets.newHashSet("a", "b");
+    Collection<String> set = newHashSet("a", "b");
     Iterator<String> iterator = skip(set, 2).iterator();
     try {
       iterator.next();
@@ -848,7 +853,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGetLast_emptyIterable() {
-    Set<String> set = Sets.newHashSet();
+    Set<String> set = newHashSet();
     assertThrows(NoSuchElementException.class, () -> Iterables.getLast(set));
   }
 
@@ -883,7 +888,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testFrequency_set() {
-    Set<String> set = Sets.newHashSet("a", "b", "c");
+    Set<String> set = newHashSet("a", "b", "c");
     assertEquals(1, Iterables.frequency(set, "a"));
     assertEquals(1, Iterables.frequency(set, "b"));
     assertEquals(1, Iterables.frequency(set, "c"));
@@ -951,7 +956,7 @@ public class IterablesTest extends TestCase {
   public void testRemoveIf_randomAccess() {
     List<String> list = newArrayList("a", "b", "c", "d", "e");
     assertTrue(
-        Iterables.removeIf(
+        removeIf(
             list,
             new Predicate<String>() {
               @Override
@@ -961,7 +966,7 @@ public class IterablesTest extends TestCase {
             }));
     assertEquals(newArrayList("a", "c", "e"), list);
     assertFalse(
-        Iterables.removeIf(
+        removeIf(
             list,
             new Predicate<String>() {
               @Override
@@ -979,7 +984,7 @@ public class IterablesTest extends TestCase {
 
     assertTrue(uniqueList instanceof RandomAccess);
     assertTrue(
-        Iterables.removeIf(
+        removeIf(
             uniqueList,
             new Predicate<String>() {
               @Override
@@ -989,7 +994,7 @@ public class IterablesTest extends TestCase {
             }));
     assertEquals(newArrayList("a", "c", "e"), uniqueList);
     assertFalse(
-        Iterables.removeIf(
+        removeIf(
             uniqueList,
             new Predicate<String>() {
               @Override
@@ -1003,7 +1008,7 @@ public class IterablesTest extends TestCase {
   public void testRemoveIf_transformedList() {
     List<String> list = newArrayList("1", "2", "3", "4", "5");
     List<Integer> transformed =
-        Lists.transform(
+        transform(
             list,
             new Function<String, Integer>() {
               @Override
@@ -1012,7 +1017,7 @@ public class IterablesTest extends TestCase {
               }
             });
     assertTrue(
-        Iterables.removeIf(
+        removeIf(
             transformed,
             new Predicate<Integer>() {
               @Override
@@ -1022,7 +1027,7 @@ public class IterablesTest extends TestCase {
             }));
     assertEquals(newArrayList("1", "3", "5"), list);
     assertFalse(
-        Iterables.removeIf(
+        removeIf(
             transformed,
             new Predicate<Integer>() {
               @Override
@@ -1036,7 +1041,7 @@ public class IterablesTest extends TestCase {
   public void testRemoveIf_noRandomAccess() {
     List<String> list = Lists.newLinkedList(asList("a", "b", "c", "d", "e"));
     assertTrue(
-        Iterables.removeIf(
+        removeIf(
             list,
             new Predicate<String>() {
               @Override
@@ -1046,7 +1051,7 @@ public class IterablesTest extends TestCase {
             }));
     assertEquals(newArrayList("a", "c", "e"), list);
     assertFalse(
-        Iterables.removeIf(
+        removeIf(
             list,
             new Predicate<String>() {
               @Override
@@ -1067,7 +1072,7 @@ public class IterablesTest extends TestCase {
           }
         };
     assertTrue(
-        Iterables.removeIf(
+        removeIf(
             iterable,
             new Predicate<String>() {
               @Override
@@ -1077,7 +1082,7 @@ public class IterablesTest extends TestCase {
             }));
     assertEquals(newArrayList("a", "c", "e"), list);
     assertFalse(
-        Iterables.removeIf(
+        removeIf(
             iterable,
             new Predicate<String>() {
               @Override
@@ -1184,28 +1189,28 @@ public class IterablesTest extends TestCase {
 
   public void testIndexOf_empty() {
     List<String> list = new ArrayList<>();
-    assertEquals(-1, Iterables.indexOf(list, Predicates.equalTo("")));
+    assertEquals(-1, Iterables.indexOf(list, equalTo("")));
   }
 
   public void testIndexOf_oneElement() {
     List<String> list = Lists.newArrayList("bob");
-    assertEquals(0, Iterables.indexOf(list, Predicates.equalTo("bob")));
-    assertEquals(-1, Iterables.indexOf(list, Predicates.equalTo("jack")));
+    assertEquals(0, Iterables.indexOf(list, equalTo("bob")));
+    assertEquals(-1, Iterables.indexOf(list, equalTo("jack")));
   }
 
   public void testIndexOf_twoElements() {
     List<String> list = Lists.newArrayList("mary", "bob");
-    assertEquals(0, Iterables.indexOf(list, Predicates.equalTo("mary")));
-    assertEquals(1, Iterables.indexOf(list, Predicates.equalTo("bob")));
-    assertEquals(-1, Iterables.indexOf(list, Predicates.equalTo("jack")));
+    assertEquals(0, Iterables.indexOf(list, equalTo("mary")));
+    assertEquals(1, Iterables.indexOf(list, equalTo("bob")));
+    assertEquals(-1, Iterables.indexOf(list, equalTo("jack")));
   }
 
   public void testIndexOf_withDuplicates() {
     List<String> list = Lists.newArrayList("mary", "bob", "bob", "bob", "sam");
-    assertEquals(0, Iterables.indexOf(list, Predicates.equalTo("mary")));
-    assertEquals(1, Iterables.indexOf(list, Predicates.equalTo("bob")));
-    assertEquals(4, Iterables.indexOf(list, Predicates.equalTo("sam")));
-    assertEquals(-1, Iterables.indexOf(list, Predicates.equalTo("jack")));
+    assertEquals(0, Iterables.indexOf(list, equalTo("mary")));
+    assertEquals(1, Iterables.indexOf(list, equalTo("bob")));
+    assertEquals(4, Iterables.indexOf(list, equalTo("sam")));
+    assertEquals(-1, Iterables.indexOf(list, equalTo("jack")));
   }
 
   private static final Predicate<CharSequence> STARTSWITH_A =

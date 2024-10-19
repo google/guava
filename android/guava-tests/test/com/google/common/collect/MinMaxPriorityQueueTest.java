@@ -20,7 +20,9 @@ import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Platform.reduceExponentIfGwt;
 import static com.google.common.collect.Platform.reduceIterationsIfGwt;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -72,7 +74,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
                 new TestStringQueueGenerator() {
                   @Override
                   protected Queue<String> create(String[] elements) {
-                    return MinMaxPriorityQueue.create(Arrays.asList(elements));
+                    return MinMaxPriorityQueue.create(asList(elements));
                   }
                 })
             .named("MinMaxPriorityQueue")
@@ -524,7 +526,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
           @Override
           protected void verify(List<T> elements) {
-            assertEquals(Sets.newHashSet(elements), Sets.newHashSet(mmHeap.iterator()));
+            assertEquals(newHashSet(elements), newHashSet(mmHeap.iterator()));
             assertIntact(mmHeap);
           }
         };

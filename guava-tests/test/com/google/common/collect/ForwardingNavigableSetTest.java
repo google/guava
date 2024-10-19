@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.base.Function;
 import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -24,7 +26,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -170,7 +171,7 @@ public class ForwardingNavigableSetTest extends TestCase {
                   @Override
                   protected Set<String> create(String[] elements) {
                     return new StandardImplForwardingNavigableSet<>(
-                        new SafeTreeSet<String>(Arrays.asList(elements)));
+                        new SafeTreeSet<String>(asList(elements)));
                   }
 
                   @Override
