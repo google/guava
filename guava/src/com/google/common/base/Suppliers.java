@@ -154,11 +154,18 @@ public final class Suppliers {
       return uncheckedCastNullableTToT(value);
     }
 
+    /**
+     * Returns whether the value has been memoized without triggering memoization.
+     */
+    public boolean isMemoized() {
+      return initialized;
+    }
+
     @Override
     public String toString() {
       return "Suppliers.memoize("
-          + (initialized ? "<supplier that returned " + value + ">" : delegate)
-          + ")";
+              + (initialized ? "<supplier that returned " + value + ">" : delegate)
+              + ")";
     }
 
     @GwtIncompatible // serialization
@@ -170,6 +177,7 @@ public final class Suppliers {
 
     private static final long serialVersionUID = 0;
   }
+
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
