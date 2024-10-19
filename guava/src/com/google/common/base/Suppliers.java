@@ -181,6 +181,21 @@ public final class Suppliers {
       return initialized ? value : null;
     }
 
+    /**
+     * Attempts to refresh the memoized value by recomputing it. This method forces recomputation
+     * even if the value was previously memoized, and it can be used to ensure the value is up to date.
+     * The recomputation occurs only if the current thread successfully acquires the lock.
+     */
+    public void refresh() {
+      synchronized (lock) {
+        T oldValue = value;
+        value = delegate.get();
+        initialized = true;
+        if (!value.equals(oldValue)) {
+          System.out.println("Memoized value has been refreshed from " + oldValue + " to " + value);
+        }
+      }
+    }
     @Override
     public String toString() {
       return "Suppliers.memoize("
