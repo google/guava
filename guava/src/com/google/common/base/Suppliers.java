@@ -161,6 +161,26 @@ public final class Suppliers {
       return initialized;
     }
 
+    /**
+     * Resets the memoized value, allowing the supplier to recompute its value.
+     * This can be useful in cases where the value needs to be refreshed.
+     */
+    public void reset() {
+      synchronized (lock) {
+        initialized = false;
+        value = null;
+      }
+    }
+
+    /**
+     * Returns the memoized value if it has been initialized, otherwise returns {@code null}.
+     * This method does not trigger memoization.
+     */
+    @CheckForNull
+    public T getIfMemoized() {
+      return initialized ? value : null;
+    }
+
     @Override
     public String toString() {
       return "Suppliers.memoize("
@@ -177,6 +197,7 @@ public final class Suppliers {
 
     private static final long serialVersionUID = 0;
   }
+
 
 
   @VisibleForTesting
