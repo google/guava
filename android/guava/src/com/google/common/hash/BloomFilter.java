@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -448,7 +449,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   @VisibleForTesting
   static int optimalNumOfHashFunctions(long n, long m) {
     // (m / n) * log(2), but avoid truncation due to division!
-    return Math.max(1, (int) Math.round((double) m / n * Math.log(2)));
+    return max(1, (int) Math.round((double) m / n * Math.log(2)));
   }
 
   /**

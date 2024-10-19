@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.math.IntMath.divide;
 import static com.google.common.math.IntMath.log2;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -685,7 +687,7 @@ public abstract class BaseEncoding {
       checkNotNull(target);
       checkPositionIndexes(off, off + len, bytes.length);
       for (int i = 0; i < len; i += alphabet.bytesPerChunk) {
-        encodeChunkTo(target, bytes, off + i, Math.min(alphabet.bytesPerChunk, len - i));
+        encodeChunkTo(target, bytes, off + i, min(alphabet.bytesPerChunk, len - i));
       }
     }
 
@@ -1159,7 +1161,7 @@ public abstract class BaseEncoding {
     int maxEncodedSize(int bytes) {
       int unseparatedSize = delegate.maxEncodedSize(bytes);
       return unseparatedSize
-          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);
+          + separator.length() * divide(max(0, unseparatedSize - 1), afterEveryChars, FLOOR);
     }
 
     @J2ktIncompatible

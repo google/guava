@@ -25,6 +25,7 @@ import static com.google.common.math.MathTesting.NONZERO_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.math.TestPlatform.intsCanGoOutOfRange;
+import static java.lang.Math.min;
 import static java.math.BigInteger.valueOf;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -121,7 +122,7 @@ public class IntMathTest extends TestCase {
     for (int i = 0; i < IntMath.halfPowersOf10.length; i++) {
       assertEquals(
           IntMath.halfPowersOf10[i],
-          Math.min(
+          min(
               Integer.MAX_VALUE,
               BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue()));
     }

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -100,7 +101,7 @@ public class FakeTicker extends Ticker {
   @CanIgnoreReturnValue
   @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
-    return setAutoIncrementStep(autoIncrementStep.toNanos(), TimeUnit.NANOSECONDS);
+    return setAutoIncrementStep(autoIncrementStep.toNanos(), NANOSECONDS);
   }
 
   @Override

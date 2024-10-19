@@ -714,7 +714,7 @@ public final class ByteStreams {
 
     @Override
     public int available() throws IOException {
-      return (int) Math.min(in.available(), left);
+      return (int) min(in.available(), left);
     }
 
     // it's okay to mark even if mark isn't supported, as reset won't work
@@ -743,7 +743,7 @@ public final class ByteStreams {
         return -1;
       }
 
-      len = (int) Math.min(len, left);
+      len = (int) min(len, left);
       int result = in.read(b, off, len);
       if (result != -1) {
         left -= result;
@@ -766,7 +766,7 @@ public final class ByteStreams {
 
     @Override
     public long skip(long n) throws IOException {
-      n = Math.min(n, left);
+      n = min(n, left);
       long skipped = in.skip(n);
       left -= skipped;
       return skipped;
@@ -840,7 +840,7 @@ public final class ByteStreams {
       if (skipped == 0) {
         // Do a buffered read since skipSafely could return 0 repeatedly, for example if
         // in.available() always returns 0 (the default).
-        int skip = (int) Math.min(remaining, BUFFER_SIZE);
+        int skip = (int) min(remaining, BUFFER_SIZE);
         if (buf == null) {
           // Allocate a buffer bounded by the maximum size that can be requested, for
           // example an array of BUFFER_SIZE is unnecessary when the value of remaining
@@ -868,7 +868,7 @@ public final class ByteStreams {
    */
   private static long skipSafely(InputStream in, long n) throws IOException {
     int available = in.available();
-    return available == 0 ? 0 : in.skip(Math.min(available, n));
+    return available == 0 ? 0 : in.skip(min(available, n));
   }
 
   /**

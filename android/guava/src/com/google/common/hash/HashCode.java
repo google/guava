@@ -17,9 +17,10 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.primitives.Ints.min;
+import static java.lang.Math.min;
 
 import com.google.common.base.Preconditions;
-import com.google.common.primitives.Ints;
 import com.google.common.primitives.UnsignedInts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
@@ -83,7 +84,7 @@ public abstract class HashCode {
    */
   @CanIgnoreReturnValue
   public int writeBytesTo(byte[] dest, int offset, int maxLength) {
-    maxLength = Ints.min(maxLength, bits() / 8);
+    maxLength = min(maxLength, bits() / 8);
     Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);
     writeBytesToImpl(dest, offset, maxLength);
     return maxLength;
@@ -289,7 +290,7 @@ public abstract class HashCode {
     @Override
     public long padToLong() {
       long retVal = (bytes[0] & 0xFF);
-      for (int i = 1; i < Math.min(bytes.length, 8); i++) {
+      for (int i = 1; i < min(bytes.length, 8); i++) {
         retVal |= (bytes[i] & 0xFFL) << (i * 8);
       }
       return retVal;

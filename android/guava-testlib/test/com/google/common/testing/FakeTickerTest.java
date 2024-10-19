@@ -17,6 +17,9 @@
 package com.google.common.testing;
 
 import static com.google.common.testing.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -54,7 +57,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(0, ticker.read());
     assertSame(ticker, ticker.advance(10));
     assertEquals(10, ticker.read());
-    ticker.advance(1, TimeUnit.MILLISECONDS);
+    ticker.advance(1, MILLISECONDS);
     assertEquals(1000010L, ticker.read());
     ticker.advance(Duration.ofMillis(1));
     assertEquals(2000010L, ticker.read());
@@ -62,25 +65,25 @@ public class FakeTickerTest extends TestCase {
 
   public void testAutoIncrementStep_returnsSameInstance() {
     FakeTicker ticker = new FakeTicker();
-    assertSame(ticker, ticker.setAutoIncrementStep(10, TimeUnit.NANOSECONDS));
+    assertSame(ticker, ticker.setAutoIncrementStep(10, NANOSECONDS));
   }
 
   public void testAutoIncrementStep_nanos() {
-    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(10, TimeUnit.NANOSECONDS);
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(10, NANOSECONDS);
     assertEquals(0, ticker.read());
     assertEquals(10, ticker.read());
     assertEquals(20, ticker.read());
   }
 
   public void testAutoIncrementStep_millis() {
-    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(1, TimeUnit.MILLISECONDS);
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(1, MILLISECONDS);
     assertEquals(0, ticker.read());
     assertEquals(1000000, ticker.read());
     assertEquals(2000000, ticker.read());
   }
 
   public void testAutoIncrementStep_seconds() {
-    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(3, TimeUnit.SECONDS);
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(3, SECONDS);
     assertEquals(0, ticker.read());
     assertEquals(3000000000L, ticker.read());
     assertEquals(6000000000L, ticker.read());
@@ -96,7 +99,7 @@ public class FakeTickerTest extends TestCase {
   }
 
   public void testAutoIncrementStep_resetToZero() {
-    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(10, TimeUnit.NANOSECONDS);
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(10, NANOSECONDS);
     assertEquals(0, ticker.read());
     assertEquals(10, ticker.read());
     assertEquals(20, ticker.read());
@@ -113,8 +116,7 @@ public class FakeTickerTest extends TestCase {
   public void testAutoIncrement_negative() {
     FakeTicker ticker = new FakeTicker();
     assertThrows(
-        IllegalArgumentException.class,
-        () -> ticker.setAutoIncrementStep(-1, TimeUnit.NANOSECONDS));
+        IllegalArgumentException.class, () -> ticker.setAutoIncrementStep(-1, NANOSECONDS));
   }
 
   @GwtIncompatible // concurrency
@@ -143,8 +145,7 @@ public class FakeTickerTest extends TestCase {
 
   public void testConcurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
-    final FakeTicker ticker =
-        new FakeTicker().setAutoIncrementStep(incrementByNanos, TimeUnit.NANOSECONDS);
+    final FakeTicker ticker = new FakeTicker().setAutoIncrementStep(incrementByNanos, NANOSECONDS);
 
     int numberOfThreads = 64;
     runConcurrentTest(
