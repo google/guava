@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.63">MoreExecutors</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.65">MoreExecutors</a>
 extends java.lang.Object</pre>
 <div class="block">Factory and utility methods for <code>Executor</code>, <code>ExecutorService</code>,
  and <code>ThreadFactory</code>.</div>
@@ -173,13 +173,21 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addDelayedShutdownHook(java.util.concurrent.ExecutorService,java.time.Duration)">addDelayedShutdownHook</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                      java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.Executor</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#directExecutor()">directExecutor</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an <code>Executor</code> that runs each task in the thread that invokes <code>execute</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor)</code></th>
 <td class="colLast">
@@ -187,7 +195,7 @@ extends java.lang.Object</pre>
  is complete.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
                          long&nbsp;terminationTimeout,
@@ -197,7 +205,16 @@ extends java.lang.Object</pre>
  is complete.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>static java.util.concurrent.ExecutorService</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,java.time.Duration)">getExitingExecutorService</a></span>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
+                         java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor)</code></th>
 <td class="colLast">
@@ -205,7 +222,7 @@ extends java.lang.Object</pre>
  the application is complete.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
                                   long&nbsp;terminationTimeout,
@@ -215,7 +232,16 @@ extends java.lang.Object</pre>
  the application is complete.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>static java.util.concurrent.ScheduledExecutorService</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,java.time.Duration)">getExitingScheduledExecutorService</a></span>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
+                                  java.time.Duration&nbsp;terminationTimeout)</code></th>
+<td class="colLast">
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listeningDecorator(java.util.concurrent.ExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -223,7 +249,7 @@ extends java.lang.Object</pre>
  <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listeningDecorator(java.util.concurrent.ScheduledExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ScheduledExecutorService&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -231,7 +257,7 @@ extends java.lang.Object</pre>
  submit <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newDirectExecutorService()">newDirectExecutorService</a></span>()</code></th>
 <td class="colLast">
@@ -239,7 +265,7 @@ extends java.lang.Object</pre>
  execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static java.util.concurrent.Executor</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newSequentialExecutor(java.util.concurrent.Executor)">newSequentialExecutor</a></span>&#8203;(java.util.concurrent.Executor&nbsp;delegate)</code></th>
 <td class="colLast">
@@ -247,18 +273,27 @@ extends java.lang.Object</pre>
  are running concurrently.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static java.util.concurrent.ThreadFactory</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#platformThreadFactory()">platformThreadFactory</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a default thread factory used to create new threads.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                            long&nbsp;timeout,
                            java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.</div>
+</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,java.time.Duration)">shutdownAndAwaitTermination</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                           java.time.Duration&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
  necessary, cancelling remaining tasks.</div>
@@ -288,6 +323,32 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExitingExecutorService</h4>
+<pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.83">getExitingExecutorService</a>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
+                                                                             java.time.Duration&nbsp;terminationTimeout)</pre>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+ completion.
+
+ <p>This is mainly for fixed thread pools. See <code>Executors.newFixedThreadPool(int)</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
+<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
+     JVM</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an unmodifiable version of the input which will not hang the JVM</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.0 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
 <a id="getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">
 <!--   -->
 </a>
@@ -295,7 +356,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getExitingExecutorService</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.81">getExitingExecutorService</a>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
+public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.106">getExitingExecutorService</a>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor,
                                                                              long&nbsp;terminationTimeout,
                                                                              java.util.concurrent.TimeUnit&nbsp;timeUnit)</pre>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
@@ -321,7 +382,7 @@ public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../.
 <li class="blockList">
 <h4>getExitingExecutorService</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.102">getExitingExecutorService</a>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor)</pre>
+public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.127">getExitingExecutorService</a>&#8203;(java.util.concurrent.ThreadPoolExecutor&nbsp;executor)</pre>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
  is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
  completion.
@@ -338,6 +399,32 @@ public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../.
 </dl>
 </li>
 </ul>
+<a id="getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExitingScheduledExecutorService</h4>
+<pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.146">getExitingScheduledExecutorService</a>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
+                                                                                               java.time.Duration&nbsp;terminationTimeout)</pre>
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete. It does so by using daemon threads and adding a shutdown hook to
+ wait for their completion.
+
+ <p>This is mainly for fixed thread pools. See <code>Executors.newScheduledThreadPool(int)</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
+<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
+     JVM</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an unmodifiable version of the input which will not hang the JVM</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.0 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
 <a id="getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">
 <!--   -->
 </a>
@@ -345,7 +432,7 @@ public static&nbsp;java.util.concurrent.ExecutorService&nbsp;<a href="../../../.
 <li class="blockList">
 <h4>getExitingScheduledExecutorService</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.121">getExitingScheduledExecutorService</a>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
+public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.169">getExitingScheduledExecutorService</a>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor,
                                                                                                long&nbsp;terminationTimeout,
                                                                                                java.util.concurrent.TimeUnit&nbsp;timeUnit)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
@@ -371,7 +458,7 @@ public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href=".
 <li class="blockList">
 <h4>getExitingScheduledExecutorService</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.143">getExitingScheduledExecutorService</a>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor)</pre>
+public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.191">getExitingScheduledExecutorService</a>&#8203;(java.util.concurrent.ScheduledThreadPoolExecutor&nbsp;executor)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete. It does so by using daemon threads and adding a shutdown hook to
  wait for their completion.
@@ -388,6 +475,29 @@ public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href=".
 </dl>
 </li>
 </ul>
+<a id="addDelayedShutdownHook(java.util.concurrent.ExecutorService,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addDelayedShutdownHook</h4>
+<pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.209">addDelayedShutdownHook</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                                          java.time.Duration&nbsp;terminationTimeout)</pre>
+<div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.
+ This is useful if the given service uses daemon threads, and we want to keep the JVM from
+ exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+ normally.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>service</code> - ExecutorService which uses daemon threads</dd>
+<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
+     JVM</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.0 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
 <a id="addDelayedShutdownHook(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">
 <!--   -->
 </a>
@@ -395,7 +505,7 @@ public static&nbsp;java.util.concurrent.ScheduledExecutorService&nbsp;<a href=".
 <li class="blockList">
 <h4>addDelayedShutdownHook</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.161">addDelayedShutdownHook</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.228">addDelayedShutdownHook</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                                           long&nbsp;terminationTimeout,
                                           java.util.concurrent.TimeUnit&nbsp;timeUnit)</pre>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.
@@ -418,7 +528,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>newDirectExecutorService</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.267">newDirectExecutorService</a>()</pre>
+public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.334">newDirectExecutorService</a>()</pre>
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>
  execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>. This applies both to
  individually submitted tasks and to collections of tasks submitted via <code>invokeAll</code> or
@@ -453,7 +563,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>directExecutor</h4>
-<pre class="methodSignature">public static&nbsp;java.util.concurrent.Executor&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.333">directExecutor</a>()</pre>
+<pre class="methodSignature">public static&nbsp;java.util.concurrent.Executor&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.400">directExecutor</a>()</pre>
 <div class="block">Returns an <code>Executor</code> that runs each task in the thread that invokes <code>execute</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.
 
  <p>This executor is appropriate for tasks that are lightweight and not deeply chained.
@@ -522,7 +632,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <li class="blockList">
 <h4>newSequentialExecutor</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.Executor&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.381">newSequentialExecutor</a>&#8203;(java.util.concurrent.Executor&nbsp;delegate)</pre>
+public static&nbsp;java.util.concurrent.Executor&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.448">newSequentialExecutor</a>&#8203;(java.util.concurrent.Executor&nbsp;delegate)</pre>
 <div class="block">Returns an <code>Executor</code> that runs each task executed sequentially, such that no two tasks
  are running concurrently.
 
@@ -575,7 +685,7 @@ public static&nbsp;java.util.concurrent.Executor&nbsp;<a href="../../../../../sr
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.401">listeningDecorator</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</pre>
+public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.468">listeningDecorator</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</pre>
 <div class="block">Creates an <code>ExecutorService</code> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as well
  as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>
@@ -600,7 +710,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.427">listeningDecorator</a>&#8203;(java.util.concurrent.ScheduledExecutorService&nbsp;delegate)</pre>
+public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.494">listeningDecorator</a>&#8203;(java.util.concurrent.ScheduledExecutorService&nbsp;delegate)</pre>
 <div class="block">Creates a <code>ScheduledExecutorService</code> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as
  well as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>
@@ -626,7 +736,7 @@ public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="inter
 <li class="blockList">
 <h4>platformThreadFactory</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.720">platformThreadFactory</a>()</pre>
+public static&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.806">platformThreadFactory</a>()</pre>
 <div class="block">Returns a default thread factory used to create new threads.
 
  <p>When running on AppEngine with access to <a href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
@@ -638,6 +748,42 @@ public static&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../
 </dl>
 </li>
 </ul>
+<a id="shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,java.time.Duration)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shutdownAndAwaitTermination</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.987">shutdownAndAwaitTermination</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+                                                  java.time.Duration&nbsp;timeout)</pre>
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.
+
+ <p>The method takes the following steps:
+
+ <ol>
+   <li>calls <code>ExecutorService.shutdown()</code>, disabling acceptance of new submitted tasks.
+   <li>awaits executor service termination for half of the specified timeout.
+   <li>if the timeout expires, it calls <code>ExecutorService.shutdownNow()</code>, cancelling
+       pending tasks and interrupting running tasks.
+   <li>awaits executor service termination for the other half of the specified timeout.
+ </ol>
+
+ <p>If, at any step of the process, the calling thread is interrupted, the method calls <code>ExecutorService.shutdownNow()</code> and returns.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>service</code> - the <code>ExecutorService</code> to shut down</dd>
+<dd><code>timeout</code> - the maximum time to wait for the <code>ExecutorService</code> to terminate</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if the <code>ExecutorService</code> was terminated successfully, <code>false</code>
+     if the call timed out or was interrupted</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.0 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
 <a id="shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">
 <!--   -->
 </a>
@@ -646,7 +792,7 @@ public static&nbsp;java.util.concurrent.ThreadFactory&nbsp;<a href="../../../../
 <h4>shutdownAndAwaitTermination</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.902">shutdownAndAwaitTermination</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1020">shutdownAndAwaitTermination</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;service,
                                                   long&nbsp;timeout,
                                                   java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if

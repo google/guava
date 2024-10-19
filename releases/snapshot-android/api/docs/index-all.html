@@ -752,6 +752,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#addDelayedShutdownHook(java.util.concurrent.ExecutorService,java.time.Duration)">addDelayedShutdownHook(ExecutorService, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Add a shutdown hook to wait for thread completion in the given <code>service</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableNetwork.Builder.html#addEdge(com.google.common.graph.EndpointPair,E)">addEdge(EndpointPair&lt;N&gt;, E)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph">ImmutableNetwork.Builder</a></dt>
 <dd>
 <div class="block">Adds <code>edge</code> connecting <code>endpoints</code>.</div>
@@ -1755,6 +1759,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Waits for the <a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> to become <a href="com/google/common/util/concurrent/ServiceManager.html#isHealthy()">healthy</a> for no more
  than the given time.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#awaitHealthy(java.time.Duration)">awaitHealthy(Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
+<dd>
+<div class="block">Waits for the <a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> to become <a href="com/google/common/util/concurrent/ServiceManager.html#isHealthy()">healthy</a> for no more
+ than the given time.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractExecutionThreadService.html#awaitRunning()">awaitRunning()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent">AbstractExecutionThreadService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractIdleService.html#awaitRunning()">awaitRunning()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractIdleService.html" title="class in com.google.common.util.concurrent">AbstractIdleService</a></dt>
@@ -1785,6 +1794,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Waits for the all the services to reach a terminal state.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#awaitStopped(long,java.util.concurrent.TimeUnit)">awaitStopped(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
+<dd>
+<div class="block">Waits for the all the services to reach a terminal state for no more than the given time.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#awaitStopped(java.time.Duration)">awaitStopped(Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
 <dd>
 <div class="block">Waits for the all the services to reach a terminal state for no more than the given time.</div>
 </dd>
@@ -1822,6 +1835,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,java.time.Duration)">awaitTerminationUninterruptibly(ExecutorService, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch)">awaitUninterruptibly(CountDownLatch)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
@@ -1831,7 +1848,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.CountDownLatch,java.time.Duration)">awaitUninterruptibly(CountDownLatch, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly(Condition, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
+ uninterruptibly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,java.time.Duration)">awaitUninterruptibly(Condition, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
@@ -4975,6 +5002,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
  rate at the end of the period (as long as there are enough requests to saturate it).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/RateLimiter.html#create(double,java.time.Duration)">create(double, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></dt>
+<dd>
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+ during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
+ rate at the end of the period (as long as there are enough requests to saturate it).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/EvictingQueue.html#create(int)">create(int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a></dt>
 <dd>
 <div class="block">Creates and returns a new evicting queue that will hold up to <code>maxSize</code> elements.</div>
@@ -6015,11 +6049,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Enters this monitor.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enter(java.time.Duration)">enter(Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterIf(com.google.common.util.concurrent.Monitor.Guard)">enterIf(Monitor.Guard)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterIf(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterIf(Monitor.Guard, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterIf(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterIf(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </dd>
@@ -6031,11 +6073,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterIfInterruptibly(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterInterruptibly()">enterInterruptibly()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterInterruptibly(long,java.util.concurrent.TimeUnit)">enterInterruptibly(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterInterruptibly(java.time.Duration)">enterInterruptibly(Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor.</div>
 </dd>
@@ -6047,11 +6097,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterWhen(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterWhen(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">enterWhenUninterruptibly(Monitor.Guard)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterWhenUninterruptibly(Monitor.Guard, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterWhenUninterruptibly(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </dd>
@@ -8145,6 +8203,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the result of <code>Future.get(long, TimeUnit)</code>, converting most exceptions to a new
  instance of the given checked exception type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,java.time.Duration)">getChecked(Future&lt;V&gt;, Class&lt;X&gt;, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Returns the result of <code>Future.get(long, TimeUnit)</code>, converting most exceptions to a new
+ instance of the given checked exception type.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.TeredoInfo.html#getClient()">getClient()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.html#getCoercedIPv4Address(java.net.InetAddress)">getCoercedIPv4Address(InetAddress)</a></span> - Static method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
@@ -8241,12 +8304,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
  is complete.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor,java.time.Duration)">getExitingExecutorService(ThreadPoolExecutor, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor)">getExitingScheduledExecutorService(ScheduledThreadPoolExecutor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,long,java.util.concurrent.TimeUnit)">getExitingScheduledExecutorService(ScheduledThreadPoolExecutor, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor,java.time.Duration)">getExitingScheduledExecutorService(ScheduledThreadPoolExecutor, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete.</div>
@@ -8549,6 +8622,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>future.</code><code>get()</code> uninterruptibly.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,long,java.util.concurrent.TimeUnit)">getUninterruptibly(Future&lt;V&gt;, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#getUninterruptibly(java.util.concurrent.Future,java.time.Duration)">getUninterruptibly(Future&lt;V&gt;, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
 </dd>
@@ -10735,6 +10812,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
  uninterruptibly.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#joinUninterruptibly(java.lang.Thread,java.time.Duration)">joinUninterruptibly(Thread, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
+ uninterruptibly.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#JOSE">JOSE</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
 <div class="block">For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the Compact
@@ -12304,6 +12386,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html#newFixedRateSchedule(long,long,java.util.concurrent.TimeUnit)">newFixedRateSchedule(long, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.Scheduler</a></dt>
 <dd>
 <div class="block">Returns a <a href="com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService.Scheduler</code></a> that schedules the task using the <code>ScheduledExecutorService.scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)</code> method.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#newGuard(java.util.function.BooleanSupplier)">newGuard(BooleanSupplier)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Creates a new <a href="com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">guard</a> for this monitor.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/HashFunction.html#newHasher()">newHasher()</a></span> - Method in interface com.google.common.hash.<a href="com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></dt>
 <dd>
@@ -16186,6 +16272,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#scheduleAsync(com.google.common.util.concurrent.AsyncCallable,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">scheduleAsync(AsyncCallable&lt;O&gt;, Duration, ScheduledExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningScheduledExecutorService.html#scheduleAtFixedRate(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit)">scheduleAtFixedRate(Runnable, long, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractScheduledService.html#scheduler()">scheduler()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent">AbstractScheduledService</a></dt>
@@ -16653,6 +16743,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
  necessary, cancelling remaining tasks.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,java.time.Duration)">shutdownAndAwaitTermination(ExecutorService, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#shutdownNow()">shutdownNow()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#SI">SI</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
@@ -16823,6 +16918,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  provided null elements.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#sleepUninterruptibly(long,java.util.concurrent.TimeUnit)">sleepUninterruptibly(long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#sleepUninterruptibly(java.time.Duration)">sleepUninterruptibly(Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </dd>
@@ -17603,6 +17702,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractScheduledService.html#startUp()">startUp()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent">AbstractScheduledService</a></dt>
 <dd>
 <div class="block">Start the service.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#startupDurations()">startupDurations()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
+<dd>
+<div class="block">Returns the service load times.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#startupTimes()">startupTimes()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
 <dd>
@@ -19181,7 +19284,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
  waiting) if the permits would not have been granted before the timeout expired.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/RateLimiter.html#tryAcquire(int,java.time.Duration)">tryAcquire(int, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></dt>
+<dd>
+<div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
+ without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
+ waiting) if the permits would not have been granted before the timeout expired.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/RateLimiter.html#tryAcquire(long,java.util.concurrent.TimeUnit)">tryAcquire(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></dt>
+<dd>
+<div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
+ specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
+ would not have been granted before the timeout expired.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/RateLimiter.html#tryAcquire(java.time.Duration)">tryAcquire(Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></dt>
 <dd>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -19192,7 +19307,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
  timeout, unit)</code> uninterruptibly.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,java.time.Duration)">tryAcquireUninterruptibly(Semaphore, int, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
+ timeout, unit)</code> uninterruptibly.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly(Semaphore, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
+ timeout, unit)</code> uninterruptibly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,java.time.Duration)">tryAcquireUninterruptibly(Semaphore, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
  timeout, unit)</code> uninterruptibly.</div>
@@ -19221,6 +19346,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  return the cause of the failure.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,long,java.util.concurrent.TimeUnit)">tryLockUninterruptibly(Lock, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
+<dd>
+<div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
+ uninterruptibly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Uninterruptibles.html#tryLockUninterruptibly(java.util.concurrent.locks.Lock,java.time.Duration)">tryLockUninterruptibly(Lock, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>
 <div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
  uninterruptibly.</div>
@@ -20116,11 +20246,19 @@ the order they are declared.</div>
 <dd>
 <div class="block">Waits for the guard to be satisfied.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#waitFor(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">waitFor(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Waits for the guard to be satisfied.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">waitForUninterruptibly(Monitor.Guard)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Waits for the guard to be satisfied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">waitForUninterruptibly(Monitor.Guard, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
+<dd>
+<div class="block">Waits for the guard to be satisfied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">waitForUninterruptibly(Monitor.Guard, Duration)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dt>
 <dd>
 <div class="block">Waits for the guard to be satisfied.</div>
 </dd>
@@ -20362,6 +20500,14 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout(ListenableFuture&lt;V&gt;, long, TimeUnit, ScheduledExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout(ListenableFuture&lt;V&gt;, Duration, ScheduledExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Returns a future that delegates to another but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified duration expires.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#withTimeout(java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout(Duration, ScheduledExecutorService)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#WMA_AUDIO">WMA_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>

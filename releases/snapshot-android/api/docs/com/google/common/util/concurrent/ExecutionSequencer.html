@@ -162,7 +162,7 @@ extends java.lang.Object</pre>
        be "done" as soon as <i>that</i> <code>Future</code> completes in any way. Notably, a <code>
        Future</code> is "completed" even if it is cancelled while its underlying work continues on a
        thread, an RPC, etc. The <code>Future</code> is also "completed" if it fails "early" -- for
-       example, if the deadline expires on a <code>Future</code> returned from <a href="Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)"><code>Futures.withTimeout(com.google.common.util.concurrent.ListenableFuture&lt;V&gt;, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)</code></a> while the <code>Future</code> it wraps continues its underlying work. So
+       example, if the deadline expires on a <code>Future</code> returned from <a href="Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,java.time.Duration,java.util.concurrent.ScheduledExecutorService)"><code>Futures.withTimeout(com.google.common.util.concurrent.ListenableFuture&lt;V&gt;, java.time.Duration, java.util.concurrent.ScheduledExecutorService)</code></a> while the <code>Future</code> it wraps continues its underlying work. So
        beware: <i>Your <code>AsyncCallable</code> should not complete its <code>Future</code> until it is
        safe for the next task to start.</i>
  </ul>

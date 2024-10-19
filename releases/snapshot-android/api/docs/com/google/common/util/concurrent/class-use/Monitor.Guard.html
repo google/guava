@@ -123,6 +123,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h3>Uses of <a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a> in <a href="../package-summary.html">com.google.common.util.concurrent</a></h3>
 <table class="useSummary">
+<caption><span>Methods in <a href="../package-summary.html">com.google.common.util.concurrent</a> that return <a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#newGuard(java.util.function.BooleanSupplier)">newGuard</a></span>&#8203;(java.util.function.BooleanSupplier&nbsp;isSatisfied)</code></th>
+<td class="colLast">
+<div class="block">Creates a new <a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">guard</a> for this monitor.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
 <caption><span>Methods in <a href="../package-summary.html">com.google.common.util.concurrent</a> with parameters of type <a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
@@ -148,16 +165,32 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard)">enterIfInterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterIf(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterIf</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+       java.time.Duration&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard)">enterIfInterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code></th>
+<td class="colLast">
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterIfInterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                     long&nbsp;time,
                     java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterIfInterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                    java.time.Duration&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
@@ -179,17 +212,33 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterWhen(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterWhen</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+         java.time.Duration&nbsp;time)</code></th>
+<td class="colLast">
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">enterWhenUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterWhenUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                         long&nbsp;time,
                         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">enterWhenUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                        java.time.Duration&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
@@ -232,17 +281,33 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#waitFor(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">waitFor</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+       java.time.Duration&nbsp;time)</code></th>
+<td class="colLast">
+<div class="block">Waits for the guard to be satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">waitForUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code></th>
 <td class="colLast">
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">waitForUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                       long&nbsp;time,
                       java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+<td class="colLast">
+<div class="block">Waits for the guard to be satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../Monitor.html#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">waitForUninterruptibly</a></span>&#8203;(<a href="../Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                      java.time.Duration&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>

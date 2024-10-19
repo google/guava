@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.654">Futures.FutureCombiner</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.693">Futures.FutureCombiner</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.lang.Object</pre>
 <div class="block">A helper to create a new <code>ListenableFuture</code> whose result is generated from a combination
  of input futures.
@@ -242,7 +242,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>callAsync</h4>
-<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.685">callAsync</a>&#8203;(<a href="AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;C&gt;&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.724">callAsync</a>&#8203;(<a href="AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;C&gt;&nbsp;combiner,
                                                                             java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="AsyncCallable.html#call()"><code>AsyncCallable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>
  executor</code>.
@@ -270,7 +270,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>call</h4>
-<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.710">call</a>&#8203;(java.util.concurrent.Callable&lt;C&gt;&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.749">call</a>&#8203;(java.util.concurrent.Callable&lt;C&gt;&nbsp;combiner,
                                                                        java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <code>Callable.call()</code> in <code>combiner</code> when all futures complete, using the specified <code>
  executor</code>.
@@ -298,7 +298,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>run</h4>
-<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.731">run</a>&#8203;(java.lang.Runnable&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.770">run</a>&#8203;(java.lang.Runnable&nbsp;combiner,
                                java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of running <code>combiner</code>
  when all Futures complete. <code>combiner</code> will run using <code>executor</code>.

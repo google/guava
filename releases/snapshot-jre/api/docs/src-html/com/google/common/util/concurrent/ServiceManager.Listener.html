@@ -316,7 +316,7 @@
 <span class="sourceLineNo">307</span><a id="line.307">   * @throws TimeoutException if not all of the services have finished starting within the deadline</a>
 <span class="sourceLineNo">308</span><a id="line.308">   * @throws IllegalStateException if the service manager reaches a state from which it cannot</a>
 <span class="sourceLineNo">309</span><a id="line.309">   *     become {@linkplain #isHealthy() healthy}.</a>
-<span class="sourceLineNo">310</span><a id="line.310">   * @since 28.0</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">311</span><a id="line.311">   */</a>
 <span class="sourceLineNo">312</span><a id="line.312">  public void awaitHealthy(Duration timeout) throws TimeoutException {</a>
 <span class="sourceLineNo">313</span><a id="line.313">    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);</a>
@@ -368,7 +368,7 @@
 <span class="sourceLineNo">359</span><a id="line.359">   *</a>
 <span class="sourceLineNo">360</span><a id="line.360">   * @param timeout the maximum time to wait</a>
 <span class="sourceLineNo">361</span><a id="line.361">   * @throws TimeoutException if not all of the services have stopped within the deadline</a>
-<span class="sourceLineNo">362</span><a id="line.362">   * @since 28.0</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">363</span><a id="line.363">   */</a>
 <span class="sourceLineNo">364</span><a id="line.364">  public void awaitStopped(Duration timeout) throws TimeoutException {</a>
 <span class="sourceLineNo">365</span><a id="line.365">    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);</a>
@@ -433,7 +433,7 @@
 <span class="sourceLineNo">424</span><a id="line.424">   *</a>
 <span class="sourceLineNo">425</span><a id="line.425">   * @return Map of services and their corresponding startup time, the map entries will be ordered</a>
 <span class="sourceLineNo">426</span><a id="line.426">   *     by startup time.</a>
-<span class="sourceLineNo">427</span><a id="line.427">   * @since 31.0</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * @since 31.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">428</span><a id="line.428">   */</a>
 <span class="sourceLineNo">429</span><a id="line.429">  @J2ObjCIncompatible</a>
 <span class="sourceLineNo">430</span><a id="line.430">  public ImmutableMap&lt;Service, Duration&gt; startupDurations() {</a>

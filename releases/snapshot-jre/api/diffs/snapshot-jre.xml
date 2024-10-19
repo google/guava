@@ -69969,7 +69969,7 @@
 
  @param timeout when to time out the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
@@ -70847,7 +70847,7 @@
       <![CDATA[Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
 
  @throws RejectedExecutionException if the task cannot be scheduled for execution
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="scheduleAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -70990,7 +70990,7 @@
  @param delegate The future to delegate to.
  @param time when to time out the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -71478,7 +71478,7 @@
  @throws CancellationException if {@code get} throws a {@code CancellationException}
  @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
      does not have a suitable constructor
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="getChecked" return="V extends java.lang.Object"
@@ -72278,7 +72278,7 @@
 
  @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
      isSatisfied()})
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enter"
@@ -72298,7 +72298,7 @@
       <![CDATA[Enters this monitor. Blocks at most the given time.
 
  @return whether the monitor was entered
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enter" return="boolean"
@@ -72335,7 +72335,7 @@
 
  @return whether the monitor was entered
  @throws InterruptedException if interrupted while waiting
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enterInterruptibly" return="boolean"
@@ -72390,7 +72390,7 @@
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enterWhen" return="boolean"
@@ -72430,7 +72430,7 @@
  the time to acquire the lock and the time to wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enterWhenUninterruptibly" return="boolean"
@@ -72470,7 +72470,7 @@
  lock, but does not wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enterIf" return="boolean"
@@ -72513,7 +72513,7 @@
  lock, but does not wait for the guard to be satisfied, and may be interrupted.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="enterIfInterruptibly" return="boolean"
@@ -72571,7 +72571,7 @@
 
  @return whether the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="waitFor" return="boolean"
@@ -72611,7 +72611,7 @@
  thread currently occupying this monitor.
 
  @return whether the guard is now satisfied
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="waitForUninterruptibly" return="boolean"
@@ -72956,7 +72956,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
@@ -73016,7 +73016,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
@@ -73074,7 +73074,7 @@
  @param service ExecutorService which uses daemon threads
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addDelayedShutdownHook"
@@ -73328,7 +73328,7 @@
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
  @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
      if the call timed out or was interrupted
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="shutdownAndAwaitTermination" return="boolean"
@@ -73428,7 +73428,7 @@
      before reaching its stable (maximum) rate
  @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
      warmupPeriod} is negative
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.util.concurrent.RateLimiter"
@@ -73542,7 +73542,7 @@
  @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
  @return {@code true} if the permit was acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -73609,7 +73609,7 @@
  @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
  @return {@code true} if the permits were acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -74133,7 +74133,7 @@
  @throws TimeoutException if not all of the services have finished starting within the deadline
  @throws IllegalStateException if the service manager reaches a state from which it cannot
      become {@linkplain #isHealthy() healthy}.
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="awaitHealthy"
@@ -74189,7 +74189,7 @@
 
  @param timeout the maximum time to wait
  @throws TimeoutException if not all of the services have stopped within the deadline
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="awaitStopped"
@@ -74255,7 +74255,7 @@
 
  @return Map of services and their corresponding startup time, the map entries will be ordered
      by startup time.
- @since 31.0]]>
+ @since 31.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -75287,7 +75287,7 @@
       <![CDATA[Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -75312,7 +75312,7 @@
       <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -75348,7 +75348,7 @@
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
  uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="joinUninterruptibly"
@@ -75412,7 +75412,7 @@
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled
  @throws TimeoutException if the wait timed out
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="getUninterruptibly" return="V extends java.lang.Object"
@@ -75475,7 +75475,7 @@
       <doc>
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="sleepUninterruptibly"
@@ -75498,7 +75498,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
  timeout, unit)} uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -75526,7 +75526,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
  timeout, unit)} uninterruptibly.
 
- @since 28.0]]>
+ @since 28.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -75554,7 +75554,7 @@
       <![CDATA[Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
  uninterruptibly.
 
- @since 30.0]]>
+ @since 30.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="tryLockUninterruptibly" return="boolean"
@@ -75593,7 +75593,7 @@
       <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
  awaitTermination(long, TimeUnit)} uninterruptibly.
 
- @since 30.0]]>
+ @since 30.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="awaitTerminationUninterruptibly" return="boolean"

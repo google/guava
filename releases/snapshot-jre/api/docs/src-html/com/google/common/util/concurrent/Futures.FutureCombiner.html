@@ -234,7 +234,7 @@
 <span class="sourceLineNo">225</span><a id="line.225">   * Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.</a>
 <span class="sourceLineNo">226</span><a id="line.226">   *</a>
 <span class="sourceLineNo">227</span><a id="line.227">   * @throws RejectedExecutionException if the task cannot be scheduled for execution</a>
-<span class="sourceLineNo">228</span><a id="line.228">   * @since 28.0</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">229</span><a id="line.229">   */</a>
 <span class="sourceLineNo">230</span><a id="line.230">  @J2ktIncompatible</a>
 <span class="sourceLineNo">231</span><a id="line.231">  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService</a>
@@ -389,7 +389,7 @@
 <span class="sourceLineNo">380</span><a id="line.380">   * @param delegate The future to delegate to.</a>
 <span class="sourceLineNo">381</span><a id="line.381">   * @param time when to time out the future</a>
 <span class="sourceLineNo">382</span><a id="line.382">   * @param scheduledExecutor The executor service to enforce the timeout.</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * @since 28.0</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">384</span><a id="line.384">   */</a>
 <span class="sourceLineNo">385</span><a id="line.385">  @J2ktIncompatible</a>
 <span class="sourceLineNo">386</span><a id="line.386">  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService</a>
@@ -1282,7 +1282,7 @@
 <span class="sourceLineNo">1273</span><a id="line.1273">   * @throws CancellationException if {@code get} throws a {@code CancellationException}</a>
 <span class="sourceLineNo">1274</span><a id="line.1274">   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or</a>
 <span class="sourceLineNo">1275</span><a id="line.1275">   *     does not have a suitable constructor</a>
-<span class="sourceLineNo">1276</span><a id="line.1276">   * @since 28.0</a>
+<span class="sourceLineNo">1276</span><a id="line.1276">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">1277</span><a id="line.1277">   */</a>
 <span class="sourceLineNo">1278</span><a id="line.1278">  @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">1279</span><a id="line.1279">  @J2ktIncompatible</a>

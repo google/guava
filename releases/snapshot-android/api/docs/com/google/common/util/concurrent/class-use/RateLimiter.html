@@ -150,6 +150,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  rate at the end of the period (as long as there are enough requests to saturate it).</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">RateLimiter.</span><code><span class="memberNameLink"><a href="../RateLimiter.html#create(double,java.time.Duration)">create</a></span>&#8203;(double&nbsp;permitsPerSecond,
+      java.time.Duration&nbsp;warmupPeriod)</code></th>
+<td class="colLast">
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+ during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
+ rate at the end of the period (as long as there are enough requests to saturate it).</div>
+</td>
+</tr>
 </tbody>
 </table>
 </section>

@@ -377,7 +377,7 @@
 <span class="sourceLineNo">368</span><a id="line.368">   *</a>
 <span class="sourceLineNo">369</span><a id="line.369">   * @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied</a>
 <span class="sourceLineNo">370</span><a id="line.370">   *     isSatisfied()})</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * @since 21.0</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * @since 21.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">372</span><a id="line.372">   */</a>
 <span class="sourceLineNo">373</span><a id="line.373">  public Guard newGuard(final BooleanSupplier isSatisfied) {</a>
 <span class="sourceLineNo">374</span><a id="line.374">    checkNotNull(isSatisfied, "isSatisfied");</a>
@@ -398,7 +398,7 @@
 <span class="sourceLineNo">389</span><a id="line.389">   * Enters this monitor. Blocks at most the given time.</a>
 <span class="sourceLineNo">390</span><a id="line.390">   *</a>
 <span class="sourceLineNo">391</span><a id="line.391">   * @return whether the monitor was entered</a>
-<span class="sourceLineNo">392</span><a id="line.392">   * @since 28.0</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">393</span><a id="line.393">   */</a>
 <span class="sourceLineNo">394</span><a id="line.394">  public boolean enter(Duration time) {</a>
 <span class="sourceLineNo">395</span><a id="line.395">    return enter(toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -448,7 +448,7 @@
 <span class="sourceLineNo">439</span><a id="line.439">   *</a>
 <span class="sourceLineNo">440</span><a id="line.440">   * @return whether the monitor was entered</a>
 <span class="sourceLineNo">441</span><a id="line.441">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">442</span><a id="line.442">   * @since 28.0</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">443</span><a id="line.443">   */</a>
 <span class="sourceLineNo">444</span><a id="line.444">  public boolean enterInterruptibly(Duration time) throws InterruptedException {</a>
 <span class="sourceLineNo">445</span><a id="line.445">    return enterInterruptibly(toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -509,7 +509,7 @@
 <span class="sourceLineNo">500</span><a id="line.500">   *</a>
 <span class="sourceLineNo">501</span><a id="line.501">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
 <span class="sourceLineNo">502</span><a id="line.502">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">503</span><a id="line.503">   * @since 28.0</a>
+<span class="sourceLineNo">503</span><a id="line.503">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">504</span><a id="line.504">   */</a>
 <span class="sourceLineNo">505</span><a id="line.505">  public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {</a>
 <span class="sourceLineNo">506</span><a id="line.506">    return enterWhen(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -605,7 +605,7 @@
 <span class="sourceLineNo">596</span><a id="line.596">   * the time to acquire the lock and the time to wait for the guard to be satisfied.</a>
 <span class="sourceLineNo">597</span><a id="line.597">   *</a>
 <span class="sourceLineNo">598</span><a id="line.598">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">599</span><a id="line.599">   * @since 28.0</a>
+<span class="sourceLineNo">599</span><a id="line.599">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">600</span><a id="line.600">   */</a>
 <span class="sourceLineNo">601</span><a id="line.601">  public boolean enterWhenUninterruptibly(Guard guard, Duration time) {</a>
 <span class="sourceLineNo">602</span><a id="line.602">    return enterWhenUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -706,7 +706,7 @@
 <span class="sourceLineNo">697</span><a id="line.697">   * lock, but does not wait for the guard to be satisfied.</a>
 <span class="sourceLineNo">698</span><a id="line.698">   *</a>
 <span class="sourceLineNo">699</span><a id="line.699">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">700</span><a id="line.700">   * @since 28.0</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">701</span><a id="line.701">   */</a>
 <span class="sourceLineNo">702</span><a id="line.702">  public boolean enterIf(Guard guard, Duration time) {</a>
 <span class="sourceLineNo">703</span><a id="line.703">    return enterIf(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -766,7 +766,7 @@
 <span class="sourceLineNo">757</span><a id="line.757">   * lock, but does not wait for the guard to be satisfied, and may be interrupted.</a>
 <span class="sourceLineNo">758</span><a id="line.758">   *</a>
 <span class="sourceLineNo">759</span><a id="line.759">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">760</span><a id="line.760">   * @since 28.0</a>
+<span class="sourceLineNo">760</span><a id="line.760">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">761</span><a id="line.761">   */</a>
 <span class="sourceLineNo">762</span><a id="line.762">  public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {</a>
 <span class="sourceLineNo">763</span><a id="line.763">    return enterIfInterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -847,7 +847,7 @@
 <span class="sourceLineNo">838</span><a id="line.838">   *</a>
 <span class="sourceLineNo">839</span><a id="line.839">   * @return whether the guard is now satisfied</a>
 <span class="sourceLineNo">840</span><a id="line.840">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">841</span><a id="line.841">   * @since 28.0</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">842</span><a id="line.842">   */</a>
 <span class="sourceLineNo">843</span><a id="line.843">  public boolean waitFor(Guard guard, Duration time) throws InterruptedException {</a>
 <span class="sourceLineNo">844</span><a id="line.844">    return waitFor(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
@@ -893,7 +893,7 @@
 <span class="sourceLineNo">884</span><a id="line.884">   * thread currently occupying this monitor.</a>
 <span class="sourceLineNo">885</span><a id="line.885">   *</a>
 <span class="sourceLineNo">886</span><a id="line.886">   * @return whether the guard is now satisfied</a>
-<span class="sourceLineNo">887</span><a id="line.887">   * @since 28.0</a>
+<span class="sourceLineNo">887</span><a id="line.887">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">888</span><a id="line.888">   */</a>
 <span class="sourceLineNo">889</span><a id="line.889">  public boolean waitForUninterruptibly(Guard guard, Duration time) {</a>
 <span class="sourceLineNo">890</span><a id="line.890">    return waitForUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);</a>
