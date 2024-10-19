@@ -27,960 +27,961 @@
 <span class="sourceLineNo">018</span><a id="line.18"></a>
 <span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkNotNull;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import static com.google.common.collect.CollectPreconditions.checkNonnegative;</a>
-<span class="sourceLineNo">021</span><a id="line.21"></a>
-<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtCompatible;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.J2ktIncompatible;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.VisibleForTesting;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import com.google.common.base.Function;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.util.ArrayList;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.util.Arrays;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.util.Collection;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.util.Collections;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.Comparator;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.HashSet;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.Iterator;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import java.util.List;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import java.util.Map.Entry;</a>
-<span class="sourceLineNo">035</span><a id="line.35">import java.util.NoSuchElementException;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import java.util.SortedMap;</a>
-<span class="sourceLineNo">037</span><a id="line.37">import java.util.SortedSet;</a>
-<span class="sourceLineNo">038</span><a id="line.38">import java.util.TreeSet;</a>
-<span class="sourceLineNo">039</span><a id="line.39">import java.util.concurrent.ConcurrentMap;</a>
-<span class="sourceLineNo">040</span><a id="line.40">import java.util.concurrent.atomic.AtomicInteger;</a>
-<span class="sourceLineNo">041</span><a id="line.41">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">042</span><a id="line.42">import org.checkerframework.checker.nullness.qual.NonNull;</a>
-<span class="sourceLineNo">043</span><a id="line.43">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">044</span><a id="line.44"></a>
-<span class="sourceLineNo">045</span><a id="line.45">/**</a>
-<span class="sourceLineNo">046</span><a id="line.46"> * A comparator, with additional methods to support common operations. This is an "enriched" version</a>
-<span class="sourceLineNo">047</span><a id="line.47"> * of {@code Comparator} for pre-Java-8 users, in the same sense that {@link FluentIterable} is an</a>
-<span class="sourceLineNo">048</span><a id="line.48"> * enriched {@link Iterable} for pre-Java-8 users.</a>
-<span class="sourceLineNo">049</span><a id="line.49"> *</a>
-<span class="sourceLineNo">050</span><a id="line.50"> * &lt;h3&gt;Three types of methods&lt;/h3&gt;</a>
-<span class="sourceLineNo">051</span><a id="line.51"> *</a>
-<span class="sourceLineNo">052</span><a id="line.52"> * Like other fluent types, there are three types of methods present: methods for &lt;i&gt;acquiring&lt;/i&gt;,</a>
-<span class="sourceLineNo">053</span><a id="line.53"> * &lt;i&gt;chaining&lt;/i&gt;, and &lt;i&gt;using&lt;/i&gt;.</a>
-<span class="sourceLineNo">054</span><a id="line.54"> *</a>
-<span class="sourceLineNo">055</span><a id="line.55"> * &lt;h4&gt;Acquiring&lt;/h4&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56"> *</a>
-<span class="sourceLineNo">057</span><a id="line.57"> * &lt;p&gt;The common ways to get an instance of {@code Ordering} are:</a>
-<span class="sourceLineNo">058</span><a id="line.58"> *</a>
-<span class="sourceLineNo">059</span><a id="line.59"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">060</span><a id="line.60"> *   &lt;li&gt;Subclass it and implement {@link #compare} instead of implementing {@link Comparator}</a>
-<span class="sourceLineNo">061</span><a id="line.61"> *       directly</a>
-<span class="sourceLineNo">062</span><a id="line.62"> *   &lt;li&gt;Pass a &lt;i&gt;pre-existing&lt;/i&gt; {@link Comparator} instance to {@link #from(Comparator)}</a>
-<span class="sourceLineNo">063</span><a id="line.63"> *   &lt;li&gt;Use the natural ordering, {@link Ordering#natural}</a>
-<span class="sourceLineNo">064</span><a id="line.64"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">065</span><a id="line.65"> *</a>
-<span class="sourceLineNo">066</span><a id="line.66"> * &lt;h4&gt;Chaining&lt;/h4&gt;</a>
-<span class="sourceLineNo">067</span><a id="line.67"> *</a>
-<span class="sourceLineNo">068</span><a id="line.68"> * &lt;p&gt;Then you can use the &lt;i&gt;chaining&lt;/i&gt; methods to get an altered version of that {@code</a>
-<span class="sourceLineNo">069</span><a id="line.69"> * Ordering}, including:</a>
-<span class="sourceLineNo">070</span><a id="line.70"> *</a>
-<span class="sourceLineNo">071</span><a id="line.71"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">072</span><a id="line.72"> *   &lt;li&gt;{@link #reverse}</a>
-<span class="sourceLineNo">073</span><a id="line.73"> *   &lt;li&gt;{@link #compound(Comparator)}</a>
-<span class="sourceLineNo">074</span><a id="line.74"> *   &lt;li&gt;{@link #onResultOf(Function)}</a>
-<span class="sourceLineNo">075</span><a id="line.75"> *   &lt;li&gt;{@link #nullsFirst} / {@link #nullsLast}</a>
-<span class="sourceLineNo">076</span><a id="line.76"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">077</span><a id="line.77"> *</a>
-<span class="sourceLineNo">078</span><a id="line.78"> * &lt;h4&gt;Using&lt;/h4&gt;</a>
-<span class="sourceLineNo">079</span><a id="line.79"> *</a>
-<span class="sourceLineNo">080</span><a id="line.80"> * &lt;p&gt;Finally, use the resulting {@code Ordering} anywhere a {@link Comparator} is required, or use</a>
-<span class="sourceLineNo">081</span><a id="line.81"> * any of its special operations, such as:</a>
-<span class="sourceLineNo">082</span><a id="line.82"> *</a>
-<span class="sourceLineNo">083</span><a id="line.83"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">084</span><a id="line.84"> *   &lt;li&gt;{@link #immutableSortedCopy}</a>
-<span class="sourceLineNo">085</span><a id="line.85"> *   &lt;li&gt;{@link #isOrdered} / {@link #isStrictlyOrdered}</a>
-<span class="sourceLineNo">086</span><a id="line.86"> *   &lt;li&gt;{@link #min} / {@link #max}</a>
-<span class="sourceLineNo">087</span><a id="line.87"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">088</span><a id="line.88"> *</a>
-<span class="sourceLineNo">089</span><a id="line.89"> * &lt;h3&gt;Understanding complex orderings&lt;/h3&gt;</a>
-<span class="sourceLineNo">090</span><a id="line.90"> *</a>
-<span class="sourceLineNo">091</span><a id="line.91"> * &lt;p&gt;Complex chained orderings like the following example can be challenging to understand.</a>
-<span class="sourceLineNo">092</span><a id="line.92"> *</a>
-<span class="sourceLineNo">093</span><a id="line.93"> * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">094</span><a id="line.94"> * Ordering&lt;Foo&gt; ordering =</a>
-<span class="sourceLineNo">095</span><a id="line.95"> *     Ordering.natural()</a>
-<span class="sourceLineNo">096</span><a id="line.96"> *         .nullsFirst()</a>
-<span class="sourceLineNo">097</span><a id="line.97"> *         .onResultOf(getBarFunction)</a>
-<span class="sourceLineNo">098</span><a id="line.98"> *         .nullsLast();</a>
-<span class="sourceLineNo">099</span><a id="line.99"> * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">100</span><a id="line.100"> *</a>
-<span class="sourceLineNo">101</span><a id="line.101"> * Note that each chaining method returns a new ordering instance which is backed by the previous</a>
-<span class="sourceLineNo">102</span><a id="line.102"> * instance, but has the chance to act on values &lt;i&gt;before&lt;/i&gt; handing off to that backing instance.</a>
-<span class="sourceLineNo">103</span><a id="line.103"> * As a result, it usually helps to read chained ordering expressions &lt;i&gt;backwards&lt;/i&gt;. For example,</a>
-<span class="sourceLineNo">104</span><a id="line.104"> * when {@code compare} is called on the above ordering:</a>
-<span class="sourceLineNo">105</span><a id="line.105"> *</a>
-<span class="sourceLineNo">106</span><a id="line.106"> * &lt;ol&gt;</a>
-<span class="sourceLineNo">107</span><a id="line.107"> *   &lt;li&gt;First, if only one {@code Foo} is null, that null value is treated as &lt;i&gt;greater&lt;/i&gt;</a>
-<span class="sourceLineNo">108</span><a id="line.108"> *   &lt;li&gt;Next, non-null {@code Foo} values are passed to {@code getBarFunction} (we will be</a>
-<span class="sourceLineNo">109</span><a id="line.109"> *       comparing {@code Bar} values from now on)</a>
-<span class="sourceLineNo">110</span><a id="line.110"> *   &lt;li&gt;Next, if only one {@code Bar} is null, that null value is treated as &lt;i&gt;lesser&lt;/i&gt;</a>
-<span class="sourceLineNo">111</span><a id="line.111"> *   &lt;li&gt;Finally, natural ordering is used (i.e. the result of {@code Bar.compareTo(Bar)} is</a>
-<span class="sourceLineNo">112</span><a id="line.112"> *       returned)</a>
-<span class="sourceLineNo">113</span><a id="line.113"> * &lt;/ol&gt;</a>
-<span class="sourceLineNo">114</span><a id="line.114"> *</a>
-<span class="sourceLineNo">115</span><a id="line.115"> * &lt;p&gt;Alas, {@link #reverse} is a little different. As you read backwards through a chain and</a>
-<span class="sourceLineNo">116</span><a id="line.116"> * encounter a call to {@code reverse}, continue working backwards until a result is determined, and</a>
-<span class="sourceLineNo">117</span><a id="line.117"> * then reverse that result.</a>
-<span class="sourceLineNo">118</span><a id="line.118"> *</a>
-<span class="sourceLineNo">119</span><a id="line.119"> * &lt;h3&gt;Additional notes&lt;/h3&gt;</a>
-<span class="sourceLineNo">120</span><a id="line.120"> *</a>
-<span class="sourceLineNo">121</span><a id="line.121"> * &lt;p&gt;Except as noted, the orderings returned by the factory methods of this class are serializable</a>
-<span class="sourceLineNo">122</span><a id="line.122"> * if and only if the provided instances that back them are. For example, if {@code ordering} and</a>
-<span class="sourceLineNo">123</span><a id="line.123"> * {@code function} can themselves be serialized, then {@code ordering.onResultOf(function)} can as</a>
-<span class="sourceLineNo">124</span><a id="line.124"> * well.</a>
-<span class="sourceLineNo">125</span><a id="line.125"> *</a>
-<span class="sourceLineNo">126</span><a id="line.126"> * &lt;h3&gt;Java 8+ users&lt;/h3&gt;</a>
-<span class="sourceLineNo">127</span><a id="line.127"> *</a>
-<span class="sourceLineNo">128</span><a id="line.128"> * &lt;p&gt;If you are using Java 8+, this class is now obsolete. Most of its functionality is now</a>
-<span class="sourceLineNo">129</span><a id="line.129"> * provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest</a>
-<span class="sourceLineNo">130</span><a id="line.130"> * can now be found as static methods in our new {@link Comparators} class. See each method below</a>
-<span class="sourceLineNo">131</span><a id="line.131"> * for further instructions. Whenever possible, you should change any references of type {@code</a>
-<span class="sourceLineNo">132</span><a id="line.132"> * Ordering} to be of type {@code Comparator} instead. However, at this time we have no plan to</a>
-<span class="sourceLineNo">133</span><a id="line.133"> * &lt;i&gt;deprecate&lt;/i&gt; this class.</a>
-<span class="sourceLineNo">134</span><a id="line.134"> *</a>
-<span class="sourceLineNo">135</span><a id="line.135"> * &lt;p&gt;Many replacements involve adopting {@code Stream}, and these changes can sometimes make your</a>
-<span class="sourceLineNo">136</span><a id="line.136"> * code verbose. Whenever following this advice, you should check whether {@code Stream} could be</a>
-<span class="sourceLineNo">137</span><a id="line.137"> * adopted more comprehensively in your code; the end result may be quite a bit simpler.</a>
-<span class="sourceLineNo">138</span><a id="line.138"> *</a>
-<span class="sourceLineNo">139</span><a id="line.139"> * &lt;h3&gt;See also&lt;/h3&gt;</a>
-<span class="sourceLineNo">140</span><a id="line.140"> *</a>
-<span class="sourceLineNo">141</span><a id="line.141"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
-<span class="sourceLineNo">142</span><a id="line.142"> * "https://github.com/google/guava/wiki/OrderingExplained"&gt;{@code Ordering}&lt;/a&gt;.</a>
-<span class="sourceLineNo">143</span><a id="line.143"> *</a>
-<span class="sourceLineNo">144</span><a id="line.144"> * @author Jesse Wilson</a>
-<span class="sourceLineNo">145</span><a id="line.145"> * @author Kevin Bourrillion</a>
-<span class="sourceLineNo">146</span><a id="line.146"> * @since 2.0</a>
-<span class="sourceLineNo">147</span><a id="line.147"> */</a>
-<span class="sourceLineNo">148</span><a id="line.148">@GwtCompatible</a>
-<span class="sourceLineNo">149</span><a id="line.149">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">150</span><a id="line.150">public abstract class Ordering&lt;T extends @Nullable Object&gt; implements Comparator&lt;T&gt; {</a>
-<span class="sourceLineNo">151</span><a id="line.151">  // Natural order</a>
-<span class="sourceLineNo">152</span><a id="line.152"></a>
-<span class="sourceLineNo">153</span><a id="line.153">  /**</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * Returns a serializable ordering that uses the natural order of the values. The ordering throws</a>
-<span class="sourceLineNo">155</span><a id="line.155">   * a {@link NullPointerException} when passed a null parameter.</a>
-<span class="sourceLineNo">156</span><a id="line.156">   *</a>
-<span class="sourceLineNo">157</span><a id="line.157">   * &lt;p&gt;The type specification is {@code &lt;C extends Comparable&gt;}, instead of the technically correct</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * {@code &lt;C extends Comparable&lt;? super C&gt;&gt;}, to support legacy types from before Java 5.</a>
-<span class="sourceLineNo">159</span><a id="line.159">   *</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Comparator#naturalOrder} instead.</a>
-<span class="sourceLineNo">161</span><a id="line.161">   */</a>
-<span class="sourceLineNo">162</span><a id="line.162">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">163</span><a id="line.163">  @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">164</span><a id="line.164">  // TODO(kevinb): right way to explain this??</a>
-<span class="sourceLineNo">165</span><a id="line.165">  // plus https://github.com/google/guava/issues/989</a>
-<span class="sourceLineNo">166</span><a id="line.166">  public static &lt;C extends Comparable&gt; Ordering&lt;C&gt; natural() {</a>
-<span class="sourceLineNo">167</span><a id="line.167">    return (Ordering&lt;C&gt;) NaturalOrdering.INSTANCE;</a>
-<span class="sourceLineNo">168</span><a id="line.168">  }</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">  // Static factories</a>
-<span class="sourceLineNo">171</span><a id="line.171"></a>
-<span class="sourceLineNo">172</span><a id="line.172">  /**</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * Returns an ordering based on an &lt;i&gt;existing&lt;/i&gt; comparator instance. Note that it is</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * unnecessary to create a &lt;i&gt;new&lt;/i&gt; anonymous inner class implementing {@code Comparator} just</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * to pass it in here. Instead, simply subclass {@code Ordering} and implement its {@code compare}</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * method directly.</a>
-<span class="sourceLineNo">177</span><a id="line.177">   *</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * &lt;p&gt;The returned object is serializable if {@code comparator} is serializable.</a>
-<span class="sourceLineNo">179</span><a id="line.179">   *</a>
-<span class="sourceLineNo">180</span><a id="line.180">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; this class is now obsolete as explained in the class documentation, so</a>
-<span class="sourceLineNo">181</span><a id="line.181">   * there is no need to use this method.</a>
-<span class="sourceLineNo">182</span><a id="line.182">   *</a>
-<span class="sourceLineNo">183</span><a id="line.183">   * @param comparator the comparator that defines the order</a>
-<span class="sourceLineNo">184</span><a id="line.184">   * @return comparator itself if it is already an {@code Ordering}; otherwise an ordering that</a>
-<span class="sourceLineNo">185</span><a id="line.185">   *     wraps that comparator</a>
-<span class="sourceLineNo">186</span><a id="line.186">   */</a>
-<span class="sourceLineNo">187</span><a id="line.187">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">188</span><a id="line.188">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; from(Comparator&lt;T&gt; comparator) {</a>
-<span class="sourceLineNo">189</span><a id="line.189">    return (comparator instanceof Ordering)</a>
-<span class="sourceLineNo">190</span><a id="line.190">        ? (Ordering&lt;T&gt;) comparator</a>
-<span class="sourceLineNo">191</span><a id="line.191">        : new ComparatorOrdering&lt;T&gt;(comparator);</a>
-<span class="sourceLineNo">192</span><a id="line.192">  }</a>
-<span class="sourceLineNo">193</span><a id="line.193"></a>
-<span class="sourceLineNo">194</span><a id="line.194">  /**</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * Simply returns its argument.</a>
-<span class="sourceLineNo">196</span><a id="line.196">   *</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * @deprecated no need to use this</a>
-<span class="sourceLineNo">198</span><a id="line.198">   */</a>
-<span class="sourceLineNo">199</span><a id="line.199">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">200</span><a id="line.200">  @Deprecated</a>
-<span class="sourceLineNo">201</span><a id="line.201">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; from(Ordering&lt;T&gt; ordering) {</a>
-<span class="sourceLineNo">202</span><a id="line.202">    return checkNotNull(ordering);</a>
-<span class="sourceLineNo">203</span><a id="line.203">  }</a>
-<span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">  /**</a>
-<span class="sourceLineNo">206</span><a id="line.206">   * Returns an ordering that compares objects according to the order in which they appear in the</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * given list. Only objects present in the list (according to {@link Object#equals}) may be</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * compared. This comparator imposes a "partial ordering" over the type {@code T}. Subsequent</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * changes to the {@code valuesInOrder} list will have no effect on the returned comparator. Null</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * values in the list are not supported.</a>
-<span class="sourceLineNo">211</span><a id="line.211">   *</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * &lt;p&gt;The returned comparator throws a {@link ClassCastException} when it receives an input</a>
-<span class="sourceLineNo">213</span><a id="line.213">   * parameter that isn't among the provided values.</a>
-<span class="sourceLineNo">214</span><a id="line.214">   *</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * &lt;p&gt;The generated comparator is serializable if all the provided values are serializable.</a>
-<span class="sourceLineNo">216</span><a id="line.216">   *</a>
-<span class="sourceLineNo">217</span><a id="line.217">   * @param valuesInOrder the values that the returned comparator will be able to compare, in the</a>
-<span class="sourceLineNo">218</span><a id="line.218">   *     order the comparator should induce</a>
-<span class="sourceLineNo">219</span><a id="line.219">   * @return the comparator described above</a>
-<span class="sourceLineNo">220</span><a id="line.220">   * @throws NullPointerException if any of the provided values is null</a>
-<span class="sourceLineNo">221</span><a id="line.221">   * @throws IllegalArgumentException if {@code valuesInOrder} contains any duplicate values</a>
-<span class="sourceLineNo">222</span><a id="line.222">   *     (according to {@link Object#equals})</a>
-<span class="sourceLineNo">223</span><a id="line.223">   */</a>
-<span class="sourceLineNo">224</span><a id="line.224">  // TODO(kevinb): provide replacement</a>
-<span class="sourceLineNo">225</span><a id="line.225">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">226</span><a id="line.226">  public static &lt;T&gt; Ordering&lt;T&gt; explicit(List&lt;T&gt; valuesInOrder) {</a>
-<span class="sourceLineNo">227</span><a id="line.227">    return new ExplicitOrdering&lt;&gt;(valuesInOrder);</a>
-<span class="sourceLineNo">228</span><a id="line.228">  }</a>
-<span class="sourceLineNo">229</span><a id="line.229"></a>
-<span class="sourceLineNo">230</span><a id="line.230">  /**</a>
-<span class="sourceLineNo">231</span><a id="line.231">   * Returns an ordering that compares objects according to the order in which they are given to</a>
-<span class="sourceLineNo">232</span><a id="line.232">   * this method. Only objects present in the argument list (according to {@link Object#equals}) may</a>
-<span class="sourceLineNo">233</span><a id="line.233">   * be compared. This comparator imposes a "partial ordering" over the type {@code T}. Null values</a>
-<span class="sourceLineNo">234</span><a id="line.234">   * in the argument list are not supported.</a>
-<span class="sourceLineNo">235</span><a id="line.235">   *</a>
-<span class="sourceLineNo">236</span><a id="line.236">   * &lt;p&gt;The returned comparator throws a {@link ClassCastException} when it receives an input</a>
-<span class="sourceLineNo">237</span><a id="line.237">   * parameter that isn't among the provided values.</a>
-<span class="sourceLineNo">238</span><a id="line.238">   *</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * &lt;p&gt;The generated comparator is serializable if all the provided values are serializable.</a>
-<span class="sourceLineNo">240</span><a id="line.240">   *</a>
-<span class="sourceLineNo">241</span><a id="line.241">   * @param leastValue the value which the returned comparator should consider the "least" of all</a>
-<span class="sourceLineNo">242</span><a id="line.242">   *     values</a>
-<span class="sourceLineNo">243</span><a id="line.243">   * @param remainingValuesInOrder the rest of the values that the returned comparator will be able</a>
-<span class="sourceLineNo">244</span><a id="line.244">   *     to compare, in the order the comparator should follow</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * @return the comparator described above</a>
-<span class="sourceLineNo">246</span><a id="line.246">   * @throws NullPointerException if any of the provided values is null</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * @throws IllegalArgumentException if any duplicate values (according to {@link</a>
-<span class="sourceLineNo">248</span><a id="line.248">   *     Object#equals(Object)}) are present among the method arguments</a>
-<span class="sourceLineNo">249</span><a id="line.249">   */</a>
-<span class="sourceLineNo">250</span><a id="line.250">  // TODO(kevinb): provide replacement</a>
-<span class="sourceLineNo">251</span><a id="line.251">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">252</span><a id="line.252">  public static &lt;T&gt; Ordering&lt;T&gt; explicit(T leastValue, T... remainingValuesInOrder) {</a>
-<span class="sourceLineNo">253</span><a id="line.253">    return explicit(Lists.asList(leastValue, remainingValuesInOrder));</a>
-<span class="sourceLineNo">254</span><a id="line.254">  }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">  // Ordering&lt;Object&gt; singletons</a>
-<span class="sourceLineNo">257</span><a id="line.257"></a>
-<span class="sourceLineNo">258</span><a id="line.258">  /**</a>
-<span class="sourceLineNo">259</span><a id="line.259">   * Returns an ordering which treats all values as equal, indicating "no ordering." Passing this</a>
-<span class="sourceLineNo">260</span><a id="line.260">   * ordering to any &lt;i&gt;stable&lt;/i&gt; sort algorithm results in no change to the order of elements.</a>
-<span class="sourceLineNo">261</span><a id="line.261">   * Note especially that {@link #sortedCopy} and {@link #immutableSortedCopy} are stable, and in</a>
-<span class="sourceLineNo">262</span><a id="line.262">   * the returned instance these are implemented by simply copying the source list.</a>
-<span class="sourceLineNo">263</span><a id="line.263">   *</a>
-<span class="sourceLineNo">264</span><a id="line.264">   * &lt;p&gt;Example:</a>
-<span class="sourceLineNo">265</span><a id="line.265">   *</a>
-<span class="sourceLineNo">266</span><a id="line.266">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">267</span><a id="line.267">   * Ordering.allEqual().nullsLast().sortedCopy(</a>
-<span class="sourceLineNo">268</span><a id="line.268">   *     asList(t, null, e, s, null, t, null))</a>
-<span class="sourceLineNo">269</span><a id="line.269">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">270</span><a id="line.270">   *</a>
-<span class="sourceLineNo">271</span><a id="line.271">   * &lt;p&gt;Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,</a>
-<span class="sourceLineNo">272</span><a id="line.272">   * null, null, null]} regardless of the true comparison order of those three values (which might</a>
-<span class="sourceLineNo">273</span><a id="line.273">   * not even implement {@link Comparable} at all).</a>
-<span class="sourceLineNo">274</span><a id="line.274">   *</a>
-<span class="sourceLineNo">275</span><a id="line.275">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; by definition, this comparator is not &lt;i&gt;consistent with equals&lt;/i&gt; (as</a>
-<span class="sourceLineNo">276</span><a id="line.276">   * defined {@linkplain Comparator here}). Avoid its use in APIs, such as {@link</a>
-<span class="sourceLineNo">277</span><a id="line.277">   * TreeSet#TreeSet(Comparator)}, where such consistency is expected.</a>
-<span class="sourceLineNo">278</span><a id="line.278">   *</a>
-<span class="sourceLineNo">279</span><a id="line.279">   * &lt;p&gt;The returned comparator is serializable.</a>
-<span class="sourceLineNo">280</span><a id="line.280">   *</a>
-<span class="sourceLineNo">281</span><a id="line.281">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the lambda expression {@code (a, b) -&gt; 0} instead (in certain</a>
-<span class="sourceLineNo">282</span><a id="line.282">   * cases you may need to cast that to {@code Comparator&lt;YourType&gt;}).</a>
-<span class="sourceLineNo">283</span><a id="line.283">   *</a>
-<span class="sourceLineNo">284</span><a id="line.284">   * @since 13.0</a>
-<span class="sourceLineNo">285</span><a id="line.285">   */</a>
-<span class="sourceLineNo">286</span><a id="line.286">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">287</span><a id="line.287">  public static Ordering&lt;@Nullable Object&gt; allEqual() {</a>
-<span class="sourceLineNo">288</span><a id="line.288">    return AllEqualOrdering.INSTANCE;</a>
-<span class="sourceLineNo">289</span><a id="line.289">  }</a>
-<span class="sourceLineNo">290</span><a id="line.290"></a>
-<span class="sourceLineNo">291</span><a id="line.291">  /**</a>
-<span class="sourceLineNo">292</span><a id="line.292">   * Returns an ordering that compares objects by the natural ordering of their string</a>
-<span class="sourceLineNo">293</span><a id="line.293">   * representations as returned by {@code toString()}. It does not support null values.</a>
-<span class="sourceLineNo">294</span><a id="line.294">   *</a>
-<span class="sourceLineNo">295</span><a id="line.295">   * &lt;p&gt;The comparator is serializable.</a>
-<span class="sourceLineNo">296</span><a id="line.296">   *</a>
-<span class="sourceLineNo">297</span><a id="line.297">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.comparing(Object::toString)} instead.</a>
-<span class="sourceLineNo">298</span><a id="line.298">   */</a>
-<span class="sourceLineNo">299</span><a id="line.299">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">300</span><a id="line.300">  public static Ordering&lt;Object&gt; usingToString() {</a>
-<span class="sourceLineNo">301</span><a id="line.301">    return UsingToStringOrdering.INSTANCE;</a>
-<span class="sourceLineNo">302</span><a id="line.302">  }</a>
-<span class="sourceLineNo">303</span><a id="line.303"></a>
-<span class="sourceLineNo">304</span><a id="line.304">  /**</a>
-<span class="sourceLineNo">305</span><a id="line.305">   * Returns an arbitrary ordering over all objects, for which {@code compare(a, b) == 0} implies</a>
-<span class="sourceLineNo">306</span><a id="line.306">   * {@code a == b} (identity equality). There is no meaning whatsoever to the order imposed, but it</a>
-<span class="sourceLineNo">307</span><a id="line.307">   * is constant for the life of the VM.</a>
-<span class="sourceLineNo">308</span><a id="line.308">   *</a>
-<span class="sourceLineNo">309</span><a id="line.309">   * &lt;p&gt;Because the ordering is identity-based, it is not "consistent with {@link</a>
-<span class="sourceLineNo">310</span><a id="line.310">   * Object#equals(Object)}" as defined by {@link Comparator}. Use caution when building a {@link</a>
-<span class="sourceLineNo">311</span><a id="line.311">   * SortedSet} or {@link SortedMap} from it, as the resulting collection will not behave exactly</a>
-<span class="sourceLineNo">312</span><a id="line.312">   * according to spec.</a>
-<span class="sourceLineNo">313</span><a id="line.313">   *</a>
-<span class="sourceLineNo">314</span><a id="line.314">   * &lt;p&gt;This ordering is not serializable, as its implementation relies on {@link</a>
-<span class="sourceLineNo">315</span><a id="line.315">   * System#identityHashCode(Object)}, so its behavior cannot be preserved across serialization.</a>
-<span class="sourceLineNo">316</span><a id="line.316">   *</a>
-<span class="sourceLineNo">317</span><a id="line.317">   * @since 2.0</a>
-<span class="sourceLineNo">318</span><a id="line.318">   */</a>
-<span class="sourceLineNo">319</span><a id="line.319">  // TODO(kevinb): copy to Comparators, etc.</a>
-<span class="sourceLineNo">320</span><a id="line.320">  @J2ktIncompatible // MapMaker</a>
-<span class="sourceLineNo">321</span><a id="line.321">  public static Ordering&lt;@Nullable Object&gt; arbitrary() {</a>
-<span class="sourceLineNo">322</span><a id="line.322">    return ArbitraryOrderingHolder.ARBITRARY_ORDERING;</a>
-<span class="sourceLineNo">323</span><a id="line.323">  }</a>
-<span class="sourceLineNo">324</span><a id="line.324"></a>
-<span class="sourceLineNo">325</span><a id="line.325">  @J2ktIncompatible // MapMaker</a>
-<span class="sourceLineNo">326</span><a id="line.326">  private static class ArbitraryOrderingHolder {</a>
-<span class="sourceLineNo">327</span><a id="line.327">    static final Ordering&lt;@Nullable Object&gt; ARBITRARY_ORDERING = new ArbitraryOrdering();</a>
-<span class="sourceLineNo">328</span><a id="line.328">  }</a>
-<span class="sourceLineNo">329</span><a id="line.329"></a>
-<span class="sourceLineNo">330</span><a id="line.330">  @J2ktIncompatible // MapMaker</a>
-<span class="sourceLineNo">331</span><a id="line.331">  @VisibleForTesting</a>
-<span class="sourceLineNo">332</span><a id="line.332">  static class ArbitraryOrdering extends Ordering&lt;@Nullable Object&gt; {</a>
-<span class="sourceLineNo">333</span><a id="line.333"></a>
-<span class="sourceLineNo">334</span><a id="line.334">    private final AtomicInteger counter = new AtomicInteger(0);</a>
-<span class="sourceLineNo">335</span><a id="line.335">    private final ConcurrentMap&lt;Object, Integer&gt; uids =</a>
-<span class="sourceLineNo">336</span><a id="line.336">        Platform.tryWeakKeys(new MapMaker()).makeMap();</a>
-<span class="sourceLineNo">337</span><a id="line.337"></a>
-<span class="sourceLineNo">338</span><a id="line.338">    private Integer getUid(Object obj) {</a>
-<span class="sourceLineNo">339</span><a id="line.339">      Integer uid = uids.get(obj);</a>
-<span class="sourceLineNo">340</span><a id="line.340">      if (uid == null) {</a>
-<span class="sourceLineNo">341</span><a id="line.341">        // One or more integer values could be skipped in the event of a race</a>
-<span class="sourceLineNo">342</span><a id="line.342">        // to generate a UID for the same object from multiple threads, but</a>
-<span class="sourceLineNo">343</span><a id="line.343">        // that shouldn't be a problem.</a>
-<span class="sourceLineNo">344</span><a id="line.344">        uid = counter.getAndIncrement();</a>
-<span class="sourceLineNo">345</span><a id="line.345">        Integer alreadySet = uids.putIfAbsent(obj, uid);</a>
-<span class="sourceLineNo">346</span><a id="line.346">        if (alreadySet != null) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">          uid = alreadySet;</a>
-<span class="sourceLineNo">348</span><a id="line.348">        }</a>
-<span class="sourceLineNo">349</span><a id="line.349">      }</a>
-<span class="sourceLineNo">350</span><a id="line.350">      return uid;</a>
-<span class="sourceLineNo">351</span><a id="line.351">    }</a>
-<span class="sourceLineNo">352</span><a id="line.352"></a>
-<span class="sourceLineNo">353</span><a id="line.353">    @Override</a>
-<span class="sourceLineNo">354</span><a id="line.354">    public int compare(@CheckForNull Object left, @CheckForNull Object right) {</a>
-<span class="sourceLineNo">355</span><a id="line.355">      if (left == right) {</a>
-<span class="sourceLineNo">356</span><a id="line.356">        return 0;</a>
-<span class="sourceLineNo">357</span><a id="line.357">      } else if (left == null) {</a>
-<span class="sourceLineNo">358</span><a id="line.358">        return -1;</a>
-<span class="sourceLineNo">359</span><a id="line.359">      } else if (right == null) {</a>
-<span class="sourceLineNo">360</span><a id="line.360">        return 1;</a>
-<span class="sourceLineNo">361</span><a id="line.361">      }</a>
-<span class="sourceLineNo">362</span><a id="line.362">      int leftCode = identityHashCode(left);</a>
-<span class="sourceLineNo">363</span><a id="line.363">      int rightCode = identityHashCode(right);</a>
-<span class="sourceLineNo">364</span><a id="line.364">      if (leftCode != rightCode) {</a>
-<span class="sourceLineNo">365</span><a id="line.365">        return leftCode &lt; rightCode ? -1 : 1;</a>
-<span class="sourceLineNo">366</span><a id="line.366">      }</a>
-<span class="sourceLineNo">367</span><a id="line.367"></a>
-<span class="sourceLineNo">368</span><a id="line.368">      // identityHashCode collision (rare, but not as rare as you'd think)</a>
-<span class="sourceLineNo">369</span><a id="line.369">      int result = getUid(left).compareTo(getUid(right));</a>
-<span class="sourceLineNo">370</span><a id="line.370">      if (result == 0) {</a>
-<span class="sourceLineNo">371</span><a id="line.371">        throw new AssertionError(); // extremely, extremely unlikely.</a>
-<span class="sourceLineNo">372</span><a id="line.372">      }</a>
-<span class="sourceLineNo">373</span><a id="line.373">      return result;</a>
-<span class="sourceLineNo">374</span><a id="line.374">    }</a>
-<span class="sourceLineNo">375</span><a id="line.375"></a>
-<span class="sourceLineNo">376</span><a id="line.376">    @Override</a>
-<span class="sourceLineNo">377</span><a id="line.377">    public String toString() {</a>
-<span class="sourceLineNo">378</span><a id="line.378">      return "Ordering.arbitrary()";</a>
-<span class="sourceLineNo">379</span><a id="line.379">    }</a>
-<span class="sourceLineNo">380</span><a id="line.380"></a>
-<span class="sourceLineNo">381</span><a id="line.381">    /*</a>
-<span class="sourceLineNo">382</span><a id="line.382">     * We need to be able to mock identityHashCode() calls for tests, because it</a>
-<span class="sourceLineNo">383</span><a id="line.383">     * can take 1-10 seconds to find colliding objects. Mocking frameworks that</a>
-<span class="sourceLineNo">384</span><a id="line.384">     * can do magic to mock static method calls still can't do so for a system</a>
-<span class="sourceLineNo">385</span><a id="line.385">     * class, so we need the indirection. In production, Hotspot should still</a>
-<span class="sourceLineNo">386</span><a id="line.386">     * recognize that the call is 1-morphic and should still be willing to</a>
-<span class="sourceLineNo">387</span><a id="line.387">     * inline it if necessary.</a>
-<span class="sourceLineNo">388</span><a id="line.388">     */</a>
-<span class="sourceLineNo">389</span><a id="line.389">    int identityHashCode(Object object) {</a>
-<span class="sourceLineNo">390</span><a id="line.390">      return System.identityHashCode(object);</a>
-<span class="sourceLineNo">391</span><a id="line.391">    }</a>
-<span class="sourceLineNo">392</span><a id="line.392">  }</a>
-<span class="sourceLineNo">393</span><a id="line.393"></a>
-<span class="sourceLineNo">394</span><a id="line.394">  // Constructor</a>
-<span class="sourceLineNo">395</span><a id="line.395"></a>
-<span class="sourceLineNo">396</span><a id="line.396">  /**</a>
-<span class="sourceLineNo">397</span><a id="line.397">   * Constructs a new instance of this class (only invokable by the subclass constructor, typically</a>
-<span class="sourceLineNo">398</span><a id="line.398">   * implicit).</a>
-<span class="sourceLineNo">399</span><a id="line.399">   */</a>
-<span class="sourceLineNo">400</span><a id="line.400">  protected Ordering() {}</a>
-<span class="sourceLineNo">401</span><a id="line.401"></a>
-<span class="sourceLineNo">402</span><a id="line.402">  // Instance-based factories (and any static equivalents)</a>
-<span class="sourceLineNo">403</span><a id="line.403"></a>
-<span class="sourceLineNo">404</span><a id="line.404">  /**</a>
-<span class="sourceLineNo">405</span><a id="line.405">   * Returns the reverse of this ordering; the {@code Ordering} equivalent to {@link</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * Collections#reverseOrder(Comparator)}.</a>
-<span class="sourceLineNo">407</span><a id="line.407">   *</a>
-<span class="sourceLineNo">408</span><a id="line.408">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code thisComparator.reversed()} instead.</a>
-<span class="sourceLineNo">409</span><a id="line.409">   */</a>
-<span class="sourceLineNo">410</span><a id="line.410">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
-<span class="sourceLineNo">411</span><a id="line.411">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().reverse();</a>
-<span class="sourceLineNo">412</span><a id="line.412">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">413</span><a id="line.413">  public &lt;S extends T&gt; Ordering&lt;S&gt; reverse() {</a>
-<span class="sourceLineNo">414</span><a id="line.414">    return new ReverseOrdering&lt;&gt;(this);</a>
-<span class="sourceLineNo">415</span><a id="line.415">  }</a>
-<span class="sourceLineNo">416</span><a id="line.416"></a>
-<span class="sourceLineNo">417</span><a id="line.417">  /**</a>
-<span class="sourceLineNo">418</span><a id="line.418">   * Returns an ordering that treats {@code null} as less than all other values and uses {@code</a>
-<span class="sourceLineNo">419</span><a id="line.419">   * this} to compare non-null values.</a>
-<span class="sourceLineNo">420</span><a id="line.420">   *</a>
-<span class="sourceLineNo">421</span><a id="line.421">   * &lt;p&gt;The returned object is serializable if this object is serializable.</a>
-<span class="sourceLineNo">422</span><a id="line.422">   *</a>
-<span class="sourceLineNo">423</span><a id="line.423">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.nullsFirst(thisComparator)} instead.</a>
-<span class="sourceLineNo">424</span><a id="line.424">   */</a>
-<span class="sourceLineNo">425</span><a id="line.425">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
-<span class="sourceLineNo">426</span><a id="line.426">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().nullsFirst();</a>
-<span class="sourceLineNo">427</span><a id="line.427">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">428</span><a id="line.428">  public &lt;S extends T&gt; Ordering&lt;@Nullable S&gt; nullsFirst() {</a>
-<span class="sourceLineNo">429</span><a id="line.429">    return new NullsFirstOrdering&lt;S&gt;(this);</a>
-<span class="sourceLineNo">430</span><a id="line.430">  }</a>
-<span class="sourceLineNo">431</span><a id="line.431"></a>
-<span class="sourceLineNo">432</span><a id="line.432">  /**</a>
-<span class="sourceLineNo">433</span><a id="line.433">   * Returns an ordering that treats {@code null} as greater than all other values and uses this</a>
-<span class="sourceLineNo">434</span><a id="line.434">   * ordering to compare non-null values.</a>
-<span class="sourceLineNo">435</span><a id="line.435">   *</a>
-<span class="sourceLineNo">436</span><a id="line.436">   * &lt;p&gt;The returned object is serializable if this object is serializable.</a>
-<span class="sourceLineNo">437</span><a id="line.437">   *</a>
-<span class="sourceLineNo">438</span><a id="line.438">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.nullsLast(thisComparator)} instead.</a>
-<span class="sourceLineNo">439</span><a id="line.439">   */</a>
-<span class="sourceLineNo">440</span><a id="line.440">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
-<span class="sourceLineNo">441</span><a id="line.441">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().nullsLast();</a>
-<span class="sourceLineNo">442</span><a id="line.442">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">443</span><a id="line.443">  public &lt;S extends T&gt; Ordering&lt;@Nullable S&gt; nullsLast() {</a>
-<span class="sourceLineNo">444</span><a id="line.444">    return new NullsLastOrdering&lt;S&gt;(this);</a>
-<span class="sourceLineNo">445</span><a id="line.445">  }</a>
-<span class="sourceLineNo">446</span><a id="line.446"></a>
-<span class="sourceLineNo">447</span><a id="line.447">  /**</a>
-<span class="sourceLineNo">448</span><a id="line.448">   * Returns a new ordering on {@code F} which orders elements by first applying a function to them,</a>
-<span class="sourceLineNo">449</span><a id="line.449">   * then comparing those results using {@code this}. For example, to compare objects by their</a>
-<span class="sourceLineNo">450</span><a id="line.450">   * string forms, in a case-insensitive manner, use:</a>
-<span class="sourceLineNo">451</span><a id="line.451">   *</a>
-<span class="sourceLineNo">452</span><a id="line.452">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">453</span><a id="line.453">   * Ordering.from(String.CASE_INSENSITIVE_ORDER)</a>
-<span class="sourceLineNo">454</span><a id="line.454">   *     .onResultOf(Functions.toStringFunction())</a>
-<span class="sourceLineNo">455</span><a id="line.455">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">456</span><a id="line.456">   *</a>
-<span class="sourceLineNo">457</span><a id="line.457">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.comparing(function, thisComparator)} instead</a>
-<span class="sourceLineNo">458</span><a id="line.458">   * (you can omit the comparator if it is the natural order).</a>
-<span class="sourceLineNo">459</span><a id="line.459">   */</a>
-<span class="sourceLineNo">460</span><a id="line.460">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">461</span><a id="line.461">  public &lt;F extends @Nullable Object&gt; Ordering&lt;F&gt; onResultOf(Function&lt;F, ? extends T&gt; function) {</a>
-<span class="sourceLineNo">462</span><a id="line.462">    return new ByFunctionOrdering&lt;&gt;(function, this);</a>
-<span class="sourceLineNo">463</span><a id="line.463">  }</a>
-<span class="sourceLineNo">464</span><a id="line.464"></a>
-<span class="sourceLineNo">465</span><a id="line.465">  &lt;T2 extends T&gt; Ordering&lt;Entry&lt;T2, ?&gt;&gt; onKeys() {</a>
-<span class="sourceLineNo">466</span><a id="line.466">    return onResultOf(Maps.&lt;T2&gt;keyFunction());</a>
-<span class="sourceLineNo">467</span><a id="line.467">  }</a>
-<span class="sourceLineNo">468</span><a id="line.468"></a>
-<span class="sourceLineNo">469</span><a id="line.469">  /**</a>
-<span class="sourceLineNo">470</span><a id="line.470">   * Returns an ordering which first uses the ordering {@code this}, but which in the event of a</a>
-<span class="sourceLineNo">471</span><a id="line.471">   * "tie", then delegates to {@code secondaryComparator}. For example, to sort a bug list first by</a>
-<span class="sourceLineNo">472</span><a id="line.472">   * status and second by priority, you might use {@code byStatus.compound(byPriority)}. For a</a>
-<span class="sourceLineNo">473</span><a id="line.473">   * compound ordering with three or more components, simply chain multiple calls to this method.</a>
-<span class="sourceLineNo">474</span><a id="line.474">   *</a>
-<span class="sourceLineNo">475</span><a id="line.475">   * &lt;p&gt;An ordering produced by this method, or a chain of calls to this method, is equivalent to</a>
-<span class="sourceLineNo">476</span><a id="line.476">   * one created using {@link Ordering#compound(Iterable)} on the same component comparators.</a>
-<span class="sourceLineNo">477</span><a id="line.477">   *</a>
-<span class="sourceLineNo">478</span><a id="line.478">   * &lt;p&gt;The returned object is serializable if this object and {@code secondaryComparator} are both</a>
-<span class="sourceLineNo">479</span><a id="line.479">   * serializable.</a>
-<span class="sourceLineNo">480</span><a id="line.480">   *</a>
-<span class="sourceLineNo">481</span><a id="line.481">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code thisComparator.thenComparing(secondaryComparator)} instead.</a>
-<span class="sourceLineNo">482</span><a id="line.482">   * Depending on what {@code secondaryComparator} is, one of the other overloads of {@code</a>
-<span class="sourceLineNo">483</span><a id="line.483">   * thenComparing} may be even more useful.</a>
-<span class="sourceLineNo">484</span><a id="line.484">   */</a>
-<span class="sourceLineNo">485</span><a id="line.485">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">486</span><a id="line.486">  public &lt;U extends T&gt; Ordering&lt;U&gt; compound(Comparator&lt;? super U&gt; secondaryComparator) {</a>
-<span class="sourceLineNo">487</span><a id="line.487">    return new CompoundOrdering&lt;&gt;(this, checkNotNull(secondaryComparator));</a>
-<span class="sourceLineNo">488</span><a id="line.488">  }</a>
-<span class="sourceLineNo">489</span><a id="line.489"></a>
-<span class="sourceLineNo">490</span><a id="line.490">  /**</a>
-<span class="sourceLineNo">491</span><a id="line.491">   * Returns an ordering which tries each given comparator in order until a non-zero result is</a>
-<span class="sourceLineNo">492</span><a id="line.492">   * found, returning that result, and returning zero only if all comparators return zero. The</a>
-<span class="sourceLineNo">493</span><a id="line.493">   * returned ordering is based on the state of the {@code comparators} iterable at the time it was</a>
-<span class="sourceLineNo">494</span><a id="line.494">   * provided to this method.</a>
-<span class="sourceLineNo">495</span><a id="line.495">   *</a>
-<span class="sourceLineNo">496</span><a id="line.496">   * &lt;p&gt;The returned ordering is equivalent to that produced using {@code</a>
-<span class="sourceLineNo">497</span><a id="line.497">   * Ordering.from(comp1).compound(comp2).compound(comp3) . . .}.</a>
-<span class="sourceLineNo">498</span><a id="line.498">   *</a>
-<span class="sourceLineNo">499</span><a id="line.499">   * &lt;p&gt;The returned object is serializable if each of the {@code comparators} is serializable.</a>
-<span class="sourceLineNo">500</span><a id="line.500">   *</a>
-<span class="sourceLineNo">501</span><a id="line.501">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Supplying an argument with undefined iteration order, such as a {@link</a>
-<span class="sourceLineNo">502</span><a id="line.502">   * HashSet}, will produce non-deterministic results.</a>
-<span class="sourceLineNo">503</span><a id="line.503">   *</a>
-<span class="sourceLineNo">504</span><a id="line.504">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use a chain of calls to {@link Comparator#thenComparing(Comparator)},</a>
-<span class="sourceLineNo">505</span><a id="line.505">   * or {@code comparatorCollection.stream().reduce(Comparator::thenComparing).get()} (if the</a>
-<span class="sourceLineNo">506</span><a id="line.506">   * collection might be empty, also provide a default comparator as the {@code identity} parameter</a>
-<span class="sourceLineNo">507</span><a id="line.507">   * to {@code reduce}).</a>
-<span class="sourceLineNo">508</span><a id="line.508">   *</a>
-<span class="sourceLineNo">509</span><a id="line.509">   * @param comparators the comparators to try in order</a>
-<span class="sourceLineNo">510</span><a id="line.510">   */</a>
-<span class="sourceLineNo">511</span><a id="line.511">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">512</span><a id="line.512">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; compound(</a>
-<span class="sourceLineNo">513</span><a id="line.513">      Iterable&lt;? extends Comparator&lt;? super T&gt;&gt; comparators) {</a>
-<span class="sourceLineNo">514</span><a id="line.514">    return new CompoundOrdering&lt;&gt;(comparators);</a>
-<span class="sourceLineNo">515</span><a id="line.515">  }</a>
-<span class="sourceLineNo">516</span><a id="line.516"></a>
-<span class="sourceLineNo">517</span><a id="line.517">  /**</a>
-<span class="sourceLineNo">518</span><a id="line.518">   * Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until</a>
-<span class="sourceLineNo">519</span><a id="line.519">   * a nonzero result is found; imposes "dictionary order". If the end of one iterable is reached,</a>
-<span class="sourceLineNo">520</span><a id="line.520">   * but not the other, the shorter iterable is considered to be less than the longer one. For</a>
-<span class="sourceLineNo">521</span><a id="line.521">   * example, a lexicographical natural ordering over integers considers {@code [] &lt; [1] &lt; [1, 1] &lt;</a>
-<span class="sourceLineNo">522</span><a id="line.522">   * [1, 2] &lt; [2]}.</a>
-<span class="sourceLineNo">523</span><a id="line.523">   *</a>
-<span class="sourceLineNo">524</span><a id="line.524">   * &lt;p&gt;Note that {@code ordering.lexicographical().reverse()} is not equivalent to {@code</a>
-<span class="sourceLineNo">525</span><a id="line.525">   * ordering.reverse().lexicographical()} (consider how each would order {@code [1]} and {@code [1,</a>
-<span class="sourceLineNo">526</span><a id="line.526">   * 1]}).</a>
-<span class="sourceLineNo">527</span><a id="line.527">   *</a>
-<span class="sourceLineNo">528</span><a id="line.528">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@link Comparators#lexicographical(Comparator)} instead.</a>
-<span class="sourceLineNo">529</span><a id="line.529">   *</a>
-<span class="sourceLineNo">530</span><a id="line.530">   * @since 2.0</a>
-<span class="sourceLineNo">531</span><a id="line.531">   */</a>
-<span class="sourceLineNo">532</span><a id="line.532">  @GwtCompatible(serializable = true)</a>
-<span class="sourceLineNo">533</span><a id="line.533">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
-<span class="sourceLineNo">534</span><a id="line.534">  // Ordering&lt;Iterable&lt;String&gt;&gt; o =</a>
-<span class="sourceLineNo">535</span><a id="line.535">  //     Ordering.&lt;String&gt;natural().lexicographical();</a>
-<span class="sourceLineNo">536</span><a id="line.536">  public &lt;S extends T&gt; Ordering&lt;Iterable&lt;S&gt;&gt; lexicographical() {</a>
-<span class="sourceLineNo">537</span><a id="line.537">    /*</a>
-<span class="sourceLineNo">538</span><a id="line.538">     * Note that technically the returned ordering should be capable of</a>
-<span class="sourceLineNo">539</span><a id="line.539">     * handling not just {@code Iterable&lt;S&gt;} instances, but also any {@code</a>
-<span class="sourceLineNo">540</span><a id="line.540">     * Iterable&lt;? extends S&gt;}. However, the need for this comes up so rarely</a>
-<span class="sourceLineNo">541</span><a id="line.541">     * that it doesn't justify making everyone else deal with the very ugly</a>
-<span class="sourceLineNo">542</span><a id="line.542">     * wildcard.</a>
-<span class="sourceLineNo">543</span><a id="line.543">     */</a>
-<span class="sourceLineNo">544</span><a id="line.544">    return new LexicographicalOrdering&lt;S&gt;(this);</a>
-<span class="sourceLineNo">545</span><a id="line.545">  }</a>
-<span class="sourceLineNo">546</span><a id="line.546"></a>
-<span class="sourceLineNo">547</span><a id="line.547">  // Regular instance methods</a>
-<span class="sourceLineNo">548</span><a id="line.548"></a>
-<span class="sourceLineNo">549</span><a id="line.549">  @Override</a>
-<span class="sourceLineNo">550</span><a id="line.550">  public abstract int compare(@ParametricNullness T left, @ParametricNullness T right);</a>
-<span class="sourceLineNo">551</span><a id="line.551"></a>
-<span class="sourceLineNo">552</span><a id="line.552">  /**</a>
-<span class="sourceLineNo">553</span><a id="line.553">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">554</span><a id="line.554">   * least values, the first of those is returned. The iterator will be left exhausted: its {@code</a>
-<span class="sourceLineNo">555</span><a id="line.555">   * hasNext()} method will return {@code false}.</a>
-<span class="sourceLineNo">556</span><a id="line.556">   *</a>
-<span class="sourceLineNo">557</span><a id="line.557">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).min(thisComparator).get()} instead</a>
-<span class="sourceLineNo">558</span><a id="line.558">   * (but note that it does not guarantee which tied minimum element is returned).</a>
-<span class="sourceLineNo">559</span><a id="line.559">   *</a>
-<span class="sourceLineNo">560</span><a id="line.560">   * @param iterator the iterator whose minimum element is to be determined</a>
-<span class="sourceLineNo">561</span><a id="line.561">   * @throws NoSuchElementException if {@code iterator} is empty</a>
-<span class="sourceLineNo">562</span><a id="line.562">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">563</span><a id="line.563">   *     ordering.</a>
-<span class="sourceLineNo">564</span><a id="line.564">   * @since 11.0</a>
-<span class="sourceLineNo">565</span><a id="line.565">   */</a>
-<span class="sourceLineNo">566</span><a id="line.566">  @ParametricNullness</a>
-<span class="sourceLineNo">567</span><a id="line.567">  public &lt;E extends T&gt; E min(Iterator&lt;E&gt; iterator) {</a>
-<span class="sourceLineNo">568</span><a id="line.568">    // let this throw NoSuchElementException as necessary</a>
-<span class="sourceLineNo">569</span><a id="line.569">    E minSoFar = iterator.next();</a>
-<span class="sourceLineNo">570</span><a id="line.570"></a>
-<span class="sourceLineNo">571</span><a id="line.571">    while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">572</span><a id="line.572">      minSoFar = this.&lt;E&gt;min(minSoFar, iterator.next());</a>
-<span class="sourceLineNo">573</span><a id="line.573">    }</a>
-<span class="sourceLineNo">574</span><a id="line.574"></a>
-<span class="sourceLineNo">575</span><a id="line.575">    return minSoFar;</a>
-<span class="sourceLineNo">576</span><a id="line.576">  }</a>
-<span class="sourceLineNo">577</span><a id="line.577"></a>
-<span class="sourceLineNo">578</span><a id="line.578">  /**</a>
-<span class="sourceLineNo">579</span><a id="line.579">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">580</span><a id="line.580">   * least values, the first of those is returned.</a>
-<span class="sourceLineNo">581</span><a id="line.581">   *</a>
-<span class="sourceLineNo">582</span><a id="line.582">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; If {@code iterable} is a {@link Collection}, use {@code</a>
-<span class="sourceLineNo">583</span><a id="line.583">   * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code</a>
-<span class="sourceLineNo">584</span><a id="line.584">   * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do</a>
-<span class="sourceLineNo">585</span><a id="line.585">   * not guarantee which tied minimum element is returned.</a>
-<span class="sourceLineNo">586</span><a id="line.586">   *</a>
-<span class="sourceLineNo">587</span><a id="line.587">   * @param iterable the iterable whose minimum element is to be determined</a>
-<span class="sourceLineNo">588</span><a id="line.588">   * @throws NoSuchElementException if {@code iterable} is empty</a>
-<span class="sourceLineNo">589</span><a id="line.589">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">590</span><a id="line.590">   *     ordering.</a>
-<span class="sourceLineNo">591</span><a id="line.591">   */</a>
-<span class="sourceLineNo">592</span><a id="line.592">  @ParametricNullness</a>
-<span class="sourceLineNo">593</span><a id="line.593">  public &lt;E extends T&gt; E min(Iterable&lt;E&gt; iterable) {</a>
-<span class="sourceLineNo">594</span><a id="line.594">    return min(iterable.iterator());</a>
-<span class="sourceLineNo">595</span><a id="line.595">  }</a>
-<span class="sourceLineNo">596</span><a id="line.596"></a>
-<span class="sourceLineNo">597</span><a id="line.597">  /**</a>
-<span class="sourceLineNo">598</span><a id="line.598">   * Returns the lesser of the two values according to this ordering. If the values compare as 0,</a>
-<span class="sourceLineNo">599</span><a id="line.599">   * the first is returned.</a>
-<span class="sourceLineNo">600</span><a id="line.600">   *</a>
-<span class="sourceLineNo">601</span><a id="line.601">   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the</a>
-<span class="sourceLineNo">602</span><a id="line.602">   * other {@code min} overloads, so overriding it will affect their behavior.</a>
-<span class="sourceLineNo">603</span><a id="line.603">   *</a>
-<span class="sourceLineNo">604</span><a id="line.604">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code</a>
-<span class="sourceLineNo">605</span><a id="line.605">   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.</a>
-<span class="sourceLineNo">606</span><a id="line.606">   *</a>
-<span class="sourceLineNo">607</span><a id="line.607">   * @param a value to compare, returned if less than or equal to b.</a>
-<span class="sourceLineNo">608</span><a id="line.608">   * @param b value to compare.</a>
-<span class="sourceLineNo">609</span><a id="line.609">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">610</span><a id="line.610">   *     ordering.</a>
-<span class="sourceLineNo">611</span><a id="line.611">   */</a>
-<span class="sourceLineNo">612</span><a id="line.612">  @ParametricNullness</a>
-<span class="sourceLineNo">613</span><a id="line.613">  public &lt;E extends T&gt; E min(@ParametricNullness E a, @ParametricNullness E b) {</a>
-<span class="sourceLineNo">614</span><a id="line.614">    return (compare(a, b) &lt;= 0) ? a : b;</a>
-<span class="sourceLineNo">615</span><a id="line.615">  }</a>
-<span class="sourceLineNo">616</span><a id="line.616"></a>
-<span class="sourceLineNo">617</span><a id="line.617">  /**</a>
-<span class="sourceLineNo">618</span><a id="line.618">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">619</span><a id="line.619">   * least values, the first of those is returned.</a>
-<span class="sourceLineNo">620</span><a id="line.620">   *</a>
-<span class="sourceLineNo">621</span><a id="line.621">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}</a>
-<span class="sourceLineNo">622</span><a id="line.622">   * instead (but note that it does not guarantee which tied minimum element is returned).</a>
-<span class="sourceLineNo">623</span><a id="line.623">   *</a>
-<span class="sourceLineNo">624</span><a id="line.624">   * @param a value to compare, returned if less than or equal to the rest.</a>
-<span class="sourceLineNo">625</span><a id="line.625">   * @param b value to compare</a>
-<span class="sourceLineNo">626</span><a id="line.626">   * @param c value to compare</a>
-<span class="sourceLineNo">627</span><a id="line.627">   * @param rest values to compare</a>
-<span class="sourceLineNo">628</span><a id="line.628">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">629</span><a id="line.629">   *     ordering.</a>
-<span class="sourceLineNo">630</span><a id="line.630">   */</a>
-<span class="sourceLineNo">631</span><a id="line.631">  @ParametricNullness</a>
-<span class="sourceLineNo">632</span><a id="line.632">  public &lt;E extends T&gt; E min(</a>
-<span class="sourceLineNo">633</span><a id="line.633">      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {</a>
-<span class="sourceLineNo">634</span><a id="line.634">    E minSoFar = min(min(a, b), c);</a>
-<span class="sourceLineNo">635</span><a id="line.635"></a>
-<span class="sourceLineNo">636</span><a id="line.636">    for (E r : rest) {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      minSoFar = min(minSoFar, r);</a>
-<span class="sourceLineNo">638</span><a id="line.638">    }</a>
-<span class="sourceLineNo">639</span><a id="line.639"></a>
-<span class="sourceLineNo">640</span><a id="line.640">    return minSoFar;</a>
-<span class="sourceLineNo">641</span><a id="line.641">  }</a>
-<span class="sourceLineNo">642</span><a id="line.642"></a>
-<span class="sourceLineNo">643</span><a id="line.643">  /**</a>
-<span class="sourceLineNo">644</span><a id="line.644">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">645</span><a id="line.645">   * greatest values, the first of those is returned. The iterator will be left exhausted: its</a>
-<span class="sourceLineNo">646</span><a id="line.646">   * {@code hasNext()} method will return {@code false}.</a>
-<span class="sourceLineNo">647</span><a id="line.647">   *</a>
-<span class="sourceLineNo">648</span><a id="line.648">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).max(thisComparator).get()} instead</a>
-<span class="sourceLineNo">649</span><a id="line.649">   * (but note that it does not guarantee which tied maximum element is returned).</a>
-<span class="sourceLineNo">650</span><a id="line.650">   *</a>
-<span class="sourceLineNo">651</span><a id="line.651">   * @param iterator the iterator whose maximum element is to be determined</a>
-<span class="sourceLineNo">652</span><a id="line.652">   * @throws NoSuchElementException if {@code iterator} is empty</a>
-<span class="sourceLineNo">653</span><a id="line.653">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">654</span><a id="line.654">   *     ordering.</a>
-<span class="sourceLineNo">655</span><a id="line.655">   * @since 11.0</a>
-<span class="sourceLineNo">656</span><a id="line.656">   */</a>
-<span class="sourceLineNo">657</span><a id="line.657">  @ParametricNullness</a>
-<span class="sourceLineNo">658</span><a id="line.658">  public &lt;E extends T&gt; E max(Iterator&lt;E&gt; iterator) {</a>
-<span class="sourceLineNo">659</span><a id="line.659">    // let this throw NoSuchElementException as necessary</a>
-<span class="sourceLineNo">660</span><a id="line.660">    E maxSoFar = iterator.next();</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">    while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">663</span><a id="line.663">      maxSoFar = this.&lt;E&gt;max(maxSoFar, iterator.next());</a>
-<span class="sourceLineNo">664</span><a id="line.664">    }</a>
-<span class="sourceLineNo">665</span><a id="line.665"></a>
-<span class="sourceLineNo">666</span><a id="line.666">    return maxSoFar;</a>
-<span class="sourceLineNo">667</span><a id="line.667">  }</a>
-<span class="sourceLineNo">668</span><a id="line.668"></a>
-<span class="sourceLineNo">669</span><a id="line.669">  /**</a>
-<span class="sourceLineNo">670</span><a id="line.670">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">671</span><a id="line.671">   * greatest values, the first of those is returned.</a>
-<span class="sourceLineNo">672</span><a id="line.672">   *</a>
-<span class="sourceLineNo">673</span><a id="line.673">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; If {@code iterable} is a {@link Collection}, use {@code</a>
-<span class="sourceLineNo">674</span><a id="line.674">   * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code</a>
-<span class="sourceLineNo">675</span><a id="line.675">   * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do</a>
-<span class="sourceLineNo">676</span><a id="line.676">   * not guarantee which tied maximum element is returned.</a>
-<span class="sourceLineNo">677</span><a id="line.677">   *</a>
-<span class="sourceLineNo">678</span><a id="line.678">   * @param iterable the iterable whose maximum element is to be determined</a>
-<span class="sourceLineNo">679</span><a id="line.679">   * @throws NoSuchElementException if {@code iterable} is empty</a>
-<span class="sourceLineNo">680</span><a id="line.680">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">681</span><a id="line.681">   *     ordering.</a>
-<span class="sourceLineNo">682</span><a id="line.682">   */</a>
-<span class="sourceLineNo">683</span><a id="line.683">  @ParametricNullness</a>
-<span class="sourceLineNo">684</span><a id="line.684">  public &lt;E extends T&gt; E max(Iterable&lt;E&gt; iterable) {</a>
-<span class="sourceLineNo">685</span><a id="line.685">    return max(iterable.iterator());</a>
-<span class="sourceLineNo">686</span><a id="line.686">  }</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">  /**</a>
-<span class="sourceLineNo">689</span><a id="line.689">   * Returns the greater of the two values according to this ordering. If the values compare as 0,</a>
-<span class="sourceLineNo">690</span><a id="line.690">   * the first is returned.</a>
-<span class="sourceLineNo">691</span><a id="line.691">   *</a>
-<span class="sourceLineNo">692</span><a id="line.692">   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the</a>
-<span class="sourceLineNo">693</span><a id="line.693">   * other {@code max} overloads, so overriding it will affect their behavior.</a>
-<span class="sourceLineNo">694</span><a id="line.694">   *</a>
-<span class="sourceLineNo">695</span><a id="line.695">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code</a>
-<span class="sourceLineNo">696</span><a id="line.696">   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.</a>
-<span class="sourceLineNo">697</span><a id="line.697">   *</a>
-<span class="sourceLineNo">698</span><a id="line.698">   * @param a value to compare, returned if greater than or equal to b.</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * @param b value to compare.</a>
-<span class="sourceLineNo">700</span><a id="line.700">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">701</span><a id="line.701">   *     ordering.</a>
-<span class="sourceLineNo">702</span><a id="line.702">   */</a>
-<span class="sourceLineNo">703</span><a id="line.703">  @ParametricNullness</a>
-<span class="sourceLineNo">704</span><a id="line.704">  public &lt;E extends T&gt; E max(@ParametricNullness E a, @ParametricNullness E b) {</a>
-<span class="sourceLineNo">705</span><a id="line.705">    return (compare(a, b) &gt;= 0) ? a : b;</a>
-<span class="sourceLineNo">706</span><a id="line.706">  }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">  /**</a>
-<span class="sourceLineNo">709</span><a id="line.709">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
-<span class="sourceLineNo">710</span><a id="line.710">   * greatest values, the first of those is returned.</a>
-<span class="sourceLineNo">711</span><a id="line.711">   *</a>
-<span class="sourceLineNo">712</span><a id="line.712">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Collections.max(Arrays.asList(a, b, c...), thisComparator)}</a>
-<span class="sourceLineNo">713</span><a id="line.713">   * instead (but note that it does not guarantee which tied maximum element is returned).</a>
-<span class="sourceLineNo">714</span><a id="line.714">   *</a>
-<span class="sourceLineNo">715</span><a id="line.715">   * @param a value to compare, returned if greater than or equal to the rest.</a>
-<span class="sourceLineNo">716</span><a id="line.716">   * @param b value to compare</a>
-<span class="sourceLineNo">717</span><a id="line.717">   * @param c value to compare</a>
-<span class="sourceLineNo">718</span><a id="line.718">   * @param rest values to compare</a>
-<span class="sourceLineNo">719</span><a id="line.719">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
-<span class="sourceLineNo">720</span><a id="line.720">   *     ordering.</a>
-<span class="sourceLineNo">721</span><a id="line.721">   */</a>
-<span class="sourceLineNo">722</span><a id="line.722">  @ParametricNullness</a>
-<span class="sourceLineNo">723</span><a id="line.723">  public &lt;E extends T&gt; E max(</a>
-<span class="sourceLineNo">724</span><a id="line.724">      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {</a>
-<span class="sourceLineNo">725</span><a id="line.725">    E maxSoFar = max(max(a, b), c);</a>
-<span class="sourceLineNo">726</span><a id="line.726"></a>
-<span class="sourceLineNo">727</span><a id="line.727">    for (E r : rest) {</a>
-<span class="sourceLineNo">728</span><a id="line.728">      maxSoFar = max(maxSoFar, r);</a>
-<span class="sourceLineNo">729</span><a id="line.729">    }</a>
-<span class="sourceLineNo">730</span><a id="line.730"></a>
-<span class="sourceLineNo">731</span><a id="line.731">    return maxSoFar;</a>
-<span class="sourceLineNo">732</span><a id="line.732">  }</a>
-<span class="sourceLineNo">733</span><a id="line.733"></a>
-<span class="sourceLineNo">734</span><a id="line.734">  /**</a>
-<span class="sourceLineNo">735</span><a id="line.735">   * Returns the {@code k} least elements of the given iterable according to this ordering, in order</a>
-<span class="sourceLineNo">736</span><a id="line.736">   * from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">737</span><a id="line.737">   * included.</a>
-<span class="sourceLineNo">738</span><a id="line.738">   *</a>
-<span class="sourceLineNo">739</span><a id="line.739">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">740</span><a id="line.740">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">741</span><a id="line.741">   *</a>
-<span class="sourceLineNo">742</span><a id="line.742">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.least(k,</a>
-<span class="sourceLineNo">743</span><a id="line.743">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">744</span><a id="line.744">   *</a>
-<span class="sourceLineNo">745</span><a id="line.745">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
-<span class="sourceLineNo">746</span><a id="line.746">   *     order</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">748</span><a id="line.748">   * @since 8.0</a>
-<span class="sourceLineNo">749</span><a id="line.749">   */</a>
-<span class="sourceLineNo">750</span><a id="line.750">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterable&lt;E&gt; iterable, int k) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">    if (iterable instanceof Collection) {</a>
-<span class="sourceLineNo">752</span><a id="line.752">      Collection&lt;E&gt; collection = (Collection&lt;E&gt;) iterable;</a>
-<span class="sourceLineNo">753</span><a id="line.753">      if (collection.size() &lt;= 2L * k) {</a>
-<span class="sourceLineNo">754</span><a id="line.754">        // In this case, just dumping the collection to an array and sorting is</a>
-<span class="sourceLineNo">755</span><a id="line.755">        // faster than using the implementation for Iterator, which is</a>
-<span class="sourceLineNo">756</span><a id="line.756">        // specialized for k much smaller than n.</a>
-<span class="sourceLineNo">757</span><a id="line.757"></a>
-<span class="sourceLineNo">758</span><a id="line.758">        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape</a>
-<span class="sourceLineNo">759</span><a id="line.759">        E[] array = (E[]) collection.toArray();</a>
-<span class="sourceLineNo">760</span><a id="line.760">        Arrays.sort(array, this);</a>
-<span class="sourceLineNo">761</span><a id="line.761">        if (array.length &gt; k) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">          array = Arrays.copyOf(array, k);</a>
-<span class="sourceLineNo">763</span><a id="line.763">        }</a>
-<span class="sourceLineNo">764</span><a id="line.764">        return Collections.unmodifiableList(Arrays.asList(array));</a>
-<span class="sourceLineNo">765</span><a id="line.765">      }</a>
-<span class="sourceLineNo">766</span><a id="line.766">    }</a>
-<span class="sourceLineNo">767</span><a id="line.767">    return leastOf(iterable.iterator(), k);</a>
-<span class="sourceLineNo">768</span><a id="line.768">  }</a>
-<span class="sourceLineNo">769</span><a id="line.769"></a>
-<span class="sourceLineNo">770</span><a id="line.770">  /**</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * Returns the {@code k} least elements from the given iterator according to this ordering, in</a>
-<span class="sourceLineNo">772</span><a id="line.772">   * order from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">773</span><a id="line.773">   * included.</a>
-<span class="sourceLineNo">774</span><a id="line.774">   *</a>
-<span class="sourceLineNo">775</span><a id="line.775">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">776</span><a id="line.776">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">777</span><a id="line.777">   *</a>
-<span class="sourceLineNo">778</span><a id="line.778">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.least(k,</a>
-<span class="sourceLineNo">779</span><a id="line.779">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">780</span><a id="line.780">   *</a>
-<span class="sourceLineNo">781</span><a id="line.781">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
-<span class="sourceLineNo">782</span><a id="line.782">   *     order</a>
-<span class="sourceLineNo">783</span><a id="line.783">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">784</span><a id="line.784">   * @since 14.0</a>
-<span class="sourceLineNo">785</span><a id="line.785">   */</a>
-<span class="sourceLineNo">786</span><a id="line.786">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterator&lt;E&gt; iterator, int k) {</a>
-<span class="sourceLineNo">787</span><a id="line.787">    checkNotNull(iterator);</a>
-<span class="sourceLineNo">788</span><a id="line.788">    checkNonnegative(k, "k");</a>
-<span class="sourceLineNo">789</span><a id="line.789"></a>
-<span class="sourceLineNo">790</span><a id="line.790">    if (k == 0 || !iterator.hasNext()) {</a>
-<span class="sourceLineNo">791</span><a id="line.791">      return Collections.emptyList();</a>
-<span class="sourceLineNo">792</span><a id="line.792">    } else if (k &gt;= Integer.MAX_VALUE / 2) {</a>
-<span class="sourceLineNo">793</span><a id="line.793">      // k is really large; just do a straightforward sorted-copy-and-sublist</a>
-<span class="sourceLineNo">794</span><a id="line.794">      ArrayList&lt;E&gt; list = Lists.newArrayList(iterator);</a>
-<span class="sourceLineNo">795</span><a id="line.795">      Collections.sort(list, this);</a>
-<span class="sourceLineNo">796</span><a id="line.796">      if (list.size() &gt; k) {</a>
-<span class="sourceLineNo">797</span><a id="line.797">        list.subList(k, list.size()).clear();</a>
-<span class="sourceLineNo">798</span><a id="line.798">      }</a>
-<span class="sourceLineNo">799</span><a id="line.799">      list.trimToSize();</a>
-<span class="sourceLineNo">800</span><a id="line.800">      return Collections.unmodifiableList(list);</a>
-<span class="sourceLineNo">801</span><a id="line.801">    } else {</a>
-<span class="sourceLineNo">802</span><a id="line.802">      TopKSelector&lt;E&gt; selector = TopKSelector.least(k, this);</a>
-<span class="sourceLineNo">803</span><a id="line.803">      selector.offerAll(iterator);</a>
-<span class="sourceLineNo">804</span><a id="line.804">      return selector.topK();</a>
-<span class="sourceLineNo">805</span><a id="line.805">    }</a>
-<span class="sourceLineNo">806</span><a id="line.806">  }</a>
-<span class="sourceLineNo">807</span><a id="line.807"></a>
-<span class="sourceLineNo">808</span><a id="line.808">  /**</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * Returns the {@code k} greatest elements of the given iterable according to this ordering, in</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * included.</a>
-<span class="sourceLineNo">812</span><a id="line.812">   *</a>
-<span class="sourceLineNo">813</span><a id="line.813">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">814</span><a id="line.814">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">815</span><a id="line.815">   *</a>
-<span class="sourceLineNo">816</span><a id="line.816">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,</a>
-<span class="sourceLineNo">817</span><a id="line.817">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">818</span><a id="line.818">   *</a>
-<span class="sourceLineNo">819</span><a id="line.819">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
-<span class="sourceLineNo">820</span><a id="line.820">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
-<span class="sourceLineNo">821</span><a id="line.821">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">822</span><a id="line.822">   * @since 8.0</a>
-<span class="sourceLineNo">823</span><a id="line.823">   */</a>
-<span class="sourceLineNo">824</span><a id="line.824">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterable&lt;E&gt; iterable, int k) {</a>
-<span class="sourceLineNo">825</span><a id="line.825">    // TODO(kevinb): see if delegation is hurting performance noticeably</a>
-<span class="sourceLineNo">826</span><a id="line.826">    // TODO(kevinb): if we change this implementation, add full unit tests.</a>
-<span class="sourceLineNo">827</span><a id="line.827">    return this.&lt;E&gt;reverse().leastOf(iterable, k);</a>
-<span class="sourceLineNo">828</span><a id="line.828">  }</a>
-<span class="sourceLineNo">829</span><a id="line.829"></a>
-<span class="sourceLineNo">830</span><a id="line.830">  /**</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * Returns the {@code k} greatest elements from the given iterator according to this ordering, in</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
-<span class="sourceLineNo">833</span><a id="line.833">   * included.</a>
-<span class="sourceLineNo">834</span><a id="line.834">   *</a>
-<span class="sourceLineNo">835</span><a id="line.835">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * elements are equivalent, it is undefined which will come first.</a>
-<span class="sourceLineNo">837</span><a id="line.837">   *</a>
-<span class="sourceLineNo">838</span><a id="line.838">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * thisComparator))} instead.</a>
-<span class="sourceLineNo">840</span><a id="line.840">   *</a>
-<span class="sourceLineNo">841</span><a id="line.841">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
-<span class="sourceLineNo">842</span><a id="line.842">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
-<span class="sourceLineNo">843</span><a id="line.843">   * @throws IllegalArgumentException if {@code k} is negative</a>
-<span class="sourceLineNo">844</span><a id="line.844">   * @since 14.0</a>
-<span class="sourceLineNo">845</span><a id="line.845">   */</a>
-<span class="sourceLineNo">846</span><a id="line.846">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterator&lt;E&gt; iterator, int k) {</a>
-<span class="sourceLineNo">847</span><a id="line.847">    return this.&lt;E&gt;reverse().leastOf(iterator, k);</a>
-<span class="sourceLineNo">848</span><a id="line.848">  }</a>
-<span class="sourceLineNo">849</span><a id="line.849"></a>
-<span class="sourceLineNo">850</span><a id="line.850">  /**</a>
-<span class="sourceLineNo">851</span><a id="line.851">   * Returns a &lt;b&gt;mutable&lt;/b&gt; list containing {@code elements} sorted by this ordering; use this</a>
-<span class="sourceLineNo">852</span><a id="line.852">   * only when the resulting list may need further modification, or may contain {@code null}. The</a>
-<span class="sourceLineNo">853</span><a id="line.853">   * input is not modified. The returned list is serializable and has random access.</a>
-<span class="sourceLineNo">854</span><a id="line.854">   *</a>
-<span class="sourceLineNo">855</span><a id="line.855">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
-<span class="sourceLineNo">857</span><a id="line.857">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
-<span class="sourceLineNo">858</span><a id="line.858">   *</a>
-<span class="sourceLineNo">859</span><a id="line.859">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
-<span class="sourceLineNo">860</span><a id="line.860">   * benchmarking</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * than this method, and this method in turn generally performs better than copying the list and</a>
-<span class="sourceLineNo">863</span><a id="line.863">   * calling {@link Collections#sort(List)}.</a>
-<span class="sourceLineNo">864</span><a id="line.864">   */</a>
-<span class="sourceLineNo">865</span><a id="line.865">  // TODO(kevinb): rerun benchmarks including new options</a>
-<span class="sourceLineNo">866</span><a id="line.866">  public &lt;E extends T&gt; List&lt;E&gt; sortedCopy(Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">867</span><a id="line.867">    @SuppressWarnings("unchecked") // does not escape, and contains only E's</a>
-<span class="sourceLineNo">868</span><a id="line.868">    E[] array = (E[]) Iterables.toArray(elements);</a>
-<span class="sourceLineNo">869</span><a id="line.869">    Arrays.sort(array, this);</a>
-<span class="sourceLineNo">870</span><a id="line.870">    return Lists.newArrayList(Arrays.asList(array));</a>
-<span class="sourceLineNo">871</span><a id="line.871">  }</a>
-<span class="sourceLineNo">872</span><a id="line.872"></a>
-<span class="sourceLineNo">873</span><a id="line.873">  /**</a>
-<span class="sourceLineNo">874</span><a id="line.874">   * Returns an &lt;b&gt;immutable&lt;/b&gt; list containing {@code elements} sorted by this ordering. The input</a>
-<span class="sourceLineNo">875</span><a id="line.875">   * is not modified.</a>
-<span class="sourceLineNo">876</span><a id="line.876">   *</a>
-<span class="sourceLineNo">877</span><a id="line.877">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
-<span class="sourceLineNo">878</span><a id="line.878">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
-<span class="sourceLineNo">879</span><a id="line.879">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
-<span class="sourceLineNo">880</span><a id="line.880">   *</a>
-<span class="sourceLineNo">881</span><a id="line.881">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
-<span class="sourceLineNo">882</span><a id="line.882">   * benchmarking</a>
-<span class="sourceLineNo">883</span><a id="line.883">   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.</a>
-<span class="sourceLineNo">884</span><a id="line.884">   *</a>
-<span class="sourceLineNo">885</span><a id="line.885">   * @throws NullPointerException if any element of {@code elements} is {@code null}</a>
-<span class="sourceLineNo">886</span><a id="line.886">   * @since 3.0</a>
-<span class="sourceLineNo">887</span><a id="line.887">   */</a>
-<span class="sourceLineNo">888</span><a id="line.888">  // TODO(kevinb): rerun benchmarks including new options</a>
-<span class="sourceLineNo">889</span><a id="line.889">  public &lt;E extends @NonNull T&gt; ImmutableList&lt;E&gt; immutableSortedCopy(Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">890</span><a id="line.890">    return ImmutableList.sortedCopyOf(this, elements);</a>
-<span class="sourceLineNo">891</span><a id="line.891">  }</a>
-<span class="sourceLineNo">892</span><a id="line.892"></a>
-<span class="sourceLineNo">893</span><a id="line.893">  /**</a>
-<span class="sourceLineNo">894</span><a id="line.894">   * Returns {@code true} if each element in {@code iterable} after the first is greater than or</a>
-<span class="sourceLineNo">895</span><a id="line.895">   * equal to the element that preceded it, according to this ordering. Note that this is always</a>
-<span class="sourceLineNo">896</span><a id="line.896">   * true when the iterable has fewer than two elements.</a>
-<span class="sourceLineNo">897</span><a id="line.897">   *</a>
-<span class="sourceLineNo">898</span><a id="line.898">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}</a>
-<span class="sourceLineNo">899</span><a id="line.899">   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class</a>
-<span class="sourceLineNo">900</span><a id="line.900">   * documentation).</a>
-<span class="sourceLineNo">901</span><a id="line.901">   */</a>
-<span class="sourceLineNo">902</span><a id="line.902">  public boolean isOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">903</span><a id="line.903">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
-<span class="sourceLineNo">904</span><a id="line.904">    if (it.hasNext()) {</a>
-<span class="sourceLineNo">905</span><a id="line.905">      T prev = it.next();</a>
-<span class="sourceLineNo">906</span><a id="line.906">      while (it.hasNext()) {</a>
-<span class="sourceLineNo">907</span><a id="line.907">        T next = it.next();</a>
-<span class="sourceLineNo">908</span><a id="line.908">        if (compare(prev, next) &gt; 0) {</a>
-<span class="sourceLineNo">909</span><a id="line.909">          return false;</a>
-<span class="sourceLineNo">910</span><a id="line.910">        }</a>
-<span class="sourceLineNo">911</span><a id="line.911">        prev = next;</a>
-<span class="sourceLineNo">912</span><a id="line.912">      }</a>
-<span class="sourceLineNo">913</span><a id="line.913">    }</a>
-<span class="sourceLineNo">914</span><a id="line.914">    return true;</a>
-<span class="sourceLineNo">915</span><a id="line.915">  }</a>
-<span class="sourceLineNo">916</span><a id="line.916"></a>
-<span class="sourceLineNo">917</span><a id="line.917">  /**</a>
-<span class="sourceLineNo">918</span><a id="line.918">   * Returns {@code true} if each element in {@code iterable} after the first is &lt;i&gt;strictly&lt;/i&gt;</a>
-<span class="sourceLineNo">919</span><a id="line.919">   * greater than the element that preceded it, according to this ordering. Note that this is always</a>
-<span class="sourceLineNo">920</span><a id="line.920">   * true when the iterable has fewer than two elements.</a>
-<span class="sourceLineNo">921</span><a id="line.921">   *</a>
-<span class="sourceLineNo">922</span><a id="line.922">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable,</a>
-<span class="sourceLineNo">923</span><a id="line.923">   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in</a>
-<span class="sourceLineNo">924</span><a id="line.924">   * the class documentation).</a>
-<span class="sourceLineNo">925</span><a id="line.925">   */</a>
-<span class="sourceLineNo">926</span><a id="line.926">  public boolean isStrictlyOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">927</span><a id="line.927">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
-<span class="sourceLineNo">928</span><a id="line.928">    if (it.hasNext()) {</a>
-<span class="sourceLineNo">929</span><a id="line.929">      T prev = it.next();</a>
-<span class="sourceLineNo">930</span><a id="line.930">      while (it.hasNext()) {</a>
-<span class="sourceLineNo">931</span><a id="line.931">        T next = it.next();</a>
-<span class="sourceLineNo">932</span><a id="line.932">        if (compare(prev, next) &gt;= 0) {</a>
-<span class="sourceLineNo">933</span><a id="line.933">          return false;</a>
-<span class="sourceLineNo">934</span><a id="line.934">        }</a>
-<span class="sourceLineNo">935</span><a id="line.935">        prev = next;</a>
-<span class="sourceLineNo">936</span><a id="line.936">      }</a>
-<span class="sourceLineNo">937</span><a id="line.937">    }</a>
-<span class="sourceLineNo">938</span><a id="line.938">    return true;</a>
-<span class="sourceLineNo">939</span><a id="line.939">  }</a>
-<span class="sourceLineNo">940</span><a id="line.940"></a>
-<span class="sourceLineNo">941</span><a id="line.941">  /**</a>
-<span class="sourceLineNo">942</span><a id="line.942">   * {@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for</a>
-<span class="sourceLineNo">943</span><a id="line.943">   * {@code key} using the binary search algorithm. The list must be sorted using this ordering.</a>
-<span class="sourceLineNo">944</span><a id="line.944">   *</a>
-<span class="sourceLineNo">945</span><a id="line.945">   * @param sortedList the list to be searched</a>
-<span class="sourceLineNo">946</span><a id="line.946">   * @param key the key to be searched for</a>
-<span class="sourceLineNo">947</span><a id="line.947">   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.</a>
-<span class="sourceLineNo">948</span><a id="line.948">   */</a>
-<span class="sourceLineNo">949</span><a id="line.949">  @Deprecated</a>
-<span class="sourceLineNo">950</span><a id="line.950">  public int binarySearch(</a>
-<span class="sourceLineNo">951</span><a id="line.951">      List&lt;? extends T&gt; sortedList, @ParametricNullness T key) {</a>
-<span class="sourceLineNo">952</span><a id="line.952">    return Collections.binarySearch(sortedList, key, this);</a>
-<span class="sourceLineNo">953</span><a id="line.953">  }</a>
-<span class="sourceLineNo">954</span><a id="line.954"></a>
-<span class="sourceLineNo">955</span><a id="line.955">  /**</a>
-<span class="sourceLineNo">956</span><a id="line.956">   * Exception thrown by a {@link Ordering#explicit(List)} or {@link Ordering#explicit(Object,</a>
-<span class="sourceLineNo">957</span><a id="line.957">   * Object[])} comparator when comparing a value outside the set of values it can compare.</a>
-<span class="sourceLineNo">958</span><a id="line.958">   * Extending {@link ClassCastException} may seem odd, but it is required.</a>
-<span class="sourceLineNo">959</span><a id="line.959">   */</a>
-<span class="sourceLineNo">960</span><a id="line.960">  static class IncomparableValueException extends ClassCastException {</a>
-<span class="sourceLineNo">961</span><a id="line.961">    final Object value;</a>
-<span class="sourceLineNo">962</span><a id="line.962"></a>
-<span class="sourceLineNo">963</span><a id="line.963">    IncomparableValueException(Object value) {</a>
-<span class="sourceLineNo">964</span><a id="line.964">      super("Cannot compare value: " + value);</a>
-<span class="sourceLineNo">965</span><a id="line.965">      this.value = value;</a>
-<span class="sourceLineNo">966</span><a id="line.966">    }</a>
-<span class="sourceLineNo">967</span><a id="line.967"></a>
-<span class="sourceLineNo">968</span><a id="line.968">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">969</span><a id="line.969">  }</a>
-<span class="sourceLineNo">970</span><a id="line.970"></a>
-<span class="sourceLineNo">971</span><a id="line.971">  // Never make these public</a>
-<span class="sourceLineNo">972</span><a id="line.972">  static final int LEFT_IS_GREATER = 1;</a>
-<span class="sourceLineNo">973</span><a id="line.973">  static final int RIGHT_IS_GREATER = -1;</a>
-<span class="sourceLineNo">974</span><a id="line.974">}</a>
+<span class="sourceLineNo">021</span><a id="line.21">import static java.util.Arrays.asList;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.common.annotations.VisibleForTesting;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.common.base.Function;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.ArrayList;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.util.Arrays;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.Collection;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.Collections;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Comparator;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.HashSet;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.Iterator;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.List;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.util.Map.Entry;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import java.util.NoSuchElementException;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.util.SortedMap;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.util.SortedSet;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import java.util.TreeSet;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import java.util.concurrent.ConcurrentMap;</a>
+<span class="sourceLineNo">041</span><a id="line.41">import java.util.concurrent.atomic.AtomicInteger;</a>
+<span class="sourceLineNo">042</span><a id="line.42">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">043</span><a id="line.43">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">044</span><a id="line.44">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">/**</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * A comparator, with additional methods to support common operations. This is an "enriched" version</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * of {@code Comparator} for pre-Java-8 users, in the same sense that {@link FluentIterable} is an</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * enriched {@link Iterable} for pre-Java-8 users.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * &lt;h3&gt;Three types of methods&lt;/h3&gt;</a>
+<span class="sourceLineNo">052</span><a id="line.52"> *</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * Like other fluent types, there are three types of methods present: methods for &lt;i&gt;acquiring&lt;/i&gt;,</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * &lt;i&gt;chaining&lt;/i&gt;, and &lt;i&gt;using&lt;/i&gt;.</a>
+<span class="sourceLineNo">055</span><a id="line.55"> *</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * &lt;h4&gt;Acquiring&lt;/h4&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57"> *</a>
+<span class="sourceLineNo">058</span><a id="line.58"> * &lt;p&gt;The common ways to get an instance of {@code Ordering} are:</a>
+<span class="sourceLineNo">059</span><a id="line.59"> *</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">061</span><a id="line.61"> *   &lt;li&gt;Subclass it and implement {@link #compare} instead of implementing {@link Comparator}</a>
+<span class="sourceLineNo">062</span><a id="line.62"> *       directly</a>
+<span class="sourceLineNo">063</span><a id="line.63"> *   &lt;li&gt;Pass a &lt;i&gt;pre-existing&lt;/i&gt; {@link Comparator} instance to {@link #from(Comparator)}</a>
+<span class="sourceLineNo">064</span><a id="line.64"> *   &lt;li&gt;Use the natural ordering, {@link Ordering#natural}</a>
+<span class="sourceLineNo">065</span><a id="line.65"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">066</span><a id="line.66"> *</a>
+<span class="sourceLineNo">067</span><a id="line.67"> * &lt;h4&gt;Chaining&lt;/h4&gt;</a>
+<span class="sourceLineNo">068</span><a id="line.68"> *</a>
+<span class="sourceLineNo">069</span><a id="line.69"> * &lt;p&gt;Then you can use the &lt;i&gt;chaining&lt;/i&gt; methods to get an altered version of that {@code</a>
+<span class="sourceLineNo">070</span><a id="line.70"> * Ordering}, including:</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *</a>
+<span class="sourceLineNo">072</span><a id="line.72"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">073</span><a id="line.73"> *   &lt;li&gt;{@link #reverse}</a>
+<span class="sourceLineNo">074</span><a id="line.74"> *   &lt;li&gt;{@link #compound(Comparator)}</a>
+<span class="sourceLineNo">075</span><a id="line.75"> *   &lt;li&gt;{@link #onResultOf(Function)}</a>
+<span class="sourceLineNo">076</span><a id="line.76"> *   &lt;li&gt;{@link #nullsFirst} / {@link #nullsLast}</a>
+<span class="sourceLineNo">077</span><a id="line.77"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">078</span><a id="line.78"> *</a>
+<span class="sourceLineNo">079</span><a id="line.79"> * &lt;h4&gt;Using&lt;/h4&gt;</a>
+<span class="sourceLineNo">080</span><a id="line.80"> *</a>
+<span class="sourceLineNo">081</span><a id="line.81"> * &lt;p&gt;Finally, use the resulting {@code Ordering} anywhere a {@link Comparator} is required, or use</a>
+<span class="sourceLineNo">082</span><a id="line.82"> * any of its special operations, such as:</a>
+<span class="sourceLineNo">083</span><a id="line.83"> *</a>
+<span class="sourceLineNo">084</span><a id="line.84"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">085</span><a id="line.85"> *   &lt;li&gt;{@link #immutableSortedCopy}</a>
+<span class="sourceLineNo">086</span><a id="line.86"> *   &lt;li&gt;{@link #isOrdered} / {@link #isStrictlyOrdered}</a>
+<span class="sourceLineNo">087</span><a id="line.87"> *   &lt;li&gt;{@link #min} / {@link #max}</a>
+<span class="sourceLineNo">088</span><a id="line.88"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">089</span><a id="line.89"> *</a>
+<span class="sourceLineNo">090</span><a id="line.90"> * &lt;h3&gt;Understanding complex orderings&lt;/h3&gt;</a>
+<span class="sourceLineNo">091</span><a id="line.91"> *</a>
+<span class="sourceLineNo">092</span><a id="line.92"> * &lt;p&gt;Complex chained orderings like the following example can be challenging to understand.</a>
+<span class="sourceLineNo">093</span><a id="line.93"> *</a>
+<span class="sourceLineNo">094</span><a id="line.94"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">095</span><a id="line.95"> * Ordering&lt;Foo&gt; ordering =</a>
+<span class="sourceLineNo">096</span><a id="line.96"> *     Ordering.natural()</a>
+<span class="sourceLineNo">097</span><a id="line.97"> *         .nullsFirst()</a>
+<span class="sourceLineNo">098</span><a id="line.98"> *         .onResultOf(getBarFunction)</a>
+<span class="sourceLineNo">099</span><a id="line.99"> *         .nullsLast();</a>
+<span class="sourceLineNo">100</span><a id="line.100"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101"> *</a>
+<span class="sourceLineNo">102</span><a id="line.102"> * Note that each chaining method returns a new ordering instance which is backed by the previous</a>
+<span class="sourceLineNo">103</span><a id="line.103"> * instance, but has the chance to act on values &lt;i&gt;before&lt;/i&gt; handing off to that backing instance.</a>
+<span class="sourceLineNo">104</span><a id="line.104"> * As a result, it usually helps to read chained ordering expressions &lt;i&gt;backwards&lt;/i&gt;. For example,</a>
+<span class="sourceLineNo">105</span><a id="line.105"> * when {@code compare} is called on the above ordering:</a>
+<span class="sourceLineNo">106</span><a id="line.106"> *</a>
+<span class="sourceLineNo">107</span><a id="line.107"> * &lt;ol&gt;</a>
+<span class="sourceLineNo">108</span><a id="line.108"> *   &lt;li&gt;First, if only one {@code Foo} is null, that null value is treated as &lt;i&gt;greater&lt;/i&gt;</a>
+<span class="sourceLineNo">109</span><a id="line.109"> *   &lt;li&gt;Next, non-null {@code Foo} values are passed to {@code getBarFunction} (we will be</a>
+<span class="sourceLineNo">110</span><a id="line.110"> *       comparing {@code Bar} values from now on)</a>
+<span class="sourceLineNo">111</span><a id="line.111"> *   &lt;li&gt;Next, if only one {@code Bar} is null, that null value is treated as &lt;i&gt;lesser&lt;/i&gt;</a>
+<span class="sourceLineNo">112</span><a id="line.112"> *   &lt;li&gt;Finally, natural ordering is used (i.e. the result of {@code Bar.compareTo(Bar)} is</a>
+<span class="sourceLineNo">113</span><a id="line.113"> *       returned)</a>
+<span class="sourceLineNo">114</span><a id="line.114"> * &lt;/ol&gt;</a>
+<span class="sourceLineNo">115</span><a id="line.115"> *</a>
+<span class="sourceLineNo">116</span><a id="line.116"> * &lt;p&gt;Alas, {@link #reverse} is a little different. As you read backwards through a chain and</a>
+<span class="sourceLineNo">117</span><a id="line.117"> * encounter a call to {@code reverse}, continue working backwards until a result is determined, and</a>
+<span class="sourceLineNo">118</span><a id="line.118"> * then reverse that result.</a>
+<span class="sourceLineNo">119</span><a id="line.119"> *</a>
+<span class="sourceLineNo">120</span><a id="line.120"> * &lt;h3&gt;Additional notes&lt;/h3&gt;</a>
+<span class="sourceLineNo">121</span><a id="line.121"> *</a>
+<span class="sourceLineNo">122</span><a id="line.122"> * &lt;p&gt;Except as noted, the orderings returned by the factory methods of this class are serializable</a>
+<span class="sourceLineNo">123</span><a id="line.123"> * if and only if the provided instances that back them are. For example, if {@code ordering} and</a>
+<span class="sourceLineNo">124</span><a id="line.124"> * {@code function} can themselves be serialized, then {@code ordering.onResultOf(function)} can as</a>
+<span class="sourceLineNo">125</span><a id="line.125"> * well.</a>
+<span class="sourceLineNo">126</span><a id="line.126"> *</a>
+<span class="sourceLineNo">127</span><a id="line.127"> * &lt;h3&gt;Java 8+ users&lt;/h3&gt;</a>
+<span class="sourceLineNo">128</span><a id="line.128"> *</a>
+<span class="sourceLineNo">129</span><a id="line.129"> * &lt;p&gt;If you are using Java 8+, this class is now obsolete. Most of its functionality is now</a>
+<span class="sourceLineNo">130</span><a id="line.130"> * provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest</a>
+<span class="sourceLineNo">131</span><a id="line.131"> * can now be found as static methods in our new {@link Comparators} class. See each method below</a>
+<span class="sourceLineNo">132</span><a id="line.132"> * for further instructions. Whenever possible, you should change any references of type {@code</a>
+<span class="sourceLineNo">133</span><a id="line.133"> * Ordering} to be of type {@code Comparator} instead. However, at this time we have no plan to</a>
+<span class="sourceLineNo">134</span><a id="line.134"> * &lt;i&gt;deprecate&lt;/i&gt; this class.</a>
+<span class="sourceLineNo">135</span><a id="line.135"> *</a>
+<span class="sourceLineNo">136</span><a id="line.136"> * &lt;p&gt;Many replacements involve adopting {@code Stream}, and these changes can sometimes make your</a>
+<span class="sourceLineNo">137</span><a id="line.137"> * code verbose. Whenever following this advice, you should check whether {@code Stream} could be</a>
+<span class="sourceLineNo">138</span><a id="line.138"> * adopted more comprehensively in your code; the end result may be quite a bit simpler.</a>
+<span class="sourceLineNo">139</span><a id="line.139"> *</a>
+<span class="sourceLineNo">140</span><a id="line.140"> * &lt;h3&gt;See also&lt;/h3&gt;</a>
+<span class="sourceLineNo">141</span><a id="line.141"> *</a>
+<span class="sourceLineNo">142</span><a id="line.142"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">143</span><a id="line.143"> * "https://github.com/google/guava/wiki/OrderingExplained"&gt;{@code Ordering}&lt;/a&gt;.</a>
+<span class="sourceLineNo">144</span><a id="line.144"> *</a>
+<span class="sourceLineNo">145</span><a id="line.145"> * @author Jesse Wilson</a>
+<span class="sourceLineNo">146</span><a id="line.146"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">147</span><a id="line.147"> * @since 2.0</a>
+<span class="sourceLineNo">148</span><a id="line.148"> */</a>
+<span class="sourceLineNo">149</span><a id="line.149">@GwtCompatible</a>
+<span class="sourceLineNo">150</span><a id="line.150">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">151</span><a id="line.151">public abstract class Ordering&lt;T extends @Nullable Object&gt; implements Comparator&lt;T&gt; {</a>
+<span class="sourceLineNo">152</span><a id="line.152">  // Natural order</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">  /**</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * Returns a serializable ordering that uses the natural order of the values. The ordering throws</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * a {@link NullPointerException} when passed a null parameter.</a>
+<span class="sourceLineNo">157</span><a id="line.157">   *</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * &lt;p&gt;The type specification is {@code &lt;C extends Comparable&gt;}, instead of the technically correct</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * {@code &lt;C extends Comparable&lt;? super C&gt;&gt;}, to support legacy types from before Java 5.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Comparator#naturalOrder} instead.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   */</a>
+<span class="sourceLineNo">163</span><a id="line.163">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">164</span><a id="line.164">  @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">165</span><a id="line.165">  // TODO(kevinb): right way to explain this??</a>
+<span class="sourceLineNo">166</span><a id="line.166">  // plus https://github.com/google/guava/issues/989</a>
+<span class="sourceLineNo">167</span><a id="line.167">  public static &lt;C extends Comparable&gt; Ordering&lt;C&gt; natural() {</a>
+<span class="sourceLineNo">168</span><a id="line.168">    return (Ordering&lt;C&gt;) NaturalOrdering.INSTANCE;</a>
+<span class="sourceLineNo">169</span><a id="line.169">  }</a>
+<span class="sourceLineNo">170</span><a id="line.170"></a>
+<span class="sourceLineNo">171</span><a id="line.171">  // Static factories</a>
+<span class="sourceLineNo">172</span><a id="line.172"></a>
+<span class="sourceLineNo">173</span><a id="line.173">  /**</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * Returns an ordering based on an &lt;i&gt;existing&lt;/i&gt; comparator instance. Note that it is</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * unnecessary to create a &lt;i&gt;new&lt;/i&gt; anonymous inner class implementing {@code Comparator} just</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * to pass it in here. Instead, simply subclass {@code Ordering} and implement its {@code compare}</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * method directly.</a>
+<span class="sourceLineNo">178</span><a id="line.178">   *</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * &lt;p&gt;The returned object is serializable if {@code comparator} is serializable.</a>
+<span class="sourceLineNo">180</span><a id="line.180">   *</a>
+<span class="sourceLineNo">181</span><a id="line.181">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; this class is now obsolete as explained in the class documentation, so</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * there is no need to use this method.</a>
+<span class="sourceLineNo">183</span><a id="line.183">   *</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * @param comparator the comparator that defines the order</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * @return comparator itself if it is already an {@code Ordering}; otherwise an ordering that</a>
+<span class="sourceLineNo">186</span><a id="line.186">   *     wraps that comparator</a>
+<span class="sourceLineNo">187</span><a id="line.187">   */</a>
+<span class="sourceLineNo">188</span><a id="line.188">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">189</span><a id="line.189">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; from(Comparator&lt;T&gt; comparator) {</a>
+<span class="sourceLineNo">190</span><a id="line.190">    return (comparator instanceof Ordering)</a>
+<span class="sourceLineNo">191</span><a id="line.191">        ? (Ordering&lt;T&gt;) comparator</a>
+<span class="sourceLineNo">192</span><a id="line.192">        : new ComparatorOrdering&lt;T&gt;(comparator);</a>
+<span class="sourceLineNo">193</span><a id="line.193">  }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  /**</a>
+<span class="sourceLineNo">196</span><a id="line.196">   * Simply returns its argument.</a>
+<span class="sourceLineNo">197</span><a id="line.197">   *</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * @deprecated no need to use this</a>
+<span class="sourceLineNo">199</span><a id="line.199">   */</a>
+<span class="sourceLineNo">200</span><a id="line.200">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">201</span><a id="line.201">  @Deprecated</a>
+<span class="sourceLineNo">202</span><a id="line.202">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; from(Ordering&lt;T&gt; ordering) {</a>
+<span class="sourceLineNo">203</span><a id="line.203">    return checkNotNull(ordering);</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * Returns an ordering that compares objects according to the order in which they appear in the</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * given list. Only objects present in the list (according to {@link Object#equals}) may be</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * compared. This comparator imposes a "partial ordering" over the type {@code T}. Subsequent</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * changes to the {@code valuesInOrder} list will have no effect on the returned comparator. Null</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * values in the list are not supported.</a>
+<span class="sourceLineNo">212</span><a id="line.212">   *</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * &lt;p&gt;The returned comparator throws a {@link ClassCastException} when it receives an input</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * parameter that isn't among the provided values.</a>
+<span class="sourceLineNo">215</span><a id="line.215">   *</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * &lt;p&gt;The generated comparator is serializable if all the provided values are serializable.</a>
+<span class="sourceLineNo">217</span><a id="line.217">   *</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * @param valuesInOrder the values that the returned comparator will be able to compare, in the</a>
+<span class="sourceLineNo">219</span><a id="line.219">   *     order the comparator should induce</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * @return the comparator described above</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * @throws NullPointerException if any of the provided values is null</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * @throws IllegalArgumentException if {@code valuesInOrder} contains any duplicate values</a>
+<span class="sourceLineNo">223</span><a id="line.223">   *     (according to {@link Object#equals})</a>
+<span class="sourceLineNo">224</span><a id="line.224">   */</a>
+<span class="sourceLineNo">225</span><a id="line.225">  // TODO(kevinb): provide replacement</a>
+<span class="sourceLineNo">226</span><a id="line.226">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">227</span><a id="line.227">  public static &lt;T&gt; Ordering&lt;T&gt; explicit(List&lt;T&gt; valuesInOrder) {</a>
+<span class="sourceLineNo">228</span><a id="line.228">    return new ExplicitOrdering&lt;&gt;(valuesInOrder);</a>
+<span class="sourceLineNo">229</span><a id="line.229">  }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">  /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * Returns an ordering that compares objects according to the order in which they are given to</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * this method. Only objects present in the argument list (according to {@link Object#equals}) may</a>
+<span class="sourceLineNo">234</span><a id="line.234">   * be compared. This comparator imposes a "partial ordering" over the type {@code T}. Null values</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * in the argument list are not supported.</a>
+<span class="sourceLineNo">236</span><a id="line.236">   *</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * &lt;p&gt;The returned comparator throws a {@link ClassCastException} when it receives an input</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * parameter that isn't among the provided values.</a>
+<span class="sourceLineNo">239</span><a id="line.239">   *</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * &lt;p&gt;The generated comparator is serializable if all the provided values are serializable.</a>
+<span class="sourceLineNo">241</span><a id="line.241">   *</a>
+<span class="sourceLineNo">242</span><a id="line.242">   * @param leastValue the value which the returned comparator should consider the "least" of all</a>
+<span class="sourceLineNo">243</span><a id="line.243">   *     values</a>
+<span class="sourceLineNo">244</span><a id="line.244">   * @param remainingValuesInOrder the rest of the values that the returned comparator will be able</a>
+<span class="sourceLineNo">245</span><a id="line.245">   *     to compare, in the order the comparator should follow</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * @return the comparator described above</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * @throws NullPointerException if any of the provided values is null</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * @throws IllegalArgumentException if any duplicate values (according to {@link</a>
+<span class="sourceLineNo">249</span><a id="line.249">   *     Object#equals(Object)}) are present among the method arguments</a>
+<span class="sourceLineNo">250</span><a id="line.250">   */</a>
+<span class="sourceLineNo">251</span><a id="line.251">  // TODO(kevinb): provide replacement</a>
+<span class="sourceLineNo">252</span><a id="line.252">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">253</span><a id="line.253">  public static &lt;T&gt; Ordering&lt;T&gt; explicit(T leastValue, T... remainingValuesInOrder) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">    return explicit(Lists.asList(leastValue, remainingValuesInOrder));</a>
+<span class="sourceLineNo">255</span><a id="line.255">  }</a>
+<span class="sourceLineNo">256</span><a id="line.256"></a>
+<span class="sourceLineNo">257</span><a id="line.257">  // Ordering&lt;Object&gt; singletons</a>
+<span class="sourceLineNo">258</span><a id="line.258"></a>
+<span class="sourceLineNo">259</span><a id="line.259">  /**</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * Returns an ordering which treats all values as equal, indicating "no ordering." Passing this</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * ordering to any &lt;i&gt;stable&lt;/i&gt; sort algorithm results in no change to the order of elements.</a>
+<span class="sourceLineNo">262</span><a id="line.262">   * Note especially that {@link #sortedCopy} and {@link #immutableSortedCopy} are stable, and in</a>
+<span class="sourceLineNo">263</span><a id="line.263">   * the returned instance these are implemented by simply copying the source list.</a>
+<span class="sourceLineNo">264</span><a id="line.264">   *</a>
+<span class="sourceLineNo">265</span><a id="line.265">   * &lt;p&gt;Example:</a>
+<span class="sourceLineNo">266</span><a id="line.266">   *</a>
+<span class="sourceLineNo">267</span><a id="line.267">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">268</span><a id="line.268">   * Ordering.allEqual().nullsLast().sortedCopy(</a>
+<span class="sourceLineNo">269</span><a id="line.269">   *     asList(t, null, e, s, null, t, null))</a>
+<span class="sourceLineNo">270</span><a id="line.270">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">271</span><a id="line.271">   *</a>
+<span class="sourceLineNo">272</span><a id="line.272">   * &lt;p&gt;Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,</a>
+<span class="sourceLineNo">273</span><a id="line.273">   * null, null, null]} regardless of the true comparison order of those three values (which might</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * not even implement {@link Comparable} at all).</a>
+<span class="sourceLineNo">275</span><a id="line.275">   *</a>
+<span class="sourceLineNo">276</span><a id="line.276">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; by definition, this comparator is not &lt;i&gt;consistent with equals&lt;/i&gt; (as</a>
+<span class="sourceLineNo">277</span><a id="line.277">   * defined {@linkplain Comparator here}). Avoid its use in APIs, such as {@link</a>
+<span class="sourceLineNo">278</span><a id="line.278">   * TreeSet#TreeSet(Comparator)}, where such consistency is expected.</a>
+<span class="sourceLineNo">279</span><a id="line.279">   *</a>
+<span class="sourceLineNo">280</span><a id="line.280">   * &lt;p&gt;The returned comparator is serializable.</a>
+<span class="sourceLineNo">281</span><a id="line.281">   *</a>
+<span class="sourceLineNo">282</span><a id="line.282">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the lambda expression {@code (a, b) -&gt; 0} instead (in certain</a>
+<span class="sourceLineNo">283</span><a id="line.283">   * cases you may need to cast that to {@code Comparator&lt;YourType&gt;}).</a>
+<span class="sourceLineNo">284</span><a id="line.284">   *</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * @since 13.0</a>
+<span class="sourceLineNo">286</span><a id="line.286">   */</a>
+<span class="sourceLineNo">287</span><a id="line.287">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">288</span><a id="line.288">  public static Ordering&lt;@Nullable Object&gt; allEqual() {</a>
+<span class="sourceLineNo">289</span><a id="line.289">    return AllEqualOrdering.INSTANCE;</a>
+<span class="sourceLineNo">290</span><a id="line.290">  }</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">  /**</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * Returns an ordering that compares objects by the natural ordering of their string</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * representations as returned by {@code toString()}. It does not support null values.</a>
+<span class="sourceLineNo">295</span><a id="line.295">   *</a>
+<span class="sourceLineNo">296</span><a id="line.296">   * &lt;p&gt;The comparator is serializable.</a>
+<span class="sourceLineNo">297</span><a id="line.297">   *</a>
+<span class="sourceLineNo">298</span><a id="line.298">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.comparing(Object::toString)} instead.</a>
+<span class="sourceLineNo">299</span><a id="line.299">   */</a>
+<span class="sourceLineNo">300</span><a id="line.300">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">301</span><a id="line.301">  public static Ordering&lt;Object&gt; usingToString() {</a>
+<span class="sourceLineNo">302</span><a id="line.302">    return UsingToStringOrdering.INSTANCE;</a>
+<span class="sourceLineNo">303</span><a id="line.303">  }</a>
+<span class="sourceLineNo">304</span><a id="line.304"></a>
+<span class="sourceLineNo">305</span><a id="line.305">  /**</a>
+<span class="sourceLineNo">306</span><a id="line.306">   * Returns an arbitrary ordering over all objects, for which {@code compare(a, b) == 0} implies</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * {@code a == b} (identity equality). There is no meaning whatsoever to the order imposed, but it</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * is constant for the life of the VM.</a>
+<span class="sourceLineNo">309</span><a id="line.309">   *</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * &lt;p&gt;Because the ordering is identity-based, it is not "consistent with {@link</a>
+<span class="sourceLineNo">311</span><a id="line.311">   * Object#equals(Object)}" as defined by {@link Comparator}. Use caution when building a {@link</a>
+<span class="sourceLineNo">312</span><a id="line.312">   * SortedSet} or {@link SortedMap} from it, as the resulting collection will not behave exactly</a>
+<span class="sourceLineNo">313</span><a id="line.313">   * according to spec.</a>
+<span class="sourceLineNo">314</span><a id="line.314">   *</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * &lt;p&gt;This ordering is not serializable, as its implementation relies on {@link</a>
+<span class="sourceLineNo">316</span><a id="line.316">   * System#identityHashCode(Object)}, so its behavior cannot be preserved across serialization.</a>
+<span class="sourceLineNo">317</span><a id="line.317">   *</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * @since 2.0</a>
+<span class="sourceLineNo">319</span><a id="line.319">   */</a>
+<span class="sourceLineNo">320</span><a id="line.320">  // TODO(kevinb): copy to Comparators, etc.</a>
+<span class="sourceLineNo">321</span><a id="line.321">  @J2ktIncompatible // MapMaker</a>
+<span class="sourceLineNo">322</span><a id="line.322">  public static Ordering&lt;@Nullable Object&gt; arbitrary() {</a>
+<span class="sourceLineNo">323</span><a id="line.323">    return ArbitraryOrderingHolder.ARBITRARY_ORDERING;</a>
+<span class="sourceLineNo">324</span><a id="line.324">  }</a>
+<span class="sourceLineNo">325</span><a id="line.325"></a>
+<span class="sourceLineNo">326</span><a id="line.326">  @J2ktIncompatible // MapMaker</a>
+<span class="sourceLineNo">327</span><a id="line.327">  private static class ArbitraryOrderingHolder {</a>
+<span class="sourceLineNo">328</span><a id="line.328">    static final Ordering&lt;@Nullable Object&gt; ARBITRARY_ORDERING = new ArbitraryOrdering();</a>
+<span class="sourceLineNo">329</span><a id="line.329">  }</a>
+<span class="sourceLineNo">330</span><a id="line.330"></a>
+<span class="sourceLineNo">331</span><a id="line.331">  @J2ktIncompatible // MapMaker</a>
+<span class="sourceLineNo">332</span><a id="line.332">  @VisibleForTesting</a>
+<span class="sourceLineNo">333</span><a id="line.333">  static class ArbitraryOrdering extends Ordering&lt;@Nullable Object&gt; {</a>
+<span class="sourceLineNo">334</span><a id="line.334"></a>
+<span class="sourceLineNo">335</span><a id="line.335">    private final AtomicInteger counter = new AtomicInteger(0);</a>
+<span class="sourceLineNo">336</span><a id="line.336">    private final ConcurrentMap&lt;Object, Integer&gt; uids =</a>
+<span class="sourceLineNo">337</span><a id="line.337">        Platform.tryWeakKeys(new MapMaker()).makeMap();</a>
+<span class="sourceLineNo">338</span><a id="line.338"></a>
+<span class="sourceLineNo">339</span><a id="line.339">    private Integer getUid(Object obj) {</a>
+<span class="sourceLineNo">340</span><a id="line.340">      Integer uid = uids.get(obj);</a>
+<span class="sourceLineNo">341</span><a id="line.341">      if (uid == null) {</a>
+<span class="sourceLineNo">342</span><a id="line.342">        // One or more integer values could be skipped in the event of a race</a>
+<span class="sourceLineNo">343</span><a id="line.343">        // to generate a UID for the same object from multiple threads, but</a>
+<span class="sourceLineNo">344</span><a id="line.344">        // that shouldn't be a problem.</a>
+<span class="sourceLineNo">345</span><a id="line.345">        uid = counter.getAndIncrement();</a>
+<span class="sourceLineNo">346</span><a id="line.346">        Integer alreadySet = uids.putIfAbsent(obj, uid);</a>
+<span class="sourceLineNo">347</span><a id="line.347">        if (alreadySet != null) {</a>
+<span class="sourceLineNo">348</span><a id="line.348">          uid = alreadySet;</a>
+<span class="sourceLineNo">349</span><a id="line.349">        }</a>
+<span class="sourceLineNo">350</span><a id="line.350">      }</a>
+<span class="sourceLineNo">351</span><a id="line.351">      return uid;</a>
+<span class="sourceLineNo">352</span><a id="line.352">    }</a>
+<span class="sourceLineNo">353</span><a id="line.353"></a>
+<span class="sourceLineNo">354</span><a id="line.354">    @Override</a>
+<span class="sourceLineNo">355</span><a id="line.355">    public int compare(@CheckForNull Object left, @CheckForNull Object right) {</a>
+<span class="sourceLineNo">356</span><a id="line.356">      if (left == right) {</a>
+<span class="sourceLineNo">357</span><a id="line.357">        return 0;</a>
+<span class="sourceLineNo">358</span><a id="line.358">      } else if (left == null) {</a>
+<span class="sourceLineNo">359</span><a id="line.359">        return -1;</a>
+<span class="sourceLineNo">360</span><a id="line.360">      } else if (right == null) {</a>
+<span class="sourceLineNo">361</span><a id="line.361">        return 1;</a>
+<span class="sourceLineNo">362</span><a id="line.362">      }</a>
+<span class="sourceLineNo">363</span><a id="line.363">      int leftCode = identityHashCode(left);</a>
+<span class="sourceLineNo">364</span><a id="line.364">      int rightCode = identityHashCode(right);</a>
+<span class="sourceLineNo">365</span><a id="line.365">      if (leftCode != rightCode) {</a>
+<span class="sourceLineNo">366</span><a id="line.366">        return leftCode &lt; rightCode ? -1 : 1;</a>
+<span class="sourceLineNo">367</span><a id="line.367">      }</a>
+<span class="sourceLineNo">368</span><a id="line.368"></a>
+<span class="sourceLineNo">369</span><a id="line.369">      // identityHashCode collision (rare, but not as rare as you'd think)</a>
+<span class="sourceLineNo">370</span><a id="line.370">      int result = getUid(left).compareTo(getUid(right));</a>
+<span class="sourceLineNo">371</span><a id="line.371">      if (result == 0) {</a>
+<span class="sourceLineNo">372</span><a id="line.372">        throw new AssertionError(); // extremely, extremely unlikely.</a>
+<span class="sourceLineNo">373</span><a id="line.373">      }</a>
+<span class="sourceLineNo">374</span><a id="line.374">      return result;</a>
+<span class="sourceLineNo">375</span><a id="line.375">    }</a>
+<span class="sourceLineNo">376</span><a id="line.376"></a>
+<span class="sourceLineNo">377</span><a id="line.377">    @Override</a>
+<span class="sourceLineNo">378</span><a id="line.378">    public String toString() {</a>
+<span class="sourceLineNo">379</span><a id="line.379">      return "Ordering.arbitrary()";</a>
+<span class="sourceLineNo">380</span><a id="line.380">    }</a>
+<span class="sourceLineNo">381</span><a id="line.381"></a>
+<span class="sourceLineNo">382</span><a id="line.382">    /*</a>
+<span class="sourceLineNo">383</span><a id="line.383">     * We need to be able to mock identityHashCode() calls for tests, because it</a>
+<span class="sourceLineNo">384</span><a id="line.384">     * can take 1-10 seconds to find colliding objects. Mocking frameworks that</a>
+<span class="sourceLineNo">385</span><a id="line.385">     * can do magic to mock static method calls still can't do so for a system</a>
+<span class="sourceLineNo">386</span><a id="line.386">     * class, so we need the indirection. In production, Hotspot should still</a>
+<span class="sourceLineNo">387</span><a id="line.387">     * recognize that the call is 1-morphic and should still be willing to</a>
+<span class="sourceLineNo">388</span><a id="line.388">     * inline it if necessary.</a>
+<span class="sourceLineNo">389</span><a id="line.389">     */</a>
+<span class="sourceLineNo">390</span><a id="line.390">    int identityHashCode(Object object) {</a>
+<span class="sourceLineNo">391</span><a id="line.391">      return System.identityHashCode(object);</a>
+<span class="sourceLineNo">392</span><a id="line.392">    }</a>
+<span class="sourceLineNo">393</span><a id="line.393">  }</a>
+<span class="sourceLineNo">394</span><a id="line.394"></a>
+<span class="sourceLineNo">395</span><a id="line.395">  // Constructor</a>
+<span class="sourceLineNo">396</span><a id="line.396"></a>
+<span class="sourceLineNo">397</span><a id="line.397">  /**</a>
+<span class="sourceLineNo">398</span><a id="line.398">   * Constructs a new instance of this class (only invokable by the subclass constructor, typically</a>
+<span class="sourceLineNo">399</span><a id="line.399">   * implicit).</a>
+<span class="sourceLineNo">400</span><a id="line.400">   */</a>
+<span class="sourceLineNo">401</span><a id="line.401">  protected Ordering() {}</a>
+<span class="sourceLineNo">402</span><a id="line.402"></a>
+<span class="sourceLineNo">403</span><a id="line.403">  // Instance-based factories (and any static equivalents)</a>
+<span class="sourceLineNo">404</span><a id="line.404"></a>
+<span class="sourceLineNo">405</span><a id="line.405">  /**</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * Returns the reverse of this ordering; the {@code Ordering} equivalent to {@link</a>
+<span class="sourceLineNo">407</span><a id="line.407">   * Collections#reverseOrder(Comparator)}.</a>
+<span class="sourceLineNo">408</span><a id="line.408">   *</a>
+<span class="sourceLineNo">409</span><a id="line.409">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code thisComparator.reversed()} instead.</a>
+<span class="sourceLineNo">410</span><a id="line.410">   */</a>
+<span class="sourceLineNo">411</span><a id="line.411">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
+<span class="sourceLineNo">412</span><a id="line.412">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().reverse();</a>
+<span class="sourceLineNo">413</span><a id="line.413">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">414</span><a id="line.414">  public &lt;S extends T&gt; Ordering&lt;S&gt; reverse() {</a>
+<span class="sourceLineNo">415</span><a id="line.415">    return new ReverseOrdering&lt;&gt;(this);</a>
+<span class="sourceLineNo">416</span><a id="line.416">  }</a>
+<span class="sourceLineNo">417</span><a id="line.417"></a>
+<span class="sourceLineNo">418</span><a id="line.418">  /**</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * Returns an ordering that treats {@code null} as less than all other values and uses {@code</a>
+<span class="sourceLineNo">420</span><a id="line.420">   * this} to compare non-null values.</a>
+<span class="sourceLineNo">421</span><a id="line.421">   *</a>
+<span class="sourceLineNo">422</span><a id="line.422">   * &lt;p&gt;The returned object is serializable if this object is serializable.</a>
+<span class="sourceLineNo">423</span><a id="line.423">   *</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.nullsFirst(thisComparator)} instead.</a>
+<span class="sourceLineNo">425</span><a id="line.425">   */</a>
+<span class="sourceLineNo">426</span><a id="line.426">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
+<span class="sourceLineNo">427</span><a id="line.427">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().nullsFirst();</a>
+<span class="sourceLineNo">428</span><a id="line.428">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">429</span><a id="line.429">  public &lt;S extends T&gt; Ordering&lt;@Nullable S&gt; nullsFirst() {</a>
+<span class="sourceLineNo">430</span><a id="line.430">    return new NullsFirstOrdering&lt;S&gt;(this);</a>
+<span class="sourceLineNo">431</span><a id="line.431">  }</a>
+<span class="sourceLineNo">432</span><a id="line.432"></a>
+<span class="sourceLineNo">433</span><a id="line.433">  /**</a>
+<span class="sourceLineNo">434</span><a id="line.434">   * Returns an ordering that treats {@code null} as greater than all other values and uses this</a>
+<span class="sourceLineNo">435</span><a id="line.435">   * ordering to compare non-null values.</a>
+<span class="sourceLineNo">436</span><a id="line.436">   *</a>
+<span class="sourceLineNo">437</span><a id="line.437">   * &lt;p&gt;The returned object is serializable if this object is serializable.</a>
+<span class="sourceLineNo">438</span><a id="line.438">   *</a>
+<span class="sourceLineNo">439</span><a id="line.439">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.nullsLast(thisComparator)} instead.</a>
+<span class="sourceLineNo">440</span><a id="line.440">   */</a>
+<span class="sourceLineNo">441</span><a id="line.441">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
+<span class="sourceLineNo">442</span><a id="line.442">  // Ordering&lt;String&gt; o = Ordering.&lt;String&gt;natural().nullsLast();</a>
+<span class="sourceLineNo">443</span><a id="line.443">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">444</span><a id="line.444">  public &lt;S extends T&gt; Ordering&lt;@Nullable S&gt; nullsLast() {</a>
+<span class="sourceLineNo">445</span><a id="line.445">    return new NullsLastOrdering&lt;S&gt;(this);</a>
+<span class="sourceLineNo">446</span><a id="line.446">  }</a>
+<span class="sourceLineNo">447</span><a id="line.447"></a>
+<span class="sourceLineNo">448</span><a id="line.448">  /**</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * Returns a new ordering on {@code F} which orders elements by first applying a function to them,</a>
+<span class="sourceLineNo">450</span><a id="line.450">   * then comparing those results using {@code this}. For example, to compare objects by their</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * string forms, in a case-insensitive manner, use:</a>
+<span class="sourceLineNo">452</span><a id="line.452">   *</a>
+<span class="sourceLineNo">453</span><a id="line.453">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">454</span><a id="line.454">   * Ordering.from(String.CASE_INSENSITIVE_ORDER)</a>
+<span class="sourceLineNo">455</span><a id="line.455">   *     .onResultOf(Functions.toStringFunction())</a>
+<span class="sourceLineNo">456</span><a id="line.456">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">457</span><a id="line.457">   *</a>
+<span class="sourceLineNo">458</span><a id="line.458">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.comparing(function, thisComparator)} instead</a>
+<span class="sourceLineNo">459</span><a id="line.459">   * (you can omit the comparator if it is the natural order).</a>
+<span class="sourceLineNo">460</span><a id="line.460">   */</a>
+<span class="sourceLineNo">461</span><a id="line.461">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">462</span><a id="line.462">  public &lt;F extends @Nullable Object&gt; Ordering&lt;F&gt; onResultOf(Function&lt;F, ? extends T&gt; function) {</a>
+<span class="sourceLineNo">463</span><a id="line.463">    return new ByFunctionOrdering&lt;&gt;(function, this);</a>
+<span class="sourceLineNo">464</span><a id="line.464">  }</a>
+<span class="sourceLineNo">465</span><a id="line.465"></a>
+<span class="sourceLineNo">466</span><a id="line.466">  &lt;T2 extends T&gt; Ordering&lt;Entry&lt;T2, ?&gt;&gt; onKeys() {</a>
+<span class="sourceLineNo">467</span><a id="line.467">    return onResultOf(Maps.&lt;T2&gt;keyFunction());</a>
+<span class="sourceLineNo">468</span><a id="line.468">  }</a>
+<span class="sourceLineNo">469</span><a id="line.469"></a>
+<span class="sourceLineNo">470</span><a id="line.470">  /**</a>
+<span class="sourceLineNo">471</span><a id="line.471">   * Returns an ordering which first uses the ordering {@code this}, but which in the event of a</a>
+<span class="sourceLineNo">472</span><a id="line.472">   * "tie", then delegates to {@code secondaryComparator}. For example, to sort a bug list first by</a>
+<span class="sourceLineNo">473</span><a id="line.473">   * status and second by priority, you might use {@code byStatus.compound(byPriority)}. For a</a>
+<span class="sourceLineNo">474</span><a id="line.474">   * compound ordering with three or more components, simply chain multiple calls to this method.</a>
+<span class="sourceLineNo">475</span><a id="line.475">   *</a>
+<span class="sourceLineNo">476</span><a id="line.476">   * &lt;p&gt;An ordering produced by this method, or a chain of calls to this method, is equivalent to</a>
+<span class="sourceLineNo">477</span><a id="line.477">   * one created using {@link Ordering#compound(Iterable)} on the same component comparators.</a>
+<span class="sourceLineNo">478</span><a id="line.478">   *</a>
+<span class="sourceLineNo">479</span><a id="line.479">   * &lt;p&gt;The returned object is serializable if this object and {@code secondaryComparator} are both</a>
+<span class="sourceLineNo">480</span><a id="line.480">   * serializable.</a>
+<span class="sourceLineNo">481</span><a id="line.481">   *</a>
+<span class="sourceLineNo">482</span><a id="line.482">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code thisComparator.thenComparing(secondaryComparator)} instead.</a>
+<span class="sourceLineNo">483</span><a id="line.483">   * Depending on what {@code secondaryComparator} is, one of the other overloads of {@code</a>
+<span class="sourceLineNo">484</span><a id="line.484">   * thenComparing} may be even more useful.</a>
+<span class="sourceLineNo">485</span><a id="line.485">   */</a>
+<span class="sourceLineNo">486</span><a id="line.486">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">487</span><a id="line.487">  public &lt;U extends T&gt; Ordering&lt;U&gt; compound(Comparator&lt;? super U&gt; secondaryComparator) {</a>
+<span class="sourceLineNo">488</span><a id="line.488">    return new CompoundOrdering&lt;&gt;(this, checkNotNull(secondaryComparator));</a>
+<span class="sourceLineNo">489</span><a id="line.489">  }</a>
+<span class="sourceLineNo">490</span><a id="line.490"></a>
+<span class="sourceLineNo">491</span><a id="line.491">  /**</a>
+<span class="sourceLineNo">492</span><a id="line.492">   * Returns an ordering which tries each given comparator in order until a non-zero result is</a>
+<span class="sourceLineNo">493</span><a id="line.493">   * found, returning that result, and returning zero only if all comparators return zero. The</a>
+<span class="sourceLineNo">494</span><a id="line.494">   * returned ordering is based on the state of the {@code comparators} iterable at the time it was</a>
+<span class="sourceLineNo">495</span><a id="line.495">   * provided to this method.</a>
+<span class="sourceLineNo">496</span><a id="line.496">   *</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * &lt;p&gt;The returned ordering is equivalent to that produced using {@code</a>
+<span class="sourceLineNo">498</span><a id="line.498">   * Ordering.from(comp1).compound(comp2).compound(comp3) . . .}.</a>
+<span class="sourceLineNo">499</span><a id="line.499">   *</a>
+<span class="sourceLineNo">500</span><a id="line.500">   * &lt;p&gt;The returned object is serializable if each of the {@code comparators} is serializable.</a>
+<span class="sourceLineNo">501</span><a id="line.501">   *</a>
+<span class="sourceLineNo">502</span><a id="line.502">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Supplying an argument with undefined iteration order, such as a {@link</a>
+<span class="sourceLineNo">503</span><a id="line.503">   * HashSet}, will produce non-deterministic results.</a>
+<span class="sourceLineNo">504</span><a id="line.504">   *</a>
+<span class="sourceLineNo">505</span><a id="line.505">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use a chain of calls to {@link Comparator#thenComparing(Comparator)},</a>
+<span class="sourceLineNo">506</span><a id="line.506">   * or {@code comparatorCollection.stream().reduce(Comparator::thenComparing).get()} (if the</a>
+<span class="sourceLineNo">507</span><a id="line.507">   * collection might be empty, also provide a default comparator as the {@code identity} parameter</a>
+<span class="sourceLineNo">508</span><a id="line.508">   * to {@code reduce}).</a>
+<span class="sourceLineNo">509</span><a id="line.509">   *</a>
+<span class="sourceLineNo">510</span><a id="line.510">   * @param comparators the comparators to try in order</a>
+<span class="sourceLineNo">511</span><a id="line.511">   */</a>
+<span class="sourceLineNo">512</span><a id="line.512">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">513</span><a id="line.513">  public static &lt;T extends @Nullable Object&gt; Ordering&lt;T&gt; compound(</a>
+<span class="sourceLineNo">514</span><a id="line.514">      Iterable&lt;? extends Comparator&lt;? super T&gt;&gt; comparators) {</a>
+<span class="sourceLineNo">515</span><a id="line.515">    return new CompoundOrdering&lt;&gt;(comparators);</a>
+<span class="sourceLineNo">516</span><a id="line.516">  }</a>
+<span class="sourceLineNo">517</span><a id="line.517"></a>
+<span class="sourceLineNo">518</span><a id="line.518">  /**</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until</a>
+<span class="sourceLineNo">520</span><a id="line.520">   * a nonzero result is found; imposes "dictionary order". If the end of one iterable is reached,</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * but not the other, the shorter iterable is considered to be less than the longer one. For</a>
+<span class="sourceLineNo">522</span><a id="line.522">   * example, a lexicographical natural ordering over integers considers {@code [] &lt; [1] &lt; [1, 1] &lt;</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * [1, 2] &lt; [2]}.</a>
+<span class="sourceLineNo">524</span><a id="line.524">   *</a>
+<span class="sourceLineNo">525</span><a id="line.525">   * &lt;p&gt;Note that {@code ordering.lexicographical().reverse()} is not equivalent to {@code</a>
+<span class="sourceLineNo">526</span><a id="line.526">   * ordering.reverse().lexicographical()} (consider how each would order {@code [1]} and {@code [1,</a>
+<span class="sourceLineNo">527</span><a id="line.527">   * 1]}).</a>
+<span class="sourceLineNo">528</span><a id="line.528">   *</a>
+<span class="sourceLineNo">529</span><a id="line.529">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@link Comparators#lexicographical(Comparator)} instead.</a>
+<span class="sourceLineNo">530</span><a id="line.530">   *</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * @since 2.0</a>
+<span class="sourceLineNo">532</span><a id="line.532">   */</a>
+<span class="sourceLineNo">533</span><a id="line.533">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">534</span><a id="line.534">  // type parameter &lt;S&gt; lets us avoid the extra &lt;String&gt; in statements like:</a>
+<span class="sourceLineNo">535</span><a id="line.535">  // Ordering&lt;Iterable&lt;String&gt;&gt; o =</a>
+<span class="sourceLineNo">536</span><a id="line.536">  //     Ordering.&lt;String&gt;natural().lexicographical();</a>
+<span class="sourceLineNo">537</span><a id="line.537">  public &lt;S extends T&gt; Ordering&lt;Iterable&lt;S&gt;&gt; lexicographical() {</a>
+<span class="sourceLineNo">538</span><a id="line.538">    /*</a>
+<span class="sourceLineNo">539</span><a id="line.539">     * Note that technically the returned ordering should be capable of</a>
+<span class="sourceLineNo">540</span><a id="line.540">     * handling not just {@code Iterable&lt;S&gt;} instances, but also any {@code</a>
+<span class="sourceLineNo">541</span><a id="line.541">     * Iterable&lt;? extends S&gt;}. However, the need for this comes up so rarely</a>
+<span class="sourceLineNo">542</span><a id="line.542">     * that it doesn't justify making everyone else deal with the very ugly</a>
+<span class="sourceLineNo">543</span><a id="line.543">     * wildcard.</a>
+<span class="sourceLineNo">544</span><a id="line.544">     */</a>
+<span class="sourceLineNo">545</span><a id="line.545">    return new LexicographicalOrdering&lt;S&gt;(this);</a>
+<span class="sourceLineNo">546</span><a id="line.546">  }</a>
+<span class="sourceLineNo">547</span><a id="line.547"></a>
+<span class="sourceLineNo">548</span><a id="line.548">  // Regular instance methods</a>
+<span class="sourceLineNo">549</span><a id="line.549"></a>
+<span class="sourceLineNo">550</span><a id="line.550">  @Override</a>
+<span class="sourceLineNo">551</span><a id="line.551">  public abstract int compare(@ParametricNullness T left, @ParametricNullness T right);</a>
+<span class="sourceLineNo">552</span><a id="line.552"></a>
+<span class="sourceLineNo">553</span><a id="line.553">  /**</a>
+<span class="sourceLineNo">554</span><a id="line.554">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">555</span><a id="line.555">   * least values, the first of those is returned. The iterator will be left exhausted: its {@code</a>
+<span class="sourceLineNo">556</span><a id="line.556">   * hasNext()} method will return {@code false}.</a>
+<span class="sourceLineNo">557</span><a id="line.557">   *</a>
+<span class="sourceLineNo">558</span><a id="line.558">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).min(thisComparator).get()} instead</a>
+<span class="sourceLineNo">559</span><a id="line.559">   * (but note that it does not guarantee which tied minimum element is returned).</a>
+<span class="sourceLineNo">560</span><a id="line.560">   *</a>
+<span class="sourceLineNo">561</span><a id="line.561">   * @param iterator the iterator whose minimum element is to be determined</a>
+<span class="sourceLineNo">562</span><a id="line.562">   * @throws NoSuchElementException if {@code iterator} is empty</a>
+<span class="sourceLineNo">563</span><a id="line.563">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">564</span><a id="line.564">   *     ordering.</a>
+<span class="sourceLineNo">565</span><a id="line.565">   * @since 11.0</a>
+<span class="sourceLineNo">566</span><a id="line.566">   */</a>
+<span class="sourceLineNo">567</span><a id="line.567">  @ParametricNullness</a>
+<span class="sourceLineNo">568</span><a id="line.568">  public &lt;E extends T&gt; E min(Iterator&lt;E&gt; iterator) {</a>
+<span class="sourceLineNo">569</span><a id="line.569">    // let this throw NoSuchElementException as necessary</a>
+<span class="sourceLineNo">570</span><a id="line.570">    E minSoFar = iterator.next();</a>
+<span class="sourceLineNo">571</span><a id="line.571"></a>
+<span class="sourceLineNo">572</span><a id="line.572">    while (iterator.hasNext()) {</a>
+<span class="sourceLineNo">573</span><a id="line.573">      minSoFar = this.&lt;E&gt;min(minSoFar, iterator.next());</a>
+<span class="sourceLineNo">574</span><a id="line.574">    }</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">    return minSoFar;</a>
+<span class="sourceLineNo">577</span><a id="line.577">  }</a>
+<span class="sourceLineNo">578</span><a id="line.578"></a>
+<span class="sourceLineNo">579</span><a id="line.579">  /**</a>
+<span class="sourceLineNo">580</span><a id="line.580">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">581</span><a id="line.581">   * least values, the first of those is returned.</a>
+<span class="sourceLineNo">582</span><a id="line.582">   *</a>
+<span class="sourceLineNo">583</span><a id="line.583">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; If {@code iterable} is a {@link Collection}, use {@code</a>
+<span class="sourceLineNo">584</span><a id="line.584">   * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code</a>
+<span class="sourceLineNo">585</span><a id="line.585">   * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do</a>
+<span class="sourceLineNo">586</span><a id="line.586">   * not guarantee which tied minimum element is returned.</a>
+<span class="sourceLineNo">587</span><a id="line.587">   *</a>
+<span class="sourceLineNo">588</span><a id="line.588">   * @param iterable the iterable whose minimum element is to be determined</a>
+<span class="sourceLineNo">589</span><a id="line.589">   * @throws NoSuchElementException if {@code iterable} is empty</a>
+<span class="sourceLineNo">590</span><a id="line.590">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">591</span><a id="line.591">   *     ordering.</a>
+<span class="sourceLineNo">592</span><a id="line.592">   */</a>
+<span class="sourceLineNo">593</span><a id="line.593">  @ParametricNullness</a>
+<span class="sourceLineNo">594</span><a id="line.594">  public &lt;E extends T&gt; E min(Iterable&lt;E&gt; iterable) {</a>
+<span class="sourceLineNo">595</span><a id="line.595">    return min(iterable.iterator());</a>
+<span class="sourceLineNo">596</span><a id="line.596">  }</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">  /**</a>
+<span class="sourceLineNo">599</span><a id="line.599">   * Returns the lesser of the two values according to this ordering. If the values compare as 0,</a>
+<span class="sourceLineNo">600</span><a id="line.600">   * the first is returned.</a>
+<span class="sourceLineNo">601</span><a id="line.601">   *</a>
+<span class="sourceLineNo">602</span><a id="line.602">   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the</a>
+<span class="sourceLineNo">603</span><a id="line.603">   * other {@code min} overloads, so overriding it will affect their behavior.</a>
+<span class="sourceLineNo">604</span><a id="line.604">   *</a>
+<span class="sourceLineNo">605</span><a id="line.605">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.</a>
+<span class="sourceLineNo">607</span><a id="line.607">   *</a>
+<span class="sourceLineNo">608</span><a id="line.608">   * @param a value to compare, returned if less than or equal to b.</a>
+<span class="sourceLineNo">609</span><a id="line.609">   * @param b value to compare.</a>
+<span class="sourceLineNo">610</span><a id="line.610">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">611</span><a id="line.611">   *     ordering.</a>
+<span class="sourceLineNo">612</span><a id="line.612">   */</a>
+<span class="sourceLineNo">613</span><a id="line.613">  @ParametricNullness</a>
+<span class="sourceLineNo">614</span><a id="line.614">  public &lt;E extends T&gt; E min(@ParametricNullness E a, @ParametricNullness E b) {</a>
+<span class="sourceLineNo">615</span><a id="line.615">    return (compare(a, b) &lt;= 0) ? a : b;</a>
+<span class="sourceLineNo">616</span><a id="line.616">  }</a>
+<span class="sourceLineNo">617</span><a id="line.617"></a>
+<span class="sourceLineNo">618</span><a id="line.618">  /**</a>
+<span class="sourceLineNo">619</span><a id="line.619">   * Returns the least of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">620</span><a id="line.620">   * least values, the first of those is returned.</a>
+<span class="sourceLineNo">621</span><a id="line.621">   *</a>
+<span class="sourceLineNo">622</span><a id="line.622">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}</a>
+<span class="sourceLineNo">623</span><a id="line.623">   * instead (but note that it does not guarantee which tied minimum element is returned).</a>
+<span class="sourceLineNo">624</span><a id="line.624">   *</a>
+<span class="sourceLineNo">625</span><a id="line.625">   * @param a value to compare, returned if less than or equal to the rest.</a>
+<span class="sourceLineNo">626</span><a id="line.626">   * @param b value to compare</a>
+<span class="sourceLineNo">627</span><a id="line.627">   * @param c value to compare</a>
+<span class="sourceLineNo">628</span><a id="line.628">   * @param rest values to compare</a>
+<span class="sourceLineNo">629</span><a id="line.629">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">630</span><a id="line.630">   *     ordering.</a>
+<span class="sourceLineNo">631</span><a id="line.631">   */</a>
+<span class="sourceLineNo">632</span><a id="line.632">  @ParametricNullness</a>
+<span class="sourceLineNo">633</span><a id="line.633">  public &lt;E extends T&gt; E min(</a>
+<span class="sourceLineNo">634</span><a id="line.634">      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {</a>
+<span class="sourceLineNo">635</span><a id="line.635">    E minSoFar = min(min(a, b), c);</a>
+<span class="sourceLineNo">636</span><a id="line.636"></a>
+<span class="sourceLineNo">637</span><a id="line.637">    for (E r : rest) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">      minSoFar = min(minSoFar, r);</a>
+<span class="sourceLineNo">639</span><a id="line.639">    }</a>
+<span class="sourceLineNo">640</span><a id="line.640"></a>
+<span class="sourceLineNo">641</span><a id="line.641">    return minSoFar;</a>
+<span class="sourceLineNo">642</span><a id="line.642">  }</a>
+<span class="sourceLineNo">643</span><a id="line.643"></a>
+<span class="sourceLineNo">644</span><a id="line.644">  /**</a>
+<span class="sourceLineNo">645</span><a id="line.645">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">646</span><a id="line.646">   * greatest values, the first of those is returned. The iterator will be left exhausted: its</a>
+<span class="sourceLineNo">647</span><a id="line.647">   * {@code hasNext()} method will return {@code false}.</a>
+<span class="sourceLineNo">648</span><a id="line.648">   *</a>
+<span class="sourceLineNo">649</span><a id="line.649">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).max(thisComparator).get()} instead</a>
+<span class="sourceLineNo">650</span><a id="line.650">   * (but note that it does not guarantee which tied maximum element is returned).</a>
+<span class="sourceLineNo">651</span><a id="line.651">   *</a>
+<span class="sourceLineNo">652</span><a id="line.652">   * @param iterator the iterator whose maximum element is to be determined</a>
+<span class="sourceLineNo">653</span><a id="line.653">   * @throws NoSuchElementException if {@code iterator} is empty</a>
+<span class="sourceLineNo">654</span><a id="line.654">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">655</span><a id="line.655">   *     ordering.</a>
+<span class="sourceLineNo">656</span><a id="line.656">   * @since 11.0</a>
+<span class="sourceLineNo">657</span><a id="line.657">   */</a>
+<span class="sourceLineNo">658</span><a id="line.658">  @ParametricNullness</a>
+<span class="sourceLineNo">659</span><a id="line.659">  public &lt;E extends T&gt; E max(Iterator&lt;E&gt; iterator) {</a>
+<span class="sourceLineNo">660</span><a id="line.660">    // let this throw NoSuchElementException as necessary</a>
+<span class="sourceLineNo">661</span><a id="line.661">    E maxSoFar = iterator.next();</a>
+<span class="sourceLineNo">662</span><a id="line.662"></a>
+<span class="sourceLineNo">663</span><a id="line.663">    while (iterator.hasNext()) {</a>
+<span class="sourceLineNo">664</span><a id="line.664">      maxSoFar = this.&lt;E&gt;max(maxSoFar, iterator.next());</a>
+<span class="sourceLineNo">665</span><a id="line.665">    }</a>
+<span class="sourceLineNo">666</span><a id="line.666"></a>
+<span class="sourceLineNo">667</span><a id="line.667">    return maxSoFar;</a>
+<span class="sourceLineNo">668</span><a id="line.668">  }</a>
+<span class="sourceLineNo">669</span><a id="line.669"></a>
+<span class="sourceLineNo">670</span><a id="line.670">  /**</a>
+<span class="sourceLineNo">671</span><a id="line.671">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">672</span><a id="line.672">   * greatest values, the first of those is returned.</a>
+<span class="sourceLineNo">673</span><a id="line.673">   *</a>
+<span class="sourceLineNo">674</span><a id="line.674">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; If {@code iterable} is a {@link Collection}, use {@code</a>
+<span class="sourceLineNo">675</span><a id="line.675">   * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code</a>
+<span class="sourceLineNo">676</span><a id="line.676">   * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do</a>
+<span class="sourceLineNo">677</span><a id="line.677">   * not guarantee which tied maximum element is returned.</a>
+<span class="sourceLineNo">678</span><a id="line.678">   *</a>
+<span class="sourceLineNo">679</span><a id="line.679">   * @param iterable the iterable whose maximum element is to be determined</a>
+<span class="sourceLineNo">680</span><a id="line.680">   * @throws NoSuchElementException if {@code iterable} is empty</a>
+<span class="sourceLineNo">681</span><a id="line.681">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">682</span><a id="line.682">   *     ordering.</a>
+<span class="sourceLineNo">683</span><a id="line.683">   */</a>
+<span class="sourceLineNo">684</span><a id="line.684">  @ParametricNullness</a>
+<span class="sourceLineNo">685</span><a id="line.685">  public &lt;E extends T&gt; E max(Iterable&lt;E&gt; iterable) {</a>
+<span class="sourceLineNo">686</span><a id="line.686">    return max(iterable.iterator());</a>
+<span class="sourceLineNo">687</span><a id="line.687">  }</a>
+<span class="sourceLineNo">688</span><a id="line.688"></a>
+<span class="sourceLineNo">689</span><a id="line.689">  /**</a>
+<span class="sourceLineNo">690</span><a id="line.690">   * Returns the greater of the two values according to this ordering. If the values compare as 0,</a>
+<span class="sourceLineNo">691</span><a id="line.691">   * the first is returned.</a>
+<span class="sourceLineNo">692</span><a id="line.692">   *</a>
+<span class="sourceLineNo">693</span><a id="line.693">   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the</a>
+<span class="sourceLineNo">694</span><a id="line.694">   * other {@code max} overloads, so overriding it will affect their behavior.</a>
+<span class="sourceLineNo">695</span><a id="line.695">   *</a>
+<span class="sourceLineNo">696</span><a id="line.696">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code</a>
+<span class="sourceLineNo">697</span><a id="line.697">   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.</a>
+<span class="sourceLineNo">698</span><a id="line.698">   *</a>
+<span class="sourceLineNo">699</span><a id="line.699">   * @param a value to compare, returned if greater than or equal to b.</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * @param b value to compare.</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">702</span><a id="line.702">   *     ordering.</a>
+<span class="sourceLineNo">703</span><a id="line.703">   */</a>
+<span class="sourceLineNo">704</span><a id="line.704">  @ParametricNullness</a>
+<span class="sourceLineNo">705</span><a id="line.705">  public &lt;E extends T&gt; E max(@ParametricNullness E a, @ParametricNullness E b) {</a>
+<span class="sourceLineNo">706</span><a id="line.706">    return (compare(a, b) &gt;= 0) ? a : b;</a>
+<span class="sourceLineNo">707</span><a id="line.707">  }</a>
+<span class="sourceLineNo">708</span><a id="line.708"></a>
+<span class="sourceLineNo">709</span><a id="line.709">  /**</a>
+<span class="sourceLineNo">710</span><a id="line.710">   * Returns the greatest of the specified values according to this ordering. If there are multiple</a>
+<span class="sourceLineNo">711</span><a id="line.711">   * greatest values, the first of those is returned.</a>
+<span class="sourceLineNo">712</span><a id="line.712">   *</a>
+<span class="sourceLineNo">713</span><a id="line.713">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Collections.max(Arrays.asList(a, b, c...), thisComparator)}</a>
+<span class="sourceLineNo">714</span><a id="line.714">   * instead (but note that it does not guarantee which tied maximum element is returned).</a>
+<span class="sourceLineNo">715</span><a id="line.715">   *</a>
+<span class="sourceLineNo">716</span><a id="line.716">   * @param a value to compare, returned if greater than or equal to the rest.</a>
+<span class="sourceLineNo">717</span><a id="line.717">   * @param b value to compare</a>
+<span class="sourceLineNo">718</span><a id="line.718">   * @param c value to compare</a>
+<span class="sourceLineNo">719</span><a id="line.719">   * @param rest values to compare</a>
+<span class="sourceLineNo">720</span><a id="line.720">   * @throws ClassCastException if the parameters are not &lt;i&gt;mutually comparable&lt;/i&gt; under this</a>
+<span class="sourceLineNo">721</span><a id="line.721">   *     ordering.</a>
+<span class="sourceLineNo">722</span><a id="line.722">   */</a>
+<span class="sourceLineNo">723</span><a id="line.723">  @ParametricNullness</a>
+<span class="sourceLineNo">724</span><a id="line.724">  public &lt;E extends T&gt; E max(</a>
+<span class="sourceLineNo">725</span><a id="line.725">      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {</a>
+<span class="sourceLineNo">726</span><a id="line.726">    E maxSoFar = max(max(a, b), c);</a>
+<span class="sourceLineNo">727</span><a id="line.727"></a>
+<span class="sourceLineNo">728</span><a id="line.728">    for (E r : rest) {</a>
+<span class="sourceLineNo">729</span><a id="line.729">      maxSoFar = max(maxSoFar, r);</a>
+<span class="sourceLineNo">730</span><a id="line.730">    }</a>
+<span class="sourceLineNo">731</span><a id="line.731"></a>
+<span class="sourceLineNo">732</span><a id="line.732">    return maxSoFar;</a>
+<span class="sourceLineNo">733</span><a id="line.733">  }</a>
+<span class="sourceLineNo">734</span><a id="line.734"></a>
+<span class="sourceLineNo">735</span><a id="line.735">  /**</a>
+<span class="sourceLineNo">736</span><a id="line.736">   * Returns the {@code k} least elements of the given iterable according to this ordering, in order</a>
+<span class="sourceLineNo">737</span><a id="line.737">   * from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">738</span><a id="line.738">   * included.</a>
+<span class="sourceLineNo">739</span><a id="line.739">   *</a>
+<span class="sourceLineNo">740</span><a id="line.740">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">741</span><a id="line.741">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">742</span><a id="line.742">   *</a>
+<span class="sourceLineNo">743</span><a id="line.743">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.least(k,</a>
+<span class="sourceLineNo">744</span><a id="line.744">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">745</span><a id="line.745">   *</a>
+<span class="sourceLineNo">746</span><a id="line.746">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
+<span class="sourceLineNo">747</span><a id="line.747">   *     order</a>
+<span class="sourceLineNo">748</span><a id="line.748">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">749</span><a id="line.749">   * @since 8.0</a>
+<span class="sourceLineNo">750</span><a id="line.750">   */</a>
+<span class="sourceLineNo">751</span><a id="line.751">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterable&lt;E&gt; iterable, int k) {</a>
+<span class="sourceLineNo">752</span><a id="line.752">    if (iterable instanceof Collection) {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      Collection&lt;E&gt; collection = (Collection&lt;E&gt;) iterable;</a>
+<span class="sourceLineNo">754</span><a id="line.754">      if (collection.size() &lt;= 2L * k) {</a>
+<span class="sourceLineNo">755</span><a id="line.755">        // In this case, just dumping the collection to an array and sorting is</a>
+<span class="sourceLineNo">756</span><a id="line.756">        // faster than using the implementation for Iterator, which is</a>
+<span class="sourceLineNo">757</span><a id="line.757">        // specialized for k much smaller than n.</a>
+<span class="sourceLineNo">758</span><a id="line.758"></a>
+<span class="sourceLineNo">759</span><a id="line.759">        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape</a>
+<span class="sourceLineNo">760</span><a id="line.760">        E[] array = (E[]) collection.toArray();</a>
+<span class="sourceLineNo">761</span><a id="line.761">        Arrays.sort(array, this);</a>
+<span class="sourceLineNo">762</span><a id="line.762">        if (array.length &gt; k) {</a>
+<span class="sourceLineNo">763</span><a id="line.763">          array = Arrays.copyOf(array, k);</a>
+<span class="sourceLineNo">764</span><a id="line.764">        }</a>
+<span class="sourceLineNo">765</span><a id="line.765">        return Collections.unmodifiableList(asList(array));</a>
+<span class="sourceLineNo">766</span><a id="line.766">      }</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768">    return leastOf(iterable.iterator(), k);</a>
+<span class="sourceLineNo">769</span><a id="line.769">  }</a>
+<span class="sourceLineNo">770</span><a id="line.770"></a>
+<span class="sourceLineNo">771</span><a id="line.771">  /**</a>
+<span class="sourceLineNo">772</span><a id="line.772">   * Returns the {@code k} least elements from the given iterator according to this ordering, in</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * order from least to greatest. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">774</span><a id="line.774">   * included.</a>
+<span class="sourceLineNo">775</span><a id="line.775">   *</a>
+<span class="sourceLineNo">776</span><a id="line.776">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">777</span><a id="line.777">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">778</span><a id="line.778">   *</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.least(k,</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">781</span><a id="line.781">   *</a>
+<span class="sourceLineNo">782</span><a id="line.782">   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending</a>
+<span class="sourceLineNo">783</span><a id="line.783">   *     order</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">785</span><a id="line.785">   * @since 14.0</a>
+<span class="sourceLineNo">786</span><a id="line.786">   */</a>
+<span class="sourceLineNo">787</span><a id="line.787">  public &lt;E extends T&gt; List&lt;E&gt; leastOf(Iterator&lt;E&gt; iterator, int k) {</a>
+<span class="sourceLineNo">788</span><a id="line.788">    checkNotNull(iterator);</a>
+<span class="sourceLineNo">789</span><a id="line.789">    checkNonnegative(k, "k");</a>
+<span class="sourceLineNo">790</span><a id="line.790"></a>
+<span class="sourceLineNo">791</span><a id="line.791">    if (k == 0 || !iterator.hasNext()) {</a>
+<span class="sourceLineNo">792</span><a id="line.792">      return Collections.emptyList();</a>
+<span class="sourceLineNo">793</span><a id="line.793">    } else if (k &gt;= Integer.MAX_VALUE / 2) {</a>
+<span class="sourceLineNo">794</span><a id="line.794">      // k is really large; just do a straightforward sorted-copy-and-sublist</a>
+<span class="sourceLineNo">795</span><a id="line.795">      ArrayList&lt;E&gt; list = Lists.newArrayList(iterator);</a>
+<span class="sourceLineNo">796</span><a id="line.796">      Collections.sort(list, this);</a>
+<span class="sourceLineNo">797</span><a id="line.797">      if (list.size() &gt; k) {</a>
+<span class="sourceLineNo">798</span><a id="line.798">        list.subList(k, list.size()).clear();</a>
+<span class="sourceLineNo">799</span><a id="line.799">      }</a>
+<span class="sourceLineNo">800</span><a id="line.800">      list.trimToSize();</a>
+<span class="sourceLineNo">801</span><a id="line.801">      return Collections.unmodifiableList(list);</a>
+<span class="sourceLineNo">802</span><a id="line.802">    } else {</a>
+<span class="sourceLineNo">803</span><a id="line.803">      TopKSelector&lt;E&gt; selector = TopKSelector.least(k, this);</a>
+<span class="sourceLineNo">804</span><a id="line.804">      selector.offerAll(iterator);</a>
+<span class="sourceLineNo">805</span><a id="line.805">      return selector.topK();</a>
+<span class="sourceLineNo">806</span><a id="line.806">    }</a>
+<span class="sourceLineNo">807</span><a id="line.807">  }</a>
+<span class="sourceLineNo">808</span><a id="line.808"></a>
+<span class="sourceLineNo">809</span><a id="line.809">  /**</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * Returns the {@code k} greatest elements of the given iterable according to this ordering, in</a>
+<span class="sourceLineNo">811</span><a id="line.811">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * included.</a>
+<span class="sourceLineNo">813</span><a id="line.813">   *</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">816</span><a id="line.816">   *</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,</a>
+<span class="sourceLineNo">818</span><a id="line.818">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">819</span><a id="line.819">   *</a>
+<span class="sourceLineNo">820</span><a id="line.820">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
+<span class="sourceLineNo">821</span><a id="line.821">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">823</span><a id="line.823">   * @since 8.0</a>
+<span class="sourceLineNo">824</span><a id="line.824">   */</a>
+<span class="sourceLineNo">825</span><a id="line.825">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterable&lt;E&gt; iterable, int k) {</a>
+<span class="sourceLineNo">826</span><a id="line.826">    // TODO(kevinb): see if delegation is hurting performance noticeably</a>
+<span class="sourceLineNo">827</span><a id="line.827">    // TODO(kevinb): if we change this implementation, add full unit tests.</a>
+<span class="sourceLineNo">828</span><a id="line.828">    return this.&lt;E&gt;reverse().leastOf(iterable, k);</a>
+<span class="sourceLineNo">829</span><a id="line.829">  }</a>
+<span class="sourceLineNo">830</span><a id="line.830"></a>
+<span class="sourceLineNo">831</span><a id="line.831">  /**</a>
+<span class="sourceLineNo">832</span><a id="line.832">   * Returns the {@code k} greatest elements from the given iterator according to this ordering, in</a>
+<span class="sourceLineNo">833</span><a id="line.833">   * order from greatest to least. If there are fewer than {@code k} elements present, all will be</a>
+<span class="sourceLineNo">834</span><a id="line.834">   * included.</a>
+<span class="sourceLineNo">835</span><a id="line.835">   *</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple</a>
+<span class="sourceLineNo">837</span><a id="line.837">   * elements are equivalent, it is undefined which will come first.</a>
+<span class="sourceLineNo">838</span><a id="line.838">   *</a>
+<span class="sourceLineNo">839</span><a id="line.839">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,</a>
+<span class="sourceLineNo">840</span><a id="line.840">   * thisComparator))} instead.</a>
+<span class="sourceLineNo">841</span><a id="line.841">   *</a>
+<span class="sourceLineNo">842</span><a id="line.842">   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in</a>
+<span class="sourceLineNo">843</span><a id="line.843">   *     &lt;i&gt;descending order&lt;/i&gt;</a>
+<span class="sourceLineNo">844</span><a id="line.844">   * @throws IllegalArgumentException if {@code k} is negative</a>
+<span class="sourceLineNo">845</span><a id="line.845">   * @since 14.0</a>
+<span class="sourceLineNo">846</span><a id="line.846">   */</a>
+<span class="sourceLineNo">847</span><a id="line.847">  public &lt;E extends T&gt; List&lt;E&gt; greatestOf(Iterator&lt;E&gt; iterator, int k) {</a>
+<span class="sourceLineNo">848</span><a id="line.848">    return this.&lt;E&gt;reverse().leastOf(iterator, k);</a>
+<span class="sourceLineNo">849</span><a id="line.849">  }</a>
+<span class="sourceLineNo">850</span><a id="line.850"></a>
+<span class="sourceLineNo">851</span><a id="line.851">  /**</a>
+<span class="sourceLineNo">852</span><a id="line.852">   * Returns a &lt;b&gt;mutable&lt;/b&gt; list containing {@code elements} sorted by this ordering; use this</a>
+<span class="sourceLineNo">853</span><a id="line.853">   * only when the resulting list may need further modification, or may contain {@code null}. The</a>
+<span class="sourceLineNo">854</span><a id="line.854">   * input is not modified. The returned list is serializable and has random access.</a>
+<span class="sourceLineNo">855</span><a id="line.855">   *</a>
+<span class="sourceLineNo">856</span><a id="line.856">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
+<span class="sourceLineNo">857</span><a id="line.857">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
+<span class="sourceLineNo">858</span><a id="line.858">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
+<span class="sourceLineNo">859</span><a id="line.859">   *</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
+<span class="sourceLineNo">861</span><a id="line.861">   * benchmarking</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * than this method, and this method in turn generally performs better than copying the list and</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * calling {@link Collections#sort(List)}.</a>
+<span class="sourceLineNo">865</span><a id="line.865">   */</a>
+<span class="sourceLineNo">866</span><a id="line.866">  // TODO(kevinb): rerun benchmarks including new options</a>
+<span class="sourceLineNo">867</span><a id="line.867">  public &lt;E extends T&gt; List&lt;E&gt; sortedCopy(Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">868</span><a id="line.868">    @SuppressWarnings("unchecked") // does not escape, and contains only E's</a>
+<span class="sourceLineNo">869</span><a id="line.869">    E[] array = (E[]) Iterables.toArray(elements);</a>
+<span class="sourceLineNo">870</span><a id="line.870">    Arrays.sort(array, this);</a>
+<span class="sourceLineNo">871</span><a id="line.871">    return Lists.newArrayList(asList(array));</a>
+<span class="sourceLineNo">872</span><a id="line.872">  }</a>
+<span class="sourceLineNo">873</span><a id="line.873"></a>
+<span class="sourceLineNo">874</span><a id="line.874">  /**</a>
+<span class="sourceLineNo">875</span><a id="line.875">   * Returns an &lt;b&gt;immutable&lt;/b&gt; list containing {@code elements} sorted by this ordering. The input</a>
+<span class="sourceLineNo">876</span><a id="line.876">   * is not modified.</a>
+<span class="sourceLineNo">877</span><a id="line.877">   *</a>
+<span class="sourceLineNo">878</span><a id="line.878">   * &lt;p&gt;Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard elements that are</a>
+<span class="sourceLineNo">879</span><a id="line.879">   * duplicates according to the comparator. The sort performed is &lt;i&gt;stable&lt;/i&gt;, meaning that such</a>
+<span class="sourceLineNo">880</span><a id="line.880">   * elements will appear in the returned list in the same order they appeared in {@code elements}.</a>
+<span class="sourceLineNo">881</span><a id="line.881">   *</a>
+<span class="sourceLineNo">882</span><a id="line.882">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; According to our</a>
+<span class="sourceLineNo">883</span><a id="line.883">   * benchmarking</a>
+<span class="sourceLineNo">884</span><a id="line.884">   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.</a>
+<span class="sourceLineNo">885</span><a id="line.885">   *</a>
+<span class="sourceLineNo">886</span><a id="line.886">   * @throws NullPointerException if any element of {@code elements} is {@code null}</a>
+<span class="sourceLineNo">887</span><a id="line.887">   * @since 3.0</a>
+<span class="sourceLineNo">888</span><a id="line.888">   */</a>
+<span class="sourceLineNo">889</span><a id="line.889">  // TODO(kevinb): rerun benchmarks including new options</a>
+<span class="sourceLineNo">890</span><a id="line.890">  public &lt;E extends @NonNull T&gt; ImmutableList&lt;E&gt; immutableSortedCopy(Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">891</span><a id="line.891">    return ImmutableList.sortedCopyOf(this, elements);</a>
+<span class="sourceLineNo">892</span><a id="line.892">  }</a>
+<span class="sourceLineNo">893</span><a id="line.893"></a>
+<span class="sourceLineNo">894</span><a id="line.894">  /**</a>
+<span class="sourceLineNo">895</span><a id="line.895">   * Returns {@code true} if each element in {@code iterable} after the first is greater than or</a>
+<span class="sourceLineNo">896</span><a id="line.896">   * equal to the element that preceded it, according to this ordering. Note that this is always</a>
+<span class="sourceLineNo">897</span><a id="line.897">   * true when the iterable has fewer than two elements.</a>
+<span class="sourceLineNo">898</span><a id="line.898">   *</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class</a>
+<span class="sourceLineNo">901</span><a id="line.901">   * documentation).</a>
+<span class="sourceLineNo">902</span><a id="line.902">   */</a>
+<span class="sourceLineNo">903</span><a id="line.903">  public boolean isOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">904</span><a id="line.904">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
+<span class="sourceLineNo">905</span><a id="line.905">    if (it.hasNext()) {</a>
+<span class="sourceLineNo">906</span><a id="line.906">      T prev = it.next();</a>
+<span class="sourceLineNo">907</span><a id="line.907">      while (it.hasNext()) {</a>
+<span class="sourceLineNo">908</span><a id="line.908">        T next = it.next();</a>
+<span class="sourceLineNo">909</span><a id="line.909">        if (compare(prev, next) &gt; 0) {</a>
+<span class="sourceLineNo">910</span><a id="line.910">          return false;</a>
+<span class="sourceLineNo">911</span><a id="line.911">        }</a>
+<span class="sourceLineNo">912</span><a id="line.912">        prev = next;</a>
+<span class="sourceLineNo">913</span><a id="line.913">      }</a>
+<span class="sourceLineNo">914</span><a id="line.914">    }</a>
+<span class="sourceLineNo">915</span><a id="line.915">    return true;</a>
+<span class="sourceLineNo">916</span><a id="line.916">  }</a>
+<span class="sourceLineNo">917</span><a id="line.917"></a>
+<span class="sourceLineNo">918</span><a id="line.918">  /**</a>
+<span class="sourceLineNo">919</span><a id="line.919">   * Returns {@code true} if each element in {@code iterable} after the first is &lt;i&gt;strictly&lt;/i&gt;</a>
+<span class="sourceLineNo">920</span><a id="line.920">   * greater than the element that preceded it, according to this ordering. Note that this is always</a>
+<span class="sourceLineNo">921</span><a id="line.921">   * true when the iterable has fewer than two elements.</a>
+<span class="sourceLineNo">922</span><a id="line.922">   *</a>
+<span class="sourceLineNo">923</span><a id="line.923">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable,</a>
+<span class="sourceLineNo">924</span><a id="line.924">   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in</a>
+<span class="sourceLineNo">925</span><a id="line.925">   * the class documentation).</a>
+<span class="sourceLineNo">926</span><a id="line.926">   */</a>
+<span class="sourceLineNo">927</span><a id="line.927">  public boolean isStrictlyOrdered(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">928</span><a id="line.928">    Iterator&lt;? extends T&gt; it = iterable.iterator();</a>
+<span class="sourceLineNo">929</span><a id="line.929">    if (it.hasNext()) {</a>
+<span class="sourceLineNo">930</span><a id="line.930">      T prev = it.next();</a>
+<span class="sourceLineNo">931</span><a id="line.931">      while (it.hasNext()) {</a>
+<span class="sourceLineNo">932</span><a id="line.932">        T next = it.next();</a>
+<span class="sourceLineNo">933</span><a id="line.933">        if (compare(prev, next) &gt;= 0) {</a>
+<span class="sourceLineNo">934</span><a id="line.934">          return false;</a>
+<span class="sourceLineNo">935</span><a id="line.935">        }</a>
+<span class="sourceLineNo">936</span><a id="line.936">        prev = next;</a>
+<span class="sourceLineNo">937</span><a id="line.937">      }</a>
+<span class="sourceLineNo">938</span><a id="line.938">    }</a>
+<span class="sourceLineNo">939</span><a id="line.939">    return true;</a>
+<span class="sourceLineNo">940</span><a id="line.940">  }</a>
+<span class="sourceLineNo">941</span><a id="line.941"></a>
+<span class="sourceLineNo">942</span><a id="line.942">  /**</a>
+<span class="sourceLineNo">943</span><a id="line.943">   * {@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for</a>
+<span class="sourceLineNo">944</span><a id="line.944">   * {@code key} using the binary search algorithm. The list must be sorted using this ordering.</a>
+<span class="sourceLineNo">945</span><a id="line.945">   *</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * @param sortedList the list to be searched</a>
+<span class="sourceLineNo">947</span><a id="line.947">   * @param key the key to be searched for</a>
+<span class="sourceLineNo">948</span><a id="line.948">   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.</a>
+<span class="sourceLineNo">949</span><a id="line.949">   */</a>
+<span class="sourceLineNo">950</span><a id="line.950">  @Deprecated</a>
+<span class="sourceLineNo">951</span><a id="line.951">  public int binarySearch(</a>
+<span class="sourceLineNo">952</span><a id="line.952">      List&lt;? extends T&gt; sortedList, @ParametricNullness T key) {</a>
+<span class="sourceLineNo">953</span><a id="line.953">    return Collections.binarySearch(sortedList, key, this);</a>
+<span class="sourceLineNo">954</span><a id="line.954">  }</a>
+<span class="sourceLineNo">955</span><a id="line.955"></a>
+<span class="sourceLineNo">956</span><a id="line.956">  /**</a>
+<span class="sourceLineNo">957</span><a id="line.957">   * Exception thrown by a {@link Ordering#explicit(List)} or {@link Ordering#explicit(Object,</a>
+<span class="sourceLineNo">958</span><a id="line.958">   * Object[])} comparator when comparing a value outside the set of values it can compare.</a>
+<span class="sourceLineNo">959</span><a id="line.959">   * Extending {@link ClassCastException} may seem odd, but it is required.</a>
+<span class="sourceLineNo">960</span><a id="line.960">   */</a>
+<span class="sourceLineNo">961</span><a id="line.961">  static class IncomparableValueException extends ClassCastException {</a>
+<span class="sourceLineNo">962</span><a id="line.962">    final Object value;</a>
+<span class="sourceLineNo">963</span><a id="line.963"></a>
+<span class="sourceLineNo">964</span><a id="line.964">    IncomparableValueException(Object value) {</a>
+<span class="sourceLineNo">965</span><a id="line.965">      super("Cannot compare value: " + value);</a>
+<span class="sourceLineNo">966</span><a id="line.966">      this.value = value;</a>
+<span class="sourceLineNo">967</span><a id="line.967">    }</a>
+<span class="sourceLineNo">968</span><a id="line.968"></a>
+<span class="sourceLineNo">969</span><a id="line.969">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">970</span><a id="line.970">  }</a>
+<span class="sourceLineNo">971</span><a id="line.971"></a>
+<span class="sourceLineNo">972</span><a id="line.972">  // Never make these public</a>
+<span class="sourceLineNo">973</span><a id="line.973">  static final int LEFT_IS_GREATER = 1;</a>
+<span class="sourceLineNo">974</span><a id="line.974">  static final int RIGHT_IS_GREATER = -1;</a>
+<span class="sourceLineNo">975</span><a id="line.975">}</a>
 
 
 

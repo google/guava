@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.69">BloomFilter</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public final class <a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.70">BloomFilter</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends java.lang.Object
 implements <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;, java.io.Serializable</pre>
 <div class="block">A Bloom filter for instances of <code>T</code>. A Bloom filter offers an approximate containment test
@@ -351,7 +351,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature">public&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.140">copy</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.141">copy</a>()</pre>
 <div class="block">Creates a new <code>BloomFilter</code> that's a copy of this instance. The new instance is equal to
  this instance but shares no mutable state.</div>
 <dl>
@@ -368,7 +368,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>mightContain</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.148">mightContain</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.149">mightContain</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if the element <i>might</i> have been put in this Bloom filter, <code>
  false</code> if this is <i>definitely</i> not the case.</div>
 </li>
@@ -382,7 +382,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>apply</h4>
 <pre class="methodSignature">@Deprecated
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.156">apply</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;input)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.157">apply</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;input)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided only to satisfy the <a href="../base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="#mightContain(T)"><code>mightContain(T)</code></a>
      instead.</div>
@@ -412,7 +412,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.173">put</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.174">put</a>&#8203;(<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
 <div class="block">Puts an element into this <code>BloomFilter</code>. Ensures that subsequent invocations of <a href="#mightContain(T)"><code>mightContain(Object)</code></a> with the same element will always return <code>true</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -432,7 +432,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedFpp</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.189">expectedFpp</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.190">expectedFpp</a>()</pre>
 <div class="block">Returns the probability that <a href="#mightContain(T)">mightContain(Object)</a> will erroneously return <code>
  true</code> for an object that has not actually been put in the <code>BloomFilter</code>.
 
@@ -451,7 +451,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>approximateElementCount</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.200">approximateElementCount</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.201">approximateElementCount</a>()</pre>
 <div class="block">Returns an estimate for the total number of distinct elements that have been added to this
  Bloom filter. This approximation is reasonably accurate if it does not exceed the value of
  <code>expectedInsertions</code> that was used when constructing the filter.</div>
@@ -467,7 +467,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>isCompatible</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.236">isCompatible</a>&#8203;(<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.237">isCompatible</a>&#8203;(<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
 <div class="block">Determines whether a given Bloom filter is compatible with this Bloom filter. For two Bloom
  filters to be compatible, they must:
 
@@ -492,7 +492,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.254">putAll</a>&#8203;(<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.255">putAll</a>&#8203;(<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
 <div class="block">Combines this Bloom filter with another Bloom filter by performing a bitwise OR of the
  underlying data. The mutations happen to <b>this</b> instance. Callers must ensure the Bloom
  filters are appropriately sized to avoid saturating them.</div>
@@ -512,7 +512,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.280">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.281">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../base/Predicate.html#equals(java.lang.Object)">Predicate</a></code></span></div>
 <div class="block">Indicates whether another object is equal to this predicate.
@@ -537,7 +537,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.295">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.296">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -550,7 +550,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.320">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.321">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                                                            int&nbsp;expectedInsertions,
                                                                            double&nbsp;fpp)</pre>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and expected false
@@ -582,7 +582,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.346">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.347">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                                                            long&nbsp;expectedInsertions,
                                                                            double&nbsp;fpp)</pre>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and expected false
@@ -616,7 +616,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.397">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.398">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                                                            int&nbsp;expectedInsertions)</pre>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
  false positive probability of 3%.
@@ -646,7 +646,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.422">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.423">create</a>&#8203;(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                                                            long&nbsp;expectedInsertions)</pre>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
  false positive probability of 3%.
@@ -678,7 +678,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>writeTo</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.507">writeTo</a>&#8203;(java.io.OutputStream&nbsp;out)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.508">writeTo</a>&#8203;(java.io.OutputStream&nbsp;out)
              throws java.io.IOException</pre>
 <div class="block">Writes this <code>BloomFilter</code> to an output stream, with a custom format (not Java
  serialization). This has been measured to save at least 400 bytes compared to regular
@@ -697,7 +697,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>readFrom</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.533">readFrom</a>&#8203;(java.io.InputStream&nbsp;in,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.534">readFrom</a>&#8203;(java.io.InputStream&nbsp;in,
                                                                              <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)
                                                                       throws java.io.IOException</pre>
 <div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>

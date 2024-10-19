@@ -24,10 +24,10 @@
 <span class="sourceLineNo">015</span><a id="line.15">package com.google.common.escape;</a>
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkNotNull;</a>
-<span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.VisibleForTesting;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import java.util.Collections;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static java.util.Collections.max;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.VisibleForTesting;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.util.Map;</a>
 <span class="sourceLineNo">023</span><a id="line.23"></a>
 <span class="sourceLineNo">024</span><a id="line.24">/**</a>
@@ -79,7 +79,7 @@
 <span class="sourceLineNo">070</span><a id="line.70">    if (map.isEmpty()) {</a>
 <span class="sourceLineNo">071</span><a id="line.71">      return EMPTY_REPLACEMENT_ARRAY;</a>
 <span class="sourceLineNo">072</span><a id="line.72">    }</a>
-<span class="sourceLineNo">073</span><a id="line.73">    char max = Collections.max(map.keySet());</a>
+<span class="sourceLineNo">073</span><a id="line.73">    char max = max(map.keySet());</a>
 <span class="sourceLineNo">074</span><a id="line.74">    char[][] replacements = new char[max + 1][];</a>
 <span class="sourceLineNo">075</span><a id="line.75">    for (Character c : map.keySet()) {</a>
 <span class="sourceLineNo">076</span><a id="line.76">      replacements[c] = map.get(c).toCharArray();</a>

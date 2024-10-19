@@ -723,7 +723,7 @@
 <span class="sourceLineNo">714</span><a id="line.714"></a>
 <span class="sourceLineNo">715</span><a id="line.715">    @Override</a>
 <span class="sourceLineNo">716</span><a id="line.716">    public int available() throws IOException {</a>
-<span class="sourceLineNo">717</span><a id="line.717">      return (int) Math.min(in.available(), left);</a>
+<span class="sourceLineNo">717</span><a id="line.717">      return (int) min(in.available(), left);</a>
 <span class="sourceLineNo">718</span><a id="line.718">    }</a>
 <span class="sourceLineNo">719</span><a id="line.719"></a>
 <span class="sourceLineNo">720</span><a id="line.720">    // it's okay to mark even if mark isn't supported, as reset won't work</a>
@@ -752,7 +752,7 @@
 <span class="sourceLineNo">743</span><a id="line.743">        return -1;</a>
 <span class="sourceLineNo">744</span><a id="line.744">      }</a>
 <span class="sourceLineNo">745</span><a id="line.745"></a>
-<span class="sourceLineNo">746</span><a id="line.746">      len = (int) Math.min(len, left);</a>
+<span class="sourceLineNo">746</span><a id="line.746">      len = (int) min(len, left);</a>
 <span class="sourceLineNo">747</span><a id="line.747">      int result = in.read(b, off, len);</a>
 <span class="sourceLineNo">748</span><a id="line.748">      if (result != -1) {</a>
 <span class="sourceLineNo">749</span><a id="line.749">        left -= result;</a>
@@ -775,7 +775,7 @@
 <span class="sourceLineNo">766</span><a id="line.766"></a>
 <span class="sourceLineNo">767</span><a id="line.767">    @Override</a>
 <span class="sourceLineNo">768</span><a id="line.768">    public long skip(long n) throws IOException {</a>
-<span class="sourceLineNo">769</span><a id="line.769">      n = Math.min(n, left);</a>
+<span class="sourceLineNo">769</span><a id="line.769">      n = min(n, left);</a>
 <span class="sourceLineNo">770</span><a id="line.770">      long skipped = in.skip(n);</a>
 <span class="sourceLineNo">771</span><a id="line.771">      left -= skipped;</a>
 <span class="sourceLineNo">772</span><a id="line.772">      return skipped;</a>
@@ -849,7 +849,7 @@
 <span class="sourceLineNo">840</span><a id="line.840">      if (skipped == 0) {</a>
 <span class="sourceLineNo">841</span><a id="line.841">        // Do a buffered read since skipSafely could return 0 repeatedly, for example if</a>
 <span class="sourceLineNo">842</span><a id="line.842">        // in.available() always returns 0 (the default).</a>
-<span class="sourceLineNo">843</span><a id="line.843">        int skip = (int) Math.min(remaining, BUFFER_SIZE);</a>
+<span class="sourceLineNo">843</span><a id="line.843">        int skip = (int) min(remaining, BUFFER_SIZE);</a>
 <span class="sourceLineNo">844</span><a id="line.844">        if (buf == null) {</a>
 <span class="sourceLineNo">845</span><a id="line.845">          // Allocate a buffer bounded by the maximum size that can be requested, for</a>
 <span class="sourceLineNo">846</span><a id="line.846">          // example an array of BUFFER_SIZE is unnecessary when the value of remaining</a>
@@ -877,7 +877,7 @@
 <span class="sourceLineNo">868</span><a id="line.868">   */</a>
 <span class="sourceLineNo">869</span><a id="line.869">  private static long skipSafely(InputStream in, long n) throws IOException {</a>
 <span class="sourceLineNo">870</span><a id="line.870">    int available = in.available();</a>
-<span class="sourceLineNo">871</span><a id="line.871">    return available == 0 ? 0 : in.skip(Math.min(available, n));</a>
+<span class="sourceLineNo">871</span><a id="line.871">    return available == 0 ? 0 : in.skip(min(available, n));</a>
 <span class="sourceLineNo">872</span><a id="line.872">  }</a>
 <span class="sourceLineNo">873</span><a id="line.873"></a>
 <span class="sourceLineNo">874</span><a id="line.874">  /**</a>

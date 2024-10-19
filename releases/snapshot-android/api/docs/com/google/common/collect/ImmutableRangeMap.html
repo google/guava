@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.48">ImmutableRangeMap</a>&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;
+public class <a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.49">ImmutableRangeMap</a>&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;
 extends java.lang.Object
 implements <a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
 <div class="block">A <a href="RangeMap.html" title="interface in com.google.common.collect"><code>RangeMap</code></a> whose contents will never change, with many other important properties
@@ -373,7 +373,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableRangeMap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.61">toImmutableRangeMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&gt;&nbsp;keyFunction,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K extends java.lang.Comparable&lt;? super K&gt;,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.62">toImmutableRangeMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&gt;&nbsp;keyFunction,
                                                                                                                                                                                                           java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
  ImmutableRangeMap</code>. As in <a href="ImmutableRangeMap.Builder.html" title="class in com.google.common.collect"><code>ImmutableRangeMap.Builder</code></a>, overlapping ranges are not permitted.</div>
@@ -389,7 +389,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.75">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.76">of</a>()</pre>
 <div class="block">Returns an empty immutable range map.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -403,7 +403,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.81">of</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range,
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.82">of</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range,
                                                                                           V&nbsp;value)</pre>
 <div class="block">Returns an immutable range map mapping a single range to a single value.</div>
 </li>
@@ -414,7 +414,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.85">copyOf</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;rangeMap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.86">copyOf</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;rangeMap)</pre>
 </li>
 </ul>
 <a id="builder()">
@@ -423,7 +423,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.Builder.html" title="class in com.google.common.collect">ImmutableRangeMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.102">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends java.lang.Comparable&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="ImmutableRangeMap.Builder.html" title="class in com.google.common.collect">ImmutableRangeMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.103">builder</a>()</pre>
 <div class="block">Returns a new builder for an immutable range map.</div>
 </li>
 </ul>
@@ -436,7 +436,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.182">get</a>&#8203;(<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.183">get</a>&#8203;(<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#get(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
@@ -457,7 +457,7 @@ public&nbsp;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableR
 <li class="blockList">
 <h4>getEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.200">getEntry</a>&#8203;(<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&nbsp;key)</pre>
+public&nbsp;java.util.Map.Entry&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.201">getEntry</a>&#8203;(<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#getEntry(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
@@ -473,7 +473,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="Range.html" title="class in com.goog
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.218">span</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.219">span</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#span()">RangeMap</a></code></span></div>
 <div class="block">Returns the minimal range <a href="Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges in this
  <code>RangeMap</code>.</div>
@@ -492,7 +492,7 @@ public&nbsp;java.util.Map.Entry&lt;<a href="Range.html" title="class in com.goog
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.234">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range,
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.235">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range,
                       <a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -515,7 +515,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>putCoalescing</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.247">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range,
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.248">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range,
                                 <a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -536,7 +536,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.260">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>,&#8203;? extends <a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.261">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>,&#8203;? extends <a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -556,7 +556,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.273">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.274">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -576,7 +576,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature">@Deprecated
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.286">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.287">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -595,7 +595,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>asMapOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.293">asMapOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.294">asMapOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#asMapOfRanges()">RangeMap</a></code></span></div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
@@ -616,7 +616,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingMapOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.303">asDescendingMapOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.304">asDescendingMapOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#asDescendingMapOfRanges()">RangeMap</a></code></span></div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
@@ -637,7 +637,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.313">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>,&#8203;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.314">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#subRangeMap(com.google.common.collect.Range)">RangeMap</a></code></span></div>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
@@ -662,7 +662,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.390">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.391">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#hashCode()">RangeMap</a></code></span></div>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl>
@@ -679,7 +679,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.395">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.396">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#equals(java.lang.Object)">RangeMap</a></code></span></div>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
@@ -697,7 +697,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.404">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeMap.html#line.405">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#toString()">RangeMap</a></code></span></div>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl>
