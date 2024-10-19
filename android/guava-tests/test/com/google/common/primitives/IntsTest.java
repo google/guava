@@ -18,6 +18,7 @@ package com.google.common.primitives;
 
 import static com.google.common.primitives.Ints.max;
 import static com.google.common.primitives.Ints.min;
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -170,11 +171,7 @@ public class IntsTest extends TestCase {
 
   @GwtIncompatible
   public void testMax_noArgs() {
-    try {
-      max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
@@ -186,11 +183,7 @@ public class IntsTest extends TestCase {
 
   @GwtIncompatible
   public void testMin_noArgs() {
-    try {
-      min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
@@ -206,11 +199,8 @@ public class IntsTest extends TestCase {
     assertThat(Ints.constrainToRange((int) 1, (int) 3, (int) 5)).isEqualTo((int) 3);
     assertThat(Ints.constrainToRange((int) 0, (int) -5, (int) -1)).isEqualTo((int) -1);
     assertThat(Ints.constrainToRange((int) 5, (int) 2, (int) 2)).isEqualTo((int) 2);
-    try {
-      Ints.constrainToRange((int) 1, (int) 3, (int) 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Ints.constrainToRange((int) 1, (int) 3, (int) 2));
   }
 
   public void testConcat() {
@@ -270,11 +260,8 @@ public class IntsTest extends TestCase {
   }
 
   public void testFromByteArrayFails() {
-    try {
-      Ints.fromByteArray(new byte[Ints.BYTES - 1]);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Ints.fromByteArray(new byte[Ints.BYTES - 1]));
   }
 
   public void testFromBytes() {
@@ -306,17 +293,8 @@ public class IntsTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Ints.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Ints.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ints.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Ints.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testJoin() {
@@ -545,11 +523,7 @@ public class IntsTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Integer> list = Arrays.asList((int) 0, (int) 1, null);
-    try {
-      Ints.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Ints.toArray(list));
   }
 
   public void testToArray_withConversion() {
@@ -623,11 +597,7 @@ public class IntsTest extends TestCase {
   }
 
   public void testStringConverter_convertError() {
-    try {
-      Ints.stringConverter().convert("notanumber");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> Ints.stringConverter().convert("notanumber"));
   }
 
   public void testStringConverter_nullConversions() {
@@ -721,27 +691,15 @@ public class IntsTest extends TestCase {
   }
 
   public void testTryParse_radixTooBig() {
-    try {
-      Ints.tryParse("0", Character.MAX_RADIX + 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ints.tryParse("0", Character.MAX_RADIX + 1));
   }
 
   public void testTryParse_radixTooSmall() {
-    try {
-      Ints.tryParse("0", Character.MIN_RADIX - 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ints.tryParse("0", Character.MIN_RADIX - 1));
   }
 
   public void testTryParse_withNullGwt() {
     assertThat(Ints.tryParse("null")).isNull();
-    try {
-      Ints.tryParse(null);
-      fail("Expected NPE");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Ints.tryParse(null));
   }
 }

@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.primitives.SignedBytes.max;
 import static com.google.common.primitives.SignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
@@ -101,11 +102,7 @@ public class SignedBytesTest extends TestCase {
   }
 
   public void testMax_noArgs() {
-    try {
-      max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
@@ -115,11 +112,7 @@ public class SignedBytesTest extends TestCase {
   }
 
   public void testMin_noArgs() {
-    try {
-      min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {

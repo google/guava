@@ -18,6 +18,7 @@ package com.google.common.primitives;
 
 import static com.google.common.primitives.Longs.max;
 import static com.google.common.primitives.Longs.min;
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Long.MAX_VALUE;
@@ -143,11 +144,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testMax_noArgs() {
-    try {
-      max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
@@ -158,11 +155,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testMin_noArgs() {
-    try {
-      min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
@@ -178,11 +171,8 @@ public class LongsTest extends TestCase {
     assertThat(Longs.constrainToRange((long) 1, (long) 3, (long) 5)).isEqualTo((long) 3);
     assertThat(Longs.constrainToRange((long) 0, (long) -5, (long) -1)).isEqualTo((long) -1);
     assertThat(Longs.constrainToRange((long) 5, (long) 2, (long) 2)).isEqualTo((long) 2);
-    try {
-      Longs.constrainToRange((long) 1, (long) 3, (long) 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.constrainToRange((long) 1, (long) 3, (long) 2));
   }
 
   public void testConcat() {
@@ -262,11 +252,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testFromByteArrayFails() {
-    try {
-      Longs.fromByteArray(new byte[Longs.BYTES - 1]);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.fromByteArray(new byte[Longs.BYTES - 1]));
   }
 
   public void testFromBytes() {
@@ -317,17 +304,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Longs.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Longs.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Longs.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Longs.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testJoin() {
@@ -556,11 +534,7 @@ public class LongsTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Long> list = Arrays.asList((long) 0, (long) 1, null);
-    try {
-      Longs.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Longs.toArray(list));
   }
 
   public void testToArray_withConversion() {
@@ -634,11 +608,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testStringConverter_convertError() {
-    try {
-      Longs.stringConverter().convert("notanumber");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> Longs.stringConverter().convert("notanumber"));
   }
 
   public void testStringConverter_nullConversions() {
@@ -736,27 +706,17 @@ public class LongsTest extends TestCase {
   }
 
   public void testTryParse_radixTooBig() {
-    try {
-      Longs.tryParse("0", Character.MAX_RADIX + 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.tryParse("0", Character.MAX_RADIX + 1));
   }
 
   public void testTryParse_radixTooSmall() {
-    try {
-      Longs.tryParse("0", Character.MIN_RADIX - 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.tryParse("0", Character.MIN_RADIX - 1));
   }
 
   public void testTryParse_withNullGwt() {
     assertThat(Longs.tryParse("null")).isNull();
-    try {
-      Longs.tryParse(null);
-      fail("Expected NPE");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Longs.tryParse(null));
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -207,11 +208,11 @@ public class UnsignedIntegerTest extends TestCase {
 
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
-      try {
-        UnsignedInteger unused = UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class,
+          () -> {
+            UnsignedInteger unused = UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
+          });
     }
   }
 
@@ -231,11 +232,9 @@ public class UnsignedIntegerTest extends TestCase {
 
   public void testModByZero() {
     for (int a : TEST_INTS) {
-      try {
-        UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class,
+          () -> UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO));
     }
   }
 

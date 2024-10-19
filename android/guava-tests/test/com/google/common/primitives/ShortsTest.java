@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.primitives.Shorts.max;
 import static com.google.common.primitives.Shorts.min;
 import static com.google.common.truth.Truth.assertThat;
@@ -187,11 +188,7 @@ public class ShortsTest extends TestCase {
 
   @GwtIncompatible
   public void testMax_noArgs() {
-    try {
-      max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
@@ -203,11 +200,7 @@ public class ShortsTest extends TestCase {
 
   @GwtIncompatible
   public void testMin_noArgs() {
-    try {
-      min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
@@ -223,11 +216,9 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.constrainToRange((short) 1, (short) 3, (short) 5)).isEqualTo((short) 3);
     assertThat(Shorts.constrainToRange((short) 0, (short) -5, (short) -1)).isEqualTo((short) -1);
     assertThat(Shorts.constrainToRange((short) 5, (short) 2, (short) 2)).isEqualTo((short) 2);
-    try {
-      Shorts.constrainToRange((short) 1, (short) 3, (short) 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Shorts.constrainToRange((short) 1, (short) 3, (short) 2));
   }
 
   public void testConcat() {
@@ -289,11 +280,7 @@ public class ShortsTest extends TestCase {
 
   @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArrayFails() {
-    try {
-      Shorts.fromByteArray(new byte[] {0x01});
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Shorts.fromByteArray(new byte[] {0x01}));
   }
 
   @GwtIncompatible // Shorts.fromBytes
@@ -326,17 +313,8 @@ public class ShortsTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Shorts.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Shorts.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Shorts.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Shorts.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testJoin() {
@@ -566,11 +544,7 @@ public class ShortsTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Short> list = Arrays.asList((short) 0, (short) 1, null);
-    try {
-      Shorts.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Shorts.toArray(list));
   }
 
   public void testToArray_withConversion() {
@@ -644,11 +618,7 @@ public class ShortsTest extends TestCase {
   }
 
   public void testStringConverter_convertError() {
-    try {
-      Shorts.stringConverter().convert("notanumber");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> Shorts.stringConverter().convert("notanumber"));
   }
 
   public void testStringConverter_nullConversions() {
