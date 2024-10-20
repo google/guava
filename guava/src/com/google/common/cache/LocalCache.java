@@ -4956,6 +4956,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return aggregator.snapshot();
     }
 
+    /**
+     * Returns whether this cache is recording statistics.
+     *
+     * @return {@code true} if this cache is recording statistics, {@code false} otherwise
+     */
+    public boolean isRecordingStats() {
+      return !localCache.globalStatsCounter.equals(CacheBuilder.EMPTY_STATS);
+    }
+
     @Override
     public void cleanUp() {
       localCache.cleanUp();
