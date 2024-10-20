@@ -182,20 +182,4 @@ public interface Cache<K, V> {
    * performed -- if any -- is implementation-dependent.
    */
   void cleanUp();
-
-  /**
-   * Returns whether this cache is recording statistics.
-   *
-   * <p>If this method returns {@code false}, the {@link #stats()} method will return
-   * a {@link CacheStats} instance with zero for all values.
-   *
-   * <p>The default implementation returns {@code false}. Implementations that support
-   * statistics recording should override this method to return {@code true} when appropriate.
-   *
-   * @return {@code true} if this cache is recording statistics, {@code false} otherwise
-   * @since 33
-   */
-  default boolean isRecordingStats() {
-    return false;
-  }
 }
