@@ -150,6 +150,45 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  public void testLogicalAnd() {
+    for (int a: TEST_INTS) {
+      for (int b: TEST_INTS) {
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
+        int expected = aUnsigned.bigIntegerValue().and(bUnsigned.bigIntegerValue()).intValue();
+        UnsignedInteger unsignedAnd = aUnsigned.and(bUnsigned);
+        assertEquals(expected, unsignedAnd.intValue());
+      }
+    }
+  }
+  
+  
+  public void testOr() {
+    for (int a : TEST_INTS) {
+      for (int b : TEST_INTS) {
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
+        int expected =
+                aUnsigned.bigIntegerValue().or(bUnsigned.bigIntegerValue()).intValue();
+        UnsignedInteger unsignedSub = aUnsigned.or(bUnsigned);
+        assertEquals(expected, unsignedSub.intValue());
+      }
+    }
+  }
+
+  public void testXor() {
+    for (int a : TEST_INTS) {
+      for (int b : TEST_INTS) {
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
+        int expected =
+                aUnsigned.bigIntegerValue().xor(bUnsigned.bigIntegerValue()).intValue();
+        UnsignedInteger unsignedSub = aUnsigned.xor(bUnsigned);
+        assertEquals(expected, unsignedSub.intValue());
+      }
+    }
+  }
+
   public void testPlus() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
