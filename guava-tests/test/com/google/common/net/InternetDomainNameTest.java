@@ -462,7 +462,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testPublicSuffixMultipleUnders() {
     // PSL has both *.uk and *.sch.uk; the latter should win.
-    // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
+    // See https://github.com/google/guava/issues/1176
 
     InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasPublicSuffix());
@@ -481,7 +481,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testRegistrySuffixMultipleUnders() {
     // PSL has both *.uk and *.sch.uk; the latter should win.
-    // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
+    // See https://github.com/google/guava/issues/1176
 
     InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasRegistrySuffix());

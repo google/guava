@@ -364,7 +364,7 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.50", "R0.00", "R0.00"); // we repay the last request (.5sec), then back to +oo
   }
 
-  /** https://code.google.com/p/guava-libraries/issues/detail?id=1791 */
+  /** https://github.com/google/guava/issues/1791 */
   public void testInfinity_bustyTimeElapsed() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     stopwatch.instant += 1000000;

@@ -96,7 +96,7 @@ public abstract class CharSink {
     try {
       Writer out = closer.register(openStream());
       out.append(charSequence);
-      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
+      out.flush(); // https://github.com/google/guava/issues/1330
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -132,7 +132,7 @@ public abstract class CharSink {
       for (CharSequence line : lines) {
         out.append(line).append(lineSeparator);
       }
-      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
+      out.flush(); // https://github.com/google/guava/issues/1330
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -156,7 +156,7 @@ public abstract class CharSink {
     try {
       Writer out = closer.register(openStream());
       long written = CharStreams.copy(readable, out);
-      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
+      out.flush(); // https://github.com/google/guava/issues/1330
       return written;
     } catch (Throwable e) {
       throw closer.rethrow(e);

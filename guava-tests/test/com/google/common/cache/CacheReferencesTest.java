@@ -121,7 +121,7 @@ public class CacheReferencesTest extends TestCase {
     }
   }
 
-  // fails in Maven with 64-bit JDK: http://code.google.com/p/guava-libraries/issues/detail?id=1568
+  // fails in Maven with 64-bit JDK: https://github.com/google/guava/issues/1568
 
   private void assertCleanup(
       LoadingCache<Integer, String> cache,

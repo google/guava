@@ -261,7 +261,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
-  // https://code.google.com/p/guava-libraries/issues/detail?id=1781
+  // https://github.com/google/guava/issues/1781
   public void testOptimalNumOfHashFunctionsRounding() {
     assertEquals(7, BloomFilter.optimalNumOfHashFunctions(319, 3072));
   }

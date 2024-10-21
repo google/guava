@@ -2036,7 +2036,7 @@ public final class Sets {
      * is just more than the set's size.  We augment the test by
      * assuming that sets have fast contains() performance, and other
      * collections don't.  See
-     * http://code.google.com/p/guava-libraries/issues/detail?id=1013
+     * https://github.com/google/guava/issues/1013
      */
     if (collection instanceof Set && collection.size() > set.size()) {
       return Iterators.removeAll(set.iterator(), collection);

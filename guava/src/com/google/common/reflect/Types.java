@@ -663,14 +663,13 @@ final class Types {
   }
 
   /**
-   * Per <a href="https://code.google.com/p/guava-libraries/issues/detail?id=1635">issue 1635</a>,
-   * In JDK 1.7.0_51-b13, {@link TypeVariableImpl#equals(Object)} is changed to no longer be equal
-   * to custom TypeVariable implementations. As a result, we need to make sure our TypeVariable
-   * implementation respects symmetry. Moreover, we don't want to reconstruct a native type variable
-   * {@code <A>} using our implementation unless some of its bounds have changed in resolution. This
-   * avoids creating unequal TypeVariable implementation unnecessarily. When the bounds do change,
-   * however, it's fine for the synthetic TypeVariable to be unequal to any native TypeVariable
-   * anyway.
+   * Per <a href="https://github.com/google/guava/issues/1635">issue 1635</a>, In JDK 1.7.0_51-b13,
+   * {@link TypeVariableImpl#equals(Object)} is changed to no longer be equal to custom TypeVariable
+   * implementations. As a result, we need to make sure our TypeVariable implementation respects
+   * symmetry. Moreover, we don't want to reconstruct a native type variable {@code <A>} using our
+   * implementation unless some of its bounds have changed in resolution. This avoids creating
+   * unequal TypeVariable implementation unnecessarily. When the bounds do change, however, it's
+   * fine for the synthetic TypeVariable to be unequal to any native TypeVariable anyway.
    */
   static final class NativeTypeVariableEquals<X> {
     static final boolean NATIVE_TYPE_VARIABLE_ONLY =

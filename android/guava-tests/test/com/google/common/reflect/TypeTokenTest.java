@@ -1883,7 +1883,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
-  // For Guava bug http://code.google.com/p/guava-libraries/issues/detail?id=1025
+  // For Guava bug https://github.com/google/guava/issues/1025
   public void testDespiteGenericSignatureFormatError() {
     ImmutableSet<?> unused =
         ImmutableSet.copyOf(
