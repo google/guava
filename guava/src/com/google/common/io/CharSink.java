@@ -94,8 +94,15 @@ public abstract class CharSink {
   public void write(CharSequence charSequence) throws IOException {
     checkNotNull(charSequence);
 
-    try (Writer out = openStream()) {
+    Closer closer = Closer.create();
+    try {
+      Writer out = closer.register(openStream());
       out.append(charSequence);
+      out.flush(); // https://github.com/google/guava/issues/1330
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
     }
   }
 
