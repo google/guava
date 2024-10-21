@@ -1979,7 +1979,7 @@
 <span class="sourceLineNo">1970</span><a id="line.1970">     * is just more than the set's size.  We augment the test by</a>
 <span class="sourceLineNo">1971</span><a id="line.1971">     * assuming that sets have fast contains() performance, and other</a>
 <span class="sourceLineNo">1972</span><a id="line.1972">     * collections don't.  See</a>
-<span class="sourceLineNo">1973</span><a id="line.1973">     * http://code.google.com/p/guava-libraries/issues/detail?id=1013</a>
+<span class="sourceLineNo">1973</span><a id="line.1973">     * https://github.com/google/guava/issues/1013</a>
 <span class="sourceLineNo">1974</span><a id="line.1974">     */</a>
 <span class="sourceLineNo">1975</span><a id="line.1975">    if (collection instanceof Set &amp;&amp; collection.size() &gt; set.size()) {</a>
 <span class="sourceLineNo">1976</span><a id="line.1976">      return Iterators.removeAll(set.iterator(), collection);</a>

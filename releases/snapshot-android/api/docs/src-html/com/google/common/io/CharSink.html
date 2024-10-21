@@ -105,7 +105,7 @@
 <span class="sourceLineNo">096</span><a id="line.96">    try {</a>
 <span class="sourceLineNo">097</span><a id="line.97">      Writer out = closer.register(openStream());</a>
 <span class="sourceLineNo">098</span><a id="line.98">      out.append(charSequence);</a>
-<span class="sourceLineNo">099</span><a id="line.99">      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330</a>
+<span class="sourceLineNo">099</span><a id="line.99">      out.flush(); // https://github.com/google/guava/issues/1330</a>
 <span class="sourceLineNo">100</span><a id="line.100">    } catch (Throwable e) {</a>
 <span class="sourceLineNo">101</span><a id="line.101">      throw closer.rethrow(e);</a>
 <span class="sourceLineNo">102</span><a id="line.102">    } finally {</a>
@@ -141,7 +141,7 @@
 <span class="sourceLineNo">132</span><a id="line.132">      for (CharSequence line : lines) {</a>
 <span class="sourceLineNo">133</span><a id="line.133">        out.append(line).append(lineSeparator);</a>
 <span class="sourceLineNo">134</span><a id="line.134">      }</a>
-<span class="sourceLineNo">135</span><a id="line.135">      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330</a>
+<span class="sourceLineNo">135</span><a id="line.135">      out.flush(); // https://github.com/google/guava/issues/1330</a>
 <span class="sourceLineNo">136</span><a id="line.136">    } catch (Throwable e) {</a>
 <span class="sourceLineNo">137</span><a id="line.137">      throw closer.rethrow(e);</a>
 <span class="sourceLineNo">138</span><a id="line.138">    } finally {</a>
@@ -165,7 +165,7 @@
 <span class="sourceLineNo">156</span><a id="line.156">    try {</a>
 <span class="sourceLineNo">157</span><a id="line.157">      Writer out = closer.register(openStream());</a>
 <span class="sourceLineNo">158</span><a id="line.158">      long written = CharStreams.copy(readable, out);</a>
-<span class="sourceLineNo">159</span><a id="line.159">      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330</a>
+<span class="sourceLineNo">159</span><a id="line.159">      out.flush(); // https://github.com/google/guava/issues/1330</a>
 <span class="sourceLineNo">160</span><a id="line.160">      return written;</a>
 <span class="sourceLineNo">161</span><a id="line.161">    } catch (Throwable e) {</a>
 <span class="sourceLineNo">162</span><a id="line.162">      throw closer.rethrow(e);</a>

@@ -112,7 +112,7 @@
 <span class="sourceLineNo">103</span><a id="line.103">    try {</a>
 <span class="sourceLineNo">104</span><a id="line.104">      OutputStream out = closer.register(openStream());</a>
 <span class="sourceLineNo">105</span><a id="line.105">      out.write(bytes);</a>
-<span class="sourceLineNo">106</span><a id="line.106">      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330</a>
+<span class="sourceLineNo">106</span><a id="line.106">      out.flush(); // https://github.com/google/guava/issues/1330</a>
 <span class="sourceLineNo">107</span><a id="line.107">    } catch (Throwable e) {</a>
 <span class="sourceLineNo">108</span><a id="line.108">      throw closer.rethrow(e);</a>
 <span class="sourceLineNo">109</span><a id="line.109">    } finally {</a>
@@ -135,7 +135,7 @@
 <span class="sourceLineNo">126</span><a id="line.126">    try {</a>
 <span class="sourceLineNo">127</span><a id="line.127">      OutputStream out = closer.register(openStream());</a>
 <span class="sourceLineNo">128</span><a id="line.128">      long written = ByteStreams.copy(input, out);</a>
-<span class="sourceLineNo">129</span><a id="line.129">      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330</a>
+<span class="sourceLineNo">129</span><a id="line.129">      out.flush(); // https://github.com/google/guava/issues/1330</a>
 <span class="sourceLineNo">130</span><a id="line.130">      return written;</a>
 <span class="sourceLineNo">131</span><a id="line.131">    } catch (Throwable e) {</a>
 <span class="sourceLineNo">132</span><a id="line.132">      throw closer.rethrow(e);</a>
