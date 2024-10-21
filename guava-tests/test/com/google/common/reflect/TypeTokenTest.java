@@ -65,7 +65,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(a, b);
   }
 
-  @SuppressWarnings("TestException") // see comment below
+  @SuppressWarnings("TestExceptionChecker") // see comment below
   public <T> void testVariableTypeTokenNotAllowed() {
     /*
      * We'd use assertThrows here, but that causes no exception to be thrown under Java 8,
@@ -1252,7 +1252,7 @@ public class TypeTokenTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> type.getSubtype(Iterable.class));
   }
 
-  @SuppressWarnings("TestException") // see comment below
+  @SuppressWarnings("TestExceptionChecker") // see comment below
   public <T extends Iterable<String>> void testGetSubtype_fromTypeVariable() {
     /*
      * We'd use assertThrows here, but that causes capture() to return null under Java 8, presumably
