@@ -450,28 +450,6 @@ public class BaseEncodingTest extends TestCase {
   }
 
   enum AssertFailsToDecodeStrategy {
-    @GwtIncompatible // decodingStream(Reader)
-    DECODING_STREAM {
-      @Override
-      void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
-        // Regression test for case where DecodingException was swallowed by default implementation
-        // of
-        // InputStream.read(byte[], int, int)
-        // See https://github.com/google/guava/issues/3542
-        Reader reader = new StringReader(cannotDecode);
-        InputStream decodingStream = encoding.decodingStream(reader);
-        try {
-          ByteStreams.exhaust(decodingStream);
-          fail("Expected DecodingException");
-        } catch (DecodingException expected) {
-          // Don't assert on the expectedMessage; the messages for exceptions thrown from the
-          // decoding stream may differ from the messages for the decode methods.
-        } catch (IOException e) {
-          fail("Expected DecodingException but got: " + e);
-        }
-      }
-    },
     CAN_DECODE {
       @Override
       void assertFailsToDecode(
@@ -504,6 +482,33 @@ public class BaseEncodingTest extends TestCase {
           if (expectedMessage != null) {
             assertThat(expected).hasMessageThat().isEqualTo(expectedMessage);
           }
+        }
+      }
+    },
+    /*
+     * This one comes last to work around b/367716565. (One *possible* alternative would be to not
+     * declare any methods in this enum, converting assertFailsToDecode into a static method that is
+     * implemented with a `switch`. I haven't tested that.)
+     */
+    @GwtIncompatible // decodingStream(Reader)
+    DECODING_STREAM {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        // Regression test for case where DecodingException was swallowed by default implementation
+        // of
+        // InputStream.read(byte[], int, int)
+        // See https://github.com/google/guava/issues/3542
+        Reader reader = new StringReader(cannotDecode);
+        InputStream decodingStream = encoding.decodingStream(reader);
+        try {
+          ByteStreams.exhaust(decodingStream);
+          fail("Expected DecodingException");
+        } catch (DecodingException expected) {
+          // Don't assert on the expectedMessage; the messages for exceptions thrown from the
+          // decoding stream may differ from the messages for the decode methods.
+        } catch (IOException e) {
+          fail("Expected DecodingException but got: " + e);
         }
       }
     };

@@ -22,8 +22,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.VerifyException;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -134,7 +132,6 @@ final class ReflectionFreeAssertThrows {
           .put(
               ConcurrentModificationException.class,
               e -> e instanceof ConcurrentModificationException)
-          .put(ExecutionError.class, e -> e instanceof ExecutionError)
           .put(ExecutionException.class, e -> e instanceof ExecutionException)
           .put(IllegalArgumentException.class, e -> e instanceof IllegalArgumentException)
           .put(IllegalStateException.class, e -> e instanceof IllegalStateException)
@@ -144,7 +141,6 @@ final class ReflectionFreeAssertThrows {
           .put(NumberFormatException.class, e -> e instanceof NumberFormatException)
           .put(RuntimeException.class, e -> e instanceof RuntimeException)
           .put(TimeoutException.class, e -> e instanceof TimeoutException)
-          .put(UncheckedExecutionException.class, e -> e instanceof UncheckedExecutionException)
           .put(UnsupportedCharsetException.class, e -> e instanceof UnsupportedCharsetException)
           .put(UnsupportedOperationException.class, e -> e instanceof UnsupportedOperationException)
           .put(VerifyException.class, e -> e instanceof VerifyException)
