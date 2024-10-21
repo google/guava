@@ -18,12 +18,14 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.util.concurrent.TestExceptions.SomeCheckedException;
 import java.security.Permission;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -84,12 +86,8 @@ public class CallablesTest extends TestCase {
         Callables.asAsyncCallable(callable, newDirectExecutorService());
 
     ListenableFuture<String> future = asyncCallable.call();
-    try {
-      future.get();
-      fail("Expected exception to be thrown");
-    } catch (ExecutionException e) {
-      assertThat(e).hasCauseThat().isSameInstanceAs(expected);
-    }
+    ExecutionException e = assertThrows(ExecutionException.class, () -> future.get());
+    assertThat(e).hasCauseThat().isSameInstanceAs(expected);
   }
 
   @J2ktIncompatible
@@ -114,20 +112,16 @@ public class CallablesTest extends TestCase {
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-    class MyException extends Exception {}
     Callable<@Nullable Void> callable =
         new Callable<@Nullable Void>() {
           @Override
           public @Nullable Void call() throws Exception {
             assertEquals(Thread.currentThread().getName(), newName.get());
-            throw new MyException();
+            throw new SomeCheckedException();
           }
         };
-    try {
-      Callables.threadRenaming(callable, newName).call();
-      fail();
-    } catch (MyException expected) {
-    }
+    assertThrows(
+        SomeCheckedException.class, () -> Callables.threadRenaming(callable, newName).call());
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
