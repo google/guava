@@ -21,14 +21,15 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.io.SourceSinkFactory.ByteSourceFactory;
 import com.google.common.io.SourceSinkFactory.CharSourceFactory;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringWriter;
+
+import java.io.*;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -45,6 +46,13 @@ import junit.framework.TestSuite;
 public class CharSourceTester extends SourceSinkTester<CharSource, String, CharSourceFactory> {
 
   private static final ImmutableList<Method> testMethods = getTestMethods(CharSourceTester.class);
+
+  private static final int byteBufferSize = 8192;
+
+
+  private static final ImmutableMap<String, Integer> availableTestStrings = ImmutableMap.<String, Integer>builder()
+          .put(String.join("", Collections.nCopies(byteBufferSize - 2, "a")) + "\u00A7\uD800\uDC00", byteBufferSize - 1)
+          .build();
 
   static TestSuite tests(String name, CharSourceFactory factory, boolean testAsByteSource) {
     TestSuite suite = new TestSuite(name);
@@ -77,6 +85,8 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     }
     return suite;
   }
+
+
 
   private final ImmutableList<String> expectedLines;
 
@@ -229,6 +239,21 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     assertExpectedLines(builder.build());
   }
 
+  public void testReaderInputStreamAvailable() throws IOException {
+    for (Entry<String, Integer> entry : availableTestStrings.entrySet())
+    {
+      InputStream in = CharSource.wrap(entry.getKey()).asByteSource(StandardCharsets.UTF_8).openStream();
+      int _ = in.read(new byte[1]);
+
+      assertEquals(entry.getValue(), ((Integer) in.available()));
+
+      _ = in.read(new byte[8191]);
+
+      assertEquals(entry.getValue(), ((Integer) in.available()));
+
+    }
+  }
+
   private void assertExpectedString(String string) {
     assertEquals(expected, string);
   }
@@ -236,4 +261,5 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
   private void assertExpectedLines(List<String> list) {
     assertEquals(expectedLines, list);
   }
+
 }
