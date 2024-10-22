@@ -24,7 +24,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.time.Duration;
-import java.util.EnumSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -104,7 +103,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(10, ticker.read());
     assertEquals(20, ticker.read());
 
-    for (TimeUnit timeUnit : EnumSet.allOf(TimeUnit.class)) {
+    for (TimeUnit timeUnit : TimeUnit.values()) {
       ticker.setAutoIncrementStep(0, timeUnit);
       assertEquals(
           "Expected no auto-increment when setting autoIncrementStep to 0 " + timeUnit,
