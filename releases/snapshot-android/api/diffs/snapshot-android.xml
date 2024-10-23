@@ -10886,6 +10886,32 @@
  @since 33.2.0 (available since 22.0 in guava-jre)]]>
       </doc>
     </method>
+    <method name="emptiesFirst" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="valueComparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="emptiesLast" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="valueComparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -42497,6 +42523,64 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="toBloomFilter" return="java.util.stream.Collector&lt;T, ?, com.google.common.hash.BloomFilter&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
+      <param name="expectedInsertions" type="long"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link
+ BloomFilter} with false positive probability 3%.
+
+ <p>Note that if the {@code Collector} receives significantly more elements than specified, the
+ resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive
+ probability.
+
+ <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+ is.
+
+ <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
+ ensuring proper serialization and deserialization, which is important since {@link #equals}
+ also relies on object identity of funnels.
+
+ @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
+ @param expectedInsertions the number of expected insertions to the constructed {@code
+     BloomFilter}; must be positive
+ @return a {@code Collector} generating a {@code BloomFilter} of the received elements
+ @since NEXT (but since 23.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="toBloomFilter" return="java.util.stream.Collector&lt;T, ?, com.google.common.hash.BloomFilter&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
+      <param name="expectedInsertions" type="long"/>
+      <param name="fpp" type="double"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link
+ BloomFilter} with the specified expected false positive probability.
+
+ <p>Note that if the {@code Collector} receives significantly more elements than specified, the
+ resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive
+ probability.
+
+ <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+ is.
+
+ <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
+ ensuring proper serialization and deserialization, which is important since {@link #equals}
+ also relies on object identity of funnels.
+
+ @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
+ @param expectedInsertions the number of expected insertions to the constructed {@code
+     BloomFilter}; must be positive
+ @param fpp the desired false positive probability (must be positive and less than 1.0)
+ @return a {@code Collector} generating a {@code BloomFilter} of the received elements
+ @since NEXT (but since 23.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="create" return="com.google.common.hash.BloomFilter&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -50302,6 +50386,71 @@
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))]]>
       </doc>
     </method>
+    <method name="of" return="com.google.common.math.Stats"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.DoubleStream"/>
+      <doc>
+      <![CDATA[Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a {@code Stream<Double>} rather than a {@code DoubleStream}, you should collect
+ the values using {@link #toStats()} instead.
+
+ @param values a series of values
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.math.Stats"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a {@code Stream<Integer>} rather than an {@code IntStream}, you should collect
+ the values using {@link #toStats()} instead.
+
+ @param values a series of values
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.math.Stats"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.LongStream"/>
+      <doc>
+      <![CDATA[Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a {@code Stream<Long>} rather than a {@code LongStream}, you should collect the
+ values using {@link #toStats()} instead.
+
+ @param values a series of values, which will be converted to {@code double} values (this may
+     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="toStats" return="java.util.stream.Collector&lt;java.lang.Number, com.google.common.math.StatsAccumulator, com.google.common.math.Stats&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link Collector} which accumulates statistics from a {@link java.util.stream.Stream}
+ of any type of boxed {@link Number} into a {@link Stats}. Use by calling {@code
+ boxedNumericStream.collect(toStats())}. The numbers will be converted to {@code double} values
+ (which may cause loss of precision).
+
+ <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
+ LongStream}, you should use the factory method {@link #of} instead.
+
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="count" return="long"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -50713,6 +50862,43 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))]]>
+      </doc>
+    </method>
+    <method name="addAll"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.DoubleStream"/>
+      <doc>
+      <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
+
+ @param values a series of values
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="addAll"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
+
+ @param values a series of values
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="addAll"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="java.util.stream.LongStream"/>
+      <doc>
+      <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
+
+ @param values a series of values, which will be converted to {@code double} values (this may
+     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
+ @since NEXT (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll"

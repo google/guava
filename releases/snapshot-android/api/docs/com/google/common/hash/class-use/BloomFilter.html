@@ -187,6 +187,33 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tbody>
 </table>
 <table class="useSummary">
+<caption><span>Methods in <a href="../package-summary.html">com.google.common.hash</a> that return types with arguments of type <a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BloomFilter.</span><code><span class="memberNameLink"><a href="../BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel,long)">toBloomFilter</a></span>&#8203;(<a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+             long&nbsp;expectedInsertions)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="../BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with false positive probability 3%.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">BloomFilter.</span><code><span class="memberNameLink"><a href="../BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel,long,double)">toBloomFilter</a></span>&#8203;(<a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+             long&nbsp;expectedInsertions,
+             double&nbsp;fpp)</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="../BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the specified expected false positive probability.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
 <caption><span>Methods in <a href="../package-summary.html">com.google.common.hash</a> with parameters of type <a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>

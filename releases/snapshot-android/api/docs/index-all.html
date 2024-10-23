@@ -715,6 +715,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Adds the given values to the dataset.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#addAll(java.util.stream.DoubleStream)">addAll(DoubleStream)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
+<dd>
+<div class="block">Adds the given values to the dataset.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#addAll(java.util.stream.IntStream)">addAll(IntStream)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
+<dd>
+<div class="block">Adds the given values to the dataset.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#addAll(java.util.stream.LongStream)">addAll(LongStream)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
+<dd>
+<div class="block">Adds the given values to the dataset.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDouble.html#addAndGet(double)">addAndGet(double)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
 <div class="block">Atomically adds the given value to the current value.</div>
@@ -5920,6 +5932,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">End of Medium: A control character associated with the sent data which may be used to identify
  the physical end of the medium, or the end of the used, or wanted, portion of information
  recorded on a medium.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#emptiesFirst(java.util.Comparator)">emptiesFirst(Comparator&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a comparator of <code>Optional</code> values which treats <code>Optional.empty()</code> as less
+ than all other values, and orders the rest using <code>valueComparator</code> on the contained
+ value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#emptiesLast(java.util.Comparator)">emptiesLast(Comparator&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a comparator of <code>Optional</code> values which treats <code>Optional.empty()</code> as greater
+ than all other values, and orders the rest using <code>valueComparator</code> on the contained
+ value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteSource.html#empty()">empty()</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></dt>
 <dd>
@@ -13223,6 +13247,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/Stats.html#of(java.util.stream.DoubleStream)">of(DoubleStream)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
+<dd>
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/Stats.html#of(java.util.stream.IntStream)">of(IntStream)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
+<dd>
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/Stats.html#of(java.util.stream.LongStream)">of(LongStream)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
+<dd>
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableBiMap.html#of(K,V)">of(K, V)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a></dt>
 <dd>
 <div class="block">Returns an immutable bimap containing a single entry.</div>
@@ -18417,6 +18453,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a BigInteger representing the address.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel,long)">toBloomFilter(Funnel&lt;? super T&gt;, long)</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with false positive probability 3%.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel,long,double)">toBloomFilter(Funnel&lt;? super T&gt;, long, double)</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the specified expected false positive probability.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteArrayDataOutput.html#toByteArray()">toByteArray()</a></span> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></dt>
 <dd>
 <div class="block">Returns the contents that have been written to this instance, as a byte array.</div>
@@ -18703,6 +18747,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>
  FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
  <code>comparator.compare(x, y) == 0</code>) removed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/math/Stats.html#toStats()">toStats()</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
+<dd>
+<div class="block">Returns a <code>Collector</code> which accumulates statistics from a <code>Stream</code>
+ of any type of boxed <code>Number</code> into a <a href="com/google/common/math/Stats.html" title="class in com.google.common.math"><code>Stats</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#toString()">toString()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>

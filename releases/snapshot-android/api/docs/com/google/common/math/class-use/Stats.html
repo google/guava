@@ -173,38 +173,77 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static <a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Stats.</span><code><span class="memberNameLink"><a href="../Stats.html#of(java.util.stream.DoubleStream)">of</a></span>&#8203;(java.util.stream.DoubleStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Stats.</span><code><span class="memberNameLink"><a href="../Stats.html#of(java.util.stream.IntStream)">of</a></span>&#8203;(java.util.stream.IntStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Stats.</span><code><span class="memberNameLink"><a href="../Stats.html#of(java.util.stream.LongStream)">of</a></span>&#8203;(java.util.stream.LongStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">StatsAccumulator.</span><code><span class="memberNameLink"><a href="../StatsAccumulator.html#snapshot()">snapshot</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">PairedStats.</span><code><span class="memberNameLink"><a href="../PairedStats.html#xStats()">xStats</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the statistics on the <code>x</code> values alone.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">PairedStatsAccumulator.</span><code><span class="memberNameLink"><a href="../PairedStatsAccumulator.html#xStats()">xStats</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable snapshot of the statistics on the <code>x</code> values alone.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">PairedStats.</span><code><span class="memberNameLink"><a href="../PairedStats.html#yStats()">yStats</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the statistics on the <code>y</code> values alone.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">PairedStatsAccumulator.</span><code><span class="memberNameLink"><a href="../PairedStatsAccumulator.html#yStats()">yStats</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable snapshot of the statistics on the <code>y</code> values alone.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../package-summary.html">com.google.common.math</a> that return types with arguments of type <a href="../Stats.html" title="class in com.google.common.math">Stats</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.stream.Collector&lt;java.lang.Number,&#8203;<a href="../StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a>,&#8203;<a href="../Stats.html" title="class in com.google.common.math">Stats</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Stats.</span><code><span class="memberNameLink"><a href="../Stats.html#toStats()">toStats</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> which accumulates statistics from a <code>Stream</code>
+ of any type of boxed <code>Number</code> into a <a href="../Stats.html" title="class in com.google.common.math"><code>Stats</code></a>.</div>
 </td>
 </tr>
 </tbody>

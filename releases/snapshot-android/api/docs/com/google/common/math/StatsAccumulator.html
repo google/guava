@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.35">StatsAccumulator</a>
+public final class <a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.38">StatsAccumulator</a>
 extends java.lang.Object</pre>
 <div class="block">A mutable object which accumulates double values and tracks some basic statistics over all the
  values added so far. The values may be added singly or in groups. This class is not thread safe.</div>
@@ -243,20 +243,41 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.stream.DoubleStream)">addAll</a></span>&#8203;(java.util.stream.DoubleStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Adds the given values to the dataset.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.stream.IntStream)">addAll</a></span>&#8203;(java.util.stream.IntStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Adds the given values to the dataset.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.stream.LongStream)">addAll</a></span>&#8203;(java.util.stream.LongStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Adds the given values to the dataset.</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#count()">count</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of values.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#max()">max</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the highest value in the dataset.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mean()">mean</a></span>()</code></th>
 <td class="colLast">
@@ -264,14 +285,14 @@ extends java.lang.Object</pre>
  values.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#min()">min</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the lowest value in the dataset.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populationStandardDeviation()">populationStandardDeviation</a></span>()</code></th>
 <td class="colLast">
@@ -279,7 +300,7 @@ extends java.lang.Object</pre>
  population standard deviation</a> of the values.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populationVariance()">populationVariance</a></span>()</code></th>
 <td class="colLast">
@@ -287,7 +308,7 @@ extends java.lang.Object</pre>
  variance</a> of the values.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sampleStandardDeviation()">sampleStandardDeviation</a></span>()</code></th>
 <td class="colLast">
@@ -295,7 +316,7 @@ extends java.lang.Object</pre>
  corrected sample standard deviation</a> of the values.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sampleVariance()">sampleVariance</a></span>()</code></th>
 <td class="colLast">
@@ -303,14 +324,14 @@ extends java.lang.Object</pre>
  variance</a> of the values.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="Stats.html" title="class in com.google.common.math">Stats</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#snapshot()">snapshot</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sum()">sum</a></span>()</code></th>
 <td class="colLast">
@@ -347,7 +368,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>StatsAccumulator</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.38">StatsAccumulator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.41">StatsAccumulator</a>()</pre>
 </li>
 </ul>
 </li>
@@ -366,7 +387,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.49">add</a>&#8203;(double&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.52">add</a>&#8203;(double&nbsp;value)</pre>
 <div class="block">Adds the given value to the dataset.</div>
 </li>
 </ul>
@@ -376,7 +397,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.80">addAll</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.83">addAll</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Adds the given values to the dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -391,7 +412,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.92">addAll</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.95">addAll</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Adds the given values to the dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -406,7 +427,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.103">addAll</a>&#8203;(double...&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.106">addAll</a>&#8203;(double...&nbsp;values)</pre>
 <div class="block">Adds the given values to the dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -420,7 +441,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.114">addAll</a>&#8203;(int...&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.117">addAll</a>&#8203;(int...&nbsp;values)</pre>
 <div class="block">Adds the given values to the dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -434,12 +455,61 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.126">addAll</a>&#8203;(long...&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.129">addAll</a>&#8203;(long...&nbsp;values)</pre>
 <div class="block">Adds the given values to the dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>values</code> - a series of values, which will be converted to <code>double</code> values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</dd>
+</dl>
+</li>
+</ul>
+<a id="addAll(java.util.stream.DoubleStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addAll</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.141">addAll</a>&#8203;(java.util.stream.DoubleStream&nbsp;values)</pre>
+<div class="block">Adds the given values to the dataset. The stream will be completely consumed by this method.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="addAll(java.util.stream.IntStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addAll</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.153">addAll</a>&#8203;(java.util.stream.IntStream&nbsp;values)</pre>
+<div class="block">Adds the given values to the dataset. The stream will be completely consumed by this method.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="addAll(java.util.stream.LongStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addAll</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.166">addAll</a>&#8203;(java.util.stream.LongStream&nbsp;values)</pre>
+<div class="block">Adds the given values to the dataset. The stream will be completely consumed by this method.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values, which will be converted to <code>double</code> values (this may
+     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -449,7 +519,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.136">addAll</a>&#8203;(<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.176">addAll</a>&#8203;(<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;values)</pre>
 <div class="block">Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.</div>
 </li>
@@ -460,7 +530,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.149">addAll</a>&#8203;(<a href="StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a>&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.189">addAll</a>&#8203;(<a href="StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a>&nbsp;values)</pre>
 <div class="block">Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.</div>
 <dl>
@@ -475,7 +545,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>snapshot</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.185">snapshot</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.225">snapshot</a>()</pre>
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </li>
 </ul>
@@ -485,7 +555,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.190">count</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.230">count</a>()</pre>
 <div class="block">Returns the number of values.</div>
 </li>
 </ul>
@@ -495,7 +565,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.212">mean</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.252">mean</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -521,7 +591,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sum</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.229">sum</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.269">sum</a>()</pre>
 <div class="block">Returns the sum of the values.
 
  <h3>Non-finite values</h3>
@@ -539,7 +609,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>populationVariance</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.248">populationVariance</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.288">populationVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
  variance</a> of the values. The count must be non-zero.
 
@@ -562,7 +632,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>populationStandardDeviation</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.275">populationStandardDeviation</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.315">populationStandardDeviation</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
  population standard deviation</a> of the values. The count must be non-zero.
 
@@ -585,7 +655,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleVariance</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.295">sampleVariance</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.335">sampleVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values. If this dataset is a sample drawn from a population, this is an
  unbiased estimator of the population variance of the population. The count must be greater than
@@ -609,7 +679,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleStandardDeviation</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.321">sampleStandardDeviation</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.361">sampleStandardDeviation</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
  corrected sample standard deviation</a> of the values. If this dataset is a sample drawn from a
  population, this is an estimator of the population standard deviation of the population which
@@ -634,7 +704,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.338">min</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.378">min</a>()</pre>
 <div class="block">Returns the lowest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>
@@ -654,7 +724,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>max</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.356">max</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/StatsAccumulator.html#line.396">max</a>()</pre>
 <div class="block">Returns the highest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>

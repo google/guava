@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":10,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":10,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":9,"i27":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/math/Stats.html#line.61">Stats</a>
+public final class <a href="../../../../src-html/com/google/common/math/Stats.html#line.65">Stats</a>
 extends java.lang.Object
 implements java.io.Serializable</pre>
 <div class="block">A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -306,6 +306,27 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
+<td class="colFirst"><code>static <a href="Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.util.stream.DoubleStream)">of</a></span>&#8203;(java.util.stream.DoubleStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr id="i18" class="altColor">
+<td class="colFirst"><code>static <a href="Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.util.stream.IntStream)">of</a></span>&#8203;(java.util.stream.IntStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>static <a href="Stats.html" title="class in com.google.common.math">Stats</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.util.stream.LongStream)">of</a></span>&#8203;(java.util.stream.LongStream&nbsp;values)</code></th>
+<td class="colLast">
+<div class="block">Returns statistics over a dataset containing the given values.</div>
+</td>
+</tr>
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populationStandardDeviation()">populationStandardDeviation</a></span>()</code></th>
 <td class="colLast">
@@ -313,7 +334,7 @@ implements java.io.Serializable</pre>
  population standard deviation</a> of the values.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populationVariance()">populationVariance</a></span>()</code></th>
 <td class="colLast">
@@ -321,7 +342,7 @@ implements java.io.Serializable</pre>
  variance</a> of the values.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sampleStandardDeviation()">sampleStandardDeviation</a></span>()</code></th>
 <td class="colLast">
@@ -329,7 +350,7 @@ implements java.io.Serializable</pre>
  corrected sample standard deviation</a> of the values.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sampleVariance()">sampleVariance</a></span>()</code></th>
 <td class="colLast">
@@ -337,21 +358,29 @@ implements java.io.Serializable</pre>
  variance</a> of the values.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sum()">sum</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the sum of the values.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>byte[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toByteArray()">toByteArray</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets a byte array representation of this instance.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i26" class="altColor">
+<td class="colFirst"><code>static java.util.stream.Collector&lt;java.lang.Number,&#8203;<a href="StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a>,&#8203;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toStats()">toStats</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a <code>Collector</code> which accumulates statistics from a <code>Stream</code>
+ of any type of boxed <code>Number</code> into a <a href="Stats.html" title="class in com.google.common.math"><code>Stats</code></a>.</div>
+</td>
+</tr>
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -386,7 +415,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.100">of</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.104">of</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -401,7 +430,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.113">of</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.117">of</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values. The iterator will be completely
  consumed by this method.</div>
 <dl>
@@ -417,7 +446,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.124">of</a>&#8203;(double...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.128">of</a>&#8203;(double...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -431,7 +460,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.135">of</a>&#8203;(int...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.139">of</a>&#8203;(int...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -445,12 +474,93 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.147">of</a>&#8203;(long...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.151">of</a>&#8203;(long...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>values</code> - a series of values, which will be converted to <code>double</code> values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</dd>
+</dl>
+</li>
+</ul>
+<a id="of(java.util.stream.DoubleStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>of</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.167">of</a>&#8203;(java.util.stream.DoubleStream&nbsp;values)</pre>
+<div class="block">Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a <code>Stream&lt;Double&gt;</code> rather than a <code>DoubleStream</code>, you should collect
+ the values using <a href="#toStats()"><code>toStats()</code></a> instead.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="of(java.util.stream.IntStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>of</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.185">of</a>&#8203;(java.util.stream.IntStream&nbsp;values)</pre>
+<div class="block">Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a <code>Stream&lt;Integer&gt;</code> rather than an <code>IntStream</code>, you should collect
+ the values using <a href="#toStats()"><code>toStats()</code></a> instead.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="of(java.util.stream.LongStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>of</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.204">of</a>&#8203;(java.util.stream.LongStream&nbsp;values)</pre>
+<div class="block">Returns statistics over a dataset containing the given values. The stream will be completely
+ consumed by this method.
+
+ <p>If you have a <code>Stream&lt;Long&gt;</code> rather than a <code>LongStream</code>, you should collect the
+ values using <a href="#toStats()"><code>toStats()</code></a> instead.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>values</code> - a series of values, which will be converted to <code>double</code> values (this may
+     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="toStats()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toStats</h4>
+<pre class="methodSignature">public static&nbsp;java.util.stream.Collector&lt;java.lang.Number,&#8203;<a href="StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a>,&#8203;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.223">toStats</a>()</pre>
+<div class="block">Returns a <code>Collector</code> which accumulates statistics from a <code>Stream</code>
+ of any type of boxed <code>Number</code> into a <a href="Stats.html" title="class in com.google.common.math"><code>Stats</code></a>. Use by calling <code>
+ boxedNumericStream.collect(toStats())</code>. The numbers will be converted to <code>double</code> values
+ (which may cause loss of precision).
+
+ <p>If you have any of the primitive streams <code>DoubleStream</code>, <code>IntStream</code>, or <code>
+ LongStream</code>, you should use the factory method <a href="#of(java.lang.Iterable)"><code>of(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 28.2 in the JRE flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -460,7 +570,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.154">count</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.238">count</a>()</pre>
 <div class="block">Returns the number of values.</div>
 </li>
 </ul>
@@ -470,7 +580,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.179">mean</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.263">mean</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -498,7 +608,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sum</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.196">sum</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.280">sum</a>()</pre>
 <div class="block">Returns the sum of the values.
 
  <h3>Non-finite values</h3>
@@ -516,7 +626,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>populationVariance</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.215">populationVariance</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.299">populationVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
  variance</a> of the values. The count must be non-zero.
 
@@ -539,7 +649,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>populationStandardDeviation</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.242">populationStandardDeviation</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.326">populationStandardDeviation</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
  population standard deviation</a> of the values. The count must be non-zero.
 
@@ -562,7 +672,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleVariance</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.262">sampleVariance</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.346">sampleVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values. If this dataset is a sample drawn from a population, this is an
  unbiased estimator of the population variance of the population. The count must be greater than
@@ -586,7 +696,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleStandardDeviation</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.288">sampleStandardDeviation</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.372">sampleStandardDeviation</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
  corrected sample standard deviation</a> of the values. If this dataset is a sample drawn from a
  population, this is an estimator of the population standard deviation of the population which
@@ -611,7 +721,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.305">min</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.389">min</a>()</pre>
 <div class="block">Returns the lowest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>
@@ -631,7 +741,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.323">max</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.407">max</a>()</pre>
 <div class="block">Returns the highest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>
@@ -651,7 +761,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.343">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.427">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;obj)</pre>
 <div class="block">
 
@@ -678,7 +788,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.365">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.449">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
@@ -695,7 +805,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.370">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.454">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -708,7 +818,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.399">meanOf</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.483">meanOf</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -728,7 +838,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.413">meanOf</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.497">meanOf</a>&#8203;(java.util.Iterator&lt;? extends java.lang.Number&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -748,7 +858,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.439">meanOf</a>&#8203;(double...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.523">meanOf</a>&#8203;(double...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -767,7 +877,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.463">meanOf</a>&#8203;(int...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.547">meanOf</a>&#8203;(int...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -786,7 +896,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.488">meanOf</a>&#8203;(long...&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.572">meanOf</a>&#8203;(long...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -806,7 +916,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.514">toByteArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.598">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -819,7 +929,7 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.552">fromByteArray</a>&#8203;(byte[]&nbsp;byteArray)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.636">fromByteArray</a>&#8203;(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a Stats instance from the given byte representation which was obtained by <a href="#toByteArray()"><code>toByteArray()</code></a>.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between

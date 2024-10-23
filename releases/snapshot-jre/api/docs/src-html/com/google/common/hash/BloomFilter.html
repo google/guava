@@ -327,7 +327,7 @@
 <span class="sourceLineNo">318</span><a id="line.318">   * @param expectedInsertions the number of expected insertions to the constructed {@code</a>
 <span class="sourceLineNo">319</span><a id="line.319">   *     BloomFilter}; must be positive</a>
 <span class="sourceLineNo">320</span><a id="line.320">   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * @since 23.0</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * @since 23.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">322</span><a id="line.322">   */</a>
 <span class="sourceLineNo">323</span><a id="line.323">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt; toBloomFilter(</a>
 <span class="sourceLineNo">324</span><a id="line.324">      Funnel&lt;? super T&gt; funnel, long expectedInsertions) {</a>
@@ -354,7 +354,7 @@
 <span class="sourceLineNo">345</span><a id="line.345">   *     BloomFilter}; must be positive</a>
 <span class="sourceLineNo">346</span><a id="line.346">   * @param fpp the desired false positive probability (must be positive and less than 1.0)</a>
 <span class="sourceLineNo">347</span><a id="line.347">   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements</a>
-<span class="sourceLineNo">348</span><a id="line.348">   * @since 23.0</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * @since 23.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">349</span><a id="line.349">   */</a>
 <span class="sourceLineNo">350</span><a id="line.350">  public static &lt;T extends @Nullable Object&gt; Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt; toBloomFilter(</a>
 <span class="sourceLineNo">351</span><a id="line.351">      Funnel&lt;? super T&gt; funnel, long expectedInsertions, double fpp) {</a>

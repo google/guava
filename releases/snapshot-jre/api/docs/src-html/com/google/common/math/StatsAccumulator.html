@@ -145,7 +145,7 @@
 <span class="sourceLineNo">136</span><a id="line.136">   * Adds the given values to the dataset. The stream will be completely consumed by this method.</a>
 <span class="sourceLineNo">137</span><a id="line.137">   *</a>
 <span class="sourceLineNo">138</span><a id="line.138">   * @param values a series of values</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * @since 28.2</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * @since 28.2 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">140</span><a id="line.140">   */</a>
 <span class="sourceLineNo">141</span><a id="line.141">  public void addAll(DoubleStream values) {</a>
 <span class="sourceLineNo">142</span><a id="line.142">    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));</a>
@@ -155,7 +155,7 @@
 <span class="sourceLineNo">146</span><a id="line.146">   * Adds the given values to the dataset. The stream will be completely consumed by this method.</a>
 <span class="sourceLineNo">147</span><a id="line.147">   *</a>
 <span class="sourceLineNo">148</span><a id="line.148">   * @param values a series of values</a>
-<span class="sourceLineNo">149</span><a id="line.149">   * @since 28.2</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * @since 28.2 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">150</span><a id="line.150">   */</a>
 <span class="sourceLineNo">151</span><a id="line.151">  public void addAll(IntStream values) {</a>
 <span class="sourceLineNo">152</span><a id="line.152">    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));</a>
@@ -166,7 +166,7 @@
 <span class="sourceLineNo">157</span><a id="line.157">   *</a>
 <span class="sourceLineNo">158</span><a id="line.158">   * @param values a series of values, which will be converted to {@code double} values (this may</a>
 <span class="sourceLineNo">159</span><a id="line.159">   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * @since 28.2</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * @since 28.2 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">161</span><a id="line.161">   */</a>
 <span class="sourceLineNo">162</span><a id="line.162">  public void addAll(LongStream values) {</a>
 <span class="sourceLineNo">163</span><a id="line.163">    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));</a>

@@ -10945,7 +10945,7 @@
  than all other values, and orders the rest using {@code valueComparator} on the contained
  value.
 
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="emptiesLast" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
@@ -10958,7 +10958,7 @@
  than all other values, and orders the rest using {@code valueComparator} on the contained
  value.
 
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
@@ -43581,7 +43581,7 @@
  @param expectedInsertions the number of expected insertions to the constructed {@code
      BloomFilter}; must be positive
  @return a {@code Collector} generating a {@code BloomFilter} of the received elements
- @since 23.0]]>
+ @since 23.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toBloomFilter" return="java.util.stream.Collector&lt;T, ?, com.google.common.hash.BloomFilter&lt;T&gt;&gt;"
@@ -43611,7 +43611,7 @@
      BloomFilter}; must be positive
  @param fpp the desired false positive probability (must be positive and less than 1.0)
  @return a {@code Collector} generating a {@code BloomFilter} of the received elements
- @since 23.0]]>
+ @since 23.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.hash.BloomFilter&lt;T&gt;"
@@ -51857,7 +51857,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -51873,7 +51873,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -51890,7 +51890,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toStats" return="java.util.stream.Collector&lt;java.lang.Number, com.google.common.math.StatsAccumulator, com.google.common.math.Stats&gt;"
@@ -51906,7 +51906,7 @@
  <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
  LongStream}, you should use the factory method {@link #of} instead.
 
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="count" return="long"
@@ -52331,7 +52331,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll"
@@ -52343,7 +52343,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll"
@@ -52356,7 +52356,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since 28.2]]>
+ @since 28.2 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll"
