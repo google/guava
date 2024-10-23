@@ -32,6 +32,7 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 /**
  * Inputs, expected outputs, and helper methods for tests of {@link StatsAccumulator}, {@link
@@ -211,6 +212,37 @@ class StatsTesting {
           .multiply(BigInteger.valueOf(Long.MAX_VALUE))
           .divide(BigInteger.valueOf(16L))
           .doubleValue();
+
+  /**
+   * Returns a stream of a million primitive doubles. The stream is parallel, which should cause
+   * {@code collect} calls to run in multithreaded mode, so testing the combiner as well as the
+   * supplier and accumulator.
+   */
+  static DoubleStream megaPrimitiveDoubleStream() {
+    return DoubleStream.iterate(0.0, x -> x + 1.0).limit(MEGA_STREAM_COUNT).parallel();
+  }
+
+  /** Returns a stream containing half the values from {@link #megaPrimitiveDoubleStream}. */
+  static DoubleStream megaPrimitiveDoubleStreamPart1() {
+    return DoubleStream.iterate(0.0, x -> x + 2.0).limit(MEGA_STREAM_COUNT / 2).parallel();
+  }
+
+  /**
+   * Returns a stream containing the values from {@link #megaPrimitiveDoubleStream} not in {@link
+   * #megaPrimitiveDoubleStreamPart1()}.
+   */
+  static DoubleStream megaPrimitiveDoubleStreamPart2() {
+    return DoubleStream.iterate(MEGA_STREAM_COUNT - 1.0, x -> x - 2.0)
+        .limit(MEGA_STREAM_COUNT / 2)
+        .parallel();
+  }
+
+  static final long MEGA_STREAM_COUNT = isAndroid() ? 100 : 1_000_000;
+  static final double MEGA_STREAM_MIN = 0.0;
+  static final double MEGA_STREAM_MAX = MEGA_STREAM_COUNT - 1;
+  static final double MEGA_STREAM_MEAN = MEGA_STREAM_MAX / 2;
+  static final double MEGA_STREAM_POPULATION_VARIANCE =
+      (MEGA_STREAM_COUNT - 1) * (MEGA_STREAM_COUNT + 1) / 12.0;
 
   // Stats instances:
 

@@ -37,6 +37,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
+import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -296,6 +297,76 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   @Override
   public int hashCode() {
     return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
+  }
+
+  /**
+   * Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link
+   * BloomFilter} with false positive probability 3%.
+   *
+   * <p>Note that if the {@code Collector} receives significantly more elements than specified, the
+   * resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive
+   * probability.
+   *
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
+   *
+   * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
+   * ensuring proper serialization and deserialization, which is important since {@link #equals}
+   * also relies on object identity of funnels.
+   *
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
+   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
+   * @since NEXT (but since 23.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
+      Funnel<? super T> funnel, long expectedInsertions) {
+    return toBloomFilter(funnel, expectedInsertions, 0.03);
+  }
+
+  /**
+   * Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link
+   * BloomFilter} with the specified expected false positive probability.
+   *
+   * <p>Note that if the {@code Collector} receives significantly more elements than specified, the
+   * resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive
+   * probability.
+   *
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
+   *
+   * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
+   * ensuring proper serialization and deserialization, which is important since {@link #equals}
+   * also relies on object identity of funnels.
+   *
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
+   * @param fpp the desired false positive probability (must be positive and less than 1.0)
+   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
+   * @since NEXT (but since 23.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
+      Funnel<? super T> funnel, long expectedInsertions, double fpp) {
+    checkNotNull(funnel);
+    checkArgument(
+        expectedInsertions >= 0, "Expected insertions (%s) must be >= 0", expectedInsertions);
+    checkArgument(fpp > 0.0, "False positive probability (%s) must be > 0.0", fpp);
+    checkArgument(fpp < 1.0, "False positive probability (%s) must be < 1.0", fpp);
+    return Collector.of(
+        () -> BloomFilter.create(funnel, expectedInsertions, fpp),
+        BloomFilter::put,
+        (bf1, bf2) -> {
+          bf1.putAll(bf2);
+          return bf1;
+        },
+        Collector.Characteristics.UNORDERED,
+        Collector.Characteristics.CONCURRENT);
   }
 
   /**

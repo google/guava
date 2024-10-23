@@ -20,12 +20,15 @@ import static com.google.common.collect.Comparators.max;
 import static com.google.common.collect.Comparators.min;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -74,6 +77,30 @@ public class ComparatorsTest extends TestCase {
     assertTrue(Comparators.isInStrictOrder(asList(0, 3), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.singleton(1), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+  }
+
+  public void testEmptiesFirst() {
+    Optional<String> empty = Optional.empty();
+    Optional<String> abc = Optional.of("abc");
+    Optional<String> z = Optional.of("z");
+
+    Comparator<Optional<String>> comparator = Comparators.emptiesFirst(comparing(String::length));
+    Helpers.testComparator(comparator, empty, z, abc);
+
+    // Just demonstrate that no explicit type parameter is required
+    Comparator<Optional<String>> unused = Comparators.emptiesFirst(naturalOrder());
+  }
+
+  public void testEmptiesLast() {
+    Optional<String> empty = Optional.empty();
+    Optional<String> abc = Optional.of("abc");
+    Optional<String> z = Optional.of("z");
+
+    Comparator<Optional<String>> comparator = Comparators.emptiesLast(comparing(String::length));
+    Helpers.testComparator(comparator, z, abc, empty);
+
+    // Just demonstrate that no explicit type parameter is required
+    Comparator<Optional<String>> unused = Comparators.emptiesLast(naturalOrder());
   }
 
   public void testMinMaxNatural() {

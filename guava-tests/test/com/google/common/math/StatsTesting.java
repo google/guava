@@ -232,7 +232,9 @@ class StatsTesting {
    * #megaPrimitiveDoubleStreamPart1()}.
    */
   static DoubleStream megaPrimitiveDoubleStreamPart2() {
-    return DoubleStream.iterate(999_999.0, x -> x - 2.0).limit(MEGA_STREAM_COUNT / 2).parallel();
+    return DoubleStream.iterate(MEGA_STREAM_COUNT - 1.0, x -> x - 2.0)
+        .limit(MEGA_STREAM_COUNT / 2)
+        .parallel();
   }
 
   static final long MEGA_STREAM_COUNT = isAndroid() ? 100 : 1_000_000;

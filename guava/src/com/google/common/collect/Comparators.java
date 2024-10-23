@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -172,12 +173,12 @@ public final class Comparators {
    * than all other values, and orders the rest using {@code valueComparator} on the contained
    * value.
    *
-   * @since 22.0
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
    */
   public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.<Optional<T>, @Nullable T>comparing(
-        o -> o.orElse(null), Comparator.nullsFirst(valueComparator));
+        o -> orElseNull(o), Comparator.nullsFirst(valueComparator));
   }
 
   /**
@@ -185,12 +186,18 @@ public final class Comparators {
    * than all other values, and orders the rest using {@code valueComparator} on the contained
    * value.
    *
-   * @since 22.0
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
    */
   public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.<Optional<T>, @Nullable T>comparing(
-        o -> o.orElse(null), Comparator.nullsLast(valueComparator));
+        o -> orElseNull(o), Comparator.nullsLast(valueComparator));
+  }
+
+  // For discussion of why this exists, see the Android flavor.
+  @CheckForNull
+  private static <T> T orElseNull(Optional<T> optional) {
+    return optional.orElse(null);
   }
 
   /**

@@ -318,7 +318,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
-   * @since 23.0
+   * @since 23.0 (but only since 33.4.0 in the Android flavor)
    */
   public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
       Funnel<? super T> funnel, long expectedInsertions) {
@@ -345,7 +345,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
-   * @since 23.0
+   * @since 23.0 (but only since 33.4.0 in the Android flavor)
    */
   public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {
