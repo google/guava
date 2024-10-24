@@ -85,20 +85,20 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
           BinaryOperator<V> mergeFunction) {
 
     return Collector.of(
-            TreeRangeMap::<K, V>create,  // 使用类型推断来创建 TreeRangeMap 实例
+            TreeRangeMap::<K, V>create,  // Use type inference to create a TreeRangeMap instance.
             (map, element) -> {
               Range<K> key = keyFunction.apply(element);
               V value = valueFunction.apply(element);
 
-              // 检查是否有重叠的范围
+              // Check for overlapping ranges
               RangeMap<K, V> overlappingMap = map.subRangeMap(key);
               if (!overlappingMap.asMapOfRanges().isEmpty()) {
-                // 如果存在重叠范围，则合并这些值
+                // If there are overlapping ranges, merge the values
                 for (Map.Entry<Range<K>, V> entry : overlappingMap.asMapOfRanges().entrySet()) {
                   V existingValue = entry.getValue();
                   value = mergeFunction.apply(existingValue, value);
                 }
-                // 移除原有的重叠范围
+                // Remove the original overlapping range
                 map.remove(key);
               }
 
@@ -112,13 +112,13 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
               ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>();
               ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>();
 
-              // 遍历 map 中的所有范围
+              // Iterate over all ranges in the map
               for (Map.Entry<Range<K>, V> entry : map.asMapOfRanges().entrySet()) {
                 rangesBuilder.add(entry.getKey());
                 valuesBuilder.add(entry.getValue());
               }
 
-              // 构造不可变的 ImmutableRangeMap
+              // Construct an immutable ImmutableRangeMap.
               return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
             }
     );
