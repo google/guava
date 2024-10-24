@@ -1345,6 +1345,29 @@ public final class LongMath {
     }
     throw new AssertionError("impossible");
   }
-
+  /**
+   * Returns multifactorial of int n with step size k.
+   *
+   * @param n the number to compute. Must be non-negative.
+   * @param k the step size must be positive.
+   * @return the long type multifactorial of n with step size k. If none-zero n is less than k then return (long) n, else return 1L.
+   * @throws IllegalArgumentException if n is negative or if k is less than 1.
+   */
+  public static long multiFactorial(int n, int k) {
+    if (n < 0) {
+      throw new IllegalArgumentException("n cannot be negative!");
+    }
+    if (k < 1) {
+      throw new IllegalArgumentException("k must be positive!");
+    }
+    if (n <= k) {
+      return n == 0 ? 1L : (long)n;
+    }
+    long result = n;
+    for (long i = n - k; i > 1; i -= k) {
+      result *= i;
+    }
+    return result;
+  }
   private LongMath() {}
 }
