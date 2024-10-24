@@ -216,7 +216,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
 
   /** Returns the number of bits in the underlying bit array. */
   @VisibleForTesting
-  long bitSize() {
+  public long bitSize() {
     return bits.bitSize();
   }
 
