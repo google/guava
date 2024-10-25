@@ -15,6 +15,7 @@
 package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
@@ -26,6 +27,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.DoubleConsumer;
+import java.util.stream.DoubleStream;
 import javax.annotation.CheckForNull;
 
 /**
@@ -42,6 +47,7 @@ import javax.annotation.CheckForNull;
  *       hunt through classes like {@link Arrays} and {@link Doubles} for them.
  *   <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
  *       add overloads that accept start and end indexes.
+ *   <li>Can be streamed without "breaking the chain": {@code foo.getBarDoubles().stream()...}.
  *   <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
  *       allocating garbage).
  * </ul>
@@ -63,6 +69,8 @@ import javax.annotation.CheckForNull;
  * <ul>
  *   <li>Improved memory compactness and locality.
  *   <li>Can be queried without allocating garbage.
+ *   <li>Access to {@code DoubleStream} features (like {@link DoubleStream#sum}) using {@code
+ *       stream()} instead of the awkward {@code stream().mapToDouble(v -> v)}.
  * </ul>
  *
  * <p>Disadvantages compared to {@code ImmutableList<Double>}:
@@ -162,6 +170,19 @@ public final class ImmutableDoubleArray implements Serializable {
   }
 
   /**
+   * Returns an immutable array containing all the values from {@code stream}, in order.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static ImmutableDoubleArray copyOf(DoubleStream stream) {
+    // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
+    double[] array = stream.toArray();
+    return (array.length == 0) ? EMPTY : new ImmutableDoubleArray(array);
+  }
+
+  /**
    * Returns a new, empty builder for {@link ImmutableDoubleArray} instances, sized to hold up to
    * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.
    *
@@ -249,6 +270,25 @@ public final class ImmutableDoubleArray implements Serializable {
       for (Double value : values) {
         array[count++] = value;
       }
+      return this;
+    }
+
+    /**
+     * Appends all values from {@code stream}, in order, to the end of the values the built {@link
+     * ImmutableDoubleArray} will contain.
+     *
+     * @since NEXT (but since 22.0 in the JRE flavor)
+     */
+    @SuppressWarnings("Java7ApiChecker")
+    @IgnoreJRERequirement // Users will use this only if they're already using streams.
+    @CanIgnoreReturnValue
+    public Builder addAll(DoubleStream stream) {
+      Spliterator.OfDouble spliterator = stream.spliterator();
+      long size = spliterator.getExactSizeIfKnown();
+      if (size > 0) { // known *and* nonempty
+        ensureRoomFor(Ints.saturatedCast(size));
+      }
+      spliterator.forEachRemaining((DoubleConsumer) this::add);
       return this;
     }
 
@@ -383,6 +423,32 @@ public final class ImmutableDoubleArray implements Serializable {
     return indexOf(target) >= 0;
   }
 
+  /**
+   * Invokes {@code consumer} for each value contained in this array, in order.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // We rely on users not to call this without library desugaring.
+  public void forEach(DoubleConsumer consumer) {
+    checkNotNull(consumer);
+    for (int i = start; i < end; i++) {
+      consumer.accept(array[i]);
+    }
+  }
+
+  /**
+   * Returns a stream over the values in this array, in order.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent stream calls
+  @IgnoreJRERequirement
+  public DoubleStream stream() {
+    return Arrays.stream(array, start, end);
+  }
+
   /** Returns a new, mutable copy of this array's values, as a primitive {@code double[]}. */
   public double[] toArray() {
     return Arrays.copyOfRange(array, start, end);
@@ -400,6 +466,16 @@ public final class ImmutableDoubleArray implements Serializable {
     return startIndex == endIndex
         ? EMPTY
         : new ImmutableDoubleArray(array, start + startIndex, start + endIndex);
+  }
+
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // used only from APIs that use streams
+  /*
+   * We declare this as package-private, rather than private, to avoid generating a synthetic
+   * accessor method (under -target 8) that would lack the Android flavor's @IgnoreJRERequirement.
+   */
+  Spliterator.OfDouble spliterator() {
+    return Spliterators.spliterator(array, start, end, Spliterator.IMMUTABLE | Spliterator.ORDERED);
   }
 
   /**
@@ -425,7 +501,7 @@ public final class ImmutableDoubleArray implements Serializable {
       this.parent = parent;
     }
 
-    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, mutations
+    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, stream, forEach, mutations
 
     @Override
     public int size() {
@@ -455,6 +531,18 @@ public final class ImmutableDoubleArray implements Serializable {
     @Override
     public List<Double> subList(int fromIndex, int toIndex) {
       return parent.subArray(fromIndex, toIndex).asList();
+    }
+
+    // The default List spliterator is not efficiently splittable
+    @Override
+    @SuppressWarnings("Java7ApiChecker")
+    /*
+     * This is an override that is not directly visible to callers, so NewApi will catch calls to
+     * Collection.spliterator() where necessary.
+     */
+    @IgnoreJRERequirement
+    public Spliterator<Double> spliterator() {
+      return parent.spliterator();
     }
 
     @Override

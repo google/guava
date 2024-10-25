@@ -18,6 +18,7 @@ import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThro
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.stream;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.LongStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -138,6 +140,14 @@ public class ImmutableLongArrayTest extends TestCase {
     assertThat(iia.asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
+  public void testCopyOf_stream() {
+    assertThat(ImmutableLongArray.copyOf(LongStream.empty()))
+        .isSameInstanceAs(ImmutableLongArray.of());
+    assertThat(ImmutableLongArray.copyOf(LongStream.of(0, 1, 3)).asList())
+        .containsExactly(0L, 1L, 3L)
+        .inOrder();
+  }
+
   public void testBuilder_presize_zero() {
     ImmutableLongArray.Builder builder = ImmutableLongArray.builder(0);
     builder.add(5L);
@@ -205,6 +215,16 @@ public class ImmutableLongArrayTest extends TestCase {
           list.add(counter.getAndIncrement());
         }
         builder.addAll(iterable(list));
+      }
+    },
+    ADD_STREAM {
+      @Override
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        long[] array = new long[RANDOM.nextInt(10)];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = counter.getAndIncrement();
+        }
+        builder.addAll(stream(array));
       }
     },
     ADD_IIA {
@@ -300,6 +320,22 @@ public class ImmutableLongArrayTest extends TestCase {
     assertThat(ImmutableLongArray.of(13).contains(13)).isTrue();
     assertThat(ImmutableLongArray.of().contains(21)).isFalse();
     assertThat(iia.subArray(1, 5).contains(1)).isTrue();
+  }
+
+  public void testForEach() {
+    ImmutableLongArray.of().forEach(i -> fail());
+    ImmutableLongArray.of(0, 1, 3).subArray(1, 1).forEach(i -> fail());
+
+    AtomicLong count = new AtomicLong(0);
+    ImmutableLongArray.of(0, 1, 2, 3)
+        .forEach(i -> assertThat(i).isEqualTo(count.getAndIncrement()));
+    assertThat(count.get()).isEqualTo(4);
+  }
+
+  public void testStream() {
+    ImmutableLongArray.of().stream().forEach(i -> fail());
+    ImmutableLongArray.of(0, 1, 3).subArray(1, 1).stream().forEach(i -> fail());
+    assertThat(ImmutableLongArray.of(0, 1, 3).stream().toArray()).isEqualTo(new long[] {0, 1, 3});
   }
 
   public void testSubArray() {

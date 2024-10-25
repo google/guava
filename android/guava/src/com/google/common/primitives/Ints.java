@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 
 /**
@@ -685,6 +687,17 @@ public final class Ints extends IntsMethodsForWeb {
     public Integer get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    @SuppressWarnings("Java7ApiChecker")
+    /*
+     * This is an override that is not directly visible to callers, so NewApi will catch calls to
+     * Collection.spliterator() where necessary.
+     */
+    @IgnoreJRERequirement
+    public Spliterator.OfInt spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override
