@@ -479,11 +479,14 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   public void testEquals_immutableMultiset() {
-    Collection<String> c = ImmutableMultiset.of("a", "b", "a");
-    assertEquals(c, ImmutableMultiset.of("a", "b", "a"));
-    assertEquals(c, ImmutableMultiset.of("a", "a", "b"));
-    assertThat(c).isNotEqualTo(ImmutableMultiset.of("a", "b"));
-    assertThat(c).isNotEqualTo(ImmutableMultiset.of("a", "b", "c", "d"));
+    new EqualsTester()
+        .addEqualityGroup(
+            ImmutableMultiset.of("a", "b", "a"),
+            ImmutableMultiset.of("a", "b", "a"),
+            ImmutableMultiset.of("a", "a", "b"))
+        .addEqualityGroup(ImmutableMultiset.of("a", "b"))
+        .addEqualityGroup(ImmutableMultiset.of("a", "b", "c", "d"))
+        .testEquals();
   }
 
   public void testIterationOrder() {

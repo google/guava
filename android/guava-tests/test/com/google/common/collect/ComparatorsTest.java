@@ -22,6 +22,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
@@ -118,8 +119,7 @@ public class ComparatorsTest extends TestCase {
   }
 
   public void testMinMaxComparator() {
-    Comparator<Integer> natural = Ordering.natural();
-    Comparator<Integer> reverse = Collections.reverseOrder(natural);
+    Comparator<Integer> reverse = reverseOrder();
     assertThat(min(1, 2, reverse)).isEqualTo(2);
     assertThat(min(2, 1, reverse)).isEqualTo(2);
     assertThat(max(1, 2, reverse)).isEqualTo(1);
@@ -131,14 +131,7 @@ public class ComparatorsTest extends TestCase {
    * instead of {@code Comparator<? super T>}.
    */
   public void testMinMaxWithSupertypeComparator() {
-    Comparator<Number> numberComparator =
-        // Can't use Comparator.comparing(Number::intValue) due to Java 7 compatibility.
-        new Comparator<Number>() {
-          @Override
-          public int compare(Number a, Number b) {
-            return a.intValue() - b.intValue();
-          }
-        };
+    Comparator<Number> numberComparator = comparing(Number::intValue);
     Integer comparand1 = 1;
     Integer comparand2 = 2;
 
