@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="AbstractScheduledService.html" title="class in com.google.common.util.concurrent">AbstractScheduledService</a></dd>
 </dl>
 <hr>
-<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.480">AbstractScheduledService.CustomScheduler</a>
+<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.514">AbstractScheduledService.CustomScheduler</a>
 extends <a href="AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.Scheduler</a></pre>
 <div class="block">A <a href="AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService.Scheduler</code></a> that provides a convenient way for the <a href="AbstractScheduledService.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService</code></a> to
  use a dynamically changing schedule. After every execution of the task, assuming it hasn't been
@@ -231,7 +231,7 @@ extends <a href="AbstractScheduledService.Scheduler.html" title="class in com.go
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.util.concurrent.<a href="AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.Scheduler</a></h3>
-<code><a href="AbstractScheduledService.Scheduler.html#newFixedDelaySchedule(long,long,java.util.concurrent.TimeUnit)">newFixedDelaySchedule</a>, <a href="AbstractScheduledService.Scheduler.html#newFixedRateSchedule(long,long,java.util.concurrent.TimeUnit)">newFixedRateSchedule</a></code></li>
+<code><a href="AbstractScheduledService.Scheduler.html#newFixedDelaySchedule(long,long,java.util.concurrent.TimeUnit)">newFixedDelaySchedule</a>, <a href="AbstractScheduledService.Scheduler.html#newFixedDelaySchedule(java.time.Duration,java.time.Duration)">newFixedDelaySchedule</a>, <a href="AbstractScheduledService.Scheduler.html#newFixedRateSchedule(long,long,java.util.concurrent.TimeUnit)">newFixedRateSchedule</a>, <a href="AbstractScheduledService.Scheduler.html#newFixedRateSchedule(java.time.Duration,java.time.Duration)">newFixedRateSchedule</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -262,7 +262,7 @@ extends <a href="AbstractScheduledService.Scheduler.html" title="class in com.go
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CustomScheduler</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.480">CustomScheduler</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.514">CustomScheduler</a>()</pre>
 </li>
 </ul>
 </li>
@@ -281,7 +281,7 @@ extends <a href="AbstractScheduledService.Scheduler.html" title="class in com.go
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getNextSchedule</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="AbstractScheduledService.CustomScheduler.Schedule.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.CustomScheduler.Schedule</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.700">getNextSchedule</a>()
+<pre class="methodSignature">protected abstract&nbsp;<a href="AbstractScheduledService.CustomScheduler.Schedule.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.CustomScheduler.Schedule</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.744">getNextSchedule</a>()
                                                                               throws java.lang.Exception</pre>
 <div class="block">Calculates the time at which to next invoke the task.
 

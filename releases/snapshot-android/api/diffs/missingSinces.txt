@@ -1,3 +1,4 @@
+OK: com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler.Schedule Constructor (java.time.Duration)
 OK: com.google.common.math.StatsAccumulator Method addAll(java.util.stream.DoubleStream)
 OK: com.google.common.math.StatsAccumulator Method addAll(java.util.stream.IntStream)
 OK: com.google.common.math.StatsAccumulator Method addAll(java.util.stream.LongStream)
@@ -22,6 +23,8 @@ OK: com.google.common.util.concurrent.MoreExecutors Method getExitingExecutorSer
 OK: com.google.common.util.concurrent.MoreExecutors Method getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method getUninterruptibly(java.util.concurrent.Future<V>, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method joinUninterruptibly(java.lang.Thread, java.time.Duration)
+OK: com.google.common.util.concurrent.AbstractScheduledService.Scheduler Method newFixedDelaySchedule(java.time.Duration, java.time.Duration)
+OK: com.google.common.util.concurrent.AbstractScheduledService.Scheduler Method newFixedRateSchedule(java.time.Duration, java.time.Duration)
 OK: com.google.common.util.concurrent.Monitor Method newGuard(java.util.function.BooleanSupplier)
 OK: com.google.common.math.Stats Method of(java.util.stream.DoubleStream)
 OK: com.google.common.math.Stats Method of(java.util.stream.IntStream)

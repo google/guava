@@ -135,7 +135,7 @@
 <span class="sourceLineNo">126</span><a id="line.126">     * @param initialDelay the time to delay first execution</a>
 <span class="sourceLineNo">127</span><a id="line.127">     * @param delay the delay between the termination of one execution and the commencement of the</a>
 <span class="sourceLineNo">128</span><a id="line.128">     *     next</a>
-<span class="sourceLineNo">129</span><a id="line.129">     * @since 28.0</a>
+<span class="sourceLineNo">129</span><a id="line.129">     * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">130</span><a id="line.130">     */</a>
 <span class="sourceLineNo">131</span><a id="line.131">    public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {</a>
 <span class="sourceLineNo">132</span><a id="line.132">      return newFixedDelaySchedule(</a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">163</span><a id="line.163">     *</a>
 <span class="sourceLineNo">164</span><a id="line.164">     * @param initialDelay the time to delay first execution</a>
 <span class="sourceLineNo">165</span><a id="line.165">     * @param period the period between successive executions of the task</a>
-<span class="sourceLineNo">166</span><a id="line.166">     * @since 28.0</a>
+<span class="sourceLineNo">166</span><a id="line.166">     * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">167</span><a id="line.167">     */</a>
 <span class="sourceLineNo">168</span><a id="line.168">    public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {</a>
 <span class="sourceLineNo">169</span><a id="line.169">      return newFixedRateSchedule(</a>
@@ -739,7 +739,7 @@
 <span class="sourceLineNo">730</span><a id="line.730"></a>
 <span class="sourceLineNo">731</span><a id="line.731">      /**</a>
 <span class="sourceLineNo">732</span><a id="line.732">       * @param delay the time from now to delay execution</a>
-<span class="sourceLineNo">733</span><a id="line.733">       * @since 31.1</a>
+<span class="sourceLineNo">733</span><a id="line.733">       * @since 31.1 (but only since 33.4.0 in the Android flavor)</a>
 <span class="sourceLineNo">734</span><a id="line.734">       */</a>
 <span class="sourceLineNo">735</span><a id="line.735">      public Schedule(Duration delay) {</a>
 <span class="sourceLineNo">736</span><a id="line.736">        this(toNanosSaturated(delay), NANOSECONDS);</a>

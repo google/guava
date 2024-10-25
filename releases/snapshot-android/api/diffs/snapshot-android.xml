@@ -64514,6 +64514,14 @@
  @param unit the time unit of the delay parameter]]>
       </doc>
     </constructor>
+    <constructor name="Schedule" type="java.time.Duration"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[@param delay the time from now to delay execution
+ @since NEXT (but since 31.1 in the JRE flavor)]]>
+      </doc>
+    </constructor>
     <doc>
     <![CDATA[A value object that represents an absolute delay until a task should be invoked.
 
@@ -64531,6 +64539,22 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="delay" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Returns a {@link Scheduler} that schedules the task using the {@link
+ ScheduledExecutorService#scheduleWithFixedDelay} method.
+
+ @param initialDelay the time to delay first execution
+ @param delay the delay between the termination of one execution and the commencement of the
+     next
+ @since NEXT (but since 28.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="newFixedDelaySchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="initialDelay" type="long"/>
       <param name="delay" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
@@ -64542,6 +64566,21 @@
  @param delay the delay between the termination of one execution and the commencement of the
      next
  @param unit the time unit of the initialDelay and delay parameters]]>
+      </doc>
+    </method>
+    <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="period" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Returns a {@link Scheduler} that schedules the task using the {@link
+ ScheduledExecutorService#scheduleAtFixedRate} method.
+
+ @param initialDelay the time to delay first execution
+ @param period the period between successive executions of the task
+ @since NEXT (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
