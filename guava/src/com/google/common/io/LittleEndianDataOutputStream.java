@@ -143,8 +143,7 @@ public final class LittleEndianDataOutputStream extends FilterOutputStream imple
    */
   @Override
   public void writeLong(long v) throws IOException {
-    byte[] bytes = Longs.toByteArray(Long.reverseBytes(v));
-    write(bytes, 0, bytes.length);
+    ((DataOutputStream) out).writeLong(Long.reverseBytes(v));
   }
 
   /**
