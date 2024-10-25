@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -273,9 +271,11 @@ public final class Ints extends IntsMethodsForWeb {
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
+  // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.
+  @SuppressWarnings("StaticImportPreferred")
   public static int constrainToRange(int value, int min, int max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
-    return min(max(value, min), max);
+    return Math.min(Math.max(value, min), max);
   }
 
   /**
@@ -453,8 +453,10 @@ public final class Ints extends IntsMethodsForWeb {
     INSTANCE;
 
     @Override
+    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.
+    @SuppressWarnings("StaticImportPreferred")
     public int compare(int[] left, int[] right) {
-      int minLength = min(left.length, right.length);
+      int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
         int result = Integer.compare(left[i], right[i]);
         if (result != 0) {
