@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -59,7 +60,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
 
   @Override
   final void collectOneValue(int index, @ParametricNullness V returnValue) {
-    List<@Nullable Present<V>> localValues = values;
+    @RetainedLocalRef List<@Nullable Present<V>> localValues = values;
     if (localValues != null) {
       localValues.set(index, new Present<>(returnValue));
     }
@@ -67,7 +68,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
 
   @Override
   final void handleAllCompleted() {
-    List<@Nullable Present<V>> localValues = values;
+    @RetainedLocalRef List<@Nullable Present<V>> localValues = values;
     if (localValues != null) {
       set(combine(localValues));
     }

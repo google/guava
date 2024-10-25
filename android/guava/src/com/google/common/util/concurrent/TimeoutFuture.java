@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -102,7 +103,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
       if (timeoutFuture == null) {
         return;
       }
-      ListenableFuture<V> delegate = timeoutFuture.delegateRef;
+      @RetainedLocalRef ListenableFuture<V> delegate = timeoutFuture.delegateRef;
       if (delegate == null) {
         return;
       }
@@ -124,7 +125,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
         timeoutFuture.setFuture(delegate);
       } else {
         try {
-          ScheduledFuture<?> timer = timeoutFuture.timer;
+          @RetainedLocalRef ScheduledFuture<?> timer = timeoutFuture.timer;
           timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
           String message = "Timed out";
           // This try-finally block ensures that we complete the timeout future, even if attempting
@@ -162,8 +163,8 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   @Override
   @CheckForNull
   protected String pendingToString() {
-    ListenableFuture<? extends V> localInputFuture = delegateRef;
-    ScheduledFuture<?> localTimer = timer;
+    @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = delegateRef;
+    @RetainedLocalRef ScheduledFuture<?> localTimer = timer;
     if (localInputFuture != null) {
       String message = "inputFuture=[" + localInputFuture + "]";
       if (localTimer != null) {
@@ -180,9 +181,10 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   @Override
   protected void afterDone() {
-    maybePropagateCancellationTo(delegateRef);
+    @RetainedLocalRef ListenableFuture<? extends V> delegate = delegateRef;
+    maybePropagateCancellationTo(delegate);
 
-    Future<?> localTimer = timer;
+    @RetainedLocalRef Future<?> localTimer = timer;
     // Try to cancel the timer as an optimization.
     // timer may be null if this call to run was by the timer task since there is no happens-before
     // edge between the assignment to timer and an execution of the timer task.
