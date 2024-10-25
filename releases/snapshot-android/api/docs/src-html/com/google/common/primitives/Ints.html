@@ -27,264 +27,264 @@
 <span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkElementIndex;</a>
 <span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkNotNull;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import static com.google.common.base.Preconditions.checkPositionIndexes;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import static java.lang.Math.max;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import static java.lang.Math.min;</a>
-<span class="sourceLineNo">023</span><a id="line.23"></a>
-<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.GwtCompatible;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import com.google.common.annotations.GwtIncompatible;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import com.google.common.base.Converter;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import com.google.errorprone.annotations.InlineMe;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.io.Serializable;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.util.AbstractList;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.Arrays;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.Collection;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.Collections;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import java.util.Comparator;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import java.util.List;</a>
-<span class="sourceLineNo">035</span><a id="line.35">import java.util.RandomAccess;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">/**</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * Static utility methods pertaining to {@code int} primitives, that are not already found in either</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * {@link Integer} or {@link Arrays}.</a>
-<span class="sourceLineNo">041</span><a id="line.41"> *</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * href="https://github.com/google/guava/wiki/PrimitivesExplained"&gt;primitive utilities&lt;/a&gt;.</a>
-<span class="sourceLineNo">044</span><a id="line.44"> *</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * @author Kevin Bourrillion</a>
-<span class="sourceLineNo">046</span><a id="line.46"> * @since 1.0</a>
-<span class="sourceLineNo">047</span><a id="line.47"> */</a>
-<span class="sourceLineNo">048</span><a id="line.48">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">049</span><a id="line.49">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">050</span><a id="line.50">public final class Ints extends IntsMethodsForWeb {</a>
-<span class="sourceLineNo">051</span><a id="line.51">  private Ints() {}</a>
-<span class="sourceLineNo">052</span><a id="line.52"></a>
-<span class="sourceLineNo">053</span><a id="line.53">  /**</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * The number of bytes required to represent a primitive {@code int} value.</a>
-<span class="sourceLineNo">055</span><a id="line.55">   *</a>
-<span class="sourceLineNo">056</span><a id="line.56">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#BYTES} instead.</a>
-<span class="sourceLineNo">057</span><a id="line.57">   */</a>
-<span class="sourceLineNo">058</span><a id="line.58">  public static final int BYTES = Integer.SIZE / Byte.SIZE;</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">  /**</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * The largest power of two that can be represented as an {@code int}.</a>
-<span class="sourceLineNo">062</span><a id="line.62">   *</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * @since 10.0</a>
-<span class="sourceLineNo">064</span><a id="line.64">   */</a>
-<span class="sourceLineNo">065</span><a id="line.65">  public static final int MAX_POWER_OF_TWO = 1 &lt;&lt; (Integer.SIZE - 2);</a>
-<span class="sourceLineNo">066</span><a id="line.66"></a>
-<span class="sourceLineNo">067</span><a id="line.67">  /**</a>
-<span class="sourceLineNo">068</span><a id="line.68">   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * value).hashCode()}.</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.base.Converter;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.InlineMe;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.io.Serializable;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.AbstractList;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.util.Arrays;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.Collection;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.Collections;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Comparator;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.List;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.RandomAccess;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">035</span><a id="line.35"></a>
+<span class="sourceLineNo">036</span><a id="line.36">/**</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * Static utility methods pertaining to {@code int} primitives, that are not already found in either</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * {@link Integer} or {@link Arrays}.</a>
+<span class="sourceLineNo">039</span><a id="line.39"> *</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * href="https://github.com/google/guava/wiki/PrimitivesExplained"&gt;primitive utilities&lt;/a&gt;.</a>
+<span class="sourceLineNo">042</span><a id="line.42"> *</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * @since 1.0</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">047</span><a id="line.47">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">048</span><a id="line.48">public final class Ints extends IntsMethodsForWeb {</a>
+<span class="sourceLineNo">049</span><a id="line.49">  private Ints() {}</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  /**</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * The number of bytes required to represent a primitive {@code int} value.</a>
+<span class="sourceLineNo">053</span><a id="line.53">   *</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#BYTES} instead.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  public static final int BYTES = Integer.SIZE / Byte.SIZE;</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /**</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * The largest power of two that can be represented as an {@code int}.</a>
+<span class="sourceLineNo">060</span><a id="line.60">   *</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * @since 10.0</a>
+<span class="sourceLineNo">062</span><a id="line.62">   */</a>
+<span class="sourceLineNo">063</span><a id="line.63">  public static final int MAX_POWER_OF_TWO = 1 &lt;&lt; (Integer.SIZE - 2);</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">  /**</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * value).hashCode()}.</a>
+<span class="sourceLineNo">068</span><a id="line.68">   *</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#hashCode(int)} instead.</a>
 <span class="sourceLineNo">070</span><a id="line.70">   *</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#hashCode(int)} instead.</a>
-<span class="sourceLineNo">072</span><a id="line.72">   *</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * @param value a primitive {@code int} value</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * @return a hash code for the value</a>
-<span class="sourceLineNo">075</span><a id="line.75">   */</a>
-<span class="sourceLineNo">076</span><a id="line.76">  public static int hashCode(int value) {</a>
-<span class="sourceLineNo">077</span><a id="line.77">    return value;</a>
-<span class="sourceLineNo">078</span><a id="line.78">  }</a>
-<span class="sourceLineNo">079</span><a id="line.79"></a>
-<span class="sourceLineNo">080</span><a id="line.80">  /**</a>
-<span class="sourceLineNo">081</span><a id="line.81">   * Returns the {@code int} value that is equal to {@code value}, if possible.</a>
-<span class="sourceLineNo">082</span><a id="line.82">   *</a>
-<span class="sourceLineNo">083</span><a id="line.83">   * @param value any value in the range of the {@code int} type</a>
-<span class="sourceLineNo">084</span><a id="line.84">   * @return the {@code int} value that equals {@code value}</a>
-<span class="sourceLineNo">085</span><a id="line.85">   * @throws IllegalArgumentException if {@code value} is greater than {@link Integer#MAX_VALUE} or</a>
-<span class="sourceLineNo">086</span><a id="line.86">   *     less than {@link Integer#MIN_VALUE}</a>
-<span class="sourceLineNo">087</span><a id="line.87">   */</a>
-<span class="sourceLineNo">088</span><a id="line.88">  public static int checkedCast(long value) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">    int result = (int) value;</a>
-<span class="sourceLineNo">090</span><a id="line.90">    checkArgument(result == value, "Out of range: %s", value);</a>
-<span class="sourceLineNo">091</span><a id="line.91">    return result;</a>
-<span class="sourceLineNo">092</span><a id="line.92">  }</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">  /**</a>
-<span class="sourceLineNo">095</span><a id="line.95">   * Returns the {@code int} nearest in value to {@code value}.</a>
-<span class="sourceLineNo">096</span><a id="line.96">   *</a>
-<span class="sourceLineNo">097</span><a id="line.97">   * @param value any {@code long} value</a>
-<span class="sourceLineNo">098</span><a id="line.98">   * @return the same value cast to {@code int} if it is in the range of the {@code int} type,</a>
-<span class="sourceLineNo">099</span><a id="line.99">   *     {@link Integer#MAX_VALUE} if it is too large, or {@link Integer#MIN_VALUE} if it is too</a>
-<span class="sourceLineNo">100</span><a id="line.100">   *     small</a>
-<span class="sourceLineNo">101</span><a id="line.101">   */</a>
-<span class="sourceLineNo">102</span><a id="line.102">  public static int saturatedCast(long value) {</a>
-<span class="sourceLineNo">103</span><a id="line.103">    if (value &gt; Integer.MAX_VALUE) {</a>
-<span class="sourceLineNo">104</span><a id="line.104">      return Integer.MAX_VALUE;</a>
-<span class="sourceLineNo">105</span><a id="line.105">    }</a>
-<span class="sourceLineNo">106</span><a id="line.106">    if (value &lt; Integer.MIN_VALUE) {</a>
-<span class="sourceLineNo">107</span><a id="line.107">      return Integer.MIN_VALUE;</a>
-<span class="sourceLineNo">108</span><a id="line.108">    }</a>
-<span class="sourceLineNo">109</span><a id="line.109">    return (int) value;</a>
-<span class="sourceLineNo">110</span><a id="line.110">  }</a>
-<span class="sourceLineNo">111</span><a id="line.111"></a>
-<span class="sourceLineNo">112</span><a id="line.112">  /**</a>
-<span class="sourceLineNo">113</span><a id="line.113">   * Compares the two specified {@code int} values. The sign of the value returned is the same as</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * that of {@code ((Integer) a).compareTo(b)}.</a>
-<span class="sourceLineNo">115</span><a id="line.115">   *</a>
-<span class="sourceLineNo">116</span><a id="line.116">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated; use the</a>
-<span class="sourceLineNo">117</span><a id="line.117">   * equivalent {@link Integer#compare} method instead.</a>
-<span class="sourceLineNo">118</span><a id="line.118">   *</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * @param a the first {@code int} to compare</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * @param b the second {@code int} to compare</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is</a>
-<span class="sourceLineNo">122</span><a id="line.122">   *     greater than {@code b}; or zero if they are equal</a>
-<span class="sourceLineNo">123</span><a id="line.123">   */</a>
-<span class="sourceLineNo">124</span><a id="line.124">  @InlineMe(replacement = "Integer.compare(a, b)")</a>
-<span class="sourceLineNo">125</span><a id="line.125">  public static int compare(int a, int b) {</a>
-<span class="sourceLineNo">126</span><a id="line.126">    return Integer.compare(a, b);</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">  /**</a>
-<span class="sourceLineNo">130</span><a id="line.130">   * Returns {@code true} if {@code target} is present as an element anywhere in {@code array}.</a>
-<span class="sourceLineNo">131</span><a id="line.131">   *</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * @param array an array of {@code int} values, possibly empty</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * @param target a primitive {@code int} value</a>
-<span class="sourceLineNo">134</span><a id="line.134">   * @return {@code true} if {@code array[i] == target} for some value of {@code i}</a>
-<span class="sourceLineNo">135</span><a id="line.135">   */</a>
-<span class="sourceLineNo">136</span><a id="line.136">  public static boolean contains(int[] array, int target) {</a>
-<span class="sourceLineNo">137</span><a id="line.137">    for (int value : array) {</a>
-<span class="sourceLineNo">138</span><a id="line.138">      if (value == target) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">        return true;</a>
-<span class="sourceLineNo">140</span><a id="line.140">      }</a>
-<span class="sourceLineNo">141</span><a id="line.141">    }</a>
-<span class="sourceLineNo">142</span><a id="line.142">    return false;</a>
-<span class="sourceLineNo">143</span><a id="line.143">  }</a>
-<span class="sourceLineNo">144</span><a id="line.144"></a>
-<span class="sourceLineNo">145</span><a id="line.145">  /**</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * Returns the index of the first appearance of the value {@code target} in {@code array}.</a>
-<span class="sourceLineNo">147</span><a id="line.147">   *</a>
-<span class="sourceLineNo">148</span><a id="line.148">   * @param array an array of {@code int} values, possibly empty</a>
-<span class="sourceLineNo">149</span><a id="line.149">   * @param target a primitive {@code int} value</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no</a>
-<span class="sourceLineNo">151</span><a id="line.151">   *     such index exists.</a>
-<span class="sourceLineNo">152</span><a id="line.152">   */</a>
-<span class="sourceLineNo">153</span><a id="line.153">  public static int indexOf(int[] array, int target) {</a>
-<span class="sourceLineNo">154</span><a id="line.154">    return indexOf(array, target, 0, array.length);</a>
-<span class="sourceLineNo">155</span><a id="line.155">  }</a>
-<span class="sourceLineNo">156</span><a id="line.156"></a>
-<span class="sourceLineNo">157</span><a id="line.157">  // TODO(kevinb): consider making this public</a>
-<span class="sourceLineNo">158</span><a id="line.158">  private static int indexOf(int[] array, int target, int start, int end) {</a>
-<span class="sourceLineNo">159</span><a id="line.159">    for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">160</span><a id="line.160">      if (array[i] == target) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">        return i;</a>
-<span class="sourceLineNo">162</span><a id="line.162">      }</a>
-<span class="sourceLineNo">163</span><a id="line.163">    }</a>
-<span class="sourceLineNo">164</span><a id="line.164">    return -1;</a>
-<span class="sourceLineNo">165</span><a id="line.165">  }</a>
-<span class="sourceLineNo">166</span><a id="line.166"></a>
-<span class="sourceLineNo">167</span><a id="line.167">  /**</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * Returns the start position of the first occurrence of the specified {@code target} within</a>
-<span class="sourceLineNo">169</span><a id="line.169">   * {@code array}, or {@code -1} if there is no such occurrence.</a>
-<span class="sourceLineNo">170</span><a id="line.170">   *</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * &lt;p&gt;More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,</a>
-<span class="sourceLineNo">172</span><a id="line.172">   * i, i + target.length)} contains exactly the same elements as {@code target}.</a>
-<span class="sourceLineNo">173</span><a id="line.173">   *</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * @param array the array to search for the sequence {@code target}</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * @param target the array to search for as a sub-sequence of {@code array}</a>
-<span class="sourceLineNo">176</span><a id="line.176">   */</a>
-<span class="sourceLineNo">177</span><a id="line.177">  public static int indexOf(int[] array, int[] target) {</a>
-<span class="sourceLineNo">178</span><a id="line.178">    checkNotNull(array, "array");</a>
-<span class="sourceLineNo">179</span><a id="line.179">    checkNotNull(target, "target");</a>
-<span class="sourceLineNo">180</span><a id="line.180">    if (target.length == 0) {</a>
-<span class="sourceLineNo">181</span><a id="line.181">      return 0;</a>
-<span class="sourceLineNo">182</span><a id="line.182">    }</a>
-<span class="sourceLineNo">183</span><a id="line.183"></a>
-<span class="sourceLineNo">184</span><a id="line.184">    outer:</a>
-<span class="sourceLineNo">185</span><a id="line.185">    for (int i = 0; i &lt; array.length - target.length + 1; i++) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">      for (int j = 0; j &lt; target.length; j++) {</a>
-<span class="sourceLineNo">187</span><a id="line.187">        if (array[i + j] != target[j]) {</a>
-<span class="sourceLineNo">188</span><a id="line.188">          continue outer;</a>
-<span class="sourceLineNo">189</span><a id="line.189">        }</a>
-<span class="sourceLineNo">190</span><a id="line.190">      }</a>
-<span class="sourceLineNo">191</span><a id="line.191">      return i;</a>
-<span class="sourceLineNo">192</span><a id="line.192">    }</a>
-<span class="sourceLineNo">193</span><a id="line.193">    return -1;</a>
-<span class="sourceLineNo">194</span><a id="line.194">  }</a>
-<span class="sourceLineNo">195</span><a id="line.195"></a>
-<span class="sourceLineNo">196</span><a id="line.196">  /**</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * Returns the index of the last appearance of the value {@code target} in {@code array}.</a>
-<span class="sourceLineNo">198</span><a id="line.198">   *</a>
-<span class="sourceLineNo">199</span><a id="line.199">   * @param array an array of {@code int} values, possibly empty</a>
-<span class="sourceLineNo">200</span><a id="line.200">   * @param target a primitive {@code int} value</a>
-<span class="sourceLineNo">201</span><a id="line.201">   * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no</a>
-<span class="sourceLineNo">202</span><a id="line.202">   *     such index exists.</a>
-<span class="sourceLineNo">203</span><a id="line.203">   */</a>
-<span class="sourceLineNo">204</span><a id="line.204">  public static int lastIndexOf(int[] array, int target) {</a>
-<span class="sourceLineNo">205</span><a id="line.205">    return lastIndexOf(array, target, 0, array.length);</a>
-<span class="sourceLineNo">206</span><a id="line.206">  }</a>
-<span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">  // TODO(kevinb): consider making this public</a>
-<span class="sourceLineNo">209</span><a id="line.209">  private static int lastIndexOf(int[] array, int target, int start, int end) {</a>
-<span class="sourceLineNo">210</span><a id="line.210">    for (int i = end - 1; i &gt;= start; i--) {</a>
-<span class="sourceLineNo">211</span><a id="line.211">      if (array[i] == target) {</a>
-<span class="sourceLineNo">212</span><a id="line.212">        return i;</a>
-<span class="sourceLineNo">213</span><a id="line.213">      }</a>
-<span class="sourceLineNo">214</span><a id="line.214">    }</a>
-<span class="sourceLineNo">215</span><a id="line.215">    return -1;</a>
-<span class="sourceLineNo">216</span><a id="line.216">  }</a>
-<span class="sourceLineNo">217</span><a id="line.217"></a>
-<span class="sourceLineNo">218</span><a id="line.218">  /**</a>
-<span class="sourceLineNo">219</span><a id="line.219">   * Returns the least value present in {@code array}.</a>
-<span class="sourceLineNo">220</span><a id="line.220">   *</a>
-<span class="sourceLineNo">221</span><a id="line.221">   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values</a>
-<span class="sourceLineNo">222</span><a id="line.222">   * @return the value present in {@code array} that is less than or equal to every other value in</a>
-<span class="sourceLineNo">223</span><a id="line.223">   *     the array</a>
-<span class="sourceLineNo">224</span><a id="line.224">   * @throws IllegalArgumentException if {@code array} is empty</a>
-<span class="sourceLineNo">225</span><a id="line.225">   */</a>
-<span class="sourceLineNo">226</span><a id="line.226">  @GwtIncompatible(</a>
-<span class="sourceLineNo">227</span><a id="line.227">      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")</a>
-<span class="sourceLineNo">228</span><a id="line.228">  public static int min(int... array) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">    checkArgument(array.length &gt; 0);</a>
-<span class="sourceLineNo">230</span><a id="line.230">    int min = array[0];</a>
-<span class="sourceLineNo">231</span><a id="line.231">    for (int i = 1; i &lt; array.length; i++) {</a>
-<span class="sourceLineNo">232</span><a id="line.232">      if (array[i] &lt; min) {</a>
-<span class="sourceLineNo">233</span><a id="line.233">        min = array[i];</a>
-<span class="sourceLineNo">234</span><a id="line.234">      }</a>
-<span class="sourceLineNo">235</span><a id="line.235">    }</a>
-<span class="sourceLineNo">236</span><a id="line.236">    return min;</a>
-<span class="sourceLineNo">237</span><a id="line.237">  }</a>
-<span class="sourceLineNo">238</span><a id="line.238"></a>
-<span class="sourceLineNo">239</span><a id="line.239">  /**</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * Returns the greatest value present in {@code array}.</a>
-<span class="sourceLineNo">241</span><a id="line.241">   *</a>
-<span class="sourceLineNo">242</span><a id="line.242">   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values</a>
-<span class="sourceLineNo">243</span><a id="line.243">   * @return the value present in {@code array} that is greater than or equal to every other value</a>
-<span class="sourceLineNo">244</span><a id="line.244">   *     in the array</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * @throws IllegalArgumentException if {@code array} is empty</a>
-<span class="sourceLineNo">246</span><a id="line.246">   */</a>
-<span class="sourceLineNo">247</span><a id="line.247">  @GwtIncompatible(</a>
-<span class="sourceLineNo">248</span><a id="line.248">      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")</a>
-<span class="sourceLineNo">249</span><a id="line.249">  public static int max(int... array) {</a>
-<span class="sourceLineNo">250</span><a id="line.250">    checkArgument(array.length &gt; 0);</a>
-<span class="sourceLineNo">251</span><a id="line.251">    int max = array[0];</a>
-<span class="sourceLineNo">252</span><a id="line.252">    for (int i = 1; i &lt; array.length; i++) {</a>
-<span class="sourceLineNo">253</span><a id="line.253">      if (array[i] &gt; max) {</a>
-<span class="sourceLineNo">254</span><a id="line.254">        max = array[i];</a>
-<span class="sourceLineNo">255</span><a id="line.255">      }</a>
-<span class="sourceLineNo">256</span><a id="line.256">    }</a>
-<span class="sourceLineNo">257</span><a id="line.257">    return max;</a>
-<span class="sourceLineNo">258</span><a id="line.258">  }</a>
-<span class="sourceLineNo">259</span><a id="line.259"></a>
-<span class="sourceLineNo">260</span><a id="line.260">  /**</a>
-<span class="sourceLineNo">261</span><a id="line.261">   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.</a>
-<span class="sourceLineNo">262</span><a id="line.262">   *</a>
-<span class="sourceLineNo">263</span><a id="line.263">   * &lt;p&gt;If {@code value} is within the range {@code [min..max]}, {@code value} is returned</a>
-<span class="sourceLineNo">264</span><a id="line.264">   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code</a>
-<span class="sourceLineNo">265</span><a id="line.265">   * value} is greater than {@code max}, {@code max} is returned.</a>
-<span class="sourceLineNo">266</span><a id="line.266">   *</a>
-<span class="sourceLineNo">267</span><a id="line.267">   * &lt;p&gt;&lt;b&gt;Java 21+ users:&lt;/b&gt; Use {@code Math.clamp} instead. Note that that method is capable of</a>
-<span class="sourceLineNo">268</span><a id="line.268">   * constraining a {@code long} input to an {@code int} range.</a>
-<span class="sourceLineNo">269</span><a id="line.269">   *</a>
-<span class="sourceLineNo">270</span><a id="line.270">   * @param value the {@code int} value to constrain</a>
-<span class="sourceLineNo">271</span><a id="line.271">   * @param min the lower bound (inclusive) of the range to constrain {@code value} to</a>
-<span class="sourceLineNo">272</span><a id="line.272">   * @param max the upper bound (inclusive) of the range to constrain {@code value} to</a>
-<span class="sourceLineNo">273</span><a id="line.273">   * @throws IllegalArgumentException if {@code min &gt; max}</a>
-<span class="sourceLineNo">274</span><a id="line.274">   * @since 21.0</a>
-<span class="sourceLineNo">275</span><a id="line.275">   */</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * @param value a primitive {@code int} value</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * @return a hash code for the value</a>
+<span class="sourceLineNo">073</span><a id="line.73">   */</a>
+<span class="sourceLineNo">074</span><a id="line.74">  public static int hashCode(int value) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">    return value;</a>
+<span class="sourceLineNo">076</span><a id="line.76">  }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">  /**</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * Returns the {@code int} value that is equal to {@code value}, if possible.</a>
+<span class="sourceLineNo">080</span><a id="line.80">   *</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * @param value any value in the range of the {@code int} type</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * @return the {@code int} value that equals {@code value}</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * @throws IllegalArgumentException if {@code value} is greater than {@link Integer#MAX_VALUE} or</a>
+<span class="sourceLineNo">084</span><a id="line.84">   *     less than {@link Integer#MIN_VALUE}</a>
+<span class="sourceLineNo">085</span><a id="line.85">   */</a>
+<span class="sourceLineNo">086</span><a id="line.86">  public static int checkedCast(long value) {</a>
+<span class="sourceLineNo">087</span><a id="line.87">    int result = (int) value;</a>
+<span class="sourceLineNo">088</span><a id="line.88">    checkArgument(result == value, "Out of range: %s", value);</a>
+<span class="sourceLineNo">089</span><a id="line.89">    return result;</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  /**</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * Returns the {@code int} nearest in value to {@code value}.</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * @param value any {@code long} value</a>
+<span class="sourceLineNo">096</span><a id="line.96">   * @return the same value cast to {@code int} if it is in the range of the {@code int} type,</a>
+<span class="sourceLineNo">097</span><a id="line.97">   *     {@link Integer#MAX_VALUE} if it is too large, or {@link Integer#MIN_VALUE} if it is too</a>
+<span class="sourceLineNo">098</span><a id="line.98">   *     small</a>
+<span class="sourceLineNo">099</span><a id="line.99">   */</a>
+<span class="sourceLineNo">100</span><a id="line.100">  public static int saturatedCast(long value) {</a>
+<span class="sourceLineNo">101</span><a id="line.101">    if (value &gt; Integer.MAX_VALUE) {</a>
+<span class="sourceLineNo">102</span><a id="line.102">      return Integer.MAX_VALUE;</a>
+<span class="sourceLineNo">103</span><a id="line.103">    }</a>
+<span class="sourceLineNo">104</span><a id="line.104">    if (value &lt; Integer.MIN_VALUE) {</a>
+<span class="sourceLineNo">105</span><a id="line.105">      return Integer.MIN_VALUE;</a>
+<span class="sourceLineNo">106</span><a id="line.106">    }</a>
+<span class="sourceLineNo">107</span><a id="line.107">    return (int) value;</a>
+<span class="sourceLineNo">108</span><a id="line.108">  }</a>
+<span class="sourceLineNo">109</span><a id="line.109"></a>
+<span class="sourceLineNo">110</span><a id="line.110">  /**</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * Compares the two specified {@code int} values. The sign of the value returned is the same as</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * that of {@code ((Integer) a).compareTo(b)}.</a>
+<span class="sourceLineNo">113</span><a id="line.113">   *</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated; use the</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * equivalent {@link Integer#compare} method instead.</a>
+<span class="sourceLineNo">116</span><a id="line.116">   *</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * @param a the first {@code int} to compare</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * @param b the second {@code int} to compare</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is</a>
+<span class="sourceLineNo">120</span><a id="line.120">   *     greater than {@code b}; or zero if they are equal</a>
+<span class="sourceLineNo">121</span><a id="line.121">   */</a>
+<span class="sourceLineNo">122</span><a id="line.122">  @InlineMe(replacement = "Integer.compare(a, b)")</a>
+<span class="sourceLineNo">123</span><a id="line.123">  public static int compare(int a, int b) {</a>
+<span class="sourceLineNo">124</span><a id="line.124">    return Integer.compare(a, b);</a>
+<span class="sourceLineNo">125</span><a id="line.125">  }</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">  /**</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * Returns {@code true} if {@code target} is present as an element anywhere in {@code array}.</a>
+<span class="sourceLineNo">129</span><a id="line.129">   *</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * @param array an array of {@code int} values, possibly empty</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * @param target a primitive {@code int} value</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * @return {@code true} if {@code array[i] == target} for some value of {@code i}</a>
+<span class="sourceLineNo">133</span><a id="line.133">   */</a>
+<span class="sourceLineNo">134</span><a id="line.134">  public static boolean contains(int[] array, int target) {</a>
+<span class="sourceLineNo">135</span><a id="line.135">    for (int value : array) {</a>
+<span class="sourceLineNo">136</span><a id="line.136">      if (value == target) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">        return true;</a>
+<span class="sourceLineNo">138</span><a id="line.138">      }</a>
+<span class="sourceLineNo">139</span><a id="line.139">    }</a>
+<span class="sourceLineNo">140</span><a id="line.140">    return false;</a>
+<span class="sourceLineNo">141</span><a id="line.141">  }</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">  /**</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * Returns the index of the first appearance of the value {@code target} in {@code array}.</a>
+<span class="sourceLineNo">145</span><a id="line.145">   *</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * @param array an array of {@code int} values, possibly empty</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @param target a primitive {@code int} value</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no</a>
+<span class="sourceLineNo">149</span><a id="line.149">   *     such index exists.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   */</a>
+<span class="sourceLineNo">151</span><a id="line.151">  public static int indexOf(int[] array, int target) {</a>
+<span class="sourceLineNo">152</span><a id="line.152">    return indexOf(array, target, 0, array.length);</a>
+<span class="sourceLineNo">153</span><a id="line.153">  }</a>
+<span class="sourceLineNo">154</span><a id="line.154"></a>
+<span class="sourceLineNo">155</span><a id="line.155">  // TODO(kevinb): consider making this public</a>
+<span class="sourceLineNo">156</span><a id="line.156">  private static int indexOf(int[] array, int target, int start, int end) {</a>
+<span class="sourceLineNo">157</span><a id="line.157">    for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">158</span><a id="line.158">      if (array[i] == target) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">        return i;</a>
+<span class="sourceLineNo">160</span><a id="line.160">      }</a>
+<span class="sourceLineNo">161</span><a id="line.161">    }</a>
+<span class="sourceLineNo">162</span><a id="line.162">    return -1;</a>
+<span class="sourceLineNo">163</span><a id="line.163">  }</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">  /**</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * Returns the start position of the first occurrence of the specified {@code target} within</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * {@code array}, or {@code -1} if there is no such occurrence.</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * &lt;p&gt;More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * i, i + target.length)} contains exactly the same elements as {@code target}.</a>
+<span class="sourceLineNo">171</span><a id="line.171">   *</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * @param array the array to search for the sequence {@code target}</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * @param target the array to search for as a sub-sequence of {@code array}</a>
+<span class="sourceLineNo">174</span><a id="line.174">   */</a>
+<span class="sourceLineNo">175</span><a id="line.175">  public static int indexOf(int[] array, int[] target) {</a>
+<span class="sourceLineNo">176</span><a id="line.176">    checkNotNull(array, "array");</a>
+<span class="sourceLineNo">177</span><a id="line.177">    checkNotNull(target, "target");</a>
+<span class="sourceLineNo">178</span><a id="line.178">    if (target.length == 0) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      return 0;</a>
+<span class="sourceLineNo">180</span><a id="line.180">    }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">    outer:</a>
+<span class="sourceLineNo">183</span><a id="line.183">    for (int i = 0; i &lt; array.length - target.length + 1; i++) {</a>
+<span class="sourceLineNo">184</span><a id="line.184">      for (int j = 0; j &lt; target.length; j++) {</a>
+<span class="sourceLineNo">185</span><a id="line.185">        if (array[i + j] != target[j]) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">          continue outer;</a>
+<span class="sourceLineNo">187</span><a id="line.187">        }</a>
+<span class="sourceLineNo">188</span><a id="line.188">      }</a>
+<span class="sourceLineNo">189</span><a id="line.189">      return i;</a>
+<span class="sourceLineNo">190</span><a id="line.190">    }</a>
+<span class="sourceLineNo">191</span><a id="line.191">    return -1;</a>
+<span class="sourceLineNo">192</span><a id="line.192">  }</a>
+<span class="sourceLineNo">193</span><a id="line.193"></a>
+<span class="sourceLineNo">194</span><a id="line.194">  /**</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * Returns the index of the last appearance of the value {@code target} in {@code array}.</a>
+<span class="sourceLineNo">196</span><a id="line.196">   *</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * @param array an array of {@code int} values, possibly empty</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * @param target a primitive {@code int} value</a>
+<span class="sourceLineNo">199</span><a id="line.199">   * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no</a>
+<span class="sourceLineNo">200</span><a id="line.200">   *     such index exists.</a>
+<span class="sourceLineNo">201</span><a id="line.201">   */</a>
+<span class="sourceLineNo">202</span><a id="line.202">  public static int lastIndexOf(int[] array, int target) {</a>
+<span class="sourceLineNo">203</span><a id="line.203">    return lastIndexOf(array, target, 0, array.length);</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  // TODO(kevinb): consider making this public</a>
+<span class="sourceLineNo">207</span><a id="line.207">  private static int lastIndexOf(int[] array, int target, int start, int end) {</a>
+<span class="sourceLineNo">208</span><a id="line.208">    for (int i = end - 1; i &gt;= start; i--) {</a>
+<span class="sourceLineNo">209</span><a id="line.209">      if (array[i] == target) {</a>
+<span class="sourceLineNo">210</span><a id="line.210">        return i;</a>
+<span class="sourceLineNo">211</span><a id="line.211">      }</a>
+<span class="sourceLineNo">212</span><a id="line.212">    }</a>
+<span class="sourceLineNo">213</span><a id="line.213">    return -1;</a>
+<span class="sourceLineNo">214</span><a id="line.214">  }</a>
+<span class="sourceLineNo">215</span><a id="line.215"></a>
+<span class="sourceLineNo">216</span><a id="line.216">  /**</a>
+<span class="sourceLineNo">217</span><a id="line.217">   * Returns the least value present in {@code array}.</a>
+<span class="sourceLineNo">218</span><a id="line.218">   *</a>
+<span class="sourceLineNo">219</span><a id="line.219">   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * @return the value present in {@code array} that is less than or equal to every other value in</a>
+<span class="sourceLineNo">221</span><a id="line.221">   *     the array</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * @throws IllegalArgumentException if {@code array} is empty</a>
+<span class="sourceLineNo">223</span><a id="line.223">   */</a>
+<span class="sourceLineNo">224</span><a id="line.224">  @GwtIncompatible(</a>
+<span class="sourceLineNo">225</span><a id="line.225">      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")</a>
+<span class="sourceLineNo">226</span><a id="line.226">  public static int min(int... array) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">    checkArgument(array.length &gt; 0);</a>
+<span class="sourceLineNo">228</span><a id="line.228">    int min = array[0];</a>
+<span class="sourceLineNo">229</span><a id="line.229">    for (int i = 1; i &lt; array.length; i++) {</a>
+<span class="sourceLineNo">230</span><a id="line.230">      if (array[i] &lt; min) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">        min = array[i];</a>
+<span class="sourceLineNo">232</span><a id="line.232">      }</a>
+<span class="sourceLineNo">233</span><a id="line.233">    }</a>
+<span class="sourceLineNo">234</span><a id="line.234">    return min;</a>
+<span class="sourceLineNo">235</span><a id="line.235">  }</a>
+<span class="sourceLineNo">236</span><a id="line.236"></a>
+<span class="sourceLineNo">237</span><a id="line.237">  /**</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * Returns the greatest value present in {@code array}.</a>
+<span class="sourceLineNo">239</span><a id="line.239">   *</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values</a>
+<span class="sourceLineNo">241</span><a id="line.241">   * @return the value present in {@code array} that is greater than or equal to every other value</a>
+<span class="sourceLineNo">242</span><a id="line.242">   *     in the array</a>
+<span class="sourceLineNo">243</span><a id="line.243">   * @throws IllegalArgumentException if {@code array} is empty</a>
+<span class="sourceLineNo">244</span><a id="line.244">   */</a>
+<span class="sourceLineNo">245</span><a id="line.245">  @GwtIncompatible(</a>
+<span class="sourceLineNo">246</span><a id="line.246">      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")</a>
+<span class="sourceLineNo">247</span><a id="line.247">  public static int max(int... array) {</a>
+<span class="sourceLineNo">248</span><a id="line.248">    checkArgument(array.length &gt; 0);</a>
+<span class="sourceLineNo">249</span><a id="line.249">    int max = array[0];</a>
+<span class="sourceLineNo">250</span><a id="line.250">    for (int i = 1; i &lt; array.length; i++) {</a>
+<span class="sourceLineNo">251</span><a id="line.251">      if (array[i] &gt; max) {</a>
+<span class="sourceLineNo">252</span><a id="line.252">        max = array[i];</a>
+<span class="sourceLineNo">253</span><a id="line.253">      }</a>
+<span class="sourceLineNo">254</span><a id="line.254">    }</a>
+<span class="sourceLineNo">255</span><a id="line.255">    return max;</a>
+<span class="sourceLineNo">256</span><a id="line.256">  }</a>
+<span class="sourceLineNo">257</span><a id="line.257"></a>
+<span class="sourceLineNo">258</span><a id="line.258">  /**</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.</a>
+<span class="sourceLineNo">260</span><a id="line.260">   *</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * &lt;p&gt;If {@code value} is within the range {@code [min..max]}, {@code value} is returned</a>
+<span class="sourceLineNo">262</span><a id="line.262">   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code</a>
+<span class="sourceLineNo">263</span><a id="line.263">   * value} is greater than {@code max}, {@code max} is returned.</a>
+<span class="sourceLineNo">264</span><a id="line.264">   *</a>
+<span class="sourceLineNo">265</span><a id="line.265">   * &lt;p&gt;&lt;b&gt;Java 21+ users:&lt;/b&gt; Use {@code Math.clamp} instead. Note that that method is capable of</a>
+<span class="sourceLineNo">266</span><a id="line.266">   * constraining a {@code long} input to an {@code int} range.</a>
+<span class="sourceLineNo">267</span><a id="line.267">   *</a>
+<span class="sourceLineNo">268</span><a id="line.268">   * @param value the {@code int} value to constrain</a>
+<span class="sourceLineNo">269</span><a id="line.269">   * @param min the lower bound (inclusive) of the range to constrain {@code value} to</a>
+<span class="sourceLineNo">270</span><a id="line.270">   * @param max the upper bound (inclusive) of the range to constrain {@code value} to</a>
+<span class="sourceLineNo">271</span><a id="line.271">   * @throws IllegalArgumentException if {@code min &gt; max}</a>
+<span class="sourceLineNo">272</span><a id="line.272">   * @since 21.0</a>
+<span class="sourceLineNo">273</span><a id="line.273">   */</a>
+<span class="sourceLineNo">274</span><a id="line.274">  // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.</a>
+<span class="sourceLineNo">275</span><a id="line.275">  @SuppressWarnings("StaticImportPreferred")</a>
 <span class="sourceLineNo">276</span><a id="line.276">  public static int constrainToRange(int value, int min, int max) {</a>
 <span class="sourceLineNo">277</span><a id="line.277">    checkArgument(min &lt;= max, "min (%s) must be less than or equal to max (%s)", min, max);</a>
-<span class="sourceLineNo">278</span><a id="line.278">    return min(max(value, min), max);</a>
+<span class="sourceLineNo">278</span><a id="line.278">    return Math.min(Math.max(value, min), max);</a>
 <span class="sourceLineNo">279</span><a id="line.279">  }</a>
 <span class="sourceLineNo">280</span><a id="line.280"></a>
 <span class="sourceLineNo">281</span><a id="line.281">  /**</a>
@@ -462,386 +462,388 @@
 <span class="sourceLineNo">453</span><a id="line.453">    INSTANCE;</a>
 <span class="sourceLineNo">454</span><a id="line.454"></a>
 <span class="sourceLineNo">455</span><a id="line.455">    @Override</a>
-<span class="sourceLineNo">456</span><a id="line.456">    public int compare(int[] left, int[] right) {</a>
-<span class="sourceLineNo">457</span><a id="line.457">      int minLength = min(left.length, right.length);</a>
-<span class="sourceLineNo">458</span><a id="line.458">      for (int i = 0; i &lt; minLength; i++) {</a>
-<span class="sourceLineNo">459</span><a id="line.459">        int result = Integer.compare(left[i], right[i]);</a>
-<span class="sourceLineNo">460</span><a id="line.460">        if (result != 0) {</a>
-<span class="sourceLineNo">461</span><a id="line.461">          return result;</a>
-<span class="sourceLineNo">462</span><a id="line.462">        }</a>
-<span class="sourceLineNo">463</span><a id="line.463">      }</a>
-<span class="sourceLineNo">464</span><a id="line.464">      return left.length - right.length;</a>
-<span class="sourceLineNo">465</span><a id="line.465">    }</a>
-<span class="sourceLineNo">466</span><a id="line.466"></a>
-<span class="sourceLineNo">467</span><a id="line.467">    @Override</a>
-<span class="sourceLineNo">468</span><a id="line.468">    public String toString() {</a>
-<span class="sourceLineNo">469</span><a id="line.469">      return "Ints.lexicographicalComparator()";</a>
-<span class="sourceLineNo">470</span><a id="line.470">    }</a>
-<span class="sourceLineNo">471</span><a id="line.471">  }</a>
-<span class="sourceLineNo">472</span><a id="line.472"></a>
-<span class="sourceLineNo">473</span><a id="line.473">  /**</a>
-<span class="sourceLineNo">474</span><a id="line.474">   * Sorts the elements of {@code array} in descending order.</a>
-<span class="sourceLineNo">475</span><a id="line.475">   *</a>
-<span class="sourceLineNo">476</span><a id="line.476">   * @since 23.1</a>
-<span class="sourceLineNo">477</span><a id="line.477">   */</a>
-<span class="sourceLineNo">478</span><a id="line.478">  public static void sortDescending(int[] array) {</a>
-<span class="sourceLineNo">479</span><a id="line.479">    checkNotNull(array);</a>
-<span class="sourceLineNo">480</span><a id="line.480">    sortDescending(array, 0, array.length);</a>
-<span class="sourceLineNo">481</span><a id="line.481">  }</a>
-<span class="sourceLineNo">482</span><a id="line.482"></a>
-<span class="sourceLineNo">483</span><a id="line.483">  /**</a>
-<span class="sourceLineNo">484</span><a id="line.484">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
-<span class="sourceLineNo">485</span><a id="line.485">   * exclusive in descending order.</a>
-<span class="sourceLineNo">486</span><a id="line.486">   *</a>
-<span class="sourceLineNo">487</span><a id="line.487">   * @since 23.1</a>
-<span class="sourceLineNo">488</span><a id="line.488">   */</a>
-<span class="sourceLineNo">489</span><a id="line.489">  public static void sortDescending(int[] array, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">490</span><a id="line.490">    checkNotNull(array);</a>
-<span class="sourceLineNo">491</span><a id="line.491">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">492</span><a id="line.492">    Arrays.sort(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">493</span><a id="line.493">    reverse(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">494</span><a id="line.494">  }</a>
-<span class="sourceLineNo">495</span><a id="line.495"></a>
-<span class="sourceLineNo">496</span><a id="line.496">  /**</a>
-<span class="sourceLineNo">497</span><a id="line.497">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
-<span class="sourceLineNo">498</span><a id="line.498">   * Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.</a>
-<span class="sourceLineNo">499</span><a id="line.499">   *</a>
-<span class="sourceLineNo">500</span><a id="line.500">   * @since 23.1</a>
-<span class="sourceLineNo">501</span><a id="line.501">   */</a>
-<span class="sourceLineNo">502</span><a id="line.502">  public static void reverse(int[] array) {</a>
-<span class="sourceLineNo">503</span><a id="line.503">    checkNotNull(array);</a>
-<span class="sourceLineNo">504</span><a id="line.504">    reverse(array, 0, array.length);</a>
-<span class="sourceLineNo">505</span><a id="line.505">  }</a>
-<span class="sourceLineNo">506</span><a id="line.506"></a>
-<span class="sourceLineNo">507</span><a id="line.507">  /**</a>
-<span class="sourceLineNo">508</span><a id="line.508">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
-<span class="sourceLineNo">509</span><a id="line.509">   * exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">510</span><a id="line.510">   * Collections.reverse(Ints.asList(array).subList(fromIndex, toIndex))}, but is likely to be more</a>
-<span class="sourceLineNo">511</span><a id="line.511">   * efficient.</a>
-<span class="sourceLineNo">512</span><a id="line.512">   *</a>
-<span class="sourceLineNo">513</span><a id="line.513">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">514</span><a id="line.514">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">515</span><a id="line.515">   * @since 23.1</a>
-<span class="sourceLineNo">516</span><a id="line.516">   */</a>
-<span class="sourceLineNo">517</span><a id="line.517">  public static void reverse(int[] array, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">518</span><a id="line.518">    checkNotNull(array);</a>
-<span class="sourceLineNo">519</span><a id="line.519">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">520</span><a id="line.520">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
-<span class="sourceLineNo">521</span><a id="line.521">      int tmp = array[i];</a>
-<span class="sourceLineNo">522</span><a id="line.522">      array[i] = array[j];</a>
-<span class="sourceLineNo">523</span><a id="line.523">      array[j] = tmp;</a>
-<span class="sourceLineNo">524</span><a id="line.524">    }</a>
-<span class="sourceLineNo">525</span><a id="line.525">  }</a>
-<span class="sourceLineNo">526</span><a id="line.526"></a>
-<span class="sourceLineNo">527</span><a id="line.527">  /**</a>
-<span class="sourceLineNo">528</span><a id="line.528">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
-<span class="sourceLineNo">529</span><a id="line.529">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
-<span class="sourceLineNo">530</span><a id="line.530">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Ints.asList(array),</a>
-<span class="sourceLineNo">531</span><a id="line.531">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
-<span class="sourceLineNo">532</span><a id="line.532">   *</a>
-<span class="sourceLineNo">533</span><a id="line.533">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">456</span><a id="line.456">    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.</a>
+<span class="sourceLineNo">457</span><a id="line.457">    @SuppressWarnings("StaticImportPreferred")</a>
+<span class="sourceLineNo">458</span><a id="line.458">    public int compare(int[] left, int[] right) {</a>
+<span class="sourceLineNo">459</span><a id="line.459">      int minLength = Math.min(left.length, right.length);</a>
+<span class="sourceLineNo">460</span><a id="line.460">      for (int i = 0; i &lt; minLength; i++) {</a>
+<span class="sourceLineNo">461</span><a id="line.461">        int result = Integer.compare(left[i], right[i]);</a>
+<span class="sourceLineNo">462</span><a id="line.462">        if (result != 0) {</a>
+<span class="sourceLineNo">463</span><a id="line.463">          return result;</a>
+<span class="sourceLineNo">464</span><a id="line.464">        }</a>
+<span class="sourceLineNo">465</span><a id="line.465">      }</a>
+<span class="sourceLineNo">466</span><a id="line.466">      return left.length - right.length;</a>
+<span class="sourceLineNo">467</span><a id="line.467">    }</a>
+<span class="sourceLineNo">468</span><a id="line.468"></a>
+<span class="sourceLineNo">469</span><a id="line.469">    @Override</a>
+<span class="sourceLineNo">470</span><a id="line.470">    public String toString() {</a>
+<span class="sourceLineNo">471</span><a id="line.471">      return "Ints.lexicographicalComparator()";</a>
+<span class="sourceLineNo">472</span><a id="line.472">    }</a>
+<span class="sourceLineNo">473</span><a id="line.473">  }</a>
+<span class="sourceLineNo">474</span><a id="line.474"></a>
+<span class="sourceLineNo">475</span><a id="line.475">  /**</a>
+<span class="sourceLineNo">476</span><a id="line.476">   * Sorts the elements of {@code array} in descending order.</a>
+<span class="sourceLineNo">477</span><a id="line.477">   *</a>
+<span class="sourceLineNo">478</span><a id="line.478">   * @since 23.1</a>
+<span class="sourceLineNo">479</span><a id="line.479">   */</a>
+<span class="sourceLineNo">480</span><a id="line.480">  public static void sortDescending(int[] array) {</a>
+<span class="sourceLineNo">481</span><a id="line.481">    checkNotNull(array);</a>
+<span class="sourceLineNo">482</span><a id="line.482">    sortDescending(array, 0, array.length);</a>
+<span class="sourceLineNo">483</span><a id="line.483">  }</a>
+<span class="sourceLineNo">484</span><a id="line.484"></a>
+<span class="sourceLineNo">485</span><a id="line.485">  /**</a>
+<span class="sourceLineNo">486</span><a id="line.486">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
+<span class="sourceLineNo">487</span><a id="line.487">   * exclusive in descending order.</a>
+<span class="sourceLineNo">488</span><a id="line.488">   *</a>
+<span class="sourceLineNo">489</span><a id="line.489">   * @since 23.1</a>
+<span class="sourceLineNo">490</span><a id="line.490">   */</a>
+<span class="sourceLineNo">491</span><a id="line.491">  public static void sortDescending(int[] array, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">492</span><a id="line.492">    checkNotNull(array);</a>
+<span class="sourceLineNo">493</span><a id="line.493">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">494</span><a id="line.494">    Arrays.sort(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">495</span><a id="line.495">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">496</span><a id="line.496">  }</a>
+<span class="sourceLineNo">497</span><a id="line.497"></a>
+<span class="sourceLineNo">498</span><a id="line.498">  /**</a>
+<span class="sourceLineNo">499</span><a id="line.499">   * Reverses the elements of {@code array}. This is equivalent to {@code</a>
+<span class="sourceLineNo">500</span><a id="line.500">   * Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.</a>
+<span class="sourceLineNo">501</span><a id="line.501">   *</a>
+<span class="sourceLineNo">502</span><a id="line.502">   * @since 23.1</a>
+<span class="sourceLineNo">503</span><a id="line.503">   */</a>
+<span class="sourceLineNo">504</span><a id="line.504">  public static void reverse(int[] array) {</a>
+<span class="sourceLineNo">505</span><a id="line.505">    checkNotNull(array);</a>
+<span class="sourceLineNo">506</span><a id="line.506">    reverse(array, 0, array.length);</a>
+<span class="sourceLineNo">507</span><a id="line.507">  }</a>
+<span class="sourceLineNo">508</span><a id="line.508"></a>
+<span class="sourceLineNo">509</span><a id="line.509">  /**</a>
+<span class="sourceLineNo">510</span><a id="line.510">   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</a>
+<span class="sourceLineNo">511</span><a id="line.511">   * exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">512</span><a id="line.512">   * Collections.reverse(Ints.asList(array).subList(fromIndex, toIndex))}, but is likely to be more</a>
+<span class="sourceLineNo">513</span><a id="line.513">   * efficient.</a>
+<span class="sourceLineNo">514</span><a id="line.514">   *</a>
+<span class="sourceLineNo">515</span><a id="line.515">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">516</span><a id="line.516">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">517</span><a id="line.517">   * @since 23.1</a>
+<span class="sourceLineNo">518</span><a id="line.518">   */</a>
+<span class="sourceLineNo">519</span><a id="line.519">  public static void reverse(int[] array, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">520</span><a id="line.520">    checkNotNull(array);</a>
+<span class="sourceLineNo">521</span><a id="line.521">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">522</span><a id="line.522">    for (int i = fromIndex, j = toIndex - 1; i &lt; j; i++, j--) {</a>
+<span class="sourceLineNo">523</span><a id="line.523">      int tmp = array[i];</a>
+<span class="sourceLineNo">524</span><a id="line.524">      array[i] = array[j];</a>
+<span class="sourceLineNo">525</span><a id="line.525">      array[j] = tmp;</a>
+<span class="sourceLineNo">526</span><a id="line.526">    }</a>
+<span class="sourceLineNo">527</span><a id="line.527">  }</a>
+<span class="sourceLineNo">528</span><a id="line.528"></a>
+<span class="sourceLineNo">529</span><a id="line.529">  /**</a>
+<span class="sourceLineNo">530</span><a id="line.530">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
+<span class="sourceLineNo">532</span><a id="line.532">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Ints.asList(array),</a>
+<span class="sourceLineNo">533</span><a id="line.533">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
 <span class="sourceLineNo">534</span><a id="line.534">   *</a>
-<span class="sourceLineNo">535</span><a id="line.535">   * @since 32.0.0</a>
-<span class="sourceLineNo">536</span><a id="line.536">   */</a>
-<span class="sourceLineNo">537</span><a id="line.537">  public static void rotate(int[] array, int distance) {</a>
-<span class="sourceLineNo">538</span><a id="line.538">    rotate(array, distance, 0, array.length);</a>
-<span class="sourceLineNo">539</span><a id="line.539">  }</a>
-<span class="sourceLineNo">540</span><a id="line.540"></a>
-<span class="sourceLineNo">541</span><a id="line.541">  /**</a>
-<span class="sourceLineNo">542</span><a id="line.542">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
-<span class="sourceLineNo">543</span><a id="line.543">   * toIndex} exclusive. This is equivalent to {@code</a>
-<span class="sourceLineNo">544</span><a id="line.544">   * Collections.rotate(Ints.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
-<span class="sourceLineNo">545</span><a id="line.545">   * considerably faster and avoids allocations and garbage collection.</a>
-<span class="sourceLineNo">546</span><a id="line.546">   *</a>
-<span class="sourceLineNo">547</span><a id="line.547">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">536</span><a id="line.536">   *</a>
+<span class="sourceLineNo">537</span><a id="line.537">   * @since 32.0.0</a>
+<span class="sourceLineNo">538</span><a id="line.538">   */</a>
+<span class="sourceLineNo">539</span><a id="line.539">  public static void rotate(int[] array, int distance) {</a>
+<span class="sourceLineNo">540</span><a id="line.540">    rotate(array, distance, 0, array.length);</a>
+<span class="sourceLineNo">541</span><a id="line.541">  }</a>
+<span class="sourceLineNo">542</span><a id="line.542"></a>
+<span class="sourceLineNo">543</span><a id="line.543">  /**</a>
+<span class="sourceLineNo">544</span><a id="line.544">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
+<span class="sourceLineNo">545</span><a id="line.545">   * toIndex} exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">546</span><a id="line.546">   * Collections.rotate(Ints.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
+<span class="sourceLineNo">547</span><a id="line.547">   * considerably faster and avoids allocations and garbage collection.</a>
 <span class="sourceLineNo">548</span><a id="line.548">   *</a>
-<span class="sourceLineNo">549</span><a id="line.549">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
-<span class="sourceLineNo">550</span><a id="line.550">   *     {@code toIndex &gt; fromIndex}</a>
-<span class="sourceLineNo">551</span><a id="line.551">   * @since 32.0.0</a>
-<span class="sourceLineNo">552</span><a id="line.552">   */</a>
-<span class="sourceLineNo">553</span><a id="line.553">  public static void rotate(int[] array, int distance, int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">554</span><a id="line.554">    // There are several well-known algorithms for rotating part of an array (or, equivalently,</a>
-<span class="sourceLineNo">555</span><a id="line.555">    // exchanging two blocks of memory). This classic text by Gries and Mills mentions several:</a>
-<span class="sourceLineNo">556</span><a id="line.556">    // https://ecommons.cornell.edu/bitstream/handle/1813/6292/81-452.pdf.</a>
-<span class="sourceLineNo">557</span><a id="line.557">    // (1) "Reversal", the one we have here.</a>
-<span class="sourceLineNo">558</span><a id="line.558">    // (2) "Dolphin". If we're rotating an array a of size n by a distance of d, then element a[0]</a>
-<span class="sourceLineNo">559</span><a id="line.559">    //     ends up at a[d], which in turn ends up at a[2d], and so on until we get back to a[0].</a>
-<span class="sourceLineNo">560</span><a id="line.560">    //     (All indices taken mod n.) If d and n are mutually prime, all elements will have been</a>
-<span class="sourceLineNo">561</span><a id="line.561">    //     moved at that point. Otherwise, we can rotate the cycle a[1], a[1 + d], a[1 + 2d], etc,</a>
-<span class="sourceLineNo">562</span><a id="line.562">    //     then a[2] etc, and so on until we have rotated all elements. There are gcd(d, n) cycles</a>
-<span class="sourceLineNo">563</span><a id="line.563">    //     in all.</a>
-<span class="sourceLineNo">564</span><a id="line.564">    // (3) "Successive". We can consider that we are exchanging a block of size d (a[0..d-1]) with a</a>
-<span class="sourceLineNo">565</span><a id="line.565">    //     block of size n-d (a[d..n-1]), where in general these blocks have different sizes. If we</a>
-<span class="sourceLineNo">566</span><a id="line.566">    //     imagine a line separating the first block from the second, we can proceed by exchanging</a>
-<span class="sourceLineNo">567</span><a id="line.567">    //     the smaller of these blocks with the far end of the other one. That leaves us with a</a>
-<span class="sourceLineNo">568</span><a id="line.568">    //     smaller version of the same problem.</a>
-<span class="sourceLineNo">569</span><a id="line.569">    //     Say we are rotating abcdefgh by 5. We start with abcde|fgh. The smaller block is [fgh]:</a>
-<span class="sourceLineNo">570</span><a id="line.570">    //     [abc]de|[fgh] -&gt; [fgh]de|[abc]. Now [fgh] is in the right place, but we need to swap [de]</a>
-<span class="sourceLineNo">571</span><a id="line.571">    //     with [abc]: fgh[de]|a[bc] -&gt; fgh[bc]|a[de]. Now we need to swap [a] with [bc]:</a>
-<span class="sourceLineNo">572</span><a id="line.572">    //     fgh[b]c|[a]de -&gt; fgh[a]c|[b]de. Finally we need to swap [c] with [b]:</a>
-<span class="sourceLineNo">573</span><a id="line.573">    //     fgha[c]|[b]de -&gt; fgha[b]|[c]de. Because these two blocks are the same size, we are done.</a>
-<span class="sourceLineNo">574</span><a id="line.574">    // The Dolphin algorithm is attractive because it does the fewest array reads and writes: each</a>
-<span class="sourceLineNo">575</span><a id="line.575">    // array slot is read and written exactly once. However, it can have very poor memory locality:</a>
-<span class="sourceLineNo">576</span><a id="line.576">    // benchmarking shows it can take 7 times longer than the other two in some cases. The other two</a>
-<span class="sourceLineNo">577</span><a id="line.577">    // do n swaps, minus a delta (0 or 2 for Reversal, gcd(d, n) for Successive), so that's about</a>
-<span class="sourceLineNo">578</span><a id="line.578">    // twice as many reads and writes. But benchmarking shows that they usually perform better than</a>
-<span class="sourceLineNo">579</span><a id="line.579">    // Dolphin. Reversal is about as good as Successive on average, and it is much simpler,</a>
-<span class="sourceLineNo">580</span><a id="line.580">    // especially since we already have a `reverse` method.</a>
-<span class="sourceLineNo">581</span><a id="line.581">    checkNotNull(array);</a>
-<span class="sourceLineNo">582</span><a id="line.582">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
-<span class="sourceLineNo">583</span><a id="line.583">    if (array.length &lt;= 1) {</a>
-<span class="sourceLineNo">584</span><a id="line.584">      return;</a>
-<span class="sourceLineNo">585</span><a id="line.585">    }</a>
-<span class="sourceLineNo">586</span><a id="line.586"></a>
-<span class="sourceLineNo">587</span><a id="line.587">    int length = toIndex - fromIndex;</a>
-<span class="sourceLineNo">588</span><a id="line.588">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
-<span class="sourceLineNo">589</span><a id="line.589">    // places left to rotate.</a>
-<span class="sourceLineNo">590</span><a id="line.590">    int m = -distance % length;</a>
-<span class="sourceLineNo">591</span><a id="line.591">    m = (m &lt; 0) ? m + length : m;</a>
-<span class="sourceLineNo">592</span><a id="line.592">    // The current index of what will become the first element of the rotated section.</a>
-<span class="sourceLineNo">593</span><a id="line.593">    int newFirstIndex = m + fromIndex;</a>
-<span class="sourceLineNo">594</span><a id="line.594">    if (newFirstIndex == fromIndex) {</a>
-<span class="sourceLineNo">595</span><a id="line.595">      return;</a>
-<span class="sourceLineNo">596</span><a id="line.596">    }</a>
-<span class="sourceLineNo">597</span><a id="line.597"></a>
-<span class="sourceLineNo">598</span><a id="line.598">    reverse(array, fromIndex, newFirstIndex);</a>
-<span class="sourceLineNo">599</span><a id="line.599">    reverse(array, newFirstIndex, toIndex);</a>
-<span class="sourceLineNo">600</span><a id="line.600">    reverse(array, fromIndex, toIndex);</a>
-<span class="sourceLineNo">601</span><a id="line.601">  }</a>
-<span class="sourceLineNo">602</span><a id="line.602"></a>
-<span class="sourceLineNo">603</span><a id="line.603">  /**</a>
-<span class="sourceLineNo">604</span><a id="line.604">   * Returns an array containing each value of {@code collection}, converted to a {@code int} value</a>
-<span class="sourceLineNo">605</span><a id="line.605">   * in the manner of {@link Number#intValue}.</a>
-<span class="sourceLineNo">606</span><a id="line.606">   *</a>
-<span class="sourceLineNo">607</span><a id="line.607">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
-<span class="sourceLineNo">608</span><a id="line.608">   * Calling this method is as thread-safe as calling that method.</a>
-<span class="sourceLineNo">609</span><a id="line.609">   *</a>
-<span class="sourceLineNo">610</span><a id="line.610">   * @param collection a collection of {@code Number} instances</a>
-<span class="sourceLineNo">611</span><a id="line.611">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
-<span class="sourceLineNo">612</span><a id="line.612">   *     to primitives</a>
-<span class="sourceLineNo">613</span><a id="line.613">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
-<span class="sourceLineNo">614</span><a id="line.614">   * @since 1.0 (parameter was {@code Collection&lt;Integer&gt;} before 12.0)</a>
-<span class="sourceLineNo">615</span><a id="line.615">   */</a>
-<span class="sourceLineNo">616</span><a id="line.616">  public static int[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
-<span class="sourceLineNo">617</span><a id="line.617">    if (collection instanceof IntArrayAsList) {</a>
-<span class="sourceLineNo">618</span><a id="line.618">      return ((IntArrayAsList) collection).toIntArray();</a>
-<span class="sourceLineNo">619</span><a id="line.619">    }</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">    Object[] boxedArray = collection.toArray();</a>
-<span class="sourceLineNo">622</span><a id="line.622">    int len = boxedArray.length;</a>
-<span class="sourceLineNo">623</span><a id="line.623">    int[] array = new int[len];</a>
-<span class="sourceLineNo">624</span><a id="line.624">    for (int i = 0; i &lt; len; i++) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">626</span><a id="line.626">      array[i] = ((Number) checkNotNull(boxedArray[i])).intValue();</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628">    return array;</a>
-<span class="sourceLineNo">629</span><a id="line.629">  }</a>
-<span class="sourceLineNo">630</span><a id="line.630"></a>
-<span class="sourceLineNo">631</span><a id="line.631">  /**</a>
-<span class="sourceLineNo">632</span><a id="line.632">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
-<span class="sourceLineNo">633</span><a id="line.633">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
-<span class="sourceLineNo">634</span><a id="line.634">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
-<span class="sourceLineNo">635</span><a id="line.635">   *</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Integer} objects</a>
-<span class="sourceLineNo">637</span><a id="line.637">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
-<span class="sourceLineNo">638</span><a id="line.638">   * the returned list is unspecified.</a>
-<span class="sourceLineNo">639</span><a id="line.639">   *</a>
-<span class="sourceLineNo">640</span><a id="line.640">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">549</span><a id="line.549">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">550</span><a id="line.550">   *</a>
+<span class="sourceLineNo">551</span><a id="line.551">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">552</span><a id="line.552">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">553</span><a id="line.553">   * @since 32.0.0</a>
+<span class="sourceLineNo">554</span><a id="line.554">   */</a>
+<span class="sourceLineNo">555</span><a id="line.555">  public static void rotate(int[] array, int distance, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">556</span><a id="line.556">    // There are several well-known algorithms for rotating part of an array (or, equivalently,</a>
+<span class="sourceLineNo">557</span><a id="line.557">    // exchanging two blocks of memory). This classic text by Gries and Mills mentions several:</a>
+<span class="sourceLineNo">558</span><a id="line.558">    // https://ecommons.cornell.edu/bitstream/handle/1813/6292/81-452.pdf.</a>
+<span class="sourceLineNo">559</span><a id="line.559">    // (1) "Reversal", the one we have here.</a>
+<span class="sourceLineNo">560</span><a id="line.560">    // (2) "Dolphin". If we're rotating an array a of size n by a distance of d, then element a[0]</a>
+<span class="sourceLineNo">561</span><a id="line.561">    //     ends up at a[d], which in turn ends up at a[2d], and so on until we get back to a[0].</a>
+<span class="sourceLineNo">562</span><a id="line.562">    //     (All indices taken mod n.) If d and n are mutually prime, all elements will have been</a>
+<span class="sourceLineNo">563</span><a id="line.563">    //     moved at that point. Otherwise, we can rotate the cycle a[1], a[1 + d], a[1 + 2d], etc,</a>
+<span class="sourceLineNo">564</span><a id="line.564">    //     then a[2] etc, and so on until we have rotated all elements. There are gcd(d, n) cycles</a>
+<span class="sourceLineNo">565</span><a id="line.565">    //     in all.</a>
+<span class="sourceLineNo">566</span><a id="line.566">    // (3) "Successive". We can consider that we are exchanging a block of size d (a[0..d-1]) with a</a>
+<span class="sourceLineNo">567</span><a id="line.567">    //     block of size n-d (a[d..n-1]), where in general these blocks have different sizes. If we</a>
+<span class="sourceLineNo">568</span><a id="line.568">    //     imagine a line separating the first block from the second, we can proceed by exchanging</a>
+<span class="sourceLineNo">569</span><a id="line.569">    //     the smaller of these blocks with the far end of the other one. That leaves us with a</a>
+<span class="sourceLineNo">570</span><a id="line.570">    //     smaller version of the same problem.</a>
+<span class="sourceLineNo">571</span><a id="line.571">    //     Say we are rotating abcdefgh by 5. We start with abcde|fgh. The smaller block is [fgh]:</a>
+<span class="sourceLineNo">572</span><a id="line.572">    //     [abc]de|[fgh] -&gt; [fgh]de|[abc]. Now [fgh] is in the right place, but we need to swap [de]</a>
+<span class="sourceLineNo">573</span><a id="line.573">    //     with [abc]: fgh[de]|a[bc] -&gt; fgh[bc]|a[de]. Now we need to swap [a] with [bc]:</a>
+<span class="sourceLineNo">574</span><a id="line.574">    //     fgh[b]c|[a]de -&gt; fgh[a]c|[b]de. Finally we need to swap [c] with [b]:</a>
+<span class="sourceLineNo">575</span><a id="line.575">    //     fgha[c]|[b]de -&gt; fgha[b]|[c]de. Because these two blocks are the same size, we are done.</a>
+<span class="sourceLineNo">576</span><a id="line.576">    // The Dolphin algorithm is attractive because it does the fewest array reads and writes: each</a>
+<span class="sourceLineNo">577</span><a id="line.577">    // array slot is read and written exactly once. However, it can have very poor memory locality:</a>
+<span class="sourceLineNo">578</span><a id="line.578">    // benchmarking shows it can take 7 times longer than the other two in some cases. The other two</a>
+<span class="sourceLineNo">579</span><a id="line.579">    // do n swaps, minus a delta (0 or 2 for Reversal, gcd(d, n) for Successive), so that's about</a>
+<span class="sourceLineNo">580</span><a id="line.580">    // twice as many reads and writes. But benchmarking shows that they usually perform better than</a>
+<span class="sourceLineNo">581</span><a id="line.581">    // Dolphin. Reversal is about as good as Successive on average, and it is much simpler,</a>
+<span class="sourceLineNo">582</span><a id="line.582">    // especially since we already have a `reverse` method.</a>
+<span class="sourceLineNo">583</span><a id="line.583">    checkNotNull(array);</a>
+<span class="sourceLineNo">584</span><a id="line.584">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">585</span><a id="line.585">    if (array.length &lt;= 1) {</a>
+<span class="sourceLineNo">586</span><a id="line.586">      return;</a>
+<span class="sourceLineNo">587</span><a id="line.587">    }</a>
+<span class="sourceLineNo">588</span><a id="line.588"></a>
+<span class="sourceLineNo">589</span><a id="line.589">    int length = toIndex - fromIndex;</a>
+<span class="sourceLineNo">590</span><a id="line.590">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
+<span class="sourceLineNo">591</span><a id="line.591">    // places left to rotate.</a>
+<span class="sourceLineNo">592</span><a id="line.592">    int m = -distance % length;</a>
+<span class="sourceLineNo">593</span><a id="line.593">    m = (m &lt; 0) ? m + length : m;</a>
+<span class="sourceLineNo">594</span><a id="line.594">    // The current index of what will become the first element of the rotated section.</a>
+<span class="sourceLineNo">595</span><a id="line.595">    int newFirstIndex = m + fromIndex;</a>
+<span class="sourceLineNo">596</span><a id="line.596">    if (newFirstIndex == fromIndex) {</a>
+<span class="sourceLineNo">597</span><a id="line.597">      return;</a>
+<span class="sourceLineNo">598</span><a id="line.598">    }</a>
+<span class="sourceLineNo">599</span><a id="line.599"></a>
+<span class="sourceLineNo">600</span><a id="line.600">    reverse(array, fromIndex, newFirstIndex);</a>
+<span class="sourceLineNo">601</span><a id="line.601">    reverse(array, newFirstIndex, toIndex);</a>
+<span class="sourceLineNo">602</span><a id="line.602">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">603</span><a id="line.603">  }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">  /**</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * Returns an array containing each value of {@code collection}, converted to a {@code int} value</a>
+<span class="sourceLineNo">607</span><a id="line.607">   * in the manner of {@link Number#intValue}.</a>
+<span class="sourceLineNo">608</span><a id="line.608">   *</a>
+<span class="sourceLineNo">609</span><a id="line.609">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
+<span class="sourceLineNo">610</span><a id="line.610">   * Calling this method is as thread-safe as calling that method.</a>
+<span class="sourceLineNo">611</span><a id="line.611">   *</a>
+<span class="sourceLineNo">612</span><a id="line.612">   * @param collection a collection of {@code Number} instances</a>
+<span class="sourceLineNo">613</span><a id="line.613">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
+<span class="sourceLineNo">614</span><a id="line.614">   *     to primitives</a>
+<span class="sourceLineNo">615</span><a id="line.615">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
+<span class="sourceLineNo">616</span><a id="line.616">   * @since 1.0 (parameter was {@code Collection&lt;Integer&gt;} before 12.0)</a>
+<span class="sourceLineNo">617</span><a id="line.617">   */</a>
+<span class="sourceLineNo">618</span><a id="line.618">  public static int[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
+<span class="sourceLineNo">619</span><a id="line.619">    if (collection instanceof IntArrayAsList) {</a>
+<span class="sourceLineNo">620</span><a id="line.620">      return ((IntArrayAsList) collection).toIntArray();</a>
+<span class="sourceLineNo">621</span><a id="line.621">    }</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">    Object[] boxedArray = collection.toArray();</a>
+<span class="sourceLineNo">624</span><a id="line.624">    int len = boxedArray.length;</a>
+<span class="sourceLineNo">625</span><a id="line.625">    int[] array = new int[len];</a>
+<span class="sourceLineNo">626</span><a id="line.626">    for (int i = 0; i &lt; len; i++) {</a>
+<span class="sourceLineNo">627</span><a id="line.627">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">628</span><a id="line.628">      array[i] = ((Number) checkNotNull(boxedArray[i])).intValue();</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630">    return array;</a>
+<span class="sourceLineNo">631</span><a id="line.631">  }</a>
+<span class="sourceLineNo">632</span><a id="line.632"></a>
+<span class="sourceLineNo">633</span><a id="line.633">  /**</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
+<span class="sourceLineNo">635</span><a id="line.635">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
+<span class="sourceLineNo">636</span><a id="line.636">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
+<span class="sourceLineNo">637</span><a id="line.637">   *</a>
+<span class="sourceLineNo">638</span><a id="line.638">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Integer} objects</a>
+<span class="sourceLineNo">639</span><a id="line.639">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
+<span class="sourceLineNo">640</span><a id="line.640">   * the returned list is unspecified.</a>
 <span class="sourceLineNo">641</span><a id="line.641">   *</a>
-<span class="sourceLineNo">642</span><a id="line.642">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableIntArray}</a>
-<span class="sourceLineNo">643</span><a id="line.643">   * instead, which has an {@link ImmutableIntArray#asList asList} view.</a>
-<span class="sourceLineNo">644</span><a id="line.644">   *</a>
-<span class="sourceLineNo">645</span><a id="line.645">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">646</span><a id="line.646">   * @return a list view of the array</a>
-<span class="sourceLineNo">647</span><a id="line.647">   */</a>
-<span class="sourceLineNo">648</span><a id="line.648">  public static List&lt;Integer&gt; asList(int... backingArray) {</a>
-<span class="sourceLineNo">649</span><a id="line.649">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">650</span><a id="line.650">      return Collections.emptyList();</a>
-<span class="sourceLineNo">651</span><a id="line.651">    }</a>
-<span class="sourceLineNo">652</span><a id="line.652">    return new IntArrayAsList(backingArray);</a>
-<span class="sourceLineNo">653</span><a id="line.653">  }</a>
-<span class="sourceLineNo">654</span><a id="line.654"></a>
-<span class="sourceLineNo">655</span><a id="line.655">  @GwtCompatible</a>
-<span class="sourceLineNo">656</span><a id="line.656">  private static class IntArrayAsList extends AbstractList&lt;Integer&gt;</a>
-<span class="sourceLineNo">657</span><a id="line.657">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">658</span><a id="line.658">    final int[] array;</a>
-<span class="sourceLineNo">659</span><a id="line.659">    final int start;</a>
-<span class="sourceLineNo">660</span><a id="line.660">    final int end;</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">    IntArrayAsList(int[] array) {</a>
-<span class="sourceLineNo">663</span><a id="line.663">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">664</span><a id="line.664">    }</a>
-<span class="sourceLineNo">665</span><a id="line.665"></a>
-<span class="sourceLineNo">666</span><a id="line.666">    IntArrayAsList(int[] array, int start, int end) {</a>
-<span class="sourceLineNo">667</span><a id="line.667">      this.array = array;</a>
-<span class="sourceLineNo">668</span><a id="line.668">      this.start = start;</a>
-<span class="sourceLineNo">669</span><a id="line.669">      this.end = end;</a>
-<span class="sourceLineNo">670</span><a id="line.670">    }</a>
-<span class="sourceLineNo">671</span><a id="line.671"></a>
-<span class="sourceLineNo">672</span><a id="line.672">    @Override</a>
-<span class="sourceLineNo">673</span><a id="line.673">    public int size() {</a>
-<span class="sourceLineNo">674</span><a id="line.674">      return end - start;</a>
-<span class="sourceLineNo">675</span><a id="line.675">    }</a>
-<span class="sourceLineNo">676</span><a id="line.676"></a>
-<span class="sourceLineNo">677</span><a id="line.677">    @Override</a>
-<span class="sourceLineNo">678</span><a id="line.678">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">679</span><a id="line.679">      return false;</a>
-<span class="sourceLineNo">680</span><a id="line.680">    }</a>
-<span class="sourceLineNo">681</span><a id="line.681"></a>
-<span class="sourceLineNo">682</span><a id="line.682">    @Override</a>
-<span class="sourceLineNo">683</span><a id="line.683">    public Integer get(int index) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">685</span><a id="line.685">      return array[start + index];</a>
-<span class="sourceLineNo">686</span><a id="line.686">    }</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">    @Override</a>
-<span class="sourceLineNo">689</span><a id="line.689">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">690</span><a id="line.690">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">691</span><a id="line.691">      return (target instanceof Integer) &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;</a>
-<span class="sourceLineNo">692</span><a id="line.692">    }</a>
-<span class="sourceLineNo">693</span><a id="line.693"></a>
-<span class="sourceLineNo">694</span><a id="line.694">    @Override</a>
-<span class="sourceLineNo">695</span><a id="line.695">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">696</span><a id="line.696">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">697</span><a id="line.697">      if (target instanceof Integer) {</a>
-<span class="sourceLineNo">698</span><a id="line.698">        int i = Ints.indexOf(array, (Integer) target, start, end);</a>
-<span class="sourceLineNo">699</span><a id="line.699">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">700</span><a id="line.700">          return i - start;</a>
-<span class="sourceLineNo">701</span><a id="line.701">        }</a>
-<span class="sourceLineNo">702</span><a id="line.702">      }</a>
-<span class="sourceLineNo">703</span><a id="line.703">      return -1;</a>
-<span class="sourceLineNo">704</span><a id="line.704">    }</a>
-<span class="sourceLineNo">705</span><a id="line.705"></a>
-<span class="sourceLineNo">706</span><a id="line.706">    @Override</a>
-<span class="sourceLineNo">707</span><a id="line.707">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">708</span><a id="line.708">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">709</span><a id="line.709">      if (target instanceof Integer) {</a>
-<span class="sourceLineNo">710</span><a id="line.710">        int i = Ints.lastIndexOf(array, (Integer) target, start, end);</a>
-<span class="sourceLineNo">711</span><a id="line.711">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">712</span><a id="line.712">          return i - start;</a>
-<span class="sourceLineNo">713</span><a id="line.713">        }</a>
-<span class="sourceLineNo">714</span><a id="line.714">      }</a>
-<span class="sourceLineNo">715</span><a id="line.715">      return -1;</a>
-<span class="sourceLineNo">716</span><a id="line.716">    }</a>
-<span class="sourceLineNo">717</span><a id="line.717"></a>
-<span class="sourceLineNo">718</span><a id="line.718">    @Override</a>
-<span class="sourceLineNo">719</span><a id="line.719">    public Integer set(int index, Integer element) {</a>
-<span class="sourceLineNo">720</span><a id="line.720">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">721</span><a id="line.721">      int oldValue = array[start + index];</a>
-<span class="sourceLineNo">722</span><a id="line.722">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">723</span><a id="line.723">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">724</span><a id="line.724">      return oldValue;</a>
-<span class="sourceLineNo">725</span><a id="line.725">    }</a>
-<span class="sourceLineNo">726</span><a id="line.726"></a>
-<span class="sourceLineNo">727</span><a id="line.727">    @Override</a>
-<span class="sourceLineNo">728</span><a id="line.728">    public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">729</span><a id="line.729">      int size = size();</a>
-<span class="sourceLineNo">730</span><a id="line.730">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">731</span><a id="line.731">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">732</span><a id="line.732">        return Collections.emptyList();</a>
-<span class="sourceLineNo">733</span><a id="line.733">      }</a>
-<span class="sourceLineNo">734</span><a id="line.734">      return new IntArrayAsList(array, start + fromIndex, start + toIndex);</a>
-<span class="sourceLineNo">735</span><a id="line.735">    }</a>
-<span class="sourceLineNo">736</span><a id="line.736"></a>
-<span class="sourceLineNo">737</span><a id="line.737">    @Override</a>
-<span class="sourceLineNo">738</span><a id="line.738">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">739</span><a id="line.739">      if (object == this) {</a>
-<span class="sourceLineNo">740</span><a id="line.740">        return true;</a>
-<span class="sourceLineNo">741</span><a id="line.741">      }</a>
-<span class="sourceLineNo">742</span><a id="line.742">      if (object instanceof IntArrayAsList) {</a>
-<span class="sourceLineNo">743</span><a id="line.743">        IntArrayAsList that = (IntArrayAsList) object;</a>
-<span class="sourceLineNo">744</span><a id="line.744">        int size = size();</a>
-<span class="sourceLineNo">745</span><a id="line.745">        if (that.size() != size) {</a>
-<span class="sourceLineNo">746</span><a id="line.746">          return false;</a>
-<span class="sourceLineNo">747</span><a id="line.747">        }</a>
-<span class="sourceLineNo">748</span><a id="line.748">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">749</span><a id="line.749">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">750</span><a id="line.750">            return false;</a>
-<span class="sourceLineNo">751</span><a id="line.751">          }</a>
-<span class="sourceLineNo">752</span><a id="line.752">        }</a>
-<span class="sourceLineNo">753</span><a id="line.753">        return true;</a>
-<span class="sourceLineNo">754</span><a id="line.754">      }</a>
-<span class="sourceLineNo">755</span><a id="line.755">      return super.equals(object);</a>
-<span class="sourceLineNo">756</span><a id="line.756">    }</a>
-<span class="sourceLineNo">757</span><a id="line.757"></a>
-<span class="sourceLineNo">758</span><a id="line.758">    @Override</a>
-<span class="sourceLineNo">759</span><a id="line.759">    public int hashCode() {</a>
-<span class="sourceLineNo">760</span><a id="line.760">      int result = 1;</a>
-<span class="sourceLineNo">761</span><a id="line.761">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">        result = 31 * result + Ints.hashCode(array[i]);</a>
-<span class="sourceLineNo">763</span><a id="line.763">      }</a>
-<span class="sourceLineNo">764</span><a id="line.764">      return result;</a>
-<span class="sourceLineNo">765</span><a id="line.765">    }</a>
-<span class="sourceLineNo">766</span><a id="line.766"></a>
-<span class="sourceLineNo">767</span><a id="line.767">    @Override</a>
-<span class="sourceLineNo">768</span><a id="line.768">    public String toString() {</a>
-<span class="sourceLineNo">769</span><a id="line.769">      StringBuilder builder = new StringBuilder(size() * 5);</a>
-<span class="sourceLineNo">770</span><a id="line.770">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">771</span><a id="line.771">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">772</span><a id="line.772">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">773</span><a id="line.773">      }</a>
-<span class="sourceLineNo">774</span><a id="line.774">      return builder.append(']').toString();</a>
-<span class="sourceLineNo">775</span><a id="line.775">    }</a>
-<span class="sourceLineNo">776</span><a id="line.776"></a>
-<span class="sourceLineNo">777</span><a id="line.777">    int[] toIntArray() {</a>
-<span class="sourceLineNo">778</span><a id="line.778">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">779</span><a id="line.779">    }</a>
-<span class="sourceLineNo">780</span><a id="line.780"></a>
-<span class="sourceLineNo">781</span><a id="line.781">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">782</span><a id="line.782">  }</a>
-<span class="sourceLineNo">783</span><a id="line.783"></a>
-<span class="sourceLineNo">784</span><a id="line.784">  /**</a>
-<span class="sourceLineNo">785</span><a id="line.785">   * Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}</a>
-<span class="sourceLineNo">786</span><a id="line.786">   * (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">787</span><a id="line.787">   *</a>
-<span class="sourceLineNo">788</span><a id="line.788">   * &lt;p&gt;Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">789</span><a id="line.789">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">791</span><a id="line.791">   *</a>
-<span class="sourceLineNo">792</span><a id="line.792">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
-<span class="sourceLineNo">793</span><a id="line.793">   * Integer#parseInt(String)} accepts them.</a>
-<span class="sourceLineNo">794</span><a id="line.794">   *</a>
-<span class="sourceLineNo">795</span><a id="line.795">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has</a>
-<span class="sourceLineNo">797</span><a id="line.797">   *     a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">798</span><a id="line.798">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * @since 11.0</a>
-<span class="sourceLineNo">800</span><a id="line.800">   */</a>
-<span class="sourceLineNo">801</span><a id="line.801">  @CheckForNull</a>
-<span class="sourceLineNo">802</span><a id="line.802">  public static Integer tryParse(String string) {</a>
-<span class="sourceLineNo">803</span><a id="line.803">    return tryParse(string, 10);</a>
-<span class="sourceLineNo">804</span><a id="line.804">  }</a>
-<span class="sourceLineNo">805</span><a id="line.805"></a>
-<span class="sourceLineNo">806</span><a id="line.806">  /**</a>
-<span class="sourceLineNo">807</span><a id="line.807">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">809</span><a id="line.809">   *</a>
-<span class="sourceLineNo">810</span><a id="line.810">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">812</span><a id="line.812">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">813</span><a id="line.813">   *</a>
-<span class="sourceLineNo">814</span><a id="line.814">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * Integer#parseInt(String)} accepts them.</a>
-<span class="sourceLineNo">816</span><a id="line.816">   *</a>
-<span class="sourceLineNo">817</span><a id="line.817">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * @param radix the radix to use when parsing</a>
-<span class="sourceLineNo">819</span><a id="line.819">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
-<span class="sourceLineNo">820</span><a id="line.820">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">821</span><a id="line.821">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
-<span class="sourceLineNo">822</span><a id="line.822">   *     Character.MAX_RADIX}</a>
-<span class="sourceLineNo">823</span><a id="line.823">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">824</span><a id="line.824">   * @since 19.0</a>
-<span class="sourceLineNo">825</span><a id="line.825">   */</a>
-<span class="sourceLineNo">826</span><a id="line.826">  @CheckForNull</a>
-<span class="sourceLineNo">827</span><a id="line.827">  public static Integer tryParse(String string, int radix) {</a>
-<span class="sourceLineNo">828</span><a id="line.828">    Long result = Longs.tryParse(string, radix);</a>
-<span class="sourceLineNo">829</span><a id="line.829">    if (result == null || result.longValue() != result.intValue()) {</a>
-<span class="sourceLineNo">830</span><a id="line.830">      return null;</a>
-<span class="sourceLineNo">831</span><a id="line.831">    } else {</a>
-<span class="sourceLineNo">832</span><a id="line.832">      return result.intValue();</a>
-<span class="sourceLineNo">833</span><a id="line.833">    }</a>
-<span class="sourceLineNo">834</span><a id="line.834">  }</a>
-<span class="sourceLineNo">835</span><a id="line.835">}</a>
+<span class="sourceLineNo">642</span><a id="line.642">   * &lt;p&gt;The returned list is serializable.</a>
+<span class="sourceLineNo">643</span><a id="line.643">   *</a>
+<span class="sourceLineNo">644</span><a id="line.644">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; when possible, you should represent your data as an {@link ImmutableIntArray}</a>
+<span class="sourceLineNo">645</span><a id="line.645">   * instead, which has an {@link ImmutableIntArray#asList asList} view.</a>
+<span class="sourceLineNo">646</span><a id="line.646">   *</a>
+<span class="sourceLineNo">647</span><a id="line.647">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">648</span><a id="line.648">   * @return a list view of the array</a>
+<span class="sourceLineNo">649</span><a id="line.649">   */</a>
+<span class="sourceLineNo">650</span><a id="line.650">  public static List&lt;Integer&gt; asList(int... backingArray) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">652</span><a id="line.652">      return Collections.emptyList();</a>
+<span class="sourceLineNo">653</span><a id="line.653">    }</a>
+<span class="sourceLineNo">654</span><a id="line.654">    return new IntArrayAsList(backingArray);</a>
+<span class="sourceLineNo">655</span><a id="line.655">  }</a>
+<span class="sourceLineNo">656</span><a id="line.656"></a>
+<span class="sourceLineNo">657</span><a id="line.657">  @GwtCompatible</a>
+<span class="sourceLineNo">658</span><a id="line.658">  private static class IntArrayAsList extends AbstractList&lt;Integer&gt;</a>
+<span class="sourceLineNo">659</span><a id="line.659">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">660</span><a id="line.660">    final int[] array;</a>
+<span class="sourceLineNo">661</span><a id="line.661">    final int start;</a>
+<span class="sourceLineNo">662</span><a id="line.662">    final int end;</a>
+<span class="sourceLineNo">663</span><a id="line.663"></a>
+<span class="sourceLineNo">664</span><a id="line.664">    IntArrayAsList(int[] array) {</a>
+<span class="sourceLineNo">665</span><a id="line.665">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">666</span><a id="line.666">    }</a>
+<span class="sourceLineNo">667</span><a id="line.667"></a>
+<span class="sourceLineNo">668</span><a id="line.668">    IntArrayAsList(int[] array, int start, int end) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">      this.array = array;</a>
+<span class="sourceLineNo">670</span><a id="line.670">      this.start = start;</a>
+<span class="sourceLineNo">671</span><a id="line.671">      this.end = end;</a>
+<span class="sourceLineNo">672</span><a id="line.672">    }</a>
+<span class="sourceLineNo">673</span><a id="line.673"></a>
+<span class="sourceLineNo">674</span><a id="line.674">    @Override</a>
+<span class="sourceLineNo">675</span><a id="line.675">    public int size() {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      return end - start;</a>
+<span class="sourceLineNo">677</span><a id="line.677">    }</a>
+<span class="sourceLineNo">678</span><a id="line.678"></a>
+<span class="sourceLineNo">679</span><a id="line.679">    @Override</a>
+<span class="sourceLineNo">680</span><a id="line.680">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">681</span><a id="line.681">      return false;</a>
+<span class="sourceLineNo">682</span><a id="line.682">    }</a>
+<span class="sourceLineNo">683</span><a id="line.683"></a>
+<span class="sourceLineNo">684</span><a id="line.684">    @Override</a>
+<span class="sourceLineNo">685</span><a id="line.685">    public Integer get(int index) {</a>
+<span class="sourceLineNo">686</span><a id="line.686">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">687</span><a id="line.687">      return array[start + index];</a>
+<span class="sourceLineNo">688</span><a id="line.688">    }</a>
+<span class="sourceLineNo">689</span><a id="line.689"></a>
+<span class="sourceLineNo">690</span><a id="line.690">    @Override</a>
+<span class="sourceLineNo">691</span><a id="line.691">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">692</span><a id="line.692">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">693</span><a id="line.693">      return (target instanceof Integer) &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;</a>
+<span class="sourceLineNo">694</span><a id="line.694">    }</a>
+<span class="sourceLineNo">695</span><a id="line.695"></a>
+<span class="sourceLineNo">696</span><a id="line.696">    @Override</a>
+<span class="sourceLineNo">697</span><a id="line.697">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">698</span><a id="line.698">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">699</span><a id="line.699">      if (target instanceof Integer) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">        int i = Ints.indexOf(array, (Integer) target, start, end);</a>
+<span class="sourceLineNo">701</span><a id="line.701">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">702</span><a id="line.702">          return i - start;</a>
+<span class="sourceLineNo">703</span><a id="line.703">        }</a>
+<span class="sourceLineNo">704</span><a id="line.704">      }</a>
+<span class="sourceLineNo">705</span><a id="line.705">      return -1;</a>
+<span class="sourceLineNo">706</span><a id="line.706">    }</a>
+<span class="sourceLineNo">707</span><a id="line.707"></a>
+<span class="sourceLineNo">708</span><a id="line.708">    @Override</a>
+<span class="sourceLineNo">709</span><a id="line.709">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">710</span><a id="line.710">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">711</span><a id="line.711">      if (target instanceof Integer) {</a>
+<span class="sourceLineNo">712</span><a id="line.712">        int i = Ints.lastIndexOf(array, (Integer) target, start, end);</a>
+<span class="sourceLineNo">713</span><a id="line.713">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">714</span><a id="line.714">          return i - start;</a>
+<span class="sourceLineNo">715</span><a id="line.715">        }</a>
+<span class="sourceLineNo">716</span><a id="line.716">      }</a>
+<span class="sourceLineNo">717</span><a id="line.717">      return -1;</a>
+<span class="sourceLineNo">718</span><a id="line.718">    }</a>
+<span class="sourceLineNo">719</span><a id="line.719"></a>
+<span class="sourceLineNo">720</span><a id="line.720">    @Override</a>
+<span class="sourceLineNo">721</span><a id="line.721">    public Integer set(int index, Integer element) {</a>
+<span class="sourceLineNo">722</span><a id="line.722">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">723</span><a id="line.723">      int oldValue = array[start + index];</a>
+<span class="sourceLineNo">724</span><a id="line.724">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">725</span><a id="line.725">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">726</span><a id="line.726">      return oldValue;</a>
+<span class="sourceLineNo">727</span><a id="line.727">    }</a>
+<span class="sourceLineNo">728</span><a id="line.728"></a>
+<span class="sourceLineNo">729</span><a id="line.729">    @Override</a>
+<span class="sourceLineNo">730</span><a id="line.730">    public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">731</span><a id="line.731">      int size = size();</a>
+<span class="sourceLineNo">732</span><a id="line.732">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">733</span><a id="line.733">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">734</span><a id="line.734">        return Collections.emptyList();</a>
+<span class="sourceLineNo">735</span><a id="line.735">      }</a>
+<span class="sourceLineNo">736</span><a id="line.736">      return new IntArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">737</span><a id="line.737">    }</a>
+<span class="sourceLineNo">738</span><a id="line.738"></a>
+<span class="sourceLineNo">739</span><a id="line.739">    @Override</a>
+<span class="sourceLineNo">740</span><a id="line.740">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">741</span><a id="line.741">      if (object == this) {</a>
+<span class="sourceLineNo">742</span><a id="line.742">        return true;</a>
+<span class="sourceLineNo">743</span><a id="line.743">      }</a>
+<span class="sourceLineNo">744</span><a id="line.744">      if (object instanceof IntArrayAsList) {</a>
+<span class="sourceLineNo">745</span><a id="line.745">        IntArrayAsList that = (IntArrayAsList) object;</a>
+<span class="sourceLineNo">746</span><a id="line.746">        int size = size();</a>
+<span class="sourceLineNo">747</span><a id="line.747">        if (that.size() != size) {</a>
+<span class="sourceLineNo">748</span><a id="line.748">          return false;</a>
+<span class="sourceLineNo">749</span><a id="line.749">        }</a>
+<span class="sourceLineNo">750</span><a id="line.750">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">751</span><a id="line.751">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">752</span><a id="line.752">            return false;</a>
+<span class="sourceLineNo">753</span><a id="line.753">          }</a>
+<span class="sourceLineNo">754</span><a id="line.754">        }</a>
+<span class="sourceLineNo">755</span><a id="line.755">        return true;</a>
+<span class="sourceLineNo">756</span><a id="line.756">      }</a>
+<span class="sourceLineNo">757</span><a id="line.757">      return super.equals(object);</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
+<span class="sourceLineNo">761</span><a id="line.761">    public int hashCode() {</a>
+<span class="sourceLineNo">762</span><a id="line.762">      int result = 1;</a>
+<span class="sourceLineNo">763</span><a id="line.763">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">764</span><a id="line.764">        result = 31 * result + Ints.hashCode(array[i]);</a>
+<span class="sourceLineNo">765</span><a id="line.765">      }</a>
+<span class="sourceLineNo">766</span><a id="line.766">      return result;</a>
+<span class="sourceLineNo">767</span><a id="line.767">    }</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    @Override</a>
+<span class="sourceLineNo">770</span><a id="line.770">    public String toString() {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      StringBuilder builder = new StringBuilder(size() * 5);</a>
+<span class="sourceLineNo">772</span><a id="line.772">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">773</span><a id="line.773">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">774</span><a id="line.774">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">775</span><a id="line.775">      }</a>
+<span class="sourceLineNo">776</span><a id="line.776">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">777</span><a id="line.777">    }</a>
+<span class="sourceLineNo">778</span><a id="line.778"></a>
+<span class="sourceLineNo">779</span><a id="line.779">    int[] toIntArray() {</a>
+<span class="sourceLineNo">780</span><a id="line.780">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">781</span><a id="line.781">    }</a>
+<span class="sourceLineNo">782</span><a id="line.782"></a>
+<span class="sourceLineNo">783</span><a id="line.783">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">784</span><a id="line.784">  }</a>
+<span class="sourceLineNo">785</span><a id="line.785"></a>
+<span class="sourceLineNo">786</span><a id="line.786">  /**</a>
+<span class="sourceLineNo">787</span><a id="line.787">   * Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}</a>
+<span class="sourceLineNo">788</span><a id="line.788">   * (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">789</span><a id="line.789">   *</a>
+<span class="sourceLineNo">790</span><a id="line.790">   * &lt;p&gt;Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">791</span><a id="line.791">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">792</span><a id="line.792">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">793</span><a id="line.793">   *</a>
+<span class="sourceLineNo">794</span><a id="line.794">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">795</span><a id="line.795">   * Integer#parseInt(String)} accepts them.</a>
+<span class="sourceLineNo">796</span><a id="line.796">   *</a>
+<span class="sourceLineNo">797</span><a id="line.797">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">798</span><a id="line.798">   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has</a>
+<span class="sourceLineNo">799</span><a id="line.799">   *     a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">800</span><a id="line.800">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * @since 11.0</a>
+<span class="sourceLineNo">802</span><a id="line.802">   */</a>
+<span class="sourceLineNo">803</span><a id="line.803">  @CheckForNull</a>
+<span class="sourceLineNo">804</span><a id="line.804">  public static Integer tryParse(String string) {</a>
+<span class="sourceLineNo">805</span><a id="line.805">    return tryParse(string, 10);</a>
+<span class="sourceLineNo">806</span><a id="line.806">  }</a>
+<span class="sourceLineNo">807</span><a id="line.807"></a>
+<span class="sourceLineNo">808</span><a id="line.808">  /**</a>
+<span class="sourceLineNo">809</span><a id="line.809">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">811</span><a id="line.811">   *</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">815</span><a id="line.815">   *</a>
+<span class="sourceLineNo">816</span><a id="line.816">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * Integer#parseInt(String)} accepts them.</a>
+<span class="sourceLineNo">818</span><a id="line.818">   *</a>
+<span class="sourceLineNo">819</span><a id="line.819">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">820</span><a id="line.820">   * @param radix the radix to use when parsing</a>
+<span class="sourceLineNo">821</span><a id="line.821">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
+<span class="sourceLineNo">822</span><a id="line.822">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">823</span><a id="line.823">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
+<span class="sourceLineNo">824</span><a id="line.824">   *     Character.MAX_RADIX}</a>
+<span class="sourceLineNo">825</span><a id="line.825">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">826</span><a id="line.826">   * @since 19.0</a>
+<span class="sourceLineNo">827</span><a id="line.827">   */</a>
+<span class="sourceLineNo">828</span><a id="line.828">  @CheckForNull</a>
+<span class="sourceLineNo">829</span><a id="line.829">  public static Integer tryParse(String string, int radix) {</a>
+<span class="sourceLineNo">830</span><a id="line.830">    Long result = Longs.tryParse(string, radix);</a>
+<span class="sourceLineNo">831</span><a id="line.831">    if (result == null || result.longValue() != result.intValue()) {</a>
+<span class="sourceLineNo">832</span><a id="line.832">      return null;</a>
+<span class="sourceLineNo">833</span><a id="line.833">    } else {</a>
+<span class="sourceLineNo">834</span><a id="line.834">      return result.intValue();</a>
+<span class="sourceLineNo">835</span><a id="line.835">    }</a>
+<span class="sourceLineNo">836</span><a id="line.836">  }</a>
+<span class="sourceLineNo">837</span><a id="line.837">}</a>
 
 
 
