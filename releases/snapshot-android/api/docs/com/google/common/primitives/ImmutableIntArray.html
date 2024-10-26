@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":9,"i2":9,"i3":10,"i4":9,"i5":9,"i6":9,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":10,"i23":10,"i24":10,"i25":10};
+var data = {"i0":10,"i1":9,"i2":9,"i3":10,"i4":9,"i5":9,"i6":9,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@Immutable</a>
-public final class <a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.78">ImmutableIntArray</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.86">ImmutableIntArray</a>
 extends java.lang.Object
 implements java.io.Serializable</pre>
 <div class="block">An immutable array of <code>int</code> values, with an API resembling <code>List</code>.
@@ -148,11 +148,12 @@ implements java.io.Serializable</pre>
  <ul>
    <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
        edition, Item 17).
-   <li>Has the value-based (not identity-based) <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a>, <a href="#hashCode()"><code>hashCode()</code></a>, and <a href="#toString()"><code>toString()</code></a> behavior you expect
+   <li>Has the value-based (not identity-based) <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a>, <a href="#hashCode()"><code>hashCode()</code></a>, and <a href="#toString()"><code>toString()</code></a> behavior you expect.
    <li>Offers useful operations beyond just <code>get</code> and <code>length</code>, so you don't have to
        hunt through classes like <code>Arrays</code> and <a href="Ints.html" title="class in com.google.common.primitives"><code>Ints</code></a> for them.
    <li>Supports a copy-free <a href="#subArray(int,int)"><code>subArray(int, int)</code></a> view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
+   <li>Can be streamed without "breaking the chain": <code>foo.getBarInts().stream()...</code>.
    <li>Access to all collection-based utilities via <a href="#asList()"><code>asList()</code></a> (though at the cost of
        allocating garbage).
  </ul>
@@ -172,8 +173,10 @@ implements java.io.Serializable</pre>
  &lt;Integer&gt;</code>:
 
  <ul>
-   <li>Improved memory compactness and locality
-   <li>Can be queried without allocating garbage
+   <li>Improved memory compactness and locality.
+   <li>Can be queried without allocating garbage.
+   <li>Access to <code>IntStream</code> features (like <code>IntStream.sum()</code>) using <code>stream()</code>
+       instead of the awkward <code>stream().mapToInt(v -&gt; v)</code>.
  </ul>
 
  <p>Disadvantages compared to <code>ImmutableList&lt;Integer&gt;</code>:
@@ -287,6 +290,13 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.stream.IntStream)">copyOf</a></span>&#8203;(java.util.stream.IntStream&nbsp;stream)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
@@ -294,21 +304,28 @@ implements java.io.Serializable</pre>
  values as this one, in the same order.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEach(java.util.function.IntConsumer)">forEach</a></span>&#8203;(java.util.function.IntConsumer&nbsp;consumer)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(int)">get</a></span>&#8203;(int&nbsp;index)</code></th>
 <td class="colLast">
 <div class="block">Returns the <code>int</code> value present at the given index.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(int)">indexOf</a></span>&#8203;(int&nbsp;target)</code></th>
 <td class="colLast">
@@ -316,14 +333,14 @@ implements java.io.Serializable</pre>
  such index exists.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if there are no values in this array (<a href="#length()"><code>length()</code></a> is zero).</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastIndexOf(int)">lastIndexOf</a></span>&#8203;(int&nbsp;target)</code></th>
 <td class="colLast">
@@ -331,28 +348,28 @@ implements java.io.Serializable</pre>
  such index exists.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#length()">length</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of values in this array.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of()">of</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the empty array.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int)">of</a></span>&#8203;(int&nbsp;e0)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable array containing a single value.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int)">of</a></span>&#8203;(int&nbsp;e0,
   int&nbsp;e1)</code></th>
@@ -360,7 +377,7 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int...)">of</a></span>&#8203;(int&nbsp;first,
   int...&nbsp;rest)</code></th>
@@ -368,7 +385,7 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int,int)">of</a></span>&#8203;(int&nbsp;e0,
   int&nbsp;e1,
@@ -377,7 +394,7 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int,int,int)">of</a></span>&#8203;(int&nbsp;e0,
   int&nbsp;e1,
@@ -387,7 +404,7 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int,int,int,int)">of</a></span>&#8203;(int&nbsp;e0,
   int&nbsp;e1,
@@ -398,7 +415,7 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(int,int,int,int,int,int)">of</a></span>&#8203;(int&nbsp;e0,
   int&nbsp;e1,
@@ -410,7 +427,14 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i24" class="altColor">
+<td class="colFirst"><code>java.util.stream.IntStream</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stream()">stream</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a stream over the values in this array, in order.</div>
+</td>
+</tr>
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subArray(int,int)">subArray</a></span>&#8203;(int&nbsp;startIndex,
         int&nbsp;endIndex)</code></th>
@@ -418,21 +442,21 @@ implements java.io.Serializable</pre>
 <div class="block">Returns a new immutable array containing the values in the specified range.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>int[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>int[]</code>.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of this array in the same form as <code>Arrays.toString(int[])</code>, for example <code>"[1, 2, 3]"</code>.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#trimmed()">trimmed</a></span>()</code></th>
 <td class="colLast">
@@ -469,7 +493,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.85">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.93">of</a>()</pre>
 <div class="block">Returns the empty array.</div>
 </li>
 </ul>
@@ -479,7 +503,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.90">of</a>&#8203;(int&nbsp;e0)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.98">of</a>&#8203;(int&nbsp;e0)</pre>
 <div class="block">Returns an immutable array containing a single value.</div>
 </li>
 </ul>
@@ -489,7 +513,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.95">of</a>&#8203;(int&nbsp;e0,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.103">of</a>&#8203;(int&nbsp;e0,
                                    int&nbsp;e1)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
@@ -500,7 +524,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.100">of</a>&#8203;(int&nbsp;e0,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.108">of</a>&#8203;(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
@@ -512,7 +536,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.105">of</a>&#8203;(int&nbsp;e0,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.113">of</a>&#8203;(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3)</pre>
@@ -525,7 +549,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.110">of</a>&#8203;(int&nbsp;e0,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.118">of</a>&#8203;(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3,
@@ -539,7 +563,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.115">of</a>&#8203;(int&nbsp;e0,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.123">of</a>&#8203;(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3,
@@ -554,7 +578,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.128">of</a>&#8203;(int&nbsp;first,
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.136">of</a>&#8203;(int&nbsp;first,
                                    int...&nbsp;rest)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.
 
@@ -567,7 +591,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.138">copyOf</a>&#8203;(int[]&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.146">copyOf</a>&#8203;(int[]&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
 </ul>
@@ -577,7 +601,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.143">copyOf</a>&#8203;(java.util.Collection&lt;java.lang.Integer&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.151">copyOf</a>&#8203;(java.util.Collection&lt;java.lang.Integer&gt;&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
 </ul>
@@ -587,11 +611,25 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.154">copyOf</a>&#8203;(java.lang.Iterable&lt;java.lang.Integer&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.162">copyOf</a>&#8203;(java.lang.Iterable&lt;java.lang.Integer&gt;&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.
 
  <p><b>Performance note:</b> this method delegates to <a href="#copyOf(java.util.Collection)"><code>copyOf(Collection)</code></a> if <code>
  values</code> is a <code>Collection</code>. Otherwise it creates a <a href="#builder(int)"><code>builder(int)</code></a> and uses <a href="ImmutableIntArray.Builder.html#addAll(java.lang.Iterable)"><code>ImmutableIntArray.Builder.addAll(Iterable)</code></a>, with all the performance implications associated with that.</div>
+</li>
+</ul>
+<a id="copyOf(java.util.stream.IntStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>copyOf</h4>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.174">copyOf</a>&#8203;(java.util.stream.IntStream&nbsp;stream)</pre>
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 22.0 in the JRE flavor)</dd>
+</dl>
 </li>
 </ul>
 <a id="builder(int)">
@@ -600,7 +638,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.171">builder</a>&#8203;(int&nbsp;initialCapacity)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.192">builder</a>&#8203;(int&nbsp;initialCapacity)</pre>
 <div class="block">Returns a new, empty builder for <a href="ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, sized to hold up to
  <code>initialCapacity</code> values without resizing. The returned builder is not thread-safe.
 
@@ -616,7 +654,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.184">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.205">builder</a>()</pre>
 <div class="block">Returns a new, empty builder for <a href="ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, with a default initial
  capacity. The returned builder is not thread-safe.
 
@@ -631,7 +669,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>length</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.327">length</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.367">length</a>()</pre>
 <div class="block">Returns the number of values in this array.</div>
 </li>
 </ul>
@@ -641,7 +679,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.332">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.372">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if there are no values in this array (<a href="#length()"><code>length()</code></a> is zero).</div>
 </li>
 </ul>
@@ -651,7 +689,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.342">get</a>&#8203;(int&nbsp;index)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.382">get</a>&#8203;(int&nbsp;index)</pre>
 <div class="block">Returns the <code>int</code> value present at the given index.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -666,7 +704,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.351">indexOf</a>&#8203;(int&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.391">indexOf</a>&#8203;(int&nbsp;target)</pre>
 <div class="block">Returns the smallest index for which <a href="#get(int)"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().indexOf(target)</code>.</div>
 </li>
@@ -677,7 +715,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.364">lastIndexOf</a>&#8203;(int&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.404">lastIndexOf</a>&#8203;(int&nbsp;target)</pre>
 <div class="block">Returns the largest index for which <a href="#get(int)"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().lastIndexOf(target)</code>.</div>
 </li>
@@ -688,9 +726,37 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.377">contains</a>&#8203;(int&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.417">contains</a>&#8203;(int&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present at any index in this array. Equivalent to
  <code>asList().contains(target)</code>.</div>
+</li>
+</ul>
+<a id="forEach(java.util.function.IntConsumer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>forEach</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.426">forEach</a>&#8203;(java.util.function.IntConsumer&nbsp;consumer)</pre>
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 22.0 in the JRE flavor)</dd>
+</dl>
+</li>
+</ul>
+<a id="stream()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>stream</h4>
+<pre class="methodSignature">public&nbsp;java.util.stream.IntStream&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.440">stream</a>()</pre>
+<div class="block">Returns a stream over the values in this array, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 22.0 in the JRE flavor)</dd>
+</dl>
 </li>
 </ul>
 <a id="toArray()">
@@ -699,7 +765,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.382">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.448">toArray</a>()</pre>
 <div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>int[]</code>.</div>
 </li>
 </ul>
@@ -709,7 +775,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>subArray</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.393">subArray</a>&#8203;(int&nbsp;startIndex,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.459">subArray</a>&#8203;(int&nbsp;startIndex,
                                   int&nbsp;endIndex)</pre>
 <div class="block">Returns a new immutable array containing the values in the specified range.
 
@@ -724,7 +790,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.407">asList</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.483">asList</a>()</pre>
 <div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>
  int</code> values are boxed into <code>Integer</code> instances on demand, which can be very expensive.
  The returned list should be used once and discarded. For any usages beyond that, pass the
@@ -737,7 +803,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.495">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.583">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableIntArray</code> containing the same
  values as this one, in the same order.</div>
@@ -753,7 +819,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.516">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.604">hashCode</a>()</pre>
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -767,7 +833,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.530">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.618">toString</a>()</pre>
 <div class="block">Returns a string representation of this array in the same form as <code>Arrays.toString(int[])</code>, for example <code>"[1, 2, 3]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -781,7 +847,7 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>trimmed</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.551">trimmed</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.639">trimmed</a>()</pre>
 <div class="block">Returns an immutable array containing the same values as <code>this</code> array. This is logically
  a no-op, and in some circumstances <code>this</code> itself is returned. However, if this instance
  is a <a href="#subArray(int,int)"><code>subArray(int, int)</code></a> view of a larger array, this method will copy only the appropriate range

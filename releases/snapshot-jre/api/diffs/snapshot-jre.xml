@@ -59065,7 +59065,9 @@
       deprecated="not deprecated">
       <param name="stream" type="java.util.stream.DoubleStream"/>
       <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
@@ -59163,7 +59165,9 @@
       deprecated="not deprecated">
       <param name="consumer" type="java.util.function.DoubleConsumer"/>
       <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.DoubleStream"
@@ -59171,7 +59175,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -59350,7 +59356,9 @@
       <param name="stream" type="java.util.stream.DoubleStream"/>
       <doc>
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
- ImmutableDoubleArray} will contain.]]>
+ ImmutableDoubleArray} will contain.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
@@ -59514,7 +59522,9 @@
       deprecated="not deprecated">
       <param name="stream" type="java.util.stream.IntStream"/>
       <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableIntArray.Builder"
@@ -59610,7 +59620,9 @@
       deprecated="not deprecated">
       <param name="consumer" type="java.util.function.IntConsumer"/>
       <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.IntStream"
@@ -59618,7 +59630,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="int[]"
@@ -59797,7 +59811,9 @@
       <param name="stream" type="java.util.stream.IntStream"/>
       <doc>
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
- ImmutableIntArray} will contain.]]>
+ ImmutableIntArray} will contain.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
@@ -59961,7 +59977,9 @@
       deprecated="not deprecated">
       <param name="stream" type="java.util.stream.LongStream"/>
       <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableLongArray.Builder"
@@ -60057,7 +60075,9 @@
       deprecated="not deprecated">
       <param name="consumer" type="java.util.function.LongConsumer"/>
       <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.LongStream"
@@ -60065,7 +60085,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -60244,7 +60266,9 @@
       <param name="stream" type="java.util.stream.LongStream"/>
       <doc>
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
- ImmutableLongArray} will contain.]]>
+ ImmutableLongArray} will contain.
+
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableLongArray.Builder"

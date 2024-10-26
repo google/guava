@@ -57601,6 +57601,17 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
+    <method name="copyOf" return="com.google.common.primitives.ImmutableDoubleArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.DoubleStream"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -57690,6 +57701,27 @@
  compared as if by {@link Double#equals}. Equivalent to {@code asList().contains(target)}.]]>
       </doc>
     </method>
+    <method name="forEach"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="consumer" type="java.util.function.DoubleConsumer"/>
+      <doc>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="stream" return="java.util.stream.DoubleStream"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="toArray" return="double[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -57776,6 +57808,7 @@
        hunt through classes like {@link Arrays} and {@link Doubles} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
+   <li>Can be streamed without "breaking the chain": {@code foo.getBarDoubles().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -57797,6 +57830,8 @@
  <ul>
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
+   <li>Access to {@code DoubleStream} features (like {@link DoubleStream#sum}) using {@code
+       stream()} instead of the awkward {@code stream().mapToDouble(v -> v)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Double>}:
@@ -57854,6 +57889,18 @@
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
  ImmutableDoubleArray} will contain.]]>
+      </doc>
+    </method>
+    <method name="addAll" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.DoubleStream"/>
+      <doc>
+      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
+ ImmutableDoubleArray} will contain.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
@@ -58011,6 +58058,17 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
+    <method name="copyOf" return="com.google.common.primitives.ImmutableIntArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableIntArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -58098,6 +58156,27 @@
  {@code asList().contains(target)}.]]>
       </doc>
     </method>
+    <method name="forEach"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="consumer" type="java.util.function.IntConsumer"/>
+      <doc>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="stream" return="java.util.stream.IntStream"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="toArray" return="int[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -58179,11 +58258,12 @@
    <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
        edition, Item 17).
    <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
-       #toString} behavior you expect
+       #toString} behavior you expect.
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
        hunt through classes like {@link Arrays} and {@link Ints} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
+   <li>Can be streamed without "breaking the chain": {@code foo.getBarInts().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -58203,8 +58283,10 @@
  <Integer>}:
 
  <ul>
-   <li>Improved memory compactness and locality
-   <li>Can be queried without allocating garbage
+   <li>Improved memory compactness and locality.
+   <li>Can be queried without allocating garbage.
+   <li>Access to {@code IntStream} features (like {@link IntStream#sum}) using {@code stream()}
+       instead of the awkward {@code stream().mapToInt(v -> v)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Integer>}:
@@ -58262,6 +58344,18 @@
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
  ImmutableIntArray} will contain.]]>
+      </doc>
+    </method>
+    <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
+ ImmutableIntArray} will contain.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
@@ -58419,6 +58513,17 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
+    <method name="copyOf" return="com.google.common.primitives.ImmutableLongArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.LongStream"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableLongArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -58504,6 +58609,27 @@
       <doc>
       <![CDATA[Returns {@code true} if {@code target} is present at any index in this array. Equivalent to
  {@code asList().contains(target)}.]]>
+      </doc>
+    </method>
+    <method name="forEach"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="consumer" type="java.util.function.LongConsumer"/>
+      <doc>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="stream" return="java.util.stream.LongStream"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a stream over the values in this array, in order.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -58592,6 +58718,7 @@
        hunt through classes like {@link Arrays} and {@link Longs} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
+   <li>Can be streamed without "breaking the chain": {@code foo.getBarLongs().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -58613,6 +58740,8 @@
  <ul>
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
+   <li>Access to {@code LongStream} features (like {@link LongStream#sum}) using {@code stream()}
+       instead of the awkward {@code stream().mapToLong(v -> v)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Long>}:
@@ -58670,6 +58799,18 @@
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
  ImmutableLongArray} will contain.]]>
+      </doc>
+    </method>
+    <method name="addAll" return="com.google.common.primitives.ImmutableLongArray.Builder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.LongStream"/>
+      <doc>
+      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
+ ImmutableLongArray} will contain.
+
+ @since NEXT (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableLongArray.Builder"

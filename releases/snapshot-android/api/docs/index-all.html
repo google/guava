@@ -719,13 +719,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Adds the given values to the dataset.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableDoubleArray.Builder.html#addAll(java.util.stream.DoubleStream)">addAll(DoubleStream)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableDoubleArray.Builder.html" title="class in com.google.common.primitives">ImmutableDoubleArray.Builder</a></dt>
+<dd>
+<div class="block">Appends all values from <code>stream</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives"><code>ImmutableDoubleArray</code></a> will contain.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#addAll(java.util.stream.IntStream)">addAll(IntStream)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
 <dd>
 <div class="block">Adds the given values to the dataset.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll(java.util.stream.IntStream)">addAll(IntStream)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends all values from <code>stream</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#addAll(java.util.stream.LongStream)">addAll(LongStream)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
 <dd>
 <div class="block">Adds the given values to the dataset.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableLongArray.Builder.html#addAll(java.util.stream.LongStream)">addAll(LongStream)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableLongArray.Builder.html" title="class in com.google.common.primitives">ImmutableLongArray.Builder</a></dt>
+<dd>
+<div class="block">Appends all values from <code>stream</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives"><code>ImmutableLongArray</code></a> will contain.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDouble.html#addAndGet(double)">addAndGet(double)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
@@ -4803,6 +4815,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>, with keys sorted by the
  provided comparator.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableDoubleArray.html#copyOf(java.util.stream.DoubleStream)">copyOf(DoubleStream)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives">ImmutableDoubleArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#copyOf(java.util.stream.IntStream)">copyOf(IntStream)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableLongArray.html#copyOf(java.util.stream.LongStream)">copyOf(LongStream)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMultiset.html#copyOf(Z%5B%5D)">copyOf(Z[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -7296,6 +7320,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableDoubleArray.html#forEach(java.util.function.DoubleConsumer)">forEach(DoubleConsumer)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives">ImmutableDoubleArray</a></dt>
+<dd>
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#forEach(java.util.function.IntConsumer)">forEach(IntConsumer)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableLongArray.html#forEach(java.util.function.LongConsumer)">forEach(LongConsumer)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a></dt>
+<dd>
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Iterators.html#forEnumeration(java.util.Enumeration)">forEnumeration(Enumeration&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
@@ -17833,6 +17869,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">An object that accurately measures <i>elapsed time</i>: the measured duration between two
  successive readings of "now" in the same process.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableDoubleArray.html#stream()">stream()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives">ImmutableDoubleArray</a></dt>
+<dd>
+<div class="block">Returns a stream over the values in this array, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#stream()">stream()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a stream over the values in this array, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableLongArray.html#stream()">stream()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a></dt>
+<dd>
+<div class="block">Returns a stream over the values in this array, in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html#STRICT_ORIGIN">STRICT_ORIGIN</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html" title="class in com.google.common.net">HttpHeaders.ReferrerPolicyValues</a></dt>
 <dd>&nbsp;</dd>

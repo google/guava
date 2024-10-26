@@ -624,8 +624,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.172">copyOf</a>&#8203;(java.util.stream.LongStream&nbsp;stream)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.176">copyOf</a>&#8203;(java.util.stream.LongStream&nbsp;stream)</pre>
 <div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>22.0 (but only since 33.4.0 in the Android flavor)</dd>
+</dl>
 </li>
 </ul>
 <a id="builder(int)">
@@ -634,7 +638,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.Builder.html" title="class in com.google.common.primitives">ImmutableLongArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.188">builder</a>&#8203;(int&nbsp;initialCapacity)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.Builder.html" title="class in com.google.common.primitives">ImmutableLongArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.192">builder</a>&#8203;(int&nbsp;initialCapacity)</pre>
 <div class="block">Returns a new, empty builder for <a href="ImmutableLongArray.html" title="class in com.google.common.primitives"><code>ImmutableLongArray</code></a> instances, sized to hold up to
  <code>initialCapacity</code> values without resizing. The returned builder is not thread-safe.
 
@@ -650,7 +654,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.Builder.html" title="class in com.google.common.primitives">ImmutableLongArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.201">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ImmutableLongArray.Builder.html" title="class in com.google.common.primitives">ImmutableLongArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.205">builder</a>()</pre>
 <div class="block">Returns a new, empty builder for <a href="ImmutableLongArray.html" title="class in com.google.common.primitives"><code>ImmutableLongArray</code></a> instances, with a default initial
  capacity. The returned builder is not thread-safe.
 
@@ -665,7 +669,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>length</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.359">length</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.365">length</a>()</pre>
 <div class="block">Returns the number of values in this array.</div>
 </li>
 </ul>
@@ -675,7 +679,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.364">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.370">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if there are no values in this array (<a href="#length()"><code>length()</code></a> is zero).</div>
 </li>
 </ul>
@@ -685,7 +689,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.374">get</a>&#8203;(int&nbsp;index)</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.380">get</a>&#8203;(int&nbsp;index)</pre>
 <div class="block">Returns the <code>long</code> value present at the given index.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -700,7 +704,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.383">indexOf</a>&#8203;(long&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.389">indexOf</a>&#8203;(long&nbsp;target)</pre>
 <div class="block">Returns the smallest index for which <a href="#get(int)"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().indexOf(target)</code>.</div>
 </li>
@@ -711,7 +715,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.396">lastIndexOf</a>&#8203;(long&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.402">lastIndexOf</a>&#8203;(long&nbsp;target)</pre>
 <div class="block">Returns the largest index for which <a href="#get(int)"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().lastIndexOf(target)</code>.</div>
 </li>
@@ -722,7 +726,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.409">contains</a>&#8203;(long&nbsp;target)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.415">contains</a>&#8203;(long&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present at any index in this array. Equivalent to
  <code>asList().contains(target)</code>.</div>
 </li>
@@ -733,8 +737,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.414">forEach</a>&#8203;(java.util.function.LongConsumer&nbsp;consumer)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.424">forEach</a>&#8203;(java.util.function.LongConsumer&nbsp;consumer)</pre>
 <div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>22.0 (but only since 33.4.0 in the Android flavor)</dd>
+</dl>
 </li>
 </ul>
 <a id="stream()">
@@ -743,8 +751,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre class="methodSignature">public&nbsp;java.util.stream.LongStream&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.422">stream</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.stream.LongStream&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.436">stream</a>()</pre>
 <div class="block">Returns a stream over the values in this array, in order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>22.0 (but only since 33.4.0 in the Android flavor)</dd>
+</dl>
 </li>
 </ul>
 <a id="toArray()">
@@ -753,7 +765,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.427">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.441">toArray</a>()</pre>
 <div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>long[]</code>.</div>
 </li>
 </ul>
@@ -763,7 +775,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>subArray</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.438">subArray</a>&#8203;(int&nbsp;startIndex,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.452">subArray</a>&#8203;(int&nbsp;startIndex,
                                    int&nbsp;endIndex)</pre>
 <div class="block">Returns a new immutable array containing the values in the specified range.
 
@@ -778,7 +790,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.456">asList</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.474">asList</a>()</pre>
 <div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>
  long</code> values are boxed into <code>Long</code> instances on demand, which can be very expensive. The
  returned list should be used once and discarded. For any usages beyond that, pass the returned
@@ -792,7 +804,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.550">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.568">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableLongArray</code> containing the same
  values as this one, in the same order.</div>
@@ -808,7 +820,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.571">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.589">hashCode</a>()</pre>
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -822,7 +834,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.585">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.603">toString</a>()</pre>
 <div class="block">Returns a string representation of this array in the same form as <code>Arrays.toString(long[])</code>, for example <code>"[1, 2, 3]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -836,7 +848,7 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>trimmed</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.606">trimmed</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.624">trimmed</a>()</pre>
 <div class="block">Returns an immutable array containing the same values as <code>this</code> array. This is logically
  a no-op, and in some circumstances <code>this</code> itself is returned. However, if this instance
  is a <a href="#subArray(int,int)"><code>subArray(int, int)</code></a> view of a larger array, this method will copy only the appropriate range
