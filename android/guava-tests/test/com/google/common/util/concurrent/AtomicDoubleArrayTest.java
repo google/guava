@@ -161,6 +161,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
         newStartedThread(
             new CheckedRunnable() {
               @Override
+              @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
               public void realRun() {
                 while (!a.compareAndSet(0, 2.0, 3.0)) {
                   Thread.yield();

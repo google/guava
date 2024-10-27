@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
@@ -46,11 +47,8 @@ public class ListAddAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_unsupportedAllPresent() {
-    try {
-      getList().addAll(MinimalCollection.of(e0()));
-      fail("addAll(allPresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class, () -> getList().addAll(MinimalCollection.of(e0())));
     expectUnchanged();
   }
 

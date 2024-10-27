@@ -19,6 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.math.IntMath.sqrt;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -695,7 +697,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   // TODO(cpovirk): Move to Hashing or something, since it's used elsewhere in the Android version.
   static int chooseTableSize(int setSize) {
-    setSize = Math.max(setSize, 2);
+    setSize = max(setSize, 2);
     // Correct the size for open addressing to match desired load factor.
     if (setSize < CUTOFF) {
       // Round up to the next highest power of 2.
@@ -991,9 +993,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return inputElementsIncludingAnyDuplicates;
     }
     // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
-    return Math.max(
+    return max(
         ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,
-        IntMath.sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
+        sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
   }
 
   private static final long serialVersionUID = 0xcafebabe;

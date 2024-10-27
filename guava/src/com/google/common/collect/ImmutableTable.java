@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Tables.immutableCell;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -154,7 +155,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * new entry with those values.
    */
   static <R, C, V> Cell<R, C, V> cellOf(R rowKey, C columnKey, V value) {
-    return Tables.immutableCell(
+    return immutableCell(
         checkNotNull(rowKey, "rowKey"),
         checkNotNull(columnKey, "columnKey"),
         checkNotNull(value, "value"));

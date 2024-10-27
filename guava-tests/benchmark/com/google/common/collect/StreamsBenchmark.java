@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.MoreCollectors.onlyElement;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
@@ -60,7 +62,7 @@ public class StreamsBenchmark {
       @Override
       Object operate(Stream<?> stream) {
         try {
-          return stream.collect(MoreCollectors.onlyElement());
+          return stream.collect(onlyElement());
         } catch (IllegalArgumentException | NoSuchElementException e) {
           throw new SkipThisScenarioException();
         }

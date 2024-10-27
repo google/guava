@@ -17,9 +17,9 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
+import static java.util.Arrays.asList;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
@@ -36,8 +36,7 @@ public class OpenJdk6QueueTests extends TestsForQueuesInJavaUtil {
     return new OpenJdk6QueueTests().allTests();
   }
 
-  private static final List<Method> PQ_SUPPRESS =
-      Arrays.asList(getCreateWithNullUnsupportedMethod());
+  private static final List<Method> PQ_SUPPRESS = asList(getCreateWithNullUnsupportedMethod());
 
   @Override
   protected Collection<Method> suppressForPriorityBlockingQueue() {

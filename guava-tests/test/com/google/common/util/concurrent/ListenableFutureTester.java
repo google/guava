@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -29,7 +30,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -73,7 +73,7 @@ public class ListenableFutureTester {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
 
-    assertTrue(latch.await(5, TimeUnit.SECONDS));
+    assertTrue(latch.await(5, SECONDS));
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
 
@@ -84,7 +84,7 @@ public class ListenableFutureTester {
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
 
-    assertTrue(latch.await(5, TimeUnit.SECONDS));
+    assertTrue(latch.await(5, SECONDS));
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
 
@@ -95,7 +95,7 @@ public class ListenableFutureTester {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
 
-    assertTrue(latch.await(5, TimeUnit.SECONDS));
+    assertTrue(latch.await(5, SECONDS));
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
 

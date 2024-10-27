@@ -19,6 +19,7 @@ package com.google.common.net;
 import static com.google.common.escape.testing.EscaperAsserts.assertEscaping;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnicodeEscaping;
+import static com.google.common.net.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -97,12 +98,7 @@ public class PercentEscaperTest extends TestCase {
 
   /** Test that giving a null 'safeChars' string causes a {@link NullPointerException}. */
   public void testBadArguments_null() {
-    try {
-      new PercentEscaper(null, false);
-      fail("Expected null pointer exception for null parameter");
-    } catch (NullPointerException expected) {
-      // pass
-    }
+    assertThrows(NullPointerException.class, () -> new PercentEscaper(null, false));
   }
 
   /**
@@ -112,12 +108,9 @@ public class PercentEscaperTest extends TestCase {
   public void testBadArguments_badchars() {
     String msg =
         "Alphanumeric characters are always 'safe' " + "and should not be explicitly specified";
-    try {
-      new PercentEscaper("-+#abc.!", false);
-      fail(msg);
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo(msg);
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> new PercentEscaper("-+#abc.!", false));
+    assertThat(expected).hasMessageThat().isEqualTo(msg);
   }
 
   public void testBadArguments_plusforspace() {
@@ -126,12 +119,9 @@ public class PercentEscaperTest extends TestCase {
 
     // space cannot be a safe char is plusForSpace is true
     String msg = "plusForSpace cannot be specified when space is a 'safe' character";
-    try {
-      new PercentEscaper(" ", true);
-      fail(msg);
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo(msg);
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> new PercentEscaper(" ", true));
+    assertThat(expected).hasMessageThat().isEqualTo(msg);
   }
 
   /** Helper to manually escape a 7-bit ascii character */

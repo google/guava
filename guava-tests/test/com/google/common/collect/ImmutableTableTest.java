@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -51,7 +53,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
         TableCollectors.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
     CollectorTester.of(collector)
         .expectCollects(ImmutableTable.of())
-        .expectCollects(ImmutableTable.of("one", "uno", 1), Tables.immutableCell("one", "uno", 1));
+        .expectCollects(ImmutableTable.of("one", "uno", 1), immutableCell("one", "uno", 1));
   }
 
   public void testToImmutableTableMergingSanityTest() {
@@ -62,8 +64,8 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
         .expectCollects(ImmutableTable.of())
         .expectCollects(
             ImmutableTable.of("one", "uno", 3),
-            Tables.immutableCell("one", "uno", 1),
-            Tables.immutableCell("one", "uno", 2));
+            immutableCell("one", "uno", 1),
+            immutableCell("one", "uno", 2));
   }
 
   public void testBuilder() {
@@ -83,29 +85,17 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   public void testBuilder_withImmutableCell() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(
-        ImmutableTable.of('a', 1, "foo"), builder.put(Tables.immutableCell('a', 1, "foo")).build());
+        ImmutableTable.of('a', 1, "foo"), builder.put(immutableCell('a', 1, "foo")).build());
   }
 
   public void testBuilder_withImmutableCellAndNullContents() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    try {
-      builder.put(Tables.immutableCell((Character) null, 1, "foo"));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put(Tables.immutableCell('a', (Integer) null, "foo"));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put(Tables.immutableCell('a', 1, (String) null));
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(immutableCell((Character) null, 1, "foo")));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(immutableCell('a', (Integer) null, "foo")));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(immutableCell('a', 1, (String) null)));
   }
 
   private static class StringHolder {
@@ -150,34 +140,14 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
         new ImmutableTable.Builder<Character, Integer, String>()
             .put('a', 1, "foo")
             .put('a', 1, "bar");
-    try {
-      builder.build();
-      fail();
-    } catch (IllegalArgumentException e) {
-      // success
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.build());
   }
 
   public void testBuilder_noNulls() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    try {
-      builder.put(null, 1, "foo");
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put('a', null, "foo");
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
-    try {
-      builder.put('a', 1, null);
-      fail();
-    } catch (NullPointerException e) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1, "foo"));
+    assertThrows(NullPointerException.class, () -> builder.put('a', null, "foo"));
+    assertThrows(NullPointerException.class, () -> builder.put('a', 1, null));
   }
 
   private static <R, C, V> void validateTableCopies(Table<R, C, V> original) {
@@ -481,7 +451,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {
-    // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.
+    // See https://github.com/google/guava/issues/1322 for details.
     ImmutableTable.Builder<Integer, Integer, String> builder = ImmutableTable.builder();
     for (int i = 1; i < 0x10000; i++) {
       builder.put(i, 0, "foo");

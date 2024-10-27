@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.immutableEntry;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -125,7 +126,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       checkNotNull(range);
       checkNotNull(value);
       checkArgument(!range.isEmpty(), "Range must not be empty, but was %s", range);
-      entries.add(Maps.immutableEntry(range, value));
+      entries.add(immutableEntry(range, value));
       return this;
     }
 
@@ -210,7 +211,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return null;
     } else {
       Range<K> range = ranges.get(index);
-      return range.contains(key) ? Maps.immutableEntry(range, values.get(index)) : null;
+      return range.contains(key) ? immutableEntry(range, values.get(index)) : null;
     }
   }
 

@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.FAILS
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -75,11 +76,8 @@ public class CollectionAddAllTester<E extends @Nullable Object>
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAddAll_unsupportedNonePresent() {
-    try {
-      collection.addAll(createDisjointCollection());
-      fail("addAll(nonePresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class, () -> collection.addAll(createDisjointCollection()));
     expectUnchanged();
     expectMissing(e3(), e4());
   }
@@ -97,25 +95,22 @@ public class CollectionAddAllTester<E extends @Nullable Object>
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_unsupportedSomePresent() {
-    try {
-      collection.addAll(MinimalCollection.of(e3(), e0()));
-      fail("addAll(somePresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> collection.addAll(MinimalCollection.of(e3(), e0())));
     expectUnchanged();
   }
 
   @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllConcurrentWithIteration() {
-    try {
-      Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.addAll(MinimalCollection.of(e3(), e0())));
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<E> iterator = collection.iterator();
+          assertTrue(collection.addAll(MinimalCollection.of(e3(), e0())));
+          iterator.next();
+        });
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -146,11 +141,7 @@ public class CollectionAddAllTester<E extends @Nullable Object>
   @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testAddAll_nullUnsupported() {
     List<E> containsNull = singletonList(null);
-    try {
-      collection.addAll(containsNull);
-      fail("addAll(containsNull) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> collection.addAll(containsNull));
     expectUnchanged();
     expectNullMissingWhenNullUnsupported(
         "Should not contain null after unsupported addAll(containsNull)");
@@ -158,11 +149,7 @@ public class CollectionAddAllTester<E extends @Nullable Object>
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_nullCollectionReference() {
-    try {
-      collection.addAll(null);
-      fail("addAll(null) should throw NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> collection.addAll(null));
   }
 
   /**

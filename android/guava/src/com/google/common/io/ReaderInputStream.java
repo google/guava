@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -251,7 +252,7 @@ final class ReaderInputStream extends InputStream {
    * number of characters copied.
    */
   private int drain(byte[] b, int off, int len) {
-    int remaining = Math.min(len, byteBuffer.remaining());
+    int remaining = min(len, byteBuffer.remaining());
     byteBuffer.get(b, off, remaining);
     return remaining;
   }

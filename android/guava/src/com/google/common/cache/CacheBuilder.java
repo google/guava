@@ -17,6 +17,7 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -729,7 +730,7 @@ public final class CacheBuilder<K, V> {
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterWrite(Duration duration) {
-    return expireAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
+    return expireAfterWrite(toNanosSaturated(duration), NANOSECONDS);
   }
 
   /**
@@ -806,7 +807,7 @@ public final class CacheBuilder<K, V> {
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterAccess(Duration duration) {
-    return expireAfterAccess(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
+    return expireAfterAccess(toNanosSaturated(duration), NANOSECONDS);
   }
 
   /**
@@ -892,7 +893,7 @@ public final class CacheBuilder<K, V> {
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> refreshAfterWrite(Duration duration) {
-    return refreshAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
+    return refreshAfterWrite(toNanosSaturated(duration), NANOSECONDS);
   }
 
   /**

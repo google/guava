@@ -16,6 +16,10 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -429,16 +433,16 @@ public final class CacheBuilderSpec {
         TimeUnit timeUnit;
         switch (lastChar) {
           case 'd':
-            timeUnit = TimeUnit.DAYS;
+            timeUnit = DAYS;
             break;
           case 'h':
-            timeUnit = TimeUnit.HOURS;
+            timeUnit = HOURS;
             break;
           case 'm':
-            timeUnit = TimeUnit.MINUTES;
+            timeUnit = MINUTES;
             break;
           case 's':
-            timeUnit = TimeUnit.SECONDS;
+            timeUnit = SECONDS;
             break;
           default:
             throw new IllegalArgumentException(

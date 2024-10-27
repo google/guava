@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -219,11 +220,9 @@ public class UnsignedLongTest extends TestCase {
 
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
-      try {
-        UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class,
+          () -> UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO));
     }
   }
 
@@ -244,11 +243,8 @@ public class UnsignedLongTest extends TestCase {
 
   public void testModByZero() {
     for (long a : TEST_LONGS) {
-      try {
-        UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class, () -> UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO));
     }
   }
 

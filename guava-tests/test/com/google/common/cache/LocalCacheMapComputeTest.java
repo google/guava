@@ -17,6 +17,7 @@
 package com.google.common.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class LocalCacheMapComputeTest extends TestCase {
     super.setUp();
     this.cache =
         CacheBuilder.newBuilder()
-            .expireAfterAccess(500000, TimeUnit.MILLISECONDS)
+            .expireAfterAccess(500000, MILLISECONDS)
             .maximumSize(count)
             .build();
   }
@@ -156,7 +156,7 @@ public class LocalCacheMapComputeTest extends TestCase {
                     notifications.add(notification);
                   }
                 })
-            .expireAfterAccess(500000, TimeUnit.MILLISECONDS)
+            .expireAfterAccess(500000, MILLISECONDS)
             .maximumSize(count)
             .build();
 

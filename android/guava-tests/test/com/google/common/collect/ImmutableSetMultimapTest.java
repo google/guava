@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
@@ -87,11 +88,8 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   public void testBuilderWithExpectedKeysNegative() {
-    try {
-      ImmutableSetMultimap.builderWithExpectedKeys(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> ImmutableSetMultimap.builderWithExpectedKeys(-1));
   }
 
   public void testBuilderWithExpectedKeysZero() {
@@ -110,11 +108,7 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   public void testBuilderWithExpectedValuesPerKeyNegative() {
     ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
-    try {
-      builder.expectedValuesPerKey(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.expectedValuesPerKey(-1));
   }
 
   public void testBuilderWithExpectedValuesPerKeyZero() {
@@ -134,11 +128,7 @@ public class ImmutableSetMultimapTest extends TestCase {
   public void testBuilderWithExpectedValuesPerKeyNegativeOrderValuesBy() {
     ImmutableSetMultimap.Builder<String, String> builder =
         ImmutableSetMultimap.<String, String>builder().orderValuesBy(Ordering.natural());
-    try {
-      builder.expectedValuesPerKey(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> builder.expectedValuesPerKey(-1));
   }
 
   public void testBuilderWithExpectedValuesPerKeyZeroOrderValuesBy() {
@@ -197,16 +187,10 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(Maps.immutableEntry("one", (Integer) null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry("one", (Integer) null)));
+    assertThrows(
+        NullPointerException.class, () -> builder.put(Maps.immutableEntry((String) null, 1)));
   }
 
   private static class StringHolder {
@@ -311,52 +295,23 @@ public class ImmutableSetMultimapTest extends TestCase {
     Multimap<@Nullable String, Integer> toPut = LinkedListMultimap.create();
     toPut.put(null, 1);
     ImmutableSetMultimap.Builder<String, Integer> builder = ImmutableSetMultimap.builder();
-    try {
-      builder.put(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll(null, Arrays.asList(1, 2, 3));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll(null, 1, 2, 3);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll((Multimap<String, Integer>) toPut);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1));
+    assertThrows(NullPointerException.class, () -> builder.putAll(null, Arrays.asList(1, 2, 3)));
+    assertThrows(NullPointerException.class, () -> builder.putAll(null, 1, 2, 3));
+    assertThrows(
+        NullPointerException.class, () -> builder.putAll((Multimap<String, Integer>) toPut));
   }
 
   public void testBuilderPutNullValue() {
     Multimap<String, @Nullable Integer> toPut = LinkedListMultimap.create();
     toPut.put("foo", null);
     ImmutableSetMultimap.Builder<String, Integer> builder = ImmutableSetMultimap.builder();
-    try {
-      builder.put("foo", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll("foo", Arrays.asList(1, null, 3));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll("foo", 4, null, 6);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.putAll((Multimap<String, Integer>) toPut);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put("foo", null));
+    assertThrows(
+        NullPointerException.class, () -> builder.putAll("foo", Arrays.asList(1, null, 3)));
+    assertThrows(NullPointerException.class, () -> builder.putAll("foo", 4, null, 6));
+    assertThrows(
+        NullPointerException.class, () -> builder.putAll((Multimap<String, Integer>) toPut));
   }
 
   public void testBuilderOrderKeysBy() {
@@ -491,21 +446,17 @@ public class ImmutableSetMultimapTest extends TestCase {
   public void testCopyOfNullKey() {
     HashMultimap<@Nullable String, Integer> input = HashMultimap.create();
     input.put(null, 1);
-    try {
-      ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input));
   }
 
   public void testCopyOfNullValue() {
     HashMultimap<String, @Nullable Integer> input = HashMultimap.create();
     input.putAll("foo", Arrays.<@Nullable Integer>asList(1, null, 3));
-    try {
-      ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableSetMultimap.copyOf((Multimap<String, Integer>) input));
   }
 
   // TODO(b/172823566): Use mainline testToImmutableSetMultimap once CollectorTester is usable.

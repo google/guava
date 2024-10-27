@@ -19,11 +19,11 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.Helpers.castOrCopyToList;
 import static com.google.common.collect.testing.Helpers.equal;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -382,7 +382,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public SortedSet<E> create(Object... elements) {
-      List<?> normalValues = (List<?>) Arrays.asList(elements);
+      List<?> normalValues = (List<?>) asList(elements);
       List<E> extremeValues = new ArrayList<>();
 
       // nulls are usually out of bounds for a subset, so ban them altogether
@@ -472,7 +472,7 @@ public final class DerivedCollectionGenerators {
       // derive values for inclusive filtering from the input samples
       SampleElements<Entry<K, V>> samples = delegate.samples();
       List<Entry<K, V>> samplesList =
-          Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
+          asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
       Collections.sort(samplesList, entryComparator);
       this.firstInclusive = samplesList.get(0).getKey();
       this.lastInclusive = samplesList.get(samplesList.size() - 1).getKey();

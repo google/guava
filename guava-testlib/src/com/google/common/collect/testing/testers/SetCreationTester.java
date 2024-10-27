@@ -20,11 +20,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.REJECTS_DUPLICATES_AT_CREATION;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Ignore;
 
@@ -46,7 +47,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
     array[0] = null;
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 
@@ -57,7 +58,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
     array[1] = e0();
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 
@@ -66,11 +67,8 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
   public void testCreateWithDuplicates_nullDuplicatesRejected() {
     E[] array = createArrayWithNullElement();
     array[0] = null;
-    try {
-      collection = getSubjectGenerator().create(array);
-      fail("Should reject duplicate null elements at creation");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> collection = getSubjectGenerator().create(array));
   }
 
   @CollectionFeature.Require(REJECTS_DUPLICATES_AT_CREATION)
@@ -78,10 +76,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
   public void testCreateWithDuplicates_nonNullDuplicatesRejected() {
     E[] array = createSamplesArray();
     array[1] = e0();
-    try {
-      collection = getSubjectGenerator().create(array);
-      fail("Should reject duplicate non-null elements at creation");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> collection = getSubjectGenerator().create(array));
   }
 }

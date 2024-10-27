@@ -368,7 +368,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Non-static factories
 
   /** Returns a matcher that matches any character not matched by this matcher. */
-  // @Override under Java 8 but not under Java 7
+  // This is not an override in java7, where Guava's Predicate does not extend the JDK's Predicate.
+  @SuppressWarnings("MissingOverride")
   public CharMatcher negate() {
     return new Negated(this);
   }

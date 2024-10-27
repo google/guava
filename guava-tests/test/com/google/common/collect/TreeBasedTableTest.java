@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -351,13 +352,13 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
                 20, 'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
     Set<Entry<Integer, Character>> entrySet = row.entrySet();
-    assertTrue(entrySet.contains(Maps.immutableEntry(10, 'X')));
-    assertTrue(entrySet.contains(Maps.immutableEntry(20, 'X')));
-    assertFalse(entrySet.contains(Maps.immutableEntry(15, 'X')));
+    assertTrue(entrySet.contains(immutableEntry(10, 'X')));
+    assertTrue(entrySet.contains(immutableEntry(20, 'X')));
+    assertFalse(entrySet.contains(immutableEntry(15, 'X')));
     entrySet = row.tailMap(15).entrySet();
-    assertFalse(entrySet.contains(Maps.immutableEntry(10, 'X')));
-    assertTrue(entrySet.contains(Maps.immutableEntry(20, 'X')));
-    assertFalse(entrySet.contains(Maps.immutableEntry(15, 'X')));
+    assertFalse(entrySet.contains(immutableEntry(10, 'X')));
+    assertTrue(entrySet.contains(immutableEntry(20, 'X')));
+    assertFalse(entrySet.contains(immutableEntry(15, 'X')));
   }
 
   public void testRowEntrySetRemove() {
@@ -368,13 +369,13 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
                 20, 'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
     Set<Entry<Integer, Character>> entrySet = row.tailMap(15).entrySet();
-    assertFalse(entrySet.remove(Maps.immutableEntry(10, 'X')));
-    assertTrue(entrySet.remove(Maps.immutableEntry(20, 'X')));
-    assertFalse(entrySet.remove(Maps.immutableEntry(15, 'X')));
+    assertFalse(entrySet.remove(immutableEntry(10, 'X')));
+    assertTrue(entrySet.remove(immutableEntry(20, 'X')));
+    assertFalse(entrySet.remove(immutableEntry(15, 'X')));
     entrySet = row.entrySet();
-    assertTrue(entrySet.remove(Maps.immutableEntry(10, 'X')));
-    assertFalse(entrySet.remove(Maps.immutableEntry(20, 'X')));
-    assertFalse(entrySet.remove(Maps.immutableEntry(15, 'X')));
+    assertTrue(entrySet.remove(immutableEntry(10, 'X')));
+    assertFalse(entrySet.remove(immutableEntry(20, 'X')));
+    assertFalse(entrySet.remove(immutableEntry(15, 'X')));
   }
 
   public void testRowSize() {

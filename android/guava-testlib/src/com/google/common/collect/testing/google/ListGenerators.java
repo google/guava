@@ -27,7 +27,6 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.primitives.Chars;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -116,7 +115,7 @@ public final class ListGenerators {
   public static class CharactersOfStringGenerator extends TestCharacterListGenerator {
     @Override
     public List<Character> create(Character[] elements) {
-      char[] chars = Chars.toArray(Arrays.asList(elements));
+      char[] chars = Chars.toArray(asList(elements));
       return Lists.charactersOf(String.copyValueOf(chars));
     }
   }
@@ -124,7 +123,7 @@ public final class ListGenerators {
   public static class CharactersOfCharSequenceGenerator extends TestCharacterListGenerator {
     @Override
     public List<Character> create(Character[] elements) {
-      char[] chars = Chars.toArray(Arrays.asList(elements));
+      char[] chars = Chars.toArray(asList(elements));
       StringBuilder str = new StringBuilder();
       str.append(chars);
       return Lists.charactersOf(str);

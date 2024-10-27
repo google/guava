@@ -14,9 +14,11 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.stream;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -37,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.DoubleStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -45,7 +48,6 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public class ImmutableDoubleArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 
@@ -141,6 +143,14 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(iia.asList()).containsExactly(0.0, 1.0, 3.0).inOrder();
   }
 
+  public void testCopyOf_stream() {
+    assertThat(ImmutableDoubleArray.copyOf(DoubleStream.empty()))
+        .isSameInstanceAs(ImmutableDoubleArray.of());
+    assertThat(ImmutableDoubleArray.copyOf(DoubleStream.of(0, 1, 3)).asList())
+        .containsExactly(0.0, 1.0, 3.0)
+        .inOrder();
+  }
+
   public void testBuilder_presize_zero() {
     ImmutableDoubleArray.Builder builder = ImmutableDoubleArray.builder(0);
     builder.add(5.0);
@@ -149,11 +159,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
   }
 
   public void testBuilder_presize_negative() {
-    try {
-      ImmutableDoubleArray.builder(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableDoubleArray.builder(-1));
   }
 
   /**
@@ -214,6 +220,16 @@ public class ImmutableDoubleArrayTest extends TestCase {
         builder.addAll(iterable(list));
       }
     },
+    ADD_STREAM {
+      @Override
+      void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
+        double[] array = new double[RANDOM.nextInt(10)];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = counter.getAndIncrement();
+        }
+        builder.addAll(stream(array));
+      }
+    },
     ADD_IIA {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
@@ -272,23 +288,11 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testGet_bad() {
     ImmutableDoubleArray iia = ImmutableDoubleArray.of(0, 1, 3);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia.get(3);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(3));
 
-    iia = iia.subArray(1, 2);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    ImmutableDoubleArray sub = iia.subArray(1, 2);
+    assertThrows(IndexOutOfBoundsException.class, () -> sub.get(-1));
   }
 
   public void testIndexOf() {
@@ -331,6 +335,23 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(iia.subArray(1, 5).contains(1)).isTrue();
   }
 
+  public void testForEach() {
+    ImmutableDoubleArray.of().forEach(i -> fail());
+    ImmutableDoubleArray.of(0, 1, 3).subArray(1, 1).forEach(i -> fail());
+
+    AtomicInteger count = new AtomicInteger(0);
+    ImmutableDoubleArray.of(0, 1, 2, 3)
+        .forEach(i -> assertThat(i).isEqualTo((double) count.getAndIncrement()));
+    assertThat(count.get()).isEqualTo(4);
+  }
+
+  public void testStream() {
+    ImmutableDoubleArray.of().stream().forEach(i -> fail());
+    ImmutableDoubleArray.of(0, 1, 3).subArray(1, 1).stream().forEach(i -> fail());
+    assertThat(ImmutableDoubleArray.of(0, 1, 3).stream().toArray())
+        .isEqualTo(new double[] {0, 1, 3});
+  }
+
   public void testSubArray() {
     ImmutableDoubleArray iia0 = ImmutableDoubleArray.of();
     ImmutableDoubleArray iia1 = ImmutableDoubleArray.of(5);
@@ -343,16 +364,8 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(iia3.subArray(0, 2).asList()).containsExactly(5.0, 25.0).inOrder();
     assertThat(iia3.subArray(1, 3).asList()).containsExactly(25.0, 125.0).inOrder();
 
-    try {
-      iia3.subArray(-1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia3.subArray(1, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(-1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(1, 4));
   }
 
   /*

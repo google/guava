@@ -197,9 +197,8 @@ public final class ElementOrder<T> {
         return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
       case SORTED:
         return Maps.newTreeMap(comparator());
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   @SuppressWarnings("unchecked")

@@ -19,6 +19,7 @@ import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
 import static com.google.common.io.BaseEncoding.base64Url;
+import static com.google.common.io.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -53,26 +54,15 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testSeparatorSameAsPadChar() {
-    try {
-      base64().withSeparator("=", 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> base64().withSeparator("=", 3));
 
-    try {
-      base64().withPadChar('#').withSeparator("!#!", 3);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> base64().withPadChar('#').withSeparator("!#!", 3));
   }
 
   public void testAtMostOneSeparator() {
     BaseEncoding separated = base64().withSeparator("\n", 3);
-    try {
-      separated.withSeparator("$", 4);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> separated.withSeparator("$", 4));
   }
 
   public void testBase64() {
@@ -121,27 +111,15 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase64CannotUpperCase() {
-    try {
-      base64().upperCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().upperCase());
   }
 
   public void testBase64CannotLowerCase() {
-    try {
-      base64().lowerCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().lowerCase());
   }
 
   public void testBase64CannotIgnoreCase() {
-    try {
-      base64().ignoreCase();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> base64().ignoreCase());
   }
 
   public void testBase64AlternatePadding() {
@@ -472,28 +450,6 @@ public class BaseEncodingTest extends TestCase {
   }
 
   enum AssertFailsToDecodeStrategy {
-    @GwtIncompatible // decodingStream(Reader)
-    DECODING_STREAM {
-      @Override
-      void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
-        // Regression test for case where DecodingException was swallowed by default implementation
-        // of
-        // InputStream.read(byte[], int, int)
-        // See https://github.com/google/guava/issues/3542
-        Reader reader = new StringReader(cannotDecode);
-        InputStream decodingStream = encoding.decodingStream(reader);
-        try {
-          ByteStreams.exhaust(decodingStream);
-          fail("Expected DecodingException");
-        } catch (DecodingException expected) {
-          // Don't assert on the expectedMessage; the messages for exceptions thrown from the
-          // decoding stream may differ from the messages for the decode methods.
-        } catch (IOException e) {
-          fail("Expected DecodingException but got: " + e);
-        }
-      }
-    },
     CAN_DECODE {
       @Override
       void assertFailsToDecode(
@@ -526,6 +482,33 @@ public class BaseEncodingTest extends TestCase {
           if (expectedMessage != null) {
             assertThat(expected).hasMessageThat().isEqualTo(expectedMessage);
           }
+        }
+      }
+    },
+    /*
+     * This one comes last to work around b/367716565. (One *possible* alternative would be to not
+     * declare any methods in this enum, converting assertFailsToDecode into a static method that is
+     * implemented with a `switch`. I haven't tested that.)
+     */
+    @GwtIncompatible // decodingStream(Reader)
+    DECODING_STREAM {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        // Regression test for case where DecodingException was swallowed by default implementation
+        // of
+        // InputStream.read(byte[], int, int)
+        // See https://github.com/google/guava/issues/3542
+        Reader reader = new StringReader(cannotDecode);
+        InputStream decodingStream = encoding.decodingStream(reader);
+        try {
+          ByteStreams.exhaust(decodingStream);
+          fail("Expected DecodingException");
+        } catch (DecodingException expected) {
+          // Don't assert on the expectedMessage; the messages for exceptions thrown from the
+          // decoding stream may differ from the messages for the decode methods.
+        } catch (IOException e) {
+          fail("Expected DecodingException but got: " + e);
         }
       }
     };

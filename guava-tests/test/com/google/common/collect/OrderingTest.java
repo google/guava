@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
@@ -111,21 +112,9 @@ public class OrderingTest extends TestCase {
   public void testNatural() {
     Ordering<Integer> comparator = Ordering.natural();
     Helpers.testComparator(comparator, Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE);
-    try {
-      comparator.compare(1, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      comparator.compare(null, 2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      comparator.compare(null, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> comparator.compare(1, null));
+    assertThrows(NullPointerException.class, () -> comparator.compare(null, 2));
+    assertThrows(NullPointerException.class, () -> comparator.compare(null, null));
     assertSame(comparator, reserialize(comparator));
     assertEquals("Ordering.natural()", comparator.toString());
   }
@@ -146,24 +135,18 @@ public class OrderingTest extends TestCase {
 
   public void testExplicit_none() {
     Comparator<Integer> c = Ordering.explicit(Collections.<Integer>emptyList());
-    try {
-      c.compare(0, 0);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(0, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(0, 0));
+    assertEquals(0, expected.value);
     reserializeAndAssert(c);
   }
 
   public void testExplicit_one() {
     Comparator<Integer> c = Ordering.explicit(0);
     assertEquals(0, c.compare(0, 0));
-    try {
-      c.compare(0, 1);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(1, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(0, 1));
+    assertEquals(1, expected.value);
     reserializeAndAssert(c);
     assertEquals("Ordering.explicit([0])", c.toString());
   }
@@ -173,12 +156,9 @@ public class OrderingTest extends TestCase {
 
     // TODO(b/297601553): this should probably throw an CCE since 0 isn't explicitly listed
     assertEquals(0, (int) c.max(asList(0)));
-    try {
-      c.max(asList(0, 1));
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(0, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.max(asList(0, 1)));
+    assertEquals(0, expected.value);
   }
 
   public void testExplicit_two() {
@@ -186,12 +166,9 @@ public class OrderingTest extends TestCase {
     assertEquals(0, c.compare(5, 5));
     assertTrue(c.compare(5, 42) > 0);
     assertTrue(c.compare(42, 5) < 0);
-    try {
-      c.compare(5, 666);
-      fail();
-    } catch (IncomparableValueException expected) {
-      assertEquals(666, expected.value);
-    }
+    IncomparableValueException expected =
+        assertThrows(IncomparableValueException.class, () -> c.compare(5, 666));
+    assertEquals(666, expected.value);
     new EqualsTester()
         .addEqualityGroup(c, Ordering.explicit(42, 5))
         .addEqualityGroup(Ordering.explicit(5, 42))
@@ -202,7 +179,7 @@ public class OrderingTest extends TestCase {
 
   public void testExplicit_sortingExample() {
     Comparator<Integer> c = Ordering.explicit(2, 8, 6, 1, 7, 5, 3, 4, 0, 9);
-    List<Integer> list = Arrays.asList(0, 3, 5, 6, 7, 8, 9);
+    List<Integer> list = asList(0, 3, 5, 6, 7, 8, 9);
     Collections.sort(list, c);
     assertThat(list).containsExactly(8, 6, 7, 5, 3, 0, 9).inOrder();
     reserializeAndAssert(c);
@@ -210,11 +187,7 @@ public class OrderingTest extends TestCase {
 
   @SuppressWarnings("DistinctVarargsChecker") // test of buggy call
   public void testExplicit_withDuplicates() {
-    try {
-      Ordering.explicit(1, 2, 3, 4, 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ordering.explicit(1, 2, 3, 4, 2));
   }
 
   // A more limited test than the one that follows, but this one uses the
@@ -479,18 +452,19 @@ public class OrderingTest extends TestCase {
   public void testImmutableSortedCopy() {
     ImmutableList<Integer> unsortedInts = ImmutableList.of(5, 3, 0, 9, 3);
     ImmutableList<Integer> sortedInts = numberOrdering.immutableSortedCopy(unsortedInts);
-    assertEquals(Arrays.asList(0, 3, 3, 5, 9), sortedInts);
+    assertEquals(asList(0, 3, 3, 5, 9), sortedInts);
 
     assertEquals(
         Collections.<Integer>emptyList(),
         numberOrdering.immutableSortedCopy(Collections.<Integer>emptyList()));
 
-    List<@Nullable Integer> listWithNull = Arrays.asList(5, 3, null, 9);
-    try {
-      Ordering.<Integer>natural().nullsFirst().immutableSortedCopy((List<Integer>) listWithNull);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    List<@Nullable Integer> listWithNull = asList(5, 3, null, 9);
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            Ordering.<Integer>natural()
+                .nullsFirst()
+                .immutableSortedCopy((List<Integer>) listWithNull));
   }
 
   public void testIsOrdered() {
@@ -542,23 +516,18 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_negativeOne() {
-    try {
-      numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> numberOrdering.leastOf(asList(3, 4, 5, -1), -1));
   }
 
   public void testLeastOfIterator_simple_negativeOne() {
-    try {
-      numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1));
   }
 
   public void testLeastOfIterable_singleton_0() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.asList(3), 0);
+    List<Integer> result = numberOrdering.leastOf(asList(3), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
@@ -572,7 +541,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_0() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), 0);
+    List<Integer> result = numberOrdering.leastOf(asList(3, 4, 5, -1), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
@@ -586,7 +555,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_1() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), 1);
+    List<Integer> result = numberOrdering.leastOf(asList(3, 4, 5, -1), 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1), result);
@@ -600,7 +569,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_nMinusOne_withNullElement() {
-    List<@Nullable Integer> list = Arrays.asList(3, null, 5, -1);
+    List<@Nullable Integer> list = asList(3, null, 5, -1);
     List<@Nullable Integer> result =
         Ordering.<Integer>natural().nullsLast().leastOf(list, list.size() - 1);
     assertTrue(result instanceof RandomAccess);
@@ -617,7 +586,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_nMinusOne() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size() - 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -625,7 +594,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterator_simple_nMinusOne() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() - 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -633,7 +602,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_n() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -641,7 +610,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterator_simple_n() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -649,7 +618,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_n_withNullElement() {
-    List<@Nullable Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<@Nullable Integer> list = asList(3, 4, 5, null, -1);
     List<@Nullable Integer> result =
         Ordering.<Integer>natural().nullsLast().leastOf(list, list.size());
     assertTrue(result instanceof RandomAccess);
@@ -658,7 +627,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterator_simple_n_withNullElement() {
-    List<@Nullable Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<@Nullable Integer> list = asList(3, 4, 5, null, -1);
     List<@Nullable Integer> result =
         Ordering.<Integer>natural().nullsLast().leastOf(list.iterator(), list.size());
     assertTrue(result instanceof RandomAccess);
@@ -667,7 +636,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_simple_nPlusOne() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size() + 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -675,7 +644,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterator_simple_nPlusOne() {
-    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> list = asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() + 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
@@ -689,7 +658,7 @@ public class OrderingTest extends TestCase {
     assertNotSame(foo, bar);
     assertEquals(foo, bar);
 
-    List<Integer> list = Arrays.asList(3, foo, bar, -1);
+    List<Integer> list = asList(3, foo, bar, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size());
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
@@ -701,7 +670,7 @@ public class OrderingTest extends TestCase {
     assertNotSame(foo, bar);
     assertEquals(foo, bar);
 
-    List<Integer> list = Arrays.asList(3, foo, bar, -1);
+    List<Integer> list = asList(3, foo, bar, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size());
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
@@ -733,15 +702,15 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterableLargeK() {
-    List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
+    List<Integer> list = asList(4, 2, 3, 5, 1);
     assertEquals(
-        Arrays.asList(1, 2, 3, 4, 5), Ordering.<Integer>natural().leastOf(list, Integer.MAX_VALUE));
+        asList(1, 2, 3, 4, 5), Ordering.<Integer>natural().leastOf(list, Integer.MAX_VALUE));
   }
 
   public void testLeastOfIteratorLargeK() {
-    List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
+    List<Integer> list = asList(4, 2, 3, 5, 1);
     assertEquals(
-        Arrays.asList(1, 2, 3, 4, 5),
+        asList(1, 2, 3, 4, 5),
         Ordering.<Integer>natural().leastOf(list.iterator(), Integer.MAX_VALUE));
   }
 
@@ -751,8 +720,8 @@ public class OrderingTest extends TestCase {
      * test would be enough. It doesn't... but we'll cheat and act like it does
      * anyway. There's a comment there to remind us to fix this if we change it.
      */
-    List<Integer> list = Arrays.asList(3, 1, 3, 2, 4, 2, 4, 3);
-    assertEquals(Arrays.asList(4, 4, 3, 3), numberOrdering.greatestOf(list, 4));
+    List<Integer> list = asList(3, 1, 3, 2, 4, 2, 4, 3);
+    assertEquals(asList(4, 4, 3, 3), numberOrdering.greatestOf(list, 4));
   }
 
   public void testGreatestOfIterator_simple() {
@@ -761,8 +730,8 @@ public class OrderingTest extends TestCase {
      * test would be enough. It doesn't... but we'll cheat and act like it does
      * anyway. There's a comment there to remind us to fix this if we change it.
      */
-    List<Integer> list = Arrays.asList(3, 1, 3, 2, 4, 2, 4, 3);
-    assertEquals(Arrays.asList(4, 4, 3, 3), numberOrdering.greatestOf(list.iterator(), 4));
+    List<Integer> list = asList(3, 1, 3, 2, 4, 2, 4, 3);
+    assertEquals(asList(4, 4, 3, 3), numberOrdering.greatestOf(list.iterator(), 4));
   }
 
   private static void assertListImmutable(List<Integer> result) {
@@ -915,7 +884,7 @@ public class OrderingTest extends TestCase {
     checkArgument(
         strictlyOrderedElements.length >= 3,
         "strictlyOrderedElements " + "requires at least 3 elements");
-    List<T> list = Arrays.asList(strictlyOrderedElements);
+    List<T> list = asList(strictlyOrderedElements);
 
     // for use calling Collection.toArray later
     T[] emptyArray = Platform.newArray(strictlyOrderedElements, 0);
@@ -1112,9 +1081,9 @@ public class OrderingTest extends TestCase {
         List<Iterable<T>> words = Lists.newArrayList();
         words.add(Collections.<T>emptyList());
         for (T t : scenario.strictlyOrderedList) {
-          words.add(Arrays.asList(t));
+          words.add(asList(t));
           for (T s : scenario.strictlyOrderedList) {
-            words.add(Arrays.asList(t, s));
+            words.add(asList(t, s));
           }
         }
         return new Scenario<Iterable<T>>(

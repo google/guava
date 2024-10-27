@@ -16,6 +16,8 @@
 
 package com.google.common.escape;
 
+import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -113,28 +115,13 @@ public class UnicodeEscaperTest extends TestCase {
 
   public void testTrailingHighSurrogate() {
     String test = "abc" + Character.MIN_HIGH_SURROGATE;
-    try {
-      escapeAsString(NOP_ESCAPER, test);
-      fail("Trailing high surrogate should cause exception");
-    } catch (IllegalArgumentException expected) {
-      // Pass
-    }
-    try {
-      escapeAsString(SIMPLE_ESCAPER, test);
-      fail("Trailing high surrogate should cause exception");
-    } catch (IllegalArgumentException expected) {
-      // Pass
-    }
+    assertThrows(IllegalArgumentException.class, () -> escapeAsString(NOP_ESCAPER, test));
+    assertThrows(IllegalArgumentException.class, () -> escapeAsString(SIMPLE_ESCAPER, test));
   }
 
   public void testNullInput() {
     UnicodeEscaper e = SIMPLE_ESCAPER;
-    try {
-      e.escape((String) null);
-      fail("Null string should cause exception");
-    } catch (NullPointerException expected) {
-      // Pass
-    }
+    assertThrows(NullPointerException.class, () -> e.escape((String) null));
   }
 
   public void testBadStrings() {
@@ -150,12 +137,7 @@ public class UnicodeEscaperTest extends TestCase {
       "abc" + Character.MAX_LOW_SURROGATE + "xyz",
     };
     for (String s : BAD_STRINGS) {
-      try {
-        escapeAsString(e, s);
-        fail("Isolated low surrogate should cause exception [" + s + "]");
-      } catch (IllegalArgumentException expected) {
-        // Pass
-      }
+      assertThrows(IllegalArgumentException.class, () -> escapeAsString(e, s));
     }
   }
 
@@ -180,11 +162,8 @@ public class UnicodeEscaperTest extends TestCase {
   }
 
   public void testCodePointAt_indexOutOfBoundsException() {
-    try {
-      UnicodeEscaper.codePointAt("Testing...", 4, 2);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> UnicodeEscaper.codePointAt("Testing...", 4, 2));
   }
 
   private static String escapeAsString(Escaper e, String s) {

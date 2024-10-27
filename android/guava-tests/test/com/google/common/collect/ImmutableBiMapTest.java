@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -112,7 +115,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {
     ImmutableBiMap<String, Integer> map =
-        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
+        new Builder<String, Integer>().put(immutableEntry("one", 1)).build();
     assertMapEquals(map, "one", 1);
   }
 
@@ -171,11 +174,8 @@ public class ImmutableBiMapTest extends TestCase {
   public void testBuilder_orderEntriesByValue_usedTwiceFails() {
     ImmutableBiMap.Builder<String, Integer> builder =
         new Builder<String, Integer>().orderEntriesByValue(Ordering.natural());
-    try {
-      builder.orderEntriesByValue(Ordering.natural());
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(
+        IllegalStateException.class, () -> builder.orderEntriesByValue(Ordering.natural()));
   }
 
   public void testBuilderPutAllWithEmptyMap() {
@@ -212,38 +212,26 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testBuilderPutNullKey() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put(null, 1));
   }
 
   public void testBuilderPutNullValue() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.put("one", null));
   }
 
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap(null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.putAll(Collections.<String, Integer>singletonMap("one", null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
   }
 
   @SuppressWarnings("AlwaysThrows")
@@ -253,12 +241,9 @@ public class ImmutableBiMapTest extends TestCase {
             .put("one", 1)
             .put("one", 1); // throwing on this line would be even better
 
-    try {
-      builder.build();
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("one");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> builder.build());
+    assertThat(expected.getMessage()).contains("one");
   }
 
   public void testOf() {
@@ -453,41 +438,22 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   public void testOfNullKey() {
-    try {
-      ImmutableBiMap.of(null, 1);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableBiMap.of(null, 1));
 
-    try {
-      ImmutableBiMap.of("one", 1, null, 2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableBiMap.of("one", 1, null, 2));
   }
 
   public void testOfNullValue() {
-    try {
-      ImmutableBiMap.of("one", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableBiMap.of("one", null));
 
-    try {
-      ImmutableBiMap.of("one", 1, "two", null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableBiMap.of("one", 1, "two", null));
   }
 
-  @SuppressWarnings("AlwaysThrows")
+  @SuppressWarnings({"AlwaysThrows", "DistinctVarargsChecker"})
   public void testOfWithDuplicateKey() {
-    try {
-      ImmutableBiMap.of("one", 1, "one", 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("one");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> ImmutableBiMap.of("one", 1, "one", 1));
+    assertThat(expected.getMessage()).contains("one");
   }
 
   public void testOfEntries() {
@@ -496,18 +462,14 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testOfEntriesNull() {
     Entry<@Nullable Integer, Integer> nullKey = entry(null, 23);
-    try {
-      ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullKey);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullKey));
     Entry<Integer, @Nullable Integer> nullValue =
         ImmutableBiMapTest.<@Nullable Integer>entry(23, null);
-    try {
-      ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullValue);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableBiMap.ofEntries((Entry<Integer, Integer>) nullValue));
   }
 
   private static <T extends @Nullable Object> Entry<T, T> entry(T key, T value) {
@@ -578,13 +540,9 @@ public class ImmutableBiMapTest extends TestCase {
             .put("dos", 2)
             .buildOrThrow();
 
-    try {
-      ImmutableBiMap.copyOf(map);
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).containsMatch("1|2");
-      // We don't specify which of the two dups should be reported.
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> ImmutableBiMap.copyOf(map));
+    assertThat(expected.getMessage()).containsMatch("1|2");
   }
 
   // TODO(b/172823566): Use mainline testToImmutableBiMap once CollectorTester is usable to java7.
@@ -603,12 +561,7 @@ public class ImmutableBiMapTest extends TestCase {
         ImmutableBiMap.<String, Integer>builder().put("one", 1).put("two", 2);
     ImmutableBiMap.Builder<String, Integer> zat =
         ImmutableBiMap.<String, Integer>builder().put("two", 22).put("three", 3);
-    try {
-      zis.combine(zat).build();
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // expected
-    }
+    assertThrows(IllegalArgumentException.class, () -> zis.combine(zat).build());
   }
 
   // BiMap-specific tests
@@ -616,18 +569,14 @@ public class ImmutableBiMapTest extends TestCase {
   @SuppressWarnings("DoNotCall")
   public void testForcePut() {
     BiMap<String, Integer> bimap = ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
-    try {
-      bimap.forcePut("three", 3);
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> bimap.forcePut("three", 3));
   }
 
   public void testKeySet() {
     ImmutableBiMap<String, Integer> bimap =
         ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
     Set<String> keys = bimap.keySet();
-    assertEquals(Sets.newHashSet("one", "two", "three", "four"), keys);
+    assertEquals(newHashSet("one", "two", "three", "four"), keys);
     assertThat(keys).containsExactly("one", "two", "three", "four").inOrder();
   }
 
@@ -635,7 +584,7 @@ public class ImmutableBiMapTest extends TestCase {
     ImmutableBiMap<String, Integer> bimap =
         ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
     Set<Integer> values = bimap.values();
-    assertEquals(Sets.newHashSet(1, 2, 3, 4), values);
+    assertEquals(newHashSet(1, 2, 3, 4), values);
     assertThat(values).containsExactly(1, 2, 3, 4).inOrder();
   }
 

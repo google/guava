@@ -48,11 +48,13 @@ import static com.google.common.math.StatsTesting.TWO_VALUES_MAX;
 import static com.google.common.math.StatsTesting.TWO_VALUES_MEAN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_MIN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS;
+import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStream;
 import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStreamPart1;
 import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStreamPart2;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.sqrt;
+import static java.util.stream.DoubleStream.concat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -628,6 +630,14 @@ public class StatsAccumulatorTest extends TestCase {
         .isEqualTo(INTEGER_MANY_VALUES_MIN);
     assertThat(longManyValuesAccumulatorByAddAllIterator.min()).isEqualTo(LONG_MANY_VALUES_MIN);
     assertThat(longManyValuesAccumulatorByAddAllVarargs.min()).isEqualTo(LONG_MANY_VALUES_MIN);
+  }
+
+  public void testVerifyMegaStreamHalves() {
+    assertThat(
+            concat(megaPrimitiveDoubleStreamPart1(), megaPrimitiveDoubleStreamPart2())
+                .sorted()
+                .toArray())
+        .isEqualTo(megaPrimitiveDoubleStream().toArray());
   }
 
   public void testAddAllPrimitiveDoubleStream() {

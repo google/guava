@@ -65,6 +65,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(a, b);
   }
 
+  @SuppressWarnings("TestExceptionChecker") // see comment below
   public <T> void testVariableTypeTokenNotAllowed() {
     /*
      * We'd use assertThrows here, but that causes no exception to be thrown under Java 8,
@@ -75,6 +76,7 @@ public class TypeTokenTest extends TestCase {
       new TypeToken<T>() {};
       fail();
     } catch (IllegalStateException expected) {
+      // Type variables aren't allowed.
     }
   }
 
@@ -1250,6 +1252,7 @@ public class TypeTokenTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> type.getSubtype(Iterable.class));
   }
 
+  @SuppressWarnings("TestExceptionChecker") // see comment below
   public <T extends Iterable<String>> void testGetSubtype_fromTypeVariable() {
     /*
      * We'd use assertThrows here, but that causes capture() to return null under Java 8, presumably
@@ -1260,6 +1263,7 @@ public class TypeTokenTest extends TestCase {
       TypeToken.of(new TypeCapture<T>() {}.capture()).getSubtype(List.class);
       fail();
     } catch (IllegalArgumentException expected) {
+      // Type variables aren't allowed.
     }
   }
 
@@ -1879,7 +1883,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
-  // For Guava bug http://code.google.com/p/guava-libraries/issues/detail?id=1025
+  // For Guava bug https://github.com/google/guava/issues/1025
   public void testDespiteGenericSignatureFormatError() {
     ImmutableSet<?> unused =
         ImmutableSet.copyOf(

@@ -28,6 +28,7 @@ import static com.google.common.math.MathTesting.INFINITIES;
 import static com.google.common.math.MathTesting.INTEGRAL_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
+import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.DOWN;
@@ -142,38 +143,24 @@ public class DoubleMathTest extends TestCase {
   @GwtIncompatible // DoubleMath.roundToInt(double, RoundingMode)
   public void testRoundExactFractionalDoubleToIntFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
-      try {
-        DoubleMath.roundToInt(d, UNNECESSARY);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToInt(d, UNNECESSARY));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToInt(double, RoundingMode)
   public void testRoundNaNToIntAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToInt(Double.NaN, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToInt(Double.NaN, mode));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToInt(double, RoundingMode)
   public void testRoundInfiniteToIntAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToInt(Double.POSITIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
-      try {
-        DoubleMath.roundToInt(Double.NEGATIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class, () -> DoubleMath.roundToInt(Double.POSITIVE_INFINITY, mode));
+      assertThrows(
+          ArithmeticException.class, () -> DoubleMath.roundToInt(Double.NEGATIVE_INFINITY, mode));
     }
   }
 
@@ -236,38 +223,24 @@ public class DoubleMathTest extends TestCase {
   @GwtIncompatible // DoubleMath.roundToLong(double, RoundingMode)
   public void testRoundExactFractionalDoubleToLongFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
-      try {
-        DoubleMath.roundToLong(d, UNNECESSARY);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToLong(d, UNNECESSARY));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToLong(double, RoundingMode)
   public void testRoundNaNToLongAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToLong(Double.NaN, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToLong(Double.NaN, mode));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToLong(double, RoundingMode)
   public void testRoundInfiniteToLongAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToLong(Double.POSITIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
-      try {
-        DoubleMath.roundToLong(Double.NEGATIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class, () -> DoubleMath.roundToLong(Double.POSITIVE_INFINITY, mode));
+      assertThrows(
+          ArithmeticException.class, () -> DoubleMath.roundToLong(Double.NEGATIVE_INFINITY, mode));
     }
   }
 
@@ -302,38 +275,26 @@ public class DoubleMathTest extends TestCase {
   @GwtIncompatible // DoubleMath.roundToBigInteger(double, RoundingMode)
   public void testRoundExactFractionalDoubleToBigIntegerFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
-      try {
-        DoubleMath.roundToBigInteger(d, UNNECESSARY);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToBigInteger(d, UNNECESSARY));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToBigInteger(double, RoundingMode)
   public void testRoundNaNToBigIntegerAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToBigInteger(Double.NaN, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(ArithmeticException.class, () -> DoubleMath.roundToBigInteger(Double.NaN, mode));
     }
   }
 
   @GwtIncompatible // DoubleMath.roundToBigInteger(double, RoundingMode)
   public void testRoundInfiniteToBigIntegerAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        DoubleMath.roundToBigInteger(Double.POSITIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
-      try {
-        DoubleMath.roundToBigInteger(Double.NEGATIVE_INFINITY, mode);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class,
+          () -> DoubleMath.roundToBigInteger(Double.POSITIVE_INFINITY, mode));
+      assertThrows(
+          ArithmeticException.class,
+          () -> DoubleMath.roundToBigInteger(Double.NEGATIVE_INFINITY, mode));
     }
   }
 
@@ -425,11 +386,7 @@ public class DoubleMathTest extends TestCase {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       for (double d :
           asList(0.0, -0.0, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN)) {
-        try {
-          DoubleMath.log2(d, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> DoubleMath.log2(d, mode));
       }
     }
   }
@@ -438,11 +395,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundLog2ThrowsOnNegative() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
-        try {
-          DoubleMath.log2(-d, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> DoubleMath.log2(-d, mode));
       }
     }
   }
@@ -553,11 +506,7 @@ public class DoubleMathTest extends TestCase {
 
   public void testFactorialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
-      try {
-        DoubleMath.factorial(n);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> DoubleMath.factorial(n));
     }
   }
 
@@ -644,12 +593,7 @@ public class DoubleMathTest extends TestCase {
 
   public void testFuzzyEqualsBadTolerance() {
     for (double tolerance : BAD_TOLERANCE_CANDIDATES) {
-      try {
-        DoubleMath.fuzzyEquals(1, 2, tolerance);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-        // success
-      }
+      assertThrows(IllegalArgumentException.class, () -> DoubleMath.fuzzyEquals(1, 2, tolerance));
     }
   }
 
@@ -703,123 +647,94 @@ public class DoubleMathTest extends TestCase {
 
   public void testFuzzyCompareBadTolerance() {
     for (double tolerance : BAD_TOLERANCE_CANDIDATES) {
-      try {
-        DoubleMath.fuzzyCompare(1, 2, tolerance);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-        // success
-      }
+      assertThrows(IllegalArgumentException.class, () -> DoubleMath.fuzzyCompare(1, 2, tolerance));
     }
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_doubleVarargs() {
     assertThat(DoubleMath.mean(1.1, -2.2, 4.4, -8.8)).isWithin(1.0e-10).of(-1.375);
     assertThat(DoubleMath.mean(1.1)).isWithin(1.0e-10).of(1.1);
-    try {
-      DoubleMath.mean(Double.NaN);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      DoubleMath.mean(Double.POSITIVE_INFINITY);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DoubleMath.mean(Double.NaN));
+    assertThrows(IllegalArgumentException.class, () -> DoubleMath.mean(Double.POSITIVE_INFINITY));
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_intVarargs() {
     assertThat(DoubleMath.mean(11, -22, 44, -88)).isWithin(1.0e-10).of(-13.75);
     assertThat(DoubleMath.mean(11)).isWithin(1.0e-10).of(11.0);
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_longVarargs() {
     assertThat(DoubleMath.mean(11L, -22L, 44L, -88L)).isWithin(1.0e-10).of(-13.75);
     assertThat(DoubleMath.mean(11L)).isWithin(1.0e-10).of(11.0);
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_emptyVarargs() {
-    try {
-      DoubleMath.mean();
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DoubleMath.mean());
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_doubleIterable() {
     assertThat(DoubleMath.mean(ImmutableList.of(1.1, -2.2, 4.4, -8.8)))
         .isWithin(1.0e-10)
         .of(-1.375);
     assertThat(DoubleMath.mean(ImmutableList.of(1.1))).isWithin(1.0e-10).of(1.1);
-    try {
-      DoubleMath.mean(ImmutableList.<Double>of());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      DoubleMath.mean(ImmutableList.of(Double.NaN));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      DoubleMath.mean(ImmutableList.of(Double.POSITIVE_INFINITY));
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DoubleMath.mean(ImmutableList.<Double>of()));
+    assertThrows(
+        IllegalArgumentException.class, () -> DoubleMath.mean(ImmutableList.of(Double.NaN)));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> DoubleMath.mean(ImmutableList.of(Double.POSITIVE_INFINITY)));
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_intIterable() {
     assertThat(DoubleMath.mean(ImmutableList.of(11, -22, 44, -88))).isWithin(1.0e-10).of(-13.75);
     assertThat(DoubleMath.mean(ImmutableList.of(11))).isWithin(1.0e-10).of(11);
-    try {
-      DoubleMath.mean(ImmutableList.<Integer>of());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> DoubleMath.mean(ImmutableList.<Integer>of()));
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_longIterable() {
     assertThat(DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L)))
         .isWithin(1.0e-10)
         .of(-13.75);
     assertThat(DoubleMath.mean(ImmutableList.of(11L))).isWithin(1.0e-10).of(11);
-    try {
-      DoubleMath.mean(ImmutableList.<Long>of());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> DoubleMath.mean(ImmutableList.<Long>of()));
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_intIterator() {
     assertThat(DoubleMath.mean(ImmutableList.of(11, -22, 44, -88).iterator()))
         .isWithin(1.0e-10)
         .of(-13.75);
     assertThat(DoubleMath.mean(ImmutableList.of(11).iterator())).isWithin(1.0e-10).of(11);
-    try {
-      DoubleMath.mean(ImmutableList.<Integer>of().iterator());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> DoubleMath.mean(ImmutableList.<Integer>of().iterator()));
   }
 
   @GwtIncompatible // DoubleMath.mean
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testMean_longIterator() {
     assertThat(DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L).iterator()))
         .isWithin(1.0e-10)
         .of(-13.75);
     assertThat(DoubleMath.mean(ImmutableList.of(11L).iterator())).isWithin(1.0e-10).of(11);
-    try {
-      DoubleMath.mean(ImmutableList.<Long>of().iterator());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> DoubleMath.mean(ImmutableList.<Long>of().iterator()));
   }
 
   @J2ktIncompatible

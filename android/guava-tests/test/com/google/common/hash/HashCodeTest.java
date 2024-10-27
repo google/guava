@@ -193,7 +193,7 @@ public class HashCodeTest extends TestCase {
     assertEquals(42, hashCode42.hashCode());
   }
 
-  // See https://code.google.com/p/guava-libraries/issues/detail?id=1494
+  // See https://github.com/google/guava/issues/1494
   public void testObjectHashCodeWithSameLowOrderBytes() {
     // These will have the same first 4 bytes (all 0).
     byte[] bytesA = new byte[5];

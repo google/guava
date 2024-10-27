@@ -15,10 +15,10 @@
 package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -70,7 +70,7 @@ public final class ArrayBasedEscaperMap {
     if (map.isEmpty()) {
       return EMPTY_REPLACEMENT_ARRAY;
     }
-    char max = Collections.max(map.keySet());
+    char max = max(map.keySet());
     char[][] replacements = new char[max + 1][];
     for (Character c : map.keySet()) {
       replacements[c] = map.get(c).toCharArray();

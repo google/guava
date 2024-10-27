@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.testing.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -46,11 +47,7 @@ public class EquivalenceTesterTest extends TestCase {
 
   /** Test null reference yields error */
   public void testOf_nullPointerException() {
-    try {
-      EquivalenceTester.of(null);
-      fail("Should fail on null reference");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> EquivalenceTester.of(null));
   }
 
   public void testTest_noData() {

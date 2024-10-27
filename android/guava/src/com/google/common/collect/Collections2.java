@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -330,7 +331,7 @@ public final class Collections2 {
   /** Returns best-effort-sized StringBuilder based on the given collection size. */
   static StringBuilder newStringBuilderForCollection(int size) {
     checkNonnegative(size, "size");
-    return new StringBuilder((int) Math.min(size * 8L, Ints.MAX_POWER_OF_TWO));
+    return new StringBuilder((int) min(size * 8L, Ints.MAX_POWER_OF_TWO));
   }
 
   /**

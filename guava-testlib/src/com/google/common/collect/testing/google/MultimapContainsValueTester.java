@@ -19,6 +19,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -59,11 +60,6 @@ public class MultimapContainsValueTester<K, V>
 
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsNullValueFails() {
-    try {
-      multimap().containsValue(null);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> multimap().containsValue(null));
   }
 }

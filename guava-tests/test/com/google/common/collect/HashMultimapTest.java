@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -102,17 +104,9 @@ public class HashMultimapTest extends TestCase {
   }
 
   public void testCreateFromIllegalSizes() {
-    try {
-      HashMultimap.create(-20, 15);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashMultimap.create(-20, 15));
 
-    try {
-      HashMultimap.create(20, -15);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashMultimap.create(20, -15));
   }
 
   public void testEmptyMultimapsEqual() {

@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -96,7 +98,7 @@ final class DirectExecutorService extends AbstractListeningExecutorService {
           return false;
         } else {
           long now = System.nanoTime();
-          TimeUnit.NANOSECONDS.timedWait(lock, nanos);
+          NANOSECONDS.timedWait(lock, nanos);
           nanos -= System.nanoTime() - now; // subtract the actual time we waited
         }
       }

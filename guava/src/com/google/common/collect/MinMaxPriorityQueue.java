@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -611,7 +613,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         return -1;
       }
       checkState(index > 0);
-      int limit = Math.min(index, size - len) + len;
+      int limit = min(index, size - len) + len;
       int minIndex = index;
       for (int i = index + 1; i < limit; i++) {
         if (compareElements(i, minIndex) < 0) {
@@ -956,7 +958,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     // Enlarge to contain initial contents
     if (initialContents instanceof Collection) {
       int initialSize = ((Collection<?>) initialContents).size();
-      result = Math.max(result, initialSize);
+      result = max(result, initialSize);
     }
 
     // Now cap it at maxSize + 1
@@ -982,6 +984,6 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /** There's no reason for the queueSize to ever be more than maxSize + 1 */
   private static int capAtMaximumSize(int queueSize, int maximumSize) {
-    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow
+    return min(queueSize - 1, maximumSize) + 1; // don't overflow
   }
 }

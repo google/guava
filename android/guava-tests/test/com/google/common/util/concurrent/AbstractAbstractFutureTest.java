@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.util.concurrent.Runnables.doNothing;
 import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
@@ -331,28 +332,16 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testNullListener() {
-    try {
-      future.addListener(null, directExecutor());
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.addListener(null, directExecutor()));
   }
 
   public void testNullExecutor() {
-    try {
-      future.addListener(doNothing(), null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.addListener(doNothing(), null));
   }
 
   public void testNullTimeUnit() throws Exception {
     future.set(1);
-    try {
-      future.get(0, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.get(0, null));
   }
 
   public void testNegativeTimeout() throws Exception {
@@ -383,11 +372,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSetExceptionNull() throws Exception {
-    try {
-      future.setException(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.setException(null));
 
     assertThat(future.isDone()).isFalse();
     assertThat(future.set(1)).isTrue();
@@ -395,11 +380,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSetFutureNull() throws Exception {
-    try {
-      future.setFuture(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.setFuture(null));
 
     assertThat(future.isDone()).isFalse();
     assertThat(future.set(1)).isTrue();

@@ -66,7 +66,7 @@ public final class Tables {
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <
           T extends @Nullable Object,
@@ -97,7 +97,7 @@ public final class Tables {
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <
           T extends @Nullable Object,

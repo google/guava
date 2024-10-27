@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
@@ -356,7 +357,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
   }
 
   private void compareResultsForThisListOfStimuli() {
-    int removes = Collections.frequency(Arrays.asList(stimuli), remove);
+    int removes = Collections.frequency(asList(stimuli), remove);
     if ((!features.contains(IteratorFeature.SUPPORTS_REMOVE) && removes > 1)
         || (stimuli.length >= 5 && removes > 2)) {
       // removes are the most expensive thing to test, since they often throw exceptions with stack
@@ -379,7 +380,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
   private static List<Object> subListCopy(Object[] source, int size) {
     final Object[] copy = new Object[size];
     System.arraycopy(source, 0, copy, 0, size);
-    return Arrays.asList(copy);
+    return asList(copy);
   }
 
   private interface IteratorOperation {
@@ -555,7 +556,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       };
 
   List<Stimulus<E, Iterator<E>>> iteratorStimuli() {
-    return Arrays.asList(hasNext, next, remove);
+    return asList(hasNext, next, remove);
   }
 
   Stimulus<E, ListIterator<E>> hasPrevious =
@@ -602,6 +603,6 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       };
 
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
-    return Arrays.asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
+    return asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
   }
 }

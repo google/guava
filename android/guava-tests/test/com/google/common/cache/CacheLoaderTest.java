@@ -16,10 +16,11 @@
 
 package com.google.common.cache;
 
+import static com.google.common.util.concurrent.Futures.immediateFuture;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Queues;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Deque;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class CacheLoaderTest extends TestCase {
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
             reloadCount.incrementAndGet();
-            return Futures.immediateFuture(new Object());
+            return immediateFuture(new Object());
           }
 
           @Override

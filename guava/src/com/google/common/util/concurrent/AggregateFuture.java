@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -80,7 +81,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   protected final void afterDone() {
     super.afterDone();
 
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+    @RetainedLocalRef ImmutableCollection<? extends Future<?>> localFutures = futures;
     releaseResources(OUTPUT_FUTURE_DONE); // nulls out `futures`
 
     if (isCancelled() & localFutures != null) {
@@ -98,7 +99,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   @Override
   @CheckForNull
   protected final String pendingToString() {
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+    @RetainedLocalRef ImmutableCollection<? extends Future<?>> localFutures = futures;
     if (localFutures != null) {
       return "futures=" + localFutures;
     }
@@ -156,22 +157,24 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
        * Future.get() when we don't need to (specifically, for whenAllComplete().call*()), and it
        * lets all futures share the same listener.
        *
-       * We store `localFutures` inside the listener because `this.futures` might be nulled out by
-       * the time the listener runs for the final future -- at which point we need to check all
-       * inputs for exceptions *if* we're collecting values. If we're not, then the listener doesn't
-       * need access to the futures again, so we can just pass `null`.
+       * We store `localFuturesOrNull` inside the listener because `this.futures` might be nulled
+       * out by the time the listener runs for the final future -- at which point we need to check
+       * all inputs for exceptions *if* we're collecting values. If we're not, then the listener
+       * doesn't need access to the futures again, so we can just pass `null`.
        *
        * TODO(b/112550045): Allocating a single, cheaper listener is (I think) only an optimization.
        * If we make some other optimizations, this one will no longer be necessary. The optimization
        * could actually hurt in some cases, as it forces us to keep all inputs in memory until the
        * final input completes.
        */
-      ImmutableCollection<? extends Future<? extends InputT>> localFutures =
-          collectsValues ? futures : null;
-      Runnable listener = () -> decrementCountAndMaybeComplete(localFutures);
-      for (ListenableFuture<? extends InputT> future : futures) {
+      @RetainedLocalRef
+      ImmutableCollection<? extends ListenableFuture<? extends InputT>> localFutures = futures;
+      ImmutableCollection<? extends Future<? extends InputT>> localFuturesOrNull =
+          collectsValues ? localFutures : null;
+      Runnable listener = () -> decrementCountAndMaybeComplete(localFuturesOrNull);
+      for (ListenableFuture<? extends InputT> future : localFutures) {
         if (future.isDone()) {
-          decrementCountAndMaybeComplete(localFutures);
+          decrementCountAndMaybeComplete(localFuturesOrNull);
         } else {
           future.addListener(listener, directExecutor());
         }

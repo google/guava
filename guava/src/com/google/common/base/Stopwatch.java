@@ -281,8 +281,7 @@ public final class Stopwatch {
         return "h";
       case DAYS:
         return "d";
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 }

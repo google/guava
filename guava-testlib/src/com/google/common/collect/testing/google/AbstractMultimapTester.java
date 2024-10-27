@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -24,7 +25,6 @@ import com.google.common.collect.testing.AbstractContainerTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -150,7 +150,7 @@ public abstract class AbstractMultimapTester<
   }
 
   protected void assertGet(K key, V... values) {
-    assertGet(key, Arrays.asList(values));
+    assertGet(key, asList(values));
   }
 
   protected void assertGet(K key, Collection<? extends V> values) {

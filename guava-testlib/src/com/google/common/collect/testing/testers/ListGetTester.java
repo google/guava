@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import org.junit.Ignore;
 
@@ -35,18 +37,10 @@ public class ListGetTester<E> extends AbstractListTester<E> {
   }
 
   public void testGet_negative() {
-    try {
-      getList().get(-1);
-      fail("get(-1) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().get(-1));
   }
 
   public void testGet_tooLarge() {
-    try {
-      getList().get(getNumElements());
-      fail("get(size) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().get(getNumElements()));
   }
 }

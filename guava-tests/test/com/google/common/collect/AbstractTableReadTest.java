@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -159,11 +160,7 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
   // This test assumes that the implementation does not support null keys.
   public void testRowNull() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    try {
-      table.row(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> table.row(null));
   }
 
   public void testColumn() {
@@ -174,11 +171,7 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
   // This test assumes that the implementation does not support null keys.
   public void testColumnNull() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    try {
-      table.column(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> table.column(null));
   }
 
   public void testColumnSetPartialOverlap() {

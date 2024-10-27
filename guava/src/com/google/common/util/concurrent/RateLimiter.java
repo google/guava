@@ -161,7 +161,7 @@ public abstract class RateLimiter {
    *     before reaching its stable (maximum) rate
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
    *     warmupPeriod} is negative
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {
     return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);
@@ -330,7 +330,7 @@ public abstract class RateLimiter {
    * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
    * @return {@code true} if the permit was acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean tryAcquire(Duration timeout) {
     return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -389,7 +389,7 @@ public abstract class RateLimiter {
    * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
    * @return {@code true} if the permits were acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean tryAcquire(int permits, Duration timeout) {
     return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -761,7 +762,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
         if (array.length > k) {
           array = Arrays.copyOf(array, k);
         }
-        return Collections.unmodifiableList(Arrays.asList(array));
+        return Collections.unmodifiableList(asList(array));
       }
     }
     return leastOf(iterable.iterator(), k);
@@ -867,7 +868,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
     Arrays.sort(array, this);
-    return Lists.newArrayList(Arrays.asList(array));
+    return Lists.newArrayList(asList(array));
   }
 
   /**

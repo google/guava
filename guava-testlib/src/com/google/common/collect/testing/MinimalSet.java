@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E>
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]
   public static <E extends @Nullable Object> MinimalSet<E> of(E... contents) {
-    return ofClassAndContents(Object.class, (E[]) new Object[0], Arrays.asList(contents));
+    return ofClassAndContents(Object.class, (E[]) new Object[0], asList(contents));
   }
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]

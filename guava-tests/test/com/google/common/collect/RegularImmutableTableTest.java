@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -29,9 +30,7 @@ import com.google.common.collect.Table.Cell;
 public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableSet<Cell<Character, Integer, String>> CELLS =
       ImmutableSet.of(
-          Tables.immutableCell('a', 1, "foo"),
-          Tables.immutableCell('b', 1, "bar"),
-          Tables.immutableCell('a', 2, "baz"));
+          immutableCell('a', 1, "foo"), immutableCell('b', 1, "bar"), immutableCell('a', 2, "baz"));
 
   private static final ImmutableSet<Character> ROW_SPACE = ImmutableSet.of('a', 'b');
 
@@ -86,9 +85,9 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
     assertTrue(
         RegularImmutableTable.forCells(
                 ImmutableSet.of(
-                    Tables.immutableCell('a', 1, "blah"),
-                    Tables.immutableCell('b', 2, "blah"),
-                    Tables.immutableCell('c', 3, "blah")))
+                    immutableCell('a', 1, "blah"),
+                    immutableCell('b', 2, "blah"),
+                    immutableCell('c', 3, "blah")))
             instanceof SparseImmutableTable<?, ?, ?>);
   }
 

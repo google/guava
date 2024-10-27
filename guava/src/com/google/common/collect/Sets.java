@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -1423,7 +1424,7 @@ public final class Sets {
    */
   @SafeVarargs
   public static <B> Set<List<B>> cartesianProduct(Set<? extends B>... sets) {
-    return cartesianProduct(Arrays.asList(sets));
+    return cartesianProduct(asList(sets));
   }
 
   private static final class CartesianSet<E> extends ForwardingCollection<List<E>>
@@ -2035,7 +2036,7 @@ public final class Sets {
      * is just more than the set's size.  We augment the test by
      * assuming that sets have fast contains() performance, and other
      * collections don't.  See
-     * http://code.google.com/p/guava-libraries/issues/detail?id=1013
+     * https://github.com/google/guava/issues/1013
      */
     if (collection instanceof Set && collection.size() > set.size()) {
       return Iterators.removeAll(set.iterator(), collection);

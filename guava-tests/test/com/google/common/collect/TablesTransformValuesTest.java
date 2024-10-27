@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -61,11 +62,7 @@ public class TablesTransformValuesTest extends AbstractTableTest<Character> {
   // put() and putAll() aren't supported.
   @Override
   public void testPut() {
-    try {
-      table.put("foo", 1, 'a');
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> table.put("foo", 1, 'a'));
     assertSize(0);
   }
 
@@ -76,11 +73,7 @@ public class TablesTransformValuesTest extends AbstractTableTest<Character> {
     other.put("foo", 1, 'd');
     other.put("bar", 2, 'e');
     other.put("cat", 2, 'f');
-    try {
-      table.putAll(other);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> table.putAll(other));
     assertEquals((Character) 'a', table.get("foo", 1));
     assertEquals((Character) 'b', table.get("bar", 1));
     assertEquals((Character) 'c', table.get("foo", 3));

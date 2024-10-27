@@ -76,7 +76,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -97,7 +97,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -295,7 +295,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
       V v8,
       K k9,
       V v9) {
-    return fromEntries(
+    /*
+     * This explicit type parameter works around what seems to be a javac bug in certain
+     * configurations: b/339186525#comment6
+     */
+    return ImmutableSortedMap.<K, V>fromEntries(
         entryOf(k1, v1),
         entryOf(k2, v2),
         entryOf(k3, v3),
@@ -1223,7 +1227,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    */
   @DoNotCall("Use toImmutableSortedMap")
   @Deprecated
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
@@ -1243,7 +1247,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    */
   @DoNotCall("Use toImmutableSortedMap")
   @Deprecated
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(

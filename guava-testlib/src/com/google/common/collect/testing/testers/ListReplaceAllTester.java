@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -57,11 +58,7 @@ public class ListReplaceAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = ZERO)
   @ListFeature.Require(absent = SUPPORTS_SET)
   public void testReplaceAll_unsupported() {
-    try {
-      getList().replaceAll(e -> e);
-      fail("replaceAll() should throw UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().replaceAll(e -> e));
     expectUnchanged();
   }
 }

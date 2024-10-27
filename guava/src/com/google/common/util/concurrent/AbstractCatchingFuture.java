@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import javax.annotation.CheckForNull;
@@ -80,9 +81,9 @@ abstract class AbstractCatchingFuture<
 
   @Override
   public final void run() {
-    ListenableFuture<? extends V> localInputFuture = inputFuture;
-    Class<X> localExceptionType = exceptionType;
-    F localFallback = fallback;
+    @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = inputFuture;
+    @RetainedLocalRef Class<X> localExceptionType = exceptionType;
+    @RetainedLocalRef F localFallback = fallback;
     if (localInputFuture == null | localExceptionType == null | localFallback == null
         // This check, unlike all the others, is a volatile read
         || isCancelled()) {
@@ -152,9 +153,9 @@ abstract class AbstractCatchingFuture<
   @Override
   @CheckForNull
   protected String pendingToString() {
-    ListenableFuture<? extends V> localInputFuture = inputFuture;
-    Class<X> localExceptionType = exceptionType;
-    F localFallback = fallback;
+    @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = inputFuture;
+    @RetainedLocalRef Class<X> localExceptionType = exceptionType;
+    @RetainedLocalRef F localFallback = fallback;
     String superString = super.pendingToString();
     String resultString = "";
     if (localInputFuture != null) {
@@ -184,7 +185,8 @@ abstract class AbstractCatchingFuture<
 
   @Override
   protected final void afterDone() {
-    maybePropagateCancellationTo(inputFuture);
+    @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = inputFuture;
+    maybePropagateCancellationTo(localInputFuture);
     this.inputFuture = null;
     this.exceptionType = null;
     this.fallback = null;

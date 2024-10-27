@@ -16,10 +16,11 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -71,7 +72,7 @@ public final class OneSizeGenerator<T, E extends @Nullable Object>
   public Collection<E> getSampleElements(int howMany) {
     SampleElements<E> samples = samples();
     List<E> allSampleElements =
-        Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
+        asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
     return new ArrayList<>(allSampleElements.subList(0, howMany));
   }
 

@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -63,11 +64,7 @@ public class PrimitivesTest extends TestCase {
             short.class,
             void.class);
 
-    try {
-      primitives.remove(boolean.class);
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> primitives.remove(boolean.class));
   }
 
   public void testAllWrapperTypes() {
@@ -84,11 +81,7 @@ public class PrimitivesTest extends TestCase {
             Short.class,
             Void.class);
 
-    try {
-      wrappers.remove(Boolean.class);
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> wrappers.remove(Boolean.class));
   }
 
   @GwtIncompatible

@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -36,26 +37,11 @@ import junit.framework.TestCase;
 public class TopKSelectorTest extends TestCase {
 
   public void testNegativeK() {
-    try {
-      TopKSelector.<String>least(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.<String>greatest(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.least(-1, Ordering.natural());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.greatest(-1, Ordering.natural());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.<String>least(-1));
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.<String>greatest(-1));
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.least(-1, Ordering.natural()));
+    assertThrows(
+        IllegalArgumentException.class, () -> TopKSelector.greatest(-1, Ordering.natural()));
   }
 
   public void testZeroK() {

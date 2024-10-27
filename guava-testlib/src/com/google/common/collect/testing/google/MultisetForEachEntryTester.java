@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -27,7 +28,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Ignore;
@@ -74,7 +74,7 @@ public class MultisetForEachEntryTester<E> extends AbstractMultisetTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static List<Method> getForEachEntryDuplicateInitializingMethods() {
-    return Arrays.asList(
+    return asList(
         Helpers.getMethod(MultisetForEachEntryTester.class, "testForEachEntryDuplicates"));
   }
 }

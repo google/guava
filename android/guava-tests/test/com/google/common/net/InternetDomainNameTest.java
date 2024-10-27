@@ -16,6 +16,7 @@
 
 package com.google.common.net;
 
+import static com.google.common.net.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -239,11 +240,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testInvalid() {
     for (String name : INVALID_NAME) {
-      try {
-        InternetDomainName.from(name);
-        fail("Should have been invalid: '" + name + "'");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> InternetDomainName.from(name));
     }
   }
 
@@ -366,11 +363,7 @@ public final class InternetDomainNameTest extends TestCase {
     assertEquals("uk", InternetDomainName.from("co.uk").parent().toString());
     assertEquals("google.com", InternetDomainName.from("www.google.com").parent().toString());
 
-    try {
-      InternetDomainName.from("com").parent();
-      fail("'com' should throw ISE on .parent() call");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> InternetDomainName.from("com").parent());
   }
 
   public void testChild() {
@@ -378,11 +371,7 @@ public final class InternetDomainNameTest extends TestCase {
 
     assertEquals("www.foo.com", domain.child("www").toString());
 
-    try {
-      domain.child("www.");
-      fail("www..google.com should have been invalid");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> domain.child("www."));
   }
 
   public void testParentChild() {
@@ -408,11 +397,8 @@ public final class InternetDomainNameTest extends TestCase {
     ImmutableSet<String> badCookieDomains = ImmutableSet.of("co.uk", "foo", "com");
 
     for (String domain : badCookieDomains) {
-      try {
-        InternetDomainName.from(domain).topPrivateDomain();
-        fail(domain);
-      } catch (IllegalStateException expected) {
-      }
+      assertThrows(
+          IllegalStateException.class, () -> InternetDomainName.from(domain).topPrivateDomain());
     }
   }
 
@@ -462,7 +448,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testPublicSuffixMultipleUnders() {
     // PSL has both *.uk and *.sch.uk; the latter should win.
-    // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
+    // See https://github.com/google/guava/issues/1176
 
     InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasPublicSuffix());
@@ -481,7 +467,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testRegistrySuffixMultipleUnders() {
     // PSL has both *.uk and *.sch.uk; the latter should win.
-    // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
+    // See https://github.com/google/guava/issues/1176
 
     InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasRegistrySuffix());

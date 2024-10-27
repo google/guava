@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Lists;
@@ -24,7 +26,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.SerializableTester;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class SafeTreeSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    return new SafeTreeSet<>(Arrays.asList(elements));
+                    return new SafeTreeSet<>(asList(elements));
                   }
 
                   @Override

@@ -98,8 +98,6 @@ public class AbstractFutureFootprintBenchmark {
       case FAILED:
         f.setException(new Exception());
         break;
-      default:
-        throw new AssertionError();
     }
     return f;
   }

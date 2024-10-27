@@ -26,6 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.annotation.CheckForNull;
 
 /**
@@ -421,6 +423,23 @@ public final class Splitter {
     }
 
     return Collections.unmodifiableList(result);
+  }
+
+  /**
+   * Splits {@code sequence} into string components and makes them available through an {@link
+   * Stream}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+   * {@link #splitToList(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return a stream over the segments split from the parameter
+   * @since NEXT (but since 28.2 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls.
+  @IgnoreJRERequirement
+  public Stream<String> splitToStream(CharSequence sequence) {
+    // Can't use Streams.stream() from base
+    return StreamSupport.stream(split(sequence).spliterator(), false);
   }
 
   /**

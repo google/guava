@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
@@ -51,11 +52,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutUnsupported() {
-    try {
-      multimap().put(k3(), v3());
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multimap().put(k3(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -111,11 +108,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutNullValue_unsupported() {
-    try {
-      multimap().put(k1(), null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> multimap().put(k1(), null));
 
     expectUnchanged();
   }

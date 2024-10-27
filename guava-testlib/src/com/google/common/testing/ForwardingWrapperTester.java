@@ -84,9 +84,9 @@ public final class ForwardingWrapperTester {
     Method[] methods = getMostConcreteMethods(interfaceType);
     AccessibleObject.setAccessible(methods, true);
     for (Method method : methods) {
-      // Under java 8, interfaces can have default methods that aren't abstract.
+      // Interfaces can have default methods that aren't abstract.
       // No need to verify them.
-      // Can't check isDefault() for JDK 7 compatibility.
+      // Can't check isDefault() for Android compatibility.
       if (!Modifier.isAbstract(method.getModifiers())) {
         continue;
       }

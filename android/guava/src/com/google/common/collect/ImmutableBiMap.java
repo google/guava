@@ -59,7 +59,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
@@ -628,7 +628,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
@@ -648,7 +648,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(

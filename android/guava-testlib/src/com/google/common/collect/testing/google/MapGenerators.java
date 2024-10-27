@@ -18,6 +18,7 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
@@ -34,7 +35,6 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
@@ -75,7 +75,7 @@ public class MapGenerators {
   public static class ImmutableMapCopyOfEntriesGenerator extends TestStringMapGenerator {
     @Override
     protected Map<String, String> create(Entry<String, String>[] entries) {
-      return ImmutableMap.copyOf(Arrays.asList(entries));
+      return ImmutableMap.copyOf(asList(entries));
     }
   }
 

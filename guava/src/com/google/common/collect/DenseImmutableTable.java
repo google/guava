@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -139,7 +140,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
           for (index++; index < maxIndex; index++) {
             V value = getValue(index);
             if (value != null) {
-              return Maps.immutableEntry(getKey(index), value);
+              return immutableEntry(getKey(index), value);
             }
           }
           return endOfData();
