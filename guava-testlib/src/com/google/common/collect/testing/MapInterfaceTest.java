@@ -678,7 +678,10 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Set<Entry<K, V>> entriesToRetain = singleton(entrySet.iterator().next());
+    Entry<K, V> originalEntry = entrySet.iterator().next();
+    // Copy the Entry, as discussed in testEntrySetRemoveAll.
+    Set<Entry<K, V>> entriesToRetain =
+        singleton(mapEntry(originalEntry.getKey(), originalEntry.getValue()));
     if (supportsRemove) {
       boolean shouldRemove = (entrySet.size() > entriesToRetain.size());
       boolean didRemove = entrySet.retainAll(entriesToRetain);
