@@ -5811,6 +5811,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain(BlockingQueue&lt;E&gt;, Collection&lt;? super E&gt;, int, Duration)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Queues.html" title="class in com.google.common.collect">Queues</a></dt>
+<dd>
+<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+ numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection)">drainTo(Collection&lt;? super E&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
@@ -5831,6 +5836,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">Queues.drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
  with a different behavior in case it is interrupted while waiting.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drainUninterruptibly(BlockingQueue&lt;E&gt;, Collection&lt;? super E&gt;, int, Duration)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Queues.html" title="class in com.google.common.collect">Queues</a></dt>
+<dd>
+<div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">Queues.drain(BlockingQueue, Collection, int, Duration)</a>, but with a
+ different behavior in case it is interrupted while waiting.</div>
 </dd>
 </dl>
 <a id="I:E">

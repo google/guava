@@ -519,6 +519,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Queues.</span><code><span class="memberNameLink"><a href="../../collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
+     java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+     int&nbsp;numElements,
+     java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+ numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Queues.</span><code><span class="memberNameLink"><a href="../../collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drainUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
                     java.util.Collection&lt;? super E&gt;&nbsp;buffer,
                     int&nbsp;numElements,
@@ -527,6 +538,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">Drains the queue as <a href="../../collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">Queues.drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
  with a different behavior in case it is interrupted while waiting.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Queues.</span><code><span class="memberNameLink"><a href="../../collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drainUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
+                    java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+                    int&nbsp;numElements,
+                    java.time.Duration&nbsp;timeout)</code></th>
+<td class="colLast">
+<div class="block">Drains the queue as <a href="../../collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">Queues.drain(BlockingQueue, Collection, int, Duration)</a>, but with a
+ different behavior in case it is interrupted while waiting.</div>
 </td>
 </tr>
 <tr class="rowColor">

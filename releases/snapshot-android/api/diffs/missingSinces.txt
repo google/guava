@@ -16,6 +16,8 @@ OK: com.google.common.primitives.ImmutableDoubleArray Method copyOf(java.util.st
 OK: com.google.common.primitives.ImmutableIntArray Method copyOf(java.util.stream.IntStream)
 OK: com.google.common.primitives.ImmutableLongArray Method copyOf(java.util.stream.LongStream)
 OK: com.google.common.util.concurrent.RateLimiter Method create(double, java.time.Duration)
+OK: com.google.common.collect.Queues Method drain(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)
+OK: com.google.common.collect.Queues Method drainUninterruptibly(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)
 OK: com.google.common.collect.Comparators Method emptiesFirst(java.util.Comparator<? super T>)
 OK: com.google.common.collect.Comparators Method emptiesLast(java.util.Comparator<? super T>)
 OK: com.google.common.util.concurrent.Monitor Method enter(java.time.Duration)

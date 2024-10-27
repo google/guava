@@ -33213,6 +33213,28 @@
       <param name="q" type="java.util.concurrent.BlockingQueue&lt;E&gt;"/>
       <param name="buffer" type="java.util.Collection&lt;? super E&gt;"/>
       <param name="numElements" type="int"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Drains the queue as {@link BlockingQueue#drainTo(Collection, int)}, but if the requested {@code
+ numElements} elements are not available, it will wait for them up to the specified timeout.
+
+ @param q the blocking queue to be drained
+ @param buffer where to add the transferred elements
+ @param numElements the number of elements to be waited for
+ @param timeout how long to wait before giving up
+ @return the number of elements transferred
+ @throws InterruptedException if interrupted while waiting
+ @since NEXT (but since 28.0 in the JRE flavor)]]>
+      </doc>
+    </method>
+    <method name="drain" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="q" type="java.util.concurrent.BlockingQueue&lt;E&gt;"/>
+      <param name="buffer" type="java.util.Collection&lt;? super E&gt;"/>
+      <param name="numElements" type="int"/>
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
@@ -33227,6 +33249,28 @@
  @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
  @return the number of elements transferred
  @throws InterruptedException if interrupted while waiting]]>
+      </doc>
+    </method>
+    <method name="drainUninterruptibly" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="q" type="java.util.concurrent.BlockingQueue&lt;E&gt;"/>
+      <param name="buffer" type="java.util.Collection&lt;? super E&gt;"/>
+      <param name="numElements" type="int"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, Duration)}, but with a
+ different behavior in case it is interrupted while waiting. In that case, the operation will
+ continue as usual, and in the end the thread's interruption status will be set (no {@code
+ InterruptedException} is thrown).
+
+ @param q the blocking queue to be drained
+ @param buffer where to add the transferred elements
+ @param numElements the number of elements to be waited for
+ @param timeout how long to wait before giving up
+ @return the number of elements transferred
+ @since NEXT (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="drainUninterruptibly" return="int"
