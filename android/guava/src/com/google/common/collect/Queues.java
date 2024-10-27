@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -283,6 +284,30 @@ public final class Queues {
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param numElements the number of elements to be waited for
+   * @param timeout how long to wait before giving up
+   * @return the number of elements transferred
+   * @throws InterruptedException if interrupted while waiting
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @CanIgnoreReturnValue
+  @J2ktIncompatible
+  @GwtIncompatible // BlockingQueue
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration
+  public static <E> int drain(
+      BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout)
+      throws InterruptedException {
+    // TODO(b/126049426): Consider using saturateToNanos(timeout) instead.
+    return drain(q, buffer, numElements, timeout.toNanos(), NANOSECONDS);
+  }
+
+  /**
+   * Drains the queue as {@link BlockingQueue#drainTo(Collection, int)}, but if the requested {@code
+   * numElements} elements are not available, it will wait for them up to the specified timeout.
+   *
+   * @param q the blocking queue to be drained
+   * @param buffer where to add the transferred elements
+   * @param numElements the number of elements to be waited for
    * @param timeout how long to wait before giving up, in units of {@code unit}
    * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
    * @return the number of elements transferred
@@ -321,6 +346,30 @@ public final class Queues {
       }
     }
     return added;
+  }
+
+  /**
+   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, Duration)}, but with a
+   * different behavior in case it is interrupted while waiting. In that case, the operation will
+   * continue as usual, and in the end the thread's interruption status will be set (no {@code
+   * InterruptedException} is thrown).
+   *
+   * @param q the blocking queue to be drained
+   * @param buffer where to add the transferred elements
+   * @param numElements the number of elements to be waited for
+   * @param timeout how long to wait before giving up
+   * @return the number of elements transferred
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @CanIgnoreReturnValue
+  @J2ktIncompatible
+  @GwtIncompatible // BlockingQueue
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration
+  public static <E> int drainUninterruptibly(
+      BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout) {
+    // TODO(b/126049426): Consider using saturateToNanos(timeout) instead.
+    return drainUninterruptibly(q, buffer, numElements, timeout.toNanos(), NANOSECONDS);
   }
 
   /**
