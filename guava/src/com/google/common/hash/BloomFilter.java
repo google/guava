@@ -121,6 +121,12 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   /** The strategy we employ to map an element T to {@code numHashFunctions} bit indexes. */
   private final Strategy strategy;
 
+  /** Natural logarithm of 2, used to optimize calculations in Bloom filter sizing. */
+  private static final double LOG_TWO = Math.log(2);
+
+  /** Square of the natural logarithm of 2, reused to optimize the bit size calculation. */
+  private static final double SQUARED_LOG_TWO = LOG_TWO * LOG_TWO;
+
   /** Creates a BloomFilter. */
   private BloomFilter(
       LockFreeBitArray bits, int numHashFunctions, Funnel<? super T> funnel, Strategy strategy) {
@@ -435,7 +441,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
      * optimalM(1000, 0.0000000000000001) = 76680 which is less than 10kb. Who cares!
      */
     long numBits = optimalNumOfBits(expectedInsertions, fpp);
-    int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
+    int numHashFunctions = optimalNumOfHashFunctions(fpp);
     try {
       return new BloomFilter<>(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);
     } catch (IllegalArgumentException e) {
@@ -505,18 +511,16 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   // 4) For optimal k: m = -nlnp / ((ln2) ^ 2)
 
   /**
-   * Computes the optimal k (number of hashes per element inserted in Bloom filter), given the
-   * expected insertions and total number of bits in the Bloom filter.
+   * Computes the optimal number of hash functions (k) for a given false positive probability (p).
    *
    * <p>See http://en.wikipedia.org/wiki/File:Bloom_filter_fp_probability.svg for the formula.
    *
-   * @param n expected insertions (must be positive)
-   * @param m total number of bits in Bloom filter (must be positive)
+   * @param p desired false positive probability (must be between 0 and 1, exclusive)
    */
   @VisibleForTesting
-  static int optimalNumOfHashFunctions(long n, long m) {
-    // (m / n) * log(2), but avoid truncation due to division!
-    return max(1, (int) Math.round((double) m / n * Math.log(2)));
+  static int optimalNumOfHashFunctions(double p) {
+    // -log(p) / log(2), ensuring the result is rounded to avoid truncation.
+    return max(1, (int) Math.round( - Math.log(p) / LOG_TWO));
   }
 
   /**
@@ -534,7 +538,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     if (p == 0) {
       p = Double.MIN_VALUE;
     }
-    return (long) (-n * Math.log(p) / (Math.log(2) * Math.log(2)));
+    return (long) (-n * Math.log(p) / SQUARED_LOG_TWO);
   }
 
   private Object writeReplace() {

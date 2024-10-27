@@ -255,15 +255,16 @@ public class BloomFilterTest extends TestCase {
   /** Tests that we never get an optimal hashes number of zero. */
   public void testOptimalHashes() {
     for (int n = 1; n < 1000; n++) {
-      for (int m = 0; m < 1000; m++) {
-        assertTrue(BloomFilter.optimalNumOfHashFunctions(n, m) > 0);
+      for (double p = 0.1; p > 1e-10; p/=10) {
+        assertTrue(BloomFilter.optimalNumOfHashFunctions(p) > 0);
       }
     }
   }
 
   // https://github.com/google/guava/issues/1781
   public void testOptimalNumOfHashFunctionsRounding() {
-    assertEquals(7, BloomFilter.optimalNumOfHashFunctions(319, 3072));
+    double p = 0.03;
+    assertEquals(5, BloomFilter.optimalNumOfHashFunctions(p));
   }
 
   /** Tests that we always get a non-negative optimal size. */
