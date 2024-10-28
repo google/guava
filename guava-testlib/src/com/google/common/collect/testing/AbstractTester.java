@@ -88,4 +88,17 @@ public class AbstractTester<G> extends TestCase {
   public String getName() {
     return Platform.format("%s[%s]", super.getName(), suiteName);
   }
+
+  /**
+   * Asserts that the given object is non-null, with a better failure message than {@link
+   * TestCase#assertNull(String, Object)}.
+   *
+   * <p>The {@link TestCase} version (which is from JUnit 3) produces a failure message that does
+   * not include the value of the object.
+   *
+   * @since NEXT
+   */
+  public static void assertNull(String message, Object object) {
+    assertEquals(message, null, object);
+  }
 }
