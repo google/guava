@@ -17,7 +17,6 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -196,8 +195,10 @@ public final class UnsignedInts {
     INSTANCE;
 
     @Override
+    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.
+    @SuppressWarnings("StaticImportPreferred")
     public int compare(int[] left, int[] right) {
-      int minLength = min(left.length, right.length);
+      int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
         if (left[i] != right[i]) {
           return UnsignedInts.compare(left[i], right[i]);
