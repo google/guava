@@ -27,10 +27,8 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Iterables.mergeSorted;
 import static com.google.common.collect.Iterables.removeIf;
 import static com.google.common.collect.Iterables.skip;
-import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Iterables.tryFind;
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -287,7 +285,7 @@ public class IterablesTest extends TestCase {
   public void testTransform_iterator() {
     List<String> input = asList("1", "2", "3");
     Iterable<Integer> result =
-        transform(
+        Iterables.transform(
             input,
             new Function<String, Integer>() {
               @Override
@@ -306,7 +304,7 @@ public class IterablesTest extends TestCase {
   public void testPoorlyBehavedTransform() {
     List<String> input = asList("1", "not a number", "3");
     Iterable<Integer> result =
-        transform(
+        Iterables.transform(
             input,
             new Function<String, Integer>() {
               @Override
@@ -324,7 +322,7 @@ public class IterablesTest extends TestCase {
   public void testNullFriendlyTransform() {
     List<@Nullable Integer> input = asList(1, 2, null, 3);
     Iterable<String> result =
-        transform(
+        Iterables.transform(
             input,
             new Function<@Nullable Integer, String>() {
               @Override
@@ -1020,7 +1018,7 @@ public class IterablesTest extends TestCase {
   public void testRemoveIf_transformedList() {
     List<String> list = newArrayList("1", "2", "3", "4", "5");
     List<Integer> transformed =
-        transform(
+        Lists.transform(
             list,
             new Function<String, Integer>() {
               @Override
