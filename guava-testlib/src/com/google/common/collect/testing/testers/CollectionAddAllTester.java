@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
@@ -28,7 +29,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -160,7 +160,7 @@ public class CollectionAddAllTester<E extends @Nullable Object>
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllNullUnsupportedMethod() {
-    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
+    return getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
   }
 
   /**
@@ -173,7 +173,7 @@ public class CollectionAddAllTester<E extends @Nullable Object>
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedNonePresentMethod() {
-    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
+    return getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
   }
 
   /**
@@ -186,6 +186,6 @@ public class CollectionAddAllTester<E extends @Nullable Object>
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedSomePresentMethod() {
-    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");
+    return getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");
   }
 }

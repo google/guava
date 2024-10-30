@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
@@ -59,7 +60,7 @@ public class MinimalIterableTest extends TestCase {
   }
 
   public void testFrom_one() {
-    Iterable<String> iterable = MinimalIterable.from(Collections.singleton("a"));
+    Iterable<String> iterable = MinimalIterable.from(singleton("a"));
     Iterator<String> iterator = iterable.iterator();
     assertTrue(iterator.hasNext());
     assertEquals("a", iterator.next());

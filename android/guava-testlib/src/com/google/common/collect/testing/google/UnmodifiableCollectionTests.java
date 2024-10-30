@@ -17,6 +17,8 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableList;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
@@ -29,7 +31,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -270,12 +271,11 @@ public class UnmodifiableCollectionTests {
    */
   public static <K extends @Nullable Object, V extends @Nullable Object>
       void assertMultimapIsUnmodifiable(Multimap<K, V> multimap, K sampleKey, V sampleValue) {
-    List<Entry<K, V>> originalEntries =
-        Collections.unmodifiableList(Lists.newArrayList(multimap.entries()));
+    List<Entry<K, V>> originalEntries = unmodifiableList(Lists.newArrayList(multimap.entries()));
 
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 
-    Collection<V> sampleValueAsCollection = Collections.singleton(sampleValue);
+    Collection<V> sampleValueAsCollection = singleton(sampleValue);
 
     // Test #clear()
     try {

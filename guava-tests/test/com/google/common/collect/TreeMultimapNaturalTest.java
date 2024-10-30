@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -25,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -151,14 +151,11 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @Override
                   public SampleElements<Entry<String, Collection<String>>> samples() {
                     return new SampleElements<>(
-                        Helpers.mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
-                        Helpers.mapEntry(
-                            "b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
-                        Helpers.mapEntry(
-                            "c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
-                        Helpers.mapEntry(
-                            "d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
-                        Helpers.mapEntry(
+                        mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
+                        mapEntry("b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
+                        mapEntry("c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
+                        mapEntry("d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
+                        mapEntry(
                             "e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
                   }
 
@@ -194,26 +191,22 @@ public class TreeMultimapNaturalTest extends TestCase {
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesLesser() {
-                    return Helpers.mapEntry(
-                        "-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesGreater() {
-                    return Helpers.mapEntry(
-                        "-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesLesser() {
-                    return Helpers.mapEntry(
-                        "~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesGreater() {
-                    return Helpers.mapEntry(
-                        "~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
                   }
                 })
             .named("TreeMultimap.asMap")

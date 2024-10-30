@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Iterators.mergeSorted;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -317,7 +318,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     Comparator<? super C> comparator = columnComparator();
 
     Iterator<C> merged =
-        Iterators.mergeSorted(
+        mergeSorted(
             transform(backingMap.values(), (Map<C, V> input) -> input.keySet().iterator()),
             comparator);
 

@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -28,7 +29,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.lang.reflect.Method;
@@ -136,6 +136,6 @@ public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getCreateWithNullKeyUnsupportedMethod() {
-    return Helpers.getMethod(MapCreationTester.class, "testCreateWithNullKeyUnsupported");
+    return getMethod(MapCreationTester.class, "testCreateWithNullKeyUnsupported");
   }
 }

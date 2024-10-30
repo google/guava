@@ -15,9 +15,11 @@
  */
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import java.util.Collection;
 import java.util.List;
@@ -36,11 +38,11 @@ public abstract class TestStringSetMultimapGenerator
   @Override
   public SampleElements<Entry<String, String>> samples() {
     return new SampleElements<>(
-        Helpers.mapEntry("one", "January"),
-        Helpers.mapEntry("two", "February"),
-        Helpers.mapEntry("three", "March"),
-        Helpers.mapEntry("four", "April"),
-        Helpers.mapEntry("five", "May"));
+        mapEntry("one", "January"),
+        mapEntry("two", "February"),
+        mapEntry("three", "March"),
+        mapEntry("four", "April"),
+        mapEntry("five", "May"));
   }
 
   @Override
@@ -55,7 +57,7 @@ public abstract class TestStringSetMultimapGenerator
 
   @Override
   public Collection<String> createCollection(Iterable<? extends String> values) {
-    return Helpers.copyToSet(values);
+    return copyToSet(values);
   }
 
   @Override

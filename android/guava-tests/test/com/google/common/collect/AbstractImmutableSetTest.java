@@ -17,12 +17,15 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -83,7 +86,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCreation_oneElement() {
     Set<String> set = of("a");
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCreation_twoElements() {
@@ -131,7 +134,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   public void testCopyOf_arrayOfOneElement() {
     String[] array = new String[] {"a"};
     Set<String> set = copyOf(array);
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCopyOf_nullArray() {
@@ -154,13 +157,13 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   public void testCopyOf_collection_oneElement() {
     Collection<String> c = MinimalCollection.of("a");
     Set<String> set = copyOf(c);
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCopyOf_collection_oneElementRepeated() {
     Collection<String> c = MinimalCollection.of("a", "a", "a");
     Set<String> set = copyOf(c);
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCopyOf_collection_general() {
@@ -191,22 +194,22 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_iterator_empty() {
-    Iterator<String> iterator = Iterators.emptyIterator();
+    Iterator<String> iterator = emptyIterator();
     Set<String> set = copyOf(iterator);
     assertEquals(Collections.<String>emptySet(), set);
     assertSame(this.<String>of(), set);
   }
 
   public void testCopyOf_iterator_oneElement() {
-    Iterator<String> iterator = Iterators.singletonIterator("a");
+    Iterator<String> iterator = singletonIterator("a");
     Set<String> set = copyOf(iterator);
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCopyOf_iterator_oneElementRepeated() {
     Iterator<String> iterator = Iterators.forArray("a", "a", "a");
     Set<String> set = copyOf(iterator);
-    assertEquals(Collections.singleton("a"), set);
+    assertEquals(singleton("a"), set);
   }
 
   public void testCopyOf_iterator_general() {
@@ -254,7 +257,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_shortcut_singleton() {
     Collection<String> c = of("a");
-    assertEquals(Collections.singleton("a"), copyOf(c));
+    assertEquals(singleton("a"), copyOf(c));
     assertSame(c, copyOf(c));
   }
 
@@ -271,7 +274,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   @GwtIncompatible // slow (~40s)
   public void testIterator_oneElement() {
     new IteratorTester<String>(
-        5, UNMODIFIABLE, Collections.singleton("a"), IteratorTester.KnownOrder.KNOWN_ORDER) {
+        5, UNMODIFIABLE, singleton("a"), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<String> newTargetIterator() {
         return of("a").iterator();

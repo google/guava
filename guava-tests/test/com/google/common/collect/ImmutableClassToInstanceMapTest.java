@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -28,7 +30,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -84,7 +85,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_map_empty() {
-    Map<Class<?>, Object> in = Collections.emptyMap();
+    Map<Class<?>, Object> in = emptyMap();
     ClassToInstanceMap<Object> map = ImmutableClassToInstanceMap.copyOf(in);
     assertTrue(map.isEmpty());
     assertSame(map, ImmutableClassToInstanceMap.of());
@@ -117,16 +118,15 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_map_nulls() {
-    Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(null, (Number) 1.0);
+    Map<Class<? extends Number>, Number> nullKey = singletonMap(null, (Number) 1.0);
     assertThrows(NullPointerException.class, () -> ImmutableClassToInstanceMap.copyOf(nullKey));
 
-    Map<? extends Class<? extends Number>, Number> nullValue =
-        Collections.singletonMap(Number.class, null);
+    Map<? extends Class<? extends Number>, Number> nullValue = singletonMap(Number.class, null);
     assertThrows(NullPointerException.class, () -> ImmutableClassToInstanceMap.copyOf(nullValue));
   }
 
   public void testCopyOf_imap_empty() {
-    Map<Class<?>, Object> in = Collections.emptyMap();
+    Map<Class<?>, Object> in = emptyMap();
     ClassToInstanceMap<Object> map = ImmutableClassToInstanceMap.copyOf(in);
     assertTrue(map.isEmpty());
   }

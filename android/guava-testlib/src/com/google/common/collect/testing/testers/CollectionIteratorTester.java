@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -28,7 +30,6 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -59,7 +60,7 @@ public class CollectionIteratorTester<E extends @Nullable Object>
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
-    Helpers.assertEqualIgnoringOrder(asList(createSamplesArray()), iteratorElements);
+    assertEqualIgnoringOrder(asList(createSamplesArray()), iteratorElements);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
@@ -68,7 +69,7 @@ public class CollectionIteratorTester<E extends @Nullable Object>
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
-    List<E> expected = Helpers.copyToList(getOrderedElements());
+    List<E> expected = copyToList(getOrderedElements());
     assertEquals("Different ordered iteration", expected, iteratorElements);
   }
 
@@ -80,7 +81,7 @@ public class CollectionIteratorTester<E extends @Nullable Object>
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
-    Helpers.assertEqualIgnoringOrder(asList(createArrayWithNullElement()), iteratorElements);
+    assertEqualIgnoringOrder(asList(createArrayWithNullElement()), iteratorElements);
   }
 
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)

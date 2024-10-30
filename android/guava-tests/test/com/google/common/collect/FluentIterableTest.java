@@ -24,6 +24,9 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.nCopies;
+import static java.util.Collections.singletonList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -138,7 +141,7 @@ public class FluentIterableTest extends TestCase {
   public void testConcatPeformingFiniteCycle() {
     Iterable<Integer> iterable = asList(1, 2, 3);
     int n = 4;
-    FluentIterable<Integer> repeated = FluentIterable.concat(Collections.nCopies(n, iterable));
+    FluentIterable<Integer> repeated = FluentIterable.concat(nCopies(n, iterable));
     assertThat(repeated).containsExactly(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3).inOrder();
   }
 
@@ -259,7 +262,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToString() {
-    assertEquals("[]", FluentIterable.from(Collections.emptyList()).toString());
+    assertEquals("[]", FluentIterable.from(emptyList()).toString());
     assertEquals("[]", FluentIterable.<String>of().toString());
 
     assertEquals(
@@ -343,7 +346,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> filtered =
         FluentIterable.from(asList("foo", "bar")).filter(equalTo("foo"));
 
-    List<String> expected = Collections.singletonList("foo");
+    List<String> expected = singletonList("foo");
     List<String> actual = Lists.newArrayList(filtered);
     assertEquals(expected, actual);
     assertCanIterateAgain(filtered);
@@ -479,7 +482,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFirst_emptyList() {
-    List<String> list = Collections.emptyList();
+    List<String> list = emptyList();
     assertThat(FluentIterable.from(list).first()).isAbsent();
   }
 
@@ -514,7 +517,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testLast_emptyList() {
-    List<String> list = Collections.emptyList();
+    List<String> list = emptyList();
     assertThat(FluentIterable.from(list).last()).isAbsent();
   }
 
@@ -554,12 +557,12 @@ public class FluentIterableTest extends TestCase {
 
   public void testSkip_pastEnd() {
     Collection<String> set = ImmutableSet.of("a", "b");
-    assertEquals(Collections.emptyList(), Lists.newArrayList(FluentIterable.from(set).skip(20)));
+    assertEquals(emptyList(), Lists.newArrayList(FluentIterable.from(set).skip(20)));
   }
 
   public void testSkip_pastEndList() {
     Collection<String> list = Lists.newArrayList("a", "b");
-    assertEquals(Collections.emptyList(), Lists.newArrayList(FluentIterable.from(list).skip(20)));
+    assertEquals(emptyList(), Lists.newArrayList(FluentIterable.from(list).skip(20)));
   }
 
   public void testSkip_skipNone() {

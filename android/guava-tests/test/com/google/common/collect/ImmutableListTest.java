@@ -16,16 +16,21 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.misleadingSizeCollection;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.nCopies;
+import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.MinimalIterable;
@@ -42,7 +47,6 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import junit.framework.Test;
@@ -113,12 +117,12 @@ public class ImmutableListTest extends TestCase {
 
   public void testCreation_noArgs() {
     List<String> list = ImmutableList.of();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCreation_oneElement() {
     List<String> list = ImmutableList.of("a");
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCreation_twoElements() {
@@ -212,19 +216,19 @@ public class ImmutableListTest extends TestCase {
   public void testCreation_arrayOfArray() {
     String[] array = new String[] {"a"};
     List<String[]> list = ImmutableList.<String[]>of(array);
-    assertEquals(Collections.singletonList(array), list);
+    assertEquals(singletonList(array), list);
   }
 
   public void testCopyOf_emptyArray() {
     String[] array = new String[0];
     List<String> list = ImmutableList.copyOf(array);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_arrayOfOneElement() {
     String[] array = new String[] {"a"};
     List<String> list = ImmutableList.copyOf(array);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_nullArray() {
@@ -240,13 +244,13 @@ public class ImmutableListTest extends TestCase {
     // "<String>" is required to work around a javac 1.5 bug.
     Collection<String> c = MinimalCollection.<String>of();
     List<String> list = ImmutableList.copyOf(c);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_collection_oneElement() {
     Collection<String> c = MinimalCollection.of("a");
     List<String> list = ImmutableList.copyOf(c);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_collection_general() {
@@ -265,15 +269,15 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_iterator_empty() {
-    Iterator<String> iterator = Iterators.emptyIterator();
+    Iterator<String> iterator = emptyIterator();
     List<String> list = ImmutableList.copyOf(iterator);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_iterator_oneElement() {
-    Iterator<String> iterator = Iterators.singletonIterator("a");
+    Iterator<String> iterator = singletonIterator("a");
     List<String> list = ImmutableList.copyOf(iterator);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_iterator_general() {
@@ -297,7 +301,7 @@ public class ImmutableListTest extends TestCase {
     List<String> sample = Lists.newArrayList("a", "b", "c");
     for (int delta : new int[] {-1, 0, 1}) {
       for (int i = 0; i < sample.size(); i++) {
-        Collection<String> misleading = Helpers.misleadingSizeCollection(delta);
+        Collection<String> misleading = misleadingSizeCollection(delta);
         List<String> expected = sample.subList(0, i);
         misleading.addAll(expected);
         assertEquals(expected, ImmutableList.copyOf(misleading));
@@ -622,7 +626,7 @@ public class ImmutableListTest extends TestCase {
     IllegalArgumentException expected =
         assertThrows(
             IllegalArgumentException.class,
-            () -> builder.addAll(Collections.nCopies(Integer.MAX_VALUE - 50, "a")));
+            () -> builder.addAll(nCopies(Integer.MAX_VALUE - 50, "a")));
     assertThat(expected).hasMessageThat().contains("cannot store more than MAX_VALUE elements");
   }
 }

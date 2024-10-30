@@ -24,6 +24,7 @@ import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -769,7 +770,7 @@ public class ImmutableMapTest extends TestCase {
   }
 
   public void testCopyOfSingletonMap() {
-    ImmutableMap<String, Integer> copy = ImmutableMap.copyOf(Collections.singletonMap("one", 1));
+    ImmutableMap<String, Integer> copy = ImmutableMap.copyOf(singletonMap("one", 1));
     assertMapEquals(copy, "one", 1);
     assertSame(copy, ImmutableMap.copyOf(copy));
   }

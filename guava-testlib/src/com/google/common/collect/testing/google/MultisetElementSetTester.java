@@ -17,20 +17,20 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertEmpty;
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.junit.Ignore;
@@ -57,7 +57,7 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   public void testElementSetReflectsRemove() {
     Set<E> elementSet = getMultiset().elementSet();
     assertTrue(elementSet.contains(e0()));
-    getMultiset().removeAll(Collections.singleton(e0()));
+    getMultiset().removeAll(singleton(e0()));
     assertFalse(elementSet.contains(e0()));
   }
 
@@ -105,7 +105,7 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   @GwtIncompatible // reflection
   public static List<Method> getElementSetDuplicateInitializingMethods() {
     return asList(
-        Helpers.getMethod(
+        getMethod(
             MultisetElementSetTester.class, "testElementSetRemoveDuplicatePropagatesToMultiset"));
   }
 }

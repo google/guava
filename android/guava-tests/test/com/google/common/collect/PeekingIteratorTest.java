@@ -21,12 +21,13 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -85,18 +86,18 @@ public class PeekingIteratorTest extends TestCase {
         list.size() * 2 + 2, UNMODIFIABLE, list, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<T> newTargetIterator() {
-        Iterator<T> iterator = Collections.unmodifiableList(list).iterator();
+        Iterator<T> iterator = unmodifiableList(list).iterator();
         return Iterators.peekingIterator(iterator);
       }
     }.test();
   }
 
   public void testPeekingIteratorBehavesLikeIteratorOnEmptyIterable() {
-    actsLikeIteratorHelper(Collections.emptyList());
+    actsLikeIteratorHelper(emptyList());
   }
 
   public void testPeekingIteratorBehavesLikeIteratorOnSingletonIterable() {
-    actsLikeIteratorHelper(Collections.singletonList(new Object()));
+    actsLikeIteratorHelper(singletonList(new Object()));
   }
 
   // TODO(cpovirk): instead of skipping, use a smaller number of steps
@@ -111,7 +112,7 @@ public class PeekingIteratorTest extends TestCase {
   }
 
   public void testPeekOnEmptyList() {
-    List<?> list = Collections.emptyList();
+    List<?> list = emptyList();
     Iterator<?> iterator = list.iterator();
     PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
 

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Multimaps.synchronizedMultimap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -138,7 +139,7 @@ public class LinkedHashMultimapTest extends TestCase {
   @J2ktIncompatible // Synchronized
   public void testOrderingSynchronized() {
     Multimap<String, Integer> multimap = initializeMultimap5();
-    assertOrderingReadOnly(Multimaps.synchronizedMultimap(multimap));
+    assertOrderingReadOnly(synchronizedMultimap(multimap));
   }
 
   @J2ktIncompatible

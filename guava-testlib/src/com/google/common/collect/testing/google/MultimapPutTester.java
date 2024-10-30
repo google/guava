@@ -19,6 +19,8 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.Helpers.assertContains;
 import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.copyToList;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
@@ -29,7 +31,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
@@ -84,7 +85,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
   public void testPutTwoElements() {
     int size = getNumElements();
 
-    List<V> values = Helpers.copyToList(multimap().get(k0()));
+    List<V> values = copyToList(multimap().get(k0()));
 
     assertTrue(multimap().put(k0(), v1()));
     assertTrue(multimap().put(k0(), v2()));
@@ -136,31 +137,31 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutNotPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(k3(), v3())));
+    assertFalse(entries.contains(mapEntry(k3(), v3())));
     multimap().put(k3(), v3());
-    assertContains(entries, Helpers.mapEntry(k3(), v3()));
+    assertContains(entries, mapEntry(k3(), v3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(k0(), v3())));
+    assertFalse(entries.contains(mapEntry(k0(), v3())));
     multimap().put(k0(), v3());
-    assertContains(entries, Helpers.mapEntry(k0(), v3()));
+    assertContains(entries, mapEntry(k0(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToGet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
       int size = getNumElements();
 
       Collection<V> collection = multimap().get(key);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
@@ -172,7 +173,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToAsMapGet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
@@ -180,7 +181,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
 
       Collection<V> collection = multimap().asMap().get(key);
       assertNotNull(collection);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
@@ -192,7 +193,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToAsMapEntrySet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
@@ -208,7 +209,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
         }
       }
       assertNotNull(collection);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());

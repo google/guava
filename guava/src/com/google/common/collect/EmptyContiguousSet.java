@@ -13,6 +13,8 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterators.emptyIterator;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -95,13 +97,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
 
   @Override
   public UnmodifiableIterator<C> iterator() {
-    return Iterators.emptyIterator();
+    return emptyIterator();
   }
 
   @GwtIncompatible // NavigableSet
   @Override
   public UnmodifiableIterator<C> descendingIterator() {
-    return Iterators.emptyIterator();
+    return emptyIterator();
   }
 
   @Override

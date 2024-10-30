@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Maps.safeGet;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
@@ -1326,7 +1327,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     @CheckForNull
     public Collection<V> get(@CheckForNull Object key) {
-      Collection<V> collection = Maps.safeGet(submap, key);
+      Collection<V> collection = safeGet(submap, key);
       if (collection == null) {
         return null;
       }

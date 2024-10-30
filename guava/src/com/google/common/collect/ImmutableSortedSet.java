@@ -19,6 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.sort;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -172,7 +174,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     contents[3] = e4;
     contents[4] = e5;
     contents[5] = e6;
-    System.arraycopy(remaining, 0, contents, 6, remaining.length);
+    arraycopy(remaining, 0, contents, 6, remaining.length);
     return construct(Ordering.natural(), contents.length, (E[]) contents);
   }
 
@@ -371,7 +373,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       return emptySet(comparator);
     }
     checkElementsNotNull(contents, n);
-    Arrays.sort(contents, 0, n, comparator);
+    sort(contents, 0, n, comparator);
     int uniques = 1;
     for (int i = 1; i < n; i++) {
       E cur = contents[i];
@@ -470,7 +472,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       if (n == 0) {
         return;
       }
-      Arrays.sort(elements, 0, n, comparator);
+      sort(elements, 0, n, comparator);
       int unique = 1;
       for (int i = 1; i < n; i++) {
         int cmp = comparator.compare(elements[unique - 1], elements[i]);

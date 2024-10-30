@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.transformValues;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -50,7 +51,7 @@ public class TablesTransformValuesTest extends AbstractTableTest<Character> {
       String value = (data[i + 2] == null) ? null : (data[i + 2] + "transformed");
       table.put((String) data[i], (Integer) data[i + 1], value);
     }
-    return Tables.transformValues(table, FIRST_CHARACTER);
+    return transformValues(table, FIRST_CHARACTER);
   }
 
   // Null support depends on the underlying table and function.

@@ -16,12 +16,12 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -142,7 +142,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
                 ? 0
                 : columnComparator.compare(cell1.getColumnKey(), cell2.getColumnKey());
           };
-      Collections.sort(cells, comparator);
+      sort(cells, comparator);
     }
     return forCellsInternal(cells, rowComparator, columnComparator);
   }

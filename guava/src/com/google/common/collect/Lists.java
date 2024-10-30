@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.Iterators.elementsEqual;
 import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
@@ -1043,7 +1044,7 @@ public final class Lists {
       }
       return true;
     } else {
-      return Iterators.elementsEqual(thisList.iterator(), otherList.iterator());
+      return elementsEqual(thisList.iterator(), otherList.iterator());
     }
   }
 

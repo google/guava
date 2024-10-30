@@ -16,8 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.entryComparator;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonMap;
 import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -77,7 +79,7 @@ public class Helpers {
   // Would use Maps.immutableEntry
   public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> mapEntry(
       K key, V value) {
-    return Collections.singletonMap(key, value).entrySet().iterator().next();
+    return singletonMap(key, value).entrySet().iterator().next();
   }
 
   private static boolean isEmpty(Iterable<?> iterable) {
@@ -467,7 +469,7 @@ public class Helpers {
       Iterable<Entry<K, V>> orderEntriesByKey(List<Entry<K, V>> insertionOrder) {
     @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
     Comparator<? super K> keyComparator = (Comparator<? super K>) Comparable::compareTo;
-    sort(insertionOrder, Helpers.entryComparator(keyComparator));
+    sort(insertionOrder, entryComparator(keyComparator));
     return insertionOrder;
   }
 

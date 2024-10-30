@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -23,7 +24,6 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_RE
 import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
@@ -97,7 +97,7 @@ public class ListRemoveAtIndexTester<E> extends AbstractListTester<E> {
         Platform.format("remove(%d) should return the element at index %d", index, index),
         getList().get(index),
         getList().remove(index));
-    List<E> expected = Helpers.copyToList(createSamplesArray());
+    List<E> expected = copyToList(createSamplesArray());
     expected.remove(index);
     expectContents(expected);
   }

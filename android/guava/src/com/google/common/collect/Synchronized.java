@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.transformValues;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -2061,7 +2062,7 @@ final class Synchronized {
     public Map<R, Map<C, V>> rowMap() {
       synchronized (mutex) {
         return map(
-            Maps.transformValues(
+            transformValues(
                 delegate().rowMap(),
                 new com.google.common.base.Function<Map<C, V>, Map<C, V>>() {
                   @Override
@@ -2077,7 +2078,7 @@ final class Synchronized {
     public Map<C, Map<R, V>> columnMap() {
       synchronized (mutex) {
         return map(
-            Maps.transformValues(
+            transformValues(
                 delegate().columnMap(),
                 new com.google.common.base.Function<Map<R, V>, Map<R, V>>() {
                   @Override

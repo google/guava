@@ -17,12 +17,19 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.testComparator;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.sort;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
+import static java.util.Collections.sort;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -111,7 +118,7 @@ public class OrderingTest extends TestCase {
 
   public void testNatural() {
     Ordering<Integer> comparator = Ordering.natural();
-    Helpers.testComparator(comparator, Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE);
+    testComparator(comparator, Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE);
     assertThrows(NullPointerException.class, () -> comparator.compare(1, null));
     assertThrows(NullPointerException.class, () -> comparator.compare(null, 2));
     assertThrows(NullPointerException.class, () -> comparator.compare(null, null));
@@ -180,7 +187,7 @@ public class OrderingTest extends TestCase {
   public void testExplicit_sortingExample() {
     Comparator<Integer> c = Ordering.explicit(2, 8, 6, 1, 7, 5, 3, 4, 0, 9);
     List<Integer> list = asList(0, 3, 5, 6, 7, 8, 9);
-    Collections.sort(list, c);
+    sort(list, c);
     assertThat(list).containsExactly(8, 6, 7, 5, 3, 0, 9).inOrder();
     reserializeAndAssert(c);
   }
@@ -200,11 +207,11 @@ public class OrderingTest extends TestCase {
     }
 
     Ordering<Object> arbitrary = Ordering.arbitrary();
-    Collections.sort(list, arbitrary);
+    sort(list, arbitrary);
 
     // Now we don't care what order it's put the list in, only that
     // comparing any pair of elements gives the answer we expect.
-    Helpers.testComparator(arbitrary, list);
+    testComparator(arbitrary, list);
 
     assertEquals("Ordering.arbitrary()", arbitrary.toString());
   }
@@ -227,16 +234,16 @@ public class OrderingTest extends TestCase {
     // Don't let the elements be in such a predictable order
     list = shuffledCopy(list, new Random(1));
 
-    Collections.sort(list, arbitrary);
+    sort(list, arbitrary);
 
     // Now we don't care what order it's put the list in, only that
     // comparing any pair of elements gives the answer we expect.
-    Helpers.testComparator(arbitrary, list);
+    testComparator(arbitrary, list);
   }
 
   public void testUsingToString() {
     Ordering<Object> ordering = Ordering.usingToString();
-    Helpers.testComparator(ordering, 1, 12, 124, 2);
+    testComparator(ordering, 1, 12, 124, 2);
     assertEquals("Ordering.usingToString()", ordering.toString());
     assertSame(ordering, reserialize(ordering));
   }
@@ -272,7 +279,7 @@ public class OrderingTest extends TestCase {
         Ordering.compound(
             ImmutableList.of(
                 byCharAt(0), byCharAt(1), byCharAt(2), byCharAt(3), byCharAt(4), byCharAt(5)));
-    Helpers.testComparator(
+    testComparator(
         comparator,
         ImmutableList.of(
             "applesauce",
@@ -288,7 +295,7 @@ public class OrderingTest extends TestCase {
 
   public void testCompound_instance() {
     Comparator<String> comparator = byCharAt(1).compound(byCharAt(0));
-    Helpers.testComparator(
+    testComparator(
         comparator,
         ImmutableList.of("red", "yellow", "violet", "blue", "indigo", "green", "orange"));
   }
@@ -334,7 +341,7 @@ public class OrderingTest extends TestCase {
 
   public void testReverse() {
     Ordering<Number> reverseOrder = numberOrdering.reverse();
-    Helpers.testComparator(reverseOrder, Integer.MAX_VALUE, 1, 0, -1, Integer.MIN_VALUE);
+    testComparator(reverseOrder, Integer.MAX_VALUE, 1, 0, -1, Integer.MIN_VALUE);
 
     new EqualsTester()
         .addEqualityGroup(reverseOrder, numberOrdering.reverse())
@@ -403,7 +410,7 @@ public class OrderingTest extends TestCase {
     ImmutableList<String> ab = ImmutableList.of("a", "b");
     ImmutableList<String> b = ImmutableList.of("b");
 
-    Helpers.testComparator(lexy, empty, a, aa, ab, b);
+    testComparator(lexy, empty, a, aa, ab, b);
 
     new EqualsTester()
         .addEqualityGroup(lexy, ordering.lexicographical())
@@ -441,12 +448,11 @@ public class OrderingTest extends TestCase {
 
   public void testSortedCopy() {
     List<@Nullable Integer> unsortedInts =
-        Collections.unmodifiableList(Arrays.<@Nullable Integer>asList(5, 0, 3, null, 0, 9));
+        unmodifiableList(Arrays.<@Nullable Integer>asList(5, 0, 3, null, 0, 9));
     List<@Nullable Integer> sortedInts = numberOrdering.nullsLast().sortedCopy(unsortedInts);
     assertEquals(Arrays.<@Nullable Integer>asList(0, 0, 3, 5, 9, null), sortedInts);
 
-    assertEquals(
-        Collections.emptyList(), numberOrdering.sortedCopy(Collections.<Integer>emptyList()));
+    assertEquals(emptyList(), numberOrdering.sortedCopy(Collections.<Integer>emptyList()));
   }
 
   public void testImmutableSortedCopy() {
@@ -473,7 +479,7 @@ public class OrderingTest extends TestCase {
     assertTrue(numberOrdering.isOrdered(asList(0, 3, 5, 9)));
     assertTrue(numberOrdering.isOrdered(asList(0, 0, 3, 3)));
     assertTrue(numberOrdering.isOrdered(asList(0, 3)));
-    assertTrue(numberOrdering.isOrdered(Collections.singleton(1)));
+    assertTrue(numberOrdering.isOrdered(singleton(1)));
     assertTrue(numberOrdering.isOrdered(Collections.<Integer>emptyList()));
   }
 
@@ -483,7 +489,7 @@ public class OrderingTest extends TestCase {
     assertTrue(numberOrdering.isStrictlyOrdered(asList(0, 3, 5, 9)));
     assertFalse(numberOrdering.isStrictlyOrdered(asList(0, 0, 3, 3)));
     assertTrue(numberOrdering.isStrictlyOrdered(asList(0, 3)));
-    assertTrue(numberOrdering.isStrictlyOrdered(Collections.singleton(1)));
+    assertTrue(numberOrdering.isStrictlyOrdered(singleton(1)));
     assertTrue(numberOrdering.isStrictlyOrdered(Collections.<Integer>emptyList()));
   }
 
@@ -534,7 +540,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterator_singleton_0() {
-    List<Integer> result = numberOrdering.leastOf(Iterators.singletonIterator(3), 0);
+    List<Integer> result = numberOrdering.leastOf(singletonIterator(3), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
@@ -871,7 +877,7 @@ public class OrderingTest extends TestCase {
     Object[] array = {1, "foo", new Object()};
 
     // There's no way to tell what the order should be except empirically
-    Arrays.sort(array, arbitrary);
+    sort(array, arbitrary);
     testExhaustively(arbitrary, array);
   }
 
@@ -925,7 +931,7 @@ public class OrderingTest extends TestCase {
     }
 
     void testCompareTo() {
-      Helpers.testComparator(ordering, strictlyOrderedList);
+      testComparator(ordering, strictlyOrderedList);
     }
 
     void testIsOrdered() {

@@ -20,6 +20,7 @@ import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.DiscreteDomain.integers;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.testCompareToAndEquals;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
@@ -27,7 +28,6 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.List;
@@ -279,7 +279,7 @@ public class RangeTest extends TestCase {
     Cut<Integer> e = Range.greaterThan(1).lowerBound;
     Cut<Integer> f = Range.greaterThan(1).upperBound;
 
-    Helpers.testCompareToAndEquals(ImmutableList.of(a, b, c, d, e, f));
+    testCompareToAndEquals(ImmutableList.of(a, b, c, d, e, f));
   }
 
   @SuppressWarnings("DistinctVarargsChecker")

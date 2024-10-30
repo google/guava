@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterables.elementsEqual;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -65,7 +66,7 @@ final class LenientSerializableTester {
   @GwtIncompatible // SerializableTester
   static <E> Collection<E> reserializeAndAssertElementsEqual(Collection<E> original) {
     Collection<E> copy = reserialize(original);
-    assertTrue(Iterables.elementsEqual(original, copy));
+    assertTrue(elementsEqual(original, copy));
     assertTrue(copy instanceof ImmutableCollection);
     return copy;
   }

@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
+import static java.util.Collections.singletonMap;
+
 import com.google.common.annotations.GwtCompatible;
-import java.util.Collections;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -50,7 +51,7 @@ public class AbstractMapEntryTest extends TestCase {
 
   private static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> control(
       K key, V value) {
-    return Collections.singletonMap(key, value).entrySet().iterator().next();
+    return singletonMap(key, value).entrySet().iterator().next();
   }
 
   public void testToString() {

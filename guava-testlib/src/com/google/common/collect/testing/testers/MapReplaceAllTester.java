@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
@@ -23,7 +24,6 @@ import static com.google.common.collect.testing.testers.ReflectionFreeAssertThro
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -62,7 +62,7 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
     List<Entry<K, V>> expectedEntries = new ArrayList<>();
     for (Entry<K, V> entry : getSampleEntries()) {
       int index = keys().asList().indexOf(entry.getKey());
-      expectedEntries.add(Helpers.mapEntry(entry.getKey(), values().asList().get(index + 1)));
+      expectedEntries.add(mapEntry(entry.getKey(), values().asList().get(index + 1)));
     }
     expectContents(expectedEntries);
   }

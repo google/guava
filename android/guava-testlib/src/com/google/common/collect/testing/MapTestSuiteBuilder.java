@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.DerivedCollectionGenerators.keySetGenerator;
+import static com.google.common.collect.testing.Helpers.copyToSet;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.MapEntrySetGenerator;
@@ -153,7 +154,7 @@ public class MapTestSuiteBuilder<K, V>
   }
 
   private static Set<Feature<?>> computeReserializedMapFeatures(Set<Feature<?>> mapFeatures) {
-    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(mapFeatures);
+    Set<Feature<?>> derivedFeatures = copyToSet(mapFeatures);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;

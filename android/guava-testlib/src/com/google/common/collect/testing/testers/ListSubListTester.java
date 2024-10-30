@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
@@ -26,17 +27,16 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SE
 import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.SerializableTester;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.junit.Ignore;
@@ -115,7 +115,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListSetAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
     subList.set(0, e3());
-    List<E> expected = Helpers.copyToList(createSamplesArray());
+    List<E> expected = copyToList(createSamplesArray());
     expected.set(0, e3());
     expectContents(expected);
   }
@@ -128,7 +128,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     assertEquals(
         "A set() call to a list after a sublist has been created "
             + "should be reflected in the sublist",
-        Collections.singletonList(e3()),
+        singletonList(e3()),
         subList);
   }
 
@@ -137,7 +137,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListRemoveAffectsOriginalLargeList() {
     List<E> subList = getList().subList(1, 3);
     subList.remove(e2());
-    List<E> expected = Helpers.copyToList(createSamplesArray());
+    List<E> expected = copyToList(createSamplesArray());
     expected.remove(2);
     expectContents(expected);
   }
@@ -155,7 +155,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListSetAffectsOriginalLargeList() {
     List<E> subList = getList().subList(1, 2);
     subList.set(0, e3());
-    List<E> expected = Helpers.copyToList(createSamplesArray());
+    List<E> expected = copyToList(createSamplesArray());
     expected.set(1, e3());
     expectContents(expected);
   }
@@ -183,7 +183,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     assertEquals(
         "subList(0, 2).subList(1, 2) "
             + "should be a single-element list of the element at index 1",
-        Collections.singletonList(getOrderedElements().get(1)),
+        singletonList(getOrderedElements().get(1)),
         subList);
   }
 

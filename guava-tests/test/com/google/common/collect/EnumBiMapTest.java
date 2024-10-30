@@ -17,13 +17,13 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -84,11 +84,11 @@ public class EnumBiMapTest extends TestCase {
     @Override
     public SampleElements<Entry<Country, Currency>> samples() {
       return new SampleElements<>(
-          Helpers.mapEntry(Country.CANADA, Currency.DOLLAR),
-          Helpers.mapEntry(Country.CHILE, Currency.PESO),
-          Helpers.mapEntry(Country.UK, Currency.POUND),
-          Helpers.mapEntry(Country.JAPAN, Currency.YEN),
-          Helpers.mapEntry(Country.SWITZERLAND, Currency.FRANC));
+          mapEntry(Country.CANADA, Currency.DOLLAR),
+          mapEntry(Country.CHILE, Currency.PESO),
+          mapEntry(Country.UK, Currency.POUND),
+          mapEntry(Country.JAPAN, Currency.YEN),
+          mapEntry(Country.SWITZERLAND, Currency.FRANC));
     }
 
     @SuppressWarnings("unchecked")

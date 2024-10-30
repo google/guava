@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterators.singletonIterator;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -145,7 +146,7 @@ public abstract class TreeTraverser<T> {
 
     PreOrderIterator(T root) {
       this.stack = new ArrayDeque<>();
-      stack.addLast(Iterators.singletonIterator(checkNotNull(root)));
+      stack.addLast(singletonIterator(checkNotNull(root)));
     }
 
     @Override

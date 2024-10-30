@@ -17,13 +17,13 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.testing.AnEnum;
@@ -210,7 +210,7 @@ public class MapGenerators {
       for (Object elem : elements) {
         @SuppressWarnings("unchecked") // safe by generator contract
         Entry<String, Collection<Integer>> entry = (Entry<String, Collection<Integer>>) elem;
-        Integer value = Iterables.getOnlyElement(entry.getValue());
+        Integer value = getOnlyElement(entry.getValue());
         builder.put(entry.getKey(), value);
       }
       return builder.buildOrThrow().asMultimap().asMap();

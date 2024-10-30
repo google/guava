@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static java.lang.System.arraycopy;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -924,7 +925,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
-    System.arraycopy(queue, 0, copyTo, 0, size);
+    arraycopy(queue, 0, copyTo, 0, size);
     return copyTo;
   }
 
@@ -969,7 +970,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     if (size > queue.length) {
       int newCapacity = calculateNewCapacity();
       Object[] newQueue = new Object[newCapacity];
-      System.arraycopy(queue, 0, newQueue, 0, queue.length);
+      arraycopy(queue, 0, newQueue, 0, queue.length);
       queue = newQueue;
     }
   }

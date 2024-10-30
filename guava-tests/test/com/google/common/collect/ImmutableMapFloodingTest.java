@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.lang.Math.log;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -28,10 +29,7 @@ import java.util.Map;
 @GwtIncompatible
 public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
   public ImmutableMapFloodingTest() {
-    super(
-        asList(ConstructionPathway.values()),
-        n -> n * Math.log(n),
-        ImmutableList.of(QueryOp.MAP_GET));
+    super(asList(ConstructionPathway.values()), n -> n * log(n), ImmutableList.of(QueryOp.MAP_GET));
   }
 
   /** All the ways to create an ImmutableMap. */

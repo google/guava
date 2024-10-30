@@ -26,6 +26,7 @@ import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FI
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST_2;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
+import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
@@ -193,7 +194,7 @@ public class SetGenerators {
 
     @Override
     public List<String> order(List<String> insertionOrder) {
-      Collections.sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Collections.reverseOrder());
       return insertionOrder;
     }
   }
@@ -210,7 +211,7 @@ public class SetGenerators {
 
     @Override
     public List<String> order(List<String> insertionOrder) {
-      Collections.sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Collections.reverseOrder());
       return insertionOrder;
     }
   }
@@ -224,7 +225,7 @@ public class SetGenerators {
 
     @Override
     public List<String> order(List<String> insertionOrder) {
-      Collections.sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Collections.reverseOrder());
       return insertionOrder;
     }
   }
@@ -401,7 +402,7 @@ public class SetGenerators {
     /** Sorts the elements in reverse natural order. */
     @Override
     public List<Integer> order(List<Integer> insertionOrder) {
-      Collections.sort(insertionOrder, Ordering.<Integer>natural().reverse());
+      sort(insertionOrder, Ordering.<Integer>natural().reverse());
       return insertionOrder;
     }
   }

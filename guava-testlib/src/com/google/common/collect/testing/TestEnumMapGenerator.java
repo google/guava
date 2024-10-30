@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
@@ -35,11 +36,11 @@ public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, S
   @Override
   public SampleElements<Entry<AnEnum, String>> samples() {
     return new SampleElements<>(
-        Helpers.mapEntry(AnEnum.A, "January"),
-        Helpers.mapEntry(AnEnum.B, "February"),
-        Helpers.mapEntry(AnEnum.C, "March"),
-        Helpers.mapEntry(AnEnum.D, "April"),
-        Helpers.mapEntry(AnEnum.E, "May"));
+        mapEntry(AnEnum.A, "January"),
+        mapEntry(AnEnum.B, "February"),
+        mapEntry(AnEnum.C, "March"),
+        mapEntry(AnEnum.D, "April"),
+        mapEntry(AnEnum.E, "May"));
   }
 
   @Override

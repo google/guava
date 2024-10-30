@@ -21,6 +21,8 @@ import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
@@ -214,9 +216,9 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       if (result.isEmpty()) {
         return null;
       } else if (unfiltered instanceof SetMultimap) {
-        return Collections.unmodifiableSet(Sets.newLinkedHashSet(result));
+        return unmodifiableSet(Sets.newLinkedHashSet(result));
       } else {
-        return Collections.unmodifiableList(result);
+        return unmodifiableList(result);
       }
     }
 

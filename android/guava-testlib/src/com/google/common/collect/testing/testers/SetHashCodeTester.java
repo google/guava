@@ -16,12 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
@@ -75,8 +75,8 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   @GwtIncompatible // reflection
   public static Method[] getHashCodeMethods() {
     return new Method[] {
-      Helpers.getMethod(SetHashCodeTester.class, "testHashCode"),
-      Helpers.getMethod(SetHashCodeTester.class, "testHashCode_containingNull")
+      getMethod(SetHashCodeTester.class, "testHashCode"),
+      getMethod(SetHashCodeTester.class, "testHashCode_containingNull")
     };
   }
 }

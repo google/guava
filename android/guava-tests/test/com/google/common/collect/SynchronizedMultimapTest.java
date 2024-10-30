@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Multimaps.synchronizedListMultimap;
+import static com.google.common.collect.Multimaps.synchronizedSortedSetMultimap;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -219,7 +221,7 @@ public class SynchronizedMultimapTest extends TestCase {
 
   public void testSynchronizedListMultimap() {
     ListMultimap<String, Integer> multimap =
-        Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create());
+        synchronizedListMultimap(ArrayListMultimap.<String, Integer>create());
     multimap.putAll("foo", asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(3, -1, 2, 4, 1).inOrder();
@@ -230,7 +232,7 @@ public class SynchronizedMultimapTest extends TestCase {
 
   public void testSynchronizedSortedSetMultimap() {
     SortedSetMultimap<String, Integer> multimap =
-        Multimaps.synchronizedSortedSetMultimap(TreeMultimap.<String, Integer>create());
+        synchronizedSortedSetMultimap(TreeMultimap.<String, Integer>create());
     multimap.putAll("foo", asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(-1, 1, 2, 3, 4).inOrder();
@@ -243,7 +245,7 @@ public class SynchronizedMultimapTest extends TestCase {
     ListMultimap<String, Integer> delegate = ArrayListMultimap.create();
     delegate.put("foo", 1);
     delegate.put("foo", 3);
-    ListMultimap<String, Integer> multimap = Multimaps.synchronizedListMultimap(delegate);
+    ListMultimap<String, Integer> multimap = synchronizedListMultimap(delegate);
     assertTrue(multimap.get("foo") instanceof RandomAccess);
     assertTrue(multimap.get("bar") instanceof RandomAccess);
   }
@@ -252,7 +254,7 @@ public class SynchronizedMultimapTest extends TestCase {
     ListMultimap<String, Integer> delegate = LinkedListMultimap.create();
     delegate.put("foo", 1);
     delegate.put("foo", 3);
-    ListMultimap<String, Integer> multimap = Multimaps.synchronizedListMultimap(delegate);
+    ListMultimap<String, Integer> multimap = synchronizedListMultimap(delegate);
     assertFalse(multimap.get("foo") instanceof RandomAccess);
     assertFalse(multimap.get("bar") instanceof RandomAccess);
   }

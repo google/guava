@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Iterators.emptyIterator;
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
@@ -667,7 +668,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>> asMapItr =
           map.entrySet().iterator();
       @CheckForNull K currentKey = null;
-      Iterator<V> valueItr = Iterators.emptyIterator();
+      Iterator<V> valueItr = emptyIterator();
 
       @Override
       public boolean hasNext() {
@@ -808,7 +809,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   UnmodifiableIterator<V> valueIterator() {
     return new UnmodifiableIterator<V>() {
       Iterator<? extends ImmutableCollection<V>> valueCollectionItr = map.values().iterator();
-      Iterator<V> valueItr = Iterators.emptyIterator();
+      Iterator<V> valueItr = emptyIterator();
 
       @Override
       public boolean hasNext() {

@@ -19,6 +19,10 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.sort;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.sort;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -758,11 +762,11 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
 
         @SuppressWarnings("unchecked") // c only contains E's and doesn't escape
         E[] array = (E[]) collection.toArray();
-        Arrays.sort(array, this);
+        sort(array, this);
         if (array.length > k) {
           array = Arrays.copyOf(array, k);
         }
-        return Collections.unmodifiableList(asList(array));
+        return unmodifiableList(asList(array));
       }
     }
     return leastOf(iterable.iterator(), k);
@@ -789,16 +793,16 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     checkNonnegative(k, "k");
 
     if (k == 0 || !iterator.hasNext()) {
-      return Collections.emptyList();
+      return emptyList();
     } else if (k >= Integer.MAX_VALUE / 2) {
       // k is really large; just do a straightforward sorted-copy-and-sublist
       ArrayList<E> list = Lists.newArrayList(iterator);
-      Collections.sort(list, this);
+      sort(list, this);
       if (list.size() > k) {
         list.subList(k, list.size()).clear();
       }
       list.trimToSize();
-      return Collections.unmodifiableList(list);
+      return unmodifiableList(list);
     } else {
       TopKSelector<E> selector = TopKSelector.least(k, this);
       selector.offerAll(iterator);
@@ -867,7 +871,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
-    Arrays.sort(array, this);
+    sort(array, this);
     return Lists.newArrayList(asList(array));
   }
 

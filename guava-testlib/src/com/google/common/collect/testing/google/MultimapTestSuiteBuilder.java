@@ -17,7 +17,9 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.testing.Helpers.copyToSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -28,7 +30,6 @@ import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.DerivedGenerator;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.PerCollectionSizeTestSuiteBuilder;
@@ -209,7 +210,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
   }
 
   static Set<Feature<?>> computeDerivedCollectionFeatures(Set<Feature<?>> multimapFeatures) {
-    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(multimapFeatures);
+    Set<Feature<?>> derivedFeatures = copyToSet(multimapFeatures);
     if (!derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     }
@@ -251,14 +252,14 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
   private static Set<Feature<?>> computeReserializedMultimapFeatures(
       Set<Feature<?>> multimapFeatures) {
-    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(multimapFeatures);
+    Set<Feature<?>> derivedFeatures = copyToSet(multimapFeatures);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;
   }
 
   private static Set<Feature<?>> computeAsMapFeatures(Set<Feature<?>> multimapFeatures) {
-    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(multimapFeatures);
+    Set<Feature<?>> derivedFeatures = copyToSet(multimapFeatures);
     derivedFeatures.remove(MapFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(MapFeature.SUPPORTS_PUT);
     derivedFeatures.remove(MapFeature.ALLOWS_NULL_VALUES);
@@ -285,7 +286,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           .build();
 
   Set<Feature<?>> computeMultimapGetFeatures(Set<Feature<?>> multimapFeatures) {
-    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(multimapFeatures);
+    Set<Feature<?>> derivedFeatures = copyToSet(multimapFeatures);
     for (Entry<Feature<?>, Feature<?>> entry : GET_FEATURE_MAP.entries()) {
       if (derivedFeatures.contains(entry.getKey())) {
         derivedFeatures.add(entry.getValue());
@@ -302,8 +303,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
   }
 
   Set<Feature<?>> computeMultimapAsMapGetFeatures(Set<Feature<?>> multimapFeatures) {
-    Set<Feature<?>> derivedFeatures =
-        Helpers.copyToSet(computeMultimapGetFeatures(multimapFeatures));
+    Set<Feature<?>> derivedFeatures = copyToSet(computeMultimapGetFeatures(multimapFeatures));
     if (derivedFeatures.remove(CollectionSize.ANY)) {
       derivedFeatures.addAll(CollectionSize.ANY.getImpliedFeatures());
     }
@@ -326,7 +326,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
     private Collection<V> createCollection(V v) {
       return ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
-          .createCollection(Collections.singleton(v));
+          .createCollection(singleton(v));
     }
 
     @Override

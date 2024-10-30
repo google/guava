@@ -16,12 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
@@ -117,8 +117,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testEquals_list() {
     assertFalse(
-        "A List should never equal a Map.",
-        getMap().equals(Helpers.copyToList(getMap().entrySet())));
+        "A List should never equal a Map.", getMap().equals(copyToList(getMap().entrySet())));
   }
 
   private static <K, V> Map<K, V> newHashMap(

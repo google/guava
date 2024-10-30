@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static java.lang.Math.log;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -27,7 +28,7 @@ public class ImmutableSetFloodingTest extends AbstractHashFloodingTest<Set<Objec
   public ImmutableSetFloodingTest() {
     super(
         asList(ConstructionPathway.values()),
-        n -> n * Math.log(n),
+        n -> n * log(n),
         ImmutableList.of(
             QueryOp.create(
                 "contains",

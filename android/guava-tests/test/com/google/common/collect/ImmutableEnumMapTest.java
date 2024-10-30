@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.truth.Truth.assertThat;
@@ -26,7 +27,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.testing.AnEnum;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -83,7 +83,7 @@ public class ImmutableEnumMapTest extends TestCase {
               }
             });
     ImmutableMap<AnEnum, AnEnum> copy = Maps.immutableEnumMap(map);
-    assertThat(copy.entrySet()).containsExactly(Helpers.mapEntry(AnEnum.A, AnEnum.A));
+    assertThat(copy.entrySet()).containsExactly(mapEntry(AnEnum.A, AnEnum.A));
   }
 
   public void testEmptyImmutableEnumMap() {
@@ -96,10 +96,7 @@ public class ImmutableEnumMapTest extends TestCase {
         Maps.immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
     assertThat(map.entrySet())
-        .containsExactly(
-            Helpers.mapEntry(AnEnum.A, "a"),
-            Helpers.mapEntry(AnEnum.C, "c"),
-            Helpers.mapEntry(AnEnum.E, "e"))
+        .containsExactly(mapEntry(AnEnum.A, "a"), mapEntry(AnEnum.C, "c"), mapEntry(AnEnum.E, "e"))
         .inOrder();
   }
 }

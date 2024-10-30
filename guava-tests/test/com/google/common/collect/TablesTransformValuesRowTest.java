@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.transformValues;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class TablesTransformValuesRowTest extends RowTests {
   @Override
   Table<Character, String, Integer> makeTable() {
     Table<Character, String, Integer> table = HashBasedTable.create();
-    return Tables.transformValues(table, TableCollectionTest.DIVIDE_BY_2);
+    return transformValues(table, TableCollectionTest.DIVIDE_BY_2);
   }
 
   @Override
@@ -40,6 +42,6 @@ public class TablesTransformValuesRowTest extends RowTests {
     table.put('a', "two", 4);
     table.put('a', "three", 6);
     table.put('b', "four", 8);
-    return Tables.transformValues(table, TableCollectionTest.DIVIDE_BY_2).row('a');
+    return transformValues(table, TableCollectionTest.DIVIDE_BY_2).row('a');
   }
 }

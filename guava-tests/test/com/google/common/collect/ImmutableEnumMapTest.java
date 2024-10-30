@@ -30,7 +30,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.testing.AnEnum;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -90,7 +89,7 @@ public class ImmutableEnumMapTest extends TestCase {
               }
             });
     ImmutableMap<AnEnum, AnEnum> copy = Maps.immutableEnumMap(map);
-    assertThat(copy.entrySet()).containsExactly(Helpers.mapEntry(AnEnum.A, AnEnum.A));
+    assertThat(copy.entrySet()).containsExactly(mapEntry(AnEnum.A, AnEnum.A));
   }
 
   public void testEmptyImmutableEnumMap() {
@@ -103,10 +102,7 @@ public class ImmutableEnumMapTest extends TestCase {
         Maps.immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
     assertThat(map.entrySet())
-        .containsExactly(
-            Helpers.mapEntry(AnEnum.A, "a"),
-            Helpers.mapEntry(AnEnum.C, "c"),
-            Helpers.mapEntry(AnEnum.E, "e"))
+        .containsExactly(mapEntry(AnEnum.A, "a"), mapEntry(AnEnum.C, "c"), mapEntry(AnEnum.E, "e"))
         .inOrder();
   }
 

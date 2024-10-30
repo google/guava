@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
@@ -25,7 +26,6 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import org.junit.Ignore;
@@ -62,7 +62,7 @@ public class CollectionToStringTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(value = KNOWN_ORDER, absent = NON_STANDARD_TOSTRING)
   public void testToString_sizeSeveral() {
-    String expected = Helpers.copyToList(getOrderedElements()).toString();
+    String expected = copyToList(getOrderedElements()).toString();
     assertEquals("collection.toString() incorrect", expected, collection.toString());
   }
 

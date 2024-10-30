@@ -25,6 +25,9 @@ import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -81,7 +84,7 @@ public class MapsTest extends TestCase {
 
   public void testHashMap() {
     HashMap<Integer, Integer> map = Maps.newHashMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
   }
 
   public void testHashMapWithInitialMap() {
@@ -218,7 +221,7 @@ public class MapsTest extends TestCase {
 
   public void testLinkedHashMap() {
     LinkedHashMap<Integer, Integer> map = Maps.newLinkedHashMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
   }
 
   @SuppressWarnings("serial")
@@ -269,23 +272,23 @@ public class MapsTest extends TestCase {
   @SuppressWarnings("IdentityHashMapBoxing")
   public void testIdentityHashMap() {
     IdentityHashMap<Integer, Integer> map = Maps.newIdentityHashMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
   }
 
   public void testConcurrentMap() {
     ConcurrentMap<Integer, Integer> map = Maps.newConcurrentMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
   }
 
   public void testTreeMap() {
     TreeMap<Integer, Integer> map = Maps.newTreeMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
     assertNull(map.comparator());
   }
 
   public void testTreeMapDerived() {
     TreeMap<Derived, Integer> map = Maps.newTreeMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
     map.put(new Derived("foo"), 1);
     map.put(new Derived("bar"), 2);
     assertThat(map.keySet()).containsExactly(new Derived("bar"), new Derived("foo")).inOrder();
@@ -295,7 +298,7 @@ public class MapsTest extends TestCase {
 
   public void testTreeMapNonGeneric() {
     TreeMap<LegacyComparable, Integer> map = Maps.newTreeMap();
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
     map.put(new LegacyComparable("foo"), 1);
     map.put(new LegacyComparable("bar"), 2);
     assertThat(map.keySet())
@@ -307,7 +310,7 @@ public class MapsTest extends TestCase {
 
   public void testTreeMapWithComparator() {
     TreeMap<Integer, Integer> map = Maps.newTreeMap(SOME_COMPARATOR);
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
     assertSame(SOME_COMPARATOR, map.comparator());
   }
 
@@ -327,9 +330,9 @@ public class MapsTest extends TestCase {
 
   public void testEnumMap() {
     EnumMap<SomeEnum, Integer> map = Maps.newEnumMap(SomeEnum.class);
-    assertEquals(Collections.emptyMap(), map);
+    assertEquals(emptyMap(), map);
     map.put(SomeEnum.SOME_INSTANCE, 0);
-    assertEquals(Collections.singletonMap(SomeEnum.SOME_INSTANCE, 0), map);
+    assertEquals(singletonMap(SomeEnum.SOME_INSTANCE, 0), map);
   }
 
   public void testEnumMapNullClass() {
@@ -386,8 +389,8 @@ public class MapsTest extends TestCase {
     new NullPointerTester().testAllPublicStaticMethods(Maps.class);
   }
 
-  private static final Map<Integer, Integer> EMPTY = Collections.emptyMap();
-  private static final Map<Integer, Integer> SINGLETON = Collections.singletonMap(1, 2);
+  private static final Map<Integer, Integer> EMPTY = emptyMap();
+  private static final Map<Integer, Integer> SINGLETON = singletonMap(1, 2);
 
   public void testMapDifferenceEmptyEmpty() {
     MapDifference<Integer, Integer> diff = Maps.difference(EMPTY, EMPTY);
@@ -1165,17 +1168,14 @@ public class MapsTest extends TestCase {
     /* UnsupportedOperationException on direct modifications. */
     assertThrows(UnsupportedOperationException.class, () -> unmod.put(4, "four"));
     assertThrows(UnsupportedOperationException.class, () -> unmod.forcePut(4, "four"));
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> unmod.putAll(Collections.singletonMap(4, "four")));
+    assertThrows(UnsupportedOperationException.class, () -> unmod.putAll(singletonMap(4, "four")));
 
     /* UnsupportedOperationException on indirect modifications. */
     BiMap<String, Number> inverse = unmod.inverse();
     assertThrows(UnsupportedOperationException.class, () -> inverse.put("four", 4));
     assertThrows(UnsupportedOperationException.class, () -> inverse.forcePut("four", 4));
     assertThrows(
-        UnsupportedOperationException.class,
-        () -> inverse.putAll(Collections.singletonMap("four", 4)));
+        UnsupportedOperationException.class, () -> inverse.putAll(singletonMap("four", 4)));
     Set<String> values = unmod.values();
     assertThrows(UnsupportedOperationException.class, () -> values.remove("four"));
     Set<Entry<Number, String>> entries = unmod.entrySet();
@@ -1394,10 +1394,8 @@ public class MapsTest extends TestCase {
     Collection<String> values = unmod.values();
     assertThrows(UnsupportedOperationException.class, () -> values.add("4"));
     assertThrows(UnsupportedOperationException.class, () -> values.remove("four"));
-    assertThrows(
-        UnsupportedOperationException.class, () -> values.removeAll(Collections.singleton("four")));
-    assertThrows(
-        UnsupportedOperationException.class, () -> values.retainAll(Collections.singleton("four")));
+    assertThrows(UnsupportedOperationException.class, () -> values.removeAll(singleton("four")));
+    assertThrows(UnsupportedOperationException.class, () -> values.retainAll(singleton("four")));
     assertThrows(
         UnsupportedOperationException.class,
         () -> {
@@ -1461,7 +1459,7 @@ public class MapsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.putAll(Collections.singletonMap(4, "four"));
+      unmod.putAll(singletonMap(4, "four"));
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }

@@ -16,14 +16,17 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
+import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -188,7 +191,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertTrue(map.containsKey(key));
       assertTrue(map.containsValue(value));
       assertTrue(valueCollection.contains(value));
-      assertTrue(valueCollection.containsAll(Collections.singleton(value)));
+      assertTrue(valueCollection.containsAll(singleton(value)));
       assertTrue(entrySet.contains(mapEntry(key, value)));
       assertTrue(allowsNullKeys || (key != null));
     }
@@ -463,7 +466,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     if (supportsIteratorRemove) {
       int initialSize = map.size();
       Entry<K, V> entry = iterator.next();
-      Entry<K, V> entryCopy = Helpers.mapEntry(entry.getKey(), entry.getValue());
+      Entry<K, V> entryCopy = mapEntry(entry.getKey(), entry.getValue());
 
       iterator.remove();
       assertEquals(initialSize - 1, map.size());
@@ -630,8 +633,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       // We use a copy of "entryToRemove" in the assertion because "entryToRemove" might be
       // invalidated and have undefined behavior after entrySet.removeAll(entriesToRemove),
       // for example entryToRemove.getValue() might be null.
-      Entry<K, V> entryToRemoveCopy =
-          Helpers.mapEntry(entryToRemove.getKey(), entryToRemove.getValue());
+      Entry<K, V> entryToRemoveCopy = mapEntry(entryToRemove.getKey(), entryToRemove.getValue());
 
       int initialSize = map.size();
       boolean didRemove = entrySet.removeAll(entriesToRemove);
@@ -823,7 +825,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     // Explicitly call `equals`; `assertEquals` might return fast
     assertTrue(map.equals(map));
     assertTrue(makePopulatedMap().equals(map));
-    assertFalse(map.equals(Collections.emptyMap()));
+    assertFalse(map.equals(emptyMap()));
     // no-inspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
@@ -875,8 +877,8 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     // Explicitly call `equals`; `assertEquals` might return fast
     assertTrue(map.equals(map));
     assertTrue(makeEmptyMap().equals(map));
-    assertEquals(Collections.emptyMap(), map);
-    assertFalse(map.equals(Collections.emptySet()));
+    assertEquals(emptyMap(), map);
+    assertFalse(map.equals(emptySet()));
     // noinspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
@@ -1085,7 +1087,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     } catch (UnsupportedOperationException e) {
       return;
     }
-    Map<K, V> mapToPut = Collections.singletonMap(keyToPut, valueToPut);
+    Map<K, V> mapToPut = singletonMap(keyToPut, valueToPut);
     if (supportsPut) {
       int initialSize = map.size();
       map.putAll(mapToPut);
@@ -1109,7 +1111,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       return;
     }
     K keyToPut = map.keySet().iterator().next();
-    Map<K, V> mapToPut = Collections.singletonMap(keyToPut, valueToPut);
+    Map<K, V> mapToPut = singletonMap(keyToPut, valueToPut);
     int initialSize = map.size();
     if (supportsPut) {
       map.putAll(mapToPut);
@@ -1200,12 +1202,11 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     K key = keys.iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
-      assertTrue(keys.removeAll(Collections.singleton(key)));
+      assertTrue(keys.removeAll(singleton(key)));
       assertEquals(initialSize - 1, map.size());
       assertFalse(map.containsKey(key));
     } else {
-      assertThrows(
-          UnsupportedOperationException.class, () -> keys.removeAll(Collections.singleton(key)));
+      assertThrows(UnsupportedOperationException.class, () -> keys.removeAll(singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1221,12 +1222,11 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     Set<K> keys = map.keySet();
     K key = keys.iterator().next();
     if (supportsRemove) {
-      keys.retainAll(Collections.singleton(key));
+      keys.retainAll(singleton(key));
       assertEquals(1, map.size());
       assertTrue(map.containsKey(key));
     } else {
-      assertThrows(
-          UnsupportedOperationException.class, () -> keys.retainAll(Collections.singleton(key)));
+      assertThrows(UnsupportedOperationException.class, () -> keys.retainAll(singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1512,10 +1512,5 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       assertThrows(UnsupportedOperationException.class, () -> valueCollection.clear());
     }
     assertInvariants(map);
-  }
-
-  static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> mapEntry(
-      K key, V value) {
-    return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 }

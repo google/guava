@@ -16,12 +16,13 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static com.google.common.collect.testing.features.FeatureUtil.addImpliedFeatures;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
-import com.google.common.collect.testing.features.FeatureUtil;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
 
     String name = getName();
     // Copy this set, so we can modify it.
-    Set<Feature<?>> features = Helpers.copyToSet(getFeatures());
+    Set<Feature<?>> features = copyToSet(getFeatures());
     @SuppressWarnings("rawtypes") // class literals
     List<Class<? extends AbstractTester>> testers = getTesters();
 
@@ -70,7 +71,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     sizesToTest.retainAll(features);
     features.removeAll(sizesToTest);
 
-    FeatureUtil.addImpliedFeatures(sizesToTest);
+    addImpliedFeatures(sizesToTest);
     sizesToTest.retainAll(asList(CollectionSize.ZERO, CollectionSize.ONE, CollectionSize.SEVERAL));
 
     logger.fine("   Sizes: " + formatFeatureSet(sizesToTest));
@@ -89,7 +90,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
               "%s [collection size: %s]", name, collectionSize.toString().toLowerCase());
       OneSizeGenerator<T, E> oneSizeGenerator =
           new OneSizeGenerator<>(getSubjectGenerator(), (CollectionSize) collectionSize);
-      Set<Feature<?>> oneSizeFeatures = Helpers.copyToSet(features);
+      Set<Feature<?>> oneSizeFeatures = copyToSet(features);
       oneSizeFeatures.add(collectionSize);
       Set<Method> oneSizeSuppressedTests = getSuppressedTests();
 

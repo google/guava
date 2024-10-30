@@ -16,8 +16,9 @@
 
 package com.google.common.collect.testing.features;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.Helpers;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -108,7 +109,7 @@ public enum CollectionFeature implements Feature<Collection> {
   private final Set<Feature<? super Collection>> implied;
 
   CollectionFeature(Feature<? super Collection>... implied) {
-    this.implied = Helpers.copyToSet(implied);
+    this.implied = copyToSet(implied);
   }
 
   @Override

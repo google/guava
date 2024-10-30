@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterables.getOnlyElement;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -43,7 +44,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
       case 0:
         return ImmutableMap.of();
       case 1:
-        Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
+        Entry<K, V> entry = getOnlyElement(map.entrySet());
         return ImmutableMap.of(entry.getKey(), entry.getValue());
       default:
         return new ImmutableEnumMap<>(map);

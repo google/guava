@@ -18,6 +18,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.Helpers.assertContains;
 import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
 import static com.google.common.collect.testing.Helpers.assertEmpty;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -26,14 +27,13 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
-import java.util.Collections;
 import org.junit.Ignore;
 
 /**
@@ -60,8 +60,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
   @CollectionSize.Require(SEVERAL)
   public void testGetMultiple() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k0(), v2()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v2()));
     assertGet(k0(), v0(), v1(), v2());
   }
 
@@ -72,8 +71,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testPropagatesRemoveToMultimap() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()), Helpers.mapEntry(k0(), v2()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v3()), mapEntry(k0(), v2()));
     Collection<V> result = multimap().get(k0());
     assertTrue(result.remove(v0()));
     assertFalse(multimap().containsEntry(k0(), v0()));
@@ -100,7 +98,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPropagatesAddAllToMultimap() {
     Collection<V> result = multimap().get(k0());
-    assertTrue(result.addAll(Collections.singletonList(v3())));
+    assertTrue(result.addAll(singletonList(v3())));
     assertTrue(multimap().containsKey(k0()));
     assertEquals(getNumElements() + 1, multimap().size());
     assertTrue(multimap().containsEntry(k0(), v3()));

@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
@@ -24,7 +25,6 @@ import static com.google.common.collect.testing.testers.ReflectionFreeAssertThro
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
@@ -132,6 +132,6 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetNullSupportedMethod() {
-    return Helpers.getMethod(ListSetTester.class, "testSet_null");
+    return getMethod(ListSetTester.class, "testSet_null");
   }
 }

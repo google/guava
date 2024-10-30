@@ -15,6 +15,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertContainsAllOf;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
@@ -27,7 +28,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -45,8 +45,7 @@ import org.junit.Ignore;
 public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(SEVERAL)
   public void testKeys() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k1(), v0()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
     assertEquals(2, keys.count(k0()));
     assertEquals(1, keys.count(k1()));
@@ -64,10 +63,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testKeysWithNullKey() {
-    resetContainer(
-        Helpers.mapEntry((K) null, v0()),
-        Helpers.mapEntry((K) null, v1()),
-        Helpers.mapEntry(k1(), v0()));
+    resetContainer(mapEntry((K) null, v0()), mapEntry((K) null, v1()), mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
     assertEquals(2, keys.count(null));
     assertEquals(1, keys.count(k1()));
@@ -100,8 +96,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysEntrySetRemove() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k1(), v0()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k1(), v0()));
     assertTrue(multimap().keys().entrySet().remove(Multisets.immutableEntry(k0(), 2)));
     assertEquals(1, multimap().size());
     assertTrue(multimap().containsEntry(k1(), v0()));

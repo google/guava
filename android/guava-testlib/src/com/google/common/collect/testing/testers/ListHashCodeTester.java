@@ -16,10 +16,11 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import java.lang.reflect.Method;
 import org.junit.Ignore;
 
@@ -50,6 +51,6 @@ public class ListHashCodeTester<E> extends AbstractListTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getHashCodeMethod() {
-    return Helpers.getMethod(ListHashCodeTester.class, "testHashCode");
+    return getMethod(ListHashCodeTester.class, "testHashCode");
   }
 }

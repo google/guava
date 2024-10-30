@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.TableCollectors.toImmutableTable;
 import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -50,7 +51,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   // This gives minimal coverage to the forwarding functions
   public void testToImmutableTableSanityTest() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
-        TableCollectors.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
+        toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
     CollectorTester.of(collector)
         .expectCollects(ImmutableTable.of())
         .expectCollects(ImmutableTable.of("one", "uno", 1), immutableCell("one", "uno", 1));
@@ -58,8 +59,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testToImmutableTableMergingSanityTest() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
-        TableCollectors.toImmutableTable(
-            Cell::getRowKey, Cell::getColumnKey, Cell::getValue, Integer::sum);
+        toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue, Integer::sum);
     CollectorTester.of(collector)
         .expectCollects(ImmutableTable.of())
         .expectCollects(

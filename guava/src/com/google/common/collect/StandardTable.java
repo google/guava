@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.alwaysTrue;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.Iterators.emptyIterator;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.safeContainsKey;
 import static com.google.common.collect.Maps.safeGet;
@@ -354,7 +355,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     @CheckForNull
     public V get(@CheckForNull Object key) {
       updateBackingRowMapField();
-      return (key != null && backingRowMap != null) ? Maps.safeGet(backingRowMap, key) : null;
+      return (key != null && backingRowMap != null) ? safeGet(backingRowMap, key) : null;
     }
 
     @Override
@@ -775,7 +776,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     // consistent with equals().
     final Map<C, V> seen = factory.get();
     final Iterator<Map<C, V>> mapIterator = backingMap.values().iterator();
-    Iterator<Entry<C, V>> entryIterator = Iterators.emptyIterator();
+    Iterator<Entry<C, V>> entryIterator = emptyIterator();
 
     @Override
     @CheckForNull

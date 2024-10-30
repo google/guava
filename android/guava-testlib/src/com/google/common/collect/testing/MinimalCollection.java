@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -104,7 +105,7 @@ public class MinimalCollection<E extends @Nullable Object> extends AbstractColle
   @Override
   public @Nullable Object[] toArray() {
     @Nullable Object[] result = new @Nullable Object[contents.length];
-    System.arraycopy(contents, 0, result, 0, contents.length);
+    arraycopy(contents, 0, result, 0, contents.length);
     return result;
   }
 

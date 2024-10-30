@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static java.lang.System.arraycopy;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ public abstract class TestMapEntrySetGenerator<
   @Override
   public Set<Entry<K, V>> create(Object... elements) {
     Entry<K, V>[] entries = createArray(elements.length);
-    System.arraycopy(elements, 0, entries, 0, elements.length);
+    arraycopy(elements, 0, entries, 0, elements.length);
     return createFromEntries(entries);
   }
 

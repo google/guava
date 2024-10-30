@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
@@ -26,7 +27,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -77,14 +77,14 @@ public class CollectionSpliteratorTester<E> extends AbstractCollectionTester<E> 
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsAddMethod() {
-    return Helpers.getMethod(
+    return getMethod(
         CollectionSpliteratorTester.class, "testSpliteratorNotImmutable_collectionAllowsAdd");
   }
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsRemoveMethod() {
-    return Helpers.getMethod(
+    return getMethod(
         CollectionSpliteratorTester.class, "testSpliteratorNotImmutable_collectionAllowsRemove");
   }
 }

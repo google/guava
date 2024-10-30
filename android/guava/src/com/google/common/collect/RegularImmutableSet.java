@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.System.arraycopy;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -102,7 +104,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   int copyIntoArray(@Nullable Object[] dst, int offset) {
-    System.arraycopy(elements, 0, dst, offset, size);
+    arraycopy(elements, 0, dst, offset, size);
     return offset + size;
   }
 

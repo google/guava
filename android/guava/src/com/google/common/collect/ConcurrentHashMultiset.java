@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.collect.Maps.safeGet;
 import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
@@ -141,7 +143,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @Override
   public int count(@CheckForNull Object element) {
-    AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+    AtomicInteger existingCounter = safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
 
@@ -181,7 +183,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * either of these would recurse back to us again!
    */
   private List<E> snapshot() {
-    List<E> list = Lists.newArrayListWithExpectedSize(size());
+    List<E> list = newArrayListWithExpectedSize(size());
     for (Multiset.Entry<E> entry : entrySet()) {
       E element = entry.getElement();
       for (int i = entry.getCount(); i > 0; i--) {
@@ -212,7 +214,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     while (true) {
-      AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+      AtomicInteger existingCounter = safeGet(countMap, element);
       if (existingCounter == null) {
         existingCounter = countMap.putIfAbsent(element, new AtomicInteger(occurrences));
         if (existingCounter == null) {
@@ -277,7 +279,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
     CollectPreconditions.checkPositive(occurrences, "occurrences");
 
-    AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+    AtomicInteger existingCounter = safeGet(countMap, element);
     if (existingCounter == null) {
       return 0;
     }
@@ -318,7 +320,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
     CollectPreconditions.checkPositive(occurrences, "occurrences");
 
-    AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+    AtomicInteger existingCounter = safeGet(countMap, element);
     if (existingCounter == null) {
       return false;
     }
@@ -352,7 +354,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     checkNotNull(element);
     checkNonnegative(count, "count");
     while (true) {
-      AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+      AtomicInteger existingCounter = safeGet(countMap, element);
       if (existingCounter == null) {
         if (count == 0) {
           return 0;
@@ -409,7 +411,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     checkNonnegative(expectedOldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
 
-    AtomicInteger existingCounter = Maps.safeGet(countMap, element);
+    AtomicInteger existingCounter = safeGet(countMap, element);
     if (existingCounter == null) {
       if (expectedOldCount != 0) {
         return false;
@@ -583,7 +585,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
 
     private List<Multiset.Entry<E>> snapshot() {
-      List<Multiset.Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
+      List<Multiset.Entry<E>> list = newArrayListWithExpectedSize(size());
       // Not Iterables.addAll(list, this), because that'll forward right back here.
       Iterators.addAll(list, iterator());
       return list;

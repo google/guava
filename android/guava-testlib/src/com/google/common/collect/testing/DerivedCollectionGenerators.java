@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.Helpers.castOrCopyToList;
+import static com.google.common.collect.testing.Helpers.entryComparator;
 import static com.google.common.collect.testing.Helpers.equal;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Arrays.asList;
@@ -25,7 +26,6 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +127,7 @@ public final class DerivedCollectionGenerators {
       Collection<Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Entry<K, V> entry : originalEntries) {
-        entries.add(Helpers.mapEntry(keysArray[i++], entry.getValue()));
+        entries.add(mapEntry(keysArray[i++], entry.getValue()));
       }
 
       return mapGenerator.create(entries.toArray()).keySet();
@@ -236,7 +236,7 @@ public final class DerivedCollectionGenerators {
       Collection<Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Entry<K, V> entry : originalEntries) {
-        entries.add(Helpers.mapEntry(entry.getKey(), valuesArray[i++]));
+        entries.add(mapEntry(entry.getKey(), valuesArray[i++]));
       }
 
       return mapGenerator.create(entries.toArray()).values();
@@ -348,7 +348,7 @@ public final class DerivedCollectionGenerators {
 
       SampleElements<E> samples = delegate.samples();
       List<E> samplesList = new ArrayList<>(samples.asList());
-      Collections.sort(samplesList, comparator);
+      sort(samplesList, comparator);
       this.firstInclusive = samplesList.get(0);
       this.lastInclusive = samplesList.get(samplesList.size() - 1);
     }
@@ -467,13 +467,13 @@ public final class DerivedCollectionGenerators {
       this.from = from;
 
       SortedMap<K, V> emptyMap = delegate.create();
-      this.entryComparator = Helpers.entryComparator(emptyMap.comparator());
+      this.entryComparator = entryComparator(emptyMap.comparator());
 
       // derive values for inclusive filtering from the input samples
       SampleElements<Entry<K, V>> samples = delegate.samples();
       List<Entry<K, V>> samplesList =
           asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
-      Collections.sort(samplesList, entryComparator);
+      sort(samplesList, entryComparator);
       this.firstInclusive = samplesList.get(0).getKey();
       this.lastInclusive = samplesList.get(samplesList.size() - 1).getKey();
     }

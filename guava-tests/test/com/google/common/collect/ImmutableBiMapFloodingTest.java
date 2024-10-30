@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.lang.Math.log;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -43,7 +44,7 @@ public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<O
                             path.create(transform(keys, key -> immutableEntry(new Object(), key))),
                         keys -> path.create(transform(keys, key -> immutableEntry(key, key)))))
             .collect(toImmutableList()),
-        n -> n * Math.log(n),
+        n -> n * log(n),
         ImmutableList.of(
             QueryOp.create("BiMap.get", BiMap::get, Math::log),
             QueryOp.create("BiMap.inverse.get", (bm, o) -> bm.inverse().get(o), Math::log)));

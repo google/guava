@@ -26,6 +26,7 @@ import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_SET;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -40,7 +41,6 @@ import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.testing.EqualsTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -226,7 +226,7 @@ public class LinkedListMultimapTest extends TestCase {
     assertEquals(asList(1, 2), foos);
     assertThat(values).containsExactly(1, 2, 3).inOrder();
     map.clear();
-    assertEquals(Collections.emptyList(), foos);
+    assertEquals(emptyList(), foos);
     assertThat(values).isEmpty();
     assertEquals("[]", map.entries().toString());
     assertEquals("{}", map.toString());

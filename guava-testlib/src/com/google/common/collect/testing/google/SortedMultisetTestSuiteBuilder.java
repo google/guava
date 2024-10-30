@@ -16,11 +16,14 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BoundType;
@@ -30,7 +33,6 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -38,7 +40,6 @@ import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -74,7 +75,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    List<Class<? extends AbstractTester>> testers = copyToList(super.getTesters());
     testers.add(MultisetNavigationTester.class);
     return testers;
   }
@@ -102,7 +103,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
 
     @Override
     public Set<Feature<? super Void>> getImpliedFeatures() {
-      return Collections.emptySet();
+      return emptySet();
     }
   }
 
@@ -158,7 +159,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     List<E> samplesList =
         asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
 
-    Collections.sort(samplesList, comparator);
+    sort(samplesList, comparator);
     E firstInclusive = samplesList.get(0);
     E lastInclusive = samplesList.get(samplesList.size() - 1);
 
@@ -174,7 +175,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
                 List<E> normalValues = (List<E>) asList(entries);
 
                 // prepare extreme values to be filtered out of view
-                Collections.sort(extremeValues, comparator);
+                sort(extremeValues, comparator);
                 E firstExclusive = extremeValues.get(1);
                 E lastExclusive = extremeValues.get(2);
                 if (from == Bound.NO_BOUND) {

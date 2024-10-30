@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.Maps.safeGet;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -250,7 +251,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @Override
   public int count(@CheckForNull Object element) {
-    Count frequency = Maps.safeGet(backingMap, element);
+    Count frequency = safeGet(backingMap, element);
     return (frequency == null) ? 0 : frequency.get();
   }
 

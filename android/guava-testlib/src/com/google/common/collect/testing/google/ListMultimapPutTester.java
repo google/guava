@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.List;
@@ -45,7 +44,7 @@ public class ListMultimapPutTester<K, V> extends AbstractListMultimapTester<K, V
         resetContainer();
 
         List<V> values = multimap().get(key);
-        List<V> expectedValues = Helpers.copyToList(values);
+        List<V> expectedValues = copyToList(values);
 
         assertTrue(multimap().put(key, value));
         expectedValues.add(value);

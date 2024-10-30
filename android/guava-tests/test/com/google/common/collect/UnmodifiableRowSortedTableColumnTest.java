@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.unmodifiableRowSortedTable;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class UnmodifiableRowSortedTableColumnTest extends ColumnTests {
   @Override
   Table<String, Character, Integer> makeTable() {
     RowSortedTable<String, Character, Integer> table = TreeBasedTable.create();
-    return Tables.unmodifiableRowSortedTable(table);
+    return unmodifiableRowSortedTable(table);
   }
 
   @Override
@@ -40,6 +42,6 @@ public class UnmodifiableRowSortedTableColumnTest extends ColumnTests {
     table.put("two", 'a', 2);
     table.put("three", 'a', 3);
     table.put("four", 'b', 4);
-    return Tables.unmodifiableRowSortedTable(table).column('a');
+    return unmodifiableRowSortedTable(table).column('a');
   }
 }

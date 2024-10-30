@@ -17,11 +17,11 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.DerivedGenerator;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
@@ -115,7 +115,7 @@ public final class DerivedGoogleCollectionGenerators {
 
     private Entry<V, K> reverse(Entry<K, V> entry) {
       checkNotNull(entry);
-      return Helpers.mapEntry(entry.getValue(), entry.getKey());
+      return mapEntry(entry.getValue(), entry.getKey());
     }
 
     @SuppressWarnings("unchecked")
@@ -192,7 +192,7 @@ public final class DerivedGoogleCollectionGenerators {
       Collection<Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Entry<K, V> entry : originalEntries) {
-        entries.add(Helpers.mapEntry(entry.getKey(), valuesArray[i++]));
+        entries.add(mapEntry(entry.getKey(), valuesArray[i++]));
       }
 
       return mapGenerator.create(entries.toArray()).values();

@@ -17,12 +17,18 @@
 package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.Helpers.NullsBeforeB;
+import static com.google.common.collect.testing.Helpers.assertContains;
+import static com.google.common.collect.testing.Helpers.assertContainsAllOf;
+import static com.google.common.collect.testing.Helpers.assertContentsInOrder;
+import static com.google.common.collect.testing.Helpers.assertEmpty;
+import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Helpers.testComparator;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,27 +49,27 @@ public class HelpersTest extends TestCase {
 
   public void testIsEmpty_iterable() {
     List<Object> list = new ArrayList<>();
-    Helpers.assertEmpty(list);
-    Helpers.assertEmpty(
+    assertEmpty(list);
+    assertEmpty(
         new Iterable<Object>() {
           @Override
           public Iterator<Object> iterator() {
-            return Collections.emptyList().iterator();
+            return emptyList().iterator();
           }
         });
 
     list.add("a");
     try {
-      Helpers.assertEmpty(list);
+      assertEmpty(list);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
     try {
-      Helpers.assertEmpty(
+      assertEmpty(
           new Iterable<String>() {
             @Override
             public Iterator<String> iterator() {
-              return Collections.singleton("a").iterator();
+              return singleton("a").iterator();
             }
           });
       throw new Error();
@@ -73,11 +79,11 @@ public class HelpersTest extends TestCase {
 
   public void testIsEmpty_map() {
     Map<Object, Object> map = new HashMap<>();
-    Helpers.assertEmpty(map);
+    assertEmpty(map);
 
     map.put("a", "b");
     try {
-      Helpers.assertEmpty(map);
+      assertEmpty(map);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
@@ -85,31 +91,31 @@ public class HelpersTest extends TestCase {
 
   public void testAssertEqualInOrder() {
     List<?> list = asList("a", "b", "c");
-    Helpers.assertEqualInOrder(list, list);
+    assertEqualInOrder(list, list);
 
     List<?> fewer = asList("a", "b");
     try {
-      Helpers.assertEqualInOrder(list, fewer);
+      assertEqualInOrder(list, fewer);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertEqualInOrder(fewer, list);
+      assertEqualInOrder(fewer, list);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     List<?> differentOrder = asList("a", "c", "b");
     try {
-      Helpers.assertEqualInOrder(list, differentOrder);
+      assertEqualInOrder(list, differentOrder);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     List<?> differentContents = asList("a", "b", "C");
     try {
-      Helpers.assertEqualInOrder(list, differentContents);
+      assertEqualInOrder(list, differentContents);
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
@@ -117,28 +123,28 @@ public class HelpersTest extends TestCase {
 
   public void testAssertContentsInOrder() {
     List<?> list = asList("a", "b", "c");
-    Helpers.assertContentsInOrder(list, "a", "b", "c");
+    assertContentsInOrder(list, "a", "b", "c");
 
     try {
-      Helpers.assertContentsInOrder(list, "a", "b");
+      assertContentsInOrder(list, "a", "b");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertContentsInOrder(list, "a", "b", "c", "d");
+      assertContentsInOrder(list, "a", "b", "c", "d");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertContentsInOrder(list, "a", "c", "b");
+      assertContentsInOrder(list, "a", "c", "b");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertContentsInOrder(list, "a", "B", "c");
+      assertContentsInOrder(list, "a", "B", "c");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
@@ -146,11 +152,11 @@ public class HelpersTest extends TestCase {
 
   public void testAssertContains() {
     List<?> list = asList("a", "b");
-    Helpers.assertContains(list, "a");
-    Helpers.assertContains(list, "b");
+    assertContains(list, "a");
+    assertContains(list, "b");
 
     try {
-      Helpers.assertContains(list, "c");
+      assertContains(list, "c");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
@@ -158,25 +164,25 @@ public class HelpersTest extends TestCase {
 
   public void testAssertContainsAllOf() {
     List<?> list = asList("a", "a", "b", "c");
-    Helpers.assertContainsAllOf(list, "a");
-    Helpers.assertContainsAllOf(list, "a", "a");
-    Helpers.assertContainsAllOf(list, "a", "b", "c");
-    Helpers.assertContainsAllOf(list, "a", "b", "c", "a");
+    assertContainsAllOf(list, "a");
+    assertContainsAllOf(list, "a", "a");
+    assertContainsAllOf(list, "a", "b", "c");
+    assertContainsAllOf(list, "a", "b", "c", "a");
 
     try {
-      Helpers.assertContainsAllOf(list, "d");
+      assertContainsAllOf(list, "d");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertContainsAllOf(list, "a", "b", "c", "d");
+      assertContainsAllOf(list, "a", "b", "c", "d");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }
 
     try {
-      Helpers.assertContainsAllOf(list, "a", "a", "a");
+      assertContainsAllOf(list, "a", "a", "a");
       throw new Error();
     } catch (AssertionFailedError expected) {
     }

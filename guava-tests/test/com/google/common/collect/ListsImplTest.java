@@ -19,13 +19,14 @@ package com.google.common.collect;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -160,8 +161,8 @@ public class ListsImplTest extends TestCase {
 
     List<Iterable<String>> toAdd =
         ImmutableList.of(
-            Collections.singleton("A"),
-            Collections.emptyList(),
+            singleton("A"),
+            emptyList(),
             ImmutableList.of("A", "B", "C"),
             ImmutableList.of("D", "E"));
     List<Integer> indexes = ImmutableList.of(0, 0, 1, 3);

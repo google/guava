@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.charactersOf;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -44,7 +45,7 @@ public class CollectSpliteratorsTest extends TestCase {
             () ->
                 CollectSpliterators.flatMap(
                     Arrays.spliterator(new String[] {"abc", "", "de", "f", "g", ""}),
-                    (String str) -> Lists.charactersOf(str).spliterator(),
+                    (String str) -> charactersOf(str).spliterator(),
                     Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.NONNULL,
                     7))
         .expect('a', 'b', 'c', 'd', 'e', 'f', 'g');
@@ -55,7 +56,7 @@ public class CollectSpliteratorsTest extends TestCase {
             () ->
                 CollectSpliterators.flatMap(
                     Arrays.spliterator(new String[] {"abc", "", "de", "f", "g", ""}),
-                    (String str) -> str.isEmpty() ? null : Lists.charactersOf(str).spliterator(),
+                    (String str) -> str.isEmpty() ? null : charactersOf(str).spliterator(),
                     Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.NONNULL,
                     7))
         .expect('a', 'b', 'c', 'd', 'e', 'f', 'g');

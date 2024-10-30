@@ -14,6 +14,7 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
@@ -23,7 +24,6 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import java.lang.reflect.Method;
@@ -101,9 +101,9 @@ public class MultisetIteratorTester<E extends @Nullable Object> extends Abstract
   @GwtIncompatible // reflection
   public static List<Method> getIteratorDuplicateInitializingMethods() {
     return asList(
-        Helpers.getMethod(MultisetIteratorTester.class, "testIteratorKnownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testIteratorUnknownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorKnownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorUnknownOrder"));
+        getMethod(MultisetIteratorTester.class, "testIteratorKnownOrder"),
+        getMethod(MultisetIteratorTester.class, "testIteratorUnknownOrder"),
+        getMethod(MultisetIteratorTester.class, "testRemovingIteratorKnownOrder"),
+        getMethod(MultisetIteratorTester.class, "testRemovingIteratorUnknownOrder"));
   }
 }

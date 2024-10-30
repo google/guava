@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
@@ -34,22 +35,22 @@ public abstract class TestStringSortedMapGenerator extends TestStringMapGenerato
     implements TestSortedMapGenerator<String, String> {
   @Override
   public Entry<String, String> belowSamplesLesser() {
-    return Helpers.mapEntry("!! a", "below view");
+    return mapEntry("!! a", "below view");
   }
 
   @Override
   public Entry<String, String> belowSamplesGreater() {
-    return Helpers.mapEntry("!! b", "below view");
+    return mapEntry("!! b", "below view");
   }
 
   @Override
   public Entry<String, String> aboveSamplesLesser() {
-    return Helpers.mapEntry("~~ a", "above view");
+    return mapEntry("~~ a", "above view");
   }
 
   @Override
   public Entry<String, String> aboveSamplesGreater() {
-    return Helpers.mapEntry("~~ b", "above view");
+    return mapEntry("~~ b", "above view");
   }
 
   @Override

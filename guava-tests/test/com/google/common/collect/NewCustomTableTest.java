@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.newCustomTable;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -43,7 +44,7 @@ public class NewCustomTableTest extends AbstractTableTest<Character> {
           }
         };
     Map<String, Map<Integer, Character>> backingMap = Maps.newLinkedHashMap();
-    Table<String, Integer, Character> table = Tables.newCustomTable(backingMap, factory);
+    Table<String, Integer, Character> table = newCustomTable(backingMap, factory);
     populate(table, data);
     return table;
   }

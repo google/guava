@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -42,7 +44,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
       case 0:
         return ImmutableSet.of();
       case 1:
-        return ImmutableSet.of(Iterables.getOnlyElement(set));
+        return ImmutableSet.of(getOnlyElement(set));
       default:
         return new ImmutableEnumSet<>(set);
     }

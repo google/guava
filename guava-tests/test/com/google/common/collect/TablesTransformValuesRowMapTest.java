@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.transformValues;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowMapTests;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class TablesTransformValuesRowMapTest extends RowMapTests {
   @Override
   Table<String, Integer, Character> makeTable() {
     Table<String, Integer, String> original = HashBasedTable.create();
-    return Tables.transformValues(original, TableCollectionTest.FIRST_CHARACTER);
+    return transformValues(original, TableCollectionTest.FIRST_CHARACTER);
   }
 
   @Override
@@ -39,6 +41,6 @@ public class TablesTransformValuesRowMapTest extends RowMapTests {
     table.put("foo", 1, "apple");
     table.put("bar", 1, "banana");
     table.put("foo", 3, "cat");
-    return Tables.transformValues(table, TableCollectionTest.FIRST_CHARACTER).rowMap();
+    return transformValues(table, TableCollectionTest.FIRST_CHARACTER).rowMap();
   }
 }

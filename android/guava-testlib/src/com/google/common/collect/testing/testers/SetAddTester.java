@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -23,7 +24,6 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
@@ -62,6 +62,6 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddSupportedNullPresentMethod() {
-    return Helpers.getMethod(SetAddTester.class, "testAdd_supportedNullPresent");
+    return getMethod(SetAddTester.class, "testAdd_supportedNullPresent");
   }
 }

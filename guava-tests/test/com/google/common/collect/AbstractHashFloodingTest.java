@@ -15,14 +15,15 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.cartesianProduct;
 import static com.google.common.collect.Lists.transform;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
+import static java.util.Collections.nCopies;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -176,7 +177,7 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     List<CountsHashCodeAndEquals> result =
         Lists.newArrayList(
             transform(
-                Lists.cartesianProduct(Collections.nCopies(power, haveSameHashes2)),
+                cartesianProduct(nCopies(power, haveSameHashes2)),
                 strs ->
                     new CountsHashCodeAndEquals(
                         String.join("", strs),

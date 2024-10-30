@@ -16,7 +16,12 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.copyToList;
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.asList;
+import static java.util.Collections.frequency;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
@@ -24,7 +29,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -285,8 +289,8 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       throw new IllegalArgumentException();
     }
     elementsToInsert = Helpers.cycle(elementsToInsertIterable);
-    this.features = Helpers.copyToSet(features);
-    this.expectedElements = Helpers.copyToList(expectedElements);
+    this.features = copyToSet(features);
+    this.expectedElements = copyToList(expectedElements);
     this.knownOrder = knownOrder;
     this.startIndex = startIndex;
   }
@@ -336,7 +340,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       if (knownOrder == KnownOrder.KNOWN_ORDER) {
         assertEquals(expectedElements, targetElements);
       } else {
-        Helpers.assertEqualIgnoringOrder(expectedElements, targetElements);
+        assertEqualIgnoringOrder(expectedElements, targetElements);
       }
     }
   }
@@ -357,7 +361,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
   }
 
   private void compareResultsForThisListOfStimuli() {
-    int removes = Collections.frequency(asList(stimuli), remove);
+    int removes = frequency(asList(stimuli), remove);
     if ((!features.contains(IteratorFeature.SUPPORTS_REMOVE) && removes > 1)
         || (stimuli.length >= 5 && removes > 2)) {
       // removes are the most expensive thing to test, since they often throw exceptions with stack
@@ -379,7 +383,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
 
   private static List<Object> subListCopy(Object[] source, int size) {
     final Object[] copy = new Object[size];
-    System.arraycopy(source, 0, copy, 0, size);
+    arraycopy(source, 0, copy, 0, size);
     return asList(copy);
   }
 

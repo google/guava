@@ -21,6 +21,8 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -410,11 +412,11 @@ public class ImmutableListMultimapTest extends TestCase {
     assertFalse(multimap.containsEntry("foo", 1));
     assertTrue(multimap.entries().isEmpty());
     assertTrue(multimap.equals(ArrayListMultimap.create()));
-    assertEquals(Collections.emptyList(), multimap.get("foo"));
+    assertEquals(emptyList(), multimap.get("foo"));
     assertEquals(0, multimap.hashCode());
     assertTrue(multimap.isEmpty());
     assertEquals(HashMultiset.create(), multimap.keys());
-    assertEquals(Collections.emptySet(), multimap.keySet());
+    assertEquals(emptySet(), multimap.keySet());
     assertEquals(0, multimap.size());
     assertTrue(multimap.values().isEmpty());
     assertEquals("{}", multimap.toString());

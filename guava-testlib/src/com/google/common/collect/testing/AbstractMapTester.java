@@ -16,6 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Iterator;
@@ -175,7 +178,7 @@ public abstract class AbstractMapTester<K extends @Nullable Object, V extends @N
 
   // This one-liner saves us from some ugly casts
   protected Entry<K, V> entry(K key, V value) {
-    return Helpers.mapEntry(key, value);
+    return mapEntry(key, value);
   }
 
   @Override
@@ -189,7 +192,7 @@ public abstract class AbstractMapTester<K extends @Nullable Object, V extends @N
   }
 
   protected final void expectReplacement(Entry<K, V> newEntry) {
-    List<Entry<K, V>> expected = Helpers.copyToList(getSampleElements());
+    List<Entry<K, V>> expected = copyToList(getSampleElements());
     replaceValue(expected, newEntry);
     expectContents(expected);
   }

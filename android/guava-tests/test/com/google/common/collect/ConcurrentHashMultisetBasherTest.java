@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Lists.transform;
 import static java.lang.Math.min;
 
@@ -70,7 +71,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     ExecutorService pool = Executors.newFixedThreadPool(nThreads);
     ImmutableList<String> keys = ImmutableList.of("a", "b", "c");
     try {
-      List<Future<int[]>> futures = Lists.newArrayListWithExpectedSize(nTasks);
+      List<Future<int[]>> futures = newArrayListWithExpectedSize(nTasks);
       for (int i = 0; i < nTasks; i++) {
         futures.add(pool.submit(new MutateTask(multiset, keys)));
       }

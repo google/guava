@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.unmodifiableIterable;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.cartesianProduct;
 import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -29,6 +30,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.io.ObjectStreamConstants.TC_REFERENCE;
 import static java.io.ObjectStreamConstants.baseWireHandle;
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
@@ -191,7 +193,7 @@ public class SetsTest extends TestCase {
                   @Override
                   protected Set<AnEnum> create(AnEnum[] elements) {
                     AnEnum[] otherElements = new AnEnum[elements.length - 1];
-                    System.arraycopy(elements, 1, otherElements, 0, otherElements.length);
+                    arraycopy(elements, 1, otherElements, 0, otherElements.length);
                     return Sets.immutableEnumSet(elements[0], otherElements);
                   }
                 })
@@ -206,7 +208,7 @@ public class SetsTest extends TestCase {
                   @Override
                   protected Set<String> create(String[] elements) {
                     SafeTreeSet<String> set = new SafeTreeSet<>(asList(elements));
-                    return Sets.unmodifiableNavigableSet(set);
+                    return unmodifiableNavigableSet(set);
                   }
 
                   @Override
@@ -432,7 +434,7 @@ public class SetsTest extends TestCase {
   private static byte[] prepended(byte b, byte[] array) {
     byte[] out = new byte[array.length + 1];
     out[0] = b;
-    System.arraycopy(array, 0, out, 1, array.length);
+    arraycopy(array, 0, out, 1, array.length);
     return out;
   }
 
@@ -651,7 +653,7 @@ public class SetsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEmptySet() {
-    Set<SomeEnum> noUnits = Collections.emptySet();
+    Set<SomeEnum> noUnits = emptySet();
     EnumSet<SomeEnum> allUnits = Sets.complementOf(noUnits, SomeEnum.class);
     verifySetContents(EnumSet.allOf(SomeEnum.class), allUnits);
   }
@@ -675,7 +677,7 @@ public class SetsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // complementOf
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
-    Set<SomeEnum> set = Collections.emptySet();
+    Set<SomeEnum> set = emptySet();
     assertThrows(IllegalArgumentException.class, () -> Sets.complementOf(set));
   }
 
@@ -711,27 +713,27 @@ public class SetsTest extends TestCase {
 
   /** The 0-ary cartesian product is a single empty list. */
   public void testCartesianProduct_zeroary() {
-    assertThat(Sets.cartesianProduct()).containsExactly(list());
+    assertThat(cartesianProduct()).containsExactly(list());
   }
 
   /** A unary cartesian product is one list of size 1 for each element in the input set. */
   public void testCartesianProduct_unary() {
-    assertThat(Sets.cartesianProduct(set(1, 2))).containsExactly(list(1), list(2));
+    assertThat(cartesianProduct(set(1, 2))).containsExactly(list(1), list(2));
   }
 
   public void testCartesianProduct_binary0x0() {
     Set<Integer> mt = emptySet();
-    assertEmpty(Sets.cartesianProduct(mt, mt));
+    assertEmpty(cartesianProduct(mt, mt));
   }
 
   public void testCartesianProduct_binary0x1() {
     Set<Integer> mt = emptySet();
-    assertEmpty(Sets.cartesianProduct(mt, set(1)));
+    assertEmpty(cartesianProduct(mt, set(1)));
   }
 
   public void testCartesianProduct_binary1x0() {
     Set<Integer> mt = emptySet();
-    assertEmpty(Sets.cartesianProduct(set(1), mt));
+    assertEmpty(cartesianProduct(set(1), mt));
   }
 
   private static void assertEmpty(Set<? extends List<?>> set) {
@@ -741,23 +743,23 @@ public class SetsTest extends TestCase {
   }
 
   public void testCartesianProduct_binary1x1() {
-    assertThat(Sets.cartesianProduct(set(1), set(2))).contains(list(1, 2));
+    assertThat(cartesianProduct(set(1), set(2))).contains(list(1, 2));
   }
 
   public void testCartesianProduct_binary1x2() {
-    assertThat(Sets.cartesianProduct(set(1), set(2, 3)))
+    assertThat(cartesianProduct(set(1), set(2, 3)))
         .containsExactly(list(1, 2), list(1, 3))
         .inOrder();
   }
 
   public void testCartesianProduct_binary2x2() {
-    assertThat(Sets.cartesianProduct(set(1, 2), set(3, 4)))
+    assertThat(cartesianProduct(set(1, 2), set(3, 4)))
         .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4))
         .inOrder();
   }
 
   public void testCartesianProduct_2x2x2() {
-    assertThat(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1)))
+    assertThat(cartesianProduct(set(0, 1), set(0, 1), set(0, 1)))
         .containsExactly(
             list(0, 0, 0),
             list(0, 0, 1),
@@ -771,7 +773,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testCartesianProduct_contains() {
-    Set<List<Integer>> actual = Sets.cartesianProduct(set(1, 2), set(3, 4));
+    Set<List<Integer>> actual = cartesianProduct(set(1, 2), set(3, 4));
     assertTrue(actual.contains(list(1, 3)));
     assertTrue(actual.contains(list(1, 4)));
     assertTrue(actual.contains(list(2, 3)));
@@ -780,7 +782,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testCartesianProduct_equals() {
-    Set<List<Integer>> cartesian = Sets.cartesianProduct(set(1, 2), set(3, 4));
+    Set<List<Integer>> cartesian = cartesianProduct(set(1, 2), set(3, 4));
     ImmutableSet<List<Integer>> equivalent =
         ImmutableSet.of(ImmutableList.of(1, 3), ImmutableList.of(1, 4), list(2, 3), list(2, 4));
     ImmutableSet<List<Integer>> different1 =
@@ -810,33 +812,32 @@ public class SetsTest extends TestCase {
 
   public void testCartesianProductTooBig() {
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
-    assertThrows(
-        IllegalArgumentException.class, () -> Sets.cartesianProduct(set, set, set, set, set));
+    assertThrows(IllegalArgumentException.class, () -> cartesianProduct(set, set, set, set, set));
   }
 
   public void testCartesianProduct_hashCode() {
     // Run through the same cartesian products we tested above
 
-    Set<List<Integer>> degenerate = Sets.cartesianProduct();
+    Set<List<Integer>> degenerate = cartesianProduct();
     checkHashCode(degenerate);
 
-    checkHashCode(Sets.cartesianProduct(set(1, 2)));
+    checkHashCode(cartesianProduct(set(1, 2)));
 
     int num = Integer.MAX_VALUE / 3 * 2; // tickle overflow-related problems
-    checkHashCode(Sets.cartesianProduct(set(1, 2, num)));
+    checkHashCode(cartesianProduct(set(1, 2, num)));
 
     Set<Integer> mt = emptySet();
-    checkHashCode(Sets.cartesianProduct(mt, mt));
-    checkHashCode(Sets.cartesianProduct(mt, set(num)));
-    checkHashCode(Sets.cartesianProduct(set(num), mt));
-    checkHashCode(Sets.cartesianProduct(set(num), set(1)));
-    checkHashCode(Sets.cartesianProduct(set(1), set(2, num)));
-    checkHashCode(Sets.cartesianProduct(set(1, num), set(2, num - 1)));
-    checkHashCode(Sets.cartesianProduct(set(1, num), set(2, num - 1), set(3, num + 1)));
+    checkHashCode(cartesianProduct(mt, mt));
+    checkHashCode(cartesianProduct(mt, set(num)));
+    checkHashCode(cartesianProduct(set(num), mt));
+    checkHashCode(cartesianProduct(set(num), set(1)));
+    checkHashCode(cartesianProduct(set(1), set(2, num)));
+    checkHashCode(cartesianProduct(set(1, num), set(2, num - 1)));
+    checkHashCode(cartesianProduct(set(1, num), set(2, num - 1), set(3, num + 1)));
 
     // a bigger one
     checkHashCode(
-        Sets.cartesianProduct(set(1, num, num + 1), set(2), set(3, num + 2), set(4, 5, 6, 7, 8)));
+        cartesianProduct(set(1, num, num + 1), set(2), set(3, num + 2), set(4, 5, 6, 7, 8)));
   }
 
   public void testPowerSetEmpty() {
@@ -1163,8 +1164,7 @@ public class SetsTest extends TestCase {
     /* UnsupportedOperationException on indirect modifications. */
     NavigableSet<Integer> reverse = unmod.descendingSet();
     assertThrows(UnsupportedOperationException.class, () -> reverse.add(4));
-    assertThrows(
-        UnsupportedOperationException.class, () -> reverse.addAll(Collections.singleton(4)));
+    assertThrows(UnsupportedOperationException.class, () -> reverse.addAll(singleton(4)));
     assertThrows(UnsupportedOperationException.class, () -> reverse.remove(4));
   }
 
@@ -1180,7 +1180,7 @@ public class SetsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.addAll(Collections.singleton(4));
+      unmod.addAll(singleton(4));
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
@@ -1206,7 +1206,7 @@ public class SetsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.addAll(Collections.singleton(4));
+      unmod.addAll(singleton(4));
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }

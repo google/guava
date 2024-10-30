@@ -23,6 +23,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -512,8 +513,7 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   public void testCopyOfSingletonMap() {
-    ImmutableBiMap<String, Integer> copy =
-        ImmutableBiMap.copyOf(Collections.singletonMap("one", 1));
+    ImmutableBiMap<String, Integer> copy = ImmutableBiMap.copyOf(singletonMap("one", 1));
     assertMapEquals(copy, "one", 1);
     assertSame(copy, ImmutableBiMap.copyOf(copy));
   }

@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import java.util.Collection;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -52,7 +53,7 @@ public class AbstractListTester<E extends @Nullable Object> extends AbstractColl
    */
   @Override
   protected void expectContents(Collection<E> expectedCollection) {
-    List<E> expectedList = Helpers.copyToList(expectedCollection);
+    List<E> expectedList = copyToList(expectedCollection);
     // Avoid expectEquals() here to delay reason manufacture until necessary.
     if (getList().size() != expectedList.size()) {
       fail("size mismatch: " + reportContext(expectedList));

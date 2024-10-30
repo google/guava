@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.sort;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -521,7 +523,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     Builder<K, V> combine(Builder<K, V> other) {
       checkNotNull(other);
       ensureCapacity(this.size + other.size);
-      System.arraycopy(other.entries, 0, this.entries, this.size, other.size);
+      arraycopy(other.entries, 0, this.entries, this.size, other.size);
       this.size += other.size;
       return this;
     }
@@ -568,7 +570,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             localSize = lastEntryForEachKey.length;
           }
         }
-        Arrays.sort(
+        sort(
             nonNullEntries,
             0,
             localSize,

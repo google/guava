@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Maps.keyOrNull;
+import static java.util.Arrays.sort;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -30,7 +31,6 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -527,7 +527,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
           // Need to sort and check for nulls and dupes.
           // Inline the Comparator implementation rather than transforming with a Function
           // to save code size.
-          Arrays.sort(
+          sort(
               entryArray,
               0,
               size,

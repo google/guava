@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.shuffle;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -75,7 +75,7 @@ class CollectionBenchmarkSampleData {
         queryList.addAll(elementsInSet);
       }
       List<Element> tmp = Lists.newArrayList(elementsInSet);
-      Collections.shuffle(tmp, random);
+      shuffle(tmp, random);
       queryList.addAll(tmp.subList(0, extras));
     }
 
@@ -86,7 +86,7 @@ class CollectionBenchmarkSampleData {
         queryList.add(candidate);
       }
     }
-    Collections.shuffle(queryList, random);
+    shuffle(queryList, random);
     return queryList.toArray(new Element[0]);
   }
 

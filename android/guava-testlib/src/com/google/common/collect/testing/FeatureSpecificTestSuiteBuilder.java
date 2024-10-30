@@ -16,8 +16,12 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static com.google.common.collect.testing.Helpers.getMethod;
+import static com.google.common.collect.testing.features.FeatureUtil.addImpliedFeatures;
 import static java.util.Arrays.asList;
 import static java.util.Collections.disjoint;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.logging.Level.FINER;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -29,7 +33,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -121,7 +124,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   }
 
   public Set<Feature<?>> getFeatures() {
-    return Collections.unmodifiableSet(features);
+    return unmodifiableSet(features);
   }
 
   // Name
@@ -180,7 +183,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     logger.fine(" Testing: " + name);
     logger.fine("Features: " + formatFeatureSet(features));
 
-    FeatureUtil.addImpliedFeatures(features);
+    addImpliedFeatures(features);
 
     logger.fine("Expanded: " + formatFeatureSet(features));
 
@@ -236,7 +239,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     }
     if (!features.containsAll(requirements.getPresentFeatures())) {
       if (logger.isLoggable(FINER)) {
-        Set<Feature<?>> missingFeatures = Helpers.copyToSet(requirements.getPresentFeatures());
+        Set<Feature<?>> missingFeatures = copyToSet(requirements.getPresentFeatures());
         missingFeatures.removeAll(features);
         logger.finer(
             Platform.format(
@@ -246,7 +249,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     }
     if (intersect(features, requirements.getAbsentFeatures())) {
       if (logger.isLoggable(FINER)) {
-        Set<Feature<?>> unwantedFeatures = Helpers.copyToSet(requirements.getAbsentFeatures());
+        Set<Feature<?>> unwantedFeatures = copyToSet(requirements.getAbsentFeatures());
         unwantedFeatures.retainAll(features);
         logger.finer(
             Platform.format(
@@ -264,10 +267,10 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   private static Method extractMethod(Test test) {
     if (test instanceof AbstractTester) {
       AbstractTester<?> tester = (AbstractTester<?>) test;
-      return Helpers.getMethod(tester.getClass(), tester.getTestMethodName());
+      return getMethod(tester.getClass(), tester.getTestMethodName());
     } else if (test instanceof TestCase) {
       TestCase testCase = (TestCase) test;
-      return Helpers.getMethod(testCase.getClass(), testCase.getName());
+      return getMethod(testCase.getClass(), testCase.getName());
     } else {
       throw new IllegalArgumentException("unable to extract method from test: not a TestCase.");
     }

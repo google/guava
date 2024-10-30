@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.transpose;
+
 import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -31,7 +33,7 @@ public class TransposedTableTest extends AbstractTableTest<Character> {
   @Override
   protected Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<Integer, String, Character> original = HashBasedTable.create();
-    Table<String, Integer, Character> table = Tables.transpose(original);
+    Table<String, Integer, Character> table = transpose(original);
     table.clear();
     populate(table, data);
     return table;
@@ -39,26 +41,26 @@ public class TransposedTableTest extends AbstractTableTest<Character> {
 
   public void testTransposeTransposed() {
     Table<Integer, String, Character> original = HashBasedTable.create();
-    assertSame(original, Tables.transpose(Tables.transpose(original)));
+    assertSame(original, transpose(transpose(original)));
   }
 
   public void testPutOriginalModifiesTranspose() {
     Table<Integer, String, Character> original = HashBasedTable.create();
-    Table<String, Integer, Character> transpose = Tables.transpose(original);
+    Table<String, Integer, Character> transpose = transpose(original);
     original.put(1, "foo", 'a');
     assertEquals((Character) 'a', transpose.get("foo", 1));
   }
 
   public void testPutTransposeModifiesOriginal() {
     Table<Integer, String, Character> original = HashBasedTable.create();
-    Table<String, Integer, Character> transpose = Tables.transpose(original);
+    Table<String, Integer, Character> transpose = transpose(original);
     transpose.put("foo", 1, 'a');
     assertEquals((Character) 'a', original.get(1, "foo"));
   }
 
   public void testTransposedViews() {
     Table<Integer, String, Character> original = HashBasedTable.create();
-    Table<String, Integer, Character> transpose = Tables.transpose(original);
+    Table<String, Integer, Character> transpose = transpose(original);
     original.put(1, "foo", 'a');
     assertSame(original.columnKeySet(), transpose.rowKeySet());
     assertSame(original.rowKeySet(), transpose.columnKeySet());

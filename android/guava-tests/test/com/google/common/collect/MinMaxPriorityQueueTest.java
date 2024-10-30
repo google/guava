@@ -23,6 +23,7 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.shuffle;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -751,9 +752,9 @@ public class MinMaxPriorityQueueTest extends TestCase {
     Random random = new Random(0);
     for (int attempts = 0; attempts < reduceIterationsIfGwt(1000); attempts++) {
       ArrayList<Integer> elements = createOrderedList(10);
-      Collections.shuffle(elements, random);
+      shuffle(elements, random);
       MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.create(elements);
-      Collections.shuffle(elements, random);
+      shuffle(elements, random);
       for (Integer element : elements) {
         assertThat(queue.remove(element)).isTrue();
         assertIntact(queue);

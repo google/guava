@@ -23,6 +23,10 @@ import static com.google.common.collect.testing.testers.ListSubListTester.getSub
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -71,23 +75,23 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForEmptyList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArraysAsList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCopyOnWriteArrayList() {
@@ -101,23 +105,23 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractSequentialList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForVector() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForEmptyList() {
@@ -125,7 +129,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.emptyList();
+                return emptyList();
               }
             })
         .named("emptyList")
@@ -139,7 +143,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.singletonList(elements[0]);
+                return singletonList(elements[0]);
               }
             })
         .named("singletonList")
@@ -236,7 +240,7 @@ public class TestsForListsInJavaUtil {
               public List<String> create(String[] elements) {
                 List<String> innerList = new ArrayList<>();
                 Collections.addAll(innerList, elements);
-                return Collections.unmodifiableList(innerList);
+                return unmodifiableList(innerList);
               }
             })
         .named("unmodifiableList/ArrayList")

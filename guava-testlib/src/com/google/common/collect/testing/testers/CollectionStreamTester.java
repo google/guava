@@ -16,12 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import org.junit.Ignore;
 
@@ -42,7 +42,7 @@ public class CollectionStreamTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(absent = KNOWN_ORDER)
   public void testStreamToArrayUnknownOrder() {
-    Helpers.assertEqualIgnoringOrder(getSampleElements(), asList(collection.stream().toArray()));
+    assertEqualIgnoringOrder(getSampleElements(), asList(collection.stream().toArray()));
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)

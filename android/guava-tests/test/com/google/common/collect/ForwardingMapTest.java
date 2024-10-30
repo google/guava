@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterators.emptyIterator;
 import static java.lang.reflect.Modifier.STATIC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
@@ -224,7 +225,7 @@ public class ForwardingMapTest extends TestCase {
             return new StandardEntrySet() {
               @Override
               public Iterator<Entry<String, Boolean>> iterator() {
-                return Iterators.emptyIterator();
+                return emptyIterator();
               }
             };
           }

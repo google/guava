@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedSetSubsetTestSetGenerator;
@@ -47,7 +49,7 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    List<Class<? extends AbstractTester>> testers = copyToList(super.getTesters());
     testers.add(SortedSetNavigationTester.class);
     return testers;
   }
@@ -55,7 +57,7 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   @Override
   public TestSuite createTestSuite() {
     if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
-      List<Feature<?>> features = Helpers.copyToList(getFeatures());
+      List<Feature<?>> features = copyToList(getFeatures());
       features.add(CollectionFeature.KNOWN_ORDER);
       withFeatures(features);
     }

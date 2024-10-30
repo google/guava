@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
@@ -27,7 +28,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
@@ -108,7 +108,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
-    return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullSupported");
+    return getMethod(CollectionAddTester.class, "testAdd_nullSupported");
   }
 
   /**
@@ -120,7 +120,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullUnsupportedMethod() {
-    return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
+    return getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
   }
 
   /**
@@ -133,6 +133,6 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddUnsupportedNotPresentMethod() {
-    return Helpers.getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");
+    return getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");
   }
 }

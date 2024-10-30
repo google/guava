@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertContains;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
@@ -24,7 +25,6 @@ import static com.google.common.collect.testing.google.ReflectionFreeAssertThrow
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
 import org.junit.Ignore;
@@ -43,7 +43,7 @@ public class MultimapPutAllMultimapTester<K, V>
   public void testPutUnsupported() {
     assertThrows(
         UnsupportedOperationException.class,
-        () -> multimap().putAll(getSubjectGenerator().create(Helpers.mapEntry(k3(), v3()))));
+        () -> multimap().putAll(getSubjectGenerator().create(mapEntry(k3(), v3()))));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -56,7 +56,7 @@ public class MultimapPutAllMultimapTester<K, V>
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAll() {
     Multimap<K, V> source =
-        getSubjectGenerator().create(Helpers.mapEntry(k0(), v3()), Helpers.mapEntry(k3(), v3()));
+        getSubjectGenerator().create(mapEntry(k0(), v3()), mapEntry(k3(), v3()));
     assertTrue(multimap().putAll(source));
     assertTrue(multimap().containsEntry(k0(), v3()));
     assertTrue(multimap().containsEntry(k3(), v3()));
@@ -64,28 +64,28 @@ public class MultimapPutAllMultimapTester<K, V>
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAllWithNullValue() {
-    Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(k0(), null));
+    Multimap<K, V> source = getSubjectGenerator().create(mapEntry(k0(), null));
     assertTrue(multimap().putAll(source));
     assertTrue(multimap().containsEntry(k0(), null));
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   public void testPutAllWithNullKey() {
-    Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(null, v0()));
+    Multimap<K, V> source = getSubjectGenerator().create(mapEntry(null, v0()));
     assertTrue(multimap().putAll(source));
     assertTrue(multimap().containsEntry(null, v0()));
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutAllRejectsNullValue() {
-    Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(k0(), null));
+    Multimap<K, V> source = getSubjectGenerator().create(mapEntry(k0(), null));
     assertThrows(NullPointerException.class, () -> multimap().putAll(source));
     expectUnchanged();
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAllRejectsNullKey() {
-    Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(null, v0()));
+    Multimap<K, V> source = getSubjectGenerator().create(mapEntry(null, v0()));
     assertThrows(NullPointerException.class, () -> multimap().putAll(source));
     expectUnchanged();
   }
@@ -93,7 +93,7 @@ public class MultimapPutAllMultimapTester<K, V>
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllPropagatesToGet() {
     Multimap<K, V> source =
-        getSubjectGenerator().create(Helpers.mapEntry(k0(), v3()), Helpers.mapEntry(k3(), v3()));
+        getSubjectGenerator().create(mapEntry(k0(), v3()), mapEntry(k3(), v3()));
     Collection<V> getCollection = multimap().get(k0());
     int getCollectionSize = getCollection.size();
     assertTrue(multimap().putAll(source));

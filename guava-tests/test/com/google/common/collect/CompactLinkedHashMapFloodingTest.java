@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.Math.log;
+
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class CompactLinkedHashMapFloodingTest
   public CompactLinkedHashMapFloodingTest() {
     super(
         ImmutableList.of(Construction.mapFromKeys(CompactLinkedHashMap::create)),
-        n -> n * Math.log(n),
+        n -> n * log(n),
         ImmutableList.of(QueryOp.MAP_GET));
   }
 }

@@ -21,6 +21,7 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.singletonMap;
 import static java.util.Comparator.naturalOrder;
 
 import com.google.common.annotations.GwtCompatible;
@@ -454,8 +455,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfSingletonMap() {
-    ImmutableSortedMap<String, Integer> copy =
-        ImmutableSortedMap.copyOf(Collections.singletonMap("one", 1));
+    ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(singletonMap("one", 1));
     assertMapEquals(copy, "one", 1);
     assertSame(copy, ImmutableSortedMap.copyOf(copy));
     assertSame(Ordering.natural(), copy.comparator());
