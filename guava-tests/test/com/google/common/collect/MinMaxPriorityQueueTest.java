@@ -19,7 +19,10 @@ package com.google.common.collect;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Platform.reduceExponentIfGwt;
 import static com.google.common.collect.Platform.reduceIterationsIfGwt;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -71,7 +74,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
                 new TestStringQueueGenerator() {
                   @Override
                   protected Queue<String> create(String[] elements) {
-                    return MinMaxPriorityQueue.create(Arrays.asList(elements));
+                    return MinMaxPriorityQueue.create(asList(elements));
                   }
                 })
             .named("MinMaxPriorityQueue")
@@ -326,11 +329,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertTrue("Iterator has reached end prematurely", it.hasNext());
     it.next();
     it.next();
-    try {
-      it.next();
-      fail("No exception thrown when iterating past end of heap");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> it.next());
   }
 
   public void testIteratorConcurrentModification() {
@@ -341,11 +340,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     it.next();
     it.next();
     mmHeap.remove(4);
-    try {
-      it.next();
-      fail("No exception thrown when iterating a modified heap");
-    } catch (ConcurrentModificationException expected) {
-    }
+    assertThrows(ConcurrentModificationException.class, () -> it.next());
   }
 
   /** Tests a failure caused by fix to childless uncle issue. */
@@ -531,7 +526,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
           @Override
           protected void verify(List<T> elements) {
-            assertEquals(Sets.newHashSet(elements), Sets.newHashSet(mmHeap.iterator()));
+            assertEquals(newHashSet(elements), newHashSet(mmHeap.iterator()));
             assertIntact(mmHeap);
           }
         };
@@ -879,26 +874,12 @@ public class MinMaxPriorityQueueTest extends TestCase {
     // since isEvenLevel adds 1, we need to do - 2.
     assertTrue(MinMaxPriorityQueue.isEvenLevel((1 << 31) - 2));
     assertTrue(MinMaxPriorityQueue.isEvenLevel(Integer.MAX_VALUE - 1));
-    try {
-      MinMaxPriorityQueue.isEvenLevel((1 << 31) - 1);
-      fail("Should overflow");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      MinMaxPriorityQueue.isEvenLevel(Integer.MAX_VALUE);
-      fail("Should overflow");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      MinMaxPriorityQueue.isEvenLevel(1 << 31);
-      fail("Should be negative");
-    } catch (IllegalStateException expected) {
-    }
-    try {
-      MinMaxPriorityQueue.isEvenLevel(Integer.MIN_VALUE);
-      fail("Should be negative");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, () -> MinMaxPriorityQueue.isEvenLevel((1 << 31) - 1));
+    assertThrows(
+        IllegalStateException.class, () -> MinMaxPriorityQueue.isEvenLevel(Integer.MAX_VALUE));
+    assertThrows(IllegalStateException.class, () -> MinMaxPriorityQueue.isEvenLevel(1 << 31));
+    assertThrows(
+        IllegalStateException.class, () -> MinMaxPriorityQueue.isEvenLevel(Integer.MIN_VALUE));
   }
 
   @J2ktIncompatible

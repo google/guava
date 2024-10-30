@@ -56,7 +56,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Mick Killianey
  */
-@SuppressWarnings("CheckReturnValue")
+@SuppressWarnings({
+  "CheckReturnValue",
+  "unused", // many methods tested reflectively -- maybe prefer local @Keep annotations?
+})
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
@@ -268,7 +271,7 @@ public class NullPointerTesterTest extends TestCase {
       try {
         new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
       } catch (AssertionError unexpected) {
-        fail("Should not have flagged method " + methodName);
+        throw new AssertionError("Should not have flagged method " + methodName, unexpected);
       }
     }
   }
@@ -293,7 +296,7 @@ public class NullPointerTesterTest extends TestCase {
       try {
         new NullPointerTester().testMethodParameter(foo, method, 0);
       } catch (AssertionError unexpected) {
-        fail("Should not have flagged method " + methodName);
+        throw new AssertionError("Should not have flagged method " + methodName, unexpected);
       }
     }
   }

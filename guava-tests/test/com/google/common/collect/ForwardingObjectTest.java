@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 import com.google.common.testing.EqualsTester;
 import java.util.Set;
 import junit.framework.TestCase;
@@ -40,7 +42,7 @@ public class ForwardingObjectTest extends TestCase {
   }
 
   public void testEqualsSymmetric() {
-    final Set<String> delegate = Sets.newHashSet("foo");
+    final Set<String> delegate = newHashSet("foo");
     ForwardingObject forward =
         new ForwardingObject() {
           @Override

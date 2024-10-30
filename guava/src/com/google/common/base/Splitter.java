@@ -432,7 +432,7 @@ public final class Splitter {
    *
    * @param sequence the sequence of characters to split
    * @return a stream over the segments split from the parameter
-   * @since 28.2
+   * @since 28.2 (but only since 33.4.0 in the Android flavor)
    */
   public Stream<String> splitToStream(CharSequence sequence) {
     // Can't use Streams.stream() from base

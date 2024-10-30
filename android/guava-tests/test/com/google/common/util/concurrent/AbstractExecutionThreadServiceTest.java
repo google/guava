@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.TearDown;
@@ -28,7 +29,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
@@ -231,6 +231,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("kaboom!");
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
+    assertThat(expected.getCause().getSuppressed()[0]).hasMessageThat().isEqualTo("double kaboom!");
   }
 
   private class ThrowOnRunService extends AbstractExecutionThreadService {
@@ -296,8 +297,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
     TimeoutException e =
         assertThrows(
-            TimeoutException.class,
-            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+            TimeoutException.class, () -> service.startAsync().awaitRunning(1, MILLISECONDS));
     assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
   }
 
@@ -369,8 +369,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
         };
     TimeoutException e =
         assertThrows(
-            TimeoutException.class,
-            () -> service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS));
+            TimeoutException.class, () -> service.startAsync().awaitRunning(1, MILLISECONDS));
     assertThat(e)
         .hasMessageThat()
         .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");

@@ -15,12 +15,12 @@
 package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
 import java.io.Serializable;
@@ -97,7 +97,7 @@ public abstract class CacheLoader<K, V> {
   public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
     checkNotNull(key);
     checkNotNull(oldValue);
-    return Futures.immediateFuture(load(key));
+    return immediateFuture(load(key));
   }
 
   /**

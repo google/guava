@@ -54,7 +54,6 @@ abstract class InterruptibleTask<T extends @Nullable Object>
   // Why 1000?  WHY NOT!
   private static final int MAX_BUSY_WAIT_SPINS = 1000;
 
-  @SuppressWarnings("ThreadPriorityCheck") // The cow told me to
   @Override
   public final void run() {
     /*
@@ -94,7 +93,10 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     }
   }
 
-  @SuppressWarnings("Interruption") // We are restoring an interrupt on this thread.
+  @SuppressWarnings({
+    "Interruption", // We are restoring an interrupt on this thread.
+    "ThreadPriorityCheck", // TODO: b/175898629 - Consider onSpinWait.
+  })
   private void waitForInterrupt(Thread currentThread) {
     /*
      * If someone called cancel(true), it is possible that the interrupted bit hasn't been set yet.

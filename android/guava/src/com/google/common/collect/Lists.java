@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -702,7 +703,7 @@ public final class Lists {
     public List<T> get(int index) {
       checkElementIndex(index, size());
       int start = index * size;
-      int end = Math.min(start + size, list.size());
+      int end = min(start + size, list.size());
       return list.subList(start, end);
     }
 

@@ -32,7 +32,6 @@ import java.lang.reflect.Method;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -157,7 +156,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Arrays.asList(elements.clone());
+                return asList(elements.clone());
               }
             })
         .named("Arrays.asList")

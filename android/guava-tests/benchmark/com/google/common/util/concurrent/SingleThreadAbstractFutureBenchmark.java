@@ -16,6 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
@@ -26,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /** A benchmark that times how long it takes to add a given number of */
@@ -105,7 +107,7 @@ public class SingleThreadAbstractFutureBenchmark {
     long r = 0;
     for (int i = 0; i < reps; i++) {
       try {
-        f.get(0, TimeUnit.SECONDS);
+        f.get(0, SECONDS);
         r += 1;
       } catch (TimeoutException e) {
         r += 2;
@@ -120,7 +122,7 @@ public class SingleThreadAbstractFutureBenchmark {
     long r = 0;
     for (int i = 0; i < reps; i++) {
       try {
-        f.get(500, TimeUnit.NANOSECONDS);
+        f.get(500, NANOSECONDS);
         r += 1;
       } catch (TimeoutException e) {
         r += 2;

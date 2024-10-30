@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -137,7 +139,7 @@ abstract class AbstractTable<
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeContains(
-                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+                row.entrySet(), immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }
@@ -149,7 +151,7 @@ abstract class AbstractTable<
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeRemove(
-                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+                row.entrySet(), immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }

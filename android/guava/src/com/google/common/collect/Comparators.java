@@ -23,7 +23,9 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -129,7 +131,7 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
@@ -163,11 +165,53 @@ public final class Comparators {
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {
     return least(k, comparator.reversed());
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Optional.
+  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<? super T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.<Optional<T>, @Nullable T>comparing(
+        o -> orElseNull(o), Comparator.nullsFirst(valueComparator));
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Optional.
+  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.<Optional<T>, @Nullable T>comparing(
+        o -> orElseNull(o), Comparator.nullsLast(valueComparator));
+  }
+
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // helper for emptiesFirst+emptiesLast
+  /*
+   * If we make these calls inline inside the lambda inside emptiesFirst()/emptiesLast(), we get an
+   * Animal Sniffer error, despite the @IgnoreJRERequirement annotation there. For details, see
+   * ImmutableSortedMultiset.
+   */
+  @CheckForNull
+  private static <T> T orElseNull(Optional<T> optional) {
+    return optional.orElse(null);
   }
 
   /**

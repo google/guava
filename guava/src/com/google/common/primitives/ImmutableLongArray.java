@@ -168,7 +168,11 @@ public final class ImmutableLongArray implements Serializable {
     return builder().addAll(values).build();
   }
 
-  /** Returns an immutable array containing all the values from {@code stream}, in order. */
+  /**
+   * Returns an immutable array containing all the values from {@code stream}, in order.
+   *
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
+   */
   public static ImmutableLongArray copyOf(LongStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
     long[] array = stream.toArray();
@@ -269,6 +273,8 @@ public final class ImmutableLongArray implements Serializable {
     /**
      * Appends all values from {@code stream}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
+     *
+     * @since 22.0 (but only since 33.4.0 in the Android flavor)
      */
     @CanIgnoreReturnValue
     public Builder addAll(LongStream stream) {
@@ -410,7 +416,11 @@ public final class ImmutableLongArray implements Serializable {
     return indexOf(target) >= 0;
   }
 
-  /** Invokes {@code consumer} for each value contained in this array, in order. */
+  /**
+   * Invokes {@code consumer} for each value contained in this array, in order.
+   *
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
+   */
   public void forEach(LongConsumer consumer) {
     checkNotNull(consumer);
     for (int i = start; i < end; i++) {
@@ -418,7 +428,11 @@ public final class ImmutableLongArray implements Serializable {
     }
   }
 
-  /** Returns a stream over the values in this array, in order. */
+  /**
+   * Returns a stream over the values in this array, in order.
+   *
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
+   */
   public LongStream stream() {
     return Arrays.stream(array, start, end);
   }
@@ -442,7 +456,11 @@ public final class ImmutableLongArray implements Serializable {
         : new ImmutableLongArray(array, start + startIndex, start + endIndex);
   }
 
-  private Spliterator.OfLong spliterator() {
+  /*
+   * We declare this as package-private, rather than private, to avoid generating a synthetic
+   * accessor method (under -target 8) that would lack the Android flavor's @IgnoreJRERequirement.
+   */
+  Spliterator.OfLong spliterator() {
     return Spliterators.spliterator(array, start, end, Spliterator.IMMUTABLE | Spliterator.ORDERED);
   }
 

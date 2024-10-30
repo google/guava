@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 
 /**
@@ -262,12 +264,17 @@ public final class Ints extends IntsMethodsForWeb {
    * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
    * value} is greater than {@code max}, {@code max} is returned.
    *
+   * <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
+   * constraining a {@code long} input to an {@code int} range.
+   *
    * @param value the {@code int} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
    * @param max the upper bound (inclusive) of the range to constrain {@code value} to
    * @throws IllegalArgumentException if {@code min > max}
    * @since 21.0
    */
+  // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.
+  @SuppressWarnings("StaticImportPreferred")
   public static int constrainToRange(int value, int min, int max) {
     checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
     return Math.min(Math.max(value, min), max);
@@ -448,6 +455,8 @@ public final class Ints extends IntsMethodsForWeb {
     INSTANCE;
 
     @Override
+    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.
+    @SuppressWarnings("StaticImportPreferred")
     public int compare(int[] left, int[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
@@ -678,6 +687,17 @@ public final class Ints extends IntsMethodsForWeb {
     public Integer get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    @SuppressWarnings("Java7ApiChecker")
+    /*
+     * This is an override that is not directly visible to callers, so NewApi will catch calls to
+     * Collection.spliterator() where necessary.
+     */
+    @IgnoreJRERequirement
+    public Spliterator.OfInt spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override

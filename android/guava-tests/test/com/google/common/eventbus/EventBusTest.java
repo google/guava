@@ -159,11 +159,7 @@ public class EventBusTest extends TestCase {
           }
         };
     eventBus.register(subscriber);
-    try {
-      eventBus.post(EVENT);
-    } catch (RuntimeException e) {
-      fail("Exception should not be thrown.");
-    }
+    eventBus.post(EVENT);
   }
 
   public void testDeadEventForwarding() {

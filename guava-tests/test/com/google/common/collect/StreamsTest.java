@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Streams.findLast;
 import static com.google.common.collect.Streams.stream;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -24,7 +25,6 @@ import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.primitives.Doubles;
 import com.google.common.truth.IterableSubject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -59,15 +59,15 @@ public class StreamsTest extends TestCase {
 
   @SuppressWarnings("deprecation")
   public void testStream_collection() {
-    assertThat(stream(Arrays.asList())).isEmpty();
-    assertThat(stream(Arrays.asList("a"))).containsExactly("a");
-    assertThat(stream(Arrays.asList(1, 2, 3)).filter(n -> n > 1)).containsExactly(2, 3);
+    assertThat(stream(asList())).isEmpty();
+    assertThat(stream(asList("a"))).containsExactly("a");
+    assertThat(stream(asList(1, 2, 3)).filter(n -> n > 1)).containsExactly(2, 3);
   }
 
   public void testStream_iterator() {
-    assertThat(stream(Arrays.asList().iterator())).isEmpty();
-    assertThat(stream(Arrays.asList("a").iterator())).containsExactly("a");
-    assertThat(stream(Arrays.asList(1, 2, 3).iterator()).filter(n -> n > 1)).containsExactly(2, 3);
+    assertThat(stream(asList().iterator())).isEmpty();
+    assertThat(stream(asList("a").iterator())).containsExactly("a");
+    assertThat(stream(asList(1, 2, 3).iterator()).filter(n -> n > 1)).containsExactly(2, 3);
   }
 
   public void testStream_googleOptional() {

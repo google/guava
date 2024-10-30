@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newSequentialExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -34,7 +35,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -304,10 +304,10 @@ public class SequentialExecutorTest extends TestCase {
       service.execute(barrierTask); // submit directly to the service
       // the barrier task runs after the error task so we know that the error has been observed by
       // SequentialExecutor by the time the barrier is satisfied
-      barrier.await(1, TimeUnit.SECONDS);
+      barrier.await(1, SECONDS);
       executor.execute(barrierTask);
       // timeout means the second task wasn't even tried
-      barrier.await(1, TimeUnit.SECONDS);
+      barrier.await(1, SECONDS);
     } finally {
       service.shutdown();
     }
@@ -336,11 +336,11 @@ public class SequentialExecutorTest extends TestCase {
                 executor.execute(Runnables.doNothing());
               }
             });
-    future.get(10, TimeUnit.SECONDS);
+    future.get(10, SECONDS);
     assertThrows(RejectedExecutionException.class, () -> executor.execute(Runnables.doNothing()));
     latch.countDown();
     ExecutionException expected =
-        assertThrows(ExecutionException.class, () -> first.get(10, TimeUnit.SECONDS));
+        assertThrows(ExecutionException.class, () -> first.get(10, SECONDS));
     assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 

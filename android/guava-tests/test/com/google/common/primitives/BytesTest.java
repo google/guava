@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -171,17 +172,8 @@ public class BytesTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Bytes.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Bytes.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Bytes.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Bytes.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testToArray() {
@@ -217,11 +209,7 @@ public class BytesTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
-    try {
-      Bytes.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Bytes.toArray(list));
   }
 
   public void testToArray_withConversion() {

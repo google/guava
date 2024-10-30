@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
@@ -298,7 +299,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   }
 
   public void testToImmutableSet() {
-    Collector<String, ?, ImmutableSet<String>> collector = ImmutableSet.toImmutableSet();
+    Collector<String, ?, ImmutableSet<String>> collector = toImmutableSet();
     Equivalence<ImmutableSet<String>> equivalence =
         Equivalence.equals().onResultOf(ImmutableSet::asList);
     CollectorTester.of(collector, equivalence)
@@ -330,8 +331,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
       }
     }
 
-    Collector<TypeWithDuplicates, ?, ImmutableSet<TypeWithDuplicates>> collector =
-        ImmutableSet.toImmutableSet();
+    Collector<TypeWithDuplicates, ?, ImmutableSet<TypeWithDuplicates>> collector = toImmutableSet();
     BiPredicate<ImmutableSet<TypeWithDuplicates>, ImmutableSet<TypeWithDuplicates>> equivalence =
         (set1, set2) -> {
           if (!set1.equals(set2)) {

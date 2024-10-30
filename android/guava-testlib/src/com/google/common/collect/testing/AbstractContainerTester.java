@@ -16,11 +16,12 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +92,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
    * @param elements expected contents of {@link #container}
    */
   protected final void expectContents(E... elements) {
-    expectContents(Arrays.asList(elements));
+    expectContents(asList(elements));
   }
 
   /**
@@ -139,12 +140,12 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
    */
   protected final void expectAdded(E... elements) {
     List<E> expected = Helpers.copyToList(getSampleElements());
-    expected.addAll(Arrays.asList(elements));
+    expected.addAll(asList(elements));
     expectContents(expected);
   }
 
   protected final void expectAdded(int index, E... elements) {
-    expectAdded(index, Arrays.asList(elements));
+    expectAdded(index, asList(elements));
   }
 
   protected final void expectAdded(int index, Collection<E> elements) {

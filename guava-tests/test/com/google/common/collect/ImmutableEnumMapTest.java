@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.toImmutableEnumMap;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
@@ -110,7 +112,7 @@ public class ImmutableEnumMapTest extends TestCase {
 
   public void testToImmutableEnumMap() {
     Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
-        Maps.toImmutableEnumMap(Entry::getKey, Entry::getValue);
+        toImmutableEnumMap(Entry::getKey, Entry::getValue);
     Equivalence<ImmutableMap<AnEnum, Integer>> equivalence =
         Equivalence.equals().<Entry<AnEnum, Integer>>pairwise().onResultOf(ImmutableMap::entrySet);
     CollectorTester.of(collector, equivalence)
@@ -123,17 +125,15 @@ public class ImmutableEnumMapTest extends TestCase {
 
   public void testToImmutableMap_exceptionOnDuplicateKey() {
     Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
-        Maps.toImmutableEnumMap(Entry::getKey, Entry::getValue);
-    try {
-      Stream.of(mapEntry(AnEnum.A, 1), mapEntry(AnEnum.A, 11)).collect(collector);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+        toImmutableEnumMap(Entry::getKey, Entry::getValue);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Stream.of(mapEntry(AnEnum.A, 1), mapEntry(AnEnum.A, 11)).collect(collector));
   }
 
   public void testToImmutableMapMerging() {
     Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
-        Maps.toImmutableEnumMap(Entry::getKey, Entry::getValue, Integer::sum);
+        toImmutableEnumMap(Entry::getKey, Entry::getValue, Integer::sum);
     Equivalence<ImmutableMap<AnEnum, Integer>> equivalence =
         Equivalence.equals().<Entry<AnEnum, Integer>>pairwise().onResultOf(ImmutableMap::entrySet);
     CollectorTester.of(collector, equivalence)

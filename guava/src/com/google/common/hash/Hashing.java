@@ -23,6 +23,7 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -520,8 +521,8 @@ public final class Hashing {
         return (Checksum) CONSTRUCTOR.invokeExact();
       } catch (Throwable e) {
         throwIfUnchecked(e);
-        // That constructor has no `throws` clause.
-        throw newLinkageError(e);
+        // This should be impossible, since the constructor has no `throws` clause.
+        throw new UndeclaredThrowableException(e);
       }
     }
 

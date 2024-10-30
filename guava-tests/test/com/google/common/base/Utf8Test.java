@@ -60,6 +60,8 @@ public class Utf8Test extends TestCase {
     ILL_FORMED_STRINGS = builder.build();
   }
 
+  // We can't use Character.isSurrogate(c) because of GWT.
+
   public void testEncodedLength_validStrings() {
     assertEquals(0, Utf8.encodedLength(""));
     assertEquals(11, Utf8.encodedLength("Hello world"));

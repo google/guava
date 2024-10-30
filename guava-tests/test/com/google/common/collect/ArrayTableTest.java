@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -187,35 +189,27 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   }
 
   public void testCreateDuplicateRows() {
-    try {
-      ArrayTable.create(asList("foo", "bar", "foo"), asList(1, 2, 3));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ArrayTable.create(asList("foo", "bar", "foo"), asList(1, 2, 3)));
   }
 
   public void testCreateDuplicateColumns() {
-    try {
-      ArrayTable.create(asList("foo", "bar"), asList(1, 2, 3, 2));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ArrayTable.create(asList("foo", "bar"), asList(1, 2, 3, 2)));
   }
 
   public void testCreateEmptyRows() {
-    try {
-      ArrayTable.create(Arrays.<String>asList(), asList(1, 2, 3));
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ArrayTable.create(Arrays.<String>asList(), asList(1, 2, 3)));
   }
 
   public void testCreateEmptyColumns() {
-    try {
-      ArrayTable.create(asList("foo", "bar"), Arrays.<Integer>asList());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ArrayTable.create(asList("foo", "bar"), Arrays.<Integer>asList()));
   }
 
   public void testCreateEmptyRowsXColumns() {
@@ -227,11 +221,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     assertThat(table.rowKeyList()).isEmpty();
     assertThat(table.columnKeySet()).isEmpty();
     assertThat(table.rowKeySet()).isEmpty();
-    try {
-      table.at(0, 0);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> table.at(0, 0));
   }
 
   @GwtIncompatible // toArray
@@ -361,26 +351,10 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     assertEquals((Character) 'b', table.at(1, 0));
     assertEquals((Character) 'c', table.at(0, 2));
     assertNull(table.at(1, 2));
-    try {
-      table.at(1, 3);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.at(1, -1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.at(3, 2);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.at(-1, 2);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> table.at(1, 3));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.at(1, -1));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.at(3, 2));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.at(-1, 2));
   }
 
   public void testSet() {
@@ -392,26 +366,10 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     assertEquals((Character) 'e', table.get("cat", 1));
     assertEquals((Character) 'a', table.set(0, 0, null));
     assertNull(table.get("foo", 1));
-    try {
-      table.set(1, 3, 'z');
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.set(1, -1, 'z');
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.set(3, 2, 'z');
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      table.set(-1, 2, 'z');
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> table.set(1, 3, 'z'));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.set(1, -1, 'z'));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.set(3, 2, 'z'));
+    assertThrows(IndexOutOfBoundsException.class, () -> table.set(-1, 2, 'z'));
     assertFalse(table.containsValue('z'));
   }
 
@@ -427,18 +385,11 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   public void testPutIllegal() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    try {
-      table.put("dog", 1, 'd');
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
-    }
-    try {
-      table.put("foo", 4, 'd');
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> table.put("dog", 1, 'd'));
+    assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
+    expected = assertThrows(IllegalArgumentException.class, () -> table.put("foo", 4, 'd'));
+    assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
     assertFalse(table.containsValue('d'));
   }
 
@@ -474,53 +425,39 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   public void testCellReflectsChanges() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Cell<String, Integer, Character> cell = table.cellSet().iterator().next();
-    assertEquals(Tables.immutableCell("foo", 1, 'a'), cell);
+    assertEquals(immutableCell("foo", 1, 'a'), cell);
     assertEquals((Character) 'a', table.put("foo", 1, 'd'));
-    assertEquals(Tables.immutableCell("foo", 1, 'd'), cell);
+    assertEquals(immutableCell("foo", 1, 'd'), cell);
   }
 
   public void testRowMissing() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<Integer, Character> row = table.row("dog");
     assertTrue(row.isEmpty());
-    try {
-      row.put(1, 'd');
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> row.put(1, 'd'));
   }
 
   public void testColumnMissing() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<String, Character> column = table.column(4);
     assertTrue(column.isEmpty());
-    try {
-      column.put("foo", 'd');
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> column.put("foo", 'd'));
   }
 
   public void testRowPutIllegal() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<Integer, Character> map = table.row("foo");
-    try {
-      map.put(4, 'd');
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> map.put(4, 'd'));
+    assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
   }
 
   public void testColumnPutIllegal() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<String, Character> map = table.column(3);
-    try {
-      map.put("dog", 'd');
-      fail();
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> map.put("dog", 'd'));
+    assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
   }
 
   @J2ktIncompatible

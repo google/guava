@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -69,21 +70,11 @@ public class MultimapContainsEntryTester<K, V>
 
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryNullDisallowedBecauseKeyQueriesDisallowed() {
-    try {
-      multimap().containsEntry(null, v3());
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> multimap().containsEntry(null, v3()));
   }
 
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {
-    try {
-      multimap().containsEntry(k3(), null);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> multimap().containsEntry(k3(), null));
   }
 }

@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.AggregateFuture.ReleaseResources
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -61,7 +62,7 @@ final class CombinedFuture<V extends @Nullable Object>
 
   @Override
   void handleAllCompleted() {
-    CombinedFutureInterruptibleTask<?> localTask = task;
+    @RetainedLocalRef CombinedFutureInterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.execute();
     }
@@ -84,7 +85,7 @@ final class CombinedFuture<V extends @Nullable Object>
 
   @Override
   protected void interruptTask() {
-    CombinedFutureInterruptibleTask<?> localTask = task;
+    @RetainedLocalRef CombinedFutureInterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.interruptTask();
     }

@@ -16,12 +16,10 @@ package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -150,13 +148,7 @@ final class SubscriberRegistry {
   private static final LoadingCache<Class<?>, ImmutableList<Method>> subscriberMethodsCache =
       CacheBuilder.newBuilder()
           .weakKeys()
-          .build(
-              new CacheLoader<Class<?>, ImmutableList<Method>>() {
-                @Override
-                public ImmutableList<Method> load(Class<?> concreteClass) throws Exception {
-                  return getAnnotatedMethodsNotCached(concreteClass);
-                }
-              });
+          .build(CacheLoader.from(SubscriberRegistry::getAnnotatedMethodsNotCached));
 
   /**
    * Returns all subscribers for the given listener grouped by the type of event they subscribe to.
@@ -176,7 +168,24 @@ final class SubscriberRegistry {
     try {
       return subscriberMethodsCache.getUnchecked(clazz);
     } catch (UncheckedExecutionException e) {
-      throwIfUnchecked(e.getCause());
+      if (e.getCause() instanceof IllegalArgumentException) {
+        /*
+         * IllegalArgumentException is the one unchecked exception that we know is likely to happen
+         * (thanks to the checkArgument calls in getAnnotatedMethodsNotCached). If it happens, we'd
+         * prefer to propagate an IllegalArgumentException to the caller. However, we don't want to
+         * simply rethrow an exception (e.getCause()) that may in rare cases have come from another
+         * thread. To accomplish both goals, we wrap that IllegalArgumentException in a new
+         * instance.
+         */
+        throw new IllegalArgumentException(e.getCause().getMessage(), e.getCause());
+      }
+      /*
+       * If some other exception happened, we just propagate the wrapper
+       * UncheckedExecutionException, which has the stack trace from this thread and which has its
+       * cause set to the underlying exception (which may be from another thread). If we someday
+       * learn that some other exception besides IllegalArgumentException is common, then we could
+       * add another special case to throw an instance of it, too.
+       */
       throw e;
     }
   }
@@ -220,15 +229,9 @@ final class SubscriberRegistry {
       CacheBuilder.newBuilder()
           .weakKeys()
           .build(
-              new CacheLoader<Class<?>, ImmutableSet<Class<?>>>() {
-                // <Class<?>> is actually needed to compile
-                @SuppressWarnings("RedundantTypeArguments")
-                @Override
-                public ImmutableSet<Class<?>> load(Class<?> concreteClass) {
-                  return ImmutableSet.<Class<?>>copyOf(
-                      TypeToken.of(concreteClass).getTypes().rawTypes());
-                }
-              });
+              CacheLoader.from(
+                  concreteClass ->
+                      ImmutableSet.copyOf(TypeToken.of(concreteClass).getTypes().rawTypes())));
 
   /**
    * Flattens a class's type hierarchy into a set of {@code Class} objects including all
@@ -236,11 +239,7 @@ final class SubscriberRegistry {
    */
   @VisibleForTesting
   static ImmutableSet<Class<?>> flattenHierarchy(Class<?> concreteClass) {
-    try {
-      return flattenHierarchyCache.getUnchecked(concreteClass);
-    } catch (UncheckedExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return flattenHierarchyCache.getUnchecked(concreteClass);
   }
 
   private static final class MethodIdentifier {

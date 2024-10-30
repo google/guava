@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.GcFinalization;
@@ -35,7 +36,6 @@ import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 
@@ -249,7 +249,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
 
     Field sepFrqUserFinalizedF = sepFrqUserC.getField("finalized");
     Semaphore finalizeCount = (Semaphore) sepFrqUserFinalizedF.get(null);
-    boolean finalized = finalizeCount.tryAcquire(5, TimeUnit.SECONDS);
+    boolean finalized = finalizeCount.tryAcquire(5, SECONDS);
     assertTrue(finalized);
 
     Field sepFrqUserFrqF = sepFrqUserC.getField("frq");

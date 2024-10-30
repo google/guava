@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
@@ -39,12 +40,7 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   @CollectionSize.Require(ZERO)
   public void testPutWithSameValueFails() {
     getMap().put(k0(), v0());
-    try {
-      getMap().put(k1(), v0());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // success
-    }
+    assertThrows(IllegalArgumentException.class, () -> getMap().put(k1(), v0()));
     // verify that the bimap is unchanged
     expectAdded(e0());
   }

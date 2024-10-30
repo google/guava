@@ -18,9 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.cache.CacheBuilder.NULL_TICKER;
 import static com.google.common.cache.CacheBuilder.UNSET_INT;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.lang.Math.min;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -44,7 +47,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -76,7 +78,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
@@ -238,7 +239,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    */
   LocalCache(
       CacheBuilder<? super K, ? super V> builder, @CheckForNull CacheLoader<? super K, V> loader) {
-    concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
+    concurrencyLevel = min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
     valueStrength = builder.getValueStrength();
@@ -263,9 +264,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     globalStatsCounter = builder.getStatsCounterSupplier().get();
     defaultLoader = loader;
 
-    int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
+    int initialCapacity = min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize() && !customWeigher()) {
-      initialCapacity = (int) Math.min(initialCapacity, maxWeight);
+      initialCapacity = (int) min(initialCapacity, maxWeight);
     }
 
     // Find the lowest power-of-two segmentCount that exceeds concurrencyLevel, unless
@@ -3464,7 +3465,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     private ListenableFuture<V> fullyFailedFuture(Throwable t) {
-      return Futures.immediateFailedFuture(t);
+      return immediateFailedFuture(t);
     }
 
     @Override
@@ -3487,11 +3488,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         V previousValue = oldValue.get();
         if (previousValue == null) {
           V newValue = loader.load(key);
-          return set(newValue) ? futureValue : Futures.immediateFuture(newValue);
+          return set(newValue) ? futureValue : immediateFuture(newValue);
         }
         ListenableFuture<V> newValue = loader.reload(key, previousValue);
         if (newValue == null) {
-          return Futures.immediateFuture(null);
+          return immediateFuture(null);
         }
         // To avoid a race, make sure the refreshed value is set into loadingValueReference
         // *before* returning newValue from the cache query.
@@ -4599,10 +4600,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
               .removalListener(removalListener);
       builder.strictParsing = false;
       if (expireAfterWriteNanos > 0) {
-        builder.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
+        builder.expireAfterWrite(expireAfterWriteNanos, NANOSECONDS);
       }
       if (expireAfterAccessNanos > 0) {
-        builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
+        builder.expireAfterAccess(expireAfterAccessNanos, NANOSECONDS);
       }
       if (weigher != OneWeigher.INSTANCE) {
         Object unused = builder.weigher(weigher);

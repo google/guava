@@ -16,11 +16,11 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.copyToSet;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.MapFeature;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import org.junit.Ignore;
@@ -37,7 +37,7 @@ public class SetMultimapPutAllTester<K, V> extends AbstractMultimapTester<K, V, 
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllHandlesDuplicates() {
-    List<V> valuesToPut = Arrays.asList(v0(), v1(), v0());
+    List<V> valuesToPut = asList(v0(), v1(), v0());
 
     for (K k : sampleKeys()) {
       resetContainer();

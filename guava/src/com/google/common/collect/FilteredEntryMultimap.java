@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.immutableEntry;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
@@ -70,7 +71,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   private boolean satisfies(@ParametricNullness K key, @ParametricNullness V value) {
-    return predicate.apply(Maps.immutableEntry(key, value));
+    return predicate.apply(immutableEntry(key, value));
   }
 
   final class ValuePredicate implements Predicate<V> {
@@ -269,7 +270,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
                 Collection<V> collection =
                     filterCollection(entry.getValue(), new ValuePredicate(key));
                 if (!collection.isEmpty()) {
-                  return Maps.immutableEntry(key, collection);
+                  return immutableEntry(key, collection);
                 }
               }
               return endOfData();

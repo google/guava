@@ -16,8 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtIncompatible;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,7 @@ import java.util.Map;
 public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
   public ImmutableMapFloodingTest() {
     super(
-        Arrays.asList(ConstructionPathway.values()),
+        asList(ConstructionPathway.values()),
         n -> n * Math.log(n),
         ImmutableList.of(QueryOp.MAP_GET));
   }
@@ -48,8 +51,7 @@ public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Objec
     COPY_OF_ENTRIES {
       @Override
       public Map<Object, Object> create(List<?> keys) {
-        return ImmutableMap.copyOf(
-            Lists.transform(keys, k -> Maps.immutableEntry(k, "dummy value")));
+        return ImmutableMap.copyOf(transform(keys, k -> immutableEntry(k, "dummy value")));
       }
     },
     BUILDER_PUT_ONE_BY_ONE {
@@ -67,7 +69,7 @@ public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Objec
       public Map<Object, Object> create(List<?> keys) {
         ImmutableMap.Builder<Object, Object> builder = ImmutableMap.builder();
         for (Object k : keys) {
-          builder.put(Maps.immutableEntry(k, "dummy value"));
+          builder.put(immutableEntry(k, "dummy value"));
         }
         return builder.buildOrThrow();
       }
@@ -88,7 +90,7 @@ public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Objec
       @Override
       public Map<Object, Object> create(List<?> keys) {
         return ImmutableMap.builder()
-            .putAll(Lists.transform(keys, k -> Maps.immutableEntry(k, "dummy value")))
+            .putAll(transform(keys, k -> immutableEntry(k, "dummy value")))
             .buildOrThrow();
       }
     },

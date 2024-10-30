@@ -17,12 +17,12 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.testing.NullPointerTester;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 
@@ -47,7 +47,7 @@ public class ExecutionListTest extends TestCase {
     list.execute();
 
     // Verify that all of the runnables execute in a reasonable amount of time.
-    assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
+    assertTrue(countDownLatch.await(1L, SECONDS));
   }
 
   public void testExecute_idempotent() {
@@ -108,7 +108,7 @@ public class ExecutionListTest extends TestCase {
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
     list.add(new MockRunnable(countDownLatch), Executors.newCachedThreadPool());
-    assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
+    assertTrue(countDownLatch.await(1L, SECONDS));
   }
 
   public void testOrdering() throws Exception {
@@ -122,7 +122,7 @@ public class ExecutionListTest extends TestCase {
               integer.compareAndSet(expectedCount, expectedCount + 1);
             }
           },
-          MoreExecutors.directExecutor());
+          directExecutor());
     }
     list.execute();
     assertEquals(10, integer.get());

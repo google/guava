@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -54,11 +55,7 @@ public class ListAddTester<E> extends AbstractListTester<E> {
    * throw regardless, but it keeps the method name accurate.
    */
   public void testAdd_unsupportedPresent() {
-    try {
-      getList().add(e0());
-      fail("add(present) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().add(e0()));
   }
 
   @CollectionFeature.Require(value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES})

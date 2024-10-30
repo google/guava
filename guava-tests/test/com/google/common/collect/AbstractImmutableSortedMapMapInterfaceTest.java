@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
@@ -49,7 +51,7 @@ public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
     assertEquals("[" + joiner.join(map.keySet()) + "]", map.keySet().toString());
     assertEquals("[" + joiner.join(map.values()) + "]", map.values().toString());
 
-    assertEquals(Sets.newHashSet(map.entrySet()), map.entrySet());
-    assertEquals(Sets.newHashSet(map.keySet()), map.keySet());
+    assertEquals(newHashSet(map.entrySet()), map.entrySet());
+    assertEquals(newHashSet(map.keySet()), map.keySet());
   }
 }

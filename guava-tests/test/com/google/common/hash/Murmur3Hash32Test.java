@@ -115,7 +115,6 @@ public class Murmur3Hash32Test extends TestCase {
   public void testEncodedStringInputs() {
     Random rng = new Random(0);
     for (int z = 0; z < 100; z++) {
-      String str;
       int[] codePoints = new int[rng.nextInt(8)];
       for (int i = 0; i < codePoints.length; i++) {
         do {
@@ -128,7 +127,7 @@ public class Murmur3Hash32Test extends TestCase {
       for (int i = 0; i < codePoints.length; i++) {
         builder.appendCodePoint(codePoints[i]);
       }
-      str = builder.toString();
+      String str = builder.toString();
       HashCode hashUtf8 = murmur3_32().hashBytes(str.getBytes(UTF_8));
       assertEquals(hashUtf8, murmur3_32().newHasher().putBytes(str.getBytes(UTF_8)).hash());
       assertEquals(hashUtf8, murmur3_32().hashString(str, UTF_8));

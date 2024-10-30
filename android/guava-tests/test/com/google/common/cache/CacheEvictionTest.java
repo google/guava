@@ -20,6 +20,7 @@ import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.cache.TestingWeighers.intKeyWeigher;
 import static com.google.common.cache.TestingWeighers.intValueWeigher;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 
 import com.google.common.cache.CacheTesting.Receiver;
@@ -61,7 +62,7 @@ public class CacheEvictionTest extends TestCase {
         CacheBuilder.newBuilder().concurrencyLevel(1).maximumSize(MAX_SIZE).build(loader);
     for (int i = 0; i < 2 * MAX_SIZE; i++) {
       cache.getUnchecked(i);
-      assertEquals(Math.min(i + 1, MAX_SIZE), cache.size());
+      assertEquals(min(i + 1, MAX_SIZE), cache.size());
     }
 
     assertEquals(MAX_SIZE, cache.size());
@@ -78,7 +79,7 @@ public class CacheEvictionTest extends TestCase {
             .build(loader);
     for (int i = 0; i < 2 * MAX_SIZE; i++) {
       cache.getUnchecked(i);
-      assertEquals(Math.min(i + 1, MAX_SIZE), cache.size());
+      assertEquals(min(i + 1, MAX_SIZE), cache.size());
     }
 
     assertEquals(MAX_SIZE, cache.size());

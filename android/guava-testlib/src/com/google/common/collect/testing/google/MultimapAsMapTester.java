@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Iterables;
@@ -81,11 +82,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
 
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyUnsupported() {
-    try {
-      multimap().asMap().get(null);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> multimap().asMap().get(null));
   }
 
   @CollectionSize.Require(absent = ZERO)

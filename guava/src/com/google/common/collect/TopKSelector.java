@@ -19,6 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.lang.Math.max;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
@@ -179,7 +181,7 @@ final class TopKSelector<
       if (pivotNewIndex > k) {
         right = pivotNewIndex - 1;
       } else if (pivotNewIndex < k) {
-        left = Math.max(pivotNewIndex, left + 1);
+        left = max(pivotNewIndex, left + 1);
         minThresholdPosition = pivotNewIndex;
       } else {
         break;
@@ -285,6 +287,6 @@ final class TopKSelector<
     // Up to bufferSize, all elements of buffer are real Ts (not null unless T includes null)
     T[] topK = Arrays.copyOf(castBuffer, bufferSize);
     // we have to support null elements, so no ImmutableList for us
-    return Collections.unmodifiableList(Arrays.asList(topK));
+    return Collections.unmodifiableList(asList(topK));
   }
 }

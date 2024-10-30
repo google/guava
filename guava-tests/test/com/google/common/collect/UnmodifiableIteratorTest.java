@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -54,10 +56,6 @@ public class UnmodifiableIteratorTest extends TestCase {
 
     assertTrue(iterator.hasNext());
     assertEquals("a", iterator.next());
-    try {
-      iterator.remove();
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
   }
 }

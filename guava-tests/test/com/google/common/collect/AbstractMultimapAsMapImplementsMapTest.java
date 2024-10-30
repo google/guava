@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Collection;
@@ -65,13 +67,12 @@ public abstract class AbstractMultimapAsMapImplementsMapTest
   @Override
   public void testRemove() {
     final Map<String, Collection<Integer>> map;
-    final String keyToRemove;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToRemove = map.keySet().iterator().next();
+    final String keyToRemove = map.keySet().iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
       map.get(keyToRemove);
@@ -81,11 +82,7 @@ public abstract class AbstractMultimapAsMapImplementsMapTest
       assertFalse(map.containsKey(keyToRemove));
       assertEquals(initialSize - 1, map.size());
     } else {
-      try {
-        map.remove(keyToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
     }
     assertInvariants(map);
   }

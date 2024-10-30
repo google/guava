@@ -17,15 +17,18 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
+import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -123,6 +126,22 @@ public abstract class AbstractScheduledService implements Service {
      * @param initialDelay the time to delay first execution
      * @param delay the delay between the termination of one execution and the commencement of the
      *     next
+     * @since NEXT (but since 28.0 in the JRE flavor)
+     */
+    @SuppressWarnings("Java7ApiChecker")
+    @IgnoreJRERequirement // Users will use this only if they're already using Duration
+    public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
+      return newFixedDelaySchedule(
+          toNanosSaturated(initialDelay), toNanosSaturated(delay), NANOSECONDS);
+    }
+
+    /**
+     * Returns a {@link Scheduler} that schedules the task using the {@link
+     * ScheduledExecutorService#scheduleWithFixedDelay} method.
+     *
+     * @param initialDelay the time to delay first execution
+     * @param delay the delay between the termination of one execution and the commencement of the
+     *     next
      * @param unit the time unit of the initialDelay and delay parameters
      */
     @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -138,6 +157,21 @@ public abstract class AbstractScheduledService implements Service {
               executor.scheduleWithFixedDelay(task, initialDelay, delay, unit));
         }
       };
+    }
+
+    /**
+     * Returns a {@link Scheduler} that schedules the task using the {@link
+     * ScheduledExecutorService#scheduleAtFixedRate} method.
+     *
+     * @param initialDelay the time to delay first execution
+     * @param period the period between successive executions of the task
+     * @since NEXT (but since 28.0 in the JRE flavor)
+     */
+    @SuppressWarnings("Java7ApiChecker")
+    @IgnoreJRERequirement // Users will use this only if they're already using Duration
+    public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
+      return newFixedRateSchedule(
+          toNanosSaturated(initialDelay), toNanosSaturated(period), NANOSECONDS);
     }
 
     /**
@@ -684,6 +718,16 @@ public abstract class AbstractScheduledService implements Service {
       public Schedule(long delay, TimeUnit unit) {
         this.delay = delay;
         this.unit = checkNotNull(unit);
+      }
+
+      /**
+       * @param delay the time from now to delay execution
+       * @since NEXT (but since 31.1 in the JRE flavor)
+       */
+      @SuppressWarnings("Java7ApiChecker")
+      @IgnoreJRERequirement // Users will use this only if they're already using Duration
+      public Schedule(Duration delay) {
+        this(toNanosSaturated(delay), NANOSECONDS);
       }
     }
 

@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
@@ -95,7 +96,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    Set<String> set = Sets.newHashSet();
+                    Set<String> set = newHashSet();
                     ImmutableSortedMultiset.Builder<String> builder =
                         ImmutableSortedMultiset.naturalOrder();
                     for (String s : elements) {

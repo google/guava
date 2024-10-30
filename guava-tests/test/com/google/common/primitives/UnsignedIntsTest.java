@@ -14,6 +14,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.primitives.UnsignedInts.max;
+import static com.google.common.primitives.UnsignedInts.min;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -97,18 +100,14 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   public void testMax_noArgs() {
-    try {
-      UnsignedInts.max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
-    assertThat(UnsignedInts.max(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedInts.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            UnsignedInts.max(
+            max(
                 (int) 8L,
                 (int) 6L,
                 (int) 7L,
@@ -120,18 +119,14 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   public void testMin_noArgs() {
-    try {
-      UnsignedInts.min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
-    assertThat(UnsignedInts.min(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedInts.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
     assertThat(
-            UnsignedInts.min(
+            min(
                 (int) 8L,
                 (int) 6L,
                 (int) 7L,
@@ -269,11 +264,8 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   public void testParseIntFail() {
-    try {
-      UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
-      fail("Expected NumberFormatException");
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(
+        NumberFormatException.class, () -> UnsignedInts.parseUnsignedInt(Long.toString(1L << 32)));
   }
 
   public void testParseIntWithRadix() {
@@ -287,19 +279,19 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testParseIntWithRadixLimits() {
     // loops through all legal radix values.
-    for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
+    for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; r++) {
+      final int radix = r;
       // tests can successfully parse a number string with this radix.
       String maxAsString = Long.toString((1L << 32) - 1, radix);
       assertThat(UnsignedInts.parseUnsignedInt(maxAsString, radix)).isEqualTo(-1);
 
-      try {
-        // tests that we get exception where an overflow would occur.
-        long overflow = 1L << 32;
-        String overflowAsString = Long.toString(overflow, radix);
-        UnsignedInts.parseUnsignedInt(overflowAsString, radix);
-        fail();
-      } catch (NumberFormatException expected) {
-      }
+      assertThrows(
+          NumberFormatException.class,
+          () -> {
+            long overflow = 1L << 32;
+            String overflowAsString = Long.toString(overflow, radix);
+            UnsignedInts.parseUnsignedInt(overflowAsString, radix);
+          });
     }
   }
 
@@ -348,30 +340,13 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   public void testDecodeIntFails() {
-    try {
-      // One more than maximum value
-      UnsignedInts.decode("0xfffffffff");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedInts.decode("0xfffffffff"));
 
-    try {
-      UnsignedInts.decode("-5");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedInts.decode("-5"));
 
-    try {
-      UnsignedInts.decode("-0x5");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedInts.decode("-0x5"));
 
-    try {
-      UnsignedInts.decode("-05");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedInts.decode("-05"));
   }
 
   public void testToString() {

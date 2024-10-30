@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -73,17 +74,9 @@ public class HashBasedTableTest extends AbstractTableTest<Character> {
   }
 
   public void testCreateWithInvalidSizes() {
-    try {
-      HashBasedTable.create(100, -5);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashBasedTable.create(100, -5));
 
-    try {
-      HashBasedTable.create(-5, 20);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> HashBasedTable.create(-5, 20));
   }
 
   public void testCreateCopy() {

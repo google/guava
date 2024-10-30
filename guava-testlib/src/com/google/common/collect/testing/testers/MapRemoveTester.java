@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -57,40 +58,37 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemovePresentConcurrentWithEntrySetIteration() {
-    try {
-      Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
-      getMap().remove(k0());
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
+          getMap().remove(k0());
+          iterator.next();
+        });
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemovePresentConcurrentWithKeySetIteration() {
-    try {
-      Iterator<K> iterator = getMap().keySet().iterator();
-      getMap().remove(k0());
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<K> iterator = getMap().keySet().iterator();
+          getMap().remove(k0());
+          iterator.next();
+        });
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemovePresentConcurrentWithValuesIteration() {
-    try {
-      Iterator<V> iterator = getMap().values().iterator();
-      getMap().remove(k0());
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<V> iterator = getMap().values().iterator();
+          getMap().remove(k0());
+          iterator.next();
+        });
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -117,11 +115,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_unsupported() {
-    try {
-      getMap().remove(k0());
-      fail("remove(present) should throw UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getMap().remove(k0()));
     expectUnchanged();
     assertEquals("remove(present) should not remove the element", v0(), get(k0()));
   }

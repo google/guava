@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractCollection;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -79,7 +80,7 @@ public class MinimalCollection<E extends @Nullable Object> extends AbstractColle
       }
     }
     Platform.checkCast(type, object); // behave badly
-    return Arrays.asList(contents).contains(object);
+    return asList(contents).contains(object);
   }
 
   @Override
@@ -97,7 +98,7 @@ public class MinimalCollection<E extends @Nullable Object> extends AbstractColle
 
   @Override
   public Iterator<E> iterator() {
-    return Arrays.asList(contents).iterator();
+    return asList(contents).iterator();
   }
 
   @Override

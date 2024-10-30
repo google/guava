@@ -18,6 +18,8 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -132,7 +134,7 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
     assertSame(
         "toArray(overSizedE[]) should return the given array", array, collection.toArray(array));
 
-    List<E> subArray = Arrays.asList(array).subList(0, getNumElements());
+    List<E> subArray = asList(array).subList(0, getNumElements());
     E[] expectedSubArray = createSamplesArray();
     for (int i = 0; i < getNumElements(); i++) {
       assertTrue(
@@ -165,12 +167,12 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionSize.Require(absent = ZERO)
   public void testToArray_emptyArrayOfWrongTypeForNonEmptyCollection() {
-    try {
-      WrongType[] array = new WrongType[0];
-      collection.toArray(array);
-      fail("toArray(notAssignableTo[]) should throw");
-    } catch (ArrayStoreException expected) {
-    }
+    assertThrows(
+        ArrayStoreException.class,
+        () -> {
+          WrongType[] array = new WrongType[0];
+          collection.toArray(array);
+        });
   }
 
   @CollectionSize.Require(ZERO)
@@ -183,11 +185,11 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   }
 
   private void expectArrayContentsAnyOrder(Object[] expected, Object[] actual) {
-    Helpers.assertEqualIgnoringOrder(Arrays.asList(expected), Arrays.asList(actual));
+    Helpers.assertEqualIgnoringOrder(asList(expected), asList(actual));
   }
 
   private void expectArrayContentsInOrder(List<E> expected, Object[] actual) {
-    assertEquals("toArray() ordered contents: ", expected, Arrays.asList(actual));
+    assertEquals("toArray() ordered contents: ", expected, asList(actual));
   }
 
   /**

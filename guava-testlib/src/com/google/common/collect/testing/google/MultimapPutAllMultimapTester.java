@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.Helpers.assertContains;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -40,11 +41,9 @@ public class MultimapPutAllMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutUnsupported() {
-    try {
-      multimap().putAll(getSubjectGenerator().create(Helpers.mapEntry(k3(), v3())));
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> multimap().putAll(getSubjectGenerator().create(Helpers.mapEntry(k3(), v3()))));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -80,22 +79,14 @@ public class MultimapPutAllMultimapTester<K, V>
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutAllRejectsNullValue() {
     Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(k0(), null));
-    try {
-      multimap().putAll(source);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> multimap().putAll(source));
     expectUnchanged();
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAllRejectsNullKey() {
     Multimap<K, V> source = getSubjectGenerator().create(Helpers.mapEntry(null, v0()));
-    try {
-      multimap().putAll(source);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> multimap().putAll(source));
     expectUnchanged();
   }
 

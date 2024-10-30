@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -24,7 +25,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -220,26 +220,22 @@ public class SynchronizedMultimapTest extends TestCase {
   public void testSynchronizedListMultimap() {
     ListMultimap<String, Integer> multimap =
         Multimaps.synchronizedListMultimap(ArrayListMultimap.<String, Integer>create());
-    multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
-    multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
+    multimap.putAll("foo", asList(3, -1, 2, 4, 1));
+    multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(3, -1, 2, 4, 1).inOrder();
     assertFalse(multimap.containsKey("foo"));
-    assertThat(multimap.replaceValues("bar", Arrays.asList(6, 5)))
-        .containsExactly(1, 2, 3, 1)
-        .inOrder();
+    assertThat(multimap.replaceValues("bar", asList(6, 5))).containsExactly(1, 2, 3, 1).inOrder();
     assertThat(multimap.get("bar")).containsExactly(6, 5).inOrder();
   }
 
   public void testSynchronizedSortedSetMultimap() {
     SortedSetMultimap<String, Integer> multimap =
         Multimaps.synchronizedSortedSetMultimap(TreeMultimap.<String, Integer>create());
-    multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
-    multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
+    multimap.putAll("foo", asList(3, -1, 2, 4, 1));
+    multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(-1, 1, 2, 3, 4).inOrder();
     assertFalse(multimap.containsKey("foo"));
-    assertThat(multimap.replaceValues("bar", Arrays.asList(6, 5)))
-        .containsExactly(1, 2, 3)
-        .inOrder();
+    assertThat(multimap.replaceValues("bar", asList(6, 5))).containsExactly(1, 2, 3).inOrder();
     assertThat(multimap.get("bar")).containsExactly(5, 6).inOrder();
   }
 

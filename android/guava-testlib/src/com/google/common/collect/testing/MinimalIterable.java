@@ -16,8 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -52,7 +53,7 @@ public final class MinimalIterable<E extends @Nullable Object> implements Iterab
   /** Returns an iterable whose iterator returns the given elements in order. */
   public static <E extends @Nullable Object> MinimalIterable<E> of(E... elements) {
     // Make sure to get an unmodifiable iterator
-    return new MinimalIterable<>(Arrays.asList(elements).iterator());
+    return new MinimalIterable<>(asList(elements).iterator());
   }
 
   /**

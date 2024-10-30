@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
@@ -32,7 +33,6 @@ import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -61,7 +61,7 @@ public class TreeMultisetTest extends TestCase {
                 new TestStringMultisetGenerator() {
                   @Override
                   protected Multiset<String> create(String[] elements) {
-                    return TreeMultiset.create(Arrays.asList(elements));
+                    return TreeMultiset.create(asList(elements));
                   }
 
                   @Override
@@ -108,7 +108,7 @@ public class TreeMultisetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    return TreeMultiset.create(Arrays.asList(elements)).elementSet();
+                    return TreeMultiset.create(asList(elements)).elementSet();
                   }
 
                   @Override
@@ -146,7 +146,7 @@ public class TreeMultisetTest extends TestCase {
   }
 
   public void testCreateFromIterable() {
-    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("foo", "bar", "foo"));
+    Multiset<String> multiset = TreeMultiset.create(asList("foo", "bar", "foo"));
     assertEquals(3, multiset.size());
     assertEquals(2, multiset.count("foo"));
     assertEquals("[bar, foo x 2]", multiset.toString());
@@ -216,7 +216,7 @@ public class TreeMultisetTest extends TestCase {
     SortedSet<String> subset = elementSet.subSet("b", "f");
     assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
-    assertTrue(subset.removeAll(Arrays.asList("a", "c")));
+    assertTrue(subset.removeAll(asList("a", "c")));
     assertThat(elementSet).containsExactly("a", "b", "d", "e", "f").inOrder();
     assertThat(subset).containsExactly("b", "d", "e").inOrder();
     assertEquals(10, ms.size());
@@ -236,7 +236,7 @@ public class TreeMultisetTest extends TestCase {
     SortedSet<String> subset = elementSet.subSet("b", "f");
     assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
-    assertTrue(subset.retainAll(Arrays.asList("a", "c")));
+    assertTrue(subset.retainAll(asList("a", "c")));
     assertThat(elementSet).containsExactly("a", "c", "f").inOrder();
     assertThat(subset).containsExactly("c");
     assertEquals(5, ms.size());

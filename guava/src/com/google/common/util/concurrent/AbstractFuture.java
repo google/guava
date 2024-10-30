@@ -19,6 +19,8 @@ import static com.google.common.util.concurrent.NullnessCasts.uncheckedNull;
 import static java.lang.Integer.toHexString;
 import static java.lang.System.identityHashCode;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
@@ -510,7 +512,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       // We over-waited for our timeout.
       message += " (plus ";
       long overWaitNanos = -remainingNanos;
-      long overWaitUnits = unit.convert(overWaitNanos, TimeUnit.NANOSECONDS);
+      long overWaitUnits = unit.convert(overWaitNanos, NANOSECONDS);
       long overWaitLeftoverNanos = overWaitNanos - unit.toNanos(overWaitUnits);
       boolean shouldShowExtraNanos =
           overWaitUnits == 0 || overWaitLeftoverNanos > SPIN_THRESHOLD_NANOS;
@@ -1195,9 +1197,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   protected String pendingToString() {
     // TODO(diamondm) consider moving this into addPendingString so it's always in the output
     if (this instanceof ScheduledFuture) {
-      return "remaining delay=["
-          + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)
-          + " ms]";
+      return "remaining delay=[" + ((ScheduledFuture) this).getDelay(MILLISECONDS) + " ms]";
     }
     return null;
   }

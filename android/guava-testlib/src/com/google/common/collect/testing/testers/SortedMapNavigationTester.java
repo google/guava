@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -71,20 +72,12 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapFirst() {
-    try {
-      navigableMap.firstKey();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> navigableMap.firstKey());
   }
 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapLast() {
-    try {
-      assertNull(navigableMap.lastKey());
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> assertNull(navigableMap.lastKey()));
   }
 
   @CollectionSize.Require(ONE)
@@ -159,11 +152,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(SEVERAL)
   public void testSubMapIllegal() {
-    try {
-      navigableMap.subMap(c.getKey(), a.getKey());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> navigableMap.subMap(c.getKey(), a.getKey()));
   }
 
   @CollectionSize.Require(absent = ZERO)

@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -163,12 +164,12 @@ class MapMakerInternalMap<
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
   private MapMakerInternalMap(MapMaker builder, InternalEntryHelper<K, V, E, S> entryHelper) {
-    concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
+    concurrencyLevel = min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyEquivalence = builder.getKeyEquivalence();
     this.entryHelper = entryHelper;
 
-    int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
+    int initialCapacity = min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
 
     // Find power-of-two sizes best matching arguments. Constraints:
     // (segmentCount > concurrencyLevel)

@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -133,12 +134,8 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testSetValueWithNullValuesAbsent() {
     for (Entry<K, V> entry : getMap().entrySet()) {
-      try {
-        entry.setValue(null);
-        fail("Expected NullPointerException");
-      } catch (NullPointerException exception) {
-        break;
-      }
+      assertThrows(NullPointerException.class, () -> entry.setValue(null));
+      break;
     }
     expectUnchanged();
   }

@@ -21,7 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.Sets.newHashSet;
+import static java.lang.Math.ceil;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
@@ -192,7 +195,7 @@ public final class Maps {
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
@@ -212,7 +215,7 @@ public final class Maps {
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
@@ -302,7 +305,7 @@ public final class Maps {
       // computed from that capacity. Because the internal table is only allocated on the first
       // write, we won't see copying because of the new threshold. So it is always OK to use the
       // calculation here.
-      return (int) Math.ceil(expectedSize / 0.75);
+      return (int) ceil(expectedSize / 0.75);
     }
     return Integer.MAX_VALUE; // any large value
   }
@@ -2840,7 +2843,7 @@ public final class Maps {
       // implying that key is a K.
       @SuppressWarnings({"unchecked", "nullness"})
       K k = (K) key;
-      return predicate.apply(Maps.immutableEntry(k, value));
+      return predicate.apply(immutableEntry(k, value));
     }
 
     @Override
@@ -4079,7 +4082,7 @@ public final class Maps {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRemove = Sets.newHashSet();
+        Set<K> toRemove = newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRemove.add(entry.getKey());
@@ -4094,7 +4097,7 @@ public final class Maps {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRetain = Sets.newHashSet();
+        Set<K> toRetain = newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRetain.add(entry.getKey());

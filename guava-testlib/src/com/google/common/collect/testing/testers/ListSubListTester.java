@@ -23,6 +23,8 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_REMOVE_WITH_INDEX;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -34,7 +36,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.SerializableTester;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -51,19 +52,11 @@ import org.junit.Ignore;
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_startNegative() {
-    try {
-      getList().subList(-1, 0);
-      fail("subList(-1, 0) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().subList(-1, 0));
   }
 
   public void testSubList_endTooLarge() {
-    try {
-      getList().subList(0, getNumElements() + 1);
-      fail("subList(0, size + 1) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().subList(0, getNumElements() + 1));
   }
 
   public void testSubList_startGreaterThanEnd() {
@@ -97,7 +90,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListRemoveAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
     subList.remove(0);
-    List<E> expected = Arrays.asList(createSamplesArray()).subList(1, getNumElements());
+    List<E> expected = asList(createSamplesArray()).subList(1, getNumElements());
     expectContents(expected);
   }
 
@@ -106,7 +99,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListClearAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
     subList.clear();
-    List<E> expected = Arrays.asList(createSamplesArray()).subList(1, getNumElements());
+    List<E> expected = asList(createSamplesArray()).subList(1, getNumElements());
     expectContents(expected);
   }
 
@@ -175,7 +168,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     assertEquals(
         "A set() call to a list after a sublist has been created "
             + "should be reflected in the sublist",
-        Arrays.asList(e3(), e2()),
+        asList(e3(), e2()),
         subList);
   }
 
@@ -210,7 +203,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     List<E> list = getList();
     int size = getNumElements();
     for (List<E> subList :
-        Arrays.asList(
+        asList(
             list.subList(0, size),
             list.subList(0, size - 1),
             list.subList(1, size),
@@ -233,13 +226,9 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     assertEquals(list.get(size - 1), tail.get(size - 2));
     assertEquals(list.get(0), head.get(0));
     assertEquals(list.get(size - 2), head.get(size - 2));
-    for (List<E> subList : Arrays.asList(copy, head, tail)) {
-      for (int index : Arrays.asList(-1, subList.size())) {
-        try {
-          subList.get(index);
-          fail("expected IndexOutOfBoundsException");
-        } catch (IndexOutOfBoundsException expected) {
-        }
+    for (List<E> subList : asList(copy, head, tail)) {
+      for (int index : asList(-1, subList.size())) {
+        assertThrows(IndexOutOfBoundsException.class, () -> subList.get(index));
       }
     }
   }

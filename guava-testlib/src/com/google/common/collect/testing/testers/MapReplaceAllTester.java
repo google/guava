@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -86,18 +87,15 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceAll_unsupported() {
-    try {
-      getMap()
-          .replaceAll(
-              (K k, V v) -> {
-                int index = keys().asList().indexOf(k);
-                return values().asList().get(index + 1);
-              });
-      fail(
-          "replaceAll() should throw UnsupportedOperation if a map does "
-              + "not support it and is not empty.");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () ->
+            getMap()
+                .replaceAll(
+                    (K k, V v) -> {
+                      int index = keys().asList().indexOf(k);
+                      return values().asList().get(index + 1);
+                    }));
     expectUnchanged();
   }
 

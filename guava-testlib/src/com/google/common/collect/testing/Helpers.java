@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static java.lang.Math.max;
+import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -30,7 +32,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,7 +60,7 @@ public class Helpers {
   }
 
   public static <E extends @Nullable Object> List<E> copyToList(E[] elements) {
-    return copyToList(Arrays.asList(elements));
+    return copyToList(asList(elements));
   }
 
   // Clone of Sets.newLinkedHashSet
@@ -70,7 +71,7 @@ public class Helpers {
   }
 
   public static <E extends @Nullable Object> Set<E> copyToSet(E[] elements) {
-    return copyToSet(Arrays.asList(elements));
+    return copyToSet(asList(elements));
   }
 
   // Would use Maps.immutableEntry
@@ -124,7 +125,7 @@ public class Helpers {
   }
 
   public static void assertContentsInOrder(Iterable<?> actual, Object... expected) {
-    assertEqualInOrder(Arrays.asList(expected), actual);
+    assertEqualInOrder(asList(expected), actual);
   }
 
   public static void assertEqualIgnoringOrder(Iterable<?> expected, Iterable<?> actual) {
@@ -152,7 +153,7 @@ public class Helpers {
   }
 
   public static void assertContentsAnyOrder(Iterable<?> actual, Object... expected) {
-    assertEqualIgnoringOrder(Arrays.asList(expected), actual);
+    assertEqualIgnoringOrder(asList(expected), actual);
   }
 
   public static void assertContains(Iterable<?> actual, Object expected) {
@@ -174,14 +175,14 @@ public class Helpers {
   }
 
   public static void assertContainsAllOf(Iterable<?> actual, Object... expected) {
-    List<Object> expectedList = new ArrayList<>(Arrays.asList(expected));
+    List<Object> expectedList = new ArrayList<>(asList(expected));
 
     for (Object o : actual) {
       expectedList.remove(o);
     }
 
     if (!expectedList.isEmpty()) {
-      fail("Not true that " + actual + " contains all of " + Arrays.asList(expected));
+      fail("Not true that " + actual + " contains all of " + asList(expected));
     }
   }
 
@@ -282,7 +283,7 @@ public class Helpers {
    */
   public static <T extends @Nullable Object> void testComparator(
       Comparator<? super T> comparator, T... valuesInExpectedOrder) {
-    testComparator(comparator, Arrays.asList(valuesInExpectedOrder));
+    testComparator(comparator, asList(valuesInExpectedOrder));
   }
 
   /**
@@ -365,7 +366,7 @@ public class Helpers {
 
       @Override
       public int size() {
-        return Math.max(0, data.size() + delta);
+        return max(0, data.size() + delta);
       }
 
       @Override

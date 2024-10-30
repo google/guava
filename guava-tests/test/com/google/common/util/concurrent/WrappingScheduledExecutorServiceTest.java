@@ -17,6 +17,8 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,13 +49,13 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     TestExecutor testExecutor = new TestExecutor(mock);
 
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
-    Future<?> possiblyIgnoredError = testExecutor.schedule(DO_NOTHING, 10, TimeUnit.MINUTES);
-    mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.MINUTES);
+    Future<?> possiblyIgnoredError = testExecutor.schedule(DO_NOTHING, 10, MINUTES);
+    mock.assertLastMethodCalled("scheduleRunnable", 10, MINUTES);
 
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 =
-        testExecutor.schedule(Executors.callable(DO_NOTHING), 5, TimeUnit.SECONDS);
-    mock.assertLastMethodCalled("scheduleCallable", 5, TimeUnit.SECONDS);
+        testExecutor.schedule(Executors.callable(DO_NOTHING), 5, SECONDS);
+    mock.assertLastMethodCalled("scheduleCallable", 5, SECONDS);
   }
 
   public void testSchedule_repeating() {
@@ -61,13 +63,12 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     TestExecutor testExecutor = new TestExecutor(mock);
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
-        testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.MINUTES);
-    mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.MINUTES);
+        testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, MINUTES);
+    mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, MINUTES);
 
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
-    Future<?> possiblyIgnoredError1 =
-        testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, TimeUnit.SECONDS);
-    mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, TimeUnit.SECONDS);
+    Future<?> possiblyIgnoredError1 = testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, SECONDS);
+    mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, SECONDS);
   }
 
   private static final class WrappedCallable<T> implements Callable<T> {

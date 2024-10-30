@@ -22,6 +22,8 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BoundType;
@@ -33,7 +35,6 @@ import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -92,11 +93,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ZERO)
   public void testEmptyMultisetFirst() {
     assertNull(sortedMultiset.firstEntry());
-    try {
-      sortedMultiset.elementSet().first();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedMultiset.elementSet().first());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -116,11 +113,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ZERO)
   public void testEmptyMultisetLast() {
     assertNull(sortedMultiset.lastEntry());
-    try {
-      assertNull(sortedMultiset.elementSet().last());
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(
+        NoSuchElementException.class, () -> assertNull(sortedMultiset.elementSet().last()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -171,16 +165,12 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, sortedMultiset.pollFirstEntry());
-    assertEquals(Arrays.asList(b, c), copyToList(sortedMultiset.entrySet()));
+    assertEquals(asList(b, c), copyToList(sortedMultiset.entrySet()));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testPollFirstUnsupported() {
-    try {
-      sortedMultiset.pollFirstEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> sortedMultiset.pollFirstEntry());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -225,17 +215,13 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
     assertEquals(c, sortedMultiset.pollLastEntry());
-    assertEquals(Arrays.asList(a, b), copyToList(sortedMultiset.entrySet()));
+    assertEquals(asList(a, b), copyToList(sortedMultiset.entrySet()));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollLastUnsupported() {
-    try {
-      sortedMultiset.pollLastEntry();
-      fail();
-    } catch (UnsupportedOperationException e) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> sortedMultiset.pollLastEntry());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -452,7 +438,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   }
 
   public void testEmptyRangeSubMultisetSupportingAdd(SortedMultiset<E> multiset) {
-    for (Entry<E> entry : Arrays.asList(a, b, c)) {
+    for (Entry<E> entry : asList(a, b, c)) {
       expectAddFailure(multiset, entry);
     }
   }

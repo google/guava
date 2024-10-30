@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -363,7 +364,7 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.50", "R0.00", "R0.00"); // we repay the last request (.5sec), then back to +oo
   }
 
-  /** https://code.google.com/p/guava-libraries/issues/detail?id=1791 */
+  /** https://github.com/google/guava/issues/1791 */
   public void testInfinity_bustyTimeElapsed() {
     RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     stopwatch.instant += 1000000;
@@ -475,7 +476,7 @@ public class RateLimiterTest extends TestCase {
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {
     long startTime = stopwatch.instant;
     while (permits > 0) {
-      int nextPermitsToAcquire = Math.max(1, random.nextInt(permits));
+      int nextPermitsToAcquire = max(1, random.nextInt(permits));
       permits -= nextPermitsToAcquire;
       rateLimiter.acquire(nextPermitsToAcquire);
     }
@@ -550,7 +551,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   private static final ImmutableSet<String> NOT_WORKING_ON_MOCKS =
-      ImmutableSet.of("latestPermitAgeSec", "latestPermitAge", "setRate", "getAvailablePermits");
+      ImmutableSet.of("latestPermitAgeSec", "setRate", "getAvailablePermits");
 
   // We would use ArbitraryInstances, but it returns 0, invalid for many RateLimiter methods.
   private static final ImmutableClassToInstanceMap<Object> PARAMETER_VALUES =

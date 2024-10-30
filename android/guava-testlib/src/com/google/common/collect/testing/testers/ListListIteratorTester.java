@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
 import static com.google.common.collect.testing.testers.Platform.listListIteratorTesterNumIterations;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
@@ -89,19 +90,12 @@ public class ListListIteratorTester<E extends @Nullable Object> extends Abstract
   }
 
   public void testListIterator_tooLow() {
-    try {
-      getList().listIterator(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().listIterator(-1));
   }
 
   public void testListIterator_tooHigh() {
-    try {
-      getList().listIterator(getNumElements() + 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> getList().listIterator(getNumElements() + 1));
   }
 
   public void testListIterator_atSize() {

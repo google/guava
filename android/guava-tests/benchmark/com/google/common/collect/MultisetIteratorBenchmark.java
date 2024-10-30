@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.Math.min;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
@@ -51,7 +53,7 @@ public class MultisetIteratorBenchmark {
     while (sizeRemaining > 0) {
       // The JVM will return interned values for small ints.
       Integer value = random.nextInt(1000) + 128;
-      int count = Math.min(random.nextInt(10) + 1, sizeRemaining);
+      int count = min(random.nextInt(10) + 1, sizeRemaining);
       sizeRemaining -= count;
       hashMultiset.add(value, count);
       linkedHashMultiset.add(value, count);

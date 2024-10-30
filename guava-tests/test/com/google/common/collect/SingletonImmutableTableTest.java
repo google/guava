@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.immutableCell;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -39,7 +40,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testCellSet() {
-    assertEquals(ImmutableSet.of(Tables.immutableCell('a', 1, "blah")), testTable.cellSet());
+    assertEquals(ImmutableSet.of(immutableCell('a', 1, "blah")), testTable.cellSet());
   }
 
   public void testColumn() {

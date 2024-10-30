@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-@SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using streams.
 public final class MoreCollectors {
 

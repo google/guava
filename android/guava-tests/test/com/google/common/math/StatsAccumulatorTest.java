@@ -36,6 +36,11 @@ import static com.google.common.math.StatsTesting.MANY_VALUES_MAX;
 import static com.google.common.math.StatsTesting.MANY_VALUES_MEAN;
 import static com.google.common.math.StatsTesting.MANY_VALUES_MIN;
 import static com.google.common.math.StatsTesting.MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS;
+import static com.google.common.math.StatsTesting.MEGA_STREAM_COUNT;
+import static com.google.common.math.StatsTesting.MEGA_STREAM_MAX;
+import static com.google.common.math.StatsTesting.MEGA_STREAM_MEAN;
+import static com.google.common.math.StatsTesting.MEGA_STREAM_MIN;
+import static com.google.common.math.StatsTesting.MEGA_STREAM_POPULATION_VARIANCE;
 import static com.google.common.math.StatsTesting.ONE_VALUE;
 import static com.google.common.math.StatsTesting.OTHER_ONE_VALUE;
 import static com.google.common.math.StatsTesting.TWO_VALUES;
@@ -43,9 +48,13 @@ import static com.google.common.math.StatsTesting.TWO_VALUES_MAX;
 import static com.google.common.math.StatsTesting.TWO_VALUES_MEAN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_MIN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS;
+import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStream;
+import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStreamPart1;
+import static com.google.common.math.StatsTesting.megaPrimitiveDoubleStreamPart2;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.sqrt;
+import static java.util.stream.DoubleStream.concat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -621,5 +630,52 @@ public class StatsAccumulatorTest extends TestCase {
         .isEqualTo(INTEGER_MANY_VALUES_MIN);
     assertThat(longManyValuesAccumulatorByAddAllIterator.min()).isEqualTo(LONG_MANY_VALUES_MIN);
     assertThat(longManyValuesAccumulatorByAddAllVarargs.min()).isEqualTo(LONG_MANY_VALUES_MIN);
+  }
+
+  public void testVerifyMegaStreamHalves() {
+    assertThat(
+            concat(megaPrimitiveDoubleStreamPart1(), megaPrimitiveDoubleStreamPart2())
+                .sorted()
+                .toArray())
+        .isEqualTo(megaPrimitiveDoubleStream().toArray());
+  }
+
+  public void testAddAllPrimitiveDoubleStream() {
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(megaPrimitiveDoubleStreamPart1());
+    accumulator.addAll(megaPrimitiveDoubleStreamPart2());
+    assertThat(accumulator.count()).isEqualTo(MEGA_STREAM_COUNT);
+    assertThat(accumulator.mean()).isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT).of(MEGA_STREAM_MEAN);
+    assertThat(accumulator.populationVariance())
+        .isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT)
+        .of(MEGA_STREAM_POPULATION_VARIANCE);
+    assertThat(accumulator.min()).isEqualTo(MEGA_STREAM_MIN);
+    assertThat(accumulator.max()).isEqualTo(MEGA_STREAM_MAX);
+  }
+
+  public void testAddAllPrimitiveIntStream() {
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(megaPrimitiveDoubleStreamPart1().mapToInt(x -> (int) x));
+    accumulator.addAll(megaPrimitiveDoubleStreamPart2().mapToInt(x -> (int) x));
+    assertThat(accumulator.count()).isEqualTo(MEGA_STREAM_COUNT);
+    assertThat(accumulator.mean()).isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT).of(MEGA_STREAM_MEAN);
+    assertThat(accumulator.populationVariance())
+        .isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT)
+        .of(MEGA_STREAM_POPULATION_VARIANCE);
+    assertThat(accumulator.min()).isEqualTo(MEGA_STREAM_MIN);
+    assertThat(accumulator.max()).isEqualTo(MEGA_STREAM_MAX);
+  }
+
+  public void testAddAllPrimitiveLongStream() {
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(megaPrimitiveDoubleStreamPart1().mapToLong(x -> (long) x));
+    accumulator.addAll(megaPrimitiveDoubleStreamPart2().mapToLong(x -> (long) x));
+    assertThat(accumulator.count()).isEqualTo(MEGA_STREAM_COUNT);
+    assertThat(accumulator.mean()).isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT).of(MEGA_STREAM_MEAN);
+    assertThat(accumulator.populationVariance())
+        .isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT)
+        .of(MEGA_STREAM_POPULATION_VARIANCE);
+    assertThat(accumulator.min()).isEqualTo(MEGA_STREAM_MIN);
+    assertThat(accumulator.max()).isEqualTo(MEGA_STREAM_MAX);
   }
 }

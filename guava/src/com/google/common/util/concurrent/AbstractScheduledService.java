@@ -126,7 +126,7 @@ public abstract class AbstractScheduledService implements Service {
      * @param initialDelay the time to delay first execution
      * @param delay the delay between the termination of one execution and the commencement of the
      *     next
-     * @since 28.0
+     * @since 28.0 (but only since 33.4.0 in the Android flavor)
      */
     public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
       return newFixedDelaySchedule(
@@ -163,7 +163,7 @@ public abstract class AbstractScheduledService implements Service {
      *
      * @param initialDelay the time to delay first execution
      * @param period the period between successive executions of the task
-     * @since 28.0
+     * @since 28.0 (but only since 33.4.0 in the Android flavor)
      */
     public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
       return newFixedRateSchedule(
@@ -730,7 +730,7 @@ public abstract class AbstractScheduledService implements Service {
 
       /**
        * @param delay the time from now to delay execution
-       * @since 31.1
+       * @since 31.1 (but only since 33.4.0 in the Android flavor)
        */
       public Schedule(Duration delay) {
         this(toNanosSaturated(delay), NANOSECONDS);

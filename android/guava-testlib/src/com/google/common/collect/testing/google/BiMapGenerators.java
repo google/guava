@@ -17,12 +17,12 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -61,7 +61,7 @@ public class BiMapGenerators {
   public static class ImmutableBiMapCopyOfEntriesGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
-      return ImmutableBiMap.copyOf(Arrays.asList(entries));
+      return ImmutableBiMap.copyOf(asList(entries));
     }
   }
 }

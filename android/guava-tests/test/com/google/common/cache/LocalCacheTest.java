@@ -28,6 +28,7 @@ import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
+import static java.lang.Math.max;
 import static java.lang.Thread.State.WAITING;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -451,7 +452,7 @@ public class LocalCacheTest extends TestCase {
     long totalCapacity = 0;
     assertTrue(
         "segments=" + map.segments.length + ", maxSize=" + maxSize,
-        map.segments.length <= Math.max(1, maxSize / 10));
+        map.segments.length <= max(1, maxSize / 10));
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentWeight;
     }
@@ -466,7 +467,7 @@ public class LocalCacheTest extends TestCase {
                 .weigher(constantWeigher(1)));
     assertTrue(
         "segments=" + map.segments.length + ", maxSize=" + maxSize,
-        map.segments.length <= Math.max(1, maxSize / 10));
+        map.segments.length <= max(1, maxSize / 10));
     totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentWeight;
@@ -515,7 +516,7 @@ public class LocalCacheTest extends TestCase {
 
   public void testSetExpireAfterWrite() {
     long duration = 42;
-    TimeUnit unit = TimeUnit.SECONDS;
+    TimeUnit unit = SECONDS;
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().expireAfterWrite(duration, unit));
     assertEquals(unit.toNanos(duration), map.expireAfterWriteNanos);
@@ -523,7 +524,7 @@ public class LocalCacheTest extends TestCase {
 
   public void testSetExpireAfterAccess() {
     long duration = 42;
-    TimeUnit unit = TimeUnit.SECONDS;
+    TimeUnit unit = SECONDS;
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().expireAfterAccess(duration, unit));
     assertEquals(unit.toNanos(duration), map.expireAfterAccessNanos);
@@ -531,7 +532,7 @@ public class LocalCacheTest extends TestCase {
 
   public void testSetRefresh() {
     long duration = 42;
-    TimeUnit unit = TimeUnit.SECONDS;
+    TimeUnit unit = SECONDS;
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().refreshAfterWrite(duration, unit));
     assertEquals(unit.toNanos(duration), map.refreshNanos);
@@ -558,6 +559,7 @@ public class LocalCacheTest extends TestCase {
             }
 
             @Override
+            @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
             public ListenableFuture<String> reload(String key, String oldValue) {
               return refreshExecutor.submit(
                   () -> {
@@ -749,8 +751,7 @@ public class LocalCacheTest extends TestCase {
 
   @AndroidIncompatible // Perhaps emulator clock does not update between the two get() calls?
   public void testComputeExpiredEntry() throws ExecutionException {
-    CacheBuilder<Object, Object> builder =
-        createCacheBuilder().expireAfterWrite(1, TimeUnit.NANOSECONDS);
+    CacheBuilder<Object, Object> builder = createCacheBuilder().expireAfterWrite(1, NANOSECONDS);
     CountingLoader loader = new CountingLoader();
     LocalCache<Object, Object> map = makeLocalCache(builder);
     assertEquals(0, loader.getCount());
@@ -1051,7 +1052,7 @@ public class LocalCacheTest extends TestCase {
         makeLocalCache(
             createCacheBuilder()
                 .concurrencyLevel(1)
-                .expireAfterWrite(3, TimeUnit.NANOSECONDS)
+                .expireAfterWrite(3, NANOSECONDS)
                 .ticker(ticker)
                 .removalListener(listener));
     assertTrue(listener.isEmpty());
@@ -1194,7 +1195,7 @@ public class LocalCacheTest extends TestCase {
             createCacheBuilder()
                 .concurrencyLevel(1)
                 .ticker(ticker)
-                .expireAfterAccess(1, TimeUnit.NANOSECONDS));
+                .expireAfterAccess(1, NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -2339,7 +2340,7 @@ public class LocalCacheTest extends TestCase {
             createCacheBuilder()
                 .concurrencyLevel(1)
                 .ticker(ticker)
-                .expireAfterWrite(2, TimeUnit.NANOSECONDS));
+                .expireAfterWrite(2, NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -2380,7 +2381,7 @@ public class LocalCacheTest extends TestCase {
             createCacheBuilder()
                 .concurrencyLevel(1)
                 .ticker(ticker)
-                .expireAfterAccess(2, TimeUnit.NANOSECONDS));
+                .expireAfterAccess(2, NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -2781,7 +2782,7 @@ public class LocalCacheTest extends TestCase {
             });
     thread.start();
 
-    boolean done = doneSignal.await(1, TimeUnit.SECONDS);
+    boolean done = doneSignal.await(1, SECONDS);
     if (!done) {
       StringBuilder builder = new StringBuilder();
       for (StackTraceElement trace : thread.getStackTrace()) {
@@ -2822,12 +2823,8 @@ public class LocalCacheTest extends TestCase {
         createCacheBuilder().maximumSize(SMALL_MAX_SIZE),
         createCacheBuilder().expireAfterAccess(99999, SECONDS),
         createCacheBuilder().expireAfterWrite(99999, SECONDS),
-        createCacheBuilder()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
-        createCacheBuilder()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
+        createCacheBuilder().maximumSize(SMALL_MAX_SIZE).expireAfterAccess(SMALL_MAX_SIZE, SECONDS),
+        createCacheBuilder().maximumSize(SMALL_MAX_SIZE).expireAfterWrite(SMALL_MAX_SIZE, SECONDS));
   }
 
   /** Returns an iterable containing all combinations weakKeys and weak/softValues. */

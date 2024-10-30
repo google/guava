@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -87,23 +90,13 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   public void testTransformPutEntryIsUnsupported() {
     Map<String, String> map =
         Maps.transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
-    try {
-      map.put("b", "2");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> map.put("b", "2"));
 
-    try {
-      map.putAll(ImmutableMap.of("b", "2"));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> map.putAll(ImmutableMap.of("b", "2")));
 
-    try {
-      map.entrySet().iterator().next().setValue("one");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> map.entrySet().iterator().next().setValue("one"));
   }
 
   public void testTransformRemoveEntry() {
@@ -248,7 +241,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
             });
 
     Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
-    assertTrue(entries.contains(Maps.immutableEntry("a", true)));
+    assertTrue(entries.contains(immutableEntry("a", true)));
     assertTrue(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("b", null)));
     assertTrue(
         entries.contains(Maps.<@Nullable String, @Nullable Boolean>immutableEntry(null, null)));

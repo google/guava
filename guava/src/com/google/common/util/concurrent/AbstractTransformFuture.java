@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -73,8 +74,8 @@ abstract class AbstractTransformFuture<
   @Override
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final void run() {
-    ListenableFuture<? extends I> localInputFuture = inputFuture;
-    F localFunction = function;
+    @RetainedLocalRef ListenableFuture<? extends I> localInputFuture = inputFuture;
+    @RetainedLocalRef F localFunction = function;
     if (isCancelled() | localInputFuture == null | localFunction == null) {
       return;
     }
@@ -186,7 +187,8 @@ abstract class AbstractTransformFuture<
 
   @Override
   protected final void afterDone() {
-    maybePropagateCancellationTo(inputFuture);
+    @RetainedLocalRef ListenableFuture<? extends I> localInputFuture = inputFuture;
+    maybePropagateCancellationTo(localInputFuture);
     this.inputFuture = null;
     this.function = null;
   }
@@ -194,8 +196,8 @@ abstract class AbstractTransformFuture<
   @Override
   @CheckForNull
   protected String pendingToString() {
-    ListenableFuture<? extends I> localInputFuture = inputFuture;
-    F localFunction = function;
+    @RetainedLocalRef ListenableFuture<? extends I> localInputFuture = inputFuture;
+    @RetainedLocalRef F localFunction = function;
     String superString = super.pendingToString();
     String resultString = "";
     if (localInputFuture != null) {

@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -29,6 +30,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.TestExceptions.SomeUncheckedException;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.Map;
@@ -113,24 +115,21 @@ public class MapMergeTester<K, V> extends AbstractMapTester<K, V> {
     expectReplacement(entry(k0(), v4()));
   }
 
-  private static class ExpectedException extends RuntimeException {}
-
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testMergeFunctionThrows() {
-    try {
-      getMap()
-          .merge(
-              k0(),
-              v3(),
-              (oldV, newV) -> {
-                assertEquals(v0(), oldV);
-                assertEquals(v3(), newV);
-                throw new ExpectedException();
-              });
-      fail("Expected ExpectedException");
-    } catch (ExpectedException expected) {
-    }
+    assertThrows(
+        SomeUncheckedException.class,
+        () ->
+            getMap()
+                .merge(
+                    k0(),
+                    v3(),
+                    (oldV, newV) -> {
+                      assertEquals(v0(), oldV);
+                      assertEquals(v3(), newV);
+                      throw new SomeUncheckedException();
+                    }));
     expectUnchanged();
   }
 
@@ -175,17 +174,16 @@ public class MapMergeTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testMergeUnsupported() {
-    try {
-      getMap()
-          .merge(
-              k3(),
-              v3(),
-              (oldV, newV) -> {
-                throw new AssertionFailedError();
-              });
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () ->
+            getMap()
+                .merge(
+                    k3(),
+                    v3(),
+                    (oldV, newV) -> {
+                      throw new AssertionFailedError();
+                    }));
   }
 
   /**

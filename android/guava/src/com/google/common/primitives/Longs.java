@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 
 /**
@@ -228,6 +230,9 @@ public final class Longs {
    * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
    * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
    * value} is greater than {@code max}, {@code max} is returned.
+   *
+   * <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
+   * constraining a {@code long} input to an {@code int} range.
    *
    * @param value the {@code long} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -746,6 +751,17 @@ public final class Longs {
     public Long get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    @SuppressWarnings("Java7ApiChecker")
+    /*
+     * This is an override that is not directly visible to callers, so NewApi will catch calls to
+     * Collection.spliterator() where necessary.
+     */
+    @IgnoreJRERequirement
+    public Spliterator.OfLong spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override

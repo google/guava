@@ -20,6 +20,7 @@ import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
 import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
@@ -31,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 
@@ -343,7 +343,7 @@ public class LocalLoadingCacheTest extends TestCase {
         });
     thread.start();
 
-    boolean done = doneSignal.await(1, TimeUnit.SECONDS);
+    boolean done = doneSignal.await(1, SECONDS);
     if (!done) {
       StringBuilder builder = new StringBuilder();
       for (StackTraceElement trace : thread.getStackTrace()) {

@@ -107,10 +107,8 @@ public final class DoubleMath {
             return z;
           }
         }
-
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**

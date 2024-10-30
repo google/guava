@@ -14,9 +14,11 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.stream;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -42,7 +44,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/** @author Kevin Bourrillion */
+/**
+ * @author Kevin Bourrillion
+ */
 @GwtCompatible(emulated = true)
 public class ImmutableDoubleArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
@@ -155,11 +159,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
   }
 
   public void testBuilder_presize_negative() {
-    try {
-      ImmutableDoubleArray.builder(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableDoubleArray.builder(-1));
   }
 
   /**
@@ -227,7 +227,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
-        builder.addAll(Arrays.stream(array));
+        builder.addAll(stream(array));
       }
     },
     ADD_IIA {
@@ -288,23 +288,11 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testGet_bad() {
     ImmutableDoubleArray iia = ImmutableDoubleArray.of(0, 1, 3);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia.get(3);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(3));
 
-    iia = iia.subArray(1, 2);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    ImmutableDoubleArray sub = iia.subArray(1, 2);
+    assertThrows(IndexOutOfBoundsException.class, () -> sub.get(-1));
   }
 
   public void testIndexOf() {
@@ -376,16 +364,8 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(iia3.subArray(0, 2).asList()).containsExactly(5.0, 25.0).inOrder();
     assertThat(iia3.subArray(1, 3).asList()).containsExactly(25.0, 125.0).inOrder();
 
-    try {
-      iia3.subArray(-1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia3.subArray(1, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(-1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(1, 4));
   }
 
   /*

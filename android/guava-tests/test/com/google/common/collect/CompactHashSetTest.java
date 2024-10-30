@@ -17,7 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.stream.Collectors.*;
+import static java.lang.Math.max;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -58,7 +59,7 @@ public class CompactHashSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    return CompactHashSet.create(Arrays.asList(elements));
+                    return CompactHashSet.create(asList(elements));
                   }
                 })
             .named("CompactHashSet")
@@ -69,7 +70,7 @@ public class CompactHashSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    CompactHashSet<String> set = CompactHashSet.create(Arrays.asList(elements));
+                    CompactHashSet<String> set = CompactHashSet.create(asList(elements));
                     for (int i = 0; i < 100; i++) {
                       set.add("extra" + i);
                     }
@@ -104,7 +105,7 @@ public class CompactHashSetTest extends TestCase {
 
       set.add(1);
       assertThat(set.needsAllocArrays()).isFalse();
-      int expectedSize = Math.max(1, i);
+      int expectedSize = max(1, i);
       assertThat(set.elements).hasLength(expectedSize);
     }
   }

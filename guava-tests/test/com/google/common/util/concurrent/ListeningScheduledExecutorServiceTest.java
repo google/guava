@@ -17,6 +17,9 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import java.time.Duration;
@@ -43,7 +46,7 @@ public class ListeningScheduledExecutorServiceTest extends TestCase {
 
     assertThat(future.get()).isEqualTo("schedule");
     assertThat(recordedCommand).isSameInstanceAs(command);
-    assertThat(recordedTimeUnit).isEqualTo(TimeUnit.NANOSECONDS);
+    assertThat(recordedTimeUnit).isEqualTo(NANOSECONDS);
     assertThat(Duration.ofNanos(recordedDelay)).isEqualTo(Duration.ofSeconds(12));
   }
 
@@ -54,7 +57,7 @@ public class ListeningScheduledExecutorServiceTest extends TestCase {
         executorService.schedule(callable, Duration.ofMinutes(12));
 
     assertThat(future.get()).isEqualTo("hello");
-    assertThat(recordedTimeUnit).isEqualTo(TimeUnit.NANOSECONDS);
+    assertThat(recordedTimeUnit).isEqualTo(NANOSECONDS);
     assertThat(Duration.ofNanos(recordedDelay)).isEqualTo(Duration.ofMinutes(12));
   }
 
@@ -66,7 +69,7 @@ public class ListeningScheduledExecutorServiceTest extends TestCase {
 
     assertThat(future.get()).isEqualTo("scheduleAtFixedRate");
     assertThat(recordedCommand).isSameInstanceAs(command);
-    assertThat(recordedTimeUnit).isEqualTo(TimeUnit.NANOSECONDS);
+    assertThat(recordedTimeUnit).isEqualTo(NANOSECONDS);
     assertThat(Duration.ofNanos(recordedDelay)).isEqualTo(Duration.ofDays(2));
     assertThat(Duration.ofNanos(recordedInterval)).isEqualTo(Duration.ofHours(4));
   }
@@ -79,7 +82,7 @@ public class ListeningScheduledExecutorServiceTest extends TestCase {
 
     assertThat(future.get()).isEqualTo("scheduleWithFixedDelay");
     assertThat(recordedCommand).isSameInstanceAs(command);
-    assertThat(recordedTimeUnit).isEqualTo(TimeUnit.NANOSECONDS);
+    assertThat(recordedTimeUnit).isEqualTo(NANOSECONDS);
     assertThat(Duration.ofNanos(recordedDelay)).isEqualTo(Duration.ofDays(8));
     assertThat(Duration.ofNanos(recordedInterval)).isEqualTo(Duration.ofHours(16));
   }
@@ -160,11 +163,11 @@ public class ListeningScheduledExecutorServiceTest extends TestCase {
   private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
       implements ListenableScheduledFuture<V> {
     static <V> ListenableScheduledFuture<V> of(V value) {
-      return new ImmediateScheduledFuture<>(Futures.immediateFuture(value));
+      return new ImmediateScheduledFuture<>(immediateFuture(value));
     }
 
     static <V> ListenableScheduledFuture<V> failed(Throwable t) {
-      return new ImmediateScheduledFuture<>(Futures.immediateFailedFuture(t));
+      return new ImmediateScheduledFuture<>(immediateFailedFuture(t));
     }
 
     ImmediateScheduledFuture(ListenableFuture<V> delegate) {

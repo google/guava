@@ -27,7 +27,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-import java.util.Arrays;
 import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -104,7 +103,7 @@ public class LinkedHashMultisetTest extends TestCase {
   }
 
   public void testCreateFromIterable() {
-    Multiset<String> multiset = LinkedHashMultiset.create(Arrays.asList("foo", "bar", "foo"));
+    Multiset<String> multiset = LinkedHashMultiset.create(asList("foo", "bar", "foo"));
     assertEquals(3, multiset.size());
     assertEquals(2, multiset.count("foo"));
     assertEquals("[foo x 2, bar]", multiset.toString());

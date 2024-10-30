@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
@@ -211,7 +212,7 @@ public final class FilteredCollectionsTestUtil {
       extends AbstractFilteredCollectionTest<C> {
     public void testEqualsAndHashCode() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
-        Set<Integer> expected = Sets.newHashSet();
+        Set<Integer> expected = newHashSet();
         for (Integer i : contents) {
           if (EVEN.apply(i)) {
             expected.add(i);

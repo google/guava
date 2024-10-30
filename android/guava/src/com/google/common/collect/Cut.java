@@ -339,9 +339,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case OPEN:
           C previous = domain.previous(endpoint);
           return (previous == null) ? Cut.<C>belowAll() : new AboveValue<C>(previous);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -352,9 +351,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return (previous == null) ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
         case OPEN:
           return this;
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -423,9 +421,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case CLOSED:
           C next = domain.next(endpoint);
           return (next == null) ? Cut.<C>belowAll() : belowValue(next);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -436,9 +433,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return (next == null) ? Cut.<C>aboveAll() : belowValue(next);
         case CLOSED:
           return this;
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override

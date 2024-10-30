@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.testers.ListListIteratorTester.g
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListLargeListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -29,7 +30,6 @@ import java.lang.reflect.Method;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -89,7 +89,7 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForCopyOnWriteArrayList() {
-    return Arrays.asList(
+    return asList(
         getSubListOriginalListSetAffectsSubListMethod(),
         getSubListOriginalListSetAffectsSubListLargeListMethod(),
         getSubListSubListRemoveAffectsOriginalLargeListMethod(),
@@ -152,7 +152,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Arrays.asList(elements.clone());
+                return asList(elements.clone());
               }
             })
         .named("Arrays.asList")

@@ -16,6 +16,9 @@
 
 package com.google.common.io;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
@@ -69,7 +72,7 @@ public class LineBufferTest extends IoTestCase {
             });
 
     for (int chunk : CHUNK_SIZES) {
-      chunk = Math.max(1, Math.min(chunk, input.length()));
+      chunk = max(1, min(chunk, input.length()));
       assertEquals(expectProcess, bufferHelper(input, chunk));
       assertEquals(expectRead, readUsingJava(input, chunk));
       assertEquals(expectRead, readUsingReader(input, chunk, true));
@@ -89,7 +92,7 @@ public class LineBufferTest extends IoTestCase {
     char[] chars = input.toCharArray();
     int off = 0;
     while (off < chars.length) {
-      int len = Math.min(chars.length, off + chunk) - off;
+      int len = min(chars.length, off + chunk) - off;
       lineBuf.add(chars, off, len);
       off += len;
     }
@@ -136,7 +139,7 @@ public class LineBufferTest extends IoTestCase {
     return new FilterReader(new StringReader(input)) {
       @Override
       public int read(char[] cbuf, int off, int len) throws IOException {
-        return super.read(cbuf, off, Math.min(chunk, len));
+        return super.read(cbuf, off, min(chunk, len));
       }
     };
   }

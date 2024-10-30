@@ -231,9 +231,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
         return lessThan(endpoint);
       case CLOSED:
         return atMost(endpoint);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**
@@ -266,9 +265,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
         return greaterThan(endpoint);
       case CLOSED:
         return atLeast(endpoint);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   private static final Range<Comparable> ALL = new Range<>(Cut.belowAll(), Cut.aboveAll());

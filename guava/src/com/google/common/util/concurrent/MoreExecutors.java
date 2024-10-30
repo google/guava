@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.util.Objects.requireNonNull;
 
@@ -24,12 +25,12 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
@@ -77,7 +78,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // TODO
@@ -138,7 +139,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -199,7 +200,7 @@ public final class MoreExecutors {
    * @param service ExecutorService which uses daemon threads
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -808,7 +809,9 @@ public final class MoreExecutors {
     } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throw Throwables.propagate(e.getCause());
+      throwIfUnchecked(e.getCause());
+      // This should be impossible: `currentRequestThreadFactory` has no `throws` clause.
+      throw new UndeclaredThrowableException(e.getCause());
     }
   }
 
@@ -971,7 +974,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
    *     if the call timed out or was interrupted
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

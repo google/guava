@@ -15,6 +15,7 @@
 package com.google.common.net;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
@@ -111,7 +112,7 @@ public final class PercentEscaper extends UnicodeEscaper {
     int maxChar = -1;
     char[] safeCharArray = safeChars.toCharArray();
     for (char c : safeCharArray) {
-      maxChar = Math.max(c, maxChar);
+      maxChar = max(c, maxChar);
     }
     boolean[] octets = new boolean[maxChar + 1];
     for (char c : safeCharArray) {

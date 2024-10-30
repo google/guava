@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.MoreCollectors.onlyElement;
+import static com.google.common.collect.MoreCollectors.toOptional;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -33,80 +36,59 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
-    assertThat(Stream.empty().collect(MoreCollectors.toOptional())).isEmpty();
+    assertThat(Stream.empty().collect(toOptional())).isEmpty();
   }
 
   public void testToOptionalSingleton() {
-    assertThat(Stream.of(1).collect(MoreCollectors.toOptional())).hasValue(1);
+    assertThat(Stream.of(1).collect(toOptional())).hasValue(1);
   }
 
   public void testToOptionalNull() {
     Stream<@Nullable Object> stream = Stream.of((Object) null);
-    try {
-      stream.collect(MoreCollectors.toOptional());
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> stream.collect(toOptional()));
   }
 
   public void testToOptionalMultiple() {
-    try {
-      Stream.of(1, 2).collect(MoreCollectors.toOptional());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("1, 2");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1, 2).collect(toOptional()));
+    assertThat(expected.getMessage()).contains("1, 2");
   }
 
   public void testToOptionalMultipleWithNull() {
-    try {
-      Stream.of(1, null).collect(MoreCollectors.toOptional());
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Stream.of(1, null).collect(toOptional()));
   }
 
   public void testToOptionalMany() {
-    try {
-      Stream.of(1, 2, 3, 4, 5, 6).collect(MoreCollectors.toOptional());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Stream.of(1, 2, 3, 4, 5, 6).collect(toOptional()));
+    assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
   }
 
   public void testOnlyElement() {
-    try {
-      Stream.empty().collect(MoreCollectors.onlyElement());
-      fail("Expected NoSuchElementException");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, () -> Stream.empty().collect(onlyElement()));
   }
 
   public void testOnlyElementSingleton() {
-    assertThat(Stream.of(1).collect(MoreCollectors.onlyElement())).isEqualTo(1);
+    assertThat(Stream.of(1).collect(onlyElement())).isEqualTo(1);
   }
 
   public void testOnlyElementNull() {
-    assertThat(Stream.<@Nullable Object>of((Object) null).collect(MoreCollectors.onlyElement()))
-        .isNull();
+    assertThat(Stream.<@Nullable Object>of((Object) null).collect(onlyElement())).isNull();
   }
 
   public void testOnlyElementMultiple() {
-    try {
-      Stream.of(1, 2).collect(MoreCollectors.onlyElement());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("1, 2");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1, 2).collect(onlyElement()));
+    assertThat(expected.getMessage()).contains("1, 2");
   }
 
   public void testOnlyElementMany() {
-    try {
-      Stream.of(1, 2, 3, 4, 5, 6).collect(MoreCollectors.onlyElement());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Stream.of(1, 2, 3, 4, 5, 6).collect(onlyElement()));
+    assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
   }
 }

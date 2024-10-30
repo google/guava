@@ -19,6 +19,9 @@ package com.google.common.base;
 import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -31,7 +34,6 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -224,14 +226,13 @@ public class SuppliersTest extends TestCase {
     CountingSupplier countingSupplier = new CountingSupplier();
 
     Supplier<Integer> memoizedSupplier =
-        Suppliers.memoizeWithExpiration(countingSupplier, 75, TimeUnit.MILLISECONDS);
+        Suppliers.memoizeWithExpiration(countingSupplier, 75, MILLISECONDS);
 
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
-  @SuppressWarnings("Java7ApiChecker") // test of Java 8+ API
   public void testMemoizeWithExpiration_duration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -245,14 +246,13 @@ public class SuppliersTest extends TestCase {
   public void testMemoizeWithExpiration_longTimeUnitNegative() throws InterruptedException {
     assertThrows(
         IllegalArgumentException.class,
-        () -> Suppliers.memoizeWithExpiration(() -> "", 0, TimeUnit.MILLISECONDS));
+        () -> Suppliers.memoizeWithExpiration(() -> "", 0, MILLISECONDS));
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> Suppliers.memoizeWithExpiration(() -> "", -1, TimeUnit.MILLISECONDS));
+        () -> Suppliers.memoizeWithExpiration(() -> "", -1, MILLISECONDS));
   }
 
-  @SuppressWarnings("Java7ApiChecker") // test of Java 8+ API
   @J2ktIncompatible // Duration
   @GwtIncompatible // Duration
   public void testMemoizeWithExpiration_durationNegative() throws InterruptedException {
@@ -272,7 +272,7 @@ public class SuppliersTest extends TestCase {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
 
     Supplier<Integer> memoizedSupplier =
-        Suppliers.memoizeWithExpiration(countingSupplier, 75, TimeUnit.MILLISECONDS);
+        Suppliers.memoizeWithExpiration(countingSupplier, 75, MILLISECONDS);
     // Calls to the original memoized supplier shouldn't affect its copy.
     Object unused = memoizedSupplier.get();
 
@@ -331,7 +331,7 @@ public class SuppliersTest extends TestCase {
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
           @Override
           public Supplier<Boolean> apply(Supplier<Boolean> supplier) {
-            return Suppliers.memoizeWithExpiration(supplier, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            return Suppliers.memoizeWithExpiration(supplier, Long.MAX_VALUE, NANOSECONDS);
           }
         };
     testSupplierThreadSafe(memoizer);
@@ -358,7 +358,7 @@ public class SuppliersTest extends TestCase {
     final AtomicReference<Throwable> thrown = new AtomicReference<>(null);
     final int numThreads = 3;
     final Thread[] threads = new Thread[numThreads];
-    final long timeout = TimeUnit.SECONDS.toNanos(60);
+    final long timeout = SECONDS.toNanos(60);
 
     final Supplier<Boolean> supplier =
         new Supplier<Boolean>() {
@@ -487,8 +487,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(Integer.valueOf(5), reserialize(Suppliers.memoize(Suppliers.ofInstance(5))).get());
     assertEquals(
         Integer.valueOf(5),
-        reserialize(Suppliers.memoizeWithExpiration(Suppliers.ofInstance(5), 30, TimeUnit.SECONDS))
-            .get());
+        reserialize(Suppliers.memoizeWithExpiration(Suppliers.ofInstance(5), 30, SECONDS)).get());
     assertEquals(
         Integer.valueOf(5),
         reserialize(Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
@@ -496,7 +495,6 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  @SuppressWarnings("Java7ApiChecker") // includes test of Java 8+ API
   public void testSuppliersNullChecks() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))
@@ -507,7 +505,6 @@ public class SuppliersTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
-  @SuppressWarnings("Java7ApiChecker") // includes test of Java 8+ API
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))

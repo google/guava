@@ -16,10 +16,11 @@
 
 package com.google.common.hash;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 /** Benchmarks for the hashing of UTF-8 strings. */
@@ -118,9 +119,7 @@ public class HashStringBenchmark {
     for (int i = 0; i < reps; i++) {
       res +=
           System.identityHashCode(
-              hashFunctionEnum
-                  .getHashFunction()
-                  .hashString(strings[i & SAMPLE_MASK], StandardCharsets.UTF_8));
+              hashFunctionEnum.getHashFunction().hashString(strings[i & SAMPLE_MASK], UTF_8));
     }
     return res;
   }
@@ -134,7 +133,7 @@ public class HashStringBenchmark {
               hashFunctionEnum
                   .getHashFunction()
                   .newHasher()
-                  .putString(strings[i & SAMPLE_MASK], StandardCharsets.UTF_8)
+                  .putString(strings[i & SAMPLE_MASK], UTF_8)
                   .hash());
     }
     return res;
@@ -148,7 +147,7 @@ public class HashStringBenchmark {
           System.identityHashCode(
               hashFunctionEnum
                   .getHashFunction()
-                  .hashBytes(strings[i & SAMPLE_MASK].getBytes(StandardCharsets.UTF_8)));
+                  .hashBytes(strings[i & SAMPLE_MASK].getBytes(UTF_8)));
     }
     return res;
   }
@@ -162,7 +161,7 @@ public class HashStringBenchmark {
               hashFunctionEnum
                   .getHashFunction()
                   .newHasher()
-                  .putBytes(strings[i & SAMPLE_MASK].getBytes(StandardCharsets.UTF_8))
+                  .putBytes(strings[i & SAMPLE_MASK].getBytes(UTF_8))
                   .hash());
     }
     return res;
