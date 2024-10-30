@@ -157,7 +157,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.61">ImmutableSortedSet</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.63">ImmutableSortedSet</a>&lt;E&gt;
 extends <a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;
 implements java.util.NavigableSet&lt;E&gt;</pre>
 <div class="block">A <code>NavigableSet</code> whose contents will never change, with many other important properties
@@ -603,7 +603,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableSortedSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#8203;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.75">toImmutableSortedSet</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#8203;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.77">toImmutableSortedSet</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
  ImmutableSortedSet</code>, ordered by the specified comparator.
 
@@ -621,7 +621,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.98">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.100">of</a>()</pre>
 <div class="block">Returns the empty immutable sorted set.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -635,7 +635,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.104">of</a>&#8203;(E&nbsp;e1)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.106">of</a>&#8203;(E&nbsp;e1)</pre>
 <div class="block">Returns an immutable sorted set containing a single element.</div>
 </li>
 </ul>
@@ -647,7 +647,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.115">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.117">of</a>&#8203;(E&nbsp;e1,
                                                                                    E&nbsp;e2)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
  When multiple elements are equivalent according to <code>Comparable.compareTo(T)</code>, only the first
@@ -666,7 +666,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.126">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.128">of</a>&#8203;(E&nbsp;e1,
                                                                                    E&nbsp;e2,
                                                                                    E&nbsp;e3)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
@@ -686,7 +686,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.137">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.139">of</a>&#8203;(E&nbsp;e1,
                                                                                    E&nbsp;e2,
                                                                                    E&nbsp;e3,
                                                                                    E&nbsp;e4)</pre>
@@ -707,7 +707,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.148">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.150">of</a>&#8203;(E&nbsp;e1,
                                                                                    E&nbsp;e2,
                                                                                    E&nbsp;e3,
                                                                                    E&nbsp;e4,
@@ -729,7 +729,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.161">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.163">of</a>&#8203;(E&nbsp;e1,
                                                                                    E&nbsp;e2,
                                                                                    E&nbsp;e3,
                                                                                    E&nbsp;e4,
@@ -755,7 +755,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.185">copyOf</a>&#8203;(E[]&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.187">copyOf</a>&#8203;(E[]&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
  When multiple elements are equivalent according to <code>Comparable.compareTo(T)</code>, only the first
  one specified is included.</div>
@@ -773,7 +773,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.210">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.212">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
  When multiple elements are equivalent according to <code>compareTo()</code>, only the first one
  specified is included. To create a copy of a <code>SortedSet</code> that preserves the comparator,
@@ -803,7 +803,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.242">copyOf</a>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.244">copyOf</a>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
  When multiple elements are equivalent according to <code>compareTo()</code>, only the first one
  specified is included. To create a copy of a <code>SortedSet</code> that preserves the comparator,
@@ -837,7 +837,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.261">copyOf</a>&#8203;(java.util.Iterator&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.263">copyOf</a>&#8203;(java.util.Iterator&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.
  When multiple elements are equivalent according to <code>compareTo()</code>, only the first one
  specified is included.
@@ -857,7 +857,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.276">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.278">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
                                                java.util.Iterator&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by the given <code>
  Comparator</code>. When multiple elements are equivalent according to <code>compareTo()</code>, only the
@@ -874,7 +874,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.292">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.294">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
                                                java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by the given <code>
  Comparator</code>. When multiple elements are equivalent according to <code>compare()</code>, only the
@@ -895,7 +895,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.324">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.326">copyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
                                                java.util.Collection&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted set containing the given elements sorted by the given <code>
  Comparator</code>. When multiple elements are equivalent according to <code>compareTo()</code>, only the
@@ -921,7 +921,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOfSorted</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.343">copyOfSorted</a>&#8203;(java.util.SortedSet&lt;E&gt;&nbsp;sortedSet)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.345">copyOfSorted</a>&#8203;(java.util.SortedSet&lt;E&gt;&nbsp;sortedSet)</pre>
 <div class="block">Returns an immutable sorted set containing the elements of a sorted set, sorted by the same
  <code>Comparator</code>. That behavior differs from <a href="#copyOf(java.lang.Iterable)"><code>copyOf(Iterable)</code></a>, which always uses the
  natural ordering of the elements.
@@ -944,7 +944,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedBy</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.397">orderedBy</a>&#8203;(java.util.Comparator&lt;E&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.399">orderedBy</a>&#8203;(java.util.Comparator&lt;E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a builder that creates immutable sorted sets with an explicit comparator. If the
  comparator has a more general type than the set being generated, such as creating a <code>
  SortedSet&lt;Integer&gt;</code> with a <code>Comparator&lt;Number&gt;</code>, use the <a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect"><code>ImmutableSortedSet.Builder</code></a> constructor
@@ -961,7 +961,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>reverseOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.405">reverseOrder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.407">reverseOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted sets whose elements are ordered by the reverse
  of their natural ordering.</div>
 </li>
@@ -972,7 +972,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>naturalOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.415">naturalOrder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.417">naturalOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted sets whose elements are ordered by their
  natural ordering. The sorted sets use <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> as the comparator. This method
  provides more type-safety than <a href="#builder()"><code>builder()</code></a>, as it can be called only for classes that
@@ -985,7 +985,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Comparator&lt;? super <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.566">comparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Comparator&lt;? super <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.568">comparator</a>()</pre>
 <div class="block">Returns the comparator that orders the elements, which is <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> when the
  natural ordering of the elements is used. Note that its behavior is not consistent with <code>SortedSet.comparator()</code>, which returns <code>null</code> to indicate natural ordering.</div>
 <dl>
@@ -1000,7 +1000,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.571">iterator</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.573">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableCollection.html#iterator()">ImmutableCollection</a></code></span></div>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
@@ -1025,7 +1025,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.584">headSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.586">headSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
 <div class="block">
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
@@ -1050,7 +1050,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.590">headSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.592">headSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                      boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1068,7 +1068,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.607">subSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.609">subSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                     <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
 <div class="block">
 
@@ -1096,7 +1096,7 @@ implements java.util.NavigableSet&lt;E&gt;</pre>
 <li class="blockList">
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.613">subSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.615">subSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                     boolean&nbsp;fromInclusive,
                                     <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                     boolean&nbsp;toInclusive)</pre>
@@ -1116,7 +1116,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.633">tailSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.635">tailSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</pre>
 <div class="block">
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
@@ -1141,7 +1141,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.639">tailSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.641">tailSet</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                      boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1161,7 +1161,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.
 <h4>lower</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.656">lower</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.658">lower</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>lower</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1179,7 +1179,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>floor</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.664">floor</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.666">floor</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>floor</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1197,7 +1197,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>ceiling</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.671">ceiling</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.673">ceiling</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>ceiling</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1216,7 +1216,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 <h4>higher</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.678">higher</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.680">higher</a>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>higher</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1231,7 +1231,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>first</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.685">first</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.687">first</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>first</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1244,7 +1244,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>last</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.690">last</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.692">last</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>last</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1261,7 +1261,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Immutable
 @Deprecated
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.702">pollFirst</a>()</pre>
+public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.704">pollFirst</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1286,7 +1286,7 @@ public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Imm
 @Deprecated
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.719">pollLast</a>()</pre>
+public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.721">pollLast</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -1308,7 +1308,7 @@ public final&nbsp;<a href="ImmutableSortedSet.html" title="type parameter in Imm
 <li class="blockList">
 <h4>descendingSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.735">descendingSet</a>()</pre>
+public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.737">descendingSet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1324,7 +1324,7 @@ public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.
 <li class="blockList">
 <h4>descendingIterator</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.754">descendingIterator</a>()</pre>
+public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.756">descendingIterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>descendingIterator</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
@@ -1340,7 +1340,7 @@ public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.goo
 <li class="blockList">
 <h4>toImmutableSet</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#8203;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.804">toImmutableSet</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#8203;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.806">toImmutableSet</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#toImmutableSortedSet(java.util.Comparator)"><code>toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
 </div>
@@ -1361,7 +1361,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.stream.Collector&lt;E,&#8203;?,&#820
 <li class="blockList">
 <h4>builder</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.819">builder</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.821">builder</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#naturalOrder()"><code>naturalOrder()</code></a>, which offers better type-safety.</div>
 </div>
@@ -1380,7 +1380,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" titl
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.832">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.834">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Not supported by ImmutableSortedSet.</div>
 </div>
@@ -1401,7 +1401,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" titl
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.847">of</a>&#8203;(E&nbsp;e1)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.849">of</a>&#8203;(E&nbsp;e1)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass a parameter of type <code>Comparable</code> to use <a href="#of(E)"><code>of(Comparable)</code></a>.</b></div>
 </div>
@@ -1423,7 +1423,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.862">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.864">of</a>&#8203;(E&nbsp;e1,
                                            E&nbsp;e2)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="#of(E,E)"><code>of(Comparable, Comparable)</code></a>.</b></div>
@@ -1446,7 +1446,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.877">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.879">of</a>&#8203;(E&nbsp;e1,
                                            E&nbsp;e2,
                                            E&nbsp;e3)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1470,7 +1470,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.892">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.894">of</a>&#8203;(E&nbsp;e1,
                                            E&nbsp;e2,
                                            E&nbsp;e3,
                                            E&nbsp;e4)</pre>
@@ -1495,7 +1495,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.907">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.909">of</a>&#8203;(E&nbsp;e1,
                                            E&nbsp;e2,
                                            E&nbsp;e3,
                                            E&nbsp;e4,
@@ -1521,7 +1521,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.923">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.925">of</a>&#8203;(E&nbsp;e1,
                                            E&nbsp;e2,
                                            E&nbsp;e3,
                                            E&nbsp;e4,
@@ -1550,7 +1550,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;Z&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;Z&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.938">copyOf</a>&#8203;(Z[]&nbsp;elements)</pre>
+public static&nbsp;&lt;Z&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;Z&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.940">copyOf</a>&#8203;(Z[]&nbsp;elements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass parameters of type <code>Comparable</code> to use <a href="#copyOf(E%5B%5D)"><code>copyOf(Comparable[])</code></a>.</b></div>
 </div>

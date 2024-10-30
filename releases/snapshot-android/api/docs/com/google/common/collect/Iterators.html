@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/Iterators.html#line.70">Iterators</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Iterators.html#line.71">Iterators</a>
 extends java.lang.Object</pre>
 <div class="block">This class contains static utility methods that operate on or return objects of type <code>Iterator</code>. Except as noted, each method has a corresponding <code>Iterable</code>-based method in the
  <a href="Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> class.
@@ -586,7 +586,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableIterator</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.129">unmodifiableIterator</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.130">unmodifiableIterator</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns an unmodifiable view of <code>iterator</code>.</div>
 </li>
 </ul>
@@ -597,7 +597,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>unmodifiableIterator</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.157">unmodifiableIterator</a>&#8203;(<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.158">unmodifiableIterator</a>&#8203;(<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -614,7 +614,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.167">size</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.168">size</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator)</pre>
 <div class="block">Returns the number of elements remaining in <code>iterator</code>. The iterator will be left
  exhausted: its <code>hasNext()</code> method will return <code>false</code>.</div>
 </li>
@@ -625,7 +625,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.177">contains</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.178">contains</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
                                <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns <code>true</code> if <code>iterator</code> contains <code>element</code>.</div>
@@ -638,7 +638,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.202">removeAll</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;removeFrom,
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.203">removeAll</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;removeFrom,
                                 java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</pre>
 <div class="block">Traverses an iterator and removes every element that belongs to the provided collection. The
  iterator will be left exhausted: its <code>hasNext()</code> method will return <code>false</code>.</div>
@@ -658,7 +658,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>removeIf</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.224">removeIf</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;removeFrom,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.225">removeIf</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;removeFrom,
                                                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Removes every element that satisfies the provided predicate from the iterator. The iterator
  will be left exhausted: its <code>hasNext()</code> method will return <code>false</code>.</div>
@@ -680,7 +680,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.247">retainAll</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;removeFrom,
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.248">retainAll</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;removeFrom,
                                 java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</pre>
 <div class="block">Traverses an iterator and removes every element that does not belong to the provided
  collection. The iterator will be left exhausted: its <code>hasNext()</code> method will return
@@ -700,7 +700,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>elementsEqual</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.269">elementsEqual</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator1,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.270">elementsEqual</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator1,
                                     java.util.Iterator&lt;?&gt;&nbsp;iterator2)</pre>
 <div class="block">Determines whether two iterators contain equal elements in the same order. More specifically,
  this method returns <code>true</code> if <code>iterator1</code> and <code>iterator2</code> contain the same
@@ -717,7 +717,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.287">toString</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.288">toString</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a string representation of <code>iterator</code>, with the format <code>[e1, e2, ..., en]</code>.
  The iterator will be left exhausted: its <code>hasNext()</code> method will return <code>false</code>.</div>
 </li>
@@ -728,7 +728,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>getOnlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.307">getOnlyElement</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.308">getOnlyElement</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns the single element contained in <code>iterator</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -746,7 +746,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>getOnlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.333">getOnlyElement</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.334">getOnlyElement</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                                       T&nbsp;defaultValue)</pre>
 <div class="block">Returns the single element contained in <code>iterator</code>, or <code>defaultValue</code> if the
  iterator is empty.</div>
@@ -764,7 +764,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.347">toArray</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.348">toArray</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                                  java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type)</pre>
 <div class="block">Copies an iterator's elements into an array. The iterator will be left exhausted: its <code>
  hasNext()</code> method will return <code>false</code>.</div>
@@ -784,7 +784,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.360">addAll</a>&#8203;(java.util.Collection&lt;T&gt;&nbsp;addTo,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.361">addAll</a>&#8203;(java.util.Collection&lt;T&gt;&nbsp;addTo,
                                                                     java.util.Iterator&lt;? extends T&gt;&nbsp;iterator)</pre>
 <div class="block">Adds all elements in <code>iterator</code> to <code>collection</code>. The iterator will be left
  exhausted: its <code>hasNext()</code> method will return <code>false</code>.</div>
@@ -800,7 +800,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>frequency</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.378">frequency</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.379">frequency</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns the number of elements in the specified iterator that equal the specified object. The
@@ -817,7 +817,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>cycle</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.400">cycle</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.401">cycle</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns an iterator that cycles indefinitely over the elements of <code>iterable</code>.
 
  <p>The returned iterator supports <code>remove()</code> if the provided iterator does. After <code>
@@ -839,7 +839,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>cycle</h4>
 <pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.450">cycle</a>&#8203;(T...&nbsp;elements)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.451">cycle</a>&#8203;(T...&nbsp;elements)</pre>
 <div class="block">Returns an iterator that cycles indefinitely over the provided elements.
 
  <p>The returned iterator supports <code>remove()</code>. After <code>remove()</code> is called,
@@ -858,7 +858,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.499">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.500">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;b)</pre>
 <div class="block">Combines two iterators into a single iterator. The returned iterator iterates across the
  elements in <code>a</code>, followed by the elements in <code>b</code>. The source iterators are not
@@ -874,7 +874,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.514">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.515">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;b,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;c)</pre>
 <div class="block">Combines three iterators into a single iterator. The returned iterator iterates across the
@@ -891,7 +891,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.531">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.532">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;a,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;b,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;c,
                                                                                   java.util.Iterator&lt;? extends T&gt;&nbsp;d)</pre>
@@ -911,7 +911,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>concat</h4>
 <pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.553">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;...&nbsp;inputs)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.554">concat</a>&#8203;(java.util.Iterator&lt;? extends T&gt;...&nbsp;inputs)</pre>
 <div class="block">Combines multiple iterators into a single iterator. The returned iterator iterates across the
  elements of each iterator in <code>inputs</code>. The input iterators are not polled until
  necessary.
@@ -930,7 +930,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.567">concat</a>&#8203;(java.util.Iterator&lt;? extends java.util.Iterator&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.568">concat</a>&#8203;(java.util.Iterator&lt;? extends java.util.Iterator&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
 <div class="block">Combines multiple iterators into a single iterator. The returned iterator iterates across the
  elements of each iterator in <code>inputs</code>. The input iterators are not polled until
  necessary.
@@ -946,7 +946,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>partition</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;java.util.List&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.599">partition</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;java.util.List&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.600">partition</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                                                        int&nbsp;size)</pre>
 <div class="block">Divides an iterator into unmodifiable sublists of the given size (the final list may be
  smaller). For example, partitioning an iterator containing <code>[a, b, c, d, e]</code> with a
@@ -975,7 +975,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>paddedPartition</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.618">paddedPartition</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.619">paddedPartition</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                                                                        int&nbsp;size)</pre>
 <div class="block">Divides an iterator into unmodifiable sublists of the given size, padding the final iterator
  with null values if necessary. For example, partitioning an iterator containing <code>[a, b,
@@ -1001,7 +1001,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.663">filter</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;unfiltered,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.664">filter</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;unfiltered,
                                                                                     <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</pre>
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy the input predicate
  <code>retainIfTrue</code>.</div>
@@ -1014,7 +1014,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>filter</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.686">filter</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.687">filter</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;unfiltered,
                                                  java.lang.Class&lt;T&gt;&nbsp;desiredType)</pre>
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of the type <code>
  desiredType</code>.</div>
@@ -1026,7 +1026,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="cla
 <ul class="blockList">
 <li class="blockList">
 <h4>any</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.696">any</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.697">any</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if one or more elements returned by <code>iterator</code> satisfy the given
  predicate.</div>
@@ -1038,7 +1038,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="cla
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.705">all</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.706">all</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if every element returned by <code>iterator</code> satisfies the given
  predicate. If <code>iterator</code> is empty, <code>true</code> is returned.</div>
@@ -1050,7 +1050,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="cla
 <ul class="blockList">
 <li class="blockList">
 <h4>find</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.726">find</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.727">find</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                             <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the first element in <code>iterator</code> that satisfies the given predicate; use this
  method only when such an element is known to exist. If no such element is found, the iterator
@@ -1072,7 +1072,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="UnmodifiableIterator.html" title="cla
 <li class="blockList">
 <h4>find</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.749">find</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.750">find</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                             <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate,
                                                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                                             T&nbsp;defaultValue)</pre>
@@ -1092,7 +1092,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>tryFind</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.776">tryFind</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.777">tryFind</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterator</code> that satisfies the
  given predicate, if such an element exists. If no such element is found, an empty <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> will be returned from this method and the iterator will be left exhausted: its <code>
@@ -1112,7 +1112,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.802">indexOf</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.803">indexOf</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the index in <code>iterator</code> of the first element that satisfies the provided <code>
  predicate</code>, or <code>-1</code> if the Iterator has no such elements.
@@ -1136,7 +1136,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.822">transform</a>&#8203;(java.util.Iterator&lt;F&gt;&nbsp;fromIterator,
+<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.823">transform</a>&#8203;(java.util.Iterator&lt;F&gt;&nbsp;fromIterator,
                                                                                                                                 <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;? extends T&gt;&nbsp;function)</pre>
 <div class="block">Returns a view containing the result of applying <code>function</code> to each element of <code>
  fromIterator</code>.
@@ -1152,7 +1152,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.843">get</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.844">get</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                            int&nbsp;position)</pre>
 <div class="block">Advances <code>iterator</code> <code>position + 1</code> times, returning the element at the <code>
  position</code>th position.</div>
@@ -1175,7 +1175,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.870">get</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.871">get</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                            int&nbsp;position,
                                                            T&nbsp;defaultValue)</pre>
 <div class="block">Advances <code>iterator</code> <code>position + 1</code> times, returning the element at the <code>
@@ -1203,7 +1203,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getNext</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.892">getNext</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.893">getNext</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                                T&nbsp;defaultValue)</pre>
 <div class="block">Returns the next element in <code>iterator</code> or <code>defaultValue</code> if the iterator is empty.
  The <a href="Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> analog to this method is <a href="Iterables.html#getFirst(java.lang.Iterable,T)"><code>Iterables.getFirst(java.lang.Iterable&lt;? extends T&gt;, T)</code></a>.</div>
@@ -1223,7 +1223,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.904">getLast</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.905">getLast</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Advances <code>iterator</code> to the end, returning the last element.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1241,7 +1241,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.922">getLast</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.923">getLast</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator,
                                                                T&nbsp;defaultValue)</pre>
 <div class="block">Advances <code>iterator</code> to the end, returning the last element or <code>defaultValue</code> if the
  iterator is empty.</div>
@@ -1262,7 +1262,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>advance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.935">advance</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.936">advance</a>&#8203;(java.util.Iterator&lt;?&gt;&nbsp;iterator,
                           int&nbsp;numberToAdvance)</pre>
 <div class="block">Calls <code>next()</code> on <code>iterator</code>, either <code>numberToAdvance</code> times or until <code>
  hasNext()</code> returns <code>false</code>, whichever comes first.</div>
@@ -1280,7 +1280,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.957">limit</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.958">limit</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
                                                                                  int&nbsp;limitSize)</pre>
 <div class="block">Returns a view containing the first <code>limitSize</code> elements of <code>iterator</code>. If <code>
  iterator</code> contains fewer than <code>limitSize</code> elements, the returned view contains all of its
@@ -1302,7 +1302,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>consumingIterator</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.998">consumingIterator</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Iterator&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.999">consumingIterator</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a view of the supplied <code>iterator</code> that removes each element from the supplied
  <code>iterator</code> as it is returned.
 
@@ -1328,7 +1328,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>forArray</h4>
 <pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1057">forArray</a>&#8203;(T...&nbsp;array)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1058">forArray</a>&#8203;(T...&nbsp;array)</pre>
 <div class="block">Returns an iterator containing the elements of <code>array</code> in order. The returned iterator is
  a view of the array; subsequent changes to the array will be reflected in the iterator.
 
@@ -1347,7 +1347,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>singletonIterator</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1101">singletonIterator</a>&#8203;(T&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1102">singletonIterator</a>&#8203;(T&nbsp;value)</pre>
 <div class="block">Returns an iterator containing only <code>value</code>.
 
  <p>The <code>Iterable</code> equivalent of this method is <code>Collections.singleton(T)</code>.</div>
@@ -1359,7 +1359,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>forEnumeration</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1141">forEnumeration</a>&#8203;(java.util.Enumeration&lt;T&gt;&nbsp;enumeration)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1142">forEnumeration</a>&#8203;(java.util.Enumeration&lt;T&gt;&nbsp;enumeration)</pre>
 <div class="block">Adapts an <code>Enumeration</code> to the <code>Iterator</code> interface.
 
  <p>This method has no equivalent in <a href="Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> because viewing an <code>Enumeration</code> as
@@ -1376,7 +1376,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>asEnumeration</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Enumeration&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1164">asEnumeration</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Enumeration&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1165">asEnumeration</a>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Adapts an <code>Iterator</code> to the <code>Enumeration</code> interface.
 
  <p>The <code>Iterable</code> equivalent of this method is either <code>Collections.enumeration(java.util.Collection&lt;T&gt;)</code> (if
@@ -1389,7 +1389,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>peekingIterator</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1263">peekingIterator</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1264">peekingIterator</a>&#8203;(java.util.Iterator&lt;? extends T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a <code>PeekingIterator</code> backed by the given iterator.
 
  <p>Calls to the <code>peek</code> method with no intervening calls to <code>next</code> do not affect the
@@ -1434,7 +1434,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>peekingIterator</h4>
 <pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1281">peekingIterator</a>&#8203;(<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1282">peekingIterator</a>&#8203;(<a href="PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -1451,7 +1451,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>mergeSorted</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1299">mergeSorted</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Iterator&lt;? extends T&gt;&gt;&nbsp;iterators,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1300">mergeSorted</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Iterator&lt;? extends T&gt;&gt;&nbsp;iterators,
                                                                                          java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterator over the merged contents of all given <code>iterators</code>, traversing every
  element of the input iterators. Equivalent entries will not be de-duplicated.

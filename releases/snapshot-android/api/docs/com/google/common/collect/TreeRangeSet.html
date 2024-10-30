@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.42">TreeRangeSet</a>&lt;C extends java.lang.Comparable&lt;?&gt;&gt;
+public class <a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.43">TreeRangeSet</a>&lt;C extends java.lang.Comparable&lt;?&gt;&gt;
 extends java.lang.Object
 implements java.io.Serializable</pre>
 <div class="block">An implementation of <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> backed by a <code>TreeMap</code>.</div>
@@ -383,7 +383,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.50">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.51">create</a>()</pre>
 <div class="block">Creates an empty <code>TreeRangeSet</code> instance.</div>
 </li>
 </ul>
@@ -393,7 +393,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.55">create</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.56">create</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
 <div class="block">Returns a <code>TreeRangeSet</code> initialized with the ranges in the specified range set.</div>
 </li>
 </ul>
@@ -403,7 +403,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.70">create</a>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.71">create</a>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block">Returns a <code>TreeRangeSet</code> representing the union of the specified ranges.
 
  <p>This is the smallest <code>RangeSet</code> which encloses each of the specified ranges. An
@@ -421,7 +421,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asRanges</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.83">asRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.84">asRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make up this
  range set. The returned set may be empty. The iterators returned by its <code>Iterable.iterator()</code> method return the ranges in increasing order of lower bound (equivalently,
@@ -438,7 +438,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingSetOfRanges</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.89">asDescendingSetOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.90">asDescendingSetOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asDescendingSetOfRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a descending view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make
  up this range set. The returned set may be empty. The iterators returned by its <code>Iterable.iterator()</code> method return the ranges in decreasing order of lower bound (equivalently,
@@ -458,7 +458,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>rangeContaining</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.121">rangeContaining</a>&#8203;(<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&nbsp;value)</pre>
+public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.122">rangeContaining</a>&#8203;(<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#rangeContaining(C)">RangeSet</a></code></span></div>
 <div class="block">Returns the unique range from this range set that <a href="Range.html#contains(C)">contains</a> <code>
  value</code>, or <code>null</code> if this range set does not contain <code>value</code>.</div>
@@ -474,7 +474,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>intersects</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.134">intersects</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.135">intersects</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#intersects(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if there exists a non-empty range enclosed by both a member range in this
  range set and the specified range. This is equivalent to calling <code>
@@ -491,7 +491,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>encloses</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.149">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.150">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#encloses(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if there exists a member range in this range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> the specified range.</div>
 <dl>
@@ -506,7 +506,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.165">span</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.166">span</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#span()">RangeSet</a></code></span></div>
 <div class="block">Returns the minimal range which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> all ranges in this
  range set.</div>
@@ -522,7 +522,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.179">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;rangeToAdd)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.180">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;rangeToAdd)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#add(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Adds the specified range to this <code>RangeSet</code> (optional operation). That is, for equal
  range sets a and b, the result of <code>a.add(range)</code> is that <code>a</code> will be the minimal
@@ -543,7 +543,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.226">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;rangeToRemove)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.227">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;rangeToRemove)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#remove(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Removes the specified range from this <code>RangeSet</code> (optional operation). After this
  operation, if <code>range.contains(c)</code>, <code>this.contains(c)</code> will return <code>false</code>.
@@ -561,7 +561,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>complement</h4>
-<pre class="methodSignature">public&nbsp;<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.279">complement</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.280">complement</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#complement()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the complement of this <code>RangeSet</code>.
 
@@ -579,7 +579,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.868">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;view)</pre>
+<pre class="methodSignature">public&nbsp;<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.869">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;view)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#subRangeSet(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the intersection of this <code>RangeSet</code> with the specified range.
 
