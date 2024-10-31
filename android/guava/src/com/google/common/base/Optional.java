@@ -119,6 +119,62 @@ public abstract class Optional<T> implements Serializable {
     return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
   }
 
+  /**
+   * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
+   * java.util.Optional}, or {@code null} if the argument is null.
+   *
+   * @since NEXT (but since 21.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Optional.
+  @CheckForNull
+  public static <T> Optional<T> fromJavaUtil(@CheckForNull java.util.Optional<T> javaUtilOptional) {
+    return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
+  }
+
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to the given {@code
+   * com.google.common.base.Optional}, or {@code null} if the argument is null.
+   *
+   * <p>If {@code googleOptional} is known to be non-null, use {@code googleOptional.toJavaUtil()}
+   * instead.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> Optional.toJavaUtil(o)} instead.
+   *
+   * @since NEXT (but since 21.0 in the JRE flavor)
+   */
+  @SuppressWarnings({
+    "AmbiguousMethodReference", // We chose the name despite knowing this risk.
+    "Java7ApiChecker",
+  })
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
+  @IgnoreJRERequirement
+  @CheckForNull
+  public static <T> java.util.Optional<T> toJavaUtil(@CheckForNull Optional<T> googleOptional) {
+    return googleOptional == null ? null : googleOptional.toJavaUtil();
+  }
+
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to this optional.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> o.toJavaUtil()} instead.
+   *
+   * @since NEXT (but since 21.0 in the JRE flavor)
+   */
+  @SuppressWarnings({
+    "AmbiguousMethodReference", // We chose the name despite knowing this risk.
+    "Java7ApiChecker",
+  })
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
+  @IgnoreJRERequirement
+  public java.util.Optional<T> toJavaUtil() {
+    return java.util.Optional.ofNullable(orNull());
+  }
+
   Optional() {}
 
   /**

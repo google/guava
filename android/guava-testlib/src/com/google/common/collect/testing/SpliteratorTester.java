@@ -47,10 +47,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Tester for {@code Spliterator} implementations.
  *
- * @since 21.0 (but only since 33.4.0 in the Android flavor)
+ * @since NEXT (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings("Java7ApiChecker")
+@IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {
   /** Return type from "contains the following elements" assertions. */
   public interface Ordered {
@@ -61,6 +63,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
     void inOrder();
   }
 
+  @IgnoreJRERequirement // *should* be redundant with the annotation on SpliteratorTester
   private abstract static class GeneralSpliterator<E extends @Nullable Object> {
     final Spliterator<E> spliterator;
 
@@ -95,6 +98,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
     }
   }
 
+  @IgnoreJRERequirement // *should* be redundant with the annotation on SpliteratorTester
   private static final class GeneralSpliteratorOfObject<E extends @Nullable Object>
       extends GeneralSpliterator<E> {
     GeneralSpliteratorOfObject(Spliterator<E> spliterator) {
@@ -118,6 +122,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
     }
   }
 
+  @IgnoreJRERequirement // *should* be redundant with the annotation on SpliteratorTester
   private static final class GeneralSpliteratorOfPrimitive<
           E extends @Nullable Object, C, S extends Spliterator.OfPrimitive<E, C, S>>
       extends GeneralSpliterator<E> {
@@ -153,6 +158,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
    * Different ways of decomposing a Spliterator, all of which must produce the same elements (up to
    * ordering, if Spliterator.ORDERED is not present).
    */
+  @IgnoreJRERequirement // *should* be redundant with the annotation on SpliteratorTester
   enum SpliteratorDecompositionStrategy {
     NO_SPLIT_FOR_EACH_REMAINING {
       @Override
@@ -253,7 +259,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since 28.1 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Integer> ofInt(Supplier<Spliterator.OfInt> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -263,7 +269,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since 28.1 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Long> ofLong(Supplier<Spliterator.OfLong> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -273,7 +279,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since 28.1 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Double> ofDouble(
       Supplier<Spliterator.OfDouble> spliteratorSupplier) {

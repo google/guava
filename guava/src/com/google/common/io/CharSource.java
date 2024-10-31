@@ -15,6 +15,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Streams.stream;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -24,10 +25,10 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.MustBeClosed;
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -153,21 +154,26 @@ public abstract class CharSource {
    * }</pre>
    *
    * @throws IOException if an I/O error occurs while opening the stream
-   * @since 22.0
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
    */
   @MustBeClosed
   public Stream<String> lines() throws IOException {
     BufferedReader reader = openBufferedStream();
-    return reader
-        .lines()
-        .onClose(
-            () -> {
-              try {
-                reader.close();
-              } catch (IOException e) {
-                throw new UncheckedIOException(e);
-              }
-            });
+    return reader.lines().onClose(() -> closeUnchecked(reader));
+  }
+
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // helper for lines()
+  /*
+   * If we make these calls inline inside the lambda inside lines(), we get an Animal Sniffer error,
+   * despite the @IgnoreJRERequirement annotation there. For details, see ImmutableSortedMultiset.
+   */
+  private static void closeUnchecked(Closeable closeable) {
+    try {
+      closeable.close();
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
@@ -388,7 +394,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source or if {@code action}
    *     throws an {@code UncheckedIOException}
-   * @since 22.0
+   * @since 22.0 (but only since 33.4.0 in the Android flavor)
    */
   public void forEachLine(Consumer<? super String> action) throws IOException {
     try (Stream<String> lines = lines()) {
@@ -590,7 +596,7 @@ public abstract class CharSource {
 
     @Override
     public Stream<String> lines() {
-      return Streams.stream(linesIterator());
+      return stream(linesIterator());
     }
 
     @Override

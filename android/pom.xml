@@ -280,7 +280,19 @@
             </dependency>
           </dependencies>
           <configuration>
-            <annotations>com.google.common.base.IgnoreJRERequirement,com.google.common.cache.IgnoreJRERequirement,com.google.common.collect.IgnoreJRERequirement,com.google.common.hash.IgnoreJRERequirement,com.google.common.io.IgnoreJRERequirement,com.google.common.math.IgnoreJRERequirement,com.google.common.primitives.IgnoreJRERequirement,com.google.common.reflect.IgnoreJRERequirement,com.google.common.testing.IgnoreJRERequirement,com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
+            <annotations>
+              <annotation>com.google.common.base.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.cache.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.testing.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.hash.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.io.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.math.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.primitives.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.reflect.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.testing.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.util.concurrent.IgnoreJRERequirement</annotation>
+            </annotations>
             <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>com.toasttab.android</groupId>

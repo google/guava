@@ -41,6 +41,24 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
+  @SuppressWarnings("NullOptional")
+  public void testToJavaUtil_static() {
+    assertNull(Optional.toJavaUtil(null));
+    assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
+    assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
+  }
+
+  public void testToJavaUtil_instance() {
+    assertEquals(java.util.Optional.empty(), Optional.absent().toJavaUtil());
+    assertEquals(java.util.Optional.of("abc"), Optional.of("abc").toJavaUtil());
+  }
+
+  @SuppressWarnings("NullOptional")
+  public void testFromJavaUtil() {
+    assertNull(Optional.fromJavaUtil(null));
+    assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
+    assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
+  }
 
   public void testAbsent() {
     Optional<String> optionalName = Optional.absent();

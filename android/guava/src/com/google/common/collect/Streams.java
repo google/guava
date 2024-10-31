@@ -55,10 +55,17 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Static utility methods related to {@code Stream} instances.
  *
- * @since 21.0 (but only since 33.4.0 in the Android flavor)
+ * @since NEXT (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings("Java7ApiChecker")
+/*
+ * Users will use most of these methods only if they're already using Stream. For a few other
+ * methods, like stream(Iterable), we have to rely on users not to call them without library
+ * desugaring.
+ */
+@IgnoreJRERequirement
 public final class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
@@ -402,7 +409,7 @@ public final class Streams {
    * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
    * temporary pair objects and then using {@link Stream#forEach} on that stream.
    *
-   * @since 22.0 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 22.0 in the JRE flavor)
    */
   @Beta
   public static <A extends @Nullable Object, B extends @Nullable Object> void forEachPair(
@@ -536,6 +543,7 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
+  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       IntStream stream, IntFunctionWithIndex<R> function) {
     checkNotNull(stream);
@@ -615,6 +623,7 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
+  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       LongStream stream, LongFunctionWithIndex<R> function) {
     checkNotNull(stream);
@@ -694,6 +703,7 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
+  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       DoubleStream stream, DoubleFunctionWithIndex<R> function) {
     checkNotNull(stream);
@@ -757,7 +767,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
    * FunctionWithIndex)}.
    *
-   * @since 21.0 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 21.0 in the JRE flavor)
    */
   public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -765,6 +775,12 @@ public final class Streams {
     R apply(@ParametricNullness T from, long index);
   }
 
+  /*
+   * @IgnoreJRERequirement should be redundant with the one on Streams itself, but it's necessary as
+   * of Animal Sniffer 1.24. Maybe Animal Sniffer processes this nested class before it processes
+   * Streams and thus hasn't had a chance to see Streams's annotation?
+   */
+  @IgnoreJRERequirement
   private abstract static class MapWithIndexSpliterator<
           F extends Spliterator<?>,
           R extends @Nullable Object,
@@ -812,7 +828,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
    * IntFunctionWithIndex)}.
    *
-   * @since 21.0 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 21.0 in the JRE flavor)
    */
   public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -826,7 +842,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
    * LongFunctionWithIndex)}.
    *
-   * @since 21.0 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 21.0 in the JRE flavor)
    */
   public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -840,7 +856,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
    * DoubleFunctionWithIndex)}.
    *
-   * @since 21.0 (but only since 33.4.0 in the Android flavor)
+   * @since NEXT (but since 21.0 in the JRE flavor)
    */
   public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
