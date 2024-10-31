@@ -63,13 +63,14 @@ import javax.annotation.CheckForNull;
  * now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
  * class if a sibling method from {@code Files} appears to be missing from this class.
  *
- * @since 21.0 (but only since 33.4.0 in the Android flavor)
+ * @since NEXT (but since 21.0 in the JRE flavor)
  * @author Colin Decker
  */
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @ElementTypesAreNonnullByDefault
+@IgnoreJRERequirement // Users will use this only if they're already using Path.
 public final class MoreFiles {
 
   private MoreFiles() {}
@@ -86,6 +87,7 @@ public final class MoreFiles {
     return new PathByteSource(path, options);
   }
 
+  @IgnoreJRERequirement // *should* be redundant with the one on MoreFiles itself
   private static final class PathByteSource extends
       ByteSource
   {
@@ -173,7 +175,16 @@ public final class MoreFiles {
         // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things
         // like following/not following symlinks.)
         return new AsCharSource(charset) {
-          @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case
+          @SuppressWarnings({
+            "FilesLinesLeak", // the user needs to close it in this case
+            /*
+             * If users use this when they shouldn't, we hope that NewApi will catch subsequent
+             * Stream calls.
+             *
+             * Anyway, this is just an override that is no more dangerous than the supermethod.
+             */
+            "Java7ApiChecker",
+          })
           @Override
           public Stream<String> lines() throws IOException {
             return Files.lines(path, charset);
@@ -204,6 +215,7 @@ public final class MoreFiles {
     return new PathByteSink(path, options);
   }
 
+  @IgnoreJRERequirement // *should* be redundant with the one on MoreFiles itself
   private static final class PathByteSink extends ByteSink {
 
     private final Path path;

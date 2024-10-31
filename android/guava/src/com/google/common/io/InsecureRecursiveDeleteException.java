@@ -32,13 +32,15 @@ import javax.annotation.CheckForNull;
  * <p>{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method
  * to proceed anyway.
  *
- * @since 21.0 (but only since 33.4.0 in the Android flavor)
+ * @since NEXT (but since 21.0 in the JRE flavor)
  * @author Colin Decker
  */
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @ElementTypesAreNonnullByDefault
+// Users are unlikely to use this unless they're already interacting with MoreFiles and Path.
+@IgnoreJRERequirement
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 
   public InsecureRecursiveDeleteException(@CheckForNull String file) {
