@@ -166,6 +166,68 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 </tbody>
 </table>
+<table class="useSummary">
+<caption><span>Methods in <a href="../../collect/package-summary.html">com.google.common.collect</a> with annotations of type <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Method</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>void</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#forEachPair(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiConsumer)">forEachPair</a></span>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
+           java.util.stream.Stream&lt;B&gt;&nbsp;streamB,
+           java.util.function.BiConsumer&lt;? super A,&#8203;? super B&gt;&nbsp;consumer)</code></th>
+<td class="colLast">
+<div class="block">Invokes <code>consumer</code> once for each pair of <i>corresponding</i> elements in <code>streamA</code>
+ and <code>streamB</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;java.util.stream.Stream&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#stream(java.util.Optional)">stream</a></span>&#8203;(java.util.Optional&lt;T&gt;&nbsp;optional)</code></th>
+<td class="colLast">
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.stream.DoubleStream</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#stream(java.util.OptionalDouble)">stream</a></span>&#8203;(java.util.OptionalDouble&nbsp;optional)</code></th>
+<td class="colLast">
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.util.stream.IntStream</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#stream(java.util.OptionalInt)">stream</a></span>&#8203;(java.util.OptionalInt&nbsp;optional)</code></th>
+<td class="colLast">
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.util.stream.LongStream</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#stream(java.util.OptionalLong)">stream</a></span>&#8203;(java.util.OptionalLong&nbsp;optional)</code></th>
+<td class="colLast">
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;A extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.stream.Stream&lt;R&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Streams.</span><code><span class="memberNameLink"><a href="../../collect/Streams.html#zip(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiFunction)">zip</a></span>&#8203;(java.util.stream.Stream&lt;A&gt;&nbsp;streamA,
+   java.util.stream.Stream&lt;B&gt;&nbsp;streamB,
+   java.util.function.BiFunction&lt;? super A,&#8203;? super B,&#8203;R&gt;&nbsp;function)</code></th>
+<td class="colLast">
+<div class="block">Returns a stream in which each element is the result of passing the corresponding element of
+ each of <code>streamA</code> and <code>streamB</code> to <code>function</code>.</div>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 </li>
 <li class="blockList">

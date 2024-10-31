@@ -865,6 +865,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/Streams.html#stream(java.util.Collection)">com.google.common.collect.Streams.stream&#8203;(Collection&lt;T&gt;)</a></th>
+<td class="colLast">
+<div class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeBasedTable.html#columnComparator()">com.google.common.collect.TreeBasedTable.columnComparator()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Store the <code>Comparator</code> alongside the <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
@@ -872,97 +878,97 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeBasedTable.html#rowComparator()">com.google.common.collect.TreeBasedTable.rowComparator()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeMultimap.html#keyComparator()">com.google.common.collect.TreeMultimap.keyComparator()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeTraverser.html#breadthFirstTraversal(T)">com.google.common.collect.TreeTraverser.breadthFirstTraversal&#8203;(T)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#breadthFirst(N)"><code>Traverser.breadthFirst(N)</code></a> instead, which has the
      same behavior.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeTraverser.html#postOrderTraversal(T)">com.google.common.collect.TreeTraverser.postOrderTraversal&#8203;(T)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#depthFirstPostOrder(N)"><code>Traverser.depthFirstPostOrder(N)</code></a> instead, which
      has the same behavior.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeTraverser.html#preOrderTraversal(T)">com.google.common.collect.TreeTraverser.preOrderTraversal&#8203;(T)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#depthFirstPreOrder(N)"><code>Traverser.depthFirstPreOrder(N)</code></a> instead, which has
      the same behavior.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeTraverser.html#using(com.google.common.base.Function)">com.google.common.collect.TreeTraverser.using&#8203;(Function&lt;T, ? extends Iterable&lt;T&gt;&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#forTree(com.google.common.graph.SuccessorsFunction)"><code>Traverser.forTree(com.google.common.graph.SuccessorsFunction&lt;N&gt;)</code></a> instead. If you are using a
      lambda, these methods have exactly the same signature.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/UnmodifiableIterator.html#remove()">com.google.common.collect.UnmodifiableIterator.remove()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Unsupported operation.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/UnmodifiableListIterator.html#add(E)">com.google.common.collect.UnmodifiableListIterator.add&#8203;(E)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Unsupported operation.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/UnmodifiableListIterator.html#set(E)">com.google.common.collect.UnmodifiableListIterator.set&#8203;(E)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Unsupported operation.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">com.google.common.graph.ImmutableGraph.copyOf&#8203;(ImmutableGraph&lt;N&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">no need to use this</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.ImmutableNetwork)">com.google.common.graph.ImmutableNetwork.copyOf&#8203;(ImmutableNetwork&lt;N, E&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">no need to use this</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ImmutableValueGraph)">com.google.common.graph.ImmutableValueGraph.copyOf&#8203;(ImmutableValueGraph&lt;N, V&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">no need to use this</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/BloomFilter.html#apply(T)">com.google.common.hash.BloomFilter.apply&#8203;(T)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Provided only to satisfy the <a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="com/google/common/hash/BloomFilter.html#mightContain(T)"><code>BloomFilter.mightContain(T)</code></a>
      instead.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/Hasher.html#hashCode()">com.google.common.hash.Hasher.hashCode()</a></th>
 <td class="colLast">
 <div class="deprecationComment">This returns <code>Object.hashCode()</code>; you almost certainly mean to call <code>
      hash().asInt()</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/Hashing.html#md5()">com.google.common.hash.Hashing.md5()</a></th>
 <td class="colLast">
 <div class="deprecationComment">If you must interoperate with a system that requires MD5, then use this method,
@@ -975,13 +981,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      </ul></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/Hashing.html#murmur3_32(int)">com.google.common.hash.Hashing.murmur3_32&#8203;(int)</a></th>
 <td class="colLast">
 <div class="deprecationComment">This implementation produces incorrect hash values from the <a href="com/google/common/hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters. Use <a href="com/google/common/hash/Hashing.html#murmur3_32_fixed(int)"><code>Hashing.murmur3_32_fixed(int)</code></a> instead.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/Hashing.html#sha1()">com.google.common.hash.Hashing.sha1()</a></th>
 <td class="colLast">
 <div class="deprecationComment">If you must interoperate with a system that requires SHA-1, then use this method,
@@ -994,27 +1000,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      </ul></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes(java.lang.String)">com.google.common.io.ByteArrayDataOutput.writeBytes&#8203;(String)</a></th>
 <td class="colLast">
 <div class="deprecationComment">This method is dangerous as it discards the high byte of every character. For
      UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.append&#8203;(CharSequence, File, Charset)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>. This
      method is scheduled to be removed in October 2019.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">com.google.common.io.Files.copy&#8203;(File, Charset, Appendable)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#createTempDir()">com.google.common.io.Files.createTempDir()</a></th>
 <td class="colLast">
 <div class="deprecationComment">For Android users, see the <a href="https://developer.android.com/training/data-storage" target="_blank">Data and File
@@ -1028,87 +1034,87 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      call to <code>createTempDirectory</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)">com.google.common.io.Files.hash&#8203;(File, HashFunction)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#readBytes(java.io.File,com.google.common.io.ByteProcessor)">com.google.common.io.Files.readBytes&#8203;(File, ByteProcessor&lt;T&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#readFirstLine(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.readFirstLine&#8203;(File, Charset)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">com.google.common.io.Files.readLines&#8203;(File, Charset, LineProcessor&lt;T&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#toString(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.toString&#8203;(File, Charset)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/Files.html#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.write&#8203;(CharSequence, File, Charset)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes(java.lang.String)">com.google.common.io.LittleEndianDataOutputStream.writeBytes&#8203;(String)</a></th>
 <td class="colLast">
 <div class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF(java.lang.String)"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars(java.lang.String)"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/math/DoubleMath.html#mean(double...)">com.google.common.math.DoubleMath.mean&#8203;(double...)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.ImmutableTypeToInstanceMap.put&#8203;(TypeToken&lt;? extends B&gt;, B)</a></th>
 <td class="colLast">
 <div class="deprecationComment">unsupported operation</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.ImmutableTypeToInstanceMap.putAll&#8203;(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">unsupported operation</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,T)">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance&#8203;(TypeToken&lt;T&gt;, T)</a></th>
 <td class="colLast">
 <div class="deprecationComment">unsupported operation</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.MutableTypeToInstanceMap.put&#8203;(TypeToken&lt;? extends B&gt;, B)</a></th>
 <td class="colLast">
 <div class="deprecationComment">unsupported operation</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.MutableTypeToInstanceMap.putAll&#8203;(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">unsupported operation</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/ClosingFuture.html#eventuallyClosing(com.google.common.util.concurrent.ListenableFuture,java.util.concurrent.Executor)">com.google.common.util.concurrent.ClosingFuture.eventuallyClosing&#8203;(ListenableFuture&lt;C&gt;, Executor)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Creating <code>Future</code>s of closeable types is dangerous in general because the
@@ -1119,7 +1125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that doesn't create values that should be closed, use <a href="com/google/common/util/concurrent/ClosingFuture.html#from(com.google.common.util.concurrent.ListenableFuture)"><code>ClosingFuture.from(com.google.common.util.concurrent.ListenableFuture&lt;V&gt;)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/FluentFuture.html#from(com.google.common.util.concurrent.FluentFuture)">com.google.common.util.concurrent.FluentFuture.from&#8203;(FluentFuture&lt;V&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">no need to use this</div>

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.93">Stopwatch</a>
+public final class <a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.97">Stopwatch</a>
 extends java.lang.Object</pre>
 <div class="block">An object that accurately measures <i>elapsed time</i>: the measured duration between two
  successive readings of "now" in the same process.
@@ -167,7 +167,7 @@ extends java.lang.Object</pre>
  doSomething();
  stopwatch.stop(); // optional
 
- long millis = stopwatch.elapsed(MILLISECONDS);
+ Duration duration = stopwatch.elapsed();
 
  log.info("time: " + stopwatch); // formatted string like "12.3 ms"
  </code></pre>
@@ -246,6 +246,13 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>java.time.Duration</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elapsed()">elapsed</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the current elapsed time shown on this stopwatch as a <code>Duration</code>.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elapsed(java.util.concurrent.TimeUnit)">elapsed</a></span>&#8203;(java.util.concurrent.TimeUnit&nbsp;desiredUnit)</code></th>
 <td class="colLast">
@@ -253,7 +260,7 @@ extends java.lang.Object</pre>
  with any fraction rounded down.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isRunning()">isRunning</a></span>()</code></th>
 <td class="colLast">
@@ -261,28 +268,28 @@ extends java.lang.Object</pre>
  has not been called since the last call to <code>start()</code>.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Sets the elapsed time for this stopwatch to zero, and places it in a stopped state.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#start()">start</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Starts the stopwatch.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Stops the stopwatch.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
@@ -319,7 +326,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>createUnstarted</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.107">createUnstarted</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.111">createUnstarted</a>()</pre>
 <div class="block">Creates (but does not start) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -333,7 +340,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>createUnstarted</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.116">createUnstarted</a>&#8203;(<a href="Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.120">createUnstarted</a>&#8203;(<a href="Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Creates (but does not start) a new stopwatch, using the specified time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -347,7 +354,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>createStarted</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.125">createStarted</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.129">createStarted</a>()</pre>
 <div class="block">Creates (and starts) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -361,7 +368,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>createStarted</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.134">createStarted</a>&#8203;(<a href="Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.138">createStarted</a>&#8203;(<a href="Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Creates (and starts) a new stopwatch, using the specified time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -375,7 +382,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>isRunning</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.150">isRunning</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.154">isRunning</a>()</pre>
 <div class="block">Returns <code>true</code> if <a href="#start()"><code>start()</code></a> has been called on this stopwatch, and <a href="#stop()"><code>stop()</code></a>
  has not been called since the last call to <code>start()</code>.</div>
 </li>
@@ -387,7 +394,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>start</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.160">start</a>()</pre>
+public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.164">start</a>()</pre>
 <div class="block">Starts the stopwatch.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -404,7 +411,7 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <li class="blockList">
 <h4>stop</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.175">stop</a>()</pre>
+public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.179">stop</a>()</pre>
 <div class="block">Stops the stopwatch. Future reads will return the fixed duration that had elapsed up to this
  point.</div>
 <dl>
@@ -422,7 +429,7 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <li class="blockList">
 <h4>reset</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.189">reset</a>()</pre>
+public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.193">reset</a>()</pre>
 <div class="block">Sets the elapsed time for this stopwatch to zero, and places it in a stopped state.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -436,15 +443,39 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <ul class="blockList">
 <li class="blockList">
 <h4>elapsed</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.209">elapsed</a>&#8203;(java.util.concurrent.TimeUnit&nbsp;desiredUnit)</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.217">elapsed</a>&#8203;(java.util.concurrent.TimeUnit&nbsp;desiredUnit)</pre>
 <div class="block">Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.
 
- <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
- useful to specify <code>TimeUnit.NANOSECONDS</code> precision here.</div>
+ <p><b>Note:</b> the overhead of measurement can be more than a microsecond, so it is generally
+ not useful to specify <code>TimeUnit.NANOSECONDS</code> precision here.
+
+ <p>It is generally not a good idea to use an ambiguous, unitless <code>long</code> to represent
+ elapsed time. Therefore, we recommend using <a href="#elapsed()"><code>elapsed()</code></a> instead, which returns a
+ strongly-typed <code>Duration</code> instance.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 10.0 as <code>elapsedTime()</code>)</dd>
+</dl>
+</li>
+</ul>
+<a id="elapsed()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>elapsed</h4>
+<pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
+public&nbsp;java.time.Duration&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.232">elapsed</a>()</pre>
+<div class="block">Returns the current elapsed time shown on this stopwatch as a <code>Duration</code>. Unlike <a href="#elapsed(java.util.concurrent.TimeUnit)"><code>elapsed(TimeUnit)</code></a>, this method does not lose any precision due to rounding.
+
+ <p><b>Warning:</b> do not call this method from Android code unless you are on Android API
+ level 26+ or you <a href="https://developer.android.com/studio/write/java11-default-support-table">opt in to
+ library desugaring</a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT (but since 22.0 in the JRE flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -454,7 +485,7 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.214">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.243">toString</a>()</pre>
 <div class="block">Returns a string representation of the current elapsed time.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

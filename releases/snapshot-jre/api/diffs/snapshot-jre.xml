@@ -3442,7 +3442,7 @@
       <![CDATA[Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
  java.util.Optional}, or {@code null} if the argument is null.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
@@ -3461,7 +3461,7 @@
  could refer to either the static or instance version of this method. Write out the lambda
  expression {@code o -> Optional.toJavaUtil(o)} instead.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
@@ -3475,7 +3475,7 @@
  could refer to either the static or instance version of this method. Write out the lambda
  expression {@code o -> o.toJavaUtil()} instead.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="isPresent" return="boolean"
@@ -6043,7 +6043,7 @@
       <![CDATA[Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link
  #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.
 
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -36514,7 +36514,7 @@
  This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
  temporary pair objects and then using {@link Stream#forEach} on that stream.
 
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
@@ -36711,7 +36711,7 @@
     <doc>
     <![CDATA[Static utility methods related to {@code Stream} instances.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.Streams -->
@@ -36735,7 +36735,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
  DoubleFunctionWithIndex)}.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
@@ -36759,7 +36759,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
  FunctionWithIndex)}.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.FunctionWithIndex -->
@@ -36783,7 +36783,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
  IntFunctionWithIndex)}.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.IntFunctionWithIndex -->
@@ -36807,7 +36807,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
  LongFunctionWithIndex)}.
 
- @since 21.0]]>
+ @since 21.0 (but only since 33.4.0 in the Android flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.LongFunctionWithIndex -->
@@ -46899,7 +46899,7 @@
  writeLines(lines, System.getProperty("line.separator"))}.
 
  @throws IOException if an I/O error occurs while writing to this sink
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="writeLines"
@@ -46914,7 +46914,7 @@
  the given line separator.
 
  @throws IOException if an I/O error occurs while writing to this sink
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="writeFrom" return="long"
@@ -47043,7 +47043,7 @@
  }</pre>
 
  @throws IOException if an I/O error occurs while opening the stream
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="lengthIfKnown" return="com.google.common.base.Optional&lt;java.lang.Long&gt;"
@@ -47201,7 +47201,7 @@
 
  @throws IOException if an I/O error occurs while reading from this source or if {@code action}
      throws an {@code UncheckedIOException}
- @since 22.0]]>
+ @since 22.0 (but only since 33.4.0 in the Android flavor)]]>
       </doc>
     </method>
     <method name="isEmpty" return="boolean"

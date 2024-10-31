@@ -1205,6 +1205,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
  (<code>application/xml</code>) is used for XML documents that are "unreadable by casual users."</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html#apply(double,long)">apply(double, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html#apply(int,long)">apply(int, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html#apply(long,long)">apply(long, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Converter.html#apply(A)">apply(A)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1294,6 +1306,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Provided only to satisfy the <a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="com/google/common/hash/BloomFilter.html#mightContain(T)"><code>BloomFilter.mightContain(T)</code></a>
      instead.</div>
 </div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.FunctionWithIndex.html#apply(T,long)">apply(T, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#approximateElementCount()">approximateElementCount()</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
@@ -4131,6 +4147,26 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Combines four iterators into a single iterator.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#concat(java.util.stream.DoubleStream...)">concat(DoubleStream...)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a <code>DoubleStream</code> containing the elements of the first stream, followed by the
+ elements of the second stream, and so on.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#concat(java.util.stream.IntStream...)">concat(IntStream...)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns an <code>IntStream</code> containing the elements of the first stream, followed by the
+ elements of the second stream, and so on.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#concat(java.util.stream.LongStream...)">concat(LongStream...)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a <code>LongStream</code> containing the elements of the first stream, followed by the
+ elements of the second stream, and so on.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#concat(java.util.stream.Stream...)">concat(Stream&lt;? extends T&gt;...)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a <code>Stream</code> containing the elements of the first stream, followed by the elements
+ of the second stream, and so on.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ObjectArrays.html#concat(T%5B%5D,T)">concat(T[], T)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ObjectArrays.html" title="class in com.google.common.collect">ObjectArrays</a></dt>
 <dd>
 <div class="block">Returns a new array that appends <code>element</code> to <code>array</code>.</div>
@@ -5921,6 +5957,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
  otherwise, returns <code>defaultValue</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#elapsed()">elapsed()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
+<dd>
+<div class="block">Returns the current elapsed time shown on this stopwatch as a <code>Duration</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#elapsed(java.util.concurrent.TimeUnit)">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
 <div class="block">Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
@@ -7144,6 +7184,26 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the first element in <code>iterator</code> that satisfies the given predicate; use this
  method only when such an element is known to exist.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#findLast(java.util.stream.DoubleStream)">findLast(DoubleStream)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns the last element of the specified stream, or <code>OptionalDouble.empty()</code> if the stream
+ is empty.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#findLast(java.util.stream.IntStream)">findLast(IntStream)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns the last element of the specified stream, or <code>OptionalInt.empty()</code> if the stream is
+ empty.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#findLast(java.util.stream.LongStream)">findLast(LongStream)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns the last element of the specified stream, or <code>OptionalLong.empty()</code> if the stream
+ is empty.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#findLast(java.util.stream.Stream)">findLast(Stream&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns the last element of the specified stream, or <code>Optional.empty()</code> if the
+ stream is empty.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Hashing.html#fingerprint2011()">fingerprint2011()</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).</div>
@@ -7342,6 +7402,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableLongArray.html#forEach(java.util.function.LongConsumer)">forEach(LongConsumer)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a></dt>
 <dd>
 <div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/CharSource.html#forEachLine(java.util.function.Consumer)">forEachLine(Consumer&lt;? super String&gt;)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a></dt>
+<dd>
+<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as it
+ is read.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#forEachPair(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiConsumer)">forEachPair(Stream&lt;A&gt;, Stream&lt;B&gt;, BiConsumer&lt;? super A, ? super B&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Invokes <code>consumer</code> once for each pair of <i>corresponding</i> elements in <code>streamA</code>
+ and <code>streamB</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Iterators.html#forEnumeration(java.util.Enumeration)">forEnumeration(Enumeration&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
@@ -7908,6 +7978,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.html#fromIPv6BigInteger(java.math.BigInteger)">fromIPv6BigInteger(BigInteger)</a></span> - Static method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
 <dd>
 <div class="block">Returns the <code>Inet6Address</code> corresponding to a given <code>BigInteger</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Optional.html#fromJavaUtil(java.util.Optional)">fromJavaUtil(Optional&lt;T&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a></dt>
+<dd>
+<div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
+ java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.html#fromLittleEndianByteArray(byte%5B%5D)">fromLittleEndianByteArray(byte[])</a></span> - Static method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
 <dd>
@@ -11316,6 +11391,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Creates a new instance that will read lines from the given <code>Readable</code> object.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/CharSource.html#lines()">lines()</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a></dt>
+<dd>
+<div class="block">Opens a new <code>Stream</code> for reading text one line at a time from this source.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#LINK">LINK</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Link</code> header field name.</div>
@@ -11635,6 +11714,26 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect"><span class="typeNameLink">Maps.EntryTransformer</span></a>&lt;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V1</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V2</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A transformation of the value of a key-value pair, using both key and value as inputs.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex(java.util.stream.DoubleStream,com.google.common.collect.Streams.DoubleFunctionWithIndex)">mapWithIndex(DoubleStream, Streams.DoubleFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex(java.util.stream.IntStream,com.google.common.collect.Streams.IntFunctionWithIndex)">mapWithIndex(IntStream, Streams.IntFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex(java.util.stream.LongStream,com.google.common.collect.Streams.LongFunctionWithIndex)">mapWithIndex(LongStream, Streams.LongFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex(java.util.stream.Stream,com.google.common.collect.Streams.FunctionWithIndex)">mapWithIndex(Stream&lt;T&gt;, Streams.FunctionWithIndex&lt;? super T, ? extends R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indices in the stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/HashingInputStream.html#mark(int)">mark(int)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashingInputStream.html" title="class in com.google.common.hash">HashingInputStream</a></dt>
 <dd>
@@ -17892,6 +17991,65 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a stream over the values in this array, in order.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(com.google.common.base.Optional)">stream(Optional&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.lang.Iterable)">stream(Iterable&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a sequential <code>Stream</code> of the contents of <code>iterable</code>, delegating to <code>Collection.stream()</code> if possible.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.Collection)">stream(Collection&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.Iterator)">stream(Iterator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a sequential <code>Stream</code> of the remaining contents of <code>iterator</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.Optional)">stream(Optional&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.OptionalDouble)">stream(OptionalDouble)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.OptionalInt)">stream(OptionalInt)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#stream(java.util.OptionalLong)">stream(OptionalLong)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
+ otherwise returns an empty stream.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect"><span class="typeNameLink">Streams</span></a> - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">Static utility methods related to <code>Stream</code> instances.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.DoubleFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="type parameter in Streams.DoubleFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <code>DoubleFunction</code> also accepting an index.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.FunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <code>Function</code> also accepting an index.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.IntFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="type parameter in Streams.IntFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <code>IntFunction</code> also accepting an index.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.LongFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="type parameter in Streams.LongFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <code>LongFunction</code> also accepting an index.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html#STRICT_ORIGIN">STRICT_ORIGIN</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html" title="class in com.google.common.net">HttpHeaders.ReferrerPolicyValues</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html#STRICT_ORIGIN_WHEN_CROSS_ORIGIN">STRICT_ORIGIN_WHEN_CROSS_ORIGIN</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html" title="class in com.google.common.net">HttpHeaders.ReferrerPolicyValues</a></dt>
@@ -18730,6 +18888,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedBytes.html#toInt(byte)">toInt(byte)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedBytes.html" title="class in com.google.common.primitives">UnsignedBytes</a></dt>
 <dd>
 <div class="block">Returns the value of the given byte as an integer, when treated as unsigned.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Optional.html#toJavaUtil()">toJavaUtil()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a></dt>
+<dd>
+<div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Optional.html#toJavaUtil(com.google.common.base.Optional)">toJavaUtil(Optional&lt;T&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a></dt>
+<dd>
+<div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
+ com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#toList()">toList()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
@@ -20789,6 +20956,16 @@ the order they are declared.</div>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
  the given line separator.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/CharSink.html#writeLines(java.util.stream.Stream)">writeLines(Stream&lt;? extends CharSequence&gt;)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a></dt>
+<dd>
+<div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
+ the operating system's default line separator.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/CharSink.html#writeLines(java.util.stream.Stream,java.lang.String)">writeLines(Stream&lt;? extends CharSequence&gt;, String)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a></dt>
+<dd>
+<div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
+ the given line separator.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteArrayDataOutput.html#writeLong(long)">writeLong(long)</a></span> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeLong(long)">writeLong(long)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></dt>
@@ -20999,6 +21176,11 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedLong.html#ZERO">ZERO</a></span> - Static variable in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedLong.html" title="class in com.google.common.primitives">UnsignedLong</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#zip(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiFunction)">zip(Stream&lt;A&gt;, Stream&lt;B&gt;, BiFunction&lt;? super A, ? super B, R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream in which each element is the result of passing the corresponding element of
+ each of <code>streamA</code> and <code>streamB</code> to <code>function</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#ZIP">ZIP</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
 </dl>

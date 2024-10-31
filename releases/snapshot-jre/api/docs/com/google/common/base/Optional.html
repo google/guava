@@ -441,7 +441,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.go
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>21.0</dd>
+<dd>21.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -465,7 +465,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
  expression <code>o -&gt; Optional.toJavaUtil(o)</code> instead.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>21.0</dd>
+<dd>21.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -475,7 +475,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>toJavaUtil</h4>
-<pre class="methodSignature">public&nbsp;java.util.Optional&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.160">toJavaUtil</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Optional&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.161">toJavaUtil</a>()</pre>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.
 
  <p>Unfortunately, the method reference <code>Optional::toJavaUtil</code> will not work, because it
@@ -483,7 +483,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
  expression <code>o -&gt; o.toJavaUtil()</code> instead.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>21.0</dd>
+<dd>21.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
 </li>
 </ul>
@@ -493,7 +493,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>isPresent</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.171">isPresent</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.173">isPresent</a>()</pre>
 <div class="block">Returns <code>true</code> if this holder contains a (non-null) instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> no differences.</div>
@@ -505,7 +505,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.185">get</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.187">get</a>()</pre>
 <div class="block">Returns the contained instance, which must be present. If the instance might be absent, use
  <a href="#or(T)"><code>or(Object)</code></a> or <a href="#orNull()"><code>orNull()</code></a> instead.
 
@@ -526,7 +526,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.223">or</a>&#8203;(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.225">or</a>&#8203;(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the contained instance if it is present; <code>defaultValue</code> otherwise. If no default
  value should be required because the instance is known to be present, use <a href="#get()"><code>get()</code></a>
  instead. For a default value of <code>null</code>, use <a href="#orNull()"><code>orNull()</code></a>.
@@ -569,7 +569,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.232">or</a>&#8203;(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.234">or</a>&#8203;(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
@@ -583,7 +583,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.244">or</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.246">or</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
 <div class="block">Returns the contained instance if it is present; <code>supplier.get()</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
@@ -603,7 +603,7 @@ public static&nbsp;&lt;T&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;<a href="../.
 <li class="blockList">
 <h4>orNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.253">orNull</a>()</pre>
+public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.255">orNull</a>()</pre>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="#get()"><code>get()</code></a> instead.
 
@@ -617,7 +617,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre class="methodSignature">public abstract&nbsp;java.util.Set&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.279">asSet</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;java.util.Set&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.281">asSet</a>()</pre>
 <div class="block">Returns an immutable singleton <code>Set</code> whose only element is the contained instance if it
  is present; an empty immutable <code>Set</code> otherwise.
 
@@ -649,7 +649,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.292">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.294">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
 <div class="block">If the instance is present, it is transformed with the given <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="#absent()"><code>absent()</code></a> is returned.
 
@@ -670,7 +670,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.301">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.303">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are equal to each other or both are absent.
@@ -689,7 +689,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.310">hashCode</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.312">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
@@ -706,7 +706,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public abstract&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.319">toString</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.321">toString</a>()</pre>
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
@@ -723,7 +723,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockListLast">
 <li class="blockList">
 <h4>presentInstances</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.335">presentInstances</a>&#8203;(java.lang.Iterable&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.337">presentInstances</a>&#8203;(java.lang.Iterable&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="#absent()"><code>absent()</code></a>. Iterators are unmodifiable and are
  evaluated lazily.

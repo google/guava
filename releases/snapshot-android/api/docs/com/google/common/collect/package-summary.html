@@ -177,7 +177,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
    <li><a href="ObjectArrays.html" title="class in com.google.common.collect"><code>ObjectArrays</code></a>
    <li><a href="Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>
    <li><a href="Sets.html" title="class in com.google.common.collect"><code>Sets</code></a>
-   <li><code>Streams</code>
+   <li><a href="Streams.html" title="class in com.google.common.collect"><code>Streams</code></a>
    <li><a href="Tables.html" title="class in com.google.common.collect"><code>Tables</code></a>
  </ul>
 
@@ -328,6 +328,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">A <code>SetMultimap</code> whose set of values for a given key are kept sorted; that is, they comprise
  a <code>SortedSet</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
+<td class="colLast">
+<div class="block">An analogue of <code>DoubleFunction</code> also accepting an index.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
+<td class="colLast">
+<div class="block">An analogue of <code>Function</code> also accepting an index.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
+<td class="colLast">
+<div class="block">An analogue of <code>IntFunction</code> also accepting an index.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
+<td class="colLast">
+<div class="block">An analogue of <code>LongFunction</code> also accepting an index.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1007,58 +1031,64 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colFirst" scope="row"><a href="Streams.html" title="class in com.google.common.collect">Streams</a></th>
+<td class="colLast">
+<div class="block">Static utility methods related to <code>Stream</code> instances.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="Tables.html" title="class in com.google.common.collect">Tables</a></th>
 <td class="colLast">
 <div class="block">Provides static methods that involve a <code>Table</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</th>
 <td class="colLast">
 <div class="block">Implementation of <code>Table</code> whose row keys and column keys are ordered by their natural
  ordering or by supplied comparators.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">Implementation of <code>Multimap</code> whose keys and values are ordered by their natural ordering or
  by supplied comparators.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">A multiset which maintains the ordering of its elements, according to either their natural order
  or an explicit <code>Comparator</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K extends java.lang.Comparable,&#8203;V&gt;</th>
 <td class="colLast">
 <div class="block">An implementation of <code>RangeMap</code> based on a <code>TreeMap</code>, supporting all optional
  operations.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C extends java.lang.Comparable&lt;?&gt;&gt;</th>
 <td class="colLast">
 <div class="block">An implementation of <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> backed by a <code>TreeMap</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;</th>
 <td class="colLast">Deprecated.
 <div class="deprecationComment">Use <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instead.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">An iterator that does not support <a href="UnmodifiableIterator.html#remove()"><code>UnmodifiableIterator.remove()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">A list iterator that does not support <a href="UnmodifiableIterator.html#remove()"><code>UnmodifiableIterator.remove()</code></a>, <a href="UnmodifiableListIterator.html#add(E)"><code>UnmodifiableListIterator.add(E)</code></a>, or <a href="UnmodifiableListIterator.html#set(E)"><code>UnmodifiableListIterator.set(E)</code></a>.</div>

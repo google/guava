@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public abstract class <a href="../../../../src-html/com/google/common/hash/HashCode.html#line.36">HashCode</a>
+<pre>public abstract class <a href="../../../../src-html/com/google/common/hash/HashCode.html#line.35">HashCode</a>
 extends java.lang.Object</pre>
 <div class="block">An immutable hash code of arbitrary bit length.</div>
 <dl>
@@ -292,7 +292,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>bits</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.41">bits</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.40">bits</a>()</pre>
 <div class="block">Returns the number of bits in this hash code; a positive multiple of 8.</div>
 </li>
 </ul>
@@ -302,7 +302,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asInt</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.49">asInt</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.48">asInt</a>()</pre>
 <div class="block">Returns the first four bytes of <a href="#asBytes()">this hashcode's bytes</a>, converted to an
  <code>int</code> value in little-endian order.</div>
 <dl>
@@ -317,7 +317,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asLong</h4>
-<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.57">asLong</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.56">asLong</a>()</pre>
 <div class="block">Returns the first eight bytes of <a href="#asBytes()">this hashcode's bytes</a>, converted to a
  <code>long</code> value in little-endian order.</div>
 <dl>
@@ -332,7 +332,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>padToLong</h4>
-<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.66">padToLong</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.65">padToLong</a>()</pre>
 <div class="block">If this hashcode has enough bits, returns <code>asLong()</code>, otherwise returns a <code>long</code>
  value with <code>asBytes()</code> as the least-significant bytes and <code>0x00</code> as the remaining
  most-significant bytes.</div>
@@ -348,7 +348,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asBytes</h4>
-<pre class="methodSignature">public abstract&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.74">asBytes</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.73">asBytes</a>()</pre>
 <div class="block">Returns the value of this hash code as a byte array. The caller may modify the byte array;
  changes to it will <i>not</i> be reflected in this <code>HashCode</code> object or any other arrays
  returned by this method.</div>
@@ -361,7 +361,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>writeBytesTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.85">writeBytesTo</a>&#8203;(byte[]&nbsp;dest,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.84">writeBytesTo</a>&#8203;(byte[]&nbsp;dest,
                         int&nbsp;offset,
                         int&nbsp;maxLength)</pre>
 <div class="block">Copies bytes from this hash code into <code>dest</code>.</div>
@@ -383,7 +383,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromInt</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.116">fromInt</a>&#8203;(int&nbsp;hash)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.115">fromInt</a>&#8203;(int&nbsp;hash)</pre>
 <div class="block">Creates a 32-bit <code>HashCode</code> representation of the given int value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl>
@@ -398,7 +398,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromLong</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.173">fromLong</a>&#8203;(long&nbsp;hash)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.172">fromLong</a>&#8203;(long&nbsp;hash)</pre>
 <div class="block">Creates a 64-bit <code>HashCode</code> representation of the given long value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl>
@@ -413,7 +413,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromBytes</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.239">fromBytes</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.238">fromBytes</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Creates a <code>HashCode</code> from a byte array. The array is defensively copied to preserve the
  immutability contract of <code>HashCode</code>. The array cannot be empty.</div>
 <dl>
@@ -428,7 +428,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromString</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.337">fromString</a>&#8203;(java.lang.String&nbsp;string)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.336">fromString</a>&#8203;(java.lang.String&nbsp;string)</pre>
 <div class="block">Creates a <code>HashCode</code> from a hexadecimal (<code>base 16</code>) encoded string. The string must
  be at least 2 characters long, and contain only valid, lower-cased hexadecimal characters.
 
@@ -447,7 +447,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.371">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.370">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is a <a href="HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> instance with the identical byte
  representation to this hash code.
@@ -466,7 +466,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.385">hashCode</a>()</pre>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.384">hashCode</a>()</pre>
 <div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined (so, for
  example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise
  probably not what you want to use.</div>
@@ -482,7 +482,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.412">toString</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.411">toString</a>()</pre>
 <div class="block">Returns a string containing each byte of <a href="#asBytes()"><code>asBytes()</code></a>, in order, as a two-digit unsigned
  hexadecimal number in lower case.
 

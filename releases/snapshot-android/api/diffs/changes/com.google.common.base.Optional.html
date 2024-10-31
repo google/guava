@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.io.CharSink
+com.google.common.base.Optional
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,9 +18,9 @@ com.google.common.io.CharSink
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/CharSink.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Optional.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.io.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="jdiff_help.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
     </TR>
@@ -30,11 +30,11 @@ com.google.common.io.CharSink
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.io.CharSource.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.MoreObjects.ToStringHelper.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Splitter.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.io.CharSink.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Optional.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,31 +45,38 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.io.<A HREF="../../docs/com/google/common/io/CharSink.html" target="_top"><tt>CharSink</tt></A>
+Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Optional.html" target="_top"><tt>Optional</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Added"></a>
+<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.io.CharSink.writeLines_removed(java.util.stream.Stream<? extends java.lang.CharSequence>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/io/CharSink.html#writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>)" target="_top"><tt>writeLines</tt></A>(<code>Stream&lt;? extends CharSequence&gt;</code>)</nobr>
+  <A NAME="com.google.common.base.Optional.fromJavaUtil_added(java.util.Optional<T>)"></A>
+  <nobr><code>Optional&lt;T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Optional.html#fromJavaUtil(java.util.Optional<T>)" target="_top"><tt>fromJavaUtil</tt></A>(<code>Optional&lt;T&gt;</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Writes the given lines of text to this sink with each line (including the last) terminated with
- the operating system's default line separator.</TD>
+  <TD VALIGN="TOP">Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
+ java.util.Optional}, or {@code null} if the argument is null.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.io.CharSink.writeLines_removed(java.util.stream.Stream<? extends java.lang.CharSequence>, java.lang.String)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/io/CharSink.html#writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>, java.lang.String)" target="_top"><tt>writeLines</tt></A>(<code>Stream&lt;?,</nobr> extends<nobr>,</nobr> CharSequence&gt;<nobr>,</nobr> String<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.base.Optional.toJavaUtil_added()"></A>
+  <nobr><code>Optional&lt;T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Optional.html#toJavaUtil()" target="_top"><tt>toJavaUtil</tt></A>()</nobr>
   </TD>
-  <TD VALIGN="TOP">Writes the given lines of text to this sink with each line (including the last) terminated with
- the given line separator.</TD>
+  <TD VALIGN="TOP">Returns the equivalent {@code java.util.Optional} value to this optional.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Optional.toJavaUtil_added(com.google.common.base.Optional<T>)"></A>
+  <nobr><code>Optional&lt;T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Optional.html#toJavaUtil(com.google.common.base.Optional<T>)" target="_top"><tt>toJavaUtil</tt></A>(<code>Optional&lt;T&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns the equivalent {@code java.util.Optional} value to the given {@code
+ com.google.common.base.Optional}, or {@code null} if the argument is null.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -81,9 +88,9 @@ Class com.google.common.io.<A HREF="../../docs/com/google/common/io/CharSink.htm
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/CharSink.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Optional.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.io.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="jdiff_help.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
     </TR>
@@ -93,11 +100,11 @@ Class com.google.common.io.<A HREF="../../docs/com/google/common/io/CharSink.htm
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.io.CharSource.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.MoreObjects.ToStringHelper.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Splitter.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.io.CharSink.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Optional.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

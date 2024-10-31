@@ -1,3 +1,8 @@
+OK: com.google.common.collect.Streams Class
+OK: com.google.common.collect.Streams.DoubleFunctionWithIndex Interface
+OK: com.google.common.collect.Streams.FunctionWithIndex Interface
+OK: com.google.common.collect.Streams.IntFunctionWithIndex Interface
+OK: com.google.common.collect.Streams.LongFunctionWithIndex Interface
 OK: com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler.Schedule Constructor (java.time.Duration)
 OK: com.google.common.math.StatsAccumulator Method addAll(java.util.stream.DoubleStream)
 OK: com.google.common.math.StatsAccumulator Method addAll(java.util.stream.IntStream)
@@ -18,6 +23,7 @@ OK: com.google.common.primitives.ImmutableLongArray Method copyOf(java.util.stre
 OK: com.google.common.util.concurrent.RateLimiter Method create(double, java.time.Duration)
 OK: com.google.common.collect.Queues Method drain(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)
 OK: com.google.common.collect.Queues Method drainUninterruptibly(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)
+OK: com.google.common.base.Stopwatch Method elapsed()
 OK: com.google.common.collect.Comparators Method emptiesFirst(java.util.Comparator<? super T>)
 OK: com.google.common.collect.Comparators Method emptiesLast(java.util.Comparator<? super T>)
 OK: com.google.common.util.concurrent.Monitor Method enter(java.time.Duration)
@@ -29,11 +35,14 @@ OK: com.google.common.util.concurrent.Monitor Method enterWhenUninterruptibly(co
 OK: com.google.common.primitives.ImmutableDoubleArray Method forEach(java.util.function.DoubleConsumer)
 OK: com.google.common.primitives.ImmutableIntArray Method forEach(java.util.function.IntConsumer)
 OK: com.google.common.primitives.ImmutableLongArray Method forEach(java.util.function.LongConsumer)
+OK: com.google.common.io.CharSource Method forEachLine(java.util.function.Consumer<? super java.lang.String>)
+OK: com.google.common.base.Optional Method fromJavaUtil(java.util.Optional<T>)
 OK: com.google.common.util.concurrent.Futures Method getChecked(java.util.concurrent.Future<V>, java.lang.Class<X>, java.time.Duration)
 OK: com.google.common.util.concurrent.MoreExecutors Method getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor, java.time.Duration)
 OK: com.google.common.util.concurrent.MoreExecutors Method getExitingScheduledExecutorService(java.util.concurrent.ScheduledThreadPoolExecutor, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method getUninterruptibly(java.util.concurrent.Future<V>, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method joinUninterruptibly(java.lang.Thread, java.time.Duration)
+OK: com.google.common.io.CharSource Method lines()
 OK: com.google.common.util.concurrent.AbstractScheduledService.Scheduler Method newFixedDelaySchedule(java.time.Duration, java.time.Duration)
 OK: com.google.common.util.concurrent.AbstractScheduledService.Scheduler Method newFixedRateSchedule(java.time.Duration, java.time.Duration)
 OK: com.google.common.util.concurrent.Monitor Method newGuard(java.util.function.BooleanSupplier)
@@ -51,6 +60,8 @@ OK: com.google.common.primitives.ImmutableIntArray Method stream()
 OK: com.google.common.primitives.ImmutableLongArray Method stream()
 OK: com.google.common.hash.BloomFilter Method toBloomFilter(com.google.common.hash.Funnel<? super T>, long)
 OK: com.google.common.hash.BloomFilter Method toBloomFilter(com.google.common.hash.Funnel<? super T>, long, double)
+OK: com.google.common.base.Optional Method toJavaUtil()
+OK: com.google.common.base.Optional Method toJavaUtil(com.google.common.base.Optional<T>)
 OK: com.google.common.math.Stats Method toStats()
 OK: com.google.common.util.concurrent.RateLimiter Method tryAcquire(int, java.time.Duration)
 OK: com.google.common.util.concurrent.RateLimiter Method tryAcquire(java.time.Duration)
@@ -61,5 +72,7 @@ OK: com.google.common.util.concurrent.Monitor Method waitFor(com.google.common.u
 OK: com.google.common.util.concurrent.Monitor Method waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)
 OK: com.google.common.util.concurrent.FluentFuture Method withTimeout(java.time.Duration, java.util.concurrent.ScheduledExecutorService)
 OK: com.google.common.util.concurrent.Futures Method withTimeout(com.google.common.util.concurrent.ListenableFuture<V>, java.time.Duration, java.util.concurrent.ScheduledExecutorService)
+OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>)
+OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>, java.lang.String)
 OK: com.google.common.net.HttpHeaders Field ALT_SVC
 OK: com.google.common.net.MediaType Field CBOR
