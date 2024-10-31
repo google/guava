@@ -285,6 +285,7 @@
               <annotation>com.google.common.cache.IgnoreJRERequirement</annotation>
               <annotation>com.google.common.collect.IgnoreJRERequirement</annotation>
               <annotation>com.google.common.collect.testing.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.testing.testers.IgnoreJRERequirement</annotation>
               <annotation>com.google.common.hash.IgnoreJRERequirement</annotation>
               <annotation>com.google.common.io.IgnoreJRERequirement</annotation>
               <annotation>com.google.common.math.IgnoreJRERequirement</annotation>
