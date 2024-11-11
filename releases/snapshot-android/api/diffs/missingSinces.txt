@@ -1,3 +1,6 @@
+OK: com.google.common.io.InsecureRecursiveDeleteException Class
+OK: com.google.common.io.MoreFiles Class
+OK: com.google.common.io.RecursiveDeleteOption Class
 OK: com.google.common.collect.Streams Class
 OK: com.google.common.collect.Streams.DoubleFunctionWithIndex Interface
 OK: com.google.common.collect.Streams.FunctionWithIndex Interface

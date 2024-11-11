@@ -972,6 +972,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">The HTTP <code>Allow</code> header field name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/RecursiveDeleteOption.html#ALLOW_INSECURE">ALLOW_INSECURE</a></span> - com.google.common.io.<a href="com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></dt>
+<dd>
+<div class="block">Specifies that the recursive delete should not throw an exception when it can't be guaranteed
+ that it can be done securely, without vulnerability to race conditions (i.e. when the file
+ system does not support <code>SecureDirectoryStream</code>).</div>
+</dd>
 <dt><a href="com/google/common/eventbus/AllowConcurrentEvents.html" title="annotation in com.google.common.eventbus"><span class="typeNameLink">AllowConcurrentEvents</span></a> - Annotation Type in <a href="com/google/common/eventbus/package-summary.html">com.google.common.eventbus</a></dt>
 <dd>
 <div class="block">Marks an event subscriber method as being thread-safe.</div>
@@ -1390,6 +1396,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a new <a href="com/google/common/io/ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> for writing bytes to the given file.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#asByteSink(java.nio.file.Path,java.nio.file.OpenOption...)">asByteSink(Path, OpenOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a view of the given <code>path</code> as a <a href="com/google/common/io/ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/FileBackedOutputStream.html#asByteSource()">asByteSource()</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/FileBackedOutputStream.html" title="class in com.google.common.io">FileBackedOutputStream</a></dt>
 <dd>
 <div class="block">Returns a readable <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been written to this stream.</div>
@@ -1411,6 +1421,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of this char source that encodes chars read from this source
  as bytes using the given <code>Charset</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#asByteSource(java.nio.file.Path,java.nio.file.OpenOption...)">asByteSource(Path, OpenOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a view of the given <code>path</code> as a <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#asCharSink(java.io.File,java.nio.charset.Charset,com.google.common.io.FileWriteMode...)">asCharSink(File, Charset, FileWriteMode...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block">Returns a new <a href="com/google/common/io/CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> for writing character data to the given file using the given
@@ -1420,6 +1434,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a <a href="com/google/common/io/CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> view of this <code>ByteSink</code> that writes characters to this sink as
  bytes encoded with the given <code>charset</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#asCharSink(java.nio.file.Path,java.nio.charset.Charset,java.nio.file.OpenOption...)">asCharSink(Path, Charset, OpenOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a view of the given <code>path</code> as a <a href="com/google/common/io/CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> using the given <code>charset</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#asCharSource(java.io.File,java.nio.charset.Charset)">asCharSource(File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
@@ -1439,6 +1457,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a <a href="com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> view of the resource from which its bytes can be read as
  characters decoded with the given <code>charset</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#asCharSource(java.nio.file.Path,java.nio.charset.Charset,java.nio.file.OpenOption...)">asCharSource(Path, Charset, OpenOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a view of the given <code>path</code> as a <a href="com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> using the given <code>
+ charset</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#ascii()">ascii()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -5314,6 +5337,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Internal method, use <a href="com/google/common/collect/Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 </div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#createParentDirectories(java.nio.file.Path,java.nio.file.attribute.FileAttribute...)">createParentDirectories(Path, FileAttribute&lt;?&gt;...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Creates any necessary but nonexistent parent directories of the specified path.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#createParentDirs(java.io.File)">createParentDirs(File)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block">Creates any necessary but nonexistent parent directories of the specified file.</div>
@@ -5612,6 +5639,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingListeningExecutorService.html#delegate()">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingListeningExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingListeningExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)">deleteDirectoryContents(Path, RecursiveDeleteOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Deletes all files within the directory at the given <code>path</code> <a href="com/google/common/io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)">recursively</a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)">deleteRecursively(Path, RecursiveDeleteOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Deletes the file or directory at the given <code>path</code> recursively.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Traverser.html#depthFirstPostOrder(java.lang.Iterable)">depthFirstPostOrder(Iterable&lt;? extends N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>
@@ -6351,6 +6386,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Determines whether two possibly-null objects are equal.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#equal(java.nio.file.Path,java.nio.file.Path)">equal(Path, Path)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns true if the files located by the given paths exist, are not directories, and contain
+ the same bytes.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#equals()">equals()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
 <div class="block">Returns an equivalence that delegates to <code>Object.equals(java.lang.Object)</code> and <code>Object.hashCode()</code>.</div>
@@ -6977,6 +7017,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Provides utility methods for working with files.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#fileTraverser()">fileTraverser()</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
+<dd>
+<div class="block">Returns a <a href="com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#fileTraverser()">fileTraverser()</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
 <dd>
 <div class="block">Returns a <a href="com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree.</div>
 </dd>
@@ -8478,6 +8522,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#getFileExtension(java.nio.file.Path)">getFileExtension(Path)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
+ the file at the given path, or the empty string if the file has no extension.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingDeque.html#getFirst()">getFirst()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Iterables.html#getFirst(java.lang.Iterable,T)">getFirst(Iterable&lt;? extends T&gt;, T)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
@@ -8568,6 +8617,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/Invokable.html#getName()">getName()</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#getNameWithoutExtension(java.lang.String)">getNameWithoutExtension(String)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
+<dd>
+<div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#getNameWithoutExtension(java.nio.file.Path)">getNameWithoutExtension(Path)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
 <dd>
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path.</div>
 </dd>
@@ -10032,6 +10085,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns a <code>char</code> matcher that matches any character in a given BMP range (both endpoints
  are inclusive).</div>
 </dd>
+<dt><a href="com/google/common/io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io"><span class="typeNameLink">InsecureRecursiveDeleteException</span></a> - Exception in <a href="com/google/common/io/package-summary.html">com.google.common.io</a></dt>
+<dd>
+<div class="block">Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., <code>SecureDirectoryStream</code> is not supported).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/InsecureRecursiveDeleteException.html#%3Cinit%3E(java.lang.String)">InsecureRecursiveDeleteException(String)</a></span> - Constructor for exception com.google.common.io.<a href="com/google/common/io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io">InsecureRecursiveDeleteException</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ElementOrder.html#insertion()">insertion()</a></span> - Static method in class com.google.common.graph.<a href="com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
 <dd>
 <div class="block">Returns an instance which specifies that insertion ordering is guaranteed.</div>
@@ -10297,6 +10358,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a predicate that returns the result of <code>File.isDirectory()</code> on input files.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#isDirectory(java.nio.file.LinkOption...)">isDirectory(LinkOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a predicate that returns the result of <code>Files.isDirectory(Path,
+ LinkOption...)</code> on input paths with the given link options.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#isDone()">isDone()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.html#isDone()">isDone()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
@@ -10540,6 +10606,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Indicates whether this domain name represents a <i>registry suffix</i>, as defined by a subset
  of the Mozilla Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#isRegularFile(java.nio.file.LinkOption...)">isRegularFile(LinkOption...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns a predicate that returns the result of <code>Files.isRegularFile(Path,
+ LinkOption...)</code> on input paths with the given link options.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#isRunning()">isRunning()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -11480,6 +11551,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Submits a blocking task for the given <code>Future</code> to provide <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
  functionality.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#listFiles(java.nio.file.Path)">listFiles(Path)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Returns an immutable list of paths to the files contained in the given directory.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingList.html#listIterator()">listIterator()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect">ForwardingList</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableList.html#listIterator()">listIterator()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a></dt>
@@ -12218,6 +12293,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Factory and utility methods for <code>Executor</code>, <code>ExecutorService</code>,
  and <code>ThreadFactory</code>.</div>
+</dd>
+<dt><a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io"><span class="typeNameLink">MoreFiles</span></a> - Class in <a href="com/google/common/io/package-summary.html">com.google.common.io</a></dt>
+<dd>
+<div class="block">Static utilities for use with <code>Path</code> instances, intended to complement <code>Files</code>.</div>
 </dd>
 <dt><a href="com/google/common/base/MoreObjects.html" title="class in com.google.common.base"><span class="typeNameLink">MoreObjects</span></a> - Class in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
@@ -15413,6 +15492,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheBuilder.html#recordStats()">recordStats()</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a></dt>
 <dd>
 <div class="block">Enable the accumulation of <a href="com/google/common/cache/CacheStats.html" title="class in com.google.common.cache"><code>CacheStats</code></a> during the operation of the cache.</div>
+</dd>
+<dt><a href="com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io"><span class="typeNameLink">RecursiveDeleteOption</span></a> - Enum in <a href="com/google/common/io/package-summary.html">com.google.common.io</a></dt>
+<dd>
+<div class="block">Options for use with recursive delete methods (<a href="com/google/common/io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="com/google/common/io/MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#REFERER">REFERER</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
@@ -19269,6 +19352,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
  the same name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/MoreFiles.html#touch(java.nio.file.Path)">touch(Path)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></dt>
+<dd>
+<div class="block">Like the unix command of the same name, creates an empty file or updates the last modified
+ timestamp of the existing file at the given path to the current system time.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#toUpperCase(char)">toUpperCase(char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
 <div class="block">If the argument is a <a href="com/google/common/base/Ascii.html#isLowerCase(char)">lowercase ASCII character</a>, returns the
@@ -20181,6 +20269,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/RecursiveDeleteOption.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum com.google.common.io.<a href="com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedInteger.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedInteger.html" title="class in com.google.common.primitives">UnsignedInteger</a></dt>
 <dd>
 <div class="block">Returns an <code>UnsignedInteger</code> holding the value of the specified <code>String</code>, parsed as
@@ -20294,6 +20386,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/FileWriteMode.html#values()">values()</a></span> - Static method in enum com.google.common.io.<a href="com/google/common/io/FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/io/RecursiveDeleteOption.html#values()">values()</a></span> - Static method in enum com.google.common.io.<a href="com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>

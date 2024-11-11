@@ -272,12 +272,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colFirst" scope="row"><a href="MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></th>
+<td class="colLast">
+<div class="block">Static utilities for use with <code>Path</code> instances, intended to complement <code>Files</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="PatternFilenameFilter.html" title="class in com.google.common.io">PatternFilenameFilter</a></th>
 <td class="colLast">
 <div class="block">File name filter that only accepts files matching a regular expression.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Resources.html" title="class in com.google.common.io">Resources</a></th>
 <td class="colLast">
 <div class="block">Provides utility methods for working with resources in the classpath.</div>
@@ -300,6 +306,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Modes for opening a file for writing.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></th>
+<td class="colLast">
+<div class="block">Options for use with recursive delete methods (<a href="MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
+</td>
+</tr>
 </tbody>
 </table>
 </li>
@@ -315,6 +327,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colFirst" scope="row"><a href="BaseEncoding.DecodingException.html" title="class in com.google.common.io">BaseEncoding.DecodingException</a></th>
 <td class="colLast">
 <div class="block">Exception indicating invalid base-encoded input encountered while decoding.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="InsecureRecursiveDeleteException.html" title="class in com.google.common.io">InsecureRecursiveDeleteException</a></th>
+<td class="colLast">
+<div class="block">Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., <code>SecureDirectoryStream</code> is not supported).</div>
 </td>
 </tr>
 </tbody>

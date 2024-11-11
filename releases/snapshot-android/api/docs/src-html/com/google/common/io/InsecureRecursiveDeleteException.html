@@ -41,19 +41,21 @@
 <span class="sourceLineNo">032</span><a id="line.32"> * &lt;p&gt;{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method</a>
 <span class="sourceLineNo">033</span><a id="line.33"> * to proceed anyway.</a>
 <span class="sourceLineNo">034</span><a id="line.34"> *</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * @since 21.0 (but only since 33.4.0 in the Android flavor)</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * @since NEXT (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">036</span><a id="line.36"> * @author Colin Decker</a>
 <span class="sourceLineNo">037</span><a id="line.37"> */</a>
 <span class="sourceLineNo">038</span><a id="line.38">@J2ktIncompatible</a>
 <span class="sourceLineNo">039</span><a id="line.39">@GwtIncompatible</a>
 <span class="sourceLineNo">040</span><a id="line.40">@J2ObjCIncompatible // java.nio.file</a>
 <span class="sourceLineNo">041</span><a id="line.41">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">042</span><a id="line.42">public final class InsecureRecursiveDeleteException extends FileSystemException {</a>
-<span class="sourceLineNo">043</span><a id="line.43"></a>
-<span class="sourceLineNo">044</span><a id="line.44">  public InsecureRecursiveDeleteException(@CheckForNull String file) {</a>
-<span class="sourceLineNo">045</span><a id="line.45">    super(file, null, "unable to guarantee security of recursive delete");</a>
-<span class="sourceLineNo">046</span><a id="line.46">  }</a>
-<span class="sourceLineNo">047</span><a id="line.47">}</a>
+<span class="sourceLineNo">042</span><a id="line.42">// Users are unlikely to use this unless they're already interacting with MoreFiles and Path.</a>
+<span class="sourceLineNo">043</span><a id="line.43">@IgnoreJRERequirement</a>
+<span class="sourceLineNo">044</span><a id="line.44">public final class InsecureRecursiveDeleteException extends FileSystemException {</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  public InsecureRecursiveDeleteException(@CheckForNull String file) {</a>
+<span class="sourceLineNo">047</span><a id="line.47">    super(file, null, "unable to guarantee security of recursive delete");</a>
+<span class="sourceLineNo">048</span><a id="line.48">  }</a>
+<span class="sourceLineNo">049</span><a id="line.49">}</a>
 
 
 

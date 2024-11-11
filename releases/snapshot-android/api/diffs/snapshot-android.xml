@@ -48305,6 +48305,29 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.Flushables -->
+  <!-- start class com.google.common.io.InsecureRecursiveDeleteException -->
+  <class name="InsecureRecursiveDeleteException" extends="java.nio.file.FileSystemException"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <constructor name="InsecureRecursiveDeleteException" type="java.lang.String"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </constructor>
+    <doc>
+    <![CDATA[Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., {@link
+ SecureDirectoryStream} is not supported).
+
+ <p>{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method
+ to proceed anyway.
+
+ @since NEXT (but since 21.0 in the JRE flavor)
+ @author Colin Decker]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.io.InsecureRecursiveDeleteException -->
   <!-- start interface com.google.common.io.LineProcessor -->
   <interface name="LineProcessor"    abstract="true"
     static="false" final="false" visibility="public"
@@ -48726,6 +48749,301 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.LittleEndianDataOutputStream -->
+  <!-- start class com.google.common.io.MoreFiles -->
+  <class name="MoreFiles" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="asByteSource" return="com.google.common.io.ByteSource"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="options" type="java.nio.file.OpenOption[]"/>
+      <doc>
+      <![CDATA[Returns a view of the given {@code path} as a {@link ByteSource}.
+
+ <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
+ and may affect the behavior of the returned source and the streams it provides. See {@link
+ StandardOpenOption} for the standard options that may be provided. Providing no options is
+ equivalent to providing the {@link StandardOpenOption#READ READ} option.]]>
+      </doc>
+    </method>
+    <method name="asByteSink" return="com.google.common.io.ByteSink"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="options" type="java.nio.file.OpenOption[]"/>
+      <doc>
+      <![CDATA[Returns a view of the given {@code path} as a {@link ByteSink}.
+
+ <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
+ and may affect the behavior of the returned sink and the streams it provides. See {@link
+ StandardOpenOption} for the standard options that may be provided. Providing no options is
+ equivalent to providing the {@link StandardOpenOption#CREATE CREATE}, {@link
+ StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} and {@link StandardOpenOption#WRITE
+ WRITE} options.]]>
+      </doc>
+    </method>
+    <method name="asCharSource" return="com.google.common.io.CharSource"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="charset" type="java.nio.charset.Charset"/>
+      <param name="options" type="java.nio.file.OpenOption[]"/>
+      <doc>
+      <![CDATA[Returns a view of the given {@code path} as a {@link CharSource} using the given {@code
+ charset}.
+
+ <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
+ and may affect the behavior of the returned source and the streams it provides. See {@link
+ StandardOpenOption} for the standard options that may be provided. Providing no options is
+ equivalent to providing the {@link StandardOpenOption#READ READ} option.]]>
+      </doc>
+    </method>
+    <method name="asCharSink" return="com.google.common.io.CharSink"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="charset" type="java.nio.charset.Charset"/>
+      <param name="options" type="java.nio.file.OpenOption[]"/>
+      <doc>
+      <![CDATA[Returns a view of the given {@code path} as a {@link CharSink} using the given {@code charset}.
+
+ <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
+ and may affect the behavior of the returned sink and the streams it provides. See {@link
+ StandardOpenOption} for the standard options that may be provided. Providing no options is
+ equivalent to providing the {@link StandardOpenOption#CREATE CREATE}, {@link
+ StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} and {@link StandardOpenOption#WRITE
+ WRITE} options.]]>
+      </doc>
+    </method>
+    <method name="listFiles" return="com.google.common.collect.ImmutableList&lt;java.nio.file.Path&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="dir" type="java.nio.file.Path"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Returns an immutable list of paths to the files contained in the given directory.
+
+ @throws NoSuchFileException if the file does not exist <i>(optional specific exception)</i>
+ @throws NotDirectoryException if the file could not be opened because it is not a directory
+     <i>(optional specific exception)</i>
+ @throws IOException if an I/O error occurs]]>
+      </doc>
+    </method>
+    <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.nio.file.Path&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
+ starts from a {@link Path} and will return all files and directories it encounters.
+
+ <p>The returned traverser attempts to avoid following symbolic links to directories. However,
+ the traverser cannot guarantee that it will not follow symbolic links to directories as it is
+ possible for a directory to be replaced with a symbolic link between checking if the file is a
+ directory and actually reading the contents of that directory.
+
+ <p>If the {@link Path} passed to one of the traversal methods does not exist or is not a
+ directory, no exception will be thrown and the returned {@link Iterable} will contain a single
+ element: that path.
+
+ <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
+ created by this traverser if an {@link IOException} is thrown by a call to {@link
+ #listFiles(Path)}.
+
+ <p>Example: {@code MoreFiles.fileTraverser().depthFirstPreOrder(Paths.get("/"))} may return the
+ following paths: {@code ["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "/home/alice",
+ ...]}
+
+ @since 23.5]]>
+      </doc>
+    </method>
+    <method name="isDirectory" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="options" type="java.nio.file.LinkOption[]"/>
+      <doc>
+      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,
+ LinkOption...)} on input paths with the given link options.]]>
+      </doc>
+    </method>
+    <method name="isRegularFile" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="options" type="java.nio.file.LinkOption[]"/>
+      <doc>
+      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,
+ LinkOption...)} on input paths with the given link options.]]>
+      </doc>
+    </method>
+    <method name="equal" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path1" type="java.nio.file.Path"/>
+      <param name="path2" type="java.nio.file.Path"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Returns true if the files located by the given paths exist, are not directories, and contain
+ the same bytes.
+
+ @throws IOException if an I/O error occurs
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="touch"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Like the unix command of the same name, creates an empty file or updates the last modified
+ timestamp of the existing file at the given path to the current system time.]]>
+      </doc>
+    </method>
+    <method name="createParentDirectories"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="attrs" type="java.nio.file.attribute.FileAttribute[]"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Creates any necessary but nonexistent parent directories of the specified path. Note that if
+ this operation fails, it may have succeeded in creating some (but not all) of the necessary
+ parent directories. The parent directory is created with the given {@code attrs}.
+
+ @throws IOException if an I/O error occurs, or if any necessary but nonexistent parent
+     directories of the specified file could not be created.]]>
+      </doc>
+    </method>
+    <method name="getFileExtension" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <doc>
+      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
+ the file at the given path, or the empty string if the file has no extension. The result does
+ not include the '{@code .}'.
+
+ <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+ name as determined by {@link Path#getFileName}. It does not account for any filesystem-specific
+ behavior that the {@link Path} API does not already account for. For example, on NTFS it will
+ report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+ will drop the {@code ":.txt"} part of the name when the file is actually created on the
+ filesystem due to NTFS's <a
+ href="https://learn.microsoft.com/en-us/archive/blogs/askcore/alternate-data-streams-in-ntfs">Alternate
+ Data Streams</a>.]]>
+      </doc>
+    </method>
+    <method name="getNameWithoutExtension" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <doc>
+      <![CDATA[Returns the file name without its <a
+ href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
+ similar to the {@code basename} unix command. The result does not include the '{@code .}'.]]>
+      </doc>
+    </method>
+    <method name="deleteRecursively"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="options" type="com.google.common.io.RecursiveDeleteOption[]"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Deletes the file or directory at the given {@code path} recursively. Deletes symbolic links,
+ not their targets (subject to the caveat below).
+
+ <p>If an I/O exception occurs attempting to read, open or delete any file under the given
+ directory, this method skips that file and continues. All such exceptions are collected and,
+ after attempting to delete all files, an {@code IOException} is thrown containing those
+ exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
+
+ <h2>Warning: Security of recursive deletes</h2>
+
+ <p>On a file system that supports symbolic links and does <i>not</i> support {@link
+ SecureDirectoryStream}, it is possible for a recursive delete to delete files and directories
+ that are <i>outside</i> the directory being deleted. This can happen if, after checking that a
+ file is a directory (and not a symbolic link), that directory is replaced by a symbolic link to
+ an outside directory before the call that opens the directory to read its entries.
+
+ <p>By default, this method throws {@link InsecureRecursiveDeleteException} if it can't
+ guarantee the security of recursive deletes. If you wish to allow the recursive deletes anyway,
+ pass {@link RecursiveDeleteOption#ALLOW_INSECURE} to this method to override that behavior.
+
+ @throws NoSuchFileException if {@code path} does not exist <i>(optional specific exception)</i>
+ @throws InsecureRecursiveDeleteException if the security of recursive deletes can't be
+     guaranteed for the file system and {@link RecursiveDeleteOption#ALLOW_INSECURE} was not
+     specified
+ @throws IOException if {@code path} or any file in the subtree rooted at it can't be deleted
+     for any reason]]>
+      </doc>
+    </method>
+    <method name="deleteDirectoryContents"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="path" type="java.nio.file.Path"/>
+      <param name="options" type="com.google.common.io.RecursiveDeleteOption[]"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Deletes all files within the directory at the given {@code path} {@linkplain #deleteRecursively
+ recursively}. Does not delete the directory itself. Deletes symbolic links, not their targets
+ (subject to the caveat below). If {@code path} itself is a symbolic link to a directory, that
+ link is followed and the contents of the directory it targets are deleted.
+
+ <p>If an I/O exception occurs attempting to read, open or delete any file under the given
+ directory, this method skips that file and continues. All such exceptions are collected and,
+ after attempting to delete all files, an {@code IOException} is thrown containing those
+ exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
+
+ <h2>Warning: Security of recursive deletes</h2>
+
+ <p>On a file system that supports symbolic links and does <i>not</i> support {@link
+ SecureDirectoryStream}, it is possible for a recursive delete to delete files and directories
+ that are <i>outside</i> the directory being deleted. This can happen if, after checking that a
+ file is a directory (and not a symbolic link), that directory is replaced by a symbolic link to
+ an outside directory before the call that opens the directory to read its entries.
+
+ <p>By default, this method throws {@link InsecureRecursiveDeleteException} if it can't
+ guarantee the security of recursive deletes. If you wish to allow the recursive deletes anyway,
+ pass {@link RecursiveDeleteOption#ALLOW_INSECURE} to this method to override that behavior.
+
+ @throws NoSuchFileException if {@code path} does not exist <i>(optional specific exception)</i>
+ @throws NotDirectoryException if the file at {@code path} is not a directory <i>(optional
+     specific exception)</i>
+ @throws InsecureRecursiveDeleteException if the security of recursive deletes can't be
+     guaranteed for the file system and {@link RecursiveDeleteOption#ALLOW_INSECURE} was not
+     specified
+ @throws IOException if one or more files can't be deleted for any reason]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
+
+ <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
+ now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
+ class if a sibling method from {@code Files} appears to be missing from this class.
+
+ @since NEXT (but since 21.0 in the JRE flavor)
+ @author Colin Decker]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.io.MoreFiles -->
   <!-- start class com.google.common.io.PatternFilenameFilter -->
   <class name="PatternFilenameFilter" extends="java.lang.Object"
     abstract="false"
@@ -48767,6 +49085,31 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.PatternFilenameFilter -->
+  <!-- start class com.google.common.io.RecursiveDeleteOption -->
+  <class name="RecursiveDeleteOption" extends="java.lang.Enum&lt;com.google.common.io.RecursiveDeleteOption&gt;"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="values" return="com.google.common.io.RecursiveDeleteOption[]"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="valueOf" return="com.google.common.io.RecursiveDeleteOption"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="name" type="java.lang.String"/>
+    </method>
+    <doc>
+    <![CDATA[Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
+ MoreFiles#deleteDirectoryContents}).
+
+ @since NEXT (but since 21.0 in the JRE flavor)
+ @author Colin Decker]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.io.RecursiveDeleteOption -->
   <!-- start class com.google.common.io.Resources -->
   <class name="Resources" extends="java.lang.Object"
     abstract="false"

@@ -911,20 +911,29 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io">InsecureRecursiveDeleteException</a></span></code></th>
+<td class="colLast">
+<div class="block">Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., <code>SecureDirectoryStream</code> is not supported).</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</span></code></th>
 <td class="colLast">
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineReader.html" title="class in com.google.common.io">LineReader</a></span></code></th>
 <td class="colLast">
 <div class="block">A class for reading lines of text.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataInputStream.html" title="class in com.google.common.io">LittleEndianDataInputStream</a></span></code></th>
 <td class="colLast">
@@ -932,12 +941,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></span></code></th>
 <td class="colLast">
 <div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
  char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/MoreFiles.html" title="class in com.google.common.io">MoreFiles</a></span></code></th>
+<td class="colLast">
+<div class="block">Static utilities for use with <code>Path</code> instances, intended to complement <code>Files</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -948,6 +964,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a></span></code></th>
+<td class="colLast">
+<div class="block">Options for use with recursive delete methods (<a href="../../io/MoreFiles.html#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="../../io/MoreFiles.html#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Resources.html" title="class in com.google.common.io">Resources</a></span></code></th>
 <td class="colLast">

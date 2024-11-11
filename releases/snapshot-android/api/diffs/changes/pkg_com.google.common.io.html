@@ -37,7 +37,7 @@ com.google.common.io
   &nbsp;<A HREF="pkg_com.google.common.io.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 REMOVED&nbsp;|&nbsp;
-ADDED&nbsp;|&nbsp;
+<a href="#Added">ADDED</a>&nbsp;|&nbsp;
 <a href="#Changed">CHANGED</a>
   </FONT></TD>
 </TR>
@@ -47,6 +47,37 @@ ADDED&nbsp;|&nbsp;
 <H2>
 Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><tt>com.google.common.io</tt></A>
 </H2>
+<p>
+<a NAME="Added"></a>
+<TABLE summary="Added Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="InsecureRecursiveDeleteException"></A>
+  <nobr><A HREF="../../docs/com/google/common/io/InsecureRecursiveDeleteException.html" target="_top"><tt>InsecureRecursiveDeleteException</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Exception indicating that a recursive delete can't be performed because the file system does not
+ have the support necessary to guarantee that it is not vulnerable to race conditions that would
+ allow it to delete files and directories outside of the directory being deleted (i.e., <A HREF="../../docs/com/google/common/io/InsecureRecursiveDeleteException/SecureDirectoryStream.html"><TT>SecureDirectoryStream</TT></A> is not supported).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="MoreFiles"></A>
+  <nobr><A HREF="../../docs/com/google/common/io/MoreFiles.html" target="_top"><tt>MoreFiles</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utilities for use with <A HREF="../../docs/com/google/common/io/MoreFiles/Path.html"><TT>Path</TT></A> instances, intended to complement <A HREF="../../docs/com/google/common/io/MoreFiles/Files.html"><TT>Files</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="RecursiveDeleteOption"></A>
+  <nobr><A HREF="../../docs/com/google/common/io/RecursiveDeleteOption.html" target="_top"><tt>RecursiveDeleteOption</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Options for use with recursive delete methods (<A HREF="../../docs/com/google/common/io/RecursiveDeleteOption/MoreFiles.html#deleteRecursively"><TT>MoreFiles.deleteRecursively</TT></A> and <A HREF="../../docs/com/google/common/io/RecursiveDeleteOption/MoreFiles.html#deleteDirectoryContents"><TT>MoreFiles.deleteDirectoryContents</TT></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;
 <p>
 <a NAME="Changed"></a>
 <TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
