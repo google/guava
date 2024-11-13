@@ -54610,7 +54610,9 @@
  @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
      "192.168.0.1"} or {@code "2001:db8::1"} or with a scope ID, e.g. {@code "2001:db8::1%eth0"}
  @return {@link InetAddress} representing the argument
- @throws IllegalArgumentException if the argument is not a valid IP string literal]]>
+ @throws IllegalArgumentException if the argument is not a valid IP string literal or if the
+     address has a scope ID that fails validation against the interfaces on the machine (as
+     required by Java's {@link InetAddress})]]>
       </doc>
     </method>
     <method name="isInetAddress" return="boolean"
@@ -54626,6 +54628,10 @@
  characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like {@code
  CharMatcher.ascii().matchesAllOf(ipString)}.
+
+ <p>Note that if this method returns {@code true}, a call to {@link #forString(String)} can
+ still throw if the address has a scope ID that fails validation against the interfaces on the
+ machine.
 
  @param ipString {@code String} to evaluated as an IP string literal
  @return {@code true} if the argument is a valid IP string literal]]>
@@ -54702,8 +54708,9 @@
  @param hostAddr an RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
  @return an InetAddress representing the address in {@code hostAddr}
  @throws IllegalArgumentException if {@code hostAddr} is not a valid IPv4 address, or IPv6
-     address surrounded by square brackets, or if the address has a scope id that fails
-     validation against interfaces on the machine]]>
+     address surrounded by square brackets, or if the address has a scope ID that fails
+     validation against the interfaces on the machine (as required by Java's {@link
+     InetAddress})]]>
       </doc>
     </method>
     <method name="isUriInetAddress" return="boolean"
@@ -54721,7 +54728,8 @@
  CharMatcher.ascii().matchesAllOf(ipString)}.
 
  <p>Note that if this method returns {@code true}, a call to {@link #forUriString(String)} can
- throw if the address has a scope id fails validation against interfaces on the machine.
+ still throw if the address has a scope ID that fails validation against the interfaces on the
+ machine.
 
  @param ipString {@code String} to evaluated as an IP URI host string literal
  @return {@code true} if the argument is a valid IP URI host]]>
