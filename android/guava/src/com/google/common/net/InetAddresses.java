@@ -151,7 +151,9 @@ public final class InetAddresses {
    * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
    *     "192.168.0.1"} or {@code "2001:db8::1"} or with a scope ID, e.g. {@code "2001:db8::1%eth0"}
    * @return {@link InetAddress} representing the argument
-   * @throws IllegalArgumentException if the argument is not a valid IP string literal
+   * @throws IllegalArgumentException if the argument is not a valid IP string literal or if the
+   *     address has a scope ID that fails validation against the interfaces on the machine (as
+   *     required by Java's {@link InetAddress})
    */
   @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static InetAddress forString(String ipString) {
@@ -174,6 +176,10 @@ public final class InetAddresses {
    * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
    * want to accept ASCII digits only, you can use something like {@code
    * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
+   * <p>Note that if this method returns {@code true}, a call to {@link #forString(String)} can
+   * still throw if the address has a scope ID that fails validation against the interfaces on the
+   * machine.
    *
    * @param ipString {@code String} to evaluated as an IP string literal
    * @return {@code true} if the argument is a valid IP string literal
@@ -481,8 +487,8 @@ public final class InetAddresses {
   }
 
   private static String scopeWithDelimiter(Inet6Address ip) {
-    // getHostAddress on android sometimes maps the scope id to an invalid interface name; if the
-    // mapped interface isn't present, fallback to use the scope id (which has no validation against
+    // getHostAddress on android sometimes maps the scope ID to an invalid interface name; if the
+    // mapped interface isn't present, fallback to use the scope ID (which has no validation against
     // present interfaces)
     NetworkInterface scopedInterface = ip.getScopedInterface();
     if (scopedInterface != null) {
@@ -601,8 +607,9 @@ public final class InetAddresses {
    * @param hostAddr an RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
    * @return an InetAddress representing the address in {@code hostAddr}
    * @throws IllegalArgumentException if {@code hostAddr} is not a valid IPv4 address, or IPv6
-   *     address surrounded by square brackets, or if the address has a scope id that fails
-   *     validation against interfaces on the machine
+   *     address surrounded by square brackets, or if the address has a scope ID that fails
+   *     validation against the interfaces on the machine (as required by Java's {@link
+   *     InetAddress})
    */
   public static InetAddress forUriString(String hostAddr) {
     InetAddress addr = forUriStringOrNull(hostAddr, /* parseScope= */ true);
@@ -648,7 +655,8 @@ public final class InetAddresses {
    * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * <p>Note that if this method returns {@code true}, a call to {@link #forUriString(String)} can
-   * throw if the address has a scope id fails validation against interfaces on the machine.
+   * still throw if the address has a scope ID that fails validation against the interfaces on the
+   * machine.
    *
    * @param ipString {@code String} to evaluated as an IP URI host string literal
    * @return {@code true} if the argument is a valid IP URI host
