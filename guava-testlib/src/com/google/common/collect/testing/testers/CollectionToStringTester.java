@@ -37,7 +37,8 @@ import org.junit.Ignore;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionToStringTester<E> extends AbstractCollectionTester<E> {
   public void testToString_minimal() {
