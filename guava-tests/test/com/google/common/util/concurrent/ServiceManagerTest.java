@@ -448,7 +448,8 @@ public class ServiceManagerTest extends TestCase {
     assertThat(manager.servicesByState().get(State.FAILED)).hasSize(2);
     IllegalStateException e =
         assertThrows(IllegalStateException.class, () -> manager.awaitHealthy());
-    assertThat(e.getMessage())
+    assertThat(e)
+        .hasMessageThat()
         .contains(
             "Expected to be healthy after starting. The following services are not " + "running:");
 
@@ -614,7 +615,7 @@ public class ServiceManagerTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> new ServiceManager(Arrays.asList(service1, service2)));
-    assertThat(expected.getMessage()).contains("started transitioning asynchronously");
+    assertThat(expected).hasMessageThat().contains("started transitioning asynchronously");
   }
 
   /**

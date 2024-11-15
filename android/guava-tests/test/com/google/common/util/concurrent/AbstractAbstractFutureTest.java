@@ -447,7 +447,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
       getDone(future);
       fail();
     } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameInstanceAs(expectedException);
+      assertThat(e).hasCauseThat().isSameInstanceAs(expectedException);
     }
 
     try {

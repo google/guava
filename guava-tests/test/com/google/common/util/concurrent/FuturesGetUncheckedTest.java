@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.CHECKED_EXCEPTION;
@@ -65,7 +66,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     UncheckedExecutionException expected =
         assertThrows(
             UncheckedExecutionException.class, () -> getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION));
-    assertEquals(CHECKED_EXCEPTION, expected.getCause());
+    assertThat(expected).hasCauseThat().isEqualTo(CHECKED_EXCEPTION);
   }
 
   public void testGetUnchecked_executionExceptionUnchecked() {
@@ -73,20 +74,20 @@ public class FuturesGetUncheckedTest extends TestCase {
         assertThrows(
             UncheckedExecutionException.class,
             () -> getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION));
-    assertEquals(UNCHECKED_EXCEPTION, expected.getCause());
+    assertThat(expected).hasCauseThat().isEqualTo(UNCHECKED_EXCEPTION);
   }
 
   public void testGetUnchecked_executionExceptionError() {
     ExecutionError expected =
         assertThrows(ExecutionError.class, () -> getUnchecked(FAILED_FUTURE_ERROR));
-    assertEquals(ERROR, expected.getCause());
+    assertThat(expected).hasCauseThat().isEqualTo(ERROR);
   }
 
   public void testGetUnchecked_executionExceptionOtherThrowable() {
     UncheckedExecutionException expected =
         assertThrows(
             UncheckedExecutionException.class, () -> getUnchecked(FAILED_FUTURE_OTHER_THROWABLE));
-    assertEquals(OTHER_THROWABLE, expected.getCause());
+    assertThat(expected).hasCauseThat().isEqualTo(OTHER_THROWABLE);
   }
 
   public void testGetUnchecked_runtimeException() {

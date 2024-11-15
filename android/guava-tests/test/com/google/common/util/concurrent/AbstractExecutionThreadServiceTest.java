@@ -298,7 +298,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     TimeoutException e =
         assertThrows(
             TimeoutException.class, () -> service.startAsync().awaitRunning(1, MILLISECONDS));
-    assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
+    assertThat(e).hasMessageThat().contains(Service.State.STARTING.toString());
   }
 
   private class TimeoutOnStartUp extends AbstractExecutionThreadService {

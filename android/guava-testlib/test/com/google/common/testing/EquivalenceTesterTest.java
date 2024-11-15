@@ -101,7 +101,8 @@ public class EquivalenceTesterTest extends TestCase {
     try {
       tester.addEquivalenceGroup(group1Item1, group1Item2).test();
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage())
+      assertThat(expected)
+          .hasMessageThat()
           .contains(
               "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
                   + "TestObject{group=1, item=1} [group 1, item 1]");
@@ -131,7 +132,8 @@ public class EquivalenceTesterTest extends TestCase {
     try {
       tester.addEquivalenceGroup(group1Item1, group1Item2, group1Item3).test();
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage())
+      assertThat(expected)
+          .hasMessageThat()
           .contains(
               "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
                   + "TestObject{group=1, item=3} [group 1, item 3]");
@@ -155,7 +157,8 @@ public class EquivalenceTesterTest extends TestCase {
     try {
       tester.addEquivalenceGroup(group1Item1).addEquivalenceGroup(group2Item1).test();
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage())
+      assertThat(expected)
+          .hasMessageThat()
           .contains(
               "TestObject{group=1, item=1} [group 1, item 1] must not be equivalent to "
                   + "TestObject{group=2, item=1} [group 2, item 1]");

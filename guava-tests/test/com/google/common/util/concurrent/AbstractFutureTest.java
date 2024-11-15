@@ -262,8 +262,8 @@ public class AbstractFutureTest extends TestCase {
         .matches(
             "[^\\[]+\\[status=PENDING, info=\\[cause=\\[Because this test isn't done\\]\\]\\]");
     TimeoutException e = assertThrows(TimeoutException.class, () -> testFuture.get(1, NANOSECONDS));
-    assertThat(e.getMessage()).contains("1 nanoseconds");
-    assertThat(e.getMessage()).contains("Because this test isn't done");
+    assertThat(e).hasMessageThat().contains("1 nanoseconds");
+    assertThat(e).hasMessageThat().contains("Because this test isn't done");
   }
 
   public void testToString_completesDuringToString() throws Exception {

@@ -468,7 +468,7 @@ public class GraphsTest {
     // By default, parallel edges are not allowed.
     IllegalArgumentException e =
         assertThrows(IllegalArgumentException.class, () -> directedGraph.addEdge(N1, N2, E12_A));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
 
     // By default, self-loop edges are not allowed.
     e = assertThrows(IllegalArgumentException.class, () -> directedGraph.addEdge(N1, N1, E11));
@@ -487,9 +487,9 @@ public class GraphsTest {
     // By default, parallel edges are not allowed.
     IllegalArgumentException e =
         assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N1, N2, E12_A));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
     e = assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N2, N1, E21));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
 
     // By default, self-loop edges are not allowed.
     e = assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N1, N1, E11));
@@ -540,7 +540,7 @@ public class GraphsTest {
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class, () -> NetworkBuilder.directed().expectedNodeCount(-1));
-    assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
+    assertThat(e).hasMessageThat().contains(ERROR_NEGATIVE_COUNT);
   }
 
   @Test
@@ -566,7 +566,7 @@ public class GraphsTest {
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class, () -> NetworkBuilder.directed().expectedEdgeCount(-1));
-    assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
+    assertThat(e).hasMessageThat().contains(ERROR_NEGATIVE_COUNT);
   }
 
   private static <N> void checkTransitiveClosure(Graph<N> originalGraph, Graph<N> expectedClosure) {

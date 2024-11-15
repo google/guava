@@ -195,8 +195,8 @@ public class FuturesTest extends TestCase {
     assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
       assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
 
-      // See AbstractFutureCancellationCauseTest for how to set causes.
-      assertThat(expected.getCause()).isNull();
+    // See AbstractFutureCancellationCauseTest for how to set causes.
+    assertThat(expected).hasCauseThat().isNull();
   }
 
   @J2ktIncompatible
@@ -330,7 +330,7 @@ public class FuturesTest extends TestCase {
 
     ListenableFuture<Object> output = transform(input, identity(), directExecutor());
     ExecutionException expected = assertThrows(ExecutionException.class, () -> getDone(output));
-    assertThat(expected.getCause()).isInstanceOf(SomeUncheckedException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeUncheckedException.class);
   }
 
   public void testTransform_getThrowsError() throws Exception {
@@ -338,7 +338,7 @@ public class FuturesTest extends TestCase {
 
     ListenableFuture<Object> output = transform(input, identity(), directExecutor());
     ExecutionException expected = assertThrows(ExecutionException.class, () -> getDone(output));
-    assertThat(expected.getCause()).isInstanceOf(SomeError.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeError.class);
   }
 
   public void testTransform_listenerThrowsError() throws Exception {
@@ -546,7 +546,7 @@ public class FuturesTest extends TestCase {
 
     ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
     ExecutionException expected = assertThrows(ExecutionException.class, () -> getDone(output));
-    assertThat(expected.getCause()).isInstanceOf(SomeUncheckedException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeUncheckedException.class);
   }
 
   public void testTransformAsync_getThrowsError() throws Exception {
@@ -554,7 +554,7 @@ public class FuturesTest extends TestCase {
 
     ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
     ExecutionException expected = assertThrows(ExecutionException.class, () -> getDone(output));
-    assertThat(expected.getCause()).isInstanceOf(SomeError.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeError.class);
   }
 
   public void testTransformAsync_listenerThrowsError() throws Exception {
@@ -579,7 +579,7 @@ public class FuturesTest extends TestCase {
     input.set(new Foo());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(transformed));
-    assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
   public void testTransformAsync_rejectionPropagatesToOutput() throws Exception {
@@ -589,7 +589,7 @@ public class FuturesTest extends TestCase {
     input.set(new Foo());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(transformed));
-    assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
   /** Tests that the function is invoked only once, even if it throws an exception. */
@@ -1312,7 +1312,7 @@ public class FuturesTest extends TestCase {
         catching(originalFuture, IOException.class, fallback, directExecutor());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(faultTolerantFuture));
-    assertThat(expected.getCause()).isInstanceOf(RuntimeException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
   @J2ktIncompatible
@@ -1441,7 +1441,7 @@ public class FuturesTest extends TestCase {
         catchingAsync(originalFuture, IOException.class, fallback, directExecutor());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(faultTolerantFuture));
-    assertThat(expected.getCause()).isInstanceOf(RuntimeException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
   @J2ktIncompatible
@@ -1552,7 +1552,7 @@ public class FuturesTest extends TestCase {
     input.setException(new Exception());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(transformed));
-    assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
   public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
@@ -1566,7 +1566,7 @@ public class FuturesTest extends TestCase {
     input.setException(new Exception());
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> getDone(transformed));
-    assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
   private <X extends Throwable> Function<X, Integer> functionReturningOne() {
@@ -2239,7 +2239,7 @@ public class FuturesTest extends TestCase {
         assertThrows(
             ExecutionException.class,
             () -> getDone(allAsList(immediateFailedFuture(new MyException()))));
-    assertThat(expected.getCause()).isInstanceOf(MyException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     assertEquals(
         "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
   }
@@ -2250,7 +2250,7 @@ public class FuturesTest extends TestCase {
         assertThrows(
             ExecutionException.class,
             () -> getDone(allAsList(immediateFailedFuture(new SomeError()))));
-    assertThat(expected.getCause()).isInstanceOf(SomeError.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(SomeError.class);
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertThat(logged).hasSize(1); // errors are always logged
     assertThat(logged.get(0).getThrown()).isInstanceOf(SomeError.class);
@@ -2266,7 +2266,7 @@ public class FuturesTest extends TestCase {
                     allAsList(
                         immediateFailedFuture(new MyException()),
                         immediateFailedFuture(new MyException()))));
-    assertThat(expected.getCause()).isInstanceOf(MyException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertThat(logged).hasSize(1); // the second failure is logged
       assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
@@ -2301,7 +2301,7 @@ public class FuturesTest extends TestCase {
                   allAsList(
                       immediateFailedFuture(sameInstance), immediateFailedFuture(sameInstance)));
             });
-    assertThat(expected.getCause()).isInstanceOf(MyException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     assertEquals(
         "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
   }
@@ -2328,7 +2328,7 @@ public class FuturesTest extends TestCase {
     firstFuture.setException(sameInstance);
 
     ExecutionException expected = assertThrows(ExecutionException.class, () -> getDone(bulkFuture));
-    assertThat(expected.getCause()).isInstanceOf(MyException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     assertThat(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
   }
 
@@ -2377,7 +2377,7 @@ public class FuturesTest extends TestCase {
               getDone(
                   allAsList(immediateFailedFuture(exception1), immediateFailedFuture(exception3)));
             });
-    assertThat(expected.getCause()).isInstanceOf(MyException.class);
+    assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     assertEquals(
         "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
   }

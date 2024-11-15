@@ -587,16 +587,16 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N1, N2, E11));
-    assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     e =
         assertThrows(
             IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N2, N2, E11));
-    assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     addEdge(N1, N2, E12);
     e =
         assertThrows(
             IllegalArgumentException.class, () -> networkAsMutableNetwork.addEdge(N1, N1, E12));
-    assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
   }
 
   @Test
@@ -610,7 +610,7 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
         assertThrows(
             IllegalArgumentException.class,
             () -> networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
   }
 
   @Test

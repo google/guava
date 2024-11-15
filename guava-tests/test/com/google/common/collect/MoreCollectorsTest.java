@@ -51,7 +51,7 @@ public class MoreCollectorsTest extends TestCase {
   public void testToOptionalMultiple() {
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> Stream.of(1, 2).collect(toOptional()));
-    assertThat(expected.getMessage()).contains("1, 2");
+    assertThat(expected).hasMessageThat().contains("1, 2");
   }
 
   public void testToOptionalMultipleWithNull() {
@@ -63,7 +63,7 @@ public class MoreCollectorsTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> Stream.of(1, 2, 3, 4, 5, 6).collect(toOptional()));
-    assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
+    assertThat(expected).hasMessageThat().contains("1, 2, 3, 4, 5, ...");
   }
 
   public void testOnlyElement() {
@@ -81,7 +81,7 @@ public class MoreCollectorsTest extends TestCase {
   public void testOnlyElementMultiple() {
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> Stream.of(1, 2).collect(onlyElement()));
-    assertThat(expected.getMessage()).contains("1, 2");
+    assertThat(expected).hasMessageThat().contains("1, 2");
   }
 
   public void testOnlyElementMany() {
@@ -89,6 +89,6 @@ public class MoreCollectorsTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> Stream.of(1, 2, 3, 4, 5, 6).collect(onlyElement()));
-    assertThat(expected.getMessage()).contains("1, 2, 3, 4, 5, ...");
+    assertThat(expected).hasMessageThat().contains("1, 2, 3, 4, 5, ...");
   }
 }

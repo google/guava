@@ -321,8 +321,8 @@ public class NullPointerTesterTest extends TestCase {
     try {
       new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
     } catch (AssertionError expected) {
-      assertThat(expected.getMessage()).contains("index 0");
-      assertThat(expected.getMessage()).contains("[null]");
+      assertThat(expected).hasMessageThat().contains("index 0");
+      assertThat(expected).hasMessageThat().contains("[null]");
       foundProblem = true;
     }
     assertTrue("Should report error when different exception is thrown", foundProblem);
@@ -334,8 +334,8 @@ public class NullPointerTesterTest extends TestCase {
     try {
       new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
     } catch (AssertionError expected) {
-      assertThat(expected.getMessage()).contains("index 0");
-      assertThat(expected.getMessage()).contains("[null]");
+      assertThat(expected).hasMessageThat().contains("index 0");
+      assertThat(expected).hasMessageThat().contains("[null]");
       foundProblem = true;
     }
     assertTrue("Should report error when no exception is thrown", foundProblem);
@@ -1435,7 +1435,7 @@ public class NullPointerTesterTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> new NullPointerTester().testAllPublicConstructors(Inner.class));
-    assertThat(expected.getMessage()).contains("inner class");
+    assertThat(expected).hasMessageThat().contains("inner class");
   }
 
   private static String rootLocaleFormat(String format, Object... args) {

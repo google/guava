@@ -271,7 +271,7 @@ public class ImmutableBiMapTest extends TestCase {
 
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> builder.build());
-    assertThat(expected.getMessage()).contains("one");
+    assertThat(expected).hasMessageThat().contains("one");
   }
 
   public void testOf() {
@@ -481,7 +481,7 @@ public class ImmutableBiMapTest extends TestCase {
   public void testOfWithDuplicateKey() {
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> ImmutableBiMap.of("one", 1, "one", 1));
-    assertThat(expected.getMessage()).contains("one");
+    assertThat(expected).hasMessageThat().contains("one");
   }
 
   public void testOfEntries() {
@@ -569,7 +569,7 @@ public class ImmutableBiMapTest extends TestCase {
 
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> ImmutableBiMap.copyOf(map));
-    assertThat(expected.getMessage()).containsMatch("1|2");
+    assertThat(expected).hasMessageThat().containsMatch("1|2");
   }
 
   public void testToImmutableBiMap() {

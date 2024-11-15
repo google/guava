@@ -960,7 +960,7 @@ public class MapsTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1)));
-    assertThat(expected.getMessage()).contains("Multimaps.index");
+    assertThat(expected).hasMessageThat().contains("Multimaps.index");
   }
 
   /** Null values are not allowed. */
