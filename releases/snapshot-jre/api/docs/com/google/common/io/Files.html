@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.io.Files</li>
@@ -134,11 +134,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../src-html/com/google/common/io/Files.html#line.71">Files</a>
-extends java.lang.Object</pre>
-<div class="block">Provides utility methods for working with files.
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+<div class="block">Provides utility methods for working with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">files</a>.
 
- <p><code>Path</code> users will find similar utilities in <a href="MoreFiles.html" title="class in com.google.common.io"><code>MoreFiles</code></a> and the
- JDK's <code>Files</code> class.</div>
+ <p><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> users will find similar utilities in <a href="MoreFiles.html" title="class in com.google.common.io"><code>MoreFiles</code></a> and the
+ JDK's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Files</code></a> class.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0</dd>
@@ -167,9 +167,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">append</a></span>&#8203;(java.lang.CharSequence&nbsp;from,
-      java.io.File&nbsp;to,
-      java.nio.charset.Charset&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">append</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>.</div>
@@ -178,7 +178,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asByteSink(java.io.File,com.google.common.io.FileWriteMode...)">asByteSink</a></span>&#8203;(java.io.File&nbsp;file,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asByteSink(java.io.File,com.google.common.io.FileWriteMode...)">asByteSink</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
           <a href="FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a>...&nbsp;modes)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <a href="ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> for writing bytes to the given file.</div>
@@ -186,15 +186,15 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asByteSource(java.io.File)">asByteSource</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asByteSource(java.io.File)">asByteSource</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> for reading bytes from the given file.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="CharSink.html" title="class in com.google.common.io">CharSink</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSink(java.io.File,java.nio.charset.Charset,com.google.common.io.FileWriteMode...)">asCharSink</a></span>&#8203;(java.io.File&nbsp;file,
-          java.nio.charset.Charset&nbsp;charset,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSink(java.io.File,java.nio.charset.Charset,com.google.common.io.FileWriteMode...)">asCharSink</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
           <a href="FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a>...&nbsp;modes)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <a href="CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> for writing character data to the given file using the given
@@ -203,8 +203,8 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="CharSource.html" title="class in com.google.common.io">CharSource</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSource(java.io.File,java.nio.charset.Charset)">asCharSource</a></span>&#8203;(java.io.File&nbsp;file,
-            java.nio.charset.Charset&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSource(java.io.File,java.nio.charset.Charset)">asCharSource</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> for reading character data from the given file using the given
  character set.</div>
@@ -212,25 +212,25 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.io.File)">copy</a></span>&#8203;(java.io.File&nbsp;from,
-    java.io.File&nbsp;to)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.io.File)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
 <td class="colLast">
 <div class="block">Copies all the bytes from one file to another.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.io.OutputStream)">copy</a></span>&#8203;(java.io.File&nbsp;from,
-    java.io.OutputStream&nbsp;to)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.io.OutputStream)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;to)</code></th>
 <td class="colLast">
 <div class="block">Copies all bytes from a file to an output stream.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">copy</a></span>&#8203;(java.io.File&nbsp;from,
-    java.nio.charset.Charset&nbsp;charset,
-    java.lang.Appendable&nbsp;to)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
+    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&nbsp;to)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</div>
@@ -239,13 +239,13 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createParentDirs(java.io.File)">createParentDirs</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createParentDirs(java.io.File)">createParentDirs</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Creates any necessary but nonexistent parent directories of the specified file.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>static java.io.File</code></td>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createTempDir()">createTempDir</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -257,37 +257,37 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equal(java.io.File,java.io.File)">equal</a></span>&#8203;(java.io.File&nbsp;file1,
-     java.io.File&nbsp;file2)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equal(java.io.File,java.io.File)">equal</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file1,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file2)</code></th>
 <td class="colLast">
 <div class="block">Returns true if the given files exist, are not directories, and contain the same bytes.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>static <a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;</code></td>
+<td class="colFirst"><code>static <a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fileTraverser()">fileTraverser</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFileExtension(java.lang.String)">getFileExtension</a></span>&#8203;(java.lang.String&nbsp;fullName)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFileExtension(java.lang.String)">getFileExtension</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;fullName)</code></th>
 <td class="colLast">
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNameWithoutExtension(java.lang.String)">getNameWithoutExtension</a></span>&#8203;(java.lang.String&nbsp;file)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNameWithoutExtension(java.lang.String)">getNameWithoutExtension</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static <a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hash(java.io.File,com.google.common.hash.HashFunction)">hash</a></span>&#8203;(java.io.File&nbsp;file,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hash(java.io.File,com.google.common.hash.HashFunction)">hash</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
     <a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -296,71 +296,71 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;</code></td>
+<td class="colFirst"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDirectory()">isDirectory</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a predicate that returns the result of <code>File.isDirectory()</code> on input files.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#isDirectory()" title="class or interface in java.io" class="externalLink"><code>File.isDirectory()</code></a> on input files.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;</code></td>
+<td class="colFirst"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isFile()">isFile</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a predicate that returns the result of <code>File.isFile()</code> on input files.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#isFile()" title="class or interface in java.io" class="externalLink"><code>File.isFile()</code></a> on input files.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
-<td class="colFirst"><code>static java.nio.MappedByteBuffer</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File)">map</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File)">map</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
-<div class="block">Fully maps a file read-only in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code>.</div>
+<div class="block">Fully maps a file read-only in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>static java.nio.MappedByteBuffer</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File,java.nio.channels.FileChannel.MapMode)">map</a></span>&#8203;(java.io.File&nbsp;file,
-   java.nio.channels.FileChannel.MapMode&nbsp;mode)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File,java.nio.channels.FileChannel.MapMode)">map</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode)</code></th>
 <td class="colLast">
-<div class="block">Fully maps a file in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code> using the requested <code>FileChannel.MapMode</code>.</div>
+<div class="block">Fully maps a file in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a> using the requested <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>static java.nio.MappedByteBuffer</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File,java.nio.channels.FileChannel.MapMode,long)">map</a></span>&#8203;(java.io.File&nbsp;file,
-   java.nio.channels.FileChannel.MapMode&nbsp;mode,
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.io.File,java.nio.channels.FileChannel.MapMode,long)">map</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode,
    long&nbsp;size)</code></th>
 <td class="colLast">
-<div class="block">Maps a file in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode,
- long, long)</code> using the requested <code>FileChannel.MapMode</code>.</div>
+<div class="block">Maps a file in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode,
+ long, long)</code></a> using the requested <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#move(java.io.File,java.io.File)">move</a></span>&#8203;(java.io.File&nbsp;from,
-    java.io.File&nbsp;to)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#move(java.io.File,java.io.File)">move</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
 <td class="colLast">
 <div class="block">Moves a file from one path to another.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>static java.io.BufferedReader</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReader(java.io.File,java.nio.charset.Charset)">newReader</a></span>&#8203;(java.io.File&nbsp;file,
-         java.nio.charset.Charset&nbsp;charset)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReader(java.io.File,java.nio.charset.Charset)">newReader</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Returns a buffered reader that reads from a file using the given character set.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>static java.io.BufferedWriter</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newWriter(java.io.File,java.nio.charset.Charset)">newWriter</a></span>&#8203;(java.io.File&nbsp;file,
-         java.nio.charset.Charset&nbsp;charset)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newWriter(java.io.File,java.nio.charset.Charset)">newWriter</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Returns a buffered writer that writes to a file using the given character set.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readBytes(java.io.File,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(java.io.File&nbsp;file,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readBytes(java.io.File,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
          <a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -369,9 +369,9 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readFirstLine(java.io.File,java.nio.charset.Charset)">readFirstLine</a></span>&#8203;(java.io.File&nbsp;file,
-             java.nio.charset.Charset&nbsp;charset)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readFirstLine(java.io.File,java.nio.charset.Charset)">readFirstLine</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</div>
@@ -379,17 +379,17 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static java.util.List&lt;java.lang.String&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readLines(java.io.File,java.nio.charset.Charset)">readLines</a></span>&#8203;(java.io.File&nbsp;file,
-         java.nio.charset.Charset&nbsp;charset)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readLines(java.io.File,java.nio.charset.Charset)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Reads all of the lines from a file.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(java.io.File&nbsp;file,
-         java.nio.charset.Charset&nbsp;charset,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
          <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -398,8 +398,8 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i27" class="rowColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#simplifyPath(java.lang.String)">simplifyPath</a></span>&#8203;(java.lang.String&nbsp;pathname)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#simplifyPath(java.lang.String)">simplifyPath</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;pathname)</code></th>
 <td class="colLast">
 <div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
  to the original.</div>
@@ -407,15 +407,15 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i28" class="altColor">
 <td class="colFirst"><code>static byte[]</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toByteArray(java.io.File)">toByteArray</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toByteArray(java.io.File)">toByteArray</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Reads all bytes from a file into a byte array.</div>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString(java.io.File,java.nio.charset.Charset)">toString</a></span>&#8203;(java.io.File&nbsp;file,
-        java.nio.charset.Charset&nbsp;charset)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString(java.io.File,java.nio.charset.Charset)">toString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</div>
@@ -424,7 +424,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#touch(java.io.File)">touch</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#touch(java.io.File)">touch</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
  the same name.</div>
@@ -433,16 +433,16 @@ extends java.lang.Object</pre>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(byte%5B%5D,java.io.File)">write</a></span>&#8203;(byte[]&nbsp;from,
-     java.io.File&nbsp;to)</code></th>
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
 <td class="colLast">
 <div class="block">Overwrites a file with the contents of a byte array.</div>
 </td>
 </tr>
 <tr id="i32" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">write</a></span>&#8203;(java.lang.CharSequence&nbsp;from,
-     java.io.File&nbsp;to,
-     java.nio.charset.Charset&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">write</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</div>
@@ -454,8 +454,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -479,21 +479,21 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReader</h4>
-<pre class="methodSignature">public static&nbsp;java.io.BufferedReader&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.89">newReader</a>&#8203;(java.io.File&nbsp;file,
-                                               java.nio.charset.Charset&nbsp;charset)
-                                        throws java.io.FileNotFoundException</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.89">newReader</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                                throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></pre>
 <div class="block">Returns a buffered reader that reads from a file using the given character set.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.newBufferedReader(java.nio.file.Path, Charset)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#newBufferedReader(java.nio.file.Path,java.nio.charset.Charset)" title="class or interface in java.nio.file" class="externalLink"><code>Files.newBufferedReader(java.nio.file.Path, Charset)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the buffered reader</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.FileNotFoundException</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -503,22 +503,22 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newWriter</h4>
-<pre class="methodSignature">public static&nbsp;java.io.BufferedWriter&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.107">newWriter</a>&#8203;(java.io.File&nbsp;file,
-                                               java.nio.charset.Charset&nbsp;charset)
-                                        throws java.io.FileNotFoundException</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.107">newWriter</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                                throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></pre>
 <div class="block">Returns a buffered writer that writes to a file using the given character set.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.newBufferedWriter(java.nio.file.Path, Charset,
- java.nio.file.OpenOption...)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#newBufferedWriter(java.nio.file.Path,java.nio.charset.Charset,java.nio.file.OpenOption...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.newBufferedWriter(java.nio.file.Path, Charset,
+ java.nio.file.OpenOption...)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to write to</dd>
-<dd><code>charset</code> - the charset used to encode the output stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the buffered writer</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.FileNotFoundException</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -528,7 +528,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asByteSource</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.118">asByteSource</a>&#8203;(java.io.File&nbsp;file)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.118">asByteSource</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</pre>
 <div class="block">Returns a new <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> for reading bytes from the given file.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -542,7 +542,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asByteSink</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.181">asByteSink</a>&#8203;(java.io.File&nbsp;file,
+<pre class="methodSignature">public static&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.181">asByteSink</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
                                   <a href="FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a>...&nbsp;modes)</pre>
 <div class="block">Returns a new <a href="ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> for writing bytes to the given file. The given <code>modes</code>
  control how the file is opened for writing. When no mode is provided, the file will be
@@ -560,8 +560,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSource</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.212">asCharSource</a>&#8203;(java.io.File&nbsp;file,
-                                      java.nio.charset.Charset&nbsp;charset)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.212">asCharSource</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
 <div class="block">Returns a new <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> for reading character data from the given file using the given
  character set.</div>
 <dl>
@@ -576,8 +576,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSink</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.224">asCharSink</a>&#8203;(java.io.File&nbsp;file,
-                                  java.nio.charset.Charset&nbsp;charset,
+<pre class="methodSignature">public static&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.224">asCharSink</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
                                   <a href="FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a>...&nbsp;modes)</pre>
 <div class="block">Returns a new <a href="CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> for writing character data to the given file using the given
  character set. The given <code>modes</code> control how the file is opened for writing. When no mode
@@ -594,20 +594,20 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.239">toByteArray</a>&#8203;(java.io.File&nbsp;file)
-                          throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.239">toByteArray</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)
+                          throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Reads all bytes from a file into a byte array.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.readAllBytes(java.nio.file.Path)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#readAllBytes(java.nio.file.Path)" title="class or interface in java.nio.file" class="externalLink"><code>Files.readAllBytes(java.nio.file.Path)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a byte array containing all the bytes from file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the file is bigger than the largest possible byte array
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the file is bigger than the largest possible byte array
      (2^31 - 1)</dd>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -617,25 +617,25 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(file, charset).read()",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
-public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.253">toString</a>&#8203;(java.io.File&nbsp;file,
-                                        java.nio.charset.Charset&nbsp;charset)
-                                 throws java.io.IOException</pre>
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.253">toString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                       throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</div>
 </div>
-<div class="block">Reads all characters from a file into a <code>String</code>, using the given character set.</div>
+<div class="block">Reads all characters from a file into a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a>, using the given character set.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string containing all the characters from the file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -646,17 +646,17 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>write</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.271">write</a>&#8203;(byte[]&nbsp;from,
-                         java.io.File&nbsp;to)
-                  throws java.io.IOException</pre>
+                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)
+                  throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Overwrites a file with the contents of a byte array.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.write(java.nio.file.Path, byte[], java.nio.file.OpenOption...)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#write(java.nio.file.Path,byte%5B%5D,java.nio.file.OpenOption...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.write(java.nio.file.Path, byte[], java.nio.file.OpenOption...)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the bytes to write</dd>
 <dd><code>to</code> - the destination file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -666,13 +666,13 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSink(to, charset).write(from)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.285">write</a>&#8203;(java.lang.CharSequence&nbsp;from,
-                         java.io.File&nbsp;to,
-                         java.nio.charset.Charset&nbsp;charset)
-                  throws java.io.IOException</pre>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.285">write</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
+                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
+                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                  throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</div>
 </div>
@@ -681,10 +681,10 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the character sequence to write</dd>
 <dd><code>to</code> - the destination file</dd>
-<dd><code>charset</code> - the charset used to encode the output stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -694,18 +694,18 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.303">copy</a>&#8203;(java.io.File&nbsp;from,
-                        java.io.OutputStream&nbsp;to)
-                 throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.303">copy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;to)
+                 throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Copies all bytes from a file to an output stream.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.copy(java.nio.file.Path, OutputStream)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#copy(java.nio.file.Path,java.io.OutputStream)" title="class or interface in java.nio.file" class="externalLink"><code>Files.copy(java.nio.file.Path, OutputStream)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the source file</dd>
 <dd><code>to</code> - the output stream</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -715,9 +715,9 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.326">copy</a>&#8203;(java.io.File&nbsp;from,
-                        java.io.File&nbsp;to)
-                 throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.326">copy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)
+                 throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Copies all the bytes from one file to another.
 
  <p>Copying is not an atomic operation - in the case of an I/O error, power loss, process
@@ -728,14 +728,14 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
  with the contents of <code>from</code>. If <code>to</code> and <code>from</code> refer to the <i>same</i>
  file, the contents of that file will be deleted.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#copy(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the source file</dd>
 <dd><code>to</code> - the destination file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>from.equals(to)</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>from.equals(to)</code></dd>
 </dl>
 </li>
 </ul>
@@ -745,13 +745,13 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(from, charset).copyTo(to)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.341">copy</a>&#8203;(java.io.File&nbsp;from,
-                        java.nio.charset.Charset&nbsp;charset,
-                        java.lang.Appendable&nbsp;to)
-                 throws java.io.IOException</pre>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.341">copy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&nbsp;to)
+                 throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</div>
 </div>
@@ -759,11 +759,11 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the source file</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dd><code>to</code> - the appendable object</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -773,13 +773,13 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>append</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSink(to, charset, FileWriteMode.APPEND).write(from)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>={"com.google.common.io.FileWriteMode","com.google.common.io.Files"})
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.361">append</a>&#8203;(java.lang.CharSequence&nbsp;from,
-                          java.io.File&nbsp;to,
-                          java.nio.charset.Charset&nbsp;charset)
-                   throws java.io.IOException</pre>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.361">append</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                   throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>. This
      method is scheduled to be removed in October 2019.</div>
@@ -789,10 +789,10 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the character sequence to append</dd>
 <dd><code>to</code> - the destination file</dd>
-<dd><code>charset</code> - the charset used to encode the output stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -802,13 +802,13 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>equal</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.375">equal</a>&#8203;(java.io.File&nbsp;file1,
-                            java.io.File&nbsp;file2)
-                     throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.375">equal</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file1,
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file2)
+                     throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Returns true if the given files exist, are not directories, and contain the same bytes.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -819,16 +819,16 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <li class="blockList">
 <h4>createTempDir</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-@Deprecated
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
-public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.434">createTempDir</a>()</pre>
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.434">createTempDir</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">For Android users, see the <a href="https://developer.android.com/training/data-storage" target="_blank">Data and File
      Storage overview</a> to select an appropriate temporary directory (perhaps <code>
      context.getCacheDir()</code>), and create your own directory under that. (For example, you might
      use <code>new File(context.getCacheDir(), "directoryname").mkdir()</code>, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For JRE users, prefer <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using <code>toFile()</code> if needed. To restrict permissions as this method
+     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For JRE users, prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#createTempDirectory(java.nio.file.Path,java.lang.String,java.nio.file.attribute.FileAttribute...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code></a>, transforming it to a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a> using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true#toFile()" title="class or interface in java.nio.file" class="externalLink"><code>toFile()</code></a> if needed. To restrict permissions as this method
      does, pass <code>
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))</code> to your
      call to <code>createTempDirectory</code>.</div>
@@ -842,7 +842,7 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
  creating a directory that would be more accessible. (This behavior is new in Guava 32.0.0.
  Previous versions would create a directory that is more accessible, as discussed in <a href="https://github.com/google/guava/issues/4011">CVE-2020-8908</a>.)
 
- <p>Use this method instead of <code>File.createTempFile(String, String)</code> when you wish to
+ <p>Use this method instead of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#createTempFile(java.lang.String,java.lang.String)" title="class or interface in java.io" class="externalLink"><code>File.createTempFile(String, String)</code></a> when you wish to
  create a directory, not a regular file. A common pitfall is to call <code>createTempFile</code>,
  delete the file and create a directory in its place, but this leads a race condition which can
  be exploited to create security vulnerabilities, especially when executable files are to be
@@ -851,12 +851,12 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
  <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
  and that it will not be called thousands of times per second.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#createTempDirectory(java.nio.file.Path,java.lang.String,java.nio.file.attribute.FileAttribute...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the newly-created directory</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the directory could not be created, such as if the system does
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the directory could not be created, such as if the system does
      not support creating temporary directories securely</dd>
 </dl>
 </li>
@@ -867,15 +867,15 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>touch</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.448">touch</a>&#8203;(java.io.File&nbsp;file)
-                  throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.448">touch</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)
+                  throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
  the same name.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to create or update</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -885,14 +885,14 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>createParentDirs</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.465">createParentDirs</a>&#8203;(java.io.File&nbsp;file)
-                             throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.465">createParentDirs</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)
+                             throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Creates any necessary but nonexistent parent directories of the specified file. Note that if
  this operation fails it may have succeeded in creating some (but not all) of the necessary
  parent directories.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs, or if any necessary but nonexistent parent
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs, or if any necessary but nonexistent parent
      directories of the specified file could not be created.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0</dd>
@@ -905,21 +905,21 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>move</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.495">move</a>&#8203;(java.io.File&nbsp;from,
-                        java.io.File&nbsp;to)
-                 throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.495">move</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)
+                 throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Moves a file from one path to another. This method can rename a file and/or move it to a
  different directory. In either case <code>to</code> must be the target path for the file itself; not
  just the new name for the file or the path to the new parent directory.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.move(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#move(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.move(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>from</code> - the source file</dd>
 <dd><code>to</code> - the destination file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>from.equals(to)</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>from.equals(to)</code></dd>
 </dl>
 </li>
 </ul>
@@ -929,13 +929,13 @@ public static&nbsp;java.io.File&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>readFirstLine</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(file, charset).readFirstLine()",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.522">readFirstLine</a>&#8203;(java.io.File&nbsp;file,
-                                             java.nio.charset.Charset&nbsp;charset)
-                                      throws java.io.IOException</pre>
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.522">readFirstLine</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                            throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</div>
 </div>
@@ -944,12 +944,12 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first line, or null if the file is empty</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -959,25 +959,25 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.548">readLines</a>&#8203;(java.io.File&nbsp;file,
-                                                         java.nio.charset.Charset&nbsp;charset)
-                                                  throws java.io.IOException</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.548">readLines</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)
+                              throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Reads all of the lines from a file. The lines do not include line-termination characters, but
  do include other leading and trailing whitespace.
 
  <p>This method returns a mutable <code>List</code>. For an <code>ImmutableList</code>, use <code>
  Files.asCharSource(file, charset).readLines()</code>.
 
- <p><b><code>Path</code> equivalent:</b> <code>Files.readAllLines(java.nio.file.Path, Charset)</code>.</div>
+ <p><b><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>Path</code></a> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#readAllLines(java.nio.file.Path,java.nio.charset.Charset)" title="class or interface in java.nio.file" class="externalLink"><code>Files.readAllLines(java.nio.file.Path, Charset)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a mutable <code>List</code> containing all the lines</dd>
+<dd>a mutable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> containing all the lines</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -987,29 +987,29 @@ public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asCharSource(file, charset).readLines(callback)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.581">readLines</a>&#8203;(java.io.File&nbsp;file,
-                                                                 java.nio.charset.Charset&nbsp;charset,
-                                                                 <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)
-                                                          throws java.io.IOException</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.581">readLines</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
+                                                       <a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)
+                                                throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>.</div>
 </div>
-<div class="block">Streams lines from a <code>File</code>, stopping when our callback returns false, or we have read
+<div class="block">Streams lines from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a>, stopping when our callback returns false, or we have read
  all of the lines.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to read from</dd>
-<dd><code>charset</code> - the charset used to decode the input stream; see <code>StandardCharsets</code> for
+<dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dd><code>callback</code> - the <a href="LineProcessor.html" title="interface in com.google.common.io"><code>LineProcessor</code></a> to use to handle the lines</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the output of processing the lines</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -1019,13 +1019,13 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>readBytes</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asByteSource(file).read(processor)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.604">readBytes</a>&#8203;(java.io.File&nbsp;file,
-                                                                 <a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
-                                                          throws java.io.IOException</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.604">readBytes</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                                       <a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
+                                                throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>.</div>
 </div>
@@ -1039,7 +1039,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the result of the byte processor</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -1049,12 +1049,12 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="Files.asByteSource(file).hash(hashFunction)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#imports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">imports</a>="com.google.common.io.Files")
-public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.626">hash</a>&#8203;(java.io.File&nbsp;file,
+public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.626">hash</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
                             <a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
-                     throws java.io.IOException</pre>
+                     throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>.</div>
 </div>
@@ -1066,7 +1066,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <a href="../hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> of all of the bytes in the file</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1078,25 +1078,25 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.650">map</a>&#8203;(java.io.File&nbsp;file)
-                                     throws java.io.IOException</pre>
-<div class="block">Fully maps a file read-only in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code>.
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.650">map</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)
+                            throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<div class="block">Fully maps a file read-only in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a>.
 
  <p>Files are mapped from offset 0 to its length.
 
- <p>This only works for files ≤ <code>Integer.MAX_VALUE</code> bytes.</div>
+ <p>This only works for files ≤ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a> bytes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a read-only buffer reflecting <code>file</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.FileNotFoundException</code> - if the <code>file</code> does not exist</dd>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></code> - if the <code>file</code> does not exist</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FileChannel.map(MapMode, long, long)</code></dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(MapMode, long, long)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -1106,14 +1106,14 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.672">map</a>&#8203;(java.io.File&nbsp;file,
-                                            java.nio.channels.FileChannel.MapMode&nbsp;mode)
-                                     throws java.io.IOException</pre>
-<div class="block">Fully maps a file in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code> using the requested <code>FileChannel.MapMode</code>.
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.672">map</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode)
+                            throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<div class="block">Fully maps a file in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a> using the requested <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.
 
  <p>Files are mapped from offset 0 to its length.
 
- <p>This only works for files ≤ <code>Integer.MAX_VALUE</code> bytes.</div>
+ <p>This only works for files ≤ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a> bytes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to map</dd>
@@ -1121,12 +1121,12 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a buffer reflecting <code>file</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.FileNotFoundException</code> - if the <code>file</code> does not exist</dd>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/FileNotFoundException.html?is-external=true" title="class or interface in java.io" class="externalLink">FileNotFoundException</a></code> - if the <code>file</code> does not exist</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FileChannel.map(MapMode, long, long)</code></dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(MapMode, long, long)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -1136,20 +1136,20 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">public static&nbsp;java.nio.MappedByteBuffer&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.695">map</a>&#8203;(java.io.File&nbsp;file,
-                                            java.nio.channels.FileChannel.MapMode&nbsp;mode,
-                                            long&nbsp;size)
-                                     throws java.io.IOException</pre>
-<div class="block">Maps a file in to memory as per <code>FileChannel.map(java.nio.channels.FileChannel.MapMode,
- long, long)</code> using the requested <code>FileChannel.MapMode</code>.
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.695">map</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
+                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode,
+                                   long&nbsp;size)
+                            throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<div class="block">Maps a file in to memory as per <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode,
+ long, long)</code></a> using the requested <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.
 
  <p>Files are mapped from offset 0 to <code>size</code>.
 
- <p>If the mode is <code>FileChannel.MapMode.READ_WRITE</code> and the file does not exist, it will be created
+ <p>If the mode is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true#READ_WRITE" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode.READ_WRITE</code></a> and the file does not exist, it will be created
  with the requested <code>size</code>. Thus this method is useful for creating memory mapped files
  which do not yet exist.
 
- <p>This only works for files ≤ <code>Integer.MAX_VALUE</code> bytes.</div>
+ <p>This only works for files ≤ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a> bytes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - the file to map</dd>
@@ -1157,11 +1157,11 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a buffer reflecting <code>file</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><code>FileChannel.map(MapMode, long, long)</code></dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(MapMode, long, long)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -1171,7 +1171,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>simplifyPath</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.738">simplifyPath</a>&#8203;(java.lang.String&nbsp;pathname)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.738">simplifyPath</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;pathname)</pre>
 <div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
  to the original. The following heuristics are used:
 
@@ -1200,14 +1200,14 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.800">getFileExtension</a>&#8203;(java.lang.String&nbsp;fullName)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.800">getFileExtension</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;fullName)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension. The result does not
  include the '<code>.</code>'.
 
  <p><b>Note:</b> This method simply returns everything after the last '<code>.</code>' in the file's
- name as determined by <code>File.getName()</code>. It does not account for any filesystem-specific
- behavior that the <code>File</code> API does not already account for. For example, on NTFS it will
+ name as determined by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#getName()" title="class or interface in java.io" class="externalLink"><code>File.getName()</code></a>. It does not account for any filesystem-specific
+ behavior that the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a> API does not already account for. For example, on NTFS it will
  report <code>"txt"</code> as the extension for the filename <code>"foo.exe:.txt"</code> even though NTFS
  will drop the <code>":.txt"</code> part of the name when the file is actually created on the
  filesystem due to NTFS's <a href="https://learn.microsoft.com/en-us/archive/blogs/askcore/alternate-data-streams-in-ntfs">Alternate
@@ -1224,7 +1224,7 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.817">getNameWithoutExtension</a>&#8203;(java.lang.String&nbsp;file)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.817">getNameWithoutExtension</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;file)</pre>
 <div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
 <dl>
@@ -1244,9 +1244,9 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>fileTraverser</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.846">fileTraverser</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.846">fileTraverser</a>()</pre>
 <div class="block">Returns a <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree. The returned traverser
- starts from a <code>File</code> and will return all files and directories it encounters.
+ starts from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a> and will return all files and directories it encounters.
 
  <p><b>Warning:</b> <code>File</code> provides no support for symbolic links, and as such there is no
  way to ensure that a symbolic link to a directory is not followed when traversing the tree. In
@@ -1256,8 +1256,8 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
  <p>If available, consider using <a href="MoreFiles.html#fileTraverser()"><code>MoreFiles.fileTraverser()</code></a> instead. It behaves the same
  except that it doesn't follow symbolic links and returns <code>Path</code> instances.
 
- <p>If the <code>File</code> passed to one of the <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> methods does not exist or is not
- a directory, no exception will be thrown and the returned <code>Iterable</code> will contain a
+ <p>If the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a> passed to one of the <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> methods does not exist or is not
+ a directory, no exception will be thrown and the returned <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> will contain a
  single element: that file.
 
  <p>Example: <code>Files.fileTraverser().depthFirstPreOrder(new File("/"))</code> may return files
@@ -1275,8 +1275,8 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirectory</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.871">isDirectory</a>()</pre>
-<div class="block">Returns a predicate that returns the result of <code>File.isDirectory()</code> on input files.</div>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.871">isDirectory</a>()</pre>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#isDirectory()" title="class or interface in java.io" class="externalLink"><code>File.isDirectory()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -1289,8 +1289,8 @@ public static&nbsp;<a href="../hash/HashCode.html" title="class in com.google.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isFile</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;java.io.File&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.880">isFile</a>()</pre>
-<div class="block">Returns a predicate that returns the result of <code>File.isFile()</code> on input files.</div>
+<pre class="methodSignature">public static&nbsp;<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.880">isFile</a>()</pre>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true#isFile()" title="class or interface in java.io" class="externalLink"><code>File.isFile()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>

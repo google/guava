@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h2 title="Interface AsyncFunction" class="title">Interface AsyncFunction&lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface AsyncFunction" class="title">Interface AsyncFunction&lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -129,8 +129,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-@FunctionalInterface
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line.28">AsyncFunction</a>&lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line.28">AsyncFunction</a>&lt;I extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;O extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Transforms a value, possibly asynchronously. For an example usage and more information, see
  <a href="Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)"><code>Futures.transformAsync(ListenableFuture, AsyncFunction, Executor)</code></a>.</div>
 <dl>
@@ -192,15 +192,15 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <li class="blockList">
 <h4>apply</h4>
 <pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncFunction.html" title="type parameter in AsyncFunction">O</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line.39">apply</a>&#8203;(<a href="AsyncFunction.html" title="type parameter in AsyncFunction">I</a>&nbsp;input)
-                   throws java.lang.Exception</pre>
+                   throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>. The output <code>
- Future</code> need not be done, making <code>AsyncFunction</code> suitable for
+ Future</code> need not be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">done</a>, making <code>AsyncFunction</code> suitable for
  asynchronous derivations.
 
  <p>Throwing an exception from this method is equivalent to returning a failing <code>Future</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.Exception</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </li>
 </ul>

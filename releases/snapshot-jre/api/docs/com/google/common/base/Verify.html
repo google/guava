@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.base.Verify</li>
@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public final class <a href="../../../../src-html/com/google/common/base/Verify.html#line.90">Verify</a>
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Static convenience methods that serve the same purpose as Java language <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html">assertions</a>,
  except that they are always enabled. These methods should be used instead of Java assertions
  whenever there is a chance the check may fail "in real life". Example:
@@ -162,8 +162,8 @@ extends java.lang.Object</pre>
        assertions are for. Note that assertions are not enabled by default; they are essentially
        considered "compiled comments."
    <li>An explicit <code>if/throw</code> (as illustrated below) is always acceptable; we still
-       recommend using our <a href="VerifyException.html" title="class in com.google.common.base"><code>VerifyException</code></a> exception type. Throwing a plain <code>RuntimeException</code> is frowned upon.
-   <li>Use of <code>Objects.requireNonNull(Object)</code> is generally discouraged, since
+       recommend using our <a href="VerifyException.html" title="class in com.google.common.base"><code>VerifyException</code></a> exception type. Throwing a plain <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>RuntimeException</code></a> is frowned upon.
+   <li>Use of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Objects.html?is-external=true#requireNonNull(T)" title="class or interface in java.util" class="externalLink"><code>Objects.requireNonNull(Object)</code></a> is generally discouraged, since
        <a href="#verifyNotNull(T)"><code>verifyNotNull(Object)</code></a> and <a href="Preconditions.html#checkNotNull(T)"><code>Preconditions.checkNotNull(Object)</code></a> perform the
        same function with more clarity.
  </ul>
@@ -186,7 +186,7 @@ extends java.lang.Object</pre>
 
  <p>As with <a href="Preconditions.html" title="class in com.google.common.base"><code>Preconditions</code></a>, <code>Verify</code> uses <a href="Strings.html#lenientFormat(java.lang.String,java.lang.Object...)"><code>Strings.lenientFormat(java.lang.String, java.lang.Object...)</code></a> to format
  error message template strings. This only supports the <code>"%s"</code> specifier, not the full range
- of <code>Formatter</code> specifiers. However, note that if the number of arguments does not
+ of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Formatter.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Formatter</code></a> specifiers. However, note that if the number of arguments does not
  match the number of occurrences of <code>"%s"</code> in the format string, <code>Verify</code> will still
  behave as expected, and will still include all argument values in the error message; the message
  will simply not be formatted exactly as intended.
@@ -230,7 +230,7 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,char)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       char&nbsp;p1)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -240,7 +240,7 @@ extends java.lang.Object</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,char,char)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       char&nbsp;p1,
       char&nbsp;p2)</code></th>
 <td class="colLast">
@@ -251,7 +251,7 @@ extends java.lang.Object</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,char,int)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       char&nbsp;p1,
       int&nbsp;p2)</code></th>
 <td class="colLast">
@@ -262,7 +262,7 @@ extends java.lang.Object</pre>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,char,long)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       char&nbsp;p1,
       long&nbsp;p2)</code></th>
 <td class="colLast">
@@ -273,9 +273,9 @@ extends java.lang.Object</pre>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,char,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       char&nbsp;p1,
-      java.lang.Object&nbsp;p2)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -284,7 +284,7 @@ extends java.lang.Object</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,int)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       int&nbsp;p1)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -294,7 +294,7 @@ extends java.lang.Object</pre>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,int,char)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       int&nbsp;p1,
       char&nbsp;p2)</code></th>
 <td class="colLast">
@@ -305,7 +305,7 @@ extends java.lang.Object</pre>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,int,int)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       int&nbsp;p1,
       int&nbsp;p2)</code></th>
 <td class="colLast">
@@ -316,7 +316,7 @@ extends java.lang.Object</pre>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,int,long)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       int&nbsp;p1,
       long&nbsp;p2)</code></th>
 <td class="colLast">
@@ -327,9 +327,9 @@ extends java.lang.Object</pre>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,int,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       int&nbsp;p1,
-      java.lang.Object&nbsp;p2)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -338,7 +338,7 @@ extends java.lang.Object</pre>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,long)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       long&nbsp;p1)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -348,7 +348,7 @@ extends java.lang.Object</pre>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,long,char)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       long&nbsp;p1,
       char&nbsp;p2)</code></th>
 <td class="colLast">
@@ -359,7 +359,7 @@ extends java.lang.Object</pre>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,long,int)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       long&nbsp;p1,
       int&nbsp;p2)</code></th>
 <td class="colLast">
@@ -370,7 +370,7 @@ extends java.lang.Object</pre>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,long,long)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       long&nbsp;p1,
       long&nbsp;p2)</code></th>
 <td class="colLast">
@@ -381,9 +381,9 @@ extends java.lang.Object</pre>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,long,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
       long&nbsp;p1,
-      java.lang.Object&nbsp;p2)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -392,8 +392,8 @@ extends java.lang.Object</pre>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object...)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object...&nbsp;errorMessageArgs)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;errorMessageArgs)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -402,8 +402,8 @@ extends java.lang.Object</pre>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -412,8 +412,8 @@ extends java.lang.Object</pre>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,char)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
       char&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -423,8 +423,8 @@ extends java.lang.Object</pre>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,int)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
       int&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -434,8 +434,8 @@ extends java.lang.Object</pre>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,long)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
       long&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -445,9 +445,9 @@ extends java.lang.Object</pre>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
-      java.lang.Object&nbsp;p2)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -456,10 +456,10 @@ extends java.lang.Object</pre>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
-      java.lang.Object&nbsp;p2,
-      java.lang.Object&nbsp;p3)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p3)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -468,11 +468,11 @@ extends java.lang.Object</pre>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verify(boolean,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">verify</a></span>&#8203;(boolean&nbsp;expression,
-      java.lang.String&nbsp;errorMessageTemplate,
-      java.lang.Object&nbsp;p1,
-      java.lang.Object&nbsp;p2,
-      java.lang.Object&nbsp;p3,
-      java.lang.Object&nbsp;p4)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p3,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p4)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
@@ -489,8 +489,8 @@ extends java.lang.Object</pre>
 <tr id="i25" class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verifyNotNull(T,java.lang.String,java.lang.Object...)">verifyNotNull</a></span>&#8203;(T&nbsp;reference,
-             java.lang.String&nbsp;errorMessageTemplate,
-             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object...&nbsp;errorMessageArgs)</code></th>
+             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
+             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;errorMessageArgs)</code></th>
 <td class="colLast">
 <div class="block">Ensures that <code>reference</code> is non-null, throwing a <code>VerifyException</code> with a custom
  message otherwise.</div>
@@ -501,8 +501,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -544,9 +544,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.121">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object...&nbsp;errorMessageArgs)</pre>
+                          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;errorMessageArgs)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.</div>
 <dl>
@@ -558,7 +558,7 @@ extends java.lang.Object</pre>
      errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
      square braces. Unmatched placeholders will be left as-is.</dd>
 <dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
-     are converted to strings using <code>String.valueOf(Object)</code>.</dd>
+     are converted to strings using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true#valueOf(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="VerifyException.html" title="class in com.google.common.base">VerifyException</a></code> - if <code>expression</code> is <code>false</code></dd>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -573,7 +573,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.138">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -592,7 +592,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.152">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -611,7 +611,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.166">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -630,9 +630,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.180">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -650,7 +650,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.195">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
                           char&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -670,7 +670,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.209">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
                           char&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -690,7 +690,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.223">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
                           char&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -710,9 +710,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.237">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           char&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -731,7 +731,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.252">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
                           int&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -751,7 +751,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.266">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
                           int&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -771,7 +771,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.280">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
                           int&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -791,9 +791,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.294">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           int&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -812,7 +812,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.309">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
                           long&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -832,7 +832,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.323">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
                           long&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -852,7 +852,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.337">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
                           long&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
@@ -872,9 +872,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.351">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           long&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
@@ -893,10 +893,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.366">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -914,10 +914,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.381">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -935,10 +935,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.396">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -956,11 +956,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.411">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -978,13 +978,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.429">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p3)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p3)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -1002,15 +1002,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>verify</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.448">verify</a>&#8203;(boolean&nbsp;expression,
-                          java.lang.String&nbsp;errorMessageTemplate,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p1,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p1,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p2,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p2,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p3,
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p3,
                           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                          java.lang.Object&nbsp;p4)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;p4)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with a
  custom message otherwise.
 
@@ -1055,9 +1055,9 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.497">verifyNotNull</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                   T&nbsp;reference,
-                                  java.lang.String&nbsp;errorMessageTemplate,
+                                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;errorMessageTemplate,
                                   <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object...&nbsp;errorMessageArgs)</pre>
+                                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;errorMessageArgs)</pre>
 <div class="block">Ensures that <code>reference</code> is non-null, throwing a <code>VerifyException</code> with a custom
  message otherwise.</div>
 <dl>
@@ -1068,7 +1068,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
      errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
      square braces. Unmatched placeholders will be left as-is.</dd>
 <dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
-     are converted to strings using <code>String.valueOf(Object)</code>.</dd>
+     are converted to strings using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true#valueOf(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>reference</code>, guaranteed to be non-null, for convenience</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>

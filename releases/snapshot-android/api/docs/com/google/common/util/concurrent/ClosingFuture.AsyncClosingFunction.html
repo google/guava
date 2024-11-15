@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h2 title="Interface ClosingFuture.AsyncClosingFunction" class="title">Interface ClosingFuture.AsyncClosingFunction&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface ClosingFuture.AsyncClosingFunction" class="title">Interface ClosingFuture.AsyncClosingFunction&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -130,10 +130,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <dl>
 <dt>Enclosing class:</dt>
-<dd><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</dd>
+<dd><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.305">ClosingFuture.AsyncClosingFunction</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
+<pre>public static interface <a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.305">ClosingFuture.AsyncClosingFunction</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">A function from an input to a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> of a result.</div>
 </li>
 </ul>
@@ -190,14 +190,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h4>apply</h4>
 <pre class="methodSignature"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">U</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html#line.313">apply</a>&#8203;(<a href="ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.DeferredCloser</a>&nbsp;closer,
                        <a href="ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">T</a>&nbsp;input)
-                throws java.lang.Exception</pre>
+                throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Applies this function to an input, or throws an exception if unable to do so.
 
  <p>Any objects that are passed to <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a> will be closed when the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is done (but
  not before this method completes), even if this method throws or the pipeline is cancelled.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.Exception</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </li>
 </ul>

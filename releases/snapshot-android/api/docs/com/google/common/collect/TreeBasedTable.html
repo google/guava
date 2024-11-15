@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.TreeBasedTable&lt;R,&#8203;C,&#8203;V&gt;</li>
@@ -133,18 +133,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code>, <code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;V&gt;</code>, <code>java.io.Serializable</code></dd>
+<dd><code><a href="RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code>, <code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;V&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 public class <a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.70">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Implementation of <code>Table</code> whose row keys and column keys are ordered by their natural
  ordering or by supplied comparators. When constructing a <code>TreeBasedTable</code>, you may provide
  comparators for the row keys and the column keys, or you may use natural ordering for both.
 
- <p>The <a href="#rowKeySet()"><code>rowKeySet()</code></a> method returns a <code>SortedSet</code> and the <a href="#rowMap()"><code>rowMap()</code></a> method
- returns a <code>SortedMap</code>, instead of the <code>Set</code> and <code>Map</code> specified by the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.
+ <p>The <a href="#rowKeySet()"><code>rowKeySet()</code></a> method returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedSet</code></a> and the <a href="#rowMap()"><code>rowMap()</code></a> method
+ returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedMap</code></a>, instead of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> specified by the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.
 
  <p>The views returned by <a href="Table.html#column(C)"><code>Table.column(C)</code></a>, <code>columnKeySet()</code>, and <a href="Table.html#columnMap()"><code>Table.columnMap()</code></a> have
  iterators that don't support <code>remove()</code>. Otherwise, all optional operations are supported.
@@ -156,8 +156,8 @@ extends java.lang.Object</pre>
  since an iteration across all row keys occurs.
 
  <p>Because a <code>TreeBasedTable</code> has unique sorted values for a given row, both <code>
- row(rowKey)</code> and <code>rowMap().get(rowKey)</code> are <code>SortedMap</code> instances, instead of the
- <code>Map</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.
+ row(rowKey)</code> and <code>rowMap().get(rowKey)</code> are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedMap</code></a> instances, instead of the
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.
 
  <p>Note that this implementation is not synchronized. If multiple threads access this table
  concurrently and one of the threads modifies the table, it must be synchronized externally.
@@ -189,7 +189,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;com.google.common.collect.<a href="Table.html" title="interface in com.google.common.collect">Table</a></h3>
-<code><a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="Table.Cell.html" title="type parameter in Table.Cell">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="Table.Cell.html" title="type parameter in Table.Cell">C</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="Table.Cell.html" title="type parameter in Table.Cell">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></li>
+<code><a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="Table.Cell.html" title="type parameter in Table.Cell">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="Table.Cell.html" title="type parameter in Table.Cell">C</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="Table.Cell.html" title="type parameter in Table.Cell">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -209,7 +209,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.util.Set&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,&#8203;C,&#8203;V&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,&#8203;C,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">cellSet</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a set of all row key / column key / value triplets.</div>
@@ -223,30 +223,30 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.Map&lt;R,&#8203;V&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;R,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">column</span>&#8203;(C&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of all mappings that have the given column key.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#columnComparator()">columnComparator</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Store the <code>Comparator</code> alongside the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>.</div>
+<div class="deprecationComment">Store the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> alongside the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>.</div>
 </div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>java.util.Set&lt;C&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">columnKeySet</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a set of column keys that have one or more values in the table.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>java.util.Map&lt;C,&#8203;java.util.Map&lt;R,&#8203;V&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;C,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;R,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">columnMap</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a view that associates each column key with the corresponding map from row keys to
@@ -255,35 +255,35 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">contains</span>&#8203;(java.lang.Object&nbsp;rowKey,
-        java.lang.Object&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">contains</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row and column keys.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">containsColumn</span>&#8203;(java.lang.Object&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">containsColumn</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified column.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">containsRow</span>&#8203;(java.lang.Object&nbsp;rowKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">containsRow</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row key.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">containsValue</span>&#8203;(java.lang.Object&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">containsValue</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static &lt;R extends java.lang.Comparable,&#8203;C extends java.lang.Comparable,&#8203;V&gt;<br><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code></td>
+<td class="colFirst"><code>static &lt;R extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;<br><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create()">create</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>TreeBasedTable</code> that uses the natural orderings of both row and column
@@ -300,23 +300,23 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static &lt;R,&#8203;C,&#8203;V&gt;<br><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.Comparator,java.util.Comparator)">create</a></span>&#8203;(java.util.Comparator&lt;? super R&gt;&nbsp;rowComparator,
-      java.util.Comparator&lt;? super C&gt;&nbsp;columnComparator)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.Comparator,java.util.Comparator)">create</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super R&gt;&nbsp;rowComparator,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super C&gt;&nbsp;columnComparator)</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>TreeBasedTable</code> that is ordered by the specified comparators.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
 <td class="colLast">
 <div class="block">Compares the specified object with this table for equality.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>V</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">get</span>&#8203;(java.lang.Object&nbsp;rowKey,
-   java.lang.Object&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">get</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
  mapping exists.</div>
@@ -354,21 +354,21 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>V</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">remove</span>&#8203;(java.lang.Object&nbsp;rowKey,
-      java.lang.Object&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">remove</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Removes the mapping, if any, associated with the given keys.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code>java.util.SortedMap&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#row(R)">row</a></span>&#8203;(<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of all mappings that have the given row key.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rowComparator()">rowComparator</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -377,14 +377,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>java.util.SortedSet&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rowKeySet()">rowKeySet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a set of row keys that have one or more values in the table.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code>java.util.SortedMap&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;java.util.Map&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rowMap()">rowMap</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a view that associates each row key with the corresponding map from column keys to
@@ -399,14 +399,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">toString</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the string representation <code>rowMap().toString()</code>.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>java.util.Collection&lt;V&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">values</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a collection of all values, which may contain duplicates.</div>
@@ -417,8 +417,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.Table">
@@ -449,11 +449,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R extends java.lang.Comparable,&#8203;C extends java.lang.Comparable,&#8203;V&gt;&nbsp;<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.98">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;R extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;&nbsp;<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.98">create</a>()</pre>
 <div class="block">Creates an empty <code>TreeBasedTable</code> that uses the natural orderings of both row and column
  keys.
 
- <p>The method signature specifies <code>R extends Comparable</code> with a raw <code>Comparable</code>,
+ <p>The method signature specifies <code>R extends Comparable</code> with a raw <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Comparable</code></a>,
  instead of <code>R extends Comparable&lt;? super R&gt;</code>, and the same for <code>C</code>. That's
  necessary to support classes defined without generics.</div>
 </li>
@@ -464,8 +464,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.109">create</a>&#8203;(java.util.Comparator&lt;? super R&gt;&nbsp;rowComparator,
-                                                                           java.util.Comparator&lt;? super C&gt;&nbsp;columnComparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.109">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super R&gt;&nbsp;rowComparator,
+                                                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super C&gt;&nbsp;columnComparator)</pre>
 <div class="block">Creates an empty <code>TreeBasedTable</code> that is ordered by the specified comparators.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -491,8 +491,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>rowComparator</h4>
-<pre class="methodSignature">@Deprecated
-public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.140">rowComparator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.140">rowComparator</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead.</div>
 </div>
@@ -506,11 +506,11 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>columnComparator</h4>
-<pre class="methodSignature">@Deprecated
-public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.157">columnComparator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.157">columnComparator</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Store the <code>Comparator</code> alongside the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
-     <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <code>Comparator</code> with:
+<div class="deprecationComment">Store the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> alongside the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
+     <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> with:
      <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>.</div>
 </div>
 <div class="block">Returns the comparator that orders the columns. With natural ordering, <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> is returned.</div>
@@ -524,7 +524,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>row</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.174">row</a>&#8203;(<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.174">row</a>&#8203;(<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
 <div class="block">Returns a view of all mappings that have the given row key. For each row key / column key /
  value mapping in the table with that row key, the returned map associates the column key with
  the value. If no mappings in the table have the provided row key, an empty map is returned.
@@ -532,7 +532,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
  <p>Changes to the returned map will update the underlying table, and vice versa.
 
  <p>Because a <code>TreeBasedTable</code> has unique sorted values for a given row, this method
- returns a <code>SortedMap</code>, instead of the <code>Map</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>
+ returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedMap</code></a>, instead of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>
  interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -553,11 +553,11 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedSet&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.305">rowKeySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.305">rowKeySet</a>()</pre>
 <div class="block">Returns a set of row keys that have one or more values in the table. Changes to the set will
  update the underlying table, and vice versa.
 
- <p>This method returns a <code>SortedSet</code>, instead of the <code>Set</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.</div>
+ <p>This method returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedSet</code></a>, instead of the <code>Set</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="RowSortedTable.html#rowKeySet()">rowKeySet</a></code>&nbsp;in interface&nbsp;<code><a href="RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</code></dd>
@@ -574,7 +574,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;java.util.Map&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.310">rowMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.310">rowMap</a>()</pre>
 <div class="block">Returns a view that associates each row key with the corresponding map from column keys to
  values. Changes to the returned map will update this table. The returned map does not support
  <code>put()</code> or <code>putAll()</code>, or <code>setValue()</code> on its entries.
@@ -583,7 +583,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
  returned by <a href="Table.html#row(R)"><code>Table.row(R)</code></a>. Those maps may support <code>setValue()</code>, <code>put()</code>, and <code>
  putAll()</code>.
 
- <p>This method returns a <code>SortedMap</code>, instead of the <code>Map</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.</div>
+ <p>This method returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedMap</code></a>, instead of the <code>Map</code> specified in the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="RowSortedTable.html#rowMap()">rowMap</a></code>&nbsp;in interface&nbsp;<code><a href="RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,&#8203;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</code></dd>
@@ -601,9 +601,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;contains&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        java.lang.Object&nbsp;rowKey,
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
                         <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        java.lang.Object&nbsp;columnKey)</pre>
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#contains(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row and column keys.</div>
 <dl>
@@ -622,7 +622,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <li class="blockList">
 <h4>containsColumn</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;containsColumn&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                              java.lang.Object&nbsp;columnKey)</pre>
+                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#containsColumn(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified column.</div>
 <dl>
@@ -640,7 +640,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <li class="blockList">
 <h4>containsRow</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;containsRow&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                           java.lang.Object&nbsp;rowKey)</pre>
+                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#containsRow(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row key.</div>
 <dl>
@@ -658,7 +658,7 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <li class="blockList">
 <h4>containsValue</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;containsValue&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             java.lang.Object&nbsp;value)</pre>
+                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#containsValue(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 <dl>
@@ -677,9 +677,9 @@ public&nbsp;java.util.Comparator&lt;? super <a href="TreeBasedTable.html" title=
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;V&nbsp;get&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             java.lang.Object&nbsp;rowKey,
+             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
              <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             java.lang.Object&nbsp;columnKey)</pre>
+             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#get(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
  mapping exists.</div>
@@ -775,9 +775,9 @@ public&nbsp;V&nbsp;put&#8203;(R&nbsp;rowKey,
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                java.lang.Object&nbsp;rowKey,
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
                 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                java.lang.Object&nbsp;columnKey)</pre>
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#remove(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Removes the mapping, if any, associated with the given keys.</div>
 <dl>
@@ -797,7 +797,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockList">
 <li class="blockList">
 <h4>cellSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,&#8203;C,&#8203;V&gt;&gt;&nbsp;cellSet()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,&#8203;C,&#8203;V&gt;&gt;&nbsp;cellSet()</pre>
 <div class="block">Returns a set of all row key / column key / value triplets. Changes to the returned set will
  update the underlying table, and vice versa. The cell set does not support the <code>add</code> or
  <code>addAll</code> methods.
@@ -823,7 +823,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockList">
 <li class="blockList">
 <h4>column</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;R,&#8203;V&gt;&nbsp;column&#8203;(C&nbsp;columnKey)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;R,&#8203;V&gt;&nbsp;column&#8203;(C&nbsp;columnKey)</pre>
 <div class="block">Returns a view of all mappings that have the given column key. For each row key / column key /
  value mapping in the table with that column key, the returned map associates the row key with
  the value. If no mappings in the table have the provided column key, an empty map is returned.
@@ -847,7 +847,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockList">
 <li class="blockList">
 <h4>columnKeySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;C&gt;&nbsp;columnKeySet()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;C&gt;&nbsp;columnKeySet()</pre>
 <div class="block">Returns a set of column keys that have one or more values in the table. Changes to the set will
  update the underlying table, and vice versa.
 
@@ -869,7 +869,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;java.util.Collection&lt;V&gt;&nbsp;values()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;V&gt;&nbsp;values()</pre>
 <div class="block">Returns a collection of all values, which may contain duplicates. Changes to the returned
  collection will update the underlying table, and vice versa.
 
@@ -889,7 +889,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockList">
 <li class="blockList">
 <h4>columnMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;C,&#8203;java.util.Map&lt;R,&#8203;V&gt;&gt;&nbsp;columnMap()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;C,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;R,&#8203;V&gt;&gt;&nbsp;columnMap()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#columnMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each column key with the corresponding map from row keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -918,7 +918,7 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
  <a href="Table.html#put(R,C,V)"><code>Table.put(R, C, V)</code></a> with each row key / column key / value mapping in <code>table</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Table.html#putAll(com.google.common.collect.Table)">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Table.html#putAll(com.google.common.collect.Table)">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>table</code> - the table to add to this table</dd>
 </dl>
@@ -931,15 +931,15 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      java.lang.Object&nbsp;obj)</pre>
+                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#equals(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Compares the specified object with this table for equality. Two tables are equal when their
  cell views, as returned by <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a>, are equal.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Table.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Table.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -955,9 +955,9 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
  its cell view, as returned by <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Table.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Table.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -967,11 +967,11 @@ public&nbsp;V&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;toString()</pre>
 <div class="block">Returns the string representation <code>rowMap().toString()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

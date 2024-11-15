@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.net.InetAddresses</li>
@@ -134,15 +134,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.104">InetAddresses</a>
-extends java.lang.Object</pre>
-<div class="block">Static utility methods pertaining to <code>InetAddress</code> instances.
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+<div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> instances.
 
  <p><b>Important note:</b> Unlike <code>InetAddress.getByName()</code>, the methods of this class never
  cause DNS services to be accessed. For this reason, you should prefer these methods as much as
  possible over their JDK equivalents whenever you are expecting to handle only IP address string
  literals -- there is no blocking DNS penalty for a malformed string.
 
- <p>When dealing with <code>Inet4Address</code> and <code>Inet6Address</code> objects as byte arrays (vis.
+ <p>When dealing with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> objects as byte arrays (vis.
  <code>InetAddress.getAddress()</code>) they are 4 and 16 bytes in length, respectively, and represent
  the address in network byte order.
 
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
  <p>Technically one <i>can</i> create a 128bit IPv6 address with the wire format of a "mapped"
  address, as shown above, and transmit it in an IPv6 packet header. However, Java's InetAddress
  creation methods appear to adhere doggedly to the original intent of the "mapped" address: all
- "mapped" addresses return <code>Inet4Address</code> objects.
+ "mapped" addresses return <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> objects.
 
  <p>For added safety, it is common for IPv6 network operators to filter all packets where either
  the source or destination address appears to be a "compat" or "mapped" address. Filtering
@@ -242,137 +242,137 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#coerceToInteger(java.net.InetAddress)">coerceToInteger</a></span>&#8203;(java.net.InetAddress&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#coerceToInteger(java.net.InetAddress)">coerceToInteger</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Returns an integer representing an IPv4 address regardless of whether the supplied argument is
  an IPv4 address or not.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static java.net.InetAddress</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decrement(java.net.InetAddress)">decrement</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decrement(java.net.InetAddress)">decrement</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns a new InetAddress that is one less than the passed in address.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static java.net.InetAddress</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forString(java.lang.String)">forString</a></span>&#8203;(java.lang.String&nbsp;ipString)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forString(java.lang.String)">forString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</code></th>
 <td class="colLast">
-<div class="block">Returns the <code>InetAddress</code> having the given string representation.</div>
+<div class="block">Returns the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> having the given string representation.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static java.net.InetAddress</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forUriString(java.lang.String)">forUriString</a></span>&#8203;(java.lang.String&nbsp;hostAddr)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forUriString(java.lang.String)">forUriString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;hostAddr)</code></th>
 <td class="colLast">
 <div class="block">Returns an InetAddress representing the literal IPv4 or IPv6 host portion of a URL, encoded in
  the format specified by RFC 3986 section 3.2.2.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromInteger(int)">fromInteger</a></span>&#8203;(int&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns an Inet4Address having the integer value specified by the argument.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromIPv4BigInteger(java.math.BigInteger)">fromIPv4BigInteger</a></span>&#8203;(java.math.BigInteger&nbsp;address)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromIPv4BigInteger(java.math.BigInteger)">fromIPv4BigInteger</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns the <code>Inet4Address</code> corresponding to a given <code>BigInteger</code>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static java.net.Inet6Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromIPv6BigInteger(java.math.BigInteger)">fromIPv6BigInteger</a></span>&#8203;(java.math.BigInteger&nbsp;address)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromIPv6BigInteger(java.math.BigInteger)">fromIPv6BigInteger</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns the <code>Inet6Address</code> corresponding to a given <code>BigInteger</code>.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static java.net.InetAddress</code></td>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromLittleEndianByteArray(byte%5B%5D)">fromLittleEndianByteArray</a></span>&#8203;(byte[]&nbsp;addr)</code></th>
 <td class="colLast">
-<div class="block">Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what <code>InetAddress.getByAddress(java.lang.String, byte[])</code> expects).</div>
+<div class="block">Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#getByAddress(java.lang.String,byte%5B%5D)" title="class or interface in java.net" class="externalLink"><code>InetAddress.getByAddress(java.lang.String, byte[])</code></a> expects).</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get6to4IPv4Address(java.net.Inet6Address)">get6to4IPv4Address</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get6to4IPv4Address(java.net.Inet6Address)">get6to4IPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Returns the IPv4 address embedded in a 6to4 address.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCoercedIPv4Address(java.net.InetAddress)">getCoercedIPv4Address</a></span>&#8203;(java.net.InetAddress&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCoercedIPv4Address(java.net.InetAddress)">getCoercedIPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Coerces an IPv6 address into an IPv4 address.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCompatIPv4Address(java.net.Inet6Address)">getCompatIPv4Address</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCompatIPv4Address(java.net.Inet6Address)">getCompatIPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Returns the IPv4 address embedded in an IPv4 compatible address.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEmbeddedIPv4ClientAddress(java.net.Inet6Address)">getEmbeddedIPv4ClientAddress</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEmbeddedIPv4ClientAddress(java.net.Inet6Address)">getEmbeddedIPv4ClientAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Examines the Inet6Address to extract the embedded IPv4 client address if the InetAddress is an
  IPv6 address of one of the specified address types that contain an embedded IPv4 address.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>static java.net.Inet4Address</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIsatapIPv4Address(java.net.Inet6Address)">getIsatapIPv4Address</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIsatapIPv4Address(java.net.Inet6Address)">getIsatapIPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Returns the IPv4 address embedded in an ISATAP address.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>static <a href="InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTeredoInfo(java.net.Inet6Address)">getTeredoInfo</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTeredoInfo(java.net.Inet6Address)">getTeredoInfo</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Returns the Teredo information embedded in a Teredo address.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEmbeddedIPv4ClientAddress(java.net.Inet6Address)">hasEmbeddedIPv4ClientAddress</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEmbeddedIPv4ClientAddress(java.net.Inet6Address)">hasEmbeddedIPv4ClientAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Examines the Inet6Address to determine if it is an IPv6 address of one of the specified address
  types that contain an embedded IPv4 address.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static java.net.InetAddress</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#increment(java.net.InetAddress)">increment</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#increment(java.net.InetAddress)">increment</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns a new InetAddress that is one more than the passed in address.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#is6to4Address(java.net.Inet6Address)">is6to4Address</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#is6to4Address(java.net.Inet6Address)">is6to4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Evaluates whether the argument is a 6to4 address.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isCompatIPv4Address(java.net.Inet6Address)">isCompatIPv4Address</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isCompatIPv4Address(java.net.Inet6Address)">isCompatIPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Evaluates whether the argument is an IPv6 "compat" address.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInetAddress(java.lang.String)">isInetAddress</a></span>&#8203;(java.lang.String&nbsp;ipString)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInetAddress(java.lang.String)">isInetAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the supplied string is a valid IP string literal, <code>false</code>
  otherwise.</div>
@@ -380,21 +380,21 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isIsatapAddress(java.net.Inet6Address)">isIsatapAddress</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isIsatapAddress(java.net.Inet6Address)">isIsatapAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Evaluates whether the argument is an ISATAP address.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isMappedIPv4Address(java.lang.String)">isMappedIPv4Address</a></span>&#8203;(java.lang.String&nbsp;ipString)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isMappedIPv4Address(java.lang.String)">isMappedIPv4Address</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</code></th>
 <td class="colLast">
 <div class="block">Evaluates whether the argument is an "IPv4 mapped" IPv6 address.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isMaximum(java.net.InetAddress)">isMaximum</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isMaximum(java.net.InetAddress)">isMaximum</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns true if the InetAddress is either 255.255.255.255 for IPv4 or
  ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.</div>
@@ -402,38 +402,38 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isTeredoAddress(java.net.Inet6Address)">isTeredoAddress</a></span>&#8203;(java.net.Inet6Address&nbsp;ip)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isTeredoAddress(java.net.Inet6Address)">isTeredoAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</code></th>
 <td class="colLast">
 <div class="block">Evaluates whether the argument is a Teredo address.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isUriInetAddress(java.lang.String)">isUriInetAddress</a></span>&#8203;(java.lang.String&nbsp;ipString)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isUriInetAddress(java.lang.String)">isUriInetAddress</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the supplied string is a valid URI IP string literal, <code>false</code>
  otherwise.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toAddrString(java.net.InetAddress)">toAddrString</a></span>&#8203;(java.net.InetAddress&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toAddrString(java.net.InetAddress)">toAddrString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</code></th>
 <td class="colLast">
-<div class="block">Returns the string representation of an <code>InetAddress</code>.</div>
+<div class="block">Returns the string representation of an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>.</div>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static java.math.BigInteger</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toBigInteger(java.net.InetAddress)">toBigInteger</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toBigInteger(java.net.InetAddress)">toBigInteger</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</code></th>
 <td class="colLast">
 <div class="block">Returns a BigInteger representing the address.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toUriString(java.net.InetAddress)">toUriString</a></span>&#8203;(java.net.InetAddress&nbsp;ip)</code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toUriString(java.net.InetAddress)">toUriString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</code></th>
 <td class="colLast">
-<div class="block">Returns the string representation of an <code>InetAddress</code> suitable for inclusion in a URI.</div>
+<div class="block">Returns the string representation of an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> suitable for inclusion in a URI.</div>
 </td>
 </tr>
 </table>
@@ -441,8 +441,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -467,13 +467,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>forString</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.158">forString</a>&#8203;(java.lang.String&nbsp;ipString)</pre>
-<div class="block">Returns the <code>InetAddress</code> having the given string representation.
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.158">forString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</pre>
+<div class="block">Returns the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> having the given string representation.
 
  <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
 
  <p>This method accepts non-ASCII digits, for example <code>"１９２.１６８.０.１"</code> (those are fullwidth
- characters). That is consistent with <code>InetAddress</code>, but not with various RFCs. If you
+ characters). That is consistent with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like <code>
  CharMatcher.ascii().matchesAllOf(ipString)</code>.
 
@@ -486,11 +486,11 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dd><code>ipString</code> - <code>String</code> containing an IPv4 or IPv6 string literal, e.g. <code>
      "192.168.0.1"</code> or <code>"2001:db8::1"</code> or with a scope ID, e.g. <code>"2001:db8::1%eth0"</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>InetAddress</code> representing the argument</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> representing the argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument is not a valid IP string literal or if the
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument is not a valid IP string literal or if the
      address has a scope ID that fails validation against the interfaces on the machine (as
-     required by Java's <code>InetAddress</code>)</dd>
+     required by Java's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>)</dd>
 </dl>
 </li>
 </ul>
@@ -500,12 +500,12 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isInetAddress</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.187">isInetAddress</a>&#8203;(java.lang.String&nbsp;ipString)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.187">isInetAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</pre>
 <div class="block">Returns <code>true</code> if the supplied string is a valid IP string literal, <code>false</code>
  otherwise.
 
  <p>This method accepts non-ASCII digits, for example <code>"１９２.１６８.０.１"</code> (those are fullwidth
- characters). That is consistent with <code>InetAddress</code>, but not with various RFCs. If you
+ characters). That is consistent with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like <code>
  CharMatcher.ascii().matchesAllOf(ipString)</code>.
 
@@ -526,10 +526,10 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>toAddrString</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.472">toAddrString</a>&#8203;(java.net.InetAddress&nbsp;ip)</pre>
-<div class="block">Returns the string representation of an <code>InetAddress</code>.
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.472">toAddrString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</pre>
+<div class="block">Returns the string representation of an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>.
 
- <p>For IPv4 addresses, this is identical to <code>InetAddress.getHostAddress()</code>, but for IPv6
+ <p>For IPv4 addresses, this is identical to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#getHostAddress()" title="class or interface in java.net" class="externalLink"><code>InetAddress.getHostAddress()</code></a>, but for IPv6
  addresses, the output follows <a href="http://tools.ietf.org/html/rfc5952">RFC 5952</a> section
  4. The main difference is that this method uses "::" for zero compression, while Java's version
  uses the uncompressed form (except on Android, where the zero compression is also done). The
@@ -541,7 +541,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  such as "::c000:201".</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>InetAddress</code> to be converted to an address string</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> to be converted to an address string</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>String</code> containing the text-formatted IP address</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -555,23 +555,23 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>toUriString</h4>
-<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.586">toUriString</a>&#8203;(java.net.InetAddress&nbsp;ip)</pre>
-<div class="block">Returns the string representation of an <code>InetAddress</code> suitable for inclusion in a URI.
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.586">toUriString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</pre>
+<div class="block">Returns the string representation of an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> suitable for inclusion in a URI.
 
- <p>For IPv4 addresses, this is identical to <code>InetAddress.getHostAddress()</code>, but for IPv6
+ <p>For IPv4 addresses, this is identical to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#getHostAddress()" title="class or interface in java.net" class="externalLink"><code>InetAddress.getHostAddress()</code></a>, but for IPv6
  addresses it compresses zeroes and surrounds the text with square brackets; for example <code>
  "[2001:db8::1]"</code>.
 
  <p>Per section 3.2.2 of <a target="_parent" href="http://tools.ietf.org/html/rfc3986#section-3.2.2">RFC 3986</a>, a URI containing an IPv6
  string literal is of the form <code>"http://[2001:db8::1]:8888/index.html"</code>.
 
- <p>Use of either <a href="#toAddrString(java.net.InetAddress)"><code>toAddrString(java.net.InetAddress)</code></a>, <code>InetAddress.getHostAddress()</code>, or
- this method is recommended over <code>InetAddress.toString()</code> when an IP address string
- literal is desired. This is because <code>InetAddress.toString()</code> prints the hostname and the
+ <p>Use of either <a href="#toAddrString(java.net.InetAddress)"><code>toAddrString(java.net.InetAddress)</code></a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#getHostAddress()" title="class or interface in java.net" class="externalLink"><code>InetAddress.getHostAddress()</code></a>, or
+ this method is recommended over <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#toString()" title="class or interface in java.net" class="externalLink"><code>InetAddress.toString()</code></a> when an IP address string
+ literal is desired. This is because <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#toString()" title="class or interface in java.net" class="externalLink"><code>InetAddress.toString()</code></a> prints the hostname and the
  IP address string joined by a "/".</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>InetAddress</code> to be converted to URI string literal</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> to be converted to URI string literal</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>String</code> containing URI-safe string literal</dd>
 </dl>
@@ -583,7 +583,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>forUriString</h4>
-<pre class="methodSignature">public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.614">forUriString</a>&#8203;(java.lang.String&nbsp;hostAddr)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.614">forUriString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;hostAddr)</pre>
 <div class="block">Returns an InetAddress representing the literal IPv4 or IPv6 host portion of a URL, encoded in
  the format specified by RFC 3986 section 3.2.2.
 
@@ -593,7 +593,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  <p>This method is the inverse of <a href="#toUriString(java.net.InetAddress)"><code>toUriString(java.net.InetAddress)</code></a>.
 
  <p>This method accepts non-ASCII digits, for example <code>"１９２.１６８.０.１"</code> (those are fullwidth
- characters). That is consistent with <code>InetAddress</code>, but not with various RFCs. If you
+ characters). That is consistent with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like <code>
  CharMatcher.ascii().matchesAllOf(ipString)</code>.</div>
 <dl>
@@ -602,9 +602,9 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an InetAddress representing the address in <code>hostAddr</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>hostAddr</code> is not a valid IPv4 address, or IPv6
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>hostAddr</code> is not a valid IPv4 address, or IPv6
      address surrounded by square brackets, or if the address has a scope ID that fails
-     validation against the interfaces on the machine (as required by Java's <code>InetAddress</code>)</dd>
+     validation against the interfaces on the machine (as required by Java's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>)</dd>
 </dl>
 </li>
 </ul>
@@ -614,12 +614,12 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isUriInetAddress</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.664">isUriInetAddress</a>&#8203;(java.lang.String&nbsp;ipString)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.664">isUriInetAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</pre>
 <div class="block">Returns <code>true</code> if the supplied string is a valid URI IP string literal, <code>false</code>
  otherwise.
 
  <p>This method accepts non-ASCII digits, for example <code>"１９２.１６８.０.１"</code> (those are fullwidth
- characters). That is consistent with <code>InetAddress</code>, but not with various RFCs. If you
+ characters). That is consistent with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like <code>
  CharMatcher.ascii().matchesAllOf(ipString)</code>.
 
@@ -640,7 +640,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isCompatIPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.686">isCompatIPv4Address</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.686">isCompatIPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Evaluates whether the argument is an IPv6 "compat" address.
 
  <p>An "IPv4 compatible", or "compat", address is one with 96 leading bits of zero, with the
@@ -650,12 +650,12 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 
  <p>For more on IPv4 compatible addresses see section 2.5.5.1 of <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1">RFC 4291</a>.
 
- <p>NOTE: This method is different from <code>Inet6Address.isIPv4CompatibleAddress()</code> in that it
+ <p>NOTE: This method is different from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true#isIPv4CompatibleAddress()" title="class or interface in java.net" class="externalLink"><code>Inet6Address.isIPv4CompatibleAddress()</code></a> in that it
  more correctly classifies <code>"::"</code> and <code>"::1"</code> as proper IPv6 addresses (which they
  are), NOT IPv4 compatible addresses (which they are generally NOT considered to be).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded IPv4 compatible address format</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded IPv4 compatible address format</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the argument is a valid "compat" address</dd>
 </dl>
@@ -667,15 +667,15 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>getCompatIPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.709">getCompatIPv4Address</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.709">getCompatIPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Returns the IPv4 address embedded in an IPv4 compatible address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for an embedded IPv4 address</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for an embedded IPv4 address</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> of the embedded IPv4 address</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> of the embedded IPv4 address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument is not a valid IPv4 compatible address</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument is not a valid IPv4 compatible address</dd>
 </dl>
 </li>
 </ul>
@@ -685,7 +685,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>is6to4Address</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.728">is6to4Address</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.728">is6to4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Evaluates whether the argument is a 6to4 address.
 
  <p>6to4 addresses begin with the <code>"2002::/16"</code> prefix. The next 32 bits are the IPv4
@@ -694,7 +694,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  <p>For more on 6to4 addresses see section 2 of <a target="_parent" href="http://tools.ietf.org/html/rfc3056#section-2">RFC 3056</a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for 6to4 address format</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for 6to4 address format</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the argument is a 6to4 address</dd>
 </dl>
@@ -706,15 +706,15 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>get6to4IPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.740">get6to4IPv4Address</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.740">get6to4IPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Returns the IPv4 address embedded in a 6to4 address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded IPv4 in 6to4 address</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded IPv4 in 6to4 address</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> of embedded IPv4 in 6to4 address</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> of embedded IPv4 in 6to4 address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument is not a valid IPv6 6to4 address</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument is not a valid IPv6 6to4 address</dd>
 </dl>
 </li>
 </ul>
@@ -724,13 +724,13 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isTeredoAddress</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.815">isTeredoAddress</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.815">isTeredoAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Evaluates whether the argument is a Teredo address.
 
  <p>Teredo addresses begin with the <code>"2001::/32"</code> prefix.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for Teredo address format</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for Teredo address format</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the argument is a Teredo address</dd>
 </dl>
@@ -742,15 +742,15 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>getTeredoInfo</h4>
-<pre class="methodSignature">public static&nbsp;<a href="InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.830">getTeredoInfo</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.830">getTeredoInfo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Returns the Teredo information embedded in a Teredo address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded Teredo information</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded Teredo information</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>extracted <code>TeredoInfo</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument is not a valid IPv6 Teredo address</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument is not a valid IPv6 Teredo address</dd>
 </dl>
 </li>
 </ul>
@@ -760,7 +760,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isIsatapAddress</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.864">isIsatapAddress</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.864">isIsatapAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Evaluates whether the argument is an ISATAP address.
 
  <p>From RFC 5214: "ISATAP interface identifiers are constructed in Modified EUI-64 format [...]
@@ -770,7 +770,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  <p>For more on ISATAP addresses see section 6.1 of <a target="_parent" href="http://tools.ietf.org/html/rfc5214#section-6.1">RFC 5214</a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for ISATAP address format</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for ISATAP address format</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the argument is an ISATAP address</dd>
 </dl>
@@ -782,15 +782,15 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>getIsatapIPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.891">getIsatapIPv4Address</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.891">getIsatapIPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Returns the IPv4 address embedded in an ISATAP address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded IPv4 in ISATAP address</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded IPv4 in ISATAP address</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> of embedded IPv4 in an ISATAP address</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> of embedded IPv4 in an ISATAP address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument is not a valid IPv6 ISATAP address</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument is not a valid IPv6 ISATAP address</dd>
 </dl>
 </li>
 </ul>
@@ -800,7 +800,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEmbeddedIPv4ClientAddress</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.909">hasEmbeddedIPv4ClientAddress</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.909">hasEmbeddedIPv4ClientAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Examines the Inet6Address to determine if it is an IPv6 address of one of the specified address
  types that contain an embedded IPv4 address.
 
@@ -809,7 +809,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  BGP routing table.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded IPv4 client address</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded IPv4 client address</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if there is an embedded IPv4 client address</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -823,7 +823,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>getEmbeddedIPv4ClientAddress</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.925">getEmbeddedIPv4ClientAddress</a>&#8203;(java.net.Inet6Address&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.925">getEmbeddedIPv4ClientAddress</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;ip)</pre>
 <div class="block">Examines the Inet6Address to extract the embedded IPv4 client address if the InetAddress is an
  IPv6 address of one of the specified address types that contain an embedded IPv4 address.
 
@@ -832,11 +832,11 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  BGP routing table.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>Inet6Address</code> to be examined for embedded IPv4 client address</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> to be examined for embedded IPv4 client address</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> of embedded IPv4 client address</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> of embedded IPv4 client address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the argument does not have a valid embedded IPv4 address</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the argument does not have a valid embedded IPv4 address</dd>
 </dl>
 </li>
 </ul>
@@ -846,7 +846,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>isMappedIPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.963">isMappedIPv4Address</a>&#8203;(java.lang.String&nbsp;ipString)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.963">isMappedIPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ipString)</pre>
 <div class="block">Evaluates whether the argument is an "IPv4 mapped" IPv6 address.
 
  <p>An "IPv4 mapped" address is anything in the range ::ffff:0:0/96 (sometimes written as
@@ -854,12 +854,12 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 
  <p>For more on IPv4 mapped addresses see section 2.5.5.2 of <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2">RFC 4291</a>.
 
- <p>Note: This method takes a <code>String</code> argument because <code>InetAddress</code> automatically
+ <p>Note: This method takes a <code>String</code> argument because <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> automatically
  collapses mapped addresses to IPv4. (It is actually possible to avoid this using one of the
- obscure <code>Inet6Address</code> methods, but it would be unwise to depend on such a
+ obscure <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet6Address</code></a> methods, but it would be unwise to depend on such a
  poorly-documented feature.)
 
- <p>This method accepts non-ASCII digits. That is consistent with <code>InetAddress</code>, but not
+ <p>This method accepts non-ASCII digits. That is consistent with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>, but not
  with various RFCs. If you want to accept ASCII digits only, you can use something like <code>
  CharMatcher.ascii().matchesAllOf(ipString)</code>.</div>
 <dl>
@@ -878,7 +878,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>getCoercedIPv4Address</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1004">getCoercedIPv4Address</a>&#8203;(java.net.InetAddress&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1004">getCoercedIPv4Address</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</pre>
 <div class="block">Coerces an IPv6 address into an IPv4 address.
 
  <p>HACK: As long as applications continue to use IPv4 addresses for indexing into tables,
@@ -898,9 +898,9 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  address that might permit elevated privileges.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>InetAddress</code> to "coerce"</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> to "coerce"</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> represented "coerced" address</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> represented "coerced" address</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
 </dl>
@@ -912,7 +912,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>coerceToInteger</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1066">coerceToInteger</a>&#8203;(java.net.InetAddress&nbsp;ip)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1066">coerceToInteger</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;ip)</pre>
 <div class="block">Returns an integer representing an IPv4 address regardless of whether the supplied argument is
  an IPv4 address or not.
 
@@ -923,11 +923,11 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
  to handle IPv6 addresses as well until the application is suitably fixed.
 
  <p>NOTE: an IPv6 address coerced to an IPv4 address can only be used for such purposes as
- rudimentary identification or indexing into a collection of real <code>InetAddress</code>es. They
+ rudimentary identification or indexing into a collection of real <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a>es. They
  cannot be used as real addresses for the purposes of network communication.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ip</code> - <code>InetAddress</code> to convert</dd>
+<dd><code>ip</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> to convert</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>int</code>, "coerced" if ip is not an IPv4 address</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -941,13 +941,13 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>toBigInteger</h4>
-<pre class="methodSignature">public static&nbsp;java.math.BigInteger&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1079">toBigInteger</a>&#8203;(java.net.InetAddress&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1079">toBigInteger</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</pre>
 <div class="block">Returns a BigInteger representing the address.
 
  <p>Unlike <code>coerceToInteger</code>, IPv6 addresses are not coerced to IPv4 addresses.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>address</code> - <code>InetAddress</code> to convert</dd>
+<dd><code>address</code> - <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>InetAddress</code></a> to convert</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>BigInteger</code> representation of the address</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -961,13 +961,13 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>fromInteger</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1089">fromInteger</a>&#8203;(int&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1089">fromInteger</a>&#8203;(int&nbsp;address)</pre>
 <div class="block">Returns an Inet4Address having the integer value specified by the argument.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>address</code> - <code>int</code>, the 32bit integer address to be converted</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>Inet4Address</code> equivalent of the argument</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>Inet4Address</code></a> equivalent of the argument</dd>
 </dl>
 </li>
 </ul>
@@ -977,7 +977,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>fromIPv4BigInteger</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet4Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1101">fromIPv4BigInteger</a>&#8203;(java.math.BigInteger&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1101">fromIPv4BigInteger</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;address)</pre>
 <div class="block">Returns the <code>Inet4Address</code> corresponding to a given <code>BigInteger</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -985,7 +985,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Inet4Address representation of the given BigInteger</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the BigInteger is not between 0 and 2^32-1</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the BigInteger is not between 0 and 2^32-1</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.2</dd>
 </dl>
@@ -997,7 +997,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>fromIPv6BigInteger</h4>
-<pre class="methodSignature">public static&nbsp;java.net.Inet6Address&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1112">fromIPv6BigInteger</a>&#8203;(java.math.BigInteger&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net" class="externalLink">Inet6Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1112">fromIPv6BigInteger</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;address)</pre>
 <div class="block">Returns the <code>Inet6Address</code> corresponding to a given <code>BigInteger</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1005,7 +1005,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Inet6Address representation of the given BigInteger</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the BigInteger is not between 0 and 2^128-1</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the BigInteger is not between 0 and 2^128-1</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.2</dd>
 </dl>
@@ -1017,9 +1017,9 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>fromLittleEndianByteArray</h4>
-<pre class="methodSignature">public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1168">fromLittleEndianByteArray</a>&#8203;(byte[]&nbsp;addr)
-                                                      throws java.net.UnknownHostException</pre>
-<div class="block">Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what <code>InetAddress.getByAddress(java.lang.String, byte[])</code> expects).
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1168">fromLittleEndianByteArray</a>&#8203;(byte[]&nbsp;addr)
+                                             throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/UnknownHostException.html?is-external=true" title="class or interface in java.net" class="externalLink">UnknownHostException</a></pre>
+<div class="block">Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true#getByAddress(java.lang.String,byte%5B%5D)" title="class or interface in java.net" class="externalLink"><code>InetAddress.getByAddress(java.lang.String, byte[])</code></a> expects).
 
  <p>IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.</div>
 <dl>
@@ -1028,7 +1028,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an InetAddress object created from the raw IP address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.net.UnknownHostException</code> - if IP address is of illegal length</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/UnknownHostException.html?is-external=true" title="class or interface in java.net" class="externalLink">UnknownHostException</a></code> - if IP address is of illegal length</dd>
 </dl>
 </li>
 </ul>
@@ -1038,7 +1038,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>decrement</h4>
-<pre class="methodSignature">public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1185">decrement</a>&#8203;(java.net.InetAddress&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1185">decrement</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</pre>
 <div class="block">Returns a new InetAddress that is one less than the passed in address. This method works for
  both IPv4 and IPv6 addresses.</div>
 <dl>
@@ -1047,7 +1047,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new InetAddress that is one less than the passed in address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if InetAddress is at the beginning of its range</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if InetAddress is at the beginning of its range</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18.0</dd>
 </dl>
@@ -1059,7 +1059,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockList">
 <li class="blockList">
 <h4>increment</h4>
-<pre class="methodSignature">public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1208">increment</a>&#8203;(java.net.InetAddress&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1208">increment</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</pre>
 <div class="block">Returns a new InetAddress that is one more than the passed in address. This method works for
  both IPv4 and IPv6 addresses.</div>
 <dl>
@@ -1068,7 +1068,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new InetAddress that is one more than the passed in address</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if InetAddress is at the end of its range</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if InetAddress is at the end of its range</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
 </dl>
@@ -1080,7 +1080,7 @@ public static&nbsp;java.net.InetAddress&nbsp;<a href="../../../../src-html/com/g
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isMaximum</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1230">isMaximum</a>&#8203;(java.net.InetAddress&nbsp;address)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.1230">isMaximum</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net" class="externalLink">InetAddress</a>&nbsp;address)</pre>
 <div class="block">Returns true if the InetAddress is either 255.255.255.255 for IPv4 or
  ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.</div>
 <dl>

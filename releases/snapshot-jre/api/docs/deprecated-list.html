@@ -272,15 +272,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/base/Equivalence.html#test(T,T)">com.google.common.base.Equivalence.test&#8203;(T, T)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Provided only to satisfy the <code>BiPredicate</code> interface; use <a href="com/google/common/base/Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(T, T)</code></a>
+<div class="deprecationComment">Provided only to satisfy the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>BiPredicate</code></a> interface; use <a href="com/google/common/base/Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(T, T)</code></a>
      instead.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/base/Throwables.html#lazyStackTrace(java.lang.Throwable)">com.google.common.base.Throwables.lazyStackTrace&#8203;(Throwable)</a></th>
 <td class="colLast">
-<div class="deprecationComment">This method is equivalent to <code>Throwable.getStackTrace()</code> on JDK versions past
-     JDK 8 and on all Android versions. Use <code>Throwable.getStackTrace()</code> directly, or where
+<div class="deprecationComment">This method is equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>Throwable.getStackTrace()</code></a> on JDK versions past
+     JDK 8 and on all Android versions. Use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>Throwable.getStackTrace()</code></a> directly, or where
      possible use the <code>java.lang.StackWalker.walk</code> method introduced in JDK 9.</div>
 </td>
 </tr>
@@ -879,7 +879,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/Ordering.html#binarySearch(java.util.List,T)">com.google.common.collect.Ordering.binarySearch&#8203;(List&lt;? extends T&gt;, T)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Use <code>Collections.binarySearch(List, Object, Comparator)</code> directly.</div>
+<div class="deprecationComment">Use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,T,java.util.Comparator)" title="class or interface in java.util" class="externalLink"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -898,7 +898,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/Sets.html#newSetFromMap(java.util.Map)">com.google.common.collect.Sets.newSetFromMap&#8203;(Map&lt;E, Boolean&gt;)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Use <code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code> instead.</div>
+<div class="deprecationComment">Use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#newSetFromMap(java.util.Map)" title="class or interface in java.util" class="externalLink"><code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code></a> instead.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -952,8 +952,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/collect/TreeBasedTable.html#columnComparator()">com.google.common.collect.TreeBasedTable.columnComparator()</a></th>
 <td class="colLast">
-<div class="deprecationComment">Store the <code>Comparator</code> alongside the <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
-     <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <code>Comparator</code> with:
+<div class="deprecationComment">Store the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> alongside the <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
+     <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> with:
      <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>.</div>
 </td>
 </tr>
@@ -1043,7 +1043,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/hash/Hasher.html#hashCode()">com.google.common.hash.Hasher.hashCode()</a></th>
 <td class="colLast">
-<div class="deprecationComment">This returns <code>Object.hashCode()</code>; you almost certainly mean to call <code>
+<div class="deprecationComment">This returns <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>
      hash().asInt()</code>.</div>
 </td>
 </tr>
@@ -1107,7 +1107,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      context.getCacheDir()</code>), and create your own directory under that. (For example, you might
      use <code>new File(context.getCacheDir(), "directoryname").mkdir()</code>, or, if you need an
      arbitrary number of temporary directories, you might have to generate multiple directory
-     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For JRE users, prefer <code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code>, transforming it to a <code>File</code> using <code>toFile()</code> if needed. To restrict permissions as this method
+     names in a loop until <code>mkdir()</code> returns <code>true</code>.) For JRE users, prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Files.html?is-external=true#createTempDirectory(java.nio.file.Path,java.lang.String,java.nio.file.attribute.FileAttribute...)" title="class or interface in java.nio.file" class="externalLink"><code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code></a>, transforming it to a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>File</code></a> using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/file/Path.html?is-external=true#toFile()" title="class or interface in java.nio.file" class="externalLink"><code>toFile()</code></a> if needed. To restrict permissions as this method
      does, pass <code>
      PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))</code> to your
      call to <code>createTempDirectory</code>.</div>
@@ -1196,8 +1196,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/ClosingFuture.html#eventuallyClosing(com.google.common.util.concurrent.ListenableFuture,java.util.concurrent.Executor)">com.google.common.util.concurrent.ClosingFuture.eventuallyClosing&#8203;(ListenableFuture&lt;C&gt;, Executor)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Creating <code>Future</code>s of closeable types is dangerous in general because the
-     underlying value may never be closed if the <code>Future</code> is canceled after its operation
+<div class="deprecationComment">Creating <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Future</code></a>s of closeable types is dangerous in general because the
+     underlying value may never be closed if the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Future</code></a> is canceled after its operation
      begins. Consider replacing code that creates <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>s of closeable types,
      including those that pass them to this method, with <a href="com/google/common/util/concurrent/ClosingFuture.html#submit(com.google.common.util.concurrent.ClosingFuture.ClosingCallable,java.util.concurrent.Executor)"><code>ClosingFuture.submit(ClosingCallable,
      Executor)</code></a> in order to ensure that resources do not leak. Or, to start a pipeline with a
@@ -1232,7 +1232,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(java.lang.Error)</a> a constructor that accepts a cause: Users
      of this class typically expect for instances to have a non-null cause. At the moment, you
      can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
-     however, that passing an explicit <code>null</code> cause prevents anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a constructor that omits the
+     however, that passing an explicit <code>null</code> cause prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true#initCause(java.lang.Throwable)" title="class or interface in java.lang" class="externalLink"><code>Throwable.initCause(java.lang.Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits the
      cause.</div>
 </td>
 </tr>
@@ -1243,7 +1243,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      accepts a cause: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
      <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
-     anyone from calling <code>Throwable.initCause(java.lang.Throwable)</code> later, so it is not quite equivalent to using a
+     anyone from calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true#initCause(java.lang.Throwable)" title="class or interface in java.lang" class="externalLink"><code>Throwable.initCause(java.lang.Throwable)</code></a> later, so it is not quite equivalent to using a
      constructor that omits the cause.</div>
 </td>
 </tr>

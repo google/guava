@@ -121,10 +121,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>java.util.AbstractCollection&lt;E&gt;</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a>&lt;E&gt;</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.ConcurrentHashMultiset&lt;E&gt;</li>
@@ -138,13 +138,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code>, <code>java.io.Serializable</code>, <code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code></dd>
+<dd><code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.62">ConcurrentHashMultiset</a>&lt;E&gt;
-extends java.util.AbstractCollection&lt;E&gt;
-implements java.io.Serializable</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E&gt;
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">A multiset that supports concurrent modifications and that provides atomic versions of most
  <code>Multiset</code> operations (exceptions where noted). Null elements are not supported.
 
@@ -175,7 +175,7 @@ implements java.io.Serializable</pre>
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;com.google.common.collect.<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a></h3>
-<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></li>
+<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -211,7 +211,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">addAll</span>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elementsToAdd)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">addAll</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</code></th>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -220,14 +220,14 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">contains</span>&#8203;(java.lang.Object&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">contains</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Determines whether this multiset contains the specified element.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#count(java.lang.Object)">count</a></span>&#8203;(java.lang.Object&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#count(java.lang.Object)">count</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Returns the number of occurrences of <code>element</code> in this multiset.</div>
 </td>
@@ -242,7 +242,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.lang.Iterable)">create</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.lang.Iterable)">create</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a new <code>ConcurrentHashMultiset</code> containing the specified elements, using the
  default initial capacity, load factor, and concurrency settings.</div>
@@ -250,14 +250,14 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.concurrent.ConcurrentMap)">create</a></span>&#8203;(java.util.concurrent.ConcurrentMap&lt;E,&#8203;java.util.concurrent.atomic.AtomicInteger&gt;&nbsp;countMap)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.concurrent.ConcurrentMap)">create</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;E,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/atomic/AtomicInteger.html?is-external=true" title="class or interface in java.util.concurrent.atomic" class="externalLink">AtomicInteger</a>&gt;&nbsp;countMap)</code></th>
 <td class="colLast">
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using <code>countMap</code> as the internal
  backing map.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEntrySet()">createEntrySet</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -266,14 +266,14 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>java.util.Set&lt;E&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">elementSet</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the set of distinct elements contained in this multiset.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">entrySet</span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
@@ -282,7 +282,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Compares the specified object with this multiset for equality.</div>
 </td>
@@ -300,19 +300,19 @@ implements java.io.Serializable</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>java.util.Iterator&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">remove</span>&#8203;(java.lang.Object&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">remove</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,int)">remove</a></span>&#8203;(java.lang.Object&nbsp;element,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,int)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element,
       int&nbsp;occurrences)</code></th>
 <td class="colLast">
 <div class="block">Removes a number of occurrences of the specified element from this multiset.</div>
@@ -320,11 +320,11 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">removeAll</span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">removeAll</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</code></th>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeExactly(java.lang.Object,int)">removeExactly</a></span>&#8203;(java.lang.Object&nbsp;element,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeExactly(java.lang.Object,int)">removeExactly</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element,
              int&nbsp;occurrences)</code></th>
 <td class="colLast">
 <div class="block">Removes exactly the specified number of occurrences of <code>element</code>, or makes no change if
@@ -333,7 +333,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">retainAll</span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">retainAll</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</code></th>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>int</code></td>
@@ -362,17 +362,17 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>java.lang.Object[]</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(T%5B%5D)">toArray</a></span>&#8203;(T[]&nbsp;array)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">toString</span>()</code></th>
 </tr>
 </table>
@@ -380,29 +380,29 @@ implements java.io.Serializable</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.util.AbstractCollection">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.util.AbstractCollection</h3>
-<code>containsAll</code></li>
+<h3>Methods inherited from class&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
-<code>parallelStream, removeIf, spliterator, stream, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.Multiset">
@@ -444,7 +444,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.106">create</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.106">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a new <code>ConcurrentHashMultiset</code> containing the specified elements, using the
  default initial capacity, load factor, and concurrency settings.
 
@@ -461,7 +461,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.126">create</a>&#8203;(java.util.concurrent.ConcurrentMap&lt;E,&#8203;java.util.concurrent.atomic.AtomicInteger&gt;&nbsp;countMap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.126">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;E,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/atomic/AtomicInteger.html?is-external=true" title="class or interface in java.util.concurrent.atomic" class="externalLink">AtomicInteger</a>&gt;&nbsp;countMap)</pre>
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using <code>countMap</code> as the internal
  backing map.
 
@@ -474,7 +474,7 @@ implements java.io.Serializable</pre>
 <dd><code>countMap</code> - backing map for storing the elements in the multiset and their counts. It must
      be empty.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>countMap</code> is not empty</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>countMap</code> is not empty</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
 </dl>
@@ -487,7 +487,7 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>count</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.144">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                 java.lang.Object&nbsp;element)</pre>
+                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
 <div class="block">Returns the number of occurrences of <code>element</code> in this multiset.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -515,11 +515,11 @@ implements java.io.Serializable</pre>
  undefined which (if any) of these modifications will be reflected in the result.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Multiset.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>size</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -529,12 +529,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.170">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.170">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toArray</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -546,12 +546,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.175">toArray</a>&#8203;(T[]&nbsp;array)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.175">toArray</a>&#8203;(T[]&nbsp;array)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toArray</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -576,8 +576,8 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the previous count of the element before the operation; possibly zero</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>occurrences</code> is negative, or if the resulting amount
-     would exceed <code>Integer.MAX_VALUE</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>occurrences</code> is negative, or if the resulting amount
+     would exceed <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -589,7 +589,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.274">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                  java.lang.Object&nbsp;element,
+                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element,
                   int&nbsp;occurrences)</pre>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
  contains fewer than this number of occurrences to begin with, all occurrences will be removed.</div>
@@ -602,7 +602,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>occurrences</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>occurrences</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -614,7 +614,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <h4>removeExactly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.316">removeExactly</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             java.lang.Object&nbsp;element,
+                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element,
                              int&nbsp;occurrences)</pre>
 <div class="block">Removes exactly the specified number of occurrences of <code>element</code>, or makes no change if
  this is not possible.
@@ -628,7 +628,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the removal was possible (including if <code>occurrences</code> is zero)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>occurrences</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>occurrences</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -655,7 +655,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Con
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of <code>element</code> in the multiset before this call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>count</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>count</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -687,7 +687,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
      been modified, but not always: in the case that <code>expectedOldCount == newCount</code>, the
      method will return <code>true</code> if the condition was met.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>expectedOldCount</code> or <code>newCount</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>expectedOldCount</code> or <code>newCount</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -697,8 +697,8 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>createEntrySet</h4>
-<pre class="methodSignature">@Deprecated
-public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.490">createEntrySet</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.490">createEntrySet</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Internal method, use <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 </div>
@@ -713,7 +713,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.501">isEmpty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -723,7 +723,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.554">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.554">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#iterator()">Multiset</a></code></span></div>
 <div class="block">
 
@@ -731,13 +731,13 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
  iterator, though not necessarily sequentially.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Multiset.html#iterator()">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -750,7 +750,7 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.559">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -761,19 +761,19 @@ public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in c
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;contains&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        java.lang.Object&nbsp;element)</pre>
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#contains(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Determines whether this multiset contains the specified element.
 
- <p>This method refines <code>Collection.contains(java.lang.Object)</code> to further specify that it <b>may not</b>
+ <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>Collection.contains(java.lang.Object)</code></a> to further specify that it <b>may not</b>
  throw an exception in response to <code>element</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#contains(java.lang.Object)">contains</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#contains(java.lang.Object)">contains</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>contains</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to check for</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -794,24 +794,24 @@ public final&nbsp;boolean&nbsp;add&#8203;(E&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#add(E)">Multiset</a></code></span></div>
 <div class="block">Adds a single occurrence of the specified element to this multiset.
 
- <p>This method refines <code>Collection.add(E)</code>, which only <i>ensures</i> the presence of the
+ <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink"><code>Collection.add(E)</code></a>, which only <i>ensures</i> the presence of the
  element, to further specify that a successful call must always increment the count of the
  element, and the overall size of the collection, by one.
 
  <p>To both add the element and obtain the previous count of that element, use <a href="Multiset.html#add(E,int)"><code>add</code></a><code>(element, 1)</code> instead.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#add(E)">add</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#add(E)">add</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>add</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to add one occurrence of; may be null only if explicitly allowed by
      the implementation</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> always, since this call is required to modify the multiset, unlike other
-     <code>Collection</code> types</dd>
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> types</dd>
 </dl>
 </li>
 </ul>
@@ -823,21 +823,21 @@ public final&nbsp;boolean&nbsp;add&#8203;(E&nbsp;element)</pre>
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public final&nbsp;boolean&nbsp;remove&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            java.lang.Object&nbsp;element)</pre>
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#remove(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
- <p>This method refines <code>Collection.remove(java.lang.Object)</code> to further specify that it <b>may not</b>
+ <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>Collection.remove(java.lang.Object)</code></a> to further specify that it <b>may not</b>
  throw an exception in response to <code>element</code> being null or of the wrong type.
 
  <p>To both remove the element and obtain the previous count of that element, use <a href="Multiset.html#remove(java.lang.Object,int)"><code>remove</code></a><code>(element, 1)</code> instead.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#remove(java.lang.Object)">remove</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#remove(java.lang.Object)">remove</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to remove one occurrence of</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -852,15 +852,15 @@ public final&nbsp;boolean&nbsp;remove&#8203;(<a href="https://checkerframework.o
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;addAll&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
+public final&nbsp;boolean&nbsp;addAll&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
 <div class="block">
 
  <p>This implementation is highly efficient when <code>elementsToAdd</code> is itself a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>addAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -871,7 +871,7 @@ public final&nbsp;boolean&nbsp;addAll&#8203;(java.util.Collection&lt;? extends E
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</pre>
+public final&nbsp;boolean&nbsp;removeAll&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#removeAll(java.util.Collection)">Multiset</a></code></span></div>
 <div class="block">
 
@@ -880,15 +880,15 @@ public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nb
  multiset for every occurrence in <code>c</code>, see <a href="Multisets.html#removeOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.removeOccurrences(Multiset,
  Multiset)</code></a>.
 
- <p>This method refines <code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code> to further specify that it <b>may not</b>
+ <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code></a> to further specify that it <b>may not</b>
  throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#removeAll(java.util.Collection)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#removeAll(java.util.Collection)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>removeAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -899,7 +899,7 @@ public final&nbsp;boolean&nbsp;removeAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</pre>
+public final&nbsp;boolean&nbsp;retainAll&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#retainAll(java.util.Collection)">Multiset</a></code></span></div>
 <div class="block">
 
@@ -908,15 +908,15 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  multiset for every occurrence in <code>c</code>, see <a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset,
  Multiset)</code></a>.
 
- <p>This method refines <code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code> to further specify that it <b>may not</b>
+ <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code></a> to further specify that it <b>may not</b>
  throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#retainAll(java.util.Collection)">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#retainAll(java.util.Collection)">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>retainAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></dd>
 </dl>
@@ -928,7 +928,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;E&gt;&nbsp;elementSet()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;elementSet()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
@@ -942,7 +942,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  <code>elementSet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the set of distinct elements in this multiset</dd>
 </dl>
@@ -954,7 +954,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;&nbsp;entrySet()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;&nbsp;entrySet()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#entrySet()">Multiset</a></code></span></div>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
  each providing an element of the multiset and the count of that element. This set contains
@@ -970,7 +970,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  its entry set handles modifications.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a set of entries representing the data of this multiset</dd>
 </dl>
@@ -983,7 +983,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            java.lang.Object&nbsp;object)</pre>
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
  order.
@@ -992,11 +992,11 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  and if, for each element, the two multisets have the same count.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -1019,11 +1019,11 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  <p>This implementation returns the hash code of <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -1033,7 +1033,7 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;toString()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;toString()</pre>
 <div class="block">
 
  <p>It is recommended, though not mandatory, that this method return the result of invoking
@@ -1043,9 +1043,9 @@ public final&nbsp;boolean&nbsp;retainAll&#8203;(java.util.Collection&lt;?&gt;&nb
  <p>This implementation returns the result of invoking <code>toString</code> on <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toString()" title="class or interface in java.util" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>

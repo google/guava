@@ -117,11 +117,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class FluentIterable" class="title">Class FluentIterable&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Class FluentIterable" class="title">Class FluentIterable&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.FluentIterable&lt;E&gt;</li>
@@ -133,14 +133,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>java.lang.Iterable&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.111">FluentIterable</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
-extends java.lang.Object
-implements java.lang.Iterable&lt;E&gt;</pre>
-<div class="block">A discouraged (but not deprecated) precursor to Java's superior <code>Stream</code> library.
+public abstract class <a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.111">FluentIterable</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</pre>
+<div class="block">A discouraged (but not deprecated) precursor to Java's superior <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> library.
 
  <p>The following types of methods are provided:
 
@@ -161,15 +161,15 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 
  <h3>Comparison to streams</h3>
 
- <p><code>Stream</code> is similar to this class, but generally more powerful, and certainly more
+ <p><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> is similar to this class, but generally more powerful, and certainly more
  standard. Key differences include:
 
  <ul>
    <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such
        as <code>findFirst()</code> or <code>iterator()</code> is invoked. (Even though <code>Stream</code>
-       contains all the right method <i>signatures</i> to implement <code>Iterable</code>, it does not
+       contains all the right method <i>signatures</i> to implement <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a>, it does not
        actually do so, to avoid implying repeat-iterability.) <code>FluentIterable</code>, on the other
-       hand, is multiple-use, and does implement <code>Iterable</code>.
+       hand, is multiple-use, and does implement <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a>.
    <li>Streams offer many features not found here, including <code>min/max</code>, <code>distinct</code>,
        <code>reduce</code>, <code>sorted</code>, the very powerful <code>collect</code>, and built-in support for
        parallelizing stream operations.
@@ -281,63 +281,63 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#append(java.lang.Iterable)">append</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#append(java.lang.Iterable)">append</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
  followed by those of <code>other</code>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;inputs)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that combines several iterables.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable...)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;...&nbsp;inputs)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable...)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that combines several iterables.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that combines two iterables.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;c)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that combines three iterables.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;c,
-      java.lang.Iterable&lt;? extends T&gt;&nbsp;d)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c,
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;d)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that combines four iterables.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;target)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;target)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>
  equals(target)</code> is true.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>&lt;C extends java.util.Collection&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&gt;<br>C</code></td>
+<td class="colFirst"><code>&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&gt;<br>C</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyInto(C)">copyInto</a></span>&#8203;(C&nbsp;collection)</code></th>
 <td class="colLast">
 <div class="block">Copies all the elements from this fluent iterable to <code>collection</code>.</div>
@@ -360,7 +360,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Class)">filter</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Class)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns the elements from this fluent iterable that are instances of class <code>type</code>.</div>
 </td>
@@ -381,7 +381,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(com.google.common.collect.FluentIterable)">from</a></span>&#8203;(<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -391,15 +391,15 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(E%5B%5D)">from</a></span>&#8203;(E[]&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.Iterable)">from</a></span>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.Iterable)">from</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
  already a <code>FluentIterable</code>.</div>
@@ -428,10 +428,10 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(com.google.common.base.Joiner)">join</a></span>&#8203;(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</code></th>
 <td class="colLast">
-<div class="block">Returns a <code>String</code> containing all of the elements of this fluent iterable joined with
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a> containing all of the elements of this fluent iterable joined with
  <code>joiner</code>.</div>
 </td>
 </tr>
@@ -450,14 +450,14 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of()">of</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable containing no elements.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E...)">of</a></span>&#8203;(E&nbsp;element,
   E...&nbsp;elements)</code></th>
 <td class="colLast">
@@ -479,15 +479,15 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>java.util.stream.Stream&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stream()">stream</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a stream of this fluent iterable's contents (similar to calling <code>Collection.stream()</code> on a collection).</div>
+<div class="block">Returns a stream of this fluent iterable's contents (similar to calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink"><code>Collection.stream()</code></a> on a collection).</div>
 </td>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code><a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>[]</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.lang.Class)">toArray</a></span>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.lang.Class)">toArray</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns an array containing all of the elements from this fluent iterable in iteration order.</div>
 </td>
@@ -525,7 +525,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </tr>
 <tr id="i35" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toSortedList(java.util.Comparator)">toSortedList</a></span>&#8203;(java.util.Comparator&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toSortedList(java.util.Comparator)">toSortedList</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this <code>
  FluentIterable</code> in the order specified by <code>comparator</code>.</div>
@@ -533,7 +533,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </tr>
 <tr id="i36" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toSortedSet(java.util.Comparator)">toSortedSet</a></span>&#8203;(java.util.Comparator&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toSortedSet(java.util.Comparator)">toSortedSet</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>
  FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
@@ -541,7 +541,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i37" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of this fluent iterable, with the format <code>[e1, e2, ...,
@@ -549,7 +549,7 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i38" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(com.google.common.base.Function)">transform</a></span>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;T&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Returns a fluent iterable that applies <code>function</code> to each element of this fluent
@@ -557,8 +557,8 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 </td>
 </tr>
 <tr id="i39" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transformAndConcat(com.google.common.base.Function)">transformAndConcat</a></span>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;function)</code></th>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transformAndConcat(com.google.common.base.Function)">transformAndConcat</a></span>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
  with the concatenated combination of results.</div>
@@ -577,15 +577,15 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach, iterator, spliterator</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#spliterator()" title="class or interface in java.lang" class="externalLink">spliterator</a></code></li>
 </ul>
 </li>
 </ul>
@@ -629,11 +629,11 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.141">from</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.141">from</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
  already a <code>FluentIterable</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Collection.stream()</code> if <code>iterable</code> is a <code>Collection</code>; <a href="Streams.html#stream(java.lang.Iterable)"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink"><code>Collection.stream()</code></a> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a>; <a href="Streams.html#stream(java.lang.Iterable)"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
 </li>
 </ul>
 <a id="from(java.lang.Object[])">
@@ -644,12 +644,12 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.162">from</a>&#8203;(E[]&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.162">from</a>&#8203;(E[]&nbsp;elements)</pre>
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.
 
  <p>The returned iterable is an unmodifiable view of the input array.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.of(T...)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#of(T...)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.of(T...)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0 (since 18.0 as an overload of <code>of</code>)</dd>
@@ -662,10 +662,10 @@ implements java.lang.Iterable&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="checkNotNull(iterable)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#staticImports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
-public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.174">from</a>&#8203;(<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.174">from</a>&#8203;(<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to <code>
      FluentIterable</code></div>
@@ -681,8 +681,8 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.194">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;b)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.194">concat</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b)</pre>
 <div class="block">Returns a fluent iterable that combines two iterables. The returned iterable has an iterator
  that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>. The source
  iterators are not polled until necessary.
@@ -690,7 +690,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
@@ -703,9 +703,9 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.212">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.212">concat</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c)</pre>
 <div class="block">Returns a fluent iterable that combines three iterables. The returned iterable has an iterator
  that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by
  the elements in <code>c</code>. The source iterators are not polled until necessary.
@@ -713,7 +713,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b><code>Stream</code> equivalent:</b> use nested calls to <code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code>, or see the
+ <p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code></a>, or see the
  advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -727,10 +727,10 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.231">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;c,
-                                                                              java.lang.Iterable&lt;? extends T&gt;&nbsp;d)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.231">concat</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;d)</pre>
 <div class="block">Returns a fluent iterable that combines four iterables. The returned iterable has an iterator
  that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by
  the elements in <code>c</code>, followed by the elements in <code>d</code>. The source iterators are not
@@ -739,7 +739,7 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
  <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
  iterator supports it.
 
- <p><b><code>Stream</code> equivalent:</b> use nested calls to <code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code>, or see the
+ <p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code></a>, or see the
  advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -753,8 +753,8 @@ public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">@SafeVarargs
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.254">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;...&nbsp;inputs)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.254">concat</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</pre>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
  iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
  are not polled until necessary.
@@ -767,7 +767,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  Stream.of(iter1, iter2, ...).flatMap(Streams::stream)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any of the provided iterables is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any of the provided iterables is <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
 </dl>
@@ -779,7 +779,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.274">concat</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.274">concat</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
  iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
  are not polled until necessary.
@@ -802,10 +802,10 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.313">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.313">of</a>()</pre>
 <div class="block">Returns a fluent iterable containing no elements.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.empty()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#empty()" title="class or interface in java.util.stream" class="externalLink"><code>Stream.empty()</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
@@ -820,11 +820,11 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.325">of</a>&#8203;(E&nbsp;element,
-                                                                          E...&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.325">of</a>&#8203;(E&nbsp;element,
+                                                                E...&nbsp;elements)</pre>
 <div class="block">Returns a fluent iterable containing the specified elements in order.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.of(T...)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#of(T...)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.of(T...)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
@@ -837,7 +837,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.337">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.337">toString</a>()</pre>
 <div class="block">Returns a string representation of this fluent iterable, with the format <code>[e1, e2, ...,
  en]</code>.
 
@@ -845,7 +845,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  or (less efficiently) <code>stream.collect(Collectors.toList()).toString()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -858,7 +858,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.347">size</a>()</pre>
 <div class="block">Returns the number of elements in this fluent iterable.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.count()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#count()" title="class or interface in java.util.stream" class="externalLink"><code>Stream.count()</code></a>.</div>
 </li>
 </ul>
 <a id="contains(java.lang.Object)">
@@ -868,7 +868,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.357">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                              java.lang.Object&nbsp;target)</pre>
+                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>
  equals(target)</code> is true.
 
@@ -905,14 +905,14 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>append</h4>
-<pre class="methodSignature">public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.393">append</a>&#8203;(java.lang.Iterable&lt;? extends <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.393">append</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
  followed by those of <code>other</code>. The iterators are not polled until necessary.
 
  <p>The returned iterable's <code>Iterator</code> supports <code>remove()</code> when the corresponding
  <code>Iterator</code> supports it.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.concat(java.util.stream.Stream&lt;? extends T&gt;, java.util.stream.Stream&lt;? extends T&gt;)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18.0</dd>
@@ -948,7 +948,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <div class="block">Returns the elements from this fluent iterable that satisfy a predicate. The resulting fluent
  iterable's iterator does not support <code>remove()</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.filter(java.util.function.Predicate&lt;? super T&gt;)</code> (same).</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#filter(java.util.function.Predicate)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.filter(java.util.function.Predicate&lt;? super T&gt;)</code></a> (same).</div>
 </li>
 </ul>
 <a id="filter(java.lang.Class)">
@@ -958,7 +958,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>filter</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.432">filter</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
+public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.432">filter</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the elements from this fluent iterable that are instances of class <code>type</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(type::isInstance).map(type::cast)</code>.
@@ -981,7 +981,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.442">anyMatch</a>&#8203;(<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if any element in this fluent iterable satisfies the predicate.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.anyMatch(java.util.function.Predicate&lt;? super T&gt;)</code> (same).</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#anyMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.anyMatch(java.util.function.Predicate&lt;? super T&gt;)</code></a> (same).</div>
 </li>
 </ul>
 <a id="allMatch(com.google.common.base.Predicate)">
@@ -994,7 +994,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <div class="block">Returns <code>true</code> if every element in this fluent iterable satisfies the predicate. If this
  fluent iterable is empty, <code>true</code> is returned.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.allMatch(java.util.function.Predicate&lt;? super T&gt;)</code> (same).</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#allMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.allMatch(java.util.function.Predicate&lt;? super T&gt;)</code></a> (same).</div>
 </li>
 </ul>
 <a id="firstMatch(com.google.common.base.Predicate)">
@@ -1008,7 +1008,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  the given predicate, if such an element exists.
 
  <p><b>Warning:</b> avoid using a <code>predicate</code> that matches <code>null</code>. If <code>null</code>
- is matched in this fluent iterable, a <code>NullPointerException</code> will be thrown.
+ is matched in this fluent iterable, a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>NullPointerException</code></a> will be thrown.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(predicate).findFirst()</code>.</div>
 </li>
@@ -1019,7 +1019,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.480">transform</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;T&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.480">transform</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;T&gt;&nbsp;function)</pre>
 <div class="block">Returns a fluent iterable that applies <code>function</code> to each element of this fluent
  iterable.
 
@@ -1027,7 +1027,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  iterator does. After a successful <code>remove()</code> call, this fluent iterable no longer
  contains the corresponding element.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.map(java.util.function.Function&lt;? super T, ? extends R&gt;)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#map(java.util.function.Function)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.map(java.util.function.Function&lt;? super T, ? extends R&gt;)</code></a>.</div>
 </li>
 </ul>
 <a id="transformAndConcat(com.google.common.base.Function)">
@@ -1036,7 +1036,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAndConcat</h4>
-<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.498">transformAndConcat</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.498">transformAndConcat</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</pre>
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
  with the concatenated combination of results. <code>function</code> returns an Iterable of results.
 
@@ -1044,7 +1044,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  iterables' iterator does. After a successful <code>remove()</code> call, the returned fluent
  iterable no longer contains the corresponding element.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.flatMap(java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends R&gt;&gt;)</code> (using a function that produces
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#flatMap(java.util.function.Function)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.flatMap(java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends R&gt;&gt;)</code></a> (using a function that produces
  streams, not iterables).</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1062,10 +1062,10 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable. If the
  iterable is empty, <code>Optional.absent()</code> is returned.
 
- <p><b><code>Stream</code> equivalent:</b> if the goal is to obtain any element, <code>Stream.findAny()</code>; if it must specifically be the <i>first</i> element, <code>Stream#findFirst</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> if the goal is to obtain any element, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#findAny()" title="class or interface in java.util.stream" class="externalLink"><code>Stream.findAny()</code></a>; if it must specifically be the <i>first</i> element, <code>Stream#findFirst</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if the first element is null; if this is a possibility, use <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if the first element is null; if this is a possibility, use <code>
      iterator().next()</code> or <a href="Iterables.html#getFirst(java.lang.Iterable,T)"><code>Iterables.getFirst(java.lang.Iterable&lt;? extends T&gt;, T)</code></a> instead.</dd>
 </dl>
 </li>
@@ -1079,13 +1079,13 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <pre class="methodSignature">public final&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.530">last</a>()</pre>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable. If the
  iterable is empty, <code>Optional.absent()</code> is returned. If the underlying <code>iterable</code> is
- a <code>List</code> with <code>RandomAccess</code> support, then this operation is guaranteed
+ a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>RandomAccess</code></a> support, then this operation is guaranteed
  to be <code>O(1)</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.reduce((a, b) -&gt; b)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if the last element is null; if this is a possibility, use <a href="Iterables.html#getLast(java.lang.Iterable)"><code>Iterables.getLast(java.lang.Iterable&lt;T&gt;)</code></a> instead.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if the last element is null; if this is a possibility, use <a href="Iterables.html#getLast(java.lang.Iterable)"><code>Iterables.getLast(java.lang.Iterable&lt;T&gt;)</code></a> instead.</dd>
 </dl>
 </li>
 </ul>
@@ -1108,9 +1108,9 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  this fluent iterable supports it. Note that it is <i>not</i> possible to delete the last
  skipped element by immediately calling <code>remove()</code> on the returned fluent iterable's
  iterator, as the <code>Iterator</code> contract states that a call to <code>* remove()</code> before a
- call to <code>next()</code> will throw an <code>IllegalStateException</code>.
+ call to <code>next()</code> will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.skip(long)</code> (same).</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#skip(long)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.skip(long)</code></a> (same).</div>
 </li>
 </ul>
 <a id="limit(int)">
@@ -1125,12 +1125,12 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  same behavior as this fluent iterable. The returned fluent iterable's iterator supports <code>
  remove()</code> if this fluent iterable's iterator does.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.limit(long)</code> (same).</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true#limit(long)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.limit(long)</code></a> (same).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>maxSize</code> - the maximum number of elements in the returned fluent iterable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>size</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>size</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -1160,7 +1160,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 12.0 as <code>toImmutableList()</code>).</dd>
 </dl>
@@ -1172,7 +1172,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>toSortedList</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.637">toSortedList</a>&#8203;(java.util.Comparator&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.637">toSortedList</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this <code>
  FluentIterable</code> in the order specified by <code>comparator</code>. To produce an <code>
  ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
@@ -1183,7 +1183,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>comparator</code> - the function by which to sort list elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element of this iterable is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 13.0 as <code>toSortedImmutableList()</code>).</dd>
 </dl>
@@ -1203,7 +1203,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 12.0 as <code>toImmutableSet()</code>).</dd>
 </dl>
@@ -1215,7 +1215,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>toSortedSet</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.670">toSortedSet</a>&#8203;(java.util.Comparator&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.670">toSortedSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>
  FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
  <code>comparator.compare(x, y) == 0</code>) removed. To produce an <code>ImmutableSortedSet</code> sorted
@@ -1227,7 +1227,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>comparator</code> - the function by which to sort set elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element of this iterable is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 12.0 as <code>toImmutableSortedSet()</code>).</dd>
 </dl>
@@ -1246,7 +1246,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  <code>stream.collect()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -1271,7 +1271,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
  valueFunction))</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
      valueFunction</code> produces <code>null</code> for any key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1300,7 +1300,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.NullPointerException</code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
      keyFunction</code> produces <code>null</code> for any key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1339,9 +1339,9 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <dd>a map mapping the result of evaluating the function <code>keyFunction</code> on each value
      in this fluent iterable to that value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>keyFunction</code> produces the same key for more than one
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>keyFunction</code> produces the same key for more than one
      value in this fluent iterable</dd>
-<dd><code>java.lang.NullPointerException</code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
      keyFunction</code> produces <code>null</code> for any key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1355,7 +1355,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in c
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.780">toArray</a>&#8203;(java.lang.Class&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</pre>
+public final&nbsp;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.780">toArray</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</pre>
 <div class="block">Returns an array containing all of the elements from this fluent iterable in iteration order.
 
  <p><b><code>Stream</code> equivalent:</b> if an object array is acceptable, use <code>
@@ -1380,7 +1380,7 @@ public final&nbsp;<a href="FluentIterable.html" title="type parameter in FluentI
 <li class="blockList">
 <h4>copyInto</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;&lt;C extends java.util.Collection&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.796">copyInto</a>&#8203;(C&nbsp;collection)</pre>
+public final&nbsp;&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.796">copyInto</a>&#8203;(C&nbsp;collection)</pre>
 <div class="block">Copies all the elements from this fluent iterable to <code>collection</code>. This is equivalent to
  calling <code>Iterables.addAll(collection, this)</code>.
 
@@ -1402,8 +1402,8 @@ public final&nbsp;&lt;C extends java.util.Collection&lt;? super <a href="FluentI
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.820">join</a>&#8203;(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</pre>
-<div class="block">Returns a <code>String</code> containing all of the elements of this fluent iterable joined with
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.820">join</a>&#8203;(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</pre>
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a> containing all of the elements of this fluent iterable joined with
  <code>joiner</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>joiner.join(stream.iterator())</code>, or, if you are not
@@ -1433,7 +1433,7 @@ public final&nbsp;&lt;C extends java.util.Collection&lt;? super <a href="FluentI
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element at the specified position in this fluent iterable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IndexOutOfBoundsException</code> - if <code>position</code> is negative or greater than or equal to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>position</code> is negative or greater than or equal to
      the size of this fluent iterable</dd>
 </dl>
 </li>
@@ -1444,8 +1444,8 @@ public final&nbsp;&lt;C extends java.util.Collection&lt;? super <a href="FluentI
 <ul class="blockListLast">
 <li class="blockList">
 <h4>stream</h4>
-<pre class="methodSignature">public final&nbsp;java.util.stream.Stream&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.851">stream</a>()</pre>
-<div class="block">Returns a stream of this fluent iterable's contents (similar to calling <code>Collection.stream()</code> on a collection).
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.851">stream</a>()</pre>
+<div class="block">Returns a stream of this fluent iterable's contents (similar to calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink"><code>Collection.stream()</code></a> on a collection).
 
  <p><b>Note:</b> the earlier in the chain you can switch to <code>Stream</code> usage (ideally not
  going through <code>FluentIterable</code> at all), the more performant and idiomatic your code will

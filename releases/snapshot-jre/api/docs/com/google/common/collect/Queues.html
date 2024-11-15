@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.Queues</li>
@@ -134,8 +134,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/collect/Queues.html#line.47">Queues</a>
-extends java.lang.Object</pre>
-<div class="block">Static utility methods pertaining to <code>Queue</code> and <code>Deque</code> instances. Also see this
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+<div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Queue</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Deque</code></a> instances. Also see this
  class's counterparts <a href="Lists.html" title="class in com.google.common.collect"><code>Lists</code></a>, <a href="Sets.html" title="class in com.google.common.collect"><code>Sets</code></a>, and <a href="Maps.html" title="class in com.google.common.collect"><code>Maps</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -165,34 +165,34 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-     java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
      int&nbsp;numElements,
      long&nbsp;timeout,
-     java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+<div class="block">Drains the queue as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,int)" title="class or interface in java.util.concurrent" class="externalLink"><code>BlockingQueue.drainTo(Collection, int)</code></a>, but if the requested <code>
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-     java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
      int&nbsp;numElements,
-     java.time.Duration&nbsp;timeout)</code></th>
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
-<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+<div class="block">Drains the queue as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,int)" title="class or interface in java.util.concurrent" class="externalLink"><code>BlockingQueue.drainTo(Collection, int)</code></a>, but if the requested <code>
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drainUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                    java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drainUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                     int&nbsp;numElements,
                     long&nbsp;timeout,
-                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
  with a different behavior in case it is interrupted while waiting.</div>
@@ -200,17 +200,17 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drainUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                    java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drainUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                     int&nbsp;numElements,
-                    java.time.Duration&nbsp;timeout)</code></th>
+                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain(BlockingQueue, Collection, int, Duration)</a>, but with a
  different behavior in case it is interrupted while waiting.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.ArrayBlockingQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ArrayBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ArrayBlockingQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArrayBlockingQueue(int)">newArrayBlockingQueue</a></span>&#8203;(int&nbsp;capacity)</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>ArrayBlockingQueue</code> with the given (fixed) capacity and nonfair access
@@ -218,83 +218,83 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.ArrayDeque&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util" class="externalLink">ArrayDeque</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArrayDeque()">newArrayDeque</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>ArrayDeque</code>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.ArrayDeque&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArrayDeque(java.lang.Iterable)">newArrayDeque</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util" class="externalLink">ArrayDeque</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newArrayDeque(java.lang.Iterable)">newArrayDeque</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates an <code>ArrayDeque</code> containing the elements of the specified iterable, in the order
  they are returned by the iterable's iterator.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentLinkedQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newConcurrentLinkedQueue()">newConcurrentLinkedQueue</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>ConcurrentLinkedQueue</code>.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newConcurrentLinkedQueue(java.lang.Iterable)">newConcurrentLinkedQueue</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentLinkedQueue</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newConcurrentLinkedQueue(java.lang.Iterable)">newConcurrentLinkedQueue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>ConcurrentLinkedQueue</code> containing the elements of the specified iterable, in
  the order they are returned by the iterable's iterator.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingDeque()">newLinkedBlockingDeque</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates an empty <code>LinkedBlockingDeque</code> with a capacity of <code>Integer.MAX_VALUE</code>.</div>
+<div class="block">Creates an empty <code>LinkedBlockingDeque</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingDeque(int)">newLinkedBlockingDeque</a></span>&#8203;(int&nbsp;capacity)</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>LinkedBlockingDeque</code> with the given (fixed) capacity.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingDeque(java.lang.Iterable)">newLinkedBlockingDeque</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingDeque(java.lang.Iterable)">newLinkedBlockingDeque</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
-<div class="block">Creates a <code>LinkedBlockingDeque</code> with a capacity of <code>Integer.MAX_VALUE</code>, containing
+<div class="block">Creates a <code>LinkedBlockingDeque</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>, containing
  the elements of the specified iterable, in the order they are returned by the iterable's
  iterator.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingQueue()">newLinkedBlockingQueue</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates an empty <code>LinkedBlockingQueue</code> with a capacity of <code>Integer.MAX_VALUE</code>.</div>
+<div class="block">Creates an empty <code>LinkedBlockingQueue</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingQueue(int)">newLinkedBlockingQueue</a></span>&#8203;(int&nbsp;capacity)</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>LinkedBlockingQueue</code> with the given (fixed) capacity.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingQueue(java.lang.Iterable)">newLinkedBlockingQueue</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedBlockingQueue(java.lang.Iterable)">newLinkedBlockingQueue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
-<div class="block">Creates a <code>LinkedBlockingQueue</code> with a capacity of <code>Integer.MAX_VALUE</code>, containing
+<div class="block">Creates a <code>LinkedBlockingQueue</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>, containing
  the elements of the specified iterable, in the order they are returned by the iterable's
  iterator.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&gt;<br>java.util.concurrent.PriorityBlockingQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/PriorityBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">PriorityBlockingQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityBlockingQueue()">newPriorityBlockingQueue</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>PriorityBlockingQueue</code> with the ordering given by its elements' natural
@@ -302,14 +302,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&gt;<br>java.util.concurrent.PriorityBlockingQueue&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityBlockingQueue(java.lang.Iterable)">newPriorityBlockingQueue</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/PriorityBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">PriorityBlockingQueue</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityBlockingQueue(java.lang.Iterable)">newPriorityBlockingQueue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>PriorityBlockingQueue</code> containing the given elements.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&gt;<br>java.util.PriorityQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/PriorityQueue.html?is-external=true" title="class or interface in java.util" class="externalLink">PriorityQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityQueue()">newPriorityQueue</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>PriorityQueue</code> with the ordering given by its elements' natural
@@ -317,29 +317,29 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&gt;<br>java.util.PriorityQueue&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityQueue(java.lang.Iterable)">newPriorityQueue</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/PriorityQueue.html?is-external=true" title="class or interface in java.util" class="externalLink">PriorityQueue</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newPriorityQueue(java.lang.Iterable)">newPriorityQueue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>PriorityQueue</code> containing the given elements.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.concurrent.SynchronousQueue&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/SynchronousQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">SynchronousQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newSynchronousQueue()">newSynchronousQueue</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>SynchronousQueue</code> with nonfair access policy.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Deque&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedDeque(java.util.Deque)">synchronizedDeque</a></span>&#8203;(java.util.Deque&lt;E&gt;&nbsp;deque)</code></th>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedDeque(java.util.Deque)">synchronizedDeque</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;E&gt;&nbsp;deque)</code></th>
 <td class="colLast">
 <div class="block">Returns a synchronized (thread-safe) deque backed by the specified deque.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Queue&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedQueue(java.util.Queue)">synchronizedQueue</a></span>&#8203;(java.util.Queue&lt;E&gt;&nbsp;queue)</code></th>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedQueue(java.util.Queue)">synchronizedQueue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;&nbsp;queue)</code></th>
 <td class="colLast">
 <div class="block">Returns a synchronized (thread-safe) queue backed by the specified queue.</div>
 </td>
@@ -349,8 +349,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -375,7 +375,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>newArrayBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ArrayBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.58">newArrayBlockingQueue</a>&#8203;(int&nbsp;capacity)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ArrayBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ArrayBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.58">newArrayBlockingQueue</a>&#8203;(int&nbsp;capacity)</pre>
 <div class="block">Creates an empty <code>ArrayBlockingQueue</code> with the given (fixed) capacity and nonfair access
  policy.</div>
 </li>
@@ -386,7 +386,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ArrayBlockingQueue&lt;E&g
 <ul class="blockList">
 <li class="blockList">
 <h4>newArrayDeque</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.ArrayDeque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.71">newArrayDeque</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util" class="externalLink">ArrayDeque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.71">newArrayDeque</a>()</pre>
 <div class="block">Creates an empty <code>ArrayDeque</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -400,7 +400,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ArrayBlockingQueue&lt;E&g
 <ul class="blockList">
 <li class="blockList">
 <h4>newArrayDeque</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;java.util.ArrayDeque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.81">newArrayDeque</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util" class="externalLink">ArrayDeque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.81">newArrayDeque</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates an <code>ArrayDeque</code> containing the elements of the specified iterable, in the order
  they are returned by the iterable's iterator.</div>
 <dl>
@@ -416,7 +416,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ArrayBlockingQueue&lt;E&g
 <li class="blockList">
 <h4>newConcurrentLinkedQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.93">newConcurrentLinkedQueue</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentLinkedQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.93">newConcurrentLinkedQueue</a>()</pre>
 <div class="block">Creates an empty <code>ConcurrentLinkedQueue</code>.</div>
 </li>
 </ul>
@@ -427,7 +427,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;
 <li class="blockList">
 <h4>newConcurrentLinkedQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.103">newConcurrentLinkedQueue</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentLinkedQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.103">newConcurrentLinkedQueue</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>ConcurrentLinkedQueue</code> containing the elements of the specified iterable, in
  the order they are returned by the iterable's iterator.</div>
 </li>
@@ -439,8 +439,8 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.ConcurrentLinkedQueue&lt;
 <li class="blockList">
 <h4>newLinkedBlockingDeque</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.122">newLinkedBlockingDeque</a>()</pre>
-<div class="block">Creates an empty <code>LinkedBlockingDeque</code> with a capacity of <code>Integer.MAX_VALUE</code>.</div>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.122">newLinkedBlockingDeque</a>()</pre>
+<div class="block">Creates an empty <code>LinkedBlockingDeque</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
@@ -454,11 +454,11 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&
 <li class="blockList">
 <h4>newLinkedBlockingDeque</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.134">newLinkedBlockingDeque</a>&#8203;(int&nbsp;capacity)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.134">newLinkedBlockingDeque</a>&#8203;(int&nbsp;capacity)</pre>
 <div class="block">Creates an empty <code>LinkedBlockingDeque</code> with the given (fixed) capacity.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>capacity</code> is less than 1</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>capacity</code> is less than 1</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -471,8 +471,8 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&
 <li class="blockList">
 <h4>newLinkedBlockingDeque</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.147">newLinkedBlockingDeque</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
-<div class="block">Creates a <code>LinkedBlockingDeque</code> with a capacity of <code>Integer.MAX_VALUE</code>, containing
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingDeque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.147">newLinkedBlockingDeque</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<div class="block">Creates a <code>LinkedBlockingDeque</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>, containing
  the elements of the specified iterable, in the order they are returned by the iterable's
  iterator.</div>
 <dl>
@@ -488,8 +488,8 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingDeque&lt;E&
 <li class="blockList">
 <h4>newLinkedBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.161">newLinkedBlockingQueue</a>()</pre>
-<div class="block">Creates an empty <code>LinkedBlockingQueue</code> with a capacity of <code>Integer.MAX_VALUE</code>.</div>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.161">newLinkedBlockingQueue</a>()</pre>
+<div class="block">Creates an empty <code>LinkedBlockingQueue</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>.</div>
 </li>
 </ul>
 <a id="newLinkedBlockingQueue(int)">
@@ -499,11 +499,11 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&
 <li class="blockList">
 <h4>newLinkedBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.172">newLinkedBlockingQueue</a>&#8203;(int&nbsp;capacity)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.172">newLinkedBlockingQueue</a>&#8203;(int&nbsp;capacity)</pre>
 <div class="block">Creates an empty <code>LinkedBlockingQueue</code> with the given (fixed) capacity.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>capacity</code> is less than 1</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>capacity</code> is less than 1</dd>
 </dl>
 </li>
 </ul>
@@ -514,8 +514,8 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&
 <li class="blockList">
 <h4>newLinkedBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.186">newLinkedBlockingQueue</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
-<div class="block">Creates a <code>LinkedBlockingQueue</code> with a capacity of <code>Integer.MAX_VALUE</code>, containing
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/LinkedBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">LinkedBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.186">newLinkedBlockingQueue</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<div class="block">Creates a <code>LinkedBlockingQueue</code> with a capacity of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Integer.MAX_VALUE</code></a>, containing
  the elements of the specified iterable, in the order they are returned by the iterable's
  iterator.</div>
 <dl>
@@ -533,7 +533,7 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.LinkedBlockingQueue&lt;E&
 <li class="blockList">
 <h4>newPriorityBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurrent.PriorityBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.208">newPriorityBlockingQueue</a>()</pre>
+public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/PriorityBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">PriorityBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.208">newPriorityBlockingQueue</a>()</pre>
 <div class="block">Creates an empty <code>PriorityBlockingQueue</code> with the ordering given by its elements' natural
  ordering.</div>
 <dl>
@@ -550,7 +550,7 @@ public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurr
 <li class="blockList">
 <h4>newPriorityBlockingQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurrent.PriorityBlockingQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.224">newPriorityBlockingQueue</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/PriorityBlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">PriorityBlockingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.224">newPriorityBlockingQueue</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>PriorityBlockingQueue</code> containing the given elements.
 
  <p><b>Note:</b> If the specified iterable is a <code>SortedSet</code> or a <code>PriorityQueue</code>,
@@ -568,7 +568,7 @@ public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>newPriorityQueue</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.PriorityQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.246">newPriorityQueue</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/PriorityQueue.html?is-external=true" title="class or interface in java.util" class="externalLink">PriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.246">newPriorityQueue</a>()</pre>
 <div class="block">Creates an empty <code>PriorityQueue</code> with the ordering given by its elements' natural
  ordering.</div>
 <dl>
@@ -584,7 +584,7 @@ public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>newPriorityQueue</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.PriorityQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.260">newPriorityQueue</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/PriorityQueue.html?is-external=true" title="class or interface in java.util" class="externalLink">PriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.260">newPriorityQueue</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>PriorityQueue</code> containing the given elements.
 
  <p><b>Note:</b> If the specified iterable is a <code>SortedSet</code> or a <code>PriorityQueue</code>,
@@ -603,7 +603,7 @@ public static&nbsp;&lt;E extends java.lang.Comparable&gt;&nbsp;java.util.concurr
 <li class="blockList">
 <h4>newSynchronousQueue</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.SynchronousQueue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.274">newSynchronousQueue</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/SynchronousQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">SynchronousQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.274">newSynchronousQueue</a>()</pre>
 <div class="block">Creates an empty <code>SynchronousQueue</code> with nonfair access policy.</div>
 </li>
 </ul>
@@ -615,12 +615,12 @@ public static&nbsp;&lt;E&gt;&nbsp;java.util.concurrent.SynchronousQueue&lt;E&gt;
 <h4>drain</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.292">drain</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                            java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.292">drain</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                             int&nbsp;numElements,
-                            java.time.Duration&nbsp;timeout)
-                     throws java.lang.InterruptedException</pre>
-<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)
+                     throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<div class="block">Drains the queue as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,int)" title="class or interface in java.util.concurrent" class="externalLink"><code>BlockingQueue.drainTo(Collection, int)</code></a>, but if the requested <code>
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -631,7 +631,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of elements transferred</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
@@ -645,13 +645,13 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <h4>drain</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.314">drain</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                            java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.314">drain</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                             int&nbsp;numElements,
                             long&nbsp;timeout,
-                            java.util.concurrent.TimeUnit&nbsp;unit)
-                     throws java.lang.InterruptedException</pre>
-<div class="block">Drains the queue as <code>BlockingQueue.drainTo(Collection, int)</code>, but if the requested <code>
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
+                     throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<div class="block">Drains the queue as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,int)" title="class or interface in java.util.concurrent" class="externalLink"><code>BlockingQueue.drainTo(Collection, int)</code></a>, but if the requested <code>
  numElements</code> elements are not available, it will wait for them up to the specified timeout.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -663,7 +663,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of elements transferred</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -675,10 +675,10 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <h4>drainUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.362">drainUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                                           java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.362">drainUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                                            int&nbsp;numElements,
-                                           java.time.Duration&nbsp;timeout)</pre>
+                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</pre>
 <div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain(BlockingQueue, Collection, int, Duration)</a>, but with a
  different behavior in case it is interrupted while waiting. In that case, the operation will
  continue as usual, and in the end the thread's interruption status will be set (no <code>
@@ -704,11 +704,11 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <h4>drainUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.384">drainUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;q,
-                                           java.util.Collection&lt;? super E&gt;&nbsp;buffer,
+public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.384">drainUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                                            int&nbsp;numElements,
                                            long&nbsp;timeout,
-                                           java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
  with a different behavior in case it is interrupted while waiting. In that case, the operation
  will continue as usual, and in the end the thread's interruption status will be set (no <code>
@@ -731,7 +731,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedQueue</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Queue&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.457">synchronizedQueue</a>&#8203;(java.util.Queue&lt;E&gt;&nbsp;queue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.457">synchronizedQueue</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;&nbsp;queue)</pre>
 <div class="block">Returns a synchronized (thread-safe) queue backed by the specified queue. In order to guarantee
  serial access, it is critical that <b>all</b> access to the backing queue is accomplished
  through the returned queue.
@@ -771,7 +771,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>synchronizedDeque</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Deque&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.491">synchronizedDeque</a>&#8203;(java.util.Deque&lt;E&gt;&nbsp;deque)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.491">synchronizedDeque</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;E&gt;&nbsp;deque)</pre>
 <div class="block">Returns a synchronized (thread-safe) deque backed by the specified deque. In order to guarantee
  serial access, it is critical that <b>all</b> access to the backing deque is accomplished
  through the returned deque.

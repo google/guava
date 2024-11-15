@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.AtomicLongMap&lt;K&gt;</li>
@@ -133,13 +133,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>java.io.Serializable</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public final class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.61">AtomicLongMap</a>&lt;K&gt;
-extends java.lang.Object
-implements java.io.Serializable</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">A map containing <code>long</code> values that can be atomically updated. While writes to a
  traditional <code>Map</code> rely on <code>put(K, V)</code>, the typical mechanism for writing to this map
  is <code>addAndGet(K, long)</code>, which adds a <code>long</code> to the value currently associated with
@@ -190,7 +190,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#accumulateAndGet(K,long,java.util.function.LongBinaryOperator)">accumulateAndGet</a></span>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                 long&nbsp;x,
-                java.util.function.LongBinaryOperator&nbsp;accumulatorFunction)</code></th>
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongBinaryOperator</a>&nbsp;accumulatorFunction)</code></th>
 <td class="colLast">
 <div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
  specified accumulator function, returning the new value.</div>
@@ -206,7 +206,7 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.Map&lt;<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;java.lang.Long&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asMap()">asMap</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a live, read-only view of the map backing this <code>AtomicLongMap</code>.</div>
@@ -221,7 +221,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns true if this map contains a mapping for the specified key.</div>
 </td>
@@ -235,7 +235,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;K&gt;&nbsp;<a href="AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.Map)">create</a></span>&#8203;(java.util.Map&lt;? extends K,&#8203;? extends java.lang.Long&gt;&nbsp;m)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.Map)">create</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;m)</code></th>
 <td class="colLast">
 <div class="block">Creates an <code>AtomicLongMap</code> with the same mappings as the specified <code>Map</code>.</div>
 </td>
@@ -259,7 +259,7 @@ implements java.io.Serializable</pre>
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndAccumulate(K,long,java.util.function.LongBinaryOperator)">getAndAccumulate</a></span>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                 long&nbsp;x,
-                java.util.function.LongBinaryOperator&nbsp;accumulatorFunction)</code></th>
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongBinaryOperator</a>&nbsp;accumulatorFunction)</code></th>
 <td class="colLast">
 <div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
  specified accumulator function, returning the old value.</div>
@@ -291,7 +291,7 @@ implements java.io.Serializable</pre>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndUpdate(K,java.util.function.LongUnaryOperator)">getAndUpdate</a></span>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
-            java.util.function.LongUnaryOperator&nbsp;updaterFunction)</code></th>
+            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongUnaryOperator</a>&nbsp;updaterFunction)</code></th>
 <td class="colLast">
 <div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
  returns the old value.</div>
@@ -322,7 +322,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;? extends java.lang.Long&gt;&nbsp;m)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;m)</code></th>
 <td class="colLast">
 <div class="block">Copies all of the mappings from the specified map to this map.</div>
 </td>
@@ -363,14 +363,14 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateAndGet(K,java.util.function.LongUnaryOperator)">updateAndGet</a></span>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
-            java.util.function.LongUnaryOperator&nbsp;updaterFunction)</code></th>
+            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongUnaryOperator</a>&nbsp;updaterFunction)</code></th>
 <td class="colLast">
 <div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
  returns the new value.</div>
@@ -381,8 +381,8 @@ implements java.io.Serializable</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -416,7 +416,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K&gt;&nbsp;<a href="AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.77">create</a>&#8203;(java.util.Map&lt;? extends K,&#8203;? extends java.lang.Long&gt;&nbsp;m)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K&gt;&nbsp;<a href="AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.77">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;m)</pre>
 <div class="block">Creates an <code>AtomicLongMap</code> with the same mappings as the specified <code>Map</code>.</div>
 </li>
 </ul>
@@ -525,7 +525,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <h4>updateAndGet</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.148">updateAndGet</a>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
-                         java.util.function.LongUnaryOperator&nbsp;updaterFunction)</pre>
+                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongUnaryOperator</a>&nbsp;updaterFunction)</pre>
 <div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
  returns the new value. If there is not currently a value associated with <code>key</code>, the
  function is applied to <code>0L</code>.</div>
@@ -545,7 +545,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <h4>getAndUpdate</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.165">getAndUpdate</a>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
-                         java.util.function.LongUnaryOperator&nbsp;updaterFunction)</pre>
+                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongUnaryOperator</a>&nbsp;updaterFunction)</pre>
 <div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
  returns the old value. If there is not currently a value associated with <code>key</code>, the
  function is applied to <code>0L</code>.</div>
@@ -566,7 +566,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.187">accumulateAndGet</a>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                              long&nbsp;x,
-                             java.util.function.LongBinaryOperator&nbsp;accumulatorFunction)</pre>
+                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
 <div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
  specified accumulator function, returning the new value. The previous value associated with
  <code>key</code> (or zero, if there is none) is passed as the first argument to <code>
@@ -588,7 +588,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.201">getAndAccumulate</a>&#8203;(<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                              long&nbsp;x,
-                             java.util.function.LongBinaryOperator&nbsp;accumulatorFunction)</pre>
+                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">LongBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
 <div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
  specified accumulator function, returning the old value. The previous value associated with
  <code>key</code> (or zero, if there is none) is passed as the first argument to <code>
@@ -620,7 +620,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.222">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;? extends java.lang.Long&gt;&nbsp;m)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.222">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;m)</pre>
 <div class="block">Copies all of the mappings from the specified map to this map. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -689,7 +689,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature">public&nbsp;java.util.Map&lt;<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;java.lang.Long&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.276">asMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.276">asMap</a>()</pre>
 <div class="block">Returns a live, read-only view of the map backing this <code>AtomicLongMap</code>.</div>
 </li>
 </ul>
@@ -699,7 +699,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.286">containsKey</a>&#8203;(java.lang.Object&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.286">containsKey</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Returns true if this map contains a mapping for the specified key.</div>
 </li>
 </ul>
@@ -743,10 +743,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.313">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.313">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

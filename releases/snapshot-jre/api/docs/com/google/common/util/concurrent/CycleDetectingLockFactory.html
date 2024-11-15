@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.CycleDetectingLockFactory</li>
@@ -138,8 +138,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.161">CycleDetectingLockFactory</a>
-extends java.lang.Object</pre>
-<div class="block">The <code>CycleDetectingLockFactory</code> creates <code>ReentrantLock</code> instances and <code>ReentrantReadWriteLock</code> instances that detect potential deadlock by checking for cycles in lock
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+<div class="block">The <code>CycleDetectingLockFactory</code> creates <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantLock</code></a> instances and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantReadWriteLock</code></a> instances that detect potential deadlock by checking for cycles in lock
  acquisition order.
 
  <p>Potential deadlocks detected when calling the <code>lock()</code>, <code>lockInterruptibly()</code>, or
@@ -297,7 +297,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a> extends java.lang.Enum&lt;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a>&gt;&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a>&gt;&gt;</span></code></th>
 <td class="colLast">
 <div class="block">A <code>CycleDetectingLockFactory.WithExplicitOrdering</code> provides the additional enforcement of
  an application-specified ordering of lock acquisitions.</div>
@@ -329,41 +329,41 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends java.lang.Enum&lt;E&gt;&gt;<br><a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newInstanceWithExplicitOrdering(java.lang.Class,com.google.common.util.concurrent.CycleDetectingLockFactory.Policy)">newInstanceWithExplicitOrdering</a></span>&#8203;(java.lang.Class&lt;E&gt;&nbsp;enumClass,
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;<br><a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newInstanceWithExplicitOrdering(java.lang.Class,com.google.common.util.concurrent.CycleDetectingLockFactory.Policy)">newInstanceWithExplicitOrdering</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;E&gt;&nbsp;enumClass,
                                <a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>CycleDetectingLockFactory.WithExplicitOrdering&lt;E&gt;</code>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.concurrent.locks.ReentrantLock</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantLock(java.lang.String)">newReentrantLock</a></span>&#8203;(java.lang.String&nbsp;lockName)</code></th>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantLock</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantLock(java.lang.String)">newReentrantLock</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to <code>newReentrantLock(lockName, false)</code>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.concurrent.locks.ReentrantLock</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantLock(java.lang.String,boolean)">newReentrantLock</a></span>&#8203;(java.lang.String&nbsp;lockName,
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantLock</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantLock(java.lang.String,boolean)">newReentrantLock</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName,
                 boolean&nbsp;fair)</code></th>
 <td class="colLast">
-<div class="block">Creates a <code>ReentrantLock</code> with the given fairness policy.</div>
+<div class="block">Creates a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantLock</code></a> with the given fairness policy.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>java.util.concurrent.locks.ReentrantReadWriteLock</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantReadWriteLock(java.lang.String)">newReentrantReadWriteLock</a></span>&#8203;(java.lang.String&nbsp;lockName)</code></th>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantReadWriteLock</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantReadWriteLock(java.lang.String)">newReentrantReadWriteLock</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to <code>newReentrantReadWriteLock(lockName, false)</code>.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>java.util.concurrent.locks.ReentrantReadWriteLock</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantReadWriteLock(java.lang.String,boolean)">newReentrantReadWriteLock</a></span>&#8203;(java.lang.String&nbsp;lockName,
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantReadWriteLock</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newReentrantReadWriteLock(java.lang.String,boolean)">newReentrantReadWriteLock</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName,
                          boolean&nbsp;fair)</code></th>
 <td class="colLast">
-<div class="block">Creates a <code>ReentrantReadWriteLock</code> with the given fairness policy.</div>
+<div class="block">Creates a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantReadWriteLock</code></a> with the given fairness policy.</div>
 </td>
 </tr>
 </table>
@@ -371,8 +371,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -406,7 +406,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.237">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.237">newReentrantLock</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -416,9 +416,9 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.245">newReentrantLock</a>&#8203;(java.lang.String&nbsp;lockName,
-                                                                 boolean&nbsp;fair)</pre>
-<div class="block">Creates a <code>ReentrantLock</code> with the given fairness policy. The <code>lockName</code> is used in
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.245">newReentrantLock</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName,
+                                      boolean&nbsp;fair)</pre>
+<div class="block">Creates a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantLock</code></a> with the given fairness policy. The <code>lockName</code> is used in
  the warning or exception output to help identify the locks involved in the detected deadlock.</div>
 </li>
 </ul>
@@ -428,7 +428,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.252">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.252">newReentrantReadWriteLock</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantReadWriteLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -438,9 +438,9 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre class="methodSignature">public&nbsp;java.util.concurrent.locks.ReentrantReadWriteLock&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.261">newReentrantReadWriteLock</a>&#8203;(java.lang.String&nbsp;lockName,
-                                                                                   boolean&nbsp;fair)</pre>
-<div class="block">Creates a <code>ReentrantReadWriteLock</code> with the given fairness policy. The <code>lockName</code>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.261">newReentrantReadWriteLock</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lockName,
+                                                        boolean&nbsp;fair)</pre>
+<div class="block">Creates a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantReadWriteLock</code></a> with the given fairness policy. The <code>lockName</code>
  is used in the warning or exception output to help identify the locks involved in the detected
  deadlock.</div>
 </li>
@@ -451,8 +451,8 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>newInstanceWithExplicitOrdering</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Enum&lt;E&gt;&gt;&nbsp;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.273">newInstanceWithExplicitOrdering</a>&#8203;(java.lang.Class&lt;E&gt;&nbsp;enumClass,
-                                                                                                                              <a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.273">newInstanceWithExplicitOrdering</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;E&gt;&nbsp;enumClass,
+                                                                                                                    <a href="CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
 <div class="block">Creates a <code>CycleDetectingLockFactory.WithExplicitOrdering&lt;E&gt;</code>.</div>
 </li>
 </ul>

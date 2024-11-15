@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.eventbus.EventBus</li>
@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre>public class <a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.150">EventBus</a>
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Dispatches events to listeners, and provides ways for listeners to register themselves.
 
  <h2>Avoid EventBus</h2>
@@ -237,7 +237,7 @@ extends java.lang.Object</pre>
 
  <p>If a subscriber for a supertype of all events (such as Object) is registered, no event will
  ever be considered dead, and no DeadEvents will be generated. Accordingly, while DeadEvent
- extends <code>Object</code>, a subscriber registered to receive any Object will never receive a
+ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Object</code></a>, a subscriber registered to receive any Object will never receive a
  DeadEvent.
 
  <p>This class is safe for concurrent use.
@@ -281,7 +281,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">EventBus</a></span>&#8203;(java.lang.String&nbsp;identifier)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">EventBus</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier)</code></th>
 <td class="colLast">
 <div class="block">Creates a new EventBus with the given <code>identifier</code>.</div>
 </td>
@@ -305,7 +305,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#identifier()">identifier</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the identifier for this event bus.</div>
@@ -313,26 +313,26 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#post(java.lang.Object)">post</a></span>&#8203;(java.lang.Object&nbsp;event)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#post(java.lang.Object)">post</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;event)</code></th>
 <td class="colLast">
 <div class="block">Posts an event to all registered subscribers.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(java.lang.Object)">register</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(java.lang.Object)">register</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Registers all subscriber methods on <code>object</code> to receive events.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unregister(java.lang.Object)">unregister</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unregister(java.lang.Object)">unregister</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Unregisters all subscriber methods on a registered <code>object</code>.</div>
 </td>
@@ -342,8 +342,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -377,7 +377,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>EventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.173">EventBus</a>&#8203;(java.lang.String&nbsp;identifier)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.173">EventBus</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier)</pre>
 <div class="block">Creates a new EventBus with the given <code>identifier</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -418,7 +418,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>identifier</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.204">identifier</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.204">identifier</a>()</pre>
 <div class="block">Returns the identifier for this event bus.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -432,7 +432,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.233">register</a>&#8203;(java.lang.Object&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.233">register</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Registers all subscriber methods on <code>object</code> to receive events.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -446,13 +446,13 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>unregister</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.243">unregister</a>&#8203;(java.lang.Object&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.243">unregister</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Unregisters all subscriber methods on a registered <code>object</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>object</code> - object whose subscriber methods should be unregistered.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the object was not previously registered.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the object was not previously registered.</dd>
 </dl>
 </li>
 </ul>
@@ -462,7 +462,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>post</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.257">post</a>&#8203;(java.lang.Object&nbsp;event)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.257">post</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;event)</pre>
 <div class="block">Posts an event to all registered subscribers. This method will return successfully after the
  event has been posted to all subscribers, and regardless of any exceptions thrown by
  subscribers.
@@ -481,10 +481,10 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.267">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/eventbus/EventBus.html#line.267">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

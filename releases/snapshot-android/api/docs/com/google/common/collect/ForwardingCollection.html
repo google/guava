@@ -117,11 +117,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingCollection" class="title">Class ForwardingCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Class ForwardingCollection" class="title">Class ForwardingCollection&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li><a href="ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a></li>
@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code></dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
@@ -146,9 +146,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.49">ForwardingCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.49">ForwardingCollection</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
-implements java.util.Collection&lt;E&gt;</pre>
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</pre>
 <div class="block">A collection which forwards all its method calls to another collection. Subclasses should
  override one or more methods to modify the behavior of the backing collection as desired per the
  <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
@@ -223,7 +223,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection)">addAll</a></span>&#8203;(java.util.Collection&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection)">addAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -233,16 +233,16 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsAll(java.util.Collection)">containsAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsAll(java.util.Collection)">containsAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>protected abstract java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;</code></td>
+<td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delegate()">delegate</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the backing delegate instance that methods are forwarded to.</div>
@@ -254,23 +254,23 @@ implements java.util.Collection&lt;E&gt;</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>java.util.Iterator&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -280,7 +280,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardAddAll(java.util.Collection)">standardAddAll</a></span>&#8203;(java.util.Collection&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardAddAll(java.util.Collection)">standardAddAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#addAll(java.util.Collection)"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> in terms of <a href="#add(E)"><code>add(E)</code></a>.</div>
 </td>
@@ -295,14 +295,14 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContains(java.lang.Object)">standardContains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContains(java.lang.Object)">standardContains</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContainsAll(java.util.Collection)">standardContainsAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContainsAll(java.util.Collection)">standardContainsAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#containsAll(java.util.Collection)"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a> .</div>
 </td>
@@ -316,7 +316,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#remove(java.lang.Object)"><code>remove(java.lang.Object)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method.</div>
@@ -324,7 +324,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemoveAll(java.util.Collection)">standardRemoveAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemoveAll(java.util.Collection)">standardRemoveAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#removeAll(java.util.Collection)"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method.</div>
@@ -332,40 +332,40 @@ implements java.util.Collection&lt;E&gt;</pre>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRetainAll(java.util.Collection)">standardRetainAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRetainAll(java.util.Collection)">standardRetainAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#retainAll(java.util.Collection)"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]</code></td>
+<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardToArray()">standardToArray</a></span>()</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#toArray()"><code>toArray()</code></a> in terms of <a href="#toArray(T%5B%5D)"><code>toArray(Object[])</code></a>.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>protected &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
+<td class="colFirst"><code>protected &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardToArray(T%5B%5D)">standardToArray</a></span>&#8203;(T[]&nbsp;array)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#toArray(T%5B%5D)"><code>toArray(Object[])</code></a> in terms of <a href="#size()"><code>size()</code></a> and <a href="#iterator()"><code>iterator()</code></a>.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>protected java.lang.String</code></td>
+<td class="colFirst"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardToString()">standardToString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(T%5B%5D)">toArray</a></span>&#8203;(T[]&nbsp;array)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -381,22 +381,22 @@ implements java.util.Collection&lt;E&gt;</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
-<code>equals, hashCode, parallelStream, removeIf, spliterator, stream, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
 </ul>
 </li>
 </ul>
@@ -440,7 +440,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.58">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.58">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -458,12 +458,12 @@ implements java.util.Collection&lt;E&gt;</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Iterator&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.61">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.61">iterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -476,7 +476,7 @@ implements java.util.Collection&lt;E&gt;</pre>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.66">size</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -487,10 +487,10 @@ implements java.util.Collection&lt;E&gt;</pre>
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.71">removeAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.71">removeAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -503,7 +503,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.77">isEmpty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -514,10 +514,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.82">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        java.lang.Object&nbsp;object)</pre>
+                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -533,7 +533,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.87">add</a>&#8203;(<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&nbsp;element)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -545,10 +545,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.93">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      java.lang.Object&nbsp;object)</pre>
+                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -558,10 +558,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.99">containsAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.99">containsAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>containsAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -572,10 +572,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.104">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.104">addAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -586,10 +586,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.110">retainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.110">retainAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -602,7 +602,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.116">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -612,10 +612,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.121">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.121">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -628,10 +628,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.126">toArray</a>&#8203;(T[]&nbsp;array)</pre>
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.126">toArray</a>&#8203;(T[]&nbsp;array)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -642,7 +642,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <li class="blockList">
 <h4>standardContains</h4>
 <pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.140">standardContains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                   java.lang.Object&nbsp;object)</pre>
+                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>. If you override
  <a href="#iterator()"><code>iterator()</code></a>, you may wish to override <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a> to forward to this
  implementation.</div>
@@ -658,7 +658,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsAll</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.151">standardContainsAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.151">standardContainsAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block">A sensible definition of <a href="#containsAll(java.util.Collection)"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a> . If you override
  <a href="#contains(java.lang.Object)"><code>contains(java.lang.Object)</code></a>, you may wish to override <a href="#containsAll(java.util.Collection)"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this
  implementation.</div>
@@ -674,7 +674,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAddAll</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.161">standardAddAll</a>&#8203;(java.util.Collection&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.161">standardAddAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
 <div class="block">A sensible definition of <a href="#addAll(java.util.Collection)"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> in terms of <a href="#add(E)"><code>add(E)</code></a>. If you override <a href="#add(E)"><code>add(E)</code></a>, you may wish to override <a href="#addAll(java.util.Collection)"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -689,7 +689,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <li class="blockList">
 <h4>standardRemove</h4>
 <pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.172">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                 java.lang.Object&nbsp;object)</pre>
+                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="#remove(java.lang.Object)"><code>remove(java.lang.Object)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method. If you override <a href="#iterator()"><code>iterator()</code></a>, you may wish to override <a href="#remove(java.lang.Object)"><code>remove(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
@@ -704,7 +704,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemoveAll</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.190">standardRemoveAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.190">standardRemoveAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block">A sensible definition of <a href="#removeAll(java.util.Collection)"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method. If you override <a href="#iterator()"><code>iterator()</code></a>, you may wish to override <a href="#removeAll(java.util.Collection)"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this implementation.</div>
 <dl>
@@ -719,7 +719,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRetainAll</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.201">standardRetainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.201">standardRetainAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block">A sensible definition of <a href="#retainAll(java.util.Collection)"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>, using the iterator's
  <code>remove</code> method. If you override <a href="#iterator()"><code>iterator()</code></a>, you may wish to override <a href="#retainAll(java.util.Collection)"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this implementation.</div>
 <dl>
@@ -765,7 +765,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre class="methodSignature">protected&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.234">standardToString</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.234">standardToString</a>()</pre>
 <div class="block">A sensible definition of <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="#iterator()"><code>iterator()</code></a>. If you override
  <a href="#iterator()"><code>iterator()</code></a>, you may wish to override <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> to forward to this
  implementation.</div>
@@ -781,7 +781,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>standardToArray</h4>
-<pre class="methodSignature">protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.245">standardToArray</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.245">standardToArray</a>()</pre>
 <div class="block">A sensible definition of <a href="#toArray()"><code>toArray()</code></a> in terms of <a href="#toArray(T%5B%5D)"><code>toArray(Object[])</code></a>. If you
  override <a href="#toArray(T%5B%5D)"><code>toArray(Object[])</code></a>, you may wish to override <a href="#toArray()"><code>toArray()</code></a> to forward to
  this implementation.</div>
@@ -799,7 +799,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToArray</h4>
-<pre class="methodSignature">protected&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.257">standardToArray</a>&#8203;(T[]&nbsp;array)</pre>
+<pre class="methodSignature">protected&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.257">standardToArray</a>&#8203;(T[]&nbsp;array)</pre>
 <div class="block">A sensible definition of <a href="#toArray(T%5B%5D)"><code>toArray(Object[])</code></a> in terms of <a href="#size()"><code>size()</code></a> and <a href="#iterator()"><code>iterator()</code></a>. If you override either of these methods, you may wish to override <a href="#toArray()"><code>toArray()</code></a>
  to forward to this implementation.</div>
 <dl>

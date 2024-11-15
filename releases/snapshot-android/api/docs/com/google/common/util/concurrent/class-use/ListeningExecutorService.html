@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></span></code></th>
 <td class="colLast">
-<div class="block">A <code>ScheduledExecutorService</code> that returns <a href="../ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
+<div class="block">A <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a> that returns <a href="../ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
  <code>ExecutorService</code> methods.</div>
 </td>
 </tr>
@@ -153,7 +153,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../AbstractListeningExecutorService.html" title="class in com.google.common.util.concurrent">AbstractListeningExecutorService</a></span></code></th>
 <td class="colLast">
 <div class="block">Abstract <a href="../ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a> implementation that creates <a href="../ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
- instances for each <code>Runnable</code> and <code>Callable</code> submitted to it.</div>
+ instances for each <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Runnable</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Callable</code></a> submitted to it.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -181,9 +181,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)">listeningDecorator</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;delegate)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)">listeningDecorator</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;delegate)</code></th>
 <td class="colLast">
-<div class="block">Creates an <code>ExecutorService</code> whose <code>submit</code> and <code>invokeAll</code> methods submit
+<div class="block">Creates an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="../ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
@@ -206,11 +206,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Callables.</span><code><span class="memberNameLink"><a href="../Callables.html#asAsyncCallable(java.util.concurrent.Callable,com.google.common.util.concurrent.ListeningExecutorService)">asAsyncCallable</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Callables.</span><code><span class="memberNameLink"><a href="../Callables.html#asAsyncCallable(java.util.concurrent.Callable,com.google.common.util.concurrent.ListeningExecutorService)">asAsyncCallable</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;callable,
                <a href="../ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;listeningExecutorService)</code></th>
 <td class="colLast">
-<div class="block">Creates an <a href="../AsyncCallable.html" title="interface in com.google.common.util.concurrent"><code>AsyncCallable</code></a> from a <code>Callable</code>.</div>
+<div class="block">Creates an <a href="../AsyncCallable.html" title="interface in com.google.common.util.concurrent"><code>AsyncCallable</code></a> from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Callable</code></a>.</div>
 </td>
 </tr>
 </tbody>

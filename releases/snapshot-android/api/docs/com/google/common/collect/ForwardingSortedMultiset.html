@@ -117,11 +117,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingSortedMultiset" class="title">Class ForwardingSortedMultiset&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Class ForwardingSortedMultiset" class="title">Class ForwardingSortedMultiset&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li><a href="ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a></li>
@@ -148,11 +148,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code>, <code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</code>, <code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code></dd>
+<dd><code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code>, <code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.46">ForwardingSortedMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.46">ForwardingSortedMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;E&gt;
 implements <a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</pre>
 <div class="block">A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses
@@ -209,8 +209,8 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ForwardingSortedMultiset.StandardElementSet.html" title="class in com.google.common.collect">ForwardingSortedMultiset.StandardElementSet</a></span></code></th>
 <td class="colLast">
 <div class="block">A sensible implementation of <a href="SortedMultiset.html#elementSet()"><code>SortedMultiset.elementSet()</code></a> in terms of the following
- methods: <code>Collection.clear()</code>, <a href="SortedMultiset.html#comparator()"><code>SortedMultiset.comparator()</code></a>, <a href="Multiset.html#contains(java.lang.Object)"><code>Multiset.contains(java.lang.Object)</code></a>, <a href="Multiset.html#containsAll(java.util.Collection)"><code>Multiset.containsAll(java.util.Collection&lt;?&gt;)</code></a>, <a href="Multiset.html#count(java.lang.Object)"><code>Multiset.count(java.lang.Object)</code></a>,
- <a href="SortedMultiset.html#firstEntry()"><code>SortedMultiset.firstEntry()</code></a> <a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)"><code>SortedMultiset.headMultiset(E, com.google.common.collect.BoundType)</code></a>, <code>Collection.isEmpty()</code>, <a href="SortedMultiset.html#lastEntry()"><code>SortedMultiset.lastEntry()</code></a>, <a href="SortedMultiset.html#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)"><code>SortedMultiset.subMultiset(E, com.google.common.collect.BoundType, E, com.google.common.collect.BoundType)</code></a>,
+ methods: <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink"><code>Collection.clear()</code></a>, <a href="SortedMultiset.html#comparator()"><code>SortedMultiset.comparator()</code></a>, <a href="Multiset.html#contains(java.lang.Object)"><code>Multiset.contains(java.lang.Object)</code></a>, <a href="Multiset.html#containsAll(java.util.Collection)"><code>Multiset.containsAll(java.util.Collection&lt;?&gt;)</code></a>, <a href="Multiset.html#count(java.lang.Object)"><code>Multiset.count(java.lang.Object)</code></a>,
+ <a href="SortedMultiset.html#firstEntry()"><code>SortedMultiset.firstEntry()</code></a> <a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)"><code>SortedMultiset.headMultiset(E, com.google.common.collect.BoundType)</code></a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink"><code>Collection.isEmpty()</code></a>, <a href="SortedMultiset.html#lastEntry()"><code>SortedMultiset.lastEntry()</code></a>, <a href="SortedMultiset.html#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)"><code>SortedMultiset.subMultiset(E, com.google.common.collect.BoundType, E, com.google.common.collect.BoundType)</code></a>,
  <a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)"><code>SortedMultiset.tailMultiset(E, com.google.common.collect.BoundType)</code></a>, the <code>size()</code> and <code>iterator()</code> methods of
  <a href="SortedMultiset.html#entrySet()"><code>SortedMultiset.entrySet()</code></a>, and <a href="Multiset.html#remove(java.lang.Object,int)"><code>Multiset.remove(Object, int)</code></a>.</div>
 </td>
@@ -221,7 +221,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;com.google.common.collect.<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a></h3>
-<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></li>
+<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -266,7 +266,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.util.Comparator&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comparator()">comparator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
@@ -288,7 +288,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.NavigableSet&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementSet()">elementSet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the set of distinct elements contained in this multiset.</div>
@@ -422,22 +422,22 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
-<code>addAll, clear, isEmpty, parallelStream, removeIf, spliterator, stream, toArray, toArray, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.Multiset">
@@ -503,7 +503,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingMultiset.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="ForwardingMultiset.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -513,7 +513,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature">public&nbsp;java.util.NavigableSet&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.56">elementSet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.56">elementSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
@@ -527,11 +527,11 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
  <code>elementSet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingMultiset.html#elementSet()">elementSet</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="ForwardingMultiset.html#elementSet()">elementSet</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the set of distinct elements in this multiset</dd>
 </dl>
@@ -543,13 +543,13 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.81">comparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.81">comparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#comparator()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
  ordering of the elements is used.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#comparator()">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#comparator()">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -565,7 +565,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
  in the other.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#descendingMultiset()">descendingMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#descendingMultiset()">descendingMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -582,7 +582,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
  empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#firstEntry()">firstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#firstEntry()">firstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -613,7 +613,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
  empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#lastEntry()">lastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#lastEntry()">lastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -645,7 +645,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
  <code>null</code> if this multiset is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -676,7 +676,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
  <code>null</code> if this multiset is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#pollLastEntry()">pollLastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#pollLastEntry()">pollLastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -711,11 +711,11 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
  multiset, so changes to one will be reflected in the other. The returned multiset supports all
  operations that this multiset supports.
 
- <p>The returned multiset will throw an <code>IllegalArgumentException</code> on attempts to add
+ <p>The returned multiset will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> on attempts to add
  elements outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">headMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">headMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -737,14 +737,14 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
  reflected in the other. The returned multiset supports all operations that this multiset
  supports.
 
- <p>The returned multiset will throw an <code>IllegalArgumentException</code> on attempts to add
+ <p>The returned multiset will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> on attempts to add
  elements outside its range.
 
  <p>This method is equivalent to <code>tailMultiset(lowerBound,
  lowerBoundType).headMultiset(upperBound, upperBoundType)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">subMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">subMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -782,11 +782,11 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
  multiset, so changes to one will be reflected in the other. The returned multiset supports all
  operations that this multiset supports.
 
- <p>The returned multiset will throw an <code>IllegalArgumentException</code> on attempts to add
+ <p>The returned multiset will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> on attempts to add
  elements outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">tailMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">tailMultiset</a></code>&nbsp;in interface&nbsp;<code><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>

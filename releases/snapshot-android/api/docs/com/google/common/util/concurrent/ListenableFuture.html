@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h2 title="Interface ListenableFuture" class="title">Interface ListenableFuture&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface ListenableFuture" class="title">Interface ListenableFuture&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -125,7 +125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code>java.util.concurrent.Future&lt;V&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
@@ -137,10 +137,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use the methods in Futures (like immediateFuture) or SettableFuture")
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.119">ListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
-extends java.util.concurrent.Future&lt;V&gt;</pre>
-<div class="block">A <code>Future</code> that accepts completion listeners. Each listener has an associated executor, and
- it is invoked using this executor once the future's computation is complete. If the computation has already completed when the listener is added, the listener will
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.119">ListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;</pre>
+<div class="block">A <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Future</code></a> that accepts completion listeners. Each listener has an associated executor, and
+ it is invoked using this executor once the future's computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">complete</a>. If the computation has already completed when the listener is added, the listener will
  execute immediately.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained"><code>
@@ -188,7 +188,7 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
  <ul>
    <li>If you receive them from an <code>java.util.concurrent.ExecutorService</code>, convert that
        service to a <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a>, usually by calling <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator</code></a>.
-   <li>If you manually call <code>FutureTask.set(V)</code> or a similar method,
+   <li>If you manually call <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/FutureTask.html?is-external=true#set(V)" title="class or interface in java.util.concurrent" class="externalLink"><code>FutureTask.set(V)</code></a> or a similar method,
        create a <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a> instead. (If your needs are more complex, you may prefer
        <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>.)
  </ul>
@@ -234,10 +234,10 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></span>&#8203;(java.lang.Runnable&nbsp;listener,
-           java.util.concurrent.Executor&nbsp;executor)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;listener,
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
-<div class="block">Registers a listener to be run on the given executor.</div>
+<div class="block">Registers a listener to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">run</a> on the given executor.</div>
 </td>
 </tr>
 </table>
@@ -245,8 +245,8 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.util.concurrent.Future">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.concurrent.Future</h3>
-<code>cancel, get, get, isCancelled, isDone</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#cancel(boolean)" title="class or interface in java.util.concurrent" class="externalLink">cancel</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent" class="externalLink">get</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">get</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent" class="externalLink">isCancelled</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">isDone</a></code></li>
 </ul>
 </li>
 </ul>
@@ -270,10 +270,10 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.156">addListener</a>&#8203;(java.lang.Runnable&nbsp;listener,
-                 java.util.concurrent.Executor&nbsp;executor)</pre>
-<div class="block">Registers a listener to be run on the given executor.
- The listener will run when the <code>Future</code>'s computation is complete or, if the computation is already complete, immediately.
+<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.156">addListener</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;listener,
+                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
+<div class="block">Registers a listener to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">run</a> on the given executor.
+ The listener will run when the <code>Future</code>'s computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">complete</a> or, if the computation is already complete, immediately.
 
  <p>There is no guaranteed ordering of execution of listeners, but any listener added through
  this method is guaranteed to be called once the computation is complete.
@@ -300,7 +300,7 @@ extends java.util.concurrent.Future&lt;V&gt;</pre>
 <dd><code>listener</code> - the listener to run when the computation is complete</dd>
 <dd><code>executor</code> - the executor to run the listener in</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.RejectedExecutionException</code> - if we tried to execute the listener immediately but the
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if we tried to execute the listener immediately but the
      executor rejected it.</dd>
 </dl>
 </li>

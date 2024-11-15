@@ -117,14 +117,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ContiguousSet" class="title">Class ContiguousSet&lt;C extends java.lang.Comparable&gt;</h2>
+<h2 title="Class ContiguousSet" class="title">Class ContiguousSet&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>java.util.AbstractCollection&lt;E&gt;</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a>&lt;E&gt;</li>
 <li>
 <ul class="inheritance">
 <li><a href="ImmutableCollection.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableCollection</a>&lt;E&gt;</li>
@@ -153,11 +153,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>java.io.Serializable</code>, <code>java.lang.Iterable&lt;C&gt;</code>, <code>java.util.Collection&lt;C&gt;</code>, <code>java.util.NavigableSet&lt;C&gt;</code>, <code>java.util.Set&lt;C&gt;</code>, <code>java.util.SortedSet&lt;C&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;C&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.51">ContiguousSet</a>&lt;C extends java.lang.Comparable&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.51">ContiguousSet</a>&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;
 extends <a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;C&gt;</pre>
 <div class="block">A sorted set of contiguous values in a given <a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>. Example:
 
@@ -174,7 +174,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 
  <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
  <code>ContiguousSet.create(Range.greaterThan(0), DiscreteDomain.integers()</code>). Certain operations
- on such a set can be performed efficiently, but others (such as <code>Set.hashCode()</code> or <code>Collections.frequency(java.util.Collection&lt;?&gt;, java.lang.Object)</code>) can cause major performance problems.</div>
+ on such a set can be performed efficiently, but others (such as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink"><code>Set.hashCode()</code></a> or <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#frequency(java.util.Collection,java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>Collections.frequency(java.util.Collection&lt;?&gt;, java.lang.Object)</code></a>) can cause major performance problems.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -230,7 +230,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;</code></td>
+<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closed(int,int)">closed</a></span>&#8203;(int&nbsp;lower,
       int&nbsp;upper)</code></th>
 <td class="colLast">
@@ -239,7 +239,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;</code></td>
+<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closed(long,long)">closed</a></span>&#8203;(long&nbsp;lower,
       long&nbsp;upper)</code></th>
 <td class="colLast">
@@ -248,7 +248,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;</code></td>
+<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closedOpen(int,int)">closedOpen</a></span>&#8203;(int&nbsp;lower,
           int&nbsp;upper)</code></th>
 <td class="colLast">
@@ -257,7 +257,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;</code></td>
+<td class="colFirst"><code>static <a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closedOpen(long,long)">closedOpen</a></span>&#8203;(long&nbsp;lower,
           long&nbsp;upper)</code></th>
 <td class="colLast">
@@ -266,7 +266,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&gt;<br><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)">create</a></span>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
       <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C&gt;&nbsp;domain)</code></th>
 <td class="colLast">
@@ -331,7 +331,7 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a shorthand representation of the contents such as <code>"[1..100]"</code>.</div>
@@ -363,43 +363,43 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <li class="blockList"><a id="methods.inherited.from.class.java.util.AbstractCollection">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.util.AbstractCollection</h3>
-<code>containsAll, isEmpty, size</code></li>
+<h3>Methods inherited from class&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
-<code>parallelStream, removeIf, stream, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Set">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Set</h3>
-<code>add, addAll, clear, contains, containsAll, equals, hashCode, isEmpty, remove, removeAll, retainAll, size, toArray, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.SortedSet">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.SortedSet</h3>
-<code>spliterator</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a></code></li>
 </ul>
 </li>
 </ul>
@@ -423,12 +423,12 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&gt;&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.63">create</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
-                                                                       <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C&gt;&nbsp;domain)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.63">create</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range,
+                                                             <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C&gt;&nbsp;domain)</pre>
 <div class="block">Returns a <code>ContiguousSet</code> containing the same values in the given domain <a href="Range.html#contains(C)">contained</a> by the range.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if neither range nor the domain has a lower bound, or if
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if neither range nor the domain has a lower bound, or if
      neither has an upper bound</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>13.0</dd>
@@ -441,14 +441,14 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.106">closed</a>&#8203;(int&nbsp;lower,
-                                                      int&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.106">closed</a>&#8203;(int&nbsp;lower,
+                                            int&nbsp;upper)</pre>
 <div class="block">Returns a nonempty contiguous set containing all <code>int</code> values from <code>lower</code>
  (inclusive) to <code>upper</code> (inclusive). (These are the same values contained in <code>
  Range.closed(lower, upper)</code>.)</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.0</dd>
 </dl>
@@ -460,14 +460,14 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.118">closed</a>&#8203;(long&nbsp;lower,
-                                                   long&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.118">closed</a>&#8203;(long&nbsp;lower,
+                                         long&nbsp;upper)</pre>
 <div class="block">Returns a nonempty contiguous set containing all <code>long</code> values from <code>lower</code>
  (inclusive) to <code>upper</code> (inclusive). (These are the same values contained in <code>
  Range.closed(lower, upper)</code>.)</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.0</dd>
 </dl>
@@ -479,14 +479,14 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.130">closedOpen</a>&#8203;(int&nbsp;lower,
-                                                          int&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.130">closedOpen</a>&#8203;(int&nbsp;lower,
+                                                int&nbsp;upper)</pre>
 <div class="block">Returns a contiguous set containing all <code>int</code> values from <code>lower</code> (inclusive) to
  <code>upper</code> (exclusive). If the endpoints are equal, an empty set is returned. (These are the
  same values contained in <code>Range.closedOpen(lower, upper)</code>.)</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.0</dd>
 </dl>
@@ -498,14 +498,14 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.142">closedOpen</a>&#8203;(long&nbsp;lower,
-                                                       long&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.142">closedOpen</a>&#8203;(long&nbsp;lower,
+                                             long&nbsp;upper)</pre>
 <div class="block">Returns a contiguous set containing all <code>long</code> values from <code>lower</code> (inclusive) to
  <code>upper</code> (exclusive). If the endpoints are equal, an empty set is returned. (These are the
  same values contained in <code>Range.closedOpen(lower, upper)</code>.)</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.0</dd>
 </dl>
@@ -525,17 +525,17 @@ extends <a href="ImmutableSortedSet.html" title="class in com.google.common.coll
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
- <p>The <code>SortedSet.headSet(E)</code> documentation states that a subset of a subset throws an
- <code>IllegalArgumentException</code> if passed a <code>toElement</code> greater than an earlier <code>
+ <p>The <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#headSet(E)" title="class or interface in java.util" class="externalLink"><code>SortedSet.headSet(E)</code></a> documentation states that a subset of a subset throws an
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> if passed a <code>toElement</code> greater than an earlier <code>
  toElement</code>. However, this method doesn't throw an exception in that situation, but instead
  keeps the original <code>toElement</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#headSet(E)" title="class or interface in java.util" class="externalLink">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#headSet(E)" title="class or interface in java.util" class="externalLink">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#headSet(E)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#headSet(E)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -552,9 +552,9 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
                                 boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>headSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#headSet(E,boolean)" title="class or interface in java.util" class="externalLink">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#headSet(E,boolean)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#headSet(E,boolean)">headSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -575,18 +575,18 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
- <p>The <code>SortedSet.subSet(E, E)</code> documentation states that a subset of a subset throws an <code>IllegalArgumentException</code> if passed a <code>fromElement</code> smaller than an earlier <code>
+ <p>The <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#subSet(E,E)" title="class or interface in java.util" class="externalLink"><code>SortedSet.subSet(E, E)</code></a> documentation states that a subset of a subset throws an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> if passed a <code>fromElement</code> smaller than an earlier <code>
  fromElement</code>. However, this method doesn't throw an exception in that situation, but instead
  keeps the original <code>fromElement</code>. Similarly, this method keeps the original <code>
  toElement</code>, instead of throwing an exception, if passed a <code>toElement</code> greater than an
  earlier <code>toElement</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>subSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#subSet(E,E)" title="class or interface in java.util" class="externalLink">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>subSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#subSet(E,E)" title="class or interface in java.util" class="externalLink">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#subSet(E,E)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#subSet(E,E)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -605,9 +605,9 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
                                boolean&nbsp;toInclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>subSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#subSet(E,boolean,E,boolean)" title="class or interface in java.util" class="externalLink">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#subSet(E,boolean,E,boolean)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#subSet(E,boolean,E,boolean)">subSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -627,17 +627,17 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
- <p>The <code>SortedSet.tailSet(E)</code> documentation states that a subset of a subset throws an
- <code>IllegalArgumentException</code> if passed a <code>fromElement</code> smaller than an earlier <code>
+ <p>The <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#tailSet(E)" title="class or interface in java.util" class="externalLink"><code>SortedSet.tailSet(E)</code></a> documentation states that a subset of a subset throws an
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> if passed a <code>fromElement</code> smaller than an earlier <code>
  fromElement</code>. However, this method doesn't throw an exception in that situation, but instead
  keeps the original <code>fromElement</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#tailSet(E)" title="class or interface in java.util" class="externalLink">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.SortedSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#tailSet(E)" title="class or interface in java.util" class="externalLink">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#tailSet(E)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#tailSet(E)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -654,9 +654,9 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
                                 boolean&nbsp;inclusive)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>tailSet</code>&nbsp;in interface&nbsp;<code>java.util.NavigableSet&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true#tailSet(E,boolean)" title="class or interface in java.util" class="externalLink">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ImmutableSortedSet.html#tailSet(E,boolean)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="ImmutableSortedSet.html#tailSet(E,boolean)">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -685,7 +685,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
  contained in this set. This is equivalent to <code>range(CLOSED, CLOSED)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.NoSuchElementException</code> - if this set is empty</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if this set is empty</dd>
 </dl>
 </li>
 </ul>
@@ -706,7 +706,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
  [1..∞)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.NoSuchElementException</code> - if this set is empty</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if this set is empty</dd>
 </dl>
 </li>
 </ul>
@@ -716,11 +716,11 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.245">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.245">toString</a>()</pre>
 <div class="block">Returns a shorthand representation of the contents such as <code>"[1..100]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends java.lang.Comparable&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toString()" title="class or interface in java.util" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ContiguousSet.html" title="type parameter in ContiguousSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -730,7 +730,7 @@ public&nbsp;<a href="ContiguousSet.html" title="class in com.google.common.colle
 <ul class="blockListLast">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ContiguousSet.html#line.258">builder</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)"><code>create(com.google.common.collect.Range&lt;C&gt;, com.google.common.collect.DiscreteDomain&lt;C&gt;)</code></a>.</div>
@@ -740,7 +740,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" titl
  ContiguousSet</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>

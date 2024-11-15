@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li><a href="../collect/ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a></li>
@@ -267,7 +267,7 @@ implements <a href="LoadingCache.html" title="interface in com.google.common.cac
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,&#8203;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAll(java.lang.Iterable)">getAll</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAll(java.lang.Iterable)">getAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)</code></th>
 <td class="colLast">
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
  if necessary.</div>
@@ -307,8 +307,8 @@ implements <a href="LoadingCache.html" title="interface in com.google.common.cac
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.cache.Cache">
@@ -395,7 +395,7 @@ implements <a href="LoadingCache.html" title="interface in com.google.common.cac
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.45">get</a>&#8203;(<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)
-      throws java.util.concurrent.ExecutionException</pre>
+      throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="LoadingCache.html#get(K)">LoadingCache</a></code></span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
  necessary. No observable state associated with this cache is modified until loading completes.
@@ -416,7 +416,7 @@ public&nbsp;<a href="ForwardingLoadingCache.html" title="type parameter in Forwa
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="LoadingCache.html#get(K)">get</a></code>&nbsp;in interface&nbsp;<code><a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,&#8203;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.ExecutionException</code> - if a checked exception was thrown while loading the value. (<code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
      ExecutionException</code> is thrown <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 </dl>
@@ -464,8 +464,8 @@ public&nbsp;<a href="ForwardingLoadingCache.html" title="type parameter in Forwa
 <li class="blockList">
 <h4>getAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,&#8203;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.57">getAll</a>&#8203;(java.lang.Iterable&lt;? extends <a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)
-                               throws java.util.concurrent.ExecutionException</pre>
+public&nbsp;<a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,&#8203;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.57">getAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)
+                               throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="LoadingCache.html#getAll(java.lang.Iterable)">LoadingCache</a></code></span></div>
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
  if necessary. The returned map contains entries that were already cached, combined with newly
@@ -477,13 +477,13 @@ public&nbsp;<a href="../collect/ImmutableMap.html" title="class in com.google.co
  returns <code>null</code>, returns a map containing null keys or values, or fails to return an entry
  for each requested key.
 
- <p>Note that duplicate elements in <code>keys</code>, as determined by <code>Object.equals(java.lang.Object)</code>, will
+ <p>Note that duplicate elements in <code>keys</code>, as determined by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, will
  be ignored.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="LoadingCache.html#getAll(java.lang.Iterable)">getAll</a></code>&nbsp;in interface&nbsp;<code><a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,&#8203;<a href="ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.ExecutionException</code> - if a checked exception was thrown while loading the value. (<code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
      ExecutionException</code> is thrown <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 </dl>
@@ -529,7 +529,7 @@ public&nbsp;<a href="../collect/ImmutableMap.html" title="class in com.google.co
  previous value (if any) will continue to be returned by <code>get(key)</code> unless it is evicted.
  If the new value is loaded successfully it will replace the previous value in the cache; if an
  exception is thrown while refreshing the previous value will remain, <i>and the exception will
- be logged (using <code>Logger</code>) and swallowed</i>.
+ be logged (using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/logging/Logger.html?is-external=true" title="class or interface in java.util.logging" class="externalLink"><code>Logger</code></a>) and swallowed</i>.
 
  <p>Caches loaded by a <a href="CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a> if the cache
  currently contains a value for <code>key</code>, and <a href="CacheLoader.html#load(K)"><code>CacheLoader.load(K)</code></a> otherwise. Loading is

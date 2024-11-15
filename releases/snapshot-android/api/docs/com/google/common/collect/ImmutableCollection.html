@@ -121,10 +121,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>java.util.AbstractCollection&lt;E&gt;</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a>&lt;E&gt;</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.ImmutableCollection&lt;E&gt;</li>
@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>java.io.Serializable</code>, <code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code></dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
@@ -148,13 +148,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableList.of or another implementation")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.169">ImmutableCollection</a>&lt;E&gt;
-extends java.util.AbstractCollection&lt;E&gt;
-implements java.io.Serializable</pre>
-<div class="block">A <code>Collection</code> whose contents will never change, and which offers a few additional
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E&gt;
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
+<div class="block">A <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> whose contents will never change, and which offers a few additional
  guarantees detailed below.
 
  <p><b>Warning:</b> avoid <i>direct</i> usage of <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a> as a type (just as
- with <code>Collection</code> itself). Prefer subtypes such as <a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a> or <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>, which have well-defined <code>Object.equals(java.lang.Object)</code> semantics, thus avoiding a common source
+ with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> itself). Prefer subtypes such as <a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a> or <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>, which have well-defined <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a> semantics, thus avoiding a common source
  of bugs and confusion.
 
  <h3>About <i>all</i> <code>Immutable-</code> collections</h3>
@@ -168,7 +168,7 @@ implements java.io.Serializable</pre>
 
  <ul>
    <li><b>Shallow immutability.</b> Elements can never be added, removed or replaced in this
-       collection. This is a stronger guarantee than that of <code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code>, whose contents change whenever the wrapped collection
+       collection. This is a stronger guarantee than that of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#unmodifiableCollection(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code></a>, whose contents change whenever the wrapped collection
        is modified.
    <li><b>Null-hostility.</b> This collection will never contain a null element.
    <li><b>Deterministic iteration.</b> The iteration order is always well-defined, depending on
@@ -186,21 +186,21 @@ implements java.io.Serializable</pre>
  <p>These are classes instead of interfaces to prevent external subtyping, but should be thought
  of as interfaces in every important sense. Each public class such as <a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a> is a
  <i>type</i> offering meaningful behavioral guarantees. This is substantially different from the
- case of (say) <code>HashSet</code>, which is an <i>implementation</i>, with semantics that were
+ case of (say) <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashSet</code></a>, which is an <i>implementation</i>, with semantics that were
  largely defined by its supertype.
 
  <p>For field types and method return types, you should generally use the immutable type (such as
- <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>) instead of the general collection interface type (such as <code>List</code>).
+ <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>) instead of the general collection interface type (such as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a>).
  This communicates to your callers all of the semantic guarantees listed above, which is almost
  always very useful information.
 
  <p>On the other hand, a <i>parameter</i> type of <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a> is generally a nuisance to
- callers. Instead, accept <code>Iterable</code> and have your method or constructor body pass it to the
+ callers. Instead, accept <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> and have your method or constructor body pass it to the
  appropriate <code>copyOf</code> method itself.
 
  <p>Expressing the immutability guarantee directly in the type that user code references is a
  powerful advantage. Although Java offers certain immutable collection factory methods, such as
- <code>Collections.singleton(Object)</code> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"><code>Set.of</code></a>,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#singleton(T)" title="class or interface in java.util" class="externalLink"><code>Collections.singleton(Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"><code>Set.of</code></a>,
  we recommend using <i>these</i> classes instead for this reason (as well as for consistency).
 
  <h4>Creation</h4>
@@ -221,7 +221,7 @@ implements java.io.Serializable</pre>
 
  <ul>
    <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
-       (in a way that affects its <code>Object.equals(java.lang.Object)</code> behavior) while it is contained in a
+       (in a way that affects its <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a> behavior) while it is contained in a
        collection. Undefined behavior and bugs will result. It's generally best to avoid using
        mutable objects as elements at all, as many users may expect your "immutable" object to be
        <i>deeply</i> immutable.
@@ -327,7 +327,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection)">addAll</a></span>&#8203;(java.util.Collection&lt;? extends <a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection)">addAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -353,7 +353,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>abstract boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -365,7 +365,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -374,7 +374,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;oldElements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.util.Collection)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;oldElements)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -383,7 +383,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToKeep)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.util.Collection)">retainAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -391,17 +391,17 @@ implements java.io.Serializable</pre>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>java.util.Spliterator&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Spliterator</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spliterator()">spliterator</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>java.lang.Object[]</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T[]</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(T%5B%5D)">toArray</a></span>&#8203;(T[]&nbsp;other)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -410,29 +410,29 @@ implements java.io.Serializable</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.util.AbstractCollection">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.util.AbstractCollection</h3>
-<code>containsAll, isEmpty, size, toString</code></li>
+<h3>Methods inherited from class&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toString()" title="class or interface in java.util" class="externalLink">toString</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
-<code>equals, hashCode, parallelStream, removeIf, stream, toArray</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
-<code>forEach</code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
 </ul>
 </li>
 </ul>
@@ -460,11 +460,11 @@ implements java.io.Serializable</pre>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>iterator</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -474,12 +474,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>spliterator</h4>
-<pre class="methodSignature">public&nbsp;java.util.Spliterator&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.193">spliterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Spliterator</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.193">spliterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>spliterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>spliterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true#spliterator()" title="class or interface in java.lang" class="externalLink">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -489,12 +489,12 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public final&nbsp;java.lang.Object[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.203">toArray</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.203">toArray</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toArray</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -507,12 +507,12 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.209">toArray</a>&#8203;(T[]&nbsp;other)</pre>
+public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.209">toArray</a>&#8203;(T[]&nbsp;other)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>toArray</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toArray</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -523,12 +523,12 @@ public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/ch
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.264">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                 java.lang.Object&nbsp;object)</pre>
+                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>contains</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -541,7 +541,7 @@ public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/ch
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-@Deprecated
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.273">add</a>&#8203;(<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&nbsp;e)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -549,11 +549,11 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>add</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -564,20 +564,20 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-@Deprecated
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.287">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            java.lang.Object&nbsp;object)</pre>
+                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -588,19 +588,19 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-@Deprecated
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.301">addAll</a>&#8203;(java.util.Collection&lt;? extends <a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</pre>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.301">addAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>addAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -611,19 +611,19 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-@Deprecated
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.315">removeAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;oldElements)</pre>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.315">removeAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>removeAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>removeAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -634,19 +634,19 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-@Deprecated
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.329">retainAll</a>&#8203;(java.util.Collection&lt;?&gt;&nbsp;elementsToKeep)</pre>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.329">retainAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>retainAll</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>retainAll</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -656,7 +656,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">@Deprecated
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.343">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -664,11 +664,11 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>clear</code>&nbsp;in class&nbsp;<code>java.util.AbstractCollection&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;<a href="ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
 </dl>
 </li>
 </ul>

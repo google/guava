@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.RateLimiter</li>
@@ -135,7 +135,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.96">RateLimiter</a>
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
  <a href="#acquire()"><code>acquire()</code></a> blocks if necessary until a permit is available, and then takes it. Once
  acquired, permits need not be released.
@@ -144,7 +144,7 @@ extends java.lang.Object</pre>
  all threads. Note, however, that it does not guarantee fairness.
 
  <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
- is accessed. This is in contrast to <code>Semaphore</code> which restricts the
+ is accessed. This is in contrast to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Semaphore</code></a> which restricts the
  number of concurrent accesses instead of the rate (note though that concurrency and rate are
  closely related, e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's
  Law</a>).
@@ -242,7 +242,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static <a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(double,long,java.util.concurrent.TimeUnit)">create</a></span>&#8203;(double&nbsp;permitsPerSecond,
       long&nbsp;warmupPeriod,
-      java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
@@ -253,7 +253,7 @@ extends java.lang.Object</pre>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(double,java.time.Duration)">create</a></span>&#8203;(double&nbsp;permitsPerSecond,
-      java.time.Duration&nbsp;warmupPeriod)</code></th>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;warmupPeriod)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
@@ -278,7 +278,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -301,7 +301,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquire(int,long,java.util.concurrent.TimeUnit)">tryAcquire</a></span>&#8203;(int&nbsp;permits,
           long&nbsp;timeout,
-          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
@@ -311,7 +311,7 @@ extends java.lang.Object</pre>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquire(int,java.time.Duration)">tryAcquire</a></span>&#8203;(int&nbsp;permits,
-          java.time.Duration&nbsp;timeout)</code></th>
+          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
@@ -321,7 +321,7 @@ extends java.lang.Object</pre>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquire(long,java.util.concurrent.TimeUnit)">tryAcquire</a></span>&#8203;(long&nbsp;timeout,
-          java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -330,7 +330,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquire(java.time.Duration)">tryAcquire</a></span>&#8203;(java.time.Duration&nbsp;timeout)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquire(java.time.Duration)">tryAcquire</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -342,8 +342,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -382,7 +382,7 @@ extends java.lang.Object</pre>
 <dd><code>permitsPerSecond</code> - the rate of the returned <code>RateLimiter</code>, measured in how many
      permits become available per second</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>permitsPerSecond</code> is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
 </dl>
 </li>
 </ul>
@@ -393,7 +393,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>create</h4>
 <pre class="methodSignature">public static&nbsp;<a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.166">create</a>&#8203;(double&nbsp;permitsPerSecond,
-                                 java.time.Duration&nbsp;warmupPeriod)</pre>
+                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;warmupPeriod)</pre>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
  during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
@@ -415,7 +415,7 @@ extends java.lang.Object</pre>
 <dd><code>warmupPeriod</code> - the duration of the period where the <code>RateLimiter</code> ramps up its rate,
      before reaching its stable (maximum) rate</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>permitsPerSecond</code> is negative or zero or <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
      warmupPeriod</code> is negative</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.0 (but only since 33.4.0 in the Android flavor)</dd>
@@ -430,7 +430,7 @@ extends java.lang.Object</pre>
 <h4>create</h4>
 <pre class="methodSignature">public static&nbsp;<a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.194">create</a>&#8203;(double&nbsp;permitsPerSecond,
                                  long&nbsp;warmupPeriod,
-                                 java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
  during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
@@ -453,7 +453,7 @@ extends java.lang.Object</pre>
      before reaching its stable (maximum) rate</dd>
 <dd><code>unit</code> - the time unit of the warmupPeriod argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>permitsPerSecond</code> is negative or zero or <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
      warmupPeriod</code> is negative</dd>
 </dl>
 </li>
@@ -482,7 +482,7 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>permitsPerSecond</code> - the new stable rate of this <code>RateLimiter</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>permitsPerSecond</code> is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
 </dl>
 </li>
 </ul>
@@ -535,7 +535,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>16.0 (present in 13.0 with <code>void</code> return type})</dd>
 </dl>
@@ -547,7 +547,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.335">tryAcquire</a>&#8203;(java.time.Duration&nbsp;timeout)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.335">tryAcquire</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</pre>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.
@@ -559,7 +559,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the permit was acquired, <code>false</code> otherwise</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
@@ -572,7 +572,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <li class="blockList">
 <h4>tryAcquire</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.351">tryAcquire</a>&#8203;(long&nbsp;timeout,
-                          java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.
@@ -585,7 +585,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the permit was acquired, <code>false</code> otherwise</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 </dl>
 </li>
 </ul>
@@ -605,7 +605,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -637,7 +637,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <li class="blockList">
 <h4>tryAcquire</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.394">tryAcquire</a>&#8203;(int&nbsp;permits,
-                          java.time.Duration&nbsp;timeout)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
  waiting) if the permits would not have been granted before the timeout expired.</div>
@@ -648,7 +648,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.0 (but only since 33.4.0 in the Android flavor)</dd>
 </dl>
@@ -662,7 +662,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <h4>tryAcquire</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.409">tryAcquire</a>&#8203;(int&nbsp;permits,
                           long&nbsp;timeout,
-                          java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
  waiting) if the permits would not have been granted before the timeout expired.</div>
@@ -674,7 +674,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 </dl>
 </li>
 </ul>
@@ -684,10 +684,10 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.457">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.457">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

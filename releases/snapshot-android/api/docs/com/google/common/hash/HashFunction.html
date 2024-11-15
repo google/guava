@@ -199,9 +199,9 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
  <p><b>Compatibility note:</b> Throughout this API, multibyte values are always interpreted in
  <i>little-endian</i> order. That is, hashing the byte array <code>{0x01, 0x02, 0x03, 0x04}</code> is
  equivalent to hashing the <code>int</code> value <code>0x04030201</code>. If this isn't what you need,
- methods such as <code>Integer.reverseBytes(int)</code> and <a href="../primitives/Ints.html#toByteArray(int)"><code>Ints.toByteArray(int)</code></a> will help.
+ methods such as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#reverseBytes(int)" title="class or interface in java.lang" class="externalLink"><code>Integer.reverseBytes(int)</code></a> and <a href="../primitives/Ints.html#toByteArray(int)"><code>Ints.toByteArray(int)</code></a> will help.
 
- <h3>Relationship to <code>Object.hashCode()</code></h3>
+ <h3>Relationship to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a></h3>
 
  <p>Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation
  between hash algorithms and the data they act on, so alternate hash algorithms can't be easily
@@ -267,7 +267,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashBytes(java.nio.ByteBuffer)">hashBytes</a></span>&#8203;(java.nio.ByteBuffer&nbsp;input)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashBytes(java.nio.ByteBuffer)">hashBytes</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;input)</code></th>
 <td class="colLast">
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>.</div>
 </td>
@@ -289,7 +289,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashObject(T,com.google.common.hash.Funnel)">hashObject</a></span>&#8203;(T&nbsp;instance,
           <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></th>
 <td class="colLast">
@@ -298,15 +298,15 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashString(java.lang.CharSequence,java.nio.charset.Charset)">hashString</a></span>&#8203;(java.lang.CharSequence&nbsp;input,
-          java.nio.charset.Charset&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashString(java.lang.CharSequence,java.nio.charset.Charset)">hashString</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input,
+          <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashUnencodedChars(java.lang.CharSequence)">hashUnencodedChars</a></span>&#8203;(java.lang.CharSequence&nbsp;input)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashUnencodedChars(java.lang.CharSequence)">hashUnencodedChars</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input)</code></th>
 <td class="colLast">
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>.</div>
 </td>
@@ -427,7 +427,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IndexOutOfBoundsException</code> - if <code>off &lt; 0</code> or <code>off + len &gt; bytes.length</code> or
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>off &lt; 0</code> or <code>off + len &gt; bytes.length</code> or
      <code>len &lt; 0</code></dd>
 </dl>
 </li>
@@ -438,7 +438,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.179">hashBytes</a>&#8203;(java.nio.ByteBuffer&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.179">hashBytes</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
 <dl>
@@ -453,7 +453,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashUnencodedChars</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.194">hashUnencodedChars</a>&#8203;(java.lang.CharSequence&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.194">hashUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse. Note
  that no character encoding is performed; the low byte and high byte of each <code>char</code> are
@@ -475,10 +475,10 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashString</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.206">hashString</a>&#8203;(java.lang.CharSequence&nbsp;input,
-                    java.nio.charset.Charset&nbsp;charset)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.206">hashString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input,
+                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>. Characters are encoded using
- the given <code>Charset</code>. The implementation <i>might</i> perform better than its longhand
+ the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
  equivalent, but should not perform worse.
 
  <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
@@ -495,8 +495,8 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashObject</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.214">hashObject</a>&#8203;(T&nbsp;instance,
-                                                           <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.214">hashObject</a>&#8203;(T&nbsp;instance,
+                                                 <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
 <dl>

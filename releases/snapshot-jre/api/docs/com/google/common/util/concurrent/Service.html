@@ -215,9 +215,9 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addListener(com.google.common.util.concurrent.Service.Listener,java.util.concurrent.Executor)">addListener</a></span>&#8203;(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-           java.util.concurrent.Executor&nbsp;executor)</code></th>
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
-<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be executed on the given
+<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">executed</a> on the given
  executor.</div>
 </td>
 </tr>
@@ -231,7 +231,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitRunning(long,java.util.concurrent.TimeUnit)">awaitRunning</a></span>&#8203;(long&nbsp;timeout,
-            java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
@@ -239,7 +239,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>default void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitRunning(java.time.Duration)">awaitRunning</a></span>&#8203;(java.time.Duration&nbsp;timeout)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitRunning(java.time.Duration)">awaitRunning</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
@@ -255,23 +255,23 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminated(long,java.util.concurrent.TimeUnit)">awaitTerminated</a></span>&#8203;(long&nbsp;timeout,
-               java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>default void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminated(java.time.Duration)">awaitTerminated</a></span>&#8203;(java.time.Duration&nbsp;timeout)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminated(java.time.Duration)">awaitTerminated</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>java.lang.Throwable</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#failureCause()">failureCause</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns the <code>Throwable</code> that caused this service to fail.</div>
+<div class="block">Returns the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Throwable</code></a> that caused this service to fail.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -335,7 +335,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the service is not <a href="Service.State.html#NEW"><code>Service.State.NEW</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service is not <a href="Service.State.html#NEW"><code>Service.State.NEW</code></a></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
 </dl>
@@ -391,7 +391,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the service reaches a state from which it is not possible to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service reaches a state from which it is not possible to
      enter the <a href="Service.State.html#RUNNING"><code>Service.State.RUNNING</code></a> state. e.g. if the <code>state</code> is <code>
      State#TERMINATED</code> when this method is called then this will throw an IllegalStateException.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -405,16 +405,16 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitRunning</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.114">awaitRunning</a>&#8203;(java.time.Duration&nbsp;timeout)
-                   throws java.util.concurrent.TimeoutException</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.114">awaitRunning</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)
+                   throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
-<dd><code>java.lang.IllegalStateException</code> - if the service reaches a state from which it is not possible to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service reaches a state from which it is not possible to
      enter the <a href="Service.State.html#RUNNING"><code>RUNNING</code></a> state. e.g. if the <code>state</code> is <code>
      State#TERMINATED</code> when this method is called then this will throw an IllegalStateException.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -429,8 +429,8 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <li class="blockList">
 <h4>awaitRunning</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.130">awaitRunning</a>&#8203;(long&nbsp;timeout,
-                  java.util.concurrent.TimeUnit&nbsp;unit)
-           throws java.util.concurrent.TimeoutException</pre>
+                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
+           throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
 <dl>
@@ -438,8 +438,8 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
-<dd><code>java.lang.IllegalStateException</code> - if the service reaches a state from which it is not possible to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service reaches a state from which it is not possible to
      enter the <a href="Service.State.html#RUNNING"><code>RUNNING</code></a> state. e.g. if the <code>state</code> is <code>
      State#TERMINATED</code> when this method is called then this will throw an IllegalStateException.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -457,7 +457,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#TERMINATED">terminated state</a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
 </dl>
@@ -469,15 +469,15 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitTerminated</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.150">awaitTerminated</a>&#8203;(java.time.Duration&nbsp;timeout)
-                      throws java.util.concurrent.TimeoutException</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.150">awaitTerminated</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout)
+                      throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
-<dd><code>java.lang.IllegalStateException</code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.0</dd>
 </dl>
@@ -490,16 +490,16 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <li class="blockList">
 <h4>awaitTerminated</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.164">awaitTerminated</a>&#8203;(long&nbsp;timeout,
-                     java.util.concurrent.TimeUnit&nbsp;unit)
-              throws java.util.concurrent.TimeoutException</pre>
+                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
+              throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
-<dd><code>java.lang.IllegalStateException</code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service <a href="Service.State.html#FAILED">fails</a>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
 </dl>
@@ -511,11 +511,11 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>failureCause</h4>
-<pre class="methodSignature">java.lang.Throwable&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.173">failureCause</a>()</pre>
-<div class="block">Returns the <code>Throwable</code> that caused this service to fail.</div>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.173">failureCause</a>()</pre>
+<div class="block">Returns the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Throwable</code></a> that caused this service to fail.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if this service's state isn't <a href="Service.State.html#FAILED">FAILED</a>.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if this service's state isn't <a href="Service.State.html#FAILED">FAILED</a>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -528,8 +528,8 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <li class="blockList">
 <h4>addListener</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.198">addListener</a>&#8203;(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-                 java.util.concurrent.Executor&nbsp;executor)</pre>
-<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be executed on the given
+                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
+<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">executed</a> on the given
  executor. The listener will have the corresponding transition method called whenever the
  service changes state. The listener will not have previous state changes replayed, so it is
  suggested that listeners are added before the service starts.

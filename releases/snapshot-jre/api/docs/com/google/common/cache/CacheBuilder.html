@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.cache.CacheBuilder&lt;K,&#8203;V&gt;</li>
@@ -143,7 +143,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.194">CacheBuilder</a>&lt;K,&#8203;V&gt;
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder of <a href="LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> instances.
 
  <h2>Prefer <a href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a> over Guava's caching
@@ -225,9 +225,9 @@ extends java.lang.Object</pre>
  <p>The returned cache implements all optional operations of the <a href="LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> interfaces. The <code>asMap</code> view (and its collection views) have <i>weakly consistent
  iterators</i>. This means that they are safe for concurrent use, but if other threads modify the
  cache after the iterator is created, it is undefined which of these changes, if any, are
- reflected in that iterator. These iterators never throw <code>ConcurrentModificationException</code>.
+ reflected in that iterator. These iterators never throw <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/ConcurrentModificationException.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>ConcurrentModificationException</code></a>.
 
- <p><b>Note:</b> by default, the returned cache uses equality comparisons (the <code>equals</code> method) to determine equality for keys or values. However, if <a href="#weakKeys()"><code>weakKeys()</code></a> was specified, the cache uses identity (<code>==</code>) comparisons instead for keys.
+ <p><b>Note:</b> by default, the returned cache uses equality comparisons (the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>equals</code></a> method) to determine equality for keys or values. However, if <a href="#weakKeys()"><code>weakKeys()</code></a> was specified, the cache uses identity (<code>==</code>) comparisons instead for keys.
  Likewise, if <a href="#weakValues()"><code>weakValues()</code></a> or <a href="#softValues()"><code>softValues()</code></a> was specified, the cache uses identity
  comparisons for values.
 
@@ -310,7 +310,7 @@ extends java.lang.Object</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterAccess(long,java.util.concurrent.TimeUnit)">expireAfterAccess</a></span>&#8203;(long&nbsp;duration,
-                 java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
@@ -319,7 +319,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterAccess(java.time.Duration)">expireAfterAccess</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterAccess(java.time.Duration)">expireAfterAccess</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</code></th>
 <td class="colLast">
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
@@ -329,7 +329,7 @@ extends java.lang.Object</pre>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterWrite(long,java.util.concurrent.TimeUnit)">expireAfterWrite</a></span>&#8203;(long&nbsp;duration,
-                java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.</div>
@@ -337,22 +337,22 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterWrite(java.time.Duration)">expireAfterWrite</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expireAfterWrite(java.time.Duration)">expireAfterWrite</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</code></th>
 <td class="colLast">
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;</code></td>
+<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(com.google.common.cache.CacheBuilderSpec)">from</a></span>&#8203;(<a href="CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;spec)</code></th>
 <td class="colLast">
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.String)">from</a></span>&#8203;(java.lang.String&nbsp;spec)</code></th>
+<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.String)">from</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;spec)</code></th>
 <td class="colLast">
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.</div>
 </td>
@@ -379,7 +379,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;</code></td>
+<td class="colFirst"><code>static <a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newBuilder()">newBuilder</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with default settings, including strong keys,
@@ -396,7 +396,7 @@ extends java.lang.Object</pre>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#refreshAfterWrite(long,java.util.concurrent.TimeUnit)">refreshAfterWrite</a></span>&#8203;(long&nbsp;duration,
-                 java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
+                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value.</div>
@@ -404,7 +404,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#refreshAfterWrite(java.time.Duration)">refreshAfterWrite</a></span>&#8203;(java.time.Duration&nbsp;duration)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#refreshAfterWrite(java.time.Duration)">refreshAfterWrite</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</code></th>
 <td class="colLast">
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value.</div>
@@ -422,7 +422,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#softValues()">softValues</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>SoftReference</code> (by default, strong references are used).</div>
+<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/SoftReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>SoftReference</code></a> (by default, strong references are used).</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
@@ -433,7 +433,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation for this CacheBuilder instance.</div>
@@ -443,14 +443,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weakKeys()">weakKeys</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
+<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weakValues()">weakValues</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
+<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
@@ -465,8 +465,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -490,7 +490,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newBuilder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.321">newBuilder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.321">newBuilder</a>()</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with default settings, including strong keys,
  strong values, and no automatic eviction of any kind.
 
@@ -505,7 +505,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>from</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.330">from</a>&#8203;(<a href="CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;spec)</pre>
+public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.330">from</a>&#8203;(<a href="CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;spec)</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -520,7 +520,7 @@ public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common
 <li class="blockList">
 <h4>from</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;java.lang.Object,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.342">from</a>&#8203;(java.lang.String&nbsp;spec)</pre>
+public static&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.342">from</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;spec)</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.
  This is especially useful for command-line configuration of a <code>CacheBuilder</code>.</div>
 <dl>
@@ -548,8 +548,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>initialCapacity</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if an initial capacity was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>initialCapacity</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if an initial capacity was already set</dd>
 </dl>
 </li>
 </ul>
@@ -590,8 +590,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>concurrencyLevel</code> is nonpositive</dd>
-<dd><code>java.lang.IllegalStateException</code> - if a concurrency level was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>concurrencyLevel</code> is nonpositive</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a concurrency level was already set</dd>
 </dl>
 </li>
 </ul>
@@ -623,8 +623,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>maximumSize</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if a maximum size or weight was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>maximumSize</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a maximum size or weight was already set</dd>
 </dl>
 </li>
 </ul>
@@ -662,8 +662,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>maximumWeight</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if a maximum weight or size was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>maximumWeight</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a maximum weight or size was already set</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
 </dl>
@@ -698,14 +698,14 @@ public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in 
 
  <p><b>Warning:</b> if you ignore the above advice, and use this <code>CacheBuilder</code> to build a
  cache whose key or value type is incompatible with the weigher, you will likely experience a
- <code>ClassCastException</code> at some <i>undefined</i> point in the future.</div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>ClassCastException</code></a> at some <i>undefined</i> point in the future.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>weigher</code> - the weigher to use in calculating the weight of cache entries</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if a weigher was already set or <a href="#maximumSize(long)"><code>maximumSize(long)</code></a> was
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a weigher was already set or <a href="#maximumSize(long)"><code>maximumSize(long)</code></a> was
      previously called</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -721,11 +721,11 @@ public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in 
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.626">weakKeys</a>()</pre>
-<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
+<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).
 
  <p><b>Warning:</b> when this method is used, the resulting cache will use identity (<code>==</code>)
  comparison to determine equality of keys. Its <a href="Cache.html#asMap()"><code>Cache.asMap()</code></a> view will therefore
- technically violate the <code>Map</code> specification (in the same way that <code>IdentityHashMap</code>
+ technically violate the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> specification (in the same way that <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/IdentityHashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>IdentityHashMap</code></a>
  does).
 
  <p>Entries with keys that have been garbage collected may be counted in <a href="Cache.html#size()"><code>Cache.size()</code></a>, but
@@ -735,7 +735,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the key strength was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the key strength was already set</dd>
 </dl>
 </li>
 </ul>
@@ -748,7 +748,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.660">weakValues</a>()</pre>
-<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
+<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).
 
  <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
  candidate for caching; consider <a href="#softValues()"><code>softValues()</code></a> instead.
@@ -763,7 +763,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the value strength was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the value strength was already set</dd>
 </dl>
 </li>
 </ul>
@@ -776,7 +776,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.686">softValues</a>()</pre>
-<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>SoftReference</code> (by default, strong references are used). Softly-referenced objects will be
+<div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/SoftReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>SoftReference</code></a> (by default, strong references are used). Softly-referenced objects will be
  garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
  demand.
 
@@ -793,7 +793,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if the value strength was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the value strength was already set</dd>
 </dl>
 </li>
 </ul>
@@ -806,7 +806,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.724">expireAfterWrite</a>&#8203;(java.time.Duration&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.724">expireAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.
 
@@ -823,9 +823,9 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(java.time.Duration)</code></a> was already set</dd>
-<dd><code>java.lang.ArithmeticException</code> - for durations greater than +/- approximately 292 years</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - for durations greater than +/- approximately 292 years</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>25.0 (but only since 33.3.0 in the Android <a href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)</dd>
 </dl>
@@ -839,7 +839,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>expireAfterWrite</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.754">expireAfterWrite</a>&#8203;(long&nbsp;duration,
-                                                java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                                                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.
 
@@ -850,7 +850,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
  write operations. Expired entries are cleaned up as part of the routine maintenance described
  in the class javadoc.
 
- <p>If you can represent the duration as a <code>Duration</code> (which should be preferred when
+ <p>If you can represent the duration as a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink"><code>Duration</code></a> (which should be preferred when
  feasible), use <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(Duration)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -860,8 +860,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(java.time.Duration)</code></a> was already set</dd>
 </dl>
 </li>
 </ul>
@@ -874,7 +874,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.797">expireAfterAccess</a>&#8203;(java.time.Duration&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.797">expireAfterAccess</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including <code>
@@ -896,9 +896,9 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(java.time.Duration)</code></a> was already set</dd>
-<dd><code>java.lang.ArithmeticException</code> - for durations greater than +/- approximately 292 years</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - for durations greater than +/- approximately 292 years</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>25.0 (but only since 33.3.0 in the Android <a href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)</dd>
 </dl>
@@ -912,7 +912,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>expireAfterAccess</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.832">expireAfterAccess</a>&#8203;(long&nbsp;duration,
-                                                 java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including <code>
@@ -928,7 +928,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
  write operations. Expired entries are cleaned up as part of the routine maintenance described
  in the class javadoc.
 
- <p>If you can represent the duration as a <code>Duration</code> (which should be preferred when
+ <p>If you can represent the duration as a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink"><code>Duration</code></a> (which should be preferred when
  feasible), use <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(Duration)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -938,8 +938,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(java.time.Duration)</code></a> was already set</dd>
 </dl>
 </li>
 </ul>
@@ -952,7 +952,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/J2ObjCIncompatible.html?is-external=true" title="class or interface in com.google.j2objc.annotations" class="externalLink">@J2ObjCIncompatible</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.879">refreshAfterWrite</a>&#8203;(java.time.Duration&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.879">refreshAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value. The semantics
  of refreshes are specified in <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>, and are performed by calling <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a>.
@@ -975,9 +975,9 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(java.time.Duration)</code></a> was already set</dd>
-<dd><code>java.lang.ArithmeticException</code> - for durations greater than +/- approximately 292 years</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - for durations greater than +/- approximately 292 years</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>25.0 (but only since 33.3.0 in the Android <a href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>)</dd>
 </dl>
@@ -992,7 +992,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.917">refreshAfterWrite</a>&#8203;(long&nbsp;duration,
-                                                 java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+                                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value. The semantics
  of refreshes are specified in <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>, and are performed by calling <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a>.
@@ -1009,7 +1009,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 
  <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
 
- <p>If you can represent the duration as a <code>Duration</code> (which should be preferred when
+ <p>If you can represent the duration as a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink"><code>Duration</code></a> (which should be preferred when
  feasible), use <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(Duration)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1019,8 +1019,8 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if <code>duration</code> is negative</dd>
-<dd><code>java.lang.IllegalStateException</code> - if <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(java.time.Duration)</code></a> was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(java.time.Duration)</code></a> was already set</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
 </dl>
@@ -1034,7 +1034,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>ticker</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.943">ticker</a>&#8203;(<a href="../base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
-<div class="block">Specifies a nanosecond-precision time source for this cache. By default, <code>System.nanoTime()</code> is used.
+<div class="block">Specifies a nanosecond-precision time source for this cache. By default, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> is used.
 
  <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
  time source.</div>
@@ -1042,7 +1042,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if a ticker was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a ticker was already set</dd>
 </dl>
 </li>
 </ul>
@@ -1062,17 +1062,17 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
  same instance, but only the returned reference has the correct generic type information to
  ensure type safety. For best results, use the standard method-chaining idiom illustrated in the
  class documentation above, configuring a builder and building your cache in a single statement.
- Failure to heed this advice can result in a <code>ClassCastException</code> being thrown by a cache
+ Failure to heed this advice can result in a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>ClassCastException</code></a> being thrown by a cache
  operation at some <i>undefined</i> point in the future.
 
  <p><b>Warning:</b> any exception thrown by <code>listener</code> will <i>not</i> be propagated to
- the <code>Cache</code> user, only logged via a <code>Logger</code>.</div>
+ the <code>Cache</code> user, only logged via a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/logging/Logger.html?is-external=true" title="class or interface in java.util.logging" class="externalLink"><code>Logger</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the cache builder reference that should be used instead of <code>this</code> for any
      remaining configuration and cache building</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if a removal listener was already set</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a removal listener was already set</dd>
 </dl>
 </li>
 </ul>
@@ -1146,12 +1146,12 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1078">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1078">toString</a>()</pre>
 <div class="block">Returns a string representation for this CacheBuilder instance. The exact form of the returned
  string is not specified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

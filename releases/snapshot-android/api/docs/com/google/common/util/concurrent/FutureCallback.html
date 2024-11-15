@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h2 title="Interface FutureCallback" class="title">Interface FutureCallback&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface FutureCallback" class="title">Interface FutureCallback&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -125,8 +125,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/FutureCallback.html#line.31">FutureCallback</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
-<div class="block">A callback for accepting the results of a <code>Future</code> computation
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/FutureCallback.html#line.31">FutureCallback</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+<div class="block">A callback for accepting the results of a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Future</code></a> computation
  asynchronously.
 
  <p>To attach to a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> use <a href="Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,com.google.common.util.concurrent.FutureCallback,java.util.concurrent.Executor)"><code>Futures.addCallback(com.google.common.util.concurrent.ListenableFuture&lt;V&gt;, com.google.common.util.concurrent.FutureCallback&lt;? super V&gt;, java.util.concurrent.Executor)</code></a>.</div>
@@ -158,7 +158,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onFailure(java.lang.Throwable)">onFailure</a></span>&#8203;(java.lang.Throwable&nbsp;t)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onFailure(java.lang.Throwable)">onFailure</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;t)</code></th>
 <td class="colLast">
 <div class="block">Invoked when a <code>Future</code> computation fails or is canceled.</div>
 </td>
@@ -205,10 +205,10 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onFailure</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FutureCallback.html#line.43">onFailure</a>&#8203;(java.lang.Throwable&nbsp;t)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FutureCallback.html#line.43">onFailure</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;t)</pre>
 <div class="block">Invoked when a <code>Future</code> computation fails or is canceled.
 
- <p>If the future's <code>get</code> method throws an <code>ExecutionException</code>, then
+ <p>If the future's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent" class="externalLink"><code>get</code></a> method throws an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a>, then
  the cause is passed to this method. Any other thrown object is passed unaltered.</div>
 </li>
 </ul>

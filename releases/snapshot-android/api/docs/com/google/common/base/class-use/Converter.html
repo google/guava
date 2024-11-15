@@ -152,7 +152,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.String&gt;</code></td>
+<td class="colFirst"><code><a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CaseFormat.</span><code><span class="memberNameLink"><a href="../CaseFormat.html#converterTo(com.google.common.base.CaseFormat)">converterTo</a></span>&#8203;(<a href="../CaseFormat.html" title="enum in com.google.common.base">CaseFormat</a>&nbsp;targetFormat)</code></th>
 <td class="colLast">
 <div class="block">Returns a serializable <code>Converter</code> that converts strings from this format to <code>
@@ -183,11 +183,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br><a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Enums.</span><code><span class="memberNameLink"><a href="../Enums.html#stringConverter(java.lang.Class)">stringConverter</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;<br><a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Enums.</span><code><span class="memberNameLink"><a href="../Enums.html#stringConverter(java.lang.Class)">stringConverter</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClass)</code></th>
 <td class="colLast">
 <div class="block">Returns a serializable converter that converts between strings and <code>enum</code> values of type
- <code>enumClass</code> using <code>Enum.valueOf(Class, String)</code> and <code>Enum.name()</code>.</div>
+ <code>enumClass</code> using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true#valueOf(java.lang.Class,java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Enum.valueOf(Class, String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Enum.html?is-external=true#name()" title="class or interface in java.lang" class="externalLink"><code>Enum.name()</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -229,7 +229,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>static &lt;A,&#8203;B&gt;<br><a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,&#8203;B&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Maps.</span><code><span class="memberNameLink"><a href="../../collect/Maps.html#asConverter(com.google.common.collect.BiMap)">asConverter</a></span>&#8203;(<a href="../../collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;A,&#8203;B&gt;&nbsp;bimap)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="../Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that converts values using <code>bimap.get()</code>, and whose
+<div class="block">Returns a <a href="../Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that converts values using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>bimap.get()</code></a>, and whose
  inverse view converts values using <a href="../../collect/BiMap.html#inverse()"><code>bimap.inverse()</code></a><code>.get()</code>.</div>
 </td>
 </tr>
@@ -251,38 +251,38 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Double&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink">Double</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Doubles.</span><code><span class="memberNameLink"><a href="../../primitives/Doubles.html#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a serializable converter object that converts between strings and doubles using <code>Double.valueOf(java.lang.String)</code> and <code>Double.toString()</code>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and doubles using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#valueOf(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Double.valueOf(java.lang.String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Double.toString()</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Float&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink">Float</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Floats.</span><code><span class="memberNameLink"><a href="../../primitives/Floats.html#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a serializable converter object that converts between strings and floats using <code>Float.valueOf(java.lang.String)</code> and <code>Float.toString()</code>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and floats using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Float.html?is-external=true#valueOf(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Float.valueOf(java.lang.String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Float.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Float.toString()</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Integer&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ints.</span><code><span class="memberNameLink"><a href="../../primitives/Ints.html#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a serializable converter object that converts between strings and integers using <code>Integer.decode(java.lang.String)</code> and <code>Integer.toString()</code>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and integers using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#decode(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Integer.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Integer.toString()</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Long&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Longs.</span><code><span class="memberNameLink"><a href="../../primitives/Longs.html#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a serializable converter object that converts between strings and longs using <code>Long.decode(java.lang.String)</code> and <code>Long.toString()</code>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and longs using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true#decode(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Long.toString()</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;java.lang.String,&#8203;java.lang.Short&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink">Short</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Shorts.</span><code><span class="memberNameLink"><a href="../../primitives/Shorts.html#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a serializable converter object that converts between strings and shorts using <code>Short.decode(java.lang.String)</code> and <code>Short.toString()</code>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and shorts using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Short.html?is-external=true#decode(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Short.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Short.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Short.toString()</code></a>.</div>
 </td>
 </tr>
 </tbody>

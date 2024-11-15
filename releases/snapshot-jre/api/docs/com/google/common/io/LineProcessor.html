@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.io</a></div>
-<h2 title="Interface LineProcessor" class="title">Interface LineProcessor&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface LineProcessor" class="title">Interface LineProcessor&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -125,7 +125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.32">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.32">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.
 
  <p><a href="#processLine(java.lang.String)"><code>processLine(java.lang.String)</code></a> will be called for each line that is read, and should return <code>
@@ -165,7 +165,7 @@ public interface <a href="../../../../src-html/com/google/common/io/LineProcesso
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#processLine(java.lang.String)">processLine</a></span>&#8203;(java.lang.String&nbsp;line)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#processLine(java.lang.String)">processLine</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;line)</code></th>
 <td class="colLast">
 <div class="block">This method will be called once for each line.</div>
 </td>
@@ -194,8 +194,8 @@ public interface <a href="../../../../src-html/com/google/common/io/LineProcesso
 <li class="blockList">
 <h4>processLine</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.43">processLine</a>&#8203;(java.lang.String&nbsp;line)
-             throws java.io.IOException</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.html#line.43">processLine</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;line)
+             throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">This method will be called once for each line.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -203,7 +203,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LineProcessor.ht
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true to continue processing, false to stop</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code></dd>
 </dl>
 </li>
 </ul>

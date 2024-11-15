@@ -121,7 +121,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.math.Quantiles</li>
@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../src-html/com/google/common/math/Quantiles.html#line.129">Quantiles</a>
-extends java.lang.Object</pre>
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Provides a fluent API for calculating <a href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
 
  <h3>Examples</h3>
@@ -176,7 +176,7 @@ extends java.lang.Object</pre>
 
  <p>The definition of the kth q-quantile of N values is as follows: define x = k * (N - 1) / q; if
  x is an integer, the result is the value which would appear at index x in the sorted dataset
- (unless there are <code>NaN</code> values, see below); otherwise, the result is the average
+ (unless there are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang" class="externalLink"><code>NaN</code></a> values, see below); otherwise, the result is the average
  of the values which would appear at the indexes floor(x) and ceil(x) weighted by (1-frac(x)) and
  frac(x) respectively. This is the same definition as used by Excel and by S, it is the Type 7
  definition in <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">R</a>, and it is
@@ -186,17 +186,17 @@ extends java.lang.Object</pre>
 
  <h3>Handling of non-finite values</h3>
 
- <p>If any values in the input are <code>NaN</code> then all values returned are <code>NaN</code>. (This is the one occasion when the behaviour is not the same as you'd get from
- sorting with <code>Arrays.sort(double[])</code> or <code>Collections.sort(List&lt;Double&gt;)</code> and selecting
- the required value(s). Those methods would sort <code>NaN</code> as if it is greater than
- any other value and place them at the end of the dataset, even after <code>POSITIVE_INFINITY</code>.)
+ <p>If any values in the input are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang" class="externalLink"><code>NaN</code></a> then all values returned are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang" class="externalLink"><code>NaN</code></a>. (This is the one occasion when the behaviour is not the same as you'd get from
+ sorting with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Arrays.html?is-external=true#sort(double%5B%5D)" title="class or interface in java.util" class="externalLink"><code>Arrays.sort(double[])</code></a> or <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collections.html?is-external=true#sort(java.util.List)" title="class or interface in java.util" class="externalLink"><code>Collections.sort(List&lt;Double&gt;)</code></a> and selecting
+ the required value(s). Those methods would sort <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang" class="externalLink"><code>NaN</code></a> as if it is greater than
+ any other value and place them at the end of the dataset, even after <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang" class="externalLink"><code>POSITIVE_INFINITY</code></a>.)
 
- <p>Otherwise, <code>NEGATIVE_INFINITY</code> and <code>POSITIVE_INFINITY</code> sort to the beginning and the end of the dataset, as
+ <p>Otherwise, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang" class="externalLink"><code>NEGATIVE_INFINITY</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang" class="externalLink"><code>POSITIVE_INFINITY</code></a> sort to the beginning and the end of the dataset, as
  you would expect.
 
  <p>If required to do a weighted average between an infinity and a finite value, or between an
  infinite value and itself, the infinite value is returned. If required to do a weighted average
- between <code>NEGATIVE_INFINITY</code> and <code>POSITIVE_INFINITY</code>, <code>NaN</code> is returned (note that this will only happen if the
+ between <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang" class="externalLink"><code>NEGATIVE_INFINITY</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang" class="externalLink"><code>POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang" class="externalLink"><code>NaN</code></a> is returned (note that this will only happen if the
  dataset contains no finite values).
 
  <h3>Performance</h3>
@@ -336,8 +336,8 @@ extends java.lang.Object</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>

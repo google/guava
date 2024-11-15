@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Interface PeekingIterator" class="title">Interface PeekingIterator&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface PeekingIterator" class="title">Interface PeekingIterator&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -125,13 +125,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code>java.util.Iterator&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use Iterators.peekingIterator")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.36">PeekingIterator</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
-extends java.util.Iterator&lt;E&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.36">PeekingIterator</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;E&gt;</pre>
 <div class="block">An iterator that supports a one-element lookahead while iterating.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator"><code>
@@ -182,8 +182,8 @@ extends java.util.Iterator&lt;E&gt;</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Iterator">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.Iterator</h3>
-<code>forEachRemaining, hasNext</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true#forEachRemaining(java.util.function.Consumer)" title="class or interface in java.util" class="externalLink">forEachRemaining</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true#hasNext()" title="class or interface in java.util" class="externalLink">hasNext</a></code></li>
 </ul>
 </li>
 </ul>
@@ -214,7 +214,7 @@ extends java.util.Iterator&lt;E&gt;</pre>
  <i>may</i> prevent removal of the most recent element via <a href="#remove()"><code>remove()</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.NoSuchElementException</code> - if the iteration has no more elements according to <code>Iterator.hasNext()</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if the iteration has no more elements according to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true#hasNext()" title="class or interface in java.util" class="externalLink"><code>Iterator.hasNext()</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -232,7 +232,7 @@ extends java.util.Iterator&lt;E&gt;</pre>
  guaranteed to be equal to each other.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>next</code>&nbsp;in interface&nbsp;<code>java.util.Iterator&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true#next()" title="class or interface in java.util" class="externalLink">next</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -249,9 +249,9 @@ extends java.util.Iterator&lt;E&gt;</pre>
  since the most recent call to <a href="#next()"><code>next()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Iterator&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if there has been a call to <a href="#peek()"><code>peek()</code></a> since the most recent
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if there has been a call to <a href="#peek()"><code>peek()</code></a> since the most recent
      call to <a href="#next()"><code>next()</code></a> and this implementation does not support this sequence of calls
      (optional)</dd>
 </dl>

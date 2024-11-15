@@ -172,7 +172,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.util.concurrent.ConcurrentMap&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asMap()">asMap</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map.</div>
@@ -188,7 +188,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="Cache.html" title="type parameter in Cache">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(K,java.util.concurrent.Callable)">get</a></span>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
-   java.util.concurrent.Callable&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)</code></th>
+   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)</code></th>
 <td class="colLast">
 <div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>
  loader</code> if necessary.</div>
@@ -196,14 +196,14 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAllPresent(java.lang.Iterable)">getAllPresent</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAllPresent(java.lang.Iterable)">getAllPresent</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</code></th>
 <td class="colLast">
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="Cache.html" title="type parameter in Cache">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIfPresent(java.lang.Object)">getIfPresent</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIfPresent(java.lang.Object)">getIfPresent</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -211,7 +211,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidate(java.lang.Object)">invalidate</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidate(java.lang.Object)">invalidate</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </td>
@@ -225,7 +225,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidateAll(java.lang.Iterable)">invalidateAll</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidateAll(java.lang.Iterable)">invalidateAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</code></th>
 <td class="colLast">
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 </td>
@@ -240,7 +240,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</code></th>
 <td class="colLast">
 <div class="block">Copies all of the mappings from the specified map to the cache.</div>
 </td>
@@ -286,7 +286,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.54">getIfPresent</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
-               java.lang.Object&nbsp;key)</pre>
+               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
 <dl>
@@ -305,8 +305,8 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.104">get</a>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
-      java.util.concurrent.Callable&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)
-throws java.util.concurrent.ExecutionException</pre>
+      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)
+throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>
  loader</code> if necessary. The method improves upon the conventional "if cached, return; otherwise
  create, cache and return" pattern. For further improvements, use <a href="LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and its
@@ -345,7 +345,7 @@ throws java.util.concurrent.ExecutionException</pre>
  <p>No observable state associated with this cache is modified until loading completes.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.concurrent.ExecutionException</code> - if a checked exception was thrown while loading the value</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if a checked exception was thrown while loading the value</dd>
 <dd><code><a href="../util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></code> - if an unchecked exception was thrown while loading the
      value</dd>
 <dd><code><a href="../util/concurrent/ExecutionError.html" title="class in com.google.common.util.concurrent">ExecutionError</a></code> - if an error was thrown while loading the value</dd>
@@ -360,7 +360,7 @@ throws java.util.concurrent.ExecutionException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllPresent</h4>
-<pre class="methodSignature"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.117">getAllPresent</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</pre>
+<pre class="methodSignature"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.117">getAllPresent</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.</div>
 <dl>
@@ -396,7 +396,7 @@ throws java.util.concurrent.ExecutionException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.138">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.138">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -414,7 +414,7 @@ throws java.util.concurrent.ExecutionException</pre>
 <li class="blockList">
 <h4>invalidate</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.141">invalidate</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
-                java.lang.Object&nbsp;key)</pre>
+                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </li>
 </ul>
@@ -424,7 +424,7 @@ throws java.util.concurrent.ExecutionException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.149">invalidateAll</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Object&gt;&nbsp;keys)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.149">invalidateAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -475,7 +475,7 @@ throws java.util.concurrent.ExecutionException</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature">java.util.concurrent.ConcurrentMap&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.183">asMap</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.183">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -484,7 +484,7 @@ throws java.util.concurrent.ExecutionException</pre>
  created, it is undefined which of the changes (if any) will be reflected in that iterator.
 
  <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
- have been newly added to <code>ConcurrentMap</code>! These are marked with "Since: 1.8" in the
+ have been newly added to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentMap</code></a>! These are marked with "Since: 1.8" in the
  <code>ConcurrentMap</code> documentation. They will not function correctly and it is impossible for
  Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.</div>
 </li>

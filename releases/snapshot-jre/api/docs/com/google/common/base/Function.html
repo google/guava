@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.base</a></div>
-<h2 title="Interface Function" class="title">Interface Function&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Interface Function" class="title">Interface Function&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -125,7 +125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code>java.util.function.Function&lt;F,&#8203;T&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;F,&#8203;T&gt;</code></dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
@@ -141,10 +141,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-@FunctionalInterface
-public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.42">Function</a>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
-extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
-<div class="block">Legacy version of <code>java.util.function.Function</code>.
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.42">Function</a>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;F,&#8203;T&gt;</pre>
+<div class="block">Legacy version of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Function</code></a>.
 
  <p>The <a href="Functions.html" title="class in com.google.common.base"><code>Functions</code></a> class provides common functions and related utilities.
 
@@ -192,7 +192,7 @@ extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Function</code> that behaves identically
  to this function.</div>
@@ -203,8 +203,8 @@ extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
 <li class="blockList"><a id="methods.inherited.from.class.java.util.function.Function">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.function.Function</h3>
-<code>andThen, compose</code></li>
+<h3>Methods inherited from interface&nbsp;java.util.function.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true#andThen(java.util.function.Function)" title="class or interface in java.util.function" class="externalLink">andThen</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true#compose(java.util.function.Function)" title="class or interface in java.util.function" class="externalLink">compose</a></code></li>
 </ul>
 </li>
 </ul>
@@ -233,7 +233,7 @@ extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
 <pre class="methodSignature"><a href="Function.html" title="type parameter in Function">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.47">apply</a>&#8203;(<a href="Function.html" title="type parameter in Function">F</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>apply</code>&nbsp;in interface&nbsp;<code>java.util.function.Function&lt;<a href="Function.html" title="type parameter in Function">F</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="Function.html" title="type parameter in Function">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true#apply(T)" title="class or interface in java.util.function" class="externalLink">apply</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="Function.html" title="type parameter in Function">F</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="Function.html" title="type parameter in Function">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -244,7 +244,7 @@ extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.62">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               java.lang.Object&nbsp;object)</pre>
+               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Function</code> that behaves identically
  to this function.
 
@@ -256,7 +256,7 @@ extends java.util.function.Function&lt;F,&#8203;T&gt;</pre>
  disappear. It is best not to depend on it.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
 </dl>
 </li>
 </ul>

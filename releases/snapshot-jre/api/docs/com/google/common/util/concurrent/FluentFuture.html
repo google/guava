@@ -117,11 +117,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h2 title="Class FluentFuture" class="title">Class FluentFuture&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
+<h2 title="Class FluentFuture" class="title">Class FluentFuture&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>java.lang.Object</li>
+<li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.internal.InternalFutureFailureAccess</li>
@@ -143,12 +143,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code>, <code>java.util.concurrent.Future&lt;V&gt;</code></dd>
+<dd><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 <a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.75">FluentFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.75">FluentFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that supports fluent chains of operations. For example:
 
@@ -172,7 +172,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
    <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
- <h4><code>CompletableFuture</code> / <code>CompletionStage</code>
+ <h4><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture</code></a> / <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletionStage.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletionStage</code></a>
  </h4>
 
  <p>Users of <code>CompletableFuture</code> will likely want to continue using <code>
@@ -213,18 +213,18 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addCallback(com.google.common.util.concurrent.FutureCallback,java.util.concurrent.Executor)">addCallback</a></span>&#8203;(<a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
-           java.util.concurrent.Executor&nbsp;executor)</code></th>
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
- computation is complete or, if the
+ computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">complete</a> or, if the
  computation is already complete, immediately.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+<td class="colFirst"><code>&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)">catching</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;exceptionType,
         <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-        java.util.concurrent.Executor&nbsp;executor)</code></th>
+        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
  Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
@@ -232,10 +232,10 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
+<td class="colFirst"><code>&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">catchingAsync</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;exceptionType,
              <a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-             java.util.concurrent.Executor&nbsp;executor)</code></th>
+             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
  Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
@@ -243,7 +243,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(com.google.common.util.concurrent.FluentFuture)">from</a></span>&#8203;(<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -252,24 +252,24 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(com.google.common.util.concurrent.ListenableFuture)">from</a></span>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</code></th>
 <td class="colLast">
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(com.google.common.base.Function,java.util.concurrent.Executor)">transform</a></span>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-         java.util.concurrent.Executor&nbsp;executor)</code></th>
+         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transformAsync(com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)">transformAsync</a></span>&#8203;(<a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-              java.util.concurrent.Executor&nbsp;executor)</code></th>
+              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
  <code>Future</code>.</div>
@@ -278,18 +278,18 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withTimeout(long,java.util.concurrent.TimeUnit,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(long&nbsp;timeout,
-           java.util.concurrent.TimeUnit&nbsp;unit,
-           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit,
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</code></th>
 <td class="colLast">
-<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a>) if the specified timeout expires.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withTimeout(java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(java.time.Duration&nbsp;timeout,
-           java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withTimeout(java.time.Duration,java.util.concurrent.ScheduledExecutorService)">withTimeout</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout,
+           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</code></th>
 <td class="colLast">
-<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.</div>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a>) if the specified timeout expires.</div>
 </td>
 </tr>
 </table>
@@ -304,8 +304,8 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -329,7 +329,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.133">from</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.133">from</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.
 
  <p>If the given <code>ListenableFuture</code> is already a <code>FluentFuture</code>, it is returned
@@ -343,8 +343,8 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">@Deprecated
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.145">from</a>&#8203;(<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.145">from</a>&#8203;(<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -362,9 +362,9 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>catching</h4>
 <pre class="methodSignature">@GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
-public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.187">catching</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-                                                                      <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-                                                                      java.util.concurrent.Executor&nbsp;executor)</pre>
+public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.187">catching</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;exceptionType,
+                                                            <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
+                                                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
  Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
  fallback</code>. <a href="../../base/Function.html#apply(F)"><code>Function.apply(F)</code></a> is not invoked until the primary input has failed, so if the
@@ -384,20 +384,20 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight
  listeners are also applicable to heavyweight functions passed to this method.
 
- <p>This method is similar to <code>CompletableFuture.exceptionally(java.util.function.Function&lt;java.lang.Throwable, ? extends T&gt;)</code>. It
- can also serve some of the use cases of <code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code>
- and <code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> when used along with <a href="#transform(com.google.common.base.Function,java.util.concurrent.Executor)"><code>transform(com.google.common.base.Function&lt;? super V, T&gt;, java.util.concurrent.Executor)</code></a>.</div>
+ <p>This method is similar to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#exceptionally(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.exceptionally(java.util.function.Function&lt;java.lang.Throwable, ? extends T&gt;)</code></a>. It
+ can also serve some of the use cases of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handle(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a>
+ and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handleAsync(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> when used along with <a href="#transform(com.google.common.base.Function,java.util.concurrent.Executor)"><code>transform(com.google.common.base.Function&lt;? super V, T&gt;, java.util.concurrent.Executor)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>exceptionType</code> - the exception type that triggers use of <code>fallback</code>. The exception
      type is matched against the input's exception. "The input's exception" means the cause of
-     the <code>ExecutionException</code> thrown by <code>input.get()</code> or, if <code>get()</code> throws a
+     the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a> thrown by <code>input.get()</code> or, if <code>get()</code> throws a
      different kind of exception, that exception itself. To avoid hiding bugs and other
      unrecoverable errors, callers should prefer more specific types, avoiding <code>
      Throwable.class</code> in particular.</dd>
 <dd><code>fallback</code> - the <a href="../../base/Function.html" title="interface in com.google.common.base"><code>Function</code></a> to be called if the input fails with the expected
      exception type. The function's argument is the input's exception. "The input's exception"
-     means the cause of the <code>ExecutionException</code> thrown by <code>this.get()</code> or, if
+     means the cause of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a> thrown by <code>this.get()</code> or, if
      <code>get()</code> throws a different kind of exception, that exception itself.</dd>
 <dd><code>executor</code> - the executor that runs <code>fallback</code> if the input fails</dd>
 </dl>
@@ -410,9 +410,9 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
 <li class="blockList">
 <h4>catchingAsync</h4>
 <pre class="methodSignature">@GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
-public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.252">catchingAsync</a>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
-                                                                           <a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
-                                                                           java.util.concurrent.Executor&nbsp;executor)</pre>
+public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.252">catchingAsync</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;exceptionType,
+                                                                 <a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,&#8203;? extends <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
+                                                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>
  Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>
  fallback</code>. <a href="AsyncFunction.html#apply(I)"><code>AsyncFunction.apply(I)</code></a> is not invoked until the primary input has failed, so if
@@ -453,20 +453,20 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
  AsyncFunction.apply</code>. Any heavyweight operations should occur in other threads responsible for
  completing the returned <code>Future</code>.)
 
- <p>This method is similar to <code>CompletableFuture.exceptionally(java.util.function.Function&lt;java.lang.Throwable, ? extends T&gt;)</code>. It
- can also serve some of the use cases of <code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code>
- and <code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> when used along with <a href="#transform(com.google.common.base.Function,java.util.concurrent.Executor)"><code>transform(com.google.common.base.Function&lt;? super V, T&gt;, java.util.concurrent.Executor)</code></a>.</div>
+ <p>This method is similar to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#exceptionally(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.exceptionally(java.util.function.Function&lt;java.lang.Throwable, ? extends T&gt;)</code></a>. It
+ can also serve some of the use cases of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handle(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a>
+ and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handleAsync(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> when used along with <a href="#transform(com.google.common.base.Function,java.util.concurrent.Executor)"><code>transform(com.google.common.base.Function&lt;? super V, T&gt;, java.util.concurrent.Executor)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>exceptionType</code> - the exception type that triggers use of <code>fallback</code>. The exception
      type is matched against the input's exception. "The input's exception" means the cause of
-     the <code>ExecutionException</code> thrown by <code>this.get()</code> or, if <code>get()</code> throws a
+     the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a> thrown by <code>this.get()</code> or, if <code>get()</code> throws a
      different kind of exception, that exception itself. To avoid hiding bugs and other
      unrecoverable errors, callers should prefer more specific types, avoiding <code>
      Throwable.class</code> in particular.</dd>
 <dd><code>fallback</code> - the <a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> to be called if the input fails with the expected
      exception type. The function's argument is the input's exception. "The input's exception"
-     means the cause of the <code>ExecutionException</code> thrown by <code>input.get()</code> or, if
+     means the cause of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a> thrown by <code>input.get()</code> or, if
      <code>get()</code> throws a different kind of exception, that exception itself.</dd>
 <dd><code>executor</code> - the executor that runs <code>fallback</code> if the input fails</dd>
 </dl>
@@ -479,9 +479,9 @@ public final&nbsp;&lt;X extends java.lang.Throwable&gt;&nbsp;<a href="FluentFutu
 <li class="blockList">
 <h4>withTimeout</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.269">withTimeout</a>&#8203;(java.time.Duration&nbsp;timeout,
-                                         java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</pre>
-<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.
+public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.269">withTimeout</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;timeout,
+                                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</pre>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a>) if the specified timeout expires.
  If the timeout expires, not only will the output future finish, but also the input future
  (<code>this</code>) will be cancelled and interrupted.</div>
 <dl>
@@ -501,9 +501,9 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 <h4>withTimeout</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.286">withTimeout</a>&#8203;(long&nbsp;timeout,
-                                         java.util.concurrent.TimeUnit&nbsp;unit,
-                                         java.util.concurrent.ScheduledExecutorService&nbsp;scheduledExecutor)</pre>
-<div class="block">Returns a future that delegates to this future but will finish early (via a <code>TimeoutException</code> wrapped in an <code>ExecutionException</code>) if the specified timeout expires.
+                                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit,
+                                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</pre>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutionException</code></a>) if the specified timeout expires.
  If the timeout expires, not only will the output future finish, but also the input future
  (<code>this</code>) will be cancelled and interrupted.</div>
 <dl>
@@ -520,8 +520,8 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAsync</h4>
-<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.333">transformAsync</a>&#8203;(<a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-                                                                                   java.util.concurrent.Executor&nbsp;executor)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.333">transformAsync</a>&#8203;(<a href="AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
+                                                                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
  <code>Future</code>. If the input <code>Future</code> fails, the returned <code>Future</code> fails with the
  same exception (and the function is not invoked).
@@ -549,9 +549,9 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
  other two is cancelled, the returned <code>Future</code> will receive a callback in which it will
  attempt to cancel itself.
 
- <p>This method is similar to <code>CompletableFuture.thenCompose(java.util.function.Function&lt;? super T, ? extends java.util.concurrent.CompletionStage&lt;U&gt;&gt;)</code> and
- <code>CompletableFuture.thenComposeAsync(java.util.function.Function&lt;? super T, ? extends java.util.concurrent.CompletionStage&lt;U&gt;&gt;)</code>. It can also serve some of the
- use cases of <code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> and <code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> when used along with <a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)"><code>catching(java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;, java.util.concurrent.Executor)</code></a>.</div>
+ <p>This method is similar to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenCompose(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenCompose(java.util.function.Function&lt;? super T, ? extends java.util.concurrent.CompletionStage&lt;U&gt;&gt;)</code></a> and
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenComposeAsync(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenComposeAsync(java.util.function.Function&lt;? super T, ? extends java.util.concurrent.CompletionStage&lt;U&gt;&gt;)</code></a>. It can also serve some of the
+ use cases of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handle(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handleAsync(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> when used along with <a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)"><code>catching(java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;, java.util.concurrent.Executor)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - A function to transform the result of this future to the result of the output
@@ -569,8 +569,8 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.370">transform</a>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
-                                                                              java.util.concurrent.Executor&nbsp;executor)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.370">transform</a>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>,&#8203;T&gt;&nbsp;function,
+                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>. If
  this input <code>Future</code> fails, the returned <code>Future</code> fails with the same exception (and
  the function is not invoked). Example usage:
@@ -592,9 +592,9 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
  <p>An example use of this method is to convert a serializable object returned from an RPC into
  a POJO.
 
- <p>This method is similar to <code>CompletableFuture.thenApply(java.util.function.Function&lt;? super T, ? extends U&gt;)</code> and
- <code>CompletableFuture.thenApplyAsync(java.util.function.Function&lt;? super T, ? extends U&gt;)</code>. It can also serve some of the
- use cases of <code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> and <code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code> when used along with <a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)"><code>catching(java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;, java.util.concurrent.Executor)</code></a>.</div>
+ <p>This method is similar to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenApply(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenApply(java.util.function.Function&lt;? super T, ? extends U&gt;)</code></a> and
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenApplyAsync(java.util.function.Function)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenApplyAsync(java.util.function.Function&lt;? super T, ? extends U&gt;)</code></a>. It can also serve some of the
+ use cases of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handle(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handle(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#handleAsync(java.util.function.BiFunction)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.handleAsync(java.util.function.BiFunction&lt;? super T, java.lang.Throwable, ? extends U&gt;)</code></a> when used along with <a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)"><code>catching(java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;, java.util.concurrent.Executor)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - A Function to transform the results of this future to the results of the
@@ -612,9 +612,9 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 <li class="blockList">
 <h4>addCallback</h4>
 <pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.412">addCallback</a>&#8203;(<a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
-                              java.util.concurrent.Executor&nbsp;executor)</pre>
+                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
- computation is complete or, if the
+ computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">complete</a> or, if the
  computation is already complete, immediately.
 
  <p>The callback is run on <code>executor</code>. There is no guaranteed ordering of execution of
@@ -641,9 +641,9 @@ public final&nbsp;<a href="FluentFuture.html" title="class in com.google.common.
 
  <p>For a more general interface to attach a completion listener, see <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a>.
 
- <p>This method is similar to <code>CompletableFuture.whenComplete(java.util.function.BiConsumer&lt;? super T, ? super java.lang.Throwable&gt;)</code> and
- <code>CompletableFuture.whenCompleteAsync(java.util.function.BiConsumer&lt;? super T, ? super java.lang.Throwable&gt;)</code>. It also serves the use case
- of <code>CompletableFuture.thenAccept(java.util.function.Consumer&lt;? super T&gt;)</code> and <code>CompletableFuture.thenAcceptAsync(java.util.function.Consumer&lt;? super T&gt;)</code>.</div>
+ <p>This method is similar to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#whenComplete(java.util.function.BiConsumer)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.whenComplete(java.util.function.BiConsumer&lt;? super T, ? super java.lang.Throwable&gt;)</code></a> and
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#whenCompleteAsync(java.util.function.BiConsumer)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.whenCompleteAsync(java.util.function.BiConsumer&lt;? super T, ? super java.lang.Throwable&gt;)</code></a>. It also serves the use case
+ of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenAccept(java.util.function.Consumer)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenAccept(java.util.function.Consumer&lt;? super T&gt;)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/CompletableFuture.html?is-external=true#thenAcceptAsync(java.util.function.Consumer)" title="class or interface in java.util.concurrent" class="externalLink"><code>CompletableFuture.thenAcceptAsync(java.util.function.Consumer&lt;? super T&gt;)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>callback</code> - The callback to invoke when this <code>Future</code> is completed.</dd>
