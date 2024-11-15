@@ -128,7 +128,7 @@ generate_javadoc() {
 
   # Move generated .class and Javadoc files to the temp dir.
   mv guava/target/classes "$TEMPDIR/$flavor/classes"
-  mv guava/target/site/apidocs "$TEMPDIR/$flavor/docs"
+  mv guava/target/reports/apidocs "$TEMPDIR/$flavor/docs"
 
   # Clean up target dir.
   rm -fr guava/target
