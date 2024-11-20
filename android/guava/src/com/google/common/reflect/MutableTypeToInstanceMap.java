@@ -39,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class MutableTypeToInstanceMap<B extends @Nullable Object>
     extends ForwardingMap<TypeToken<? extends @NonNull B>, B> implements TypeToInstanceMap<B> {
-  /** Creats a new map. */
+  /** Creates a new map. */
   public MutableTypeToInstanceMap() {}
 
   private final Map<TypeToken<? extends @NonNull B>, B> backingMap = Maps.newHashMap();
