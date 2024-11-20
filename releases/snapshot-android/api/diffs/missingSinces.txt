@@ -19,7 +19,7 @@ OK: com.google.common.util.concurrent.ServiceManager Method awaitStopped(java.ti
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitUninterruptibly(java.util.concurrent.CountDownLatch, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitUninterruptibly(java.util.concurrent.locks.Condition, java.time.Duration)
-NO DOC BLOCK: com.google.common.collect.TreeRangeMap Method copyOf(com.google.common.collect.RangeMap<K, ? extends V>)
+OK: com.google.common.collect.TreeRangeMap Method copyOf(com.google.common.collect.RangeMap<K, ? extends V>)
 OK: com.google.common.primitives.ImmutableDoubleArray Method copyOf(java.util.stream.DoubleStream)
 OK: com.google.common.primitives.ImmutableIntArray Method copyOf(java.util.stream.IntStream)
 OK: com.google.common.primitives.ImmutableLongArray Method copyOf(java.util.stream.LongStream)

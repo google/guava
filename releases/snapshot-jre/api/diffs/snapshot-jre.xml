@@ -37823,12 +37823,20 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a new, empty {@link TreeRangeMap}.]]>
+      </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.TreeRangeMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a new {@link TreeRangeMap} containing the same ranges as the given {@code RangeMap}.
+
+ @since NEXT]]>
+      </doc>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
@@ -64349,7 +64357,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creats a new map.]]>
+      <![CDATA[Creates a new map.]]>
       </doc>
     </constructor>
     <method name="getInstance" return="T extends B"
