@@ -51,7 +51,7 @@ public class PeekingIteratorTest extends TestCase {
    *
    * <p>This IteratorTester makes copies of the master so that it can later verify that {@link
    * PeekingIterator#remove()} removes the same elements as the reference's iterator {@code
-   * #remove()}.
+   * remove()}.
    */
   private static class PeekingIteratorTester<T extends @Nullable Object> extends IteratorTester<T> {
     private Iterable<T> master;
