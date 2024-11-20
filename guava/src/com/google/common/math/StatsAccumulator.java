@@ -39,6 +39,8 @@ import java.util.stream.LongStream;
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
+  /** Creates a new accumulator. */
+  public StatsAccumulator() {}
 
   // These fields must satisfy the requirements of Stats' constructor as well as those of the stat
   // methods of this class.

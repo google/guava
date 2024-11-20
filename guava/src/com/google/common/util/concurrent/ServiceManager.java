@@ -160,6 +160,9 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 15.0 (present as an interface in 14.0)
    */
   public abstract static class Listener {
+    /** Constructor for use by subclasses. */
+    public Listener() {}
+
     /**
      * Called when the service initially becomes healthy.
      *

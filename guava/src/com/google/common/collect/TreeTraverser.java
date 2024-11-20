@@ -78,6 +78,8 @@ import javax.annotation.CheckForNull;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
+  /** Constructor for use by subclasses. */
+  public TreeTraverser() {}
 
   /**
    * Returns a tree traverser that uses the given function to navigate from a node to its children.

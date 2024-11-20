@@ -211,6 +211,9 @@ public interface Service {
    * @since 15.0 (present as an interface in 13.0)
    */
   abstract class Listener {
+    /** Constructor for use by subclasses. */
+    public Listener() {}
+
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain
      * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first

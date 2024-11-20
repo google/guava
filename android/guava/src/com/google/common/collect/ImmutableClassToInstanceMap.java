@@ -94,6 +94,9 @@ public final class ImmutableClassToInstanceMap<B>
    * @since 2.0
    */
   public static final class Builder<B> {
+    /** Creates a new builder. */
+    public Builder() {}
+
     private final ImmutableMap.Builder<Class<? extends B>, B> mapBuilder = ImmutableMap.builder();
 
     /**
