@@ -60,9 +60,9 @@
 <span class="sourceLineNo">051</span><a id="line.51"> *</a>
 <span class="sourceLineNo">052</span><a id="line.52"> * &lt;p&gt;The successor to Guava's caching API is &lt;a</a>
 <span class="sourceLineNo">053</span><a id="line.53"> * href="https://github.com/ben-manes/caffeine/wiki"&gt;Caffeine&lt;/a&gt;. Its API is designed to make it a</a>
-<span class="sourceLineNo">054</span><a id="line.54"> * nearly drop-in replacement. It requires Java 8+, and is not available for Android or GWT/J2CL,</a>
-<span class="sourceLineNo">055</span><a id="line.55"> * and may have &lt;a href="https://github.com/ben-manes/caffeine/wiki/Guava"&gt;different (usually</a>
-<span class="sourceLineNo">056</span><a id="line.56"> * better) behavior&lt;/a&gt; when multiple threads attempt concurrent mutations. Its equivalent to {@code</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * nearly drop-in replacement. Note that it is not available for Android or GWT/J2CL and that it may</a>
+<span class="sourceLineNo">055</span><a id="line.55"> * have &lt;a href="https://github.com/ben-manes/caffeine/wiki/Guava"&gt;different (usually better)</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * behavior&lt;/a&gt; when multiple threads attempt concurrent mutations. Its equivalent to {@code</a>
 <span class="sourceLineNo">057</span><a id="line.57"> * CacheBuilder} is its &lt;a</a>
 <span class="sourceLineNo">058</span><a id="line.58"> * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html"&gt;{@code</a>
 <span class="sourceLineNo">059</span><a id="line.59"> * Caffeine}&lt;/a&gt; class. Caffeine offers better performance, more features (including asynchronous</a>
@@ -191,10 +191,10 @@
 <span class="sourceLineNo">182</span><a id="line.182"> * explanation.</a>
 <span class="sourceLineNo">183</span><a id="line.183"> *</a>
 <span class="sourceLineNo">184</span><a id="line.184"> * @param &lt;K&gt; the most general key type this builder will be able to create caches for. This is</a>
-<span class="sourceLineNo">185</span><a id="line.185"> *     normally {@code Object} unless it is constrained by using a method like {@code</a>
+<span class="sourceLineNo">185</span><a id="line.185"> *     normally {@code Object} unless it is constrained by using a method like {@link</a>
 <span class="sourceLineNo">186</span><a id="line.186"> *     #removalListener}. Cache keys may not be null.</a>
 <span class="sourceLineNo">187</span><a id="line.187"> * @param &lt;V&gt; the most general value type this builder will be able to create caches for. This is</a>
-<span class="sourceLineNo">188</span><a id="line.188"> *     normally {@code Object} unless it is constrained by using a method like {@code</a>
+<span class="sourceLineNo">188</span><a id="line.188"> *     normally {@code Object} unless it is constrained by using a method like {@link</a>
 <span class="sourceLineNo">189</span><a id="line.189"> *     #removalListener}. Cache values may not be null.</a>
 <span class="sourceLineNo">190</span><a id="line.190"> * @author Charles Fry</a>
 <span class="sourceLineNo">191</span><a id="line.191"> * @author Kevin Bourrillion</a>

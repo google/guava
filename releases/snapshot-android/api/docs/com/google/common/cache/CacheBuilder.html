@@ -134,11 +134,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>K</code> - the most general key type this builder will be able to create caches for. This is
-     normally <code>Object</code> unless it is constrained by using a method like <code>
-     #removalListener</code>. Cache keys may not be null.</dd>
+     normally <code>Object</code> unless it is constrained by using a method like <code>removalListener</code>. Cache keys may not be null.</dd>
 <dd><code>V</code> - the most general value type this builder will be able to create caches for. This is
-     normally <code>Object</code> unless it is constrained by using a method like <code>
-     #removalListener</code>. Cache values may not be null.</dd>
+     normally <code>Object</code> unless it is constrained by using a method like <code>removalListener</code>. Cache values may not be null.</dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
@@ -150,9 +148,9 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
  API</h2>
 
  <p>The successor to Guava's caching API is <a href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
- nearly drop-in replacement. It requires Java 8+, and is not available for Android or GWT/J2CL,
- and may have <a href="https://github.com/ben-manes/caffeine/wiki/Guava">different (usually
- better) behavior</a> when multiple threads attempt concurrent mutations. Its equivalent to <code>
+ nearly drop-in replacement. Note that it is not available for Android or GWT/J2CL and that it may
+ have <a href="https://github.com/ben-manes/caffeine/wiki/Guava">different (usually better)
+ behavior</a> when multiple threads attempt concurrent mutations. Its equivalent to <code>
  CacheBuilder</code> is its <a href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html"><code>
  Caffeine</code></a> class. Caffeine offers better performance, more features (including asynchronous
  loading), and fewer <a href="https://github.com/google/guava/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Dcache+label%3Atype%3Ddefect">bugs</a>.
