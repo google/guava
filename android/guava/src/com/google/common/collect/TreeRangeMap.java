@@ -57,10 +57,16 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   private final NavigableMap<Cut<K>, RangeMapEntry<K, V>> entriesByLowerBound;
 
+  /** Returns a new, empty {@link TreeRangeMap}. */
   public static <K extends Comparable, V> TreeRangeMap<K, V> create() {
     return new TreeRangeMap<>();
   }
 
+  /**
+   * Returns a new {@link TreeRangeMap} containing the same ranges as the given {@code RangeMap}.
+   *
+   * @since NEXT
+   */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> TreeRangeMap<K, V> copyOf(
       RangeMap<K, ? extends V> rangeMap) {
