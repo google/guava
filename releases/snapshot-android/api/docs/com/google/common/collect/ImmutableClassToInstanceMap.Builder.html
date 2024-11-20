@@ -176,7 +176,9 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">Builder</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new builder.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -249,7 +251,8 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.96">Builder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.98">Builder</a>()</pre>
+<div class="block">Creates a new builder.</div>
 </li>
 </ul>
 </li>
@@ -271,7 +274,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.103">put</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;key,
+public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.106">put</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;key,
                                                                 T&nbsp;value)</pre>
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map. Duplicate keys are not allowed,
  and will cause <a href="#build()"><code>build()</code></a> to fail.</div>
@@ -284,7 +287,7 @@ public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" tit
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.116">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends T&gt;,&#8203;? extends T&gt;&nbsp;map)</pre>
+public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="ImmutableClassToInstanceMap.Builder.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap.Builder</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.119">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends T&gt;,&#8203;? extends T&gt;&nbsp;map)</pre>
 <div class="block">Associates all of <code>map's</code> keys and values in the built map. Duplicate keys are not
  allowed, and will cause <a href="#build()"><code>build()</code></a> to fail.</div>
 <dl>
@@ -300,7 +303,7 @@ public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.Builder.html" tit
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.136">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</a>&lt;<a href="ImmutableClassToInstanceMap.Builder.html" title="type parameter in ImmutableClassToInstanceMap.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.Builder.html#line.139">build</a>()</pre>
 <div class="block">Returns a new immutable class-to-instance map containing the entries provided to this
  builder.</div>
 <dl>

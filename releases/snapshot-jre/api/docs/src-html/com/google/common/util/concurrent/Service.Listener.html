@@ -251,53 +251,56 @@
 <span class="sourceLineNo">242</span><a id="line.242">   * @since 15.0 (present as an interface in 13.0)</a>
 <span class="sourceLineNo">243</span><a id="line.243">   */</a>
 <span class="sourceLineNo">244</span><a id="line.244">  abstract class Listener {</a>
-<span class="sourceLineNo">245</span><a id="line.245">    /**</a>
-<span class="sourceLineNo">246</span><a id="line.246">     * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain</a>
-<span class="sourceLineNo">247</span><a id="line.247">     * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first</a>
-<span class="sourceLineNo">248</span><a id="line.248">     * time.</a>
-<span class="sourceLineNo">249</span><a id="line.249">     */</a>
-<span class="sourceLineNo">250</span><a id="line.250">    public void starting() {}</a>
-<span class="sourceLineNo">251</span><a id="line.251"></a>
-<span class="sourceLineNo">252</span><a id="line.252">    /**</a>
-<span class="sourceLineNo">253</span><a id="line.253">     * Called when the service transitions from {@linkplain State#STARTING STARTING} to {@linkplain</a>
-<span class="sourceLineNo">254</span><a id="line.254">     * State#RUNNING RUNNING}. This occurs when a service has successfully started.</a>
-<span class="sourceLineNo">255</span><a id="line.255">     */</a>
-<span class="sourceLineNo">256</span><a id="line.256">    public void running() {}</a>
-<span class="sourceLineNo">257</span><a id="line.257"></a>
-<span class="sourceLineNo">258</span><a id="line.258">    /**</a>
-<span class="sourceLineNo">259</span><a id="line.259">     * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The</a>
-<span class="sourceLineNo">260</span><a id="line.260">     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or {@linkplain</a>
-<span class="sourceLineNo">261</span><a id="line.261">     * State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.</a>
-<span class="sourceLineNo">262</span><a id="line.262">     *</a>
-<span class="sourceLineNo">263</span><a id="line.263">     * @param from The previous state that is being transitioned from.</a>
-<span class="sourceLineNo">264</span><a id="line.264">     */</a>
-<span class="sourceLineNo">265</span><a id="line.265">    public void stopping(State from) {}</a>
-<span class="sourceLineNo">266</span><a id="line.266"></a>
-<span class="sourceLineNo">267</span><a id="line.267">    /**</a>
-<span class="sourceLineNo">268</span><a id="line.268">     * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state.</a>
-<span class="sourceLineNo">269</span><a id="line.269">     * The {@linkplain State#TERMINATED TERMINATED} state is a terminal state in the transition</a>
-<span class="sourceLineNo">270</span><a id="line.270">     * diagram. Therefore, if this method is called, no other methods will be called on the {@link</a>
-<span class="sourceLineNo">271</span><a id="line.271">     * Listener}.</a>
-<span class="sourceLineNo">272</span><a id="line.272">     *</a>
-<span class="sourceLineNo">273</span><a id="line.273">     * @param from The previous state that is being transitioned from. Failure can occur in any</a>
-<span class="sourceLineNo">274</span><a id="line.274">     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain</a>
-<span class="sourceLineNo">275</span><a id="line.275">     *     State#TERMINATED TERMINATED}.</a>
-<span class="sourceLineNo">276</span><a id="line.276">     */</a>
-<span class="sourceLineNo">277</span><a id="line.277">    public void terminated(State from) {}</a>
-<span class="sourceLineNo">278</span><a id="line.278"></a>
-<span class="sourceLineNo">279</span><a id="line.279">    /**</a>
-<span class="sourceLineNo">280</span><a id="line.280">     * Called when the service transitions to the {@linkplain State#FAILED FAILED} state. The</a>
-<span class="sourceLineNo">281</span><a id="line.281">     * {@linkplain State#FAILED FAILED} state is a terminal state in the transition diagram.</a>
-<span class="sourceLineNo">282</span><a id="line.282">     * Therefore, if this method is called, no other methods will be called on the {@link Listener}.</a>
-<span class="sourceLineNo">283</span><a id="line.283">     *</a>
-<span class="sourceLineNo">284</span><a id="line.284">     * @param from The previous state that is being transitioned from. Failure can occur in any</a>
-<span class="sourceLineNo">285</span><a id="line.285">     *     state with the exception of {@linkplain State#NEW NEW} or {@linkplain State#TERMINATED</a>
-<span class="sourceLineNo">286</span><a id="line.286">     *     TERMINATED}.</a>
-<span class="sourceLineNo">287</span><a id="line.287">     * @param failure The exception that caused the failure.</a>
-<span class="sourceLineNo">288</span><a id="line.288">     */</a>
-<span class="sourceLineNo">289</span><a id="line.289">    public void failed(State from, Throwable failure) {}</a>
-<span class="sourceLineNo">290</span><a id="line.290">  }</a>
-<span class="sourceLineNo">291</span><a id="line.291">}</a>
+<span class="sourceLineNo">245</span><a id="line.245">    /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">246</span><a id="line.246">    public Listener() {}</a>
+<span class="sourceLineNo">247</span><a id="line.247"></a>
+<span class="sourceLineNo">248</span><a id="line.248">    /**</a>
+<span class="sourceLineNo">249</span><a id="line.249">     * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain</a>
+<span class="sourceLineNo">250</span><a id="line.250">     * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first</a>
+<span class="sourceLineNo">251</span><a id="line.251">     * time.</a>
+<span class="sourceLineNo">252</span><a id="line.252">     */</a>
+<span class="sourceLineNo">253</span><a id="line.253">    public void starting() {}</a>
+<span class="sourceLineNo">254</span><a id="line.254"></a>
+<span class="sourceLineNo">255</span><a id="line.255">    /**</a>
+<span class="sourceLineNo">256</span><a id="line.256">     * Called when the service transitions from {@linkplain State#STARTING STARTING} to {@linkplain</a>
+<span class="sourceLineNo">257</span><a id="line.257">     * State#RUNNING RUNNING}. This occurs when a service has successfully started.</a>
+<span class="sourceLineNo">258</span><a id="line.258">     */</a>
+<span class="sourceLineNo">259</span><a id="line.259">    public void running() {}</a>
+<span class="sourceLineNo">260</span><a id="line.260"></a>
+<span class="sourceLineNo">261</span><a id="line.261">    /**</a>
+<span class="sourceLineNo">262</span><a id="line.262">     * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The</a>
+<span class="sourceLineNo">263</span><a id="line.263">     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or {@linkplain</a>
+<span class="sourceLineNo">264</span><a id="line.264">     * State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.</a>
+<span class="sourceLineNo">265</span><a id="line.265">     *</a>
+<span class="sourceLineNo">266</span><a id="line.266">     * @param from The previous state that is being transitioned from.</a>
+<span class="sourceLineNo">267</span><a id="line.267">     */</a>
+<span class="sourceLineNo">268</span><a id="line.268">    public void stopping(State from) {}</a>
+<span class="sourceLineNo">269</span><a id="line.269"></a>
+<span class="sourceLineNo">270</span><a id="line.270">    /**</a>
+<span class="sourceLineNo">271</span><a id="line.271">     * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state.</a>
+<span class="sourceLineNo">272</span><a id="line.272">     * The {@linkplain State#TERMINATED TERMINATED} state is a terminal state in the transition</a>
+<span class="sourceLineNo">273</span><a id="line.273">     * diagram. Therefore, if this method is called, no other methods will be called on the {@link</a>
+<span class="sourceLineNo">274</span><a id="line.274">     * Listener}.</a>
+<span class="sourceLineNo">275</span><a id="line.275">     *</a>
+<span class="sourceLineNo">276</span><a id="line.276">     * @param from The previous state that is being transitioned from. Failure can occur in any</a>
+<span class="sourceLineNo">277</span><a id="line.277">     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain</a>
+<span class="sourceLineNo">278</span><a id="line.278">     *     State#TERMINATED TERMINATED}.</a>
+<span class="sourceLineNo">279</span><a id="line.279">     */</a>
+<span class="sourceLineNo">280</span><a id="line.280">    public void terminated(State from) {}</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    /**</a>
+<span class="sourceLineNo">283</span><a id="line.283">     * Called when the service transitions to the {@linkplain State#FAILED FAILED} state. The</a>
+<span class="sourceLineNo">284</span><a id="line.284">     * {@linkplain State#FAILED FAILED} state is a terminal state in the transition diagram.</a>
+<span class="sourceLineNo">285</span><a id="line.285">     * Therefore, if this method is called, no other methods will be called on the {@link Listener}.</a>
+<span class="sourceLineNo">286</span><a id="line.286">     *</a>
+<span class="sourceLineNo">287</span><a id="line.287">     * @param from The previous state that is being transitioned from. Failure can occur in any</a>
+<span class="sourceLineNo">288</span><a id="line.288">     *     state with the exception of {@linkplain State#NEW NEW} or {@linkplain State#TERMINATED</a>
+<span class="sourceLineNo">289</span><a id="line.289">     *     TERMINATED}.</a>
+<span class="sourceLineNo">290</span><a id="line.290">     * @param failure The exception that caused the failure.</a>
+<span class="sourceLineNo">291</span><a id="line.291">     */</a>
+<span class="sourceLineNo">292</span><a id="line.292">    public void failed(State from, Throwable failure) {}</a>
+<span class="sourceLineNo">293</span><a id="line.293">  }</a>
+<span class="sourceLineNo">294</span><a id="line.294">}</a>
 
 
 

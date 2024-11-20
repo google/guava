@@ -136,7 +136,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.60">LinearTransformation.LinearTransformationBuilder</a>
+<pre>public static final class <a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.67">LinearTransformation.LinearTransformationBuilder</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">This is an intermediate stage in the construction process. It is returned by <a href="LinearTransformation.html#mapping(double,double)"><code>LinearTransformation.mapping(double, double)</code></a>. You almost certainly don't want to keep instances around, but
  instead use method chaining. This represents a single point mapping, i.e. a mapping between one
@@ -211,7 +211,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>and</h4>
-<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line.76">and</a>&#8203;(double&nbsp;x2,
+<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line.83">and</a>&#8203;(double&nbsp;x2,
                                 double&nbsp;y2)</pre>
 <div class="block">Finish building an instance which also maps <code>x = x2</code> to <code>y = y2</code>. These values
  must not both be identical to the values given in the first mapping. If only the <code>x</code>
@@ -225,7 +225,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>withSlope</h4>
-<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line.91">withSlope</a>&#8203;(double&nbsp;slope)</pre>
+<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line.98">withSlope</a>&#8203;(double&nbsp;slope)</pre>
 <div class="block">Finish building an instance with the given slope, i.e. the rate of change of <code>y</code> with
  respect to <code>x</code>. The slope must not be <code>NaN</code>. It may be infinite, in which case
  the transformation is vertical. (If it is zero, the transformation is horizontal.)</div>

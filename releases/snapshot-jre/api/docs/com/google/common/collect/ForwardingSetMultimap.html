@@ -187,7 +187,9 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">ForwardingSetMultimap</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Constructor for use by subclasses.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -302,7 +304,8 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSetMultimap</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.40">ForwardingSetMultimap</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.43">ForwardingSetMultimap</a>()</pre>
+<div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
 </li>
@@ -321,7 +324,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>,&#8203;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.43">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>,&#8203;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.45">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -339,7 +342,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>,&#8203;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.46">entries</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>,&#8203;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.48">entries</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#entries()">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of all key-value pairs contained in this multimap, as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map.Entry</code></a>
  instances.
@@ -364,7 +367,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.51">get</a>&#8203;(<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.53">get</a>&#8203;(<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#get(K)">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.
  Note that when <code>containsKey(key)</code> is false, this returns an empty collection, not <code>
@@ -388,7 +391,7 @@ implements <a href="SetMultimap.html" title="interface in com.google.common.coll
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.56">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.58">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#removeAll(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
@@ -417,7 +420,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <li class="blockList">
 <h4>replaceValues</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.62">replaceValues</a>&#8203;(<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>&nbsp;key,
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSetMultimap.html#line.64">replaceValues</a>&#8203;(<a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">K</a>&nbsp;key,
                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingSetMultimap.html" title="type parameter in ForwardingSetMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#replaceValues(K,java.lang.Iterable)">Multimap</a></code></span></div>
 <div class="block">Stores a collection of values with the same key, replacing any existing values for that key.

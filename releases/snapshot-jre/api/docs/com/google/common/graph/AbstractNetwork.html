@@ -181,7 +181,9 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">AbstractNetwork</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Constructor for use by subclasses.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -408,7 +410,8 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractNetwork</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.56">AbstractNetwork</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.58">AbstractNetwork</a>()</pre>
+<div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
 </li>
@@ -427,7 +430,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>asGraph</h4>
-<pre class="methodSignature">public&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.57">asGraph</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.60">asGraph</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#asGraph()">Network</a></code></span></div>
 <div class="block">Returns a live view of this network as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have
  an edge connecting node A to node B if this <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> has an edge connecting A to B.
@@ -449,7 +452,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.142">degree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.145">degree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#degree(N)">Network</a></code></span></div>
 <div class="block">Returns the count of <code>node</code>'s <a href="Network.html#incidentEdges(N)"><code>incident edges</code></a>, counting
  self-loops twice (equivalently, the number of times an edge touches <code>node</code>).
@@ -474,7 +477,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.151">inDegree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.154">inDegree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#inDegree(N)">Network</a></code></span></div>
 <div class="block">Returns the count of <code>node</code>'s <a href="Network.html#inEdges(N)"><code>incoming edges</code></a> in a directed
  network. In an undirected network, returns the <a href="Network.html#degree(N)"><code>Network.degree(Object)</code></a>.
@@ -494,7 +497,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.156">outDegree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.159">outDegree</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#outDegree(N)">Network</a></code></span></div>
 <div class="block">Returns the count of <code>node</code>'s <a href="Network.html#outEdges(N)"><code>outgoing edges</code></a> in a directed
  network. In an undirected network, returns the <a href="Network.html#degree(N)"><code>Network.degree(Object)</code></a>.
@@ -514,7 +517,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.161">adjacentEdges</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;edge)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.164">adjacentEdges</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;edge)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#adjacentEdges(E)">Network</a></code></span></div>
 <div class="block">Returns a live view of the edges which have an <a href="Network.html#incidentNodes(E)"><code>incident node</code></a> in
  common with <code>edge</code>. An edge is not considered adjacent to itself.
@@ -544,7 +547,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.170">edgesConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.173">edgesConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                               <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgesConnecting(N,N)">Network</a></code></span></div>
 <div class="block">Returns a live view of the set of edges that each directly connect <code>nodeU</code> to <code>
@@ -580,7 +583,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.182">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.185">edgesConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgesConnecting(com.google.common.graph.EndpointPair)">Network</a></code></span></div>
 <div class="block">Returns a live view of the set of edges that each directly connect <code>endpoints</code> (in the
  order, if any, specified by <code>endpoints</code>).
@@ -617,7 +620,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.197">edgeConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.200">edgeConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                                   <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgeConnecting(N,N)">Network</a></code></span></div>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
@@ -636,7 +639,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.202">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.205">edgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgeConnecting(com.google.common.graph.EndpointPair)">Network</a></code></span></div>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>Optional.empty()</code> if no such edge
@@ -658,7 +661,7 @@ implements <a href="Network.html" title="interface in com.google.common.graph">N
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.208">edgeConnectingOrNull</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
+public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.211">edgeConnectingOrNull</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                               <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgeConnectingOrNull(N,N)">Network</a></code></span></div>
 <div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
@@ -678,7 +681,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.222">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
+public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.225">edgeConnectingOrNull</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#edgeConnectingOrNull(com.google.common.graph.EndpointPair)">Network</a></code></span></div>
 <div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
  specified by <code>endpoints</code>), if one is present, or <code>null</code> if no such edge exists.
@@ -698,7 +701,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.229">hasEdgeConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.232">hasEdgeConnecting</a>&#8203;(<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                                  <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#hasEdgeConnecting(N,N)">Network</a></code></span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
@@ -718,7 +721,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.236">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.239">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)">Network</a></code></span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>).
@@ -738,7 +741,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>validateEndpoints</h4>
-<pre class="methodSignature">protected final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.249">validateEndpoints</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">protected final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.252">validateEndpoints</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
 <div class="block">Throws an IllegalArgumentException if the ordering of <code>endpoints</code> is not compatible with
  the directionality of this graph.</div>
 </li>
@@ -749,7 +752,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrderingCompatible</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.254">isOrderingCompatible</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.257">isOrderingCompatible</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
 </li>
 </ul>
 <a id="equals(java.lang.Object)">
@@ -758,7 +761,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.258">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.261">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#equals(java.lang.Object)">Network</a></code></span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
@@ -793,7 +796,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.273">hashCode</a>()</pre>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.276">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Network.html#hashCode()">Network</a></code></span></div>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="Network.html#edges()"><code>edges</code></a> to their <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a>.
@@ -813,7 +816,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.279">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.282">toString</a>()</pre>
 <div class="block">Returns a string representation of this network.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -829,7 +832,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.299">edgeInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.302">edgeInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
                                                 <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&nbsp;edge)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a> when the given edge is
  not present in this network.</div>
@@ -847,7 +850,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.310">nodeInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.313">nodeInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
                                                 <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a> when the given node is
  not present in this network.</div>
@@ -865,7 +868,7 @@ public&nbsp;<a href="AbstractNetwork.html" title="type parameter in AbstractNetw
 <ul class="blockListLast">
 <li class="blockList">
 <h4>nodePairInvalidatableSet</h4>
-<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.321">nodePairInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
+<pre class="methodSignature">protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.324">nodePairInvalidatableSet</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;T&gt;&nbsp;set,
                                                     <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeU,
                                                     <a href="AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a> when either of the

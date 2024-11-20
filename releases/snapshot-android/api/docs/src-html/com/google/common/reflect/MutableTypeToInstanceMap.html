@@ -48,145 +48,147 @@
 <span class="sourceLineNo">039</span><a id="line.39">@ElementTypesAreNonnullByDefault</a>
 <span class="sourceLineNo">040</span><a id="line.40">public final class MutableTypeToInstanceMap&lt;B extends @Nullable Object&gt;</a>
 <span class="sourceLineNo">041</span><a id="line.41">    extends ForwardingMap&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; implements TypeToInstanceMap&lt;B&gt; {</a>
-<span class="sourceLineNo">042</span><a id="line.42"></a>
-<span class="sourceLineNo">043</span><a id="line.43">  private final Map&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; backingMap = Maps.newHashMap();</a>
+<span class="sourceLineNo">042</span><a id="line.42">  /** Creats a new map. */</a>
+<span class="sourceLineNo">043</span><a id="line.43">  public MutableTypeToInstanceMap() {}</a>
 <span class="sourceLineNo">044</span><a id="line.44"></a>
-<span class="sourceLineNo">045</span><a id="line.45">  @Override</a>
-<span class="sourceLineNo">046</span><a id="line.46">  @CheckForNull</a>
-<span class="sourceLineNo">047</span><a id="line.47">  public &lt;T extends @NonNull B&gt; T getInstance(Class&lt;T&gt; type) {</a>
-<span class="sourceLineNo">048</span><a id="line.48">    return trustedGet(TypeToken.of(type));</a>
-<span class="sourceLineNo">049</span><a id="line.49">  }</a>
-<span class="sourceLineNo">050</span><a id="line.50"></a>
-<span class="sourceLineNo">051</span><a id="line.51">  @Override</a>
-<span class="sourceLineNo">052</span><a id="line.52">  @CheckForNull</a>
-<span class="sourceLineNo">053</span><a id="line.53">  public &lt;T extends @NonNull B&gt; T getInstance(TypeToken&lt;T&gt; type) {</a>
-<span class="sourceLineNo">054</span><a id="line.54">    return trustedGet(type.rejectTypeVariables());</a>
-<span class="sourceLineNo">055</span><a id="line.55">  }</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">  @Override</a>
-<span class="sourceLineNo">058</span><a id="line.58">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">059</span><a id="line.59">  @CheckForNull</a>
-<span class="sourceLineNo">060</span><a id="line.60">  public &lt;T extends B&gt; T putInstance(Class&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
-<span class="sourceLineNo">061</span><a id="line.61">    return trustedPut(TypeToken.of(type), value);</a>
-<span class="sourceLineNo">062</span><a id="line.62">  }</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
-<span class="sourceLineNo">065</span><a id="line.65">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">066</span><a id="line.66">  @CheckForNull</a>
-<span class="sourceLineNo">067</span><a id="line.67">  public &lt;T extends B&gt; T putInstance(TypeToken&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
-<span class="sourceLineNo">068</span><a id="line.68">    return this.&lt;T&gt;trustedPut(type.rejectTypeVariables(), value);</a>
-<span class="sourceLineNo">069</span><a id="line.69">  }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">  /**</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * Not supported. Use {@link #putInstance} instead.</a>
-<span class="sourceLineNo">073</span><a id="line.73">   *</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * @deprecated unsupported operation</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">076</span><a id="line.76">   */</a>
-<span class="sourceLineNo">077</span><a id="line.77">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">078</span><a id="line.78">  @Deprecated</a>
-<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
-<span class="sourceLineNo">080</span><a id="line.80">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">081</span><a id="line.81">  @CheckForNull</a>
-<span class="sourceLineNo">082</span><a id="line.82">  public B put(TypeToken&lt;? extends @NonNull B&gt; key, @ParametricNullness B value) {</a>
-<span class="sourceLineNo">083</span><a id="line.83">    throw new UnsupportedOperationException("Please use putInstance() instead.");</a>
-<span class="sourceLineNo">084</span><a id="line.84">  }</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">  /**</a>
-<span class="sourceLineNo">087</span><a id="line.87">   * Not supported. Use {@link #putInstance} instead.</a>
-<span class="sourceLineNo">088</span><a id="line.88">   *</a>
-<span class="sourceLineNo">089</span><a id="line.89">   * @deprecated unsupported operation</a>
-<span class="sourceLineNo">090</span><a id="line.90">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">091</span><a id="line.91">   */</a>
-<span class="sourceLineNo">092</span><a id="line.92">  @Deprecated</a>
-<span class="sourceLineNo">093</span><a id="line.93">  @Override</a>
-<span class="sourceLineNo">094</span><a id="line.94">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">095</span><a id="line.95">  public void putAll(Map&lt;? extends TypeToken&lt;? extends @NonNull B&gt;, ? extends B&gt; map) {</a>
-<span class="sourceLineNo">096</span><a id="line.96">    throw new UnsupportedOperationException("Please use putInstance() instead.");</a>
-<span class="sourceLineNo">097</span><a id="line.97">  }</a>
-<span class="sourceLineNo">098</span><a id="line.98"></a>
-<span class="sourceLineNo">099</span><a id="line.99">  @Override</a>
-<span class="sourceLineNo">100</span><a id="line.100">  public Set&lt;Entry&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt;&gt; entrySet() {</a>
-<span class="sourceLineNo">101</span><a id="line.101">    return UnmodifiableEntry.transformEntries(super.entrySet());</a>
-<span class="sourceLineNo">102</span><a id="line.102">  }</a>
-<span class="sourceLineNo">103</span><a id="line.103"></a>
-<span class="sourceLineNo">104</span><a id="line.104">  @Override</a>
-<span class="sourceLineNo">105</span><a id="line.105">  protected Map&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; delegate() {</a>
-<span class="sourceLineNo">106</span><a id="line.106">    return backingMap;</a>
-<span class="sourceLineNo">107</span><a id="line.107">  }</a>
-<span class="sourceLineNo">108</span><a id="line.108"></a>
-<span class="sourceLineNo">109</span><a id="line.109">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
-<span class="sourceLineNo">110</span><a id="line.110">  @CheckForNull</a>
-<span class="sourceLineNo">111</span><a id="line.111">  private &lt;T extends B&gt; T trustedPut(TypeToken&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
-<span class="sourceLineNo">112</span><a id="line.112">    return (T) backingMap.put(type, value);</a>
-<span class="sourceLineNo">113</span><a id="line.113">  }</a>
-<span class="sourceLineNo">114</span><a id="line.114"></a>
-<span class="sourceLineNo">115</span><a id="line.115">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
-<span class="sourceLineNo">116</span><a id="line.116">  @CheckForNull</a>
-<span class="sourceLineNo">117</span><a id="line.117">  private &lt;T extends @NonNull B&gt; T trustedGet(TypeToken&lt;T&gt; type) {</a>
-<span class="sourceLineNo">118</span><a id="line.118">    return (T) backingMap.get(type);</a>
-<span class="sourceLineNo">119</span><a id="line.119">  }</a>
-<span class="sourceLineNo">120</span><a id="line.120"></a>
-<span class="sourceLineNo">121</span><a id="line.121">  private static final class UnmodifiableEntry&lt;K, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">122</span><a id="line.122">      extends ForwardingMapEntry&lt;K, V&gt; {</a>
-<span class="sourceLineNo">123</span><a id="line.123"></a>
-<span class="sourceLineNo">124</span><a id="line.124">    private final Entry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">045</span><a id="line.45">  private final Map&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; backingMap = Maps.newHashMap();</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">  @Override</a>
+<span class="sourceLineNo">048</span><a id="line.48">  @CheckForNull</a>
+<span class="sourceLineNo">049</span><a id="line.49">  public &lt;T extends @NonNull B&gt; T getInstance(Class&lt;T&gt; type) {</a>
+<span class="sourceLineNo">050</span><a id="line.50">    return trustedGet(TypeToken.of(type));</a>
+<span class="sourceLineNo">051</span><a id="line.51">  }</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">  @Override</a>
+<span class="sourceLineNo">054</span><a id="line.54">  @CheckForNull</a>
+<span class="sourceLineNo">055</span><a id="line.55">  public &lt;T extends @NonNull B&gt; T getInstance(TypeToken&lt;T&gt; type) {</a>
+<span class="sourceLineNo">056</span><a id="line.56">    return trustedGet(type.rejectTypeVariables());</a>
+<span class="sourceLineNo">057</span><a id="line.57">  }</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
+<span class="sourceLineNo">060</span><a id="line.60">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">061</span><a id="line.61">  @CheckForNull</a>
+<span class="sourceLineNo">062</span><a id="line.62">  public &lt;T extends B&gt; T putInstance(Class&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
+<span class="sourceLineNo">063</span><a id="line.63">    return trustedPut(TypeToken.of(type), value);</a>
+<span class="sourceLineNo">064</span><a id="line.64">  }</a>
+<span class="sourceLineNo">065</span><a id="line.65"></a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Override</a>
+<span class="sourceLineNo">067</span><a id="line.67">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">068</span><a id="line.68">  @CheckForNull</a>
+<span class="sourceLineNo">069</span><a id="line.69">  public &lt;T extends B&gt; T putInstance(TypeToken&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
+<span class="sourceLineNo">070</span><a id="line.70">    return this.&lt;T&gt;trustedPut(type.rejectTypeVariables(), value);</a>
+<span class="sourceLineNo">071</span><a id="line.71">  }</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">  /**</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * Not supported. Use {@link #putInstance} instead.</a>
+<span class="sourceLineNo">075</span><a id="line.75">   *</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * @deprecated unsupported operation</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">078</span><a id="line.78">   */</a>
+<span class="sourceLineNo">079</span><a id="line.79">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">080</span><a id="line.80">  @Deprecated</a>
+<span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">083</span><a id="line.83">  @CheckForNull</a>
+<span class="sourceLineNo">084</span><a id="line.84">  public B put(TypeToken&lt;? extends @NonNull B&gt; key, @ParametricNullness B value) {</a>
+<span class="sourceLineNo">085</span><a id="line.85">    throw new UnsupportedOperationException("Please use putInstance() instead.");</a>
+<span class="sourceLineNo">086</span><a id="line.86">  }</a>
+<span class="sourceLineNo">087</span><a id="line.87"></a>
+<span class="sourceLineNo">088</span><a id="line.88">  /**</a>
+<span class="sourceLineNo">089</span><a id="line.89">   * Not supported. Use {@link #putInstance} instead.</a>
+<span class="sourceLineNo">090</span><a id="line.90">   *</a>
+<span class="sourceLineNo">091</span><a id="line.91">   * @deprecated unsupported operation</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  @Deprecated</a>
+<span class="sourceLineNo">095</span><a id="line.95">  @Override</a>
+<span class="sourceLineNo">096</span><a id="line.96">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">097</span><a id="line.97">  public void putAll(Map&lt;? extends TypeToken&lt;? extends @NonNull B&gt;, ? extends B&gt; map) {</a>
+<span class="sourceLineNo">098</span><a id="line.98">    throw new UnsupportedOperationException("Please use putInstance() instead.");</a>
+<span class="sourceLineNo">099</span><a id="line.99">  }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">  @Override</a>
+<span class="sourceLineNo">102</span><a id="line.102">  public Set&lt;Entry&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt;&gt; entrySet() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">    return UnmodifiableEntry.transformEntries(super.entrySet());</a>
+<span class="sourceLineNo">104</span><a id="line.104">  }</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  @Override</a>
+<span class="sourceLineNo">107</span><a id="line.107">  protected Map&lt;TypeToken&lt;? extends @NonNull B&gt;, B&gt; delegate() {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return backingMap;</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
+<span class="sourceLineNo">112</span><a id="line.112">  @CheckForNull</a>
+<span class="sourceLineNo">113</span><a id="line.113">  private &lt;T extends B&gt; T trustedPut(TypeToken&lt;@NonNull T&gt; type, @ParametricNullness T value) {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    return (T) backingMap.put(type, value);</a>
+<span class="sourceLineNo">115</span><a id="line.115">  }</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
+<span class="sourceLineNo">118</span><a id="line.118">  @CheckForNull</a>
+<span class="sourceLineNo">119</span><a id="line.119">  private &lt;T extends @NonNull B&gt; T trustedGet(TypeToken&lt;T&gt; type) {</a>
+<span class="sourceLineNo">120</span><a id="line.120">    return (T) backingMap.get(type);</a>
+<span class="sourceLineNo">121</span><a id="line.121">  }</a>
+<span class="sourceLineNo">122</span><a id="line.122"></a>
+<span class="sourceLineNo">123</span><a id="line.123">  private static final class UnmodifiableEntry&lt;K, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">124</span><a id="line.124">      extends ForwardingMapEntry&lt;K, V&gt; {</a>
 <span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">    static &lt;K, V extends @Nullable Object&gt; Set&lt;Entry&lt;K, V&gt;&gt; transformEntries(</a>
-<span class="sourceLineNo">127</span><a id="line.127">        Set&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
-<span class="sourceLineNo">128</span><a id="line.128">      return new ForwardingSet&lt;Map.Entry&lt;K, V&gt;&gt;() {</a>
-<span class="sourceLineNo">129</span><a id="line.129">        @Override</a>
-<span class="sourceLineNo">130</span><a id="line.130">        protected Set&lt;Entry&lt;K, V&gt;&gt; delegate() {</a>
-<span class="sourceLineNo">131</span><a id="line.131">          return entries;</a>
-<span class="sourceLineNo">132</span><a id="line.132">        }</a>
-<span class="sourceLineNo">133</span><a id="line.133"></a>
-<span class="sourceLineNo">134</span><a id="line.134">        @Override</a>
-<span class="sourceLineNo">135</span><a id="line.135">        public Iterator&lt;Entry&lt;K, V&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">136</span><a id="line.136">          return UnmodifiableEntry.transformEntries(super.iterator());</a>
-<span class="sourceLineNo">137</span><a id="line.137">        }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">        @Override</a>
-<span class="sourceLineNo">140</span><a id="line.140">        public Object[] toArray() {</a>
-<span class="sourceLineNo">141</span><a id="line.141">          /*</a>
-<span class="sourceLineNo">142</span><a id="line.142">           * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it</a>
-<span class="sourceLineNo">143</span><a id="line.143">           * can be used with collections that may contain null. This collection is a collection of</a>
-<span class="sourceLineNo">144</span><a id="line.144">           * non-null Entry objects (Entry objects that might contain null values but are not</a>
-<span class="sourceLineNo">145</span><a id="line.145">           * themselves null), so we can treat it as a plain `Object[]`.</a>
-<span class="sourceLineNo">146</span><a id="line.146">           */</a>
-<span class="sourceLineNo">147</span><a id="line.147">          @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">148</span><a id="line.148">          Object[] result = standardToArray();</a>
-<span class="sourceLineNo">149</span><a id="line.149">          return result;</a>
-<span class="sourceLineNo">150</span><a id="line.150">        }</a>
-<span class="sourceLineNo">151</span><a id="line.151"></a>
-<span class="sourceLineNo">152</span><a id="line.152">        @Override</a>
-<span class="sourceLineNo">153</span><a id="line.153">        @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
-<span class="sourceLineNo">154</span><a id="line.154">        public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
-<span class="sourceLineNo">155</span><a id="line.155">          return standardToArray(array);</a>
-<span class="sourceLineNo">156</span><a id="line.156">        }</a>
-<span class="sourceLineNo">157</span><a id="line.157">      };</a>
-<span class="sourceLineNo">158</span><a id="line.158">    }</a>
-<span class="sourceLineNo">159</span><a id="line.159"></a>
-<span class="sourceLineNo">160</span><a id="line.160">    private static &lt;K, V extends @Nullable Object&gt; Iterator&lt;Entry&lt;K, V&gt;&gt; transformEntries(</a>
-<span class="sourceLineNo">161</span><a id="line.161">        Iterator&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">      return Iterators.transform(entries, UnmodifiableEntry::new);</a>
-<span class="sourceLineNo">163</span><a id="line.163">    }</a>
-<span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">    private UnmodifiableEntry(Entry&lt;K, V&gt; delegate) {</a>
-<span class="sourceLineNo">166</span><a id="line.166">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">167</span><a id="line.167">    }</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">    @Override</a>
-<span class="sourceLineNo">170</span><a id="line.170">    protected Entry&lt;K, V&gt; delegate() {</a>
-<span class="sourceLineNo">171</span><a id="line.171">      return delegate;</a>
-<span class="sourceLineNo">172</span><a id="line.172">    }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    @Override</a>
-<span class="sourceLineNo">175</span><a id="line.175">    @ParametricNullness</a>
-<span class="sourceLineNo">176</span><a id="line.176">    public V setValue(@ParametricNullness V value) {</a>
-<span class="sourceLineNo">177</span><a id="line.177">      throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">178</span><a id="line.178">    }</a>
-<span class="sourceLineNo">179</span><a id="line.179">  }</a>
-<span class="sourceLineNo">180</span><a id="line.180">}</a>
+<span class="sourceLineNo">126</span><a id="line.126">    private final Entry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">    static &lt;K, V extends @Nullable Object&gt; Set&lt;Entry&lt;K, V&gt;&gt; transformEntries(</a>
+<span class="sourceLineNo">129</span><a id="line.129">        Set&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      return new ForwardingSet&lt;Map.Entry&lt;K, V&gt;&gt;() {</a>
+<span class="sourceLineNo">131</span><a id="line.131">        @Override</a>
+<span class="sourceLineNo">132</span><a id="line.132">        protected Set&lt;Entry&lt;K, V&gt;&gt; delegate() {</a>
+<span class="sourceLineNo">133</span><a id="line.133">          return entries;</a>
+<span class="sourceLineNo">134</span><a id="line.134">        }</a>
+<span class="sourceLineNo">135</span><a id="line.135"></a>
+<span class="sourceLineNo">136</span><a id="line.136">        @Override</a>
+<span class="sourceLineNo">137</span><a id="line.137">        public Iterator&lt;Entry&lt;K, V&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">138</span><a id="line.138">          return UnmodifiableEntry.transformEntries(super.iterator());</a>
+<span class="sourceLineNo">139</span><a id="line.139">        }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">        @Override</a>
+<span class="sourceLineNo">142</span><a id="line.142">        public Object[] toArray() {</a>
+<span class="sourceLineNo">143</span><a id="line.143">          /*</a>
+<span class="sourceLineNo">144</span><a id="line.144">           * standardToArray returns `@Nullable Object[]` rather than `Object[]` but only because it</a>
+<span class="sourceLineNo">145</span><a id="line.145">           * can be used with collections that may contain null. This collection is a collection of</a>
+<span class="sourceLineNo">146</span><a id="line.146">           * non-null Entry objects (Entry objects that might contain null values but are not</a>
+<span class="sourceLineNo">147</span><a id="line.147">           * themselves null), so we can treat it as a plain `Object[]`.</a>
+<span class="sourceLineNo">148</span><a id="line.148">           */</a>
+<span class="sourceLineNo">149</span><a id="line.149">          @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">150</span><a id="line.150">          Object[] result = standardToArray();</a>
+<span class="sourceLineNo">151</span><a id="line.151">          return result;</a>
+<span class="sourceLineNo">152</span><a id="line.152">        }</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">        @Override</a>
+<span class="sourceLineNo">155</span><a id="line.155">        @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
+<span class="sourceLineNo">156</span><a id="line.156">        public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
+<span class="sourceLineNo">157</span><a id="line.157">          return standardToArray(array);</a>
+<span class="sourceLineNo">158</span><a id="line.158">        }</a>
+<span class="sourceLineNo">159</span><a id="line.159">      };</a>
+<span class="sourceLineNo">160</span><a id="line.160">    }</a>
+<span class="sourceLineNo">161</span><a id="line.161"></a>
+<span class="sourceLineNo">162</span><a id="line.162">    private static &lt;K, V extends @Nullable Object&gt; Iterator&lt;Entry&lt;K, V&gt;&gt; transformEntries(</a>
+<span class="sourceLineNo">163</span><a id="line.163">        Iterator&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
+<span class="sourceLineNo">164</span><a id="line.164">      return Iterators.transform(entries, UnmodifiableEntry::new);</a>
+<span class="sourceLineNo">165</span><a id="line.165">    }</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">    private UnmodifiableEntry(Entry&lt;K, V&gt; delegate) {</a>
+<span class="sourceLineNo">168</span><a id="line.168">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">169</span><a id="line.169">    }</a>
+<span class="sourceLineNo">170</span><a id="line.170"></a>
+<span class="sourceLineNo">171</span><a id="line.171">    @Override</a>
+<span class="sourceLineNo">172</span><a id="line.172">    protected Entry&lt;K, V&gt; delegate() {</a>
+<span class="sourceLineNo">173</span><a id="line.173">      return delegate;</a>
+<span class="sourceLineNo">174</span><a id="line.174">    }</a>
+<span class="sourceLineNo">175</span><a id="line.175"></a>
+<span class="sourceLineNo">176</span><a id="line.176">    @Override</a>
+<span class="sourceLineNo">177</span><a id="line.177">    @ParametricNullness</a>
+<span class="sourceLineNo">178</span><a id="line.178">    public V setValue(@ParametricNullness V value) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">180</span><a id="line.180">    }</a>
+<span class="sourceLineNo">181</span><a id="line.181">  }</a>
+<span class="sourceLineNo">182</span><a id="line.182">}</a>
 
 
 

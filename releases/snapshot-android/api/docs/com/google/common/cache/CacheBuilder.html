@@ -1050,7 +1050,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>removalListener</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.990">removalListener</a>&#8203;(<a href="RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;listener)</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.989">removalListener</a>&#8203;(<a href="RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;listener)</pre>
 <div class="block">Specifies a listener instance that caches should notify each time an entry is removed for any
  <a href="RemovalCause.html" title="enum in com.google.common.cache">reason</a>. Each cache created by this builder will invoke this listener
  as part of the routine maintenance described in the class documentation above.
@@ -1081,7 +1081,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>recordStats</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1017">recordStats</a>()</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1016">recordStats</a>()</pre>
 <div class="block">Enable the accumulation of <a href="CacheStats.html" title="class in com.google.common.cache"><code>CacheStats</code></a> during the operation of the cache. Without this
  <a href="Cache.html#stats()"><code>Cache.stats()</code></a> will return zero for all statistics. Note that recording stats requires
  bookkeeping to be performed with each operation, and thus imposes a performance penalty on
@@ -1100,7 +1100,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1043">build</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,&#8203;V1&gt;&nbsp;loader)</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1042">build</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,&#8203;V1&gt;&nbsp;loader)</pre>
 <div class="block">Builds a cache, which either returns an already-loaded value for a given key or atomically
  computes or retrieves it using the supplied <code>CacheLoader</code>. If another thread is currently
  loading the value for this key, simply waits for that thread to finish and returns its loaded
@@ -1122,7 +1122,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1061">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1060">build</a>()</pre>
 <div class="block">Builds a cache which does not automatically load values when keys are requested.
 
  <p>Consider <a href="#build(com.google.common.cache.CacheLoader)"><code>build(CacheLoader)</code></a> instead, if it is feasible to implement a <code>
@@ -1144,7 +1144,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1090">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1089">toString</a>()</pre>
 <div class="block">Returns a string representation for this CacheBuilder instance. The exact form of the returned
  string is not specified.</div>
 <dl>

@@ -8501,7 +8501,6 @@
 
  @return the cache builder reference that should be used instead of {@code this} for any
      remaining configuration and cache building
- @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalStateException if a removal listener was already set]]>
       </doc>
     </method>
@@ -15804,6 +15803,9 @@
     <constructor name="ForwardingSetMultimap"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="delegate" return="com.google.common.collect.SetMultimap&lt;K, V&gt;"
       abstract="true" native="false" synchronized="false"
@@ -17486,6 +17488,9 @@
     <constructor name="Builder"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Creates a new builder.]]>
+      </doc>
     </constructor>
     <method name="put" return="com.google.common.collect.ImmutableClassToInstanceMap.Builder&lt;B&gt;"
       abstract="false" native="false" synchronized="false"
@@ -38041,6 +38046,9 @@
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="using" return="com.google.common.collect.TreeTraverser&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
@@ -39484,6 +39492,9 @@
     <constructor name="AbstractGraph"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -39523,6 +39534,9 @@
     <constructor name="AbstractNetwork"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="asGraph" return="com.google.common.graph.Graph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -39703,6 +39717,9 @@
     <constructor name="AbstractValueGraph"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="asGraph" return="com.google.common.graph.Graph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -50527,7 +50544,12 @@
     deprecated="not deprecated">
     <constructor name="LinearTransformation"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Create instances by using the static factory methods of the class.">
+      <doc>
+      <![CDATA[Constructor for use by subclasses inside Guava.
+
+ @deprecated Create instances by using the static factory methods of the class.]]>
+      </doc>
     </constructor>
     <method name="mapping" return="com.google.common.math.LinearTransformation.LinearTransformationBuilder"
       abstract="false" native="false" synchronized="false"
@@ -51251,6 +51273,9 @@
     <constructor name="PairedStatsAccumulator"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Creates a new accumulator.]]>
+      </doc>
     </constructor>
     <method name="add"
       abstract="false" native="false" synchronized="false"
@@ -51414,7 +51439,14 @@
     deprecated="not deprecated">
     <constructor name="Quantiles"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use the static factory methods of the class. There is no reason to create an
+     instance of {@link Quantiles}.">
+      <doc>
+      <![CDATA[Constructor for a type that is not meant to be instantiated.
+
+ @deprecated Use the static factory methods of the class. There is no reason to create an
+     instance of {@link Quantiles}.]]>
+      </doc>
     </constructor>
     <method name="median" return="com.google.common.math.Quantiles.ScaleAndIndex"
       abstract="false" native="false" synchronized="false"
@@ -52254,6 +52286,9 @@
     <constructor name="StatsAccumulator"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Creates a new accumulator.]]>
+      </doc>
     </constructor>
     <method name="add"
       abstract="false" native="false" synchronized="false"
@@ -63447,6 +63482,9 @@
     <constructor name="AbstractInvocationHandler"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="invoke" return="java.lang.Object"
       abstract="false" native="false" synchronized="false"
@@ -64310,6 +64348,9 @@
     <constructor name="MutableTypeToInstanceMap"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Creats a new map.]]>
+      </doc>
     </constructor>
     <method name="getInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
@@ -65851,6 +65892,9 @@
     <constructor name="AbstractListeningExecutorService"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="newTaskFor" return="java.util.concurrent.RunnableFuture&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
@@ -66162,6 +66206,9 @@
     <constructor name="CustomScheduler"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="getNextSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler.Schedule"
       abstract="true" native="false" synchronized="false"
@@ -69790,6 +69837,9 @@
     <constructor name="FakeTimeLimiter"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Creates a new {@link FakeTimeLimiter}.]]>
+      </doc>
     </constructor>
     <method name="newProxy" return="T"
       abstract="false" native="false" synchronized="false"
@@ -73972,6 +74022,9 @@
     <constructor name="Listener"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="starting"
       abstract="false" native="false" synchronized="false"
@@ -74359,6 +74412,9 @@
     <constructor name="Listener"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="healthy"
       abstract="false" native="false" synchronized="false"

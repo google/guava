@@ -164,7 +164,9 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">PairedStatsAccumulator</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new accumulator.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -288,7 +290,8 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>PairedStatsAccumulator</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.36">PairedStatsAccumulator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.38">PairedStatsAccumulator</a>()</pre>
+<div class="block">Creates a new accumulator.</div>
 </li>
 </ul>
 </li>
@@ -307,7 +310,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.45">add</a>&#8203;(double&nbsp;x,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.47">add</a>&#8203;(double&nbsp;x,
                 double&nbsp;y)</pre>
 <div class="block">Adds the given pair of values to the dataset.</div>
 </li>
@@ -318,7 +321,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.72">addAll</a>&#8203;(<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.74">addAll</a>&#8203;(<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;values)</pre>
 <div class="block">Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.</div>
 </li>
@@ -329,7 +332,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>snapshot</h4>
-<pre class="methodSignature">public&nbsp;<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.94">snapshot</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.96">snapshot</a>()</pre>
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </li>
 </ul>
@@ -339,7 +342,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.99">count</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.101">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -349,7 +352,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.104">xStats</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.106">xStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -359,7 +362,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.109">yStats</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.111">yStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -369,7 +372,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.127">populationCovariance</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.129">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
@@ -391,7 +394,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.145">sampleCovariance</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.147">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -412,7 +415,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.166">pearsonsCorrelationCoefficient</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.168">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
  the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e. <code>
@@ -436,7 +439,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre class="methodSignature">public final&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.213">leastSquaresFit</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.215">leastSquaresFit</a>()</pre>
 <div class="block">Returns a linear transformation giving the best fit to the data according to <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
  either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e. <code>

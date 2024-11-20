@@ -49,45 +49,47 @@
 <span class="sourceLineNo">040</span><a id="line.40">@ElementTypesAreNonnullByDefault</a>
 <span class="sourceLineNo">041</span><a id="line.41">public abstract class AbstractListeningExecutorService extends AbstractExecutorService</a>
 <span class="sourceLineNo">042</span><a id="line.42">    implements ListeningExecutorService {</a>
-<span class="sourceLineNo">043</span><a id="line.43"></a>
-<span class="sourceLineNo">044</span><a id="line.44">  /**</a>
-<span class="sourceLineNo">045</span><a id="line.45">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</a>
-<span class="sourceLineNo">046</span><a id="line.46">   */</a>
-<span class="sourceLineNo">047</span><a id="line.47">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">048</span><a id="line.48">  @Override</a>
-<span class="sourceLineNo">049</span><a id="line.49">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(</a>
-<span class="sourceLineNo">050</span><a id="line.50">      Runnable runnable, @ParametricNullness T value) {</a>
-<span class="sourceLineNo">051</span><a id="line.51">    return TrustedListenableFutureTask.create(runnable, value);</a>
-<span class="sourceLineNo">052</span><a id="line.52">  }</a>
-<span class="sourceLineNo">053</span><a id="line.53"></a>
-<span class="sourceLineNo">054</span><a id="line.54">  /**</a>
-<span class="sourceLineNo">055</span><a id="line.55">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</a>
-<span class="sourceLineNo">056</span><a id="line.56">   */</a>
-<span class="sourceLineNo">057</span><a id="line.57">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
-<span class="sourceLineNo">059</span><a id="line.59">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(Callable&lt;T&gt; callable) {</a>
-<span class="sourceLineNo">060</span><a id="line.60">    return TrustedListenableFutureTask.create(callable);</a>
-<span class="sourceLineNo">061</span><a id="line.61">  }</a>
-<span class="sourceLineNo">062</span><a id="line.62"></a>
-<span class="sourceLineNo">063</span><a id="line.63">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
-<span class="sourceLineNo">065</span><a id="line.65">  public ListenableFuture&lt;?&gt; submit(Runnable task) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">    return (ListenableFuture&lt;?&gt;) super.submit(task);</a>
-<span class="sourceLineNo">067</span><a id="line.67">  }</a>
-<span class="sourceLineNo">068</span><a id="line.68"></a>
-<span class="sourceLineNo">069</span><a id="line.69">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
-<span class="sourceLineNo">071</span><a id="line.71">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(</a>
-<span class="sourceLineNo">072</span><a id="line.72">      Runnable task, @ParametricNullness T result) {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    return (ListenableFuture&lt;T&gt;) super.submit(task, result);</a>
-<span class="sourceLineNo">074</span><a id="line.74">  }</a>
-<span class="sourceLineNo">075</span><a id="line.75"></a>
-<span class="sourceLineNo">076</span><a id="line.76">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
-<span class="sourceLineNo">078</span><a id="line.78">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(Callable&lt;T&gt; task) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    return (ListenableFuture&lt;T&gt;) super.submit(task);</a>
-<span class="sourceLineNo">080</span><a id="line.80">  }</a>
-<span class="sourceLineNo">081</span><a id="line.81">}</a>
+<span class="sourceLineNo">043</span><a id="line.43">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">044</span><a id="line.44">  public AbstractListeningExecutorService() {}</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  /**</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</a>
+<span class="sourceLineNo">048</span><a id="line.48">   */</a>
+<span class="sourceLineNo">049</span><a id="line.49">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">050</span><a id="line.50">  @Override</a>
+<span class="sourceLineNo">051</span><a id="line.51">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(</a>
+<span class="sourceLineNo">052</span><a id="line.52">      Runnable runnable, @ParametricNullness T value) {</a>
+<span class="sourceLineNo">053</span><a id="line.53">    return TrustedListenableFutureTask.create(runnable, value);</a>
+<span class="sourceLineNo">054</span><a id="line.54">  }</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  /**</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</a>
+<span class="sourceLineNo">058</span><a id="line.58">   */</a>
+<span class="sourceLineNo">059</span><a id="line.59">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">060</span><a id="line.60">  @Override</a>
+<span class="sourceLineNo">061</span><a id="line.61">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(Callable&lt;T&gt; callable) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">    return TrustedListenableFutureTask.create(callable);</a>
+<span class="sourceLineNo">063</span><a id="line.63">  }</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Override</a>
+<span class="sourceLineNo">067</span><a id="line.67">  public ListenableFuture&lt;?&gt; submit(Runnable task) {</a>
+<span class="sourceLineNo">068</span><a id="line.68">    return (ListenableFuture&lt;?&gt;) super.submit(task);</a>
+<span class="sourceLineNo">069</span><a id="line.69">  }</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @Override</a>
+<span class="sourceLineNo">073</span><a id="line.73">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(</a>
+<span class="sourceLineNo">074</span><a id="line.74">      Runnable task, @ParametricNullness T result) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">    return (ListenableFuture&lt;T&gt;) super.submit(task, result);</a>
+<span class="sourceLineNo">076</span><a id="line.76">  }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
+<span class="sourceLineNo">080</span><a id="line.80">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(Callable&lt;T&gt; task) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">    return (ListenableFuture&lt;T&gt;) super.submit(task);</a>
+<span class="sourceLineNo">082</span><a id="line.82">  }</a>
+<span class="sourceLineNo">083</span><a id="line.83">}</a>
 
 
 
