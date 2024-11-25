@@ -1504,68 +1504,62 @@
     <field name="US_ASCII" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#US_ASCII} instead.">
       <doc>
       <![CDATA[US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#US_ASCII} instead.]]>
+ @deprecated Use {@link StandardCharsets#US_ASCII} instead.]]>
       </doc>
     </field>
     <field name="ISO_8859_1" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#ISO_8859_1} instead.">
       <doc>
       <![CDATA[ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#ISO_8859_1} instead.]]>
+ @deprecated Use {@link StandardCharsets#ISO_8859_1} instead.]]>
       </doc>
     </field>
     <field name="UTF_8" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#UTF_8} instead.">
       <doc>
       <![CDATA[UTF-8: eight-bit UCS Transformation Format.
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#UTF_8} instead.]]>
+ @deprecated Use {@link StandardCharsets#UTF_8} instead.]]>
       </doc>
     </field>
     <field name="UTF_16BE" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#UTF_16BE} instead.">
       <doc>
       <![CDATA[UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#UTF_16BE} instead.]]>
+ @deprecated Use {@link StandardCharsets#UTF_16BE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16LE" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#UTF_16LE} instead.">
       <doc>
       <![CDATA[UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#UTF_16LE} instead.]]>
+ @deprecated Use {@link StandardCharsets#UTF_16LE} instead.]]>
       </doc>
     </field>
     <field name="UTF_16" type="java.nio.charset.Charset"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link StandardCharsets#UTF_16} instead.">
       <doc>
       <![CDATA[UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
  mark.
 
- <p><b>Note:</b> this constant is now unnecessary and should be treated as deprecated; use
- {@link StandardCharsets#UTF_16} instead.]]>
+ @deprecated Use {@link StandardCharsets#UTF_16} instead.]]>
       </doc>
     </field>
     <doc>
