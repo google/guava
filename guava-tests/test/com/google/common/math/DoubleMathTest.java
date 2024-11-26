@@ -356,13 +356,8 @@ public class DoubleMathTest extends TestCase {
       for (RoundingMode mode : asList(HALF_EVEN, HALF_UP, HALF_DOWN)) {
         double x = Math.scalb(Math.sqrt(2) + 0.001, exp);
         double y = Math.scalb(Math.sqrt(2) - 0.001, exp);
-        if (exp < 0) {
-          assertEquals(exp + 1, DoubleMath.log2(x, mode));
-          assertEquals(exp, DoubleMath.log2(y, mode));
-        } else {
-          assertEquals(exp + 1, DoubleMath.log2(x, mode));
-          assertEquals(exp, DoubleMath.log2(y, mode));
-        }
+        assertEquals(exp + 1, DoubleMath.log2(x, mode));
+        assertEquals(exp, DoubleMath.log2(y, mode));
       }
     }
   }

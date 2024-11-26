@@ -11,7 +11,7 @@ val expectedReducedRuntimeClasspathAndroidVersion =
     "j2objc-annotations-3.0.0.jar",
     "jsr305-3.0.2.jar",
     "checker-qual-3.43.0.jar",
-    "error_prone_annotations-2.28.0.jar",
+    "error_prone_annotations-2.36.0.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
@@ -21,7 +21,7 @@ val expectedReducedRuntimeClasspathJreVersion =
     "j2objc-annotations-3.0.0.jar",
     "jsr305-3.0.2.jar",
     "checker-qual-3.43.0.jar",
-    "error_prone_annotations-2.28.0.jar",
+    "error_prone_annotations-2.36.0.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion = expectedReducedRuntimeClasspathAndroidVersion
