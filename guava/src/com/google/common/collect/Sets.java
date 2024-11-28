@@ -421,6 +421,24 @@ public final class Sets {
   }
 
   /**
+   * Creates a <i>mutable</i> {@code TreeSet} instance containing the given elements sorted by their
+   * natural ordering.
+   *
+   * <p>This method is just a small convenience for creating an empty set and then calling {@link
+   * Collections#addAll}.
+   *
+   * @param elements the elements that the set should contain
+   * @return a new {@code TreeSet} containing those elements (minus duplicates)
+   */
+  public static <E> TreeSet<E> newTreeSet(E... elements) {
+    TreeSet<E> set = new TreeSet<>();
+    if (elements != null) {
+      Collections.addAll(set, elements);
+    }
+    return set;
+  }
+
+  /**
    * Creates a <i>mutable</i>, empty {@code TreeSet} instance with the given comparator.
    *
    * <p><b>Note:</b> if mutability is not required, use {@code
