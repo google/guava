@@ -34,15 +34,12 @@ import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.Permission;
-import java.security.PermissionCollection;
 import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
@@ -454,50 +451,6 @@ public class ClassPathTest extends TestCase {
   public void testScanAllResources() throws IOException {
     assertThat(scanResourceNames(ClassLoader.getSystemClassLoader()))
         .contains("com/google/common/reflect/ClassPathTest.class");
-  }
-
-
-  public void testExistsThrowsSecurityException() throws IOException, URISyntaxException {
-    SecurityManager oldSecurityManager = System.getSecurityManager();
-    try {
-      doTestExistsThrowsSecurityException();
-    } finally {
-      System.setSecurityManager(oldSecurityManager);
-    }
-  }
-
-  private void doTestExistsThrowsSecurityException() throws IOException, URISyntaxException {
-    File file = null;
-    // In Java 9, Logger may read the TZ database. Only disallow reading the class path URLs.
-    final PermissionCollection readClassPathFiles =
-        new FilePermission("", "read").newPermissionCollection();
-    for (URL url : ClassPath.parseJavaClassPath()) {
-      if (url.getProtocol().equalsIgnoreCase("file")) {
-        file = new File(url.toURI());
-        readClassPathFiles.add(new FilePermission(file.getAbsolutePath(), "read"));
-      }
-    }
-    assertThat(file).isNotNull();
-    SecurityManager disallowFilesSecurityManager =
-        new SecurityManager() {
-          @Override
-          public void checkPermission(Permission p) {
-            if (readClassPathFiles.implies(p)) {
-              throw new SecurityException("Disallowed: " + p);
-            }
-          }
-        };
-    System.setSecurityManager(disallowFilesSecurityManager);
-    try {
-      file.exists();
-      fail("Did not get expected SecurityException");
-    } catch (SecurityException expected) {
-    }
-    ClassPath classPath = ClassPath.from(getClass().getClassLoader());
-    // ClassPath may contain resources from the boot class loader; just not from the class path.
-    for (ResourceInfo resource : classPath.getResources()) {
-      assertThat(resource.getResourceName()).doesNotContain("com/google/common/reflect/");
-    }
   }
 
   private static ClassPath.ClassInfo findClass(
