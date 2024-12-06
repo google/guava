@@ -380,25 +380,6 @@ public class ThrowablesTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // lazyStackTrace
-  private void doTestLazyStackTraceFallback() {
-    assertFalse(lazyStackTraceIsLazy());
-
-    Exception e = new Exception();
-
-    assertThat(lazyStackTrace(e)).containsExactly((Object[]) e.getStackTrace()).inOrder();
-
-    try {
-      lazyStackTrace(e).set(0, null);
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
-
-    e.setStackTrace(new StackTraceElement[0]);
-    assertThat(lazyStackTrace(e)).isEmpty();
-  }
-
-  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
