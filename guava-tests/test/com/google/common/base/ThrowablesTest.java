@@ -29,6 +29,7 @@ import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.base.Throwables.propagateIfPossible;
 import static com.google.common.base.Throwables.throwIfInstanceOf;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.regex.Pattern.quote;
 
@@ -41,9 +42,15 @@ import com.google.common.base.TestExceptions.SomeError;
 import com.google.common.base.TestExceptions.SomeOtherCheckedException;
 import com.google.common.base.TestExceptions.SomeUncheckedException;
 import com.google.common.base.TestExceptions.YetAnotherCheckedException;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
+import java.io.UncheckedIOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import junit.framework.TestCase;
 
@@ -381,21 +388,61 @@ public class ThrowablesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // lazyStackTrace
-  private void doTestLazyStackTraceFallback() {
-    assertFalse(lazyStackTraceIsLazy());
+  public void testLazyStackTraceFallback() throws Exception {
+    // Make a parallel class loader that has the same classpath as the current class loader, but
+    // won't load classes from the sun.misc package. This test assumes that the Throwables class
+    // is coming from the classpath, which is a reasonable assumption for most test environments.
+    ImmutableList<URL> classPath =
+        Splitter.on(':')
+            .splitToStream(StandardSystemProperty.JAVA_CLASS_PATH.value())
+            .map(
+                s -> {
+                  try {
+                    if (!s.startsWith("/")) {
+                      s = StandardSystemProperty.USER_DIR.value() + "/" + s;
+                    }
+                    return new URL("file://" + s);
+                  } catch (MalformedURLException e) {
+                    throw new UncheckedIOException(e);
+                  }
+                })
+            .collect(toImmutableList());
+    URL[] urls = classPath.toArray(new URL[0]);
+    ClassLoader parallelLoader =
+        new URLClassLoader(urls, getClass().getClassLoader().getParent()) {
+          @Override
+          public Class<?> loadClass(String name) throws ClassNotFoundException {
+            if (name.startsWith("sun.misc")) {
+              throw new ClassNotFoundException(name);
+            }
+            return super.loadClass(name);
+          }
+        };
 
-    Exception e = new Exception();
-
-    assertThat(lazyStackTrace(e)).containsExactly((Object[]) e.getStackTrace()).inOrder();
-
+    // Now load a second version of the Throwables class from the parallel class loader and use
+    // reflection to call its methods.
+    Class<?> parallelThrowables = parallelLoader.loadClass(Throwables.class.getCanonicalName());
+    assertThat(parallelThrowables).isNotSameInstanceAs(Throwables.class);
+    Class.forName("sun.misc.Unsafe");
     try {
-      lazyStackTrace(e).set(0, null);
+      parallelLoader.loadClass("sun.misc.Unsafe");
       fail();
-    } catch (UnsupportedOperationException expected) {
+    } catch (ClassNotFoundException expected) {
+      // Expected: the whole point is for the parallel loader not to load sun.misc classes.
     }
 
+    Method lazyStackTraceIsLazy = parallelThrowables.getMethod("lazyStackTraceIsLazy");
+    assertThat((Boolean) lazyStackTraceIsLazy.invoke(null)).isFalse();
+
+    Method lazyStackTrace = parallelThrowables.getMethod("lazyStackTrace", Throwable.class);
+    Exception e = new Exception();
+    List<?> lazyStackTraceResult = (List<?>) lazyStackTrace.invoke(null, e);
+    assertThat(lazyStackTraceResult).containsExactlyElementsIn(e.getStackTrace()).inOrder();
+
+    assertThrows(UnsupportedOperationException.class, () -> lazyStackTraceResult.set(0, null));
+
     e.setStackTrace(new StackTraceElement[0]);
-    assertThat(lazyStackTrace(e)).isEmpty();
+    assertThat((List<?>) lazyStackTrace.invoke(null, e)).isEmpty();
   }
 
   @J2ktIncompatible
