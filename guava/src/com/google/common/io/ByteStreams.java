@@ -332,9 +332,11 @@ public final class ByteStreams {
 
   private static class ByteArrayDataInputStream implements ByteArrayDataInput {
     final DataInput input;
+    final InputStream inputStream;
 
     ByteArrayDataInputStream(ByteArrayInputStream byteArrayInputStream) {
       this.input = new DataInputStream(byteArrayInputStream);
+      this.inputStream = byteArrayInputStream;
     }
 
     @Override
@@ -470,6 +472,20 @@ public final class ByteStreams {
     public String readUTF() {
       try {
         return input.readUTF();
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+
+    @Override
+    public void mark(int readlimit) {
+      inputStream.mark(readlimit);
+    }
+
+    @Override
+    public void reset() {
+      try {
+        inputStream.reset();
       } catch (IOException e) {
         throw new IllegalStateException(e);
       }
