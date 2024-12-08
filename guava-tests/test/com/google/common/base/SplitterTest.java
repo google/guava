@@ -722,6 +722,18 @@ public class SplitterTest extends TestCase {
     assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
+  public void testMapSplitter_ValueContainKeyValueSeparator() {
+    Map<String, String> m = Splitter
+        .on(",")
+        .withKeyValueSeparator(':')
+        .split("boy:tom:tommy,girl:tina,cat:kitty,dog:tommy");
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of("boy", "tom:tommy", "girl", "tina", "cat", "kitty", "dog", "tommy");
+
+    assertThat(m).isEqualTo(expected);
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
+  }
+
   public void testMapSplitter_multiCharacterSeparator() {
     // try different delimiters.
     Map<String, String> m =
