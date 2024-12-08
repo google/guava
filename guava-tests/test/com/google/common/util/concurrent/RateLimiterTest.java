@@ -32,6 +32,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -471,6 +472,38 @@ public class RateLimiterTest extends TestCase {
     stopwatch.sleepMillis(5000);
     assertFalse(
         "Should not acquire additional permit even after sleeping", rateLimiter.tryAcquire());
+  }
+
+  public void testDurationToNextPermit() {
+    RateLimiter limiter = RateLimiter.create(1.0, stopwatch);
+    assertEquals("Initial duration to next permit is Duration.ZERO",
+            limiter.durationToNextPermit(),
+            Duration.ZERO);
+    limiter.acquire();
+    assertEquals("After acquire the duration to the next permit reflects permits per second",
+            limiter.durationToNextPermit(),
+            Duration.ofSeconds(1));
+    stopwatch.sleepMillis(2_000);
+    assertEquals("Negative duration to next permit returns Duration.ZERO",
+            limiter.durationToNextPermit(),
+            Duration.ZERO);
+  }
+
+  public void testCanAcquire() {
+    RateLimiter limiter = RateLimiter.create(1.0, stopwatch);
+    assertTrue("Initial can acquire is true", limiter.canAcquire());
+    limiter.acquire();
+    assertFalse("Can acquire is false when a permit is not available", limiter.canAcquire());
+  }
+
+  public void testCanAcquireWithDuration() {
+    RateLimiter limiter = RateLimiter.create(0.5, stopwatch);
+    assertTrue("Initial can acquire with duration is true", limiter.canAcquire(Duration.ofSeconds(1)));
+    limiter.acquire();
+    assertFalse("Can acquire is false when permit is not available within the given duration",
+            limiter.canAcquire(Duration.ofSeconds(1)));
+    assertTrue("Can acquire is true when permit is available within the given duration",
+            limiter.canAcquire(Duration.ofSeconds(2)));
   }
 
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {
