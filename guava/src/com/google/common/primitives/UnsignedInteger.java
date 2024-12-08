@@ -119,6 +119,23 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
+   * Returns the result of the bitwise logical <i>and</i> operation with {@code val}.
+   */
+  public UnsignedInteger and(UnsignedInteger val) { return fromIntBits(this.value & checkNotNull(val).value); }
+
+  /**
+   * Returns the result of bitwise logical <i>or</i> operation with{@code val}.
+   */
+  public UnsignedInteger or(UnsignedInteger val) {
+    return fromIntBits(this.value | checkNotNull(val).value);
+  }
+
+  /**
+   * Returns the result of the bitwise logical <i>xor</i> operation with {@code val}.
+   */
+  public UnsignedInteger xor(UnsignedInteger val) { return fromIntBits(this.value ^ checkNotNull(val).value); }
+
+  /**
    * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
    * returns the low 32 bits of the result.
    *
