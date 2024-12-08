@@ -41,7 +41,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class BytesTest extends TestCase {
   private static final byte[] EMPTY = {};
   private static final byte[] ARRAY1 = {(byte) 1};
+  private static final byte[] ARRAY2 = {(byte) 2};
+  private static final byte[] ARRAY3 = {(byte) 3};
+  private static final byte[] ARRAY4 = {(byte) 4};
+  private static final byte[] ARRAY23 = {(byte) 2, (byte) 3};
+  private static final byte[] ARRAY34 = {(byte) 3, (byte) 4};
   private static final byte[] ARRAY234 = {(byte) 2, (byte) 3, (byte) 4};
+  private static final byte[] ARRAY234234 = {(byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3, (byte) 4};
 
   private static final byte[] VALUES = {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE};
 
@@ -71,6 +77,30 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.indexOf(ARRAY234, (byte) 4)).isEqualTo(2);
     assertThat(Bytes.indexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3))
         .isEqualTo(1);
+  }
+  
+  public void testIndexOf_fromIndex() {
+	  assertThat(Bytes.indexOf(EMPTY, (byte) 1, 0)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(EMPTY, (byte) 1, 10)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(EMPTY, (byte) 1, -10)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY1, (byte) 2, 0)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY1, (byte) 1, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 1, 0)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 2, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 2, 2)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 2)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 4, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 4, 4)).isEqualTo(-1);
+	  
+	  assertThat(Bytes.indexOf(ARRAY1, (byte) 1, -1)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(new byte[] {(byte) -1}, (byte) -1, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 2, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 0)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 4, 0)).isEqualTo(2);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 4, 1)).isEqualTo(2);
+	  assertThat(Bytes.indexOf(ARRAY234, (byte) 4, 2)).isEqualTo(2);
   }
 
   public void testIndexOf_arrayTarget() {
@@ -106,6 +136,64 @@ public class BytesTest extends TestCase {
                 new byte[] {(byte) 2, (byte) 3, (byte) 4}))
         .isEqualTo(-1);
   }
+  
+  public void testIndexOf_arrayTarget_fromIndex() {
+	  assertThat(Bytes.indexOf(EMPTY, EMPTY, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(EMPTY, EMPTY, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(EMPTY, EMPTY, -1)).isEqualTo(0);
+	  
+	  assertThat(Bytes.indexOf(EMPTY, ARRAY234, 0)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(EMPTY, ARRAY234, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(EMPTY, ARRAY234, -1)).isEqualTo(-1);
+	  
+	  assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 2)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY1, ARRAY1, -1)).isEqualTo(0);
+	  
+	  assertThat(Bytes.indexOf(ARRAY234, EMPTY, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, EMPTY, 1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, EMPTY, 2)).isEqualTo(2);
+	  assertThat(Bytes.indexOf(ARRAY234, EMPTY, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, EMPTY, -1)).isEqualTo(0);
+	  
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY1, 0)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY1, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY1, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY1, -1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY2, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY2, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY2, -1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY3, 0)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY3, 1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY3, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY3, -1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY4, 0)).isEqualTo(2);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY4, 2)).isEqualTo(2);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY4, 3)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY4, -1)).isEqualTo(2);
+	  
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY23, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY23, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY23, -1)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY34, 0)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY34, 1)).isEqualTo(1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY34, 2)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY34, -1)).isEqualTo(1);
+	  
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY234, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY234, 1)).isEqualTo(-1);
+	  assertThat(Bytes.indexOf(ARRAY234, ARRAY234, -1)).isEqualTo(0);
+	  
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 0)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 1)).isEqualTo(3);
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, -1)).isEqualTo(0);
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 2)).isEqualTo(3);
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 3)).isEqualTo(3);
+	  assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 4)).isEqualTo(-1);
+	  
+	  
+  }
 
   public void testLastIndexOf() {
     assertThat(Bytes.lastIndexOf(EMPTY, (byte) 1)).isEqualTo(-1);
@@ -117,6 +205,28 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.lastIndexOf(ARRAY234, (byte) 4)).isEqualTo(2);
     assertThat(Bytes.lastIndexOf(new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3}, (byte) 3))
         .isEqualTo(3);
+  }
+
+  public void testLastIndexOf_fromIndex() {
+    // empty case
+    assertThat(Bytes.indexOf(EMPTY, EMPTY, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(EMPTY, ARRAY234, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(EMPTY, (byte) 1, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 3)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, -1)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 1)).isEqualTo(1);
+
+    // normal byte case
+    assertThat(Bytes.indexOf(ARRAY34, (byte) 4, 0)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY1, (byte) 1, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, (byte) 3, 1)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234234, (byte) 4, 1)).isEqualTo(5);
+
+    // byte list case
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY1, 0)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY23, 0)).isEqualTo(3);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 1)).isEqualTo(3);
+    assertThat(Bytes.indexOf(ARRAY234234, ARRAY234, 4)).isEqualTo(-1);
   }
 
   public void testConcat() {
