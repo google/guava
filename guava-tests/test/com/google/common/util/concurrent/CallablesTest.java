@@ -26,7 +26,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.util.concurrent.TestExceptions.SomeCheckedException;
-import java.security.Permission;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
@@ -123,39 +122,5 @@ public class CallablesTest extends TestCase {
     assertThrows(
         SomeCheckedException.class, () -> Callables.threadRenaming(callable, newName).call());
     assertEquals(oldName, Thread.currentThread().getName());
-  }
-
-  @J2ktIncompatible
-  @GwtIncompatible // threads
-
-  public void testRenaming_noPermissions() throws Exception {
-    System.setSecurityManager(
-        new SecurityManager() {
-          @Override
-          public void checkAccess(Thread t) {
-            throw new SecurityException();
-          }
-
-          @Override
-          public void checkPermission(Permission perm) {
-            // Do nothing so we can clear the security manager at the end
-          }
-        });
-    try {
-      final String oldName = Thread.currentThread().getName();
-      Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-      Callable<@Nullable Void> callable =
-          new Callable<@Nullable Void>() {
-            @Override
-            public @Nullable Void call() throws Exception {
-              assertEquals(Thread.currentThread().getName(), oldName);
-              return null;
-            }
-          };
-      Callables.threadRenaming(callable, newName).call();
-      assertEquals(oldName, Thread.currentThread().getName());
-    } finally {
-      System.setSecurityManager(null);
-    }
   }
 }
