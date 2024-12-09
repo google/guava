@@ -189,6 +189,76 @@ final class ReaderInputStream extends InputStream {
     }
   }
 
+  @Override
+  public int available() throws IOException {
+    if (byteBuffer.hasRemaining()) {
+      // if we have remaining chars in the buffer, return their count
+      return byteBuffer.remaining();
+    } else if (charBuffer.hasRemaining()) {
+      // if not, try to make quick progress by encoding available
+      // chars that have been read from the users reader
+      CoderResult result = encoder.encode(charBuffer, byteBuffer, endOfInput);
+
+      if (result.isOverflow()) {
+        // the byte buffer is too small, enlarge it
+        startDraining(true);
+      } else if (result.isUnderflow()) {
+        // the char buffer is too small, enlarge it
+        charBuffer = grow(charBuffer);
+      } else if (result.isError()) {
+        // Only reach here if a CharsetEncoder with non-REPLACE settings is used.
+        result.throwException();
+      }
+      return available();
+
+    } else if (!endOfInput && reader.ready()) {
+      // if none of the above was true, check if
+      // the reader is ready, and try to make progress on it
+      int output;
+
+      // the flip is necessary for appending at the right position
+      Java8Compatibility.flip(charBuffer);
+      // read until the read operation would block
+      while (reader.ready()) {
+        output = reader.read();
+
+        endOfInput = output < 0;
+        if (!endOfInput) {
+          charBuffer.append((char) output);
+        }
+      }
+      Java8Compatibility.flip(charBuffer);
+      return available();
+
+    } else if (endOfInput && !doneFlushing) {
+      // if the end of input is reached, but we have not yet flushed
+      // try to make progress with getting the the remaining chars from
+      // the encoder into the byte buffer
+      while (true) {
+        // flush the encoder
+        CoderResult result = encoder.flush(byteBuffer);
+        if (result.isOverflow()) {
+          // if the byte buffer is full, enlarge it
+          startDraining(true);
+          Java8Compatibility.flip(byteBuffer);
+        } else if (result.isUnderflow()) {
+          // if an underflow occurs, the encoder is done with flushing
+          // and we proceed by draining the buffer
+          doneFlushing = true;
+          startDraining(false);
+          break;
+        } else if (result.isError()) {
+          // Only reach here if a CharsetEncoder with non-REPLACE settings is used.
+          result.throwException();
+        }
+      }
+
+      return available();
+    }
+
+    return 0;
+  }
+
   /** Returns a new CharBuffer identical to buf, except twice the capacity. */
   private static CharBuffer grow(CharBuffer buf) {
     char[] copy = Arrays.copyOf(buf.array(), buf.capacity() * 2);
