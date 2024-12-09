@@ -154,11 +154,53 @@ public final class Suppliers {
       return uncheckedCastNullableTToT(value);
     }
 
+    /**
+     * Returns whether the value has been memoized without triggering memoization.
+     */
+    public boolean isMemoized() {
+      return initialized;
+    }
+
+    /**
+     * Resets the memoized value, allowing the supplier to recompute its value.
+     * This can be useful in cases where the value needs to be refreshed.
+     */
+    public void reset() {
+      synchronized (lock) {
+        initialized = false;
+        value = null;
+      }
+    }
+
+    /**
+     * Returns the memoized value if it has been initialized, otherwise returns {@code null}.
+     * This method does not trigger memoization.
+     */
+    @CheckForNull
+    public T getIfMemoized() {
+      return initialized ? value : null;
+    }
+
+    /**
+     * Attempts to refresh the memoized value by recomputing it. This method forces recomputation
+     * even if the value was previously memoized, and it can be used to ensure the value is up to date.
+     * The recomputation occurs only if the current thread successfully acquires the lock.
+     */
+    public void refresh() {
+      synchronized (lock) {
+        T oldValue = value;
+        value = delegate.get();
+        initialized = true;
+        if (!value.equals(oldValue)) {
+          System.out.println("Memoized value has been refreshed from " + oldValue + " to " + value);
+        }
+      }
+    }
     @Override
     public String toString() {
       return "Suppliers.memoize("
-          + (initialized ? "<supplier that returned " + value + ">" : delegate)
-          + ")";
+              + (initialized ? "<supplier that returned " + value + ">" : delegate)
+              + ")";
     }
 
     @GwtIncompatible // serialization
@@ -170,6 +212,8 @@ public final class Suppliers {
 
     private static final long serialVersionUID = 0;
   }
+
+
 
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
