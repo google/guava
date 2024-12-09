@@ -874,7 +874,52 @@ public class MultimapsTest extends TestCase {
     assertThrows(
         NullPointerException.class, () -> Multimaps.index(values, Functions.constant(null)));
   }
+  
+  public void testIndexSet_ordering() {
+    final Multimap<Integer, String> expectedIndex =
+		new ImmutableSetMultimap.Builder<Integer, String>()
+		        .put(4, "Inky")
+		        .put(6, "Blinky")
+		        .put(5, "Pinky")
+		        .put(5, "Pinky")
+		        .put(5, "Clyde")
+		        .build();
 
+    final Set<String> badGuys = new HashSet<String>(
+        Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde"));
+    final Function<String, Integer> stringLengthFunction =
+        new Function<String, Integer>() {
+          @Override
+          public Integer apply(String input) {
+            return input.length();
+          }
+        };
+
+    Multimap<Integer, String> index =
+        Multimaps.indexSet(badGuys, stringLengthFunction);
+
+    assertEquals(expectedIndex, index);
+  }
+
+  public void testIndexSet_nullValue() {
+    Set<Integer> values = new HashSet<Integer>(Arrays.asList(1, null));
+    try {
+      Multimaps.indexSet(values, Functions.identity());
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testIndexSet_nullKey() {
+    Set<Integer> values = new HashSet<Integer>(Arrays.asList(1, 2));
+    try {
+      Multimaps.indexSet(values, Functions.constant(null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+  
+  
   @GwtIncompatible(value = "untested")
   public void testTransformValues() {
     SetMultimap<String, Integer> multimap =
