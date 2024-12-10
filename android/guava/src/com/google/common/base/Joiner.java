@@ -205,9 +205,19 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
-  public final String join(Iterable<? extends @Nullable Object> parts) {
+  public String join(Iterable<? extends @Nullable Object> parts) {
+    // We don't use the same optimization here as in the JRE flavor.
+    // TODO: b/381289911 - Evaluate the performance impact of doing so.
     return join(parts.iterator());
   }
+
+  /*
+   * TODO: b/381289911 - Make the Iterator overload use StringJoiner (including Android or not)—or
+   * some other optimization, given that StringJoiner can over-allocate:
+   * https://bugs.openjdk.org/browse/JDK-8305774
+   */
+
+  // TODO: b/381289911 - Optimize MapJoiner similarly to Joiner (including Android or not).
 
   /**
    * Returns a string containing the string representation of each of {@code parts}, using the
@@ -268,6 +278,12 @@ public class Joiner {
    */
   public Joiner skipNulls() {
     return new Joiner(this) {
+      @Override
+      @SuppressWarnings("JoinIterableIterator") // suggests infinite recursion
+      public String join(Iterable<? extends @Nullable Object> parts) {
+        return join(parts.iterator());
+      }
+
       @Override
       public <A extends Appendable> A appendTo(
           A appendable, Iterator<? extends @Nullable Object> parts) throws IOException {
@@ -470,6 +486,7 @@ public class Joiner {
     }
   }
 
+  // TODO(cpovirk): Rename to "toCharSequence."
   CharSequence toString(@CheckForNull Object part) {
     /*
      * requireNonNull is not safe: Joiner.on(...).join(somethingThatContainsNull) will indeed throw.
@@ -514,5 +531,24 @@ public class Joiner {
         }
       }
     };
+  }
+
+  // cloned from ImmutableCollection
+  private static int expandedCapacity(int oldCapacity, int minCapacity) {
+    if (minCapacity < 0) {
+      throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE elements");
+    } else if (minCapacity <= oldCapacity) {
+      return oldCapacity;
+    }
+    // careful of overflow!
+    int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
+    if (newCapacity < minCapacity) {
+      newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
+    }
+    if (newCapacity < 0) {
+      newCapacity = Integer.MAX_VALUE;
+      // guaranteed to be >= newCapacity
+    }
+    return newCapacity;
   }
 }
