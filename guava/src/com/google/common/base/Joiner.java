@@ -227,10 +227,18 @@ public class Joiner {
       int i = 0;
       for (Object part : parts) {
         if (i == toJoin.length) {
+          /*
+           * We first initialized toJoin to the size of the input collection. However, that size can
+           * go out of date (for a collection like CopyOnWriteArrayList, which may have been safely
+           * modified concurrently), or it might have been only an estimate to begin with (for a
+           * collection like ConcurrentHashMap, which sums up several counters that may not be in
+           * sync with one another). We accommodate that by resizing as necessary.
+           */
           toJoin = Arrays.copyOf(toJoin, expandedCapacity(toJoin.length, toJoin.length + 1));
         }
         toJoin[i++] = toString(part);
       }
+      // We might not have seen the expected number of elements, as discussed above.
       if (i != toJoin.length) {
         toJoin = Arrays.copyOf(toJoin, i);
       }

@@ -447,6 +447,7 @@ public class DoubleMathTest extends TestCase {
   }
 
   @GwtIncompatible // StrictMath
+  @SuppressWarnings("strictfp") // Guava still supports Java 8
   private strictfp double trueLog2(double d) {
     double trueLog2 = StrictMath.log(d) / StrictMath.log(2);
     // increment until it's >= the true value
