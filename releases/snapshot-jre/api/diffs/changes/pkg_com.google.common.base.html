@@ -63,6 +63,23 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Joiner"></A>
+  <nobr><A HREF="com.google.common.base.Joiner.html">Joiner</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An object which joins pieces of text (specified as an array, <A HREF="../../docs/com/google/common/base/Joiner/Iterable.html"><TT>Iterable</TT></A>, varargs or even a
+ <A HREF="../../docs/com/google/common/base/Joiner/Map.html"><TT>Map</TT></A>) with a separator. It either appends the results to an <A HREF="../../docs/com/google/common/base/Joiner/Appendable.html"><TT>Appendable</TT></A> or returns
+ them as a <A HREF="../../docs/com/google/common/base/Joiner/String.html"><TT>String</TT></A>. Example:
+
+ <pre>{@code
+ Joiner joiner = Joiner.on("; ").skipNulls();
+  . . .
+ return joiner.join("Harry", null, "Ron", "Hermione");
+ }</pre>
+
+ </TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="MoreObjects.ToStringHelper"></A>
   <nobr><A HREF="com.google.common.base.MoreObjects.ToStringHelper.html">MoreObjects.ToStringHelper</A></nobr>
   </TD>

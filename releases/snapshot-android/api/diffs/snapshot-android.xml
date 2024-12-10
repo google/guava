@@ -2693,7 +2693,7 @@
     </method>
     <method name="join" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="parts" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>

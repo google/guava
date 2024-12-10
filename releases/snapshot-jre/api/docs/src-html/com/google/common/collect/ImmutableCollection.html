@@ -424,7 +424,7 @@
 <span class="sourceLineNo">415</span><a id="line.415"></a>
 <span class="sourceLineNo">416</span><a id="line.416">    static int expandedCapacity(int oldCapacity, int minCapacity) {</a>
 <span class="sourceLineNo">417</span><a id="line.417">      if (minCapacity &lt; 0) {</a>
-<span class="sourceLineNo">418</span><a id="line.418">        throw new IllegalArgumentException("cannot store more than MAX_VALUE elements");</a>
+<span class="sourceLineNo">418</span><a id="line.418">        throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE elements");</a>
 <span class="sourceLineNo">419</span><a id="line.419">      } else if (minCapacity &lt;= oldCapacity) {</a>
 <span class="sourceLineNo">420</span><a id="line.420">        return oldCapacity;</a>
 <span class="sourceLineNo">421</span><a id="line.421">      }</a>
