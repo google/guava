@@ -16,7 +16,7 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Charsets.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

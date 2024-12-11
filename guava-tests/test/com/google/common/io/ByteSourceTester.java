@@ -18,10 +18,10 @@ package com.google.common.io;
 
 import static com.google.common.io.SourceSinkFactory.ByteSourceFactory;
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashCode;
@@ -56,8 +56,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       } else {
         suite.addTest(
-            suiteForBytes(
-                factory, entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+            suiteForBytes(factory, entry.getValue().getBytes(UTF_8), name, entry.getKey(), true));
       }
     }
     return suite;
@@ -65,7 +64,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
 
   static TestSuite suiteForString(
       ByteSourceFactory factory, String string, String name, String desc) {
-    TestSuite suite = suiteForBytes(factory, string.getBytes(Charsets.UTF_8), name, desc, true);
+    TestSuite suite = suiteForBytes(factory, string.getBytes(UTF_8), name, desc, true);
     CharSourceFactory charSourceFactory = SourceSinkFactories.asCharSourceFactory(factory);
     suite.addTest(
         CharSourceTester.suiteForString(

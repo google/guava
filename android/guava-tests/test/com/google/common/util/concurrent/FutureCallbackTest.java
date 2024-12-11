@@ -19,8 +19,10 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.addCallback;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.util.concurrent.TestExceptions.SomeError;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 import junit.framework.TestCase;
@@ -62,6 +64,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> f = SettableFuture.create();
     FutureCallback<String> callback =
         new FutureCallback<String>() {
+          private final Object monitor = new Object();
           private boolean called = false;
 
           @Override
@@ -70,10 +73,12 @@ public class FutureCallbackTest extends TestCase {
           }
 
           @Override
-          public synchronized void onFailure(Throwable t) {
-            assertFalse(called);
-            assertThat(t).isInstanceOf(CancellationException.class);
-            called = true;
+          public void onFailure(Throwable t) {
+            synchronized (monitor) {
+              assertFalse(called);
+              assertThat(t).isInstanceOf(CancellationException.class);
+              called = true;
+            }
           }
         };
     addCallback(f, callback, directExecutor());
@@ -121,8 +126,7 @@ public class FutureCallbackTest extends TestCase {
   }
 
   public void testOnSuccessThrowsError() throws Exception {
-    class TestError extends Error {}
-    TestError error = new TestError();
+    SomeError error = new SomeError();
     String result = "result";
     SettableFuture<String> future = SettableFuture.create();
     int[] successCalls = new int[1];
@@ -141,12 +145,8 @@ public class FutureCallbackTest extends TestCase {
           }
         };
     addCallback(future, callback, directExecutor());
-    try {
-      future.set(result);
-      fail("Should have thrown");
-    } catch (TestError e) {
-      assertSame(error, e);
-    }
+    SomeError e = assertThrows(SomeError.class, () -> future.set(result));
+    assertSame(error, e);
     assertEquals(result, future.get());
     assertThat(successCalls[0]).isEqualTo(1);
     assertThat(failureCalls[0]).isEqualTo(0);
@@ -180,6 +180,7 @@ public class FutureCallbackTest extends TestCase {
     @Nullable private String value = null;
     @Nullable private Throwable failure = null;
     private boolean wasCalled = false;
+    private final Object monitor = new Object();
 
     MockCallback(String expectedValue) {
       this.value = expectedValue;
@@ -190,17 +191,21 @@ public class FutureCallbackTest extends TestCase {
     }
 
     @Override
-    public synchronized void onSuccess(String result) {
-      assertFalse(wasCalled);
-      wasCalled = true;
-      assertEquals(value, result);
+    public void onSuccess(String result) {
+      synchronized (monitor) {
+        assertFalse(wasCalled);
+        wasCalled = true;
+        assertEquals(value, result);
+      }
     }
 
     @Override
     public synchronized void onFailure(Throwable t) {
-      assertFalse(wasCalled);
-      wasCalled = true;
-      assertEquals(failure, t);
+      synchronized (monitor) {
+        assertFalse(wasCalled);
+        wasCalled = true;
+        assertEquals(failure, t);
+      }
     }
   }
 }

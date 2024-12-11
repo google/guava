@@ -34,6 +34,8 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
@@ -162,7 +164,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V extends @Nullable Object> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
-    return new ImmediateFailedFuture<V>(throwable);
+    return new ImmediateFailedFuture<>(throwable);
   }
 
   /**
@@ -171,6 +173,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 14.0
    */
+  @SuppressWarnings("unchecked") // ImmediateCancelledFuture can work with any type
   public static <V extends @Nullable Object> ListenableFuture<V> immediateCancelledFuture() {
     ListenableFuture<Object> instance = ImmediateCancelledFuture.INSTANCE;
     if (instance != null) {
@@ -223,7 +226,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
    *
    * @throws RejectedExecutionException if the task cannot be scheduled for execution
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
@@ -366,7 +369,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback,
       Executor executor) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
+    return AbstractCatchingFuture.createAsync(input, exceptionType, fallback, executor);
   }
 
   /**
@@ -378,7 +381,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param delegate The future to delegate to.
    * @param time when to time out the future
    * @param scheduledExecutor The executor service to enforce the timeout.
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
@@ -450,7 +453,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           ListenableFuture<I> input,
           AsyncFunction<? super I, ? extends O> function,
           Executor executor) {
-    return AbstractTransformFuture.create(input, function, executor);
+    return AbstractTransformFuture.createAsync(input, function, executor);
   }
 
   /**
@@ -617,7 +620,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @SafeVarargs
   public static <V extends @Nullable Object> FutureCombiner<V> whenAllComplete(
       ListenableFuture<? extends V>... futures) {
-    return new FutureCombiner<V>(false, ImmutableList.copyOf(futures));
+    return new FutureCombiner<>(false, ImmutableList.copyOf(futures));
   }
 
   /**
@@ -630,7 +633,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <V extends @Nullable Object> FutureCombiner<V> whenAllComplete(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return new FutureCombiner<V>(false, ImmutableList.copyOf(futures));
+    return new FutureCombiner<>(false, ImmutableList.copyOf(futures));
   }
 
   /**
@@ -643,7 +646,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @SafeVarargs
   public static <V extends @Nullable Object> FutureCombiner<V> whenAllSucceed(
       ListenableFuture<? extends V>... futures) {
-    return new FutureCombiner<V>(true, ImmutableList.copyOf(futures));
+    return new FutureCombiner<>(true, ImmutableList.copyOf(futures));
   }
 
   /**
@@ -655,7 +658,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <V extends @Nullable Object> FutureCombiner<V> whenAllSucceed(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return new FutureCombiner<V>(true, ImmutableList.copyOf(futures));
+    return new FutureCombiner<>(true, ImmutableList.copyOf(futures));
   }
 
   /**
@@ -717,7 +720,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      */
     public <C extends @Nullable Object> ListenableFuture<C> callAsync(
         AsyncCallable<C> combiner, Executor executor) {
-      return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
+      return new CombinedFuture<>(futures, allMustSucceed, executor, combiner);
     }
 
     /**
@@ -742,7 +745,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      */
     public <C extends @Nullable Object> ListenableFuture<C> call(
         Callable<C> combiner, Executor executor) {
-      return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
+      return new CombinedFuture<>(futures, allMustSucceed, executor, combiner);
     }
 
     /**
@@ -795,7 +798,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /** A wrapped future that does not propagate cancellation to its delegate. */
   private static final class NonCancellationPropagatingFuture<V extends @Nullable Object>
       extends AbstractFuture.TrustedFuture<V> implements Runnable {
-    @CheckForNull private ListenableFuture<V> delegate;
+    @CheckForNull @LazyInit private ListenableFuture<V> delegate;
 
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
       this.delegate = delegate;
@@ -805,7 +808,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     public void run() {
       // This prevents cancellation from propagating because we don't call setFuture(delegate) until
       // delegate is already done, so calling cancel() on this future won't affect it.
-      ListenableFuture<V> localDelegate = delegate;
+      @RetainedLocalRef ListenableFuture<V> localDelegate = delegate;
       if (localDelegate != null) {
         setFuture(localDelegate);
       }
@@ -814,7 +817,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @Override
     @CheckForNull
     protected String pendingToString() {
-      ListenableFuture<V> localDelegate = delegate;
+      @RetainedLocalRef ListenableFuture<V> localDelegate = delegate;
       if (localDelegate != null) {
         return "delegate=[" + localDelegate + "]";
       }
@@ -1041,6 +1044,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       delegateIndex = delegates.size();
     }
 
+    @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
     private void recordCompletion() {
       if (incompleteOutputCount.decrementAndGet() == 0 && wasCancelled) {
         for (ListenableFuture<? extends T> toCancel : inputFutures) {
@@ -1270,7 +1274,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws CancellationException if {@code get} throws a {@code CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
    *     does not have a suitable constructor
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible
@@ -1374,22 +1378,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     checkNotNull(future);
     try {
       return getUninterruptibly(future);
-    } catch (ExecutionException e) {
-      wrapAndThrowUnchecked(e.getCause());
-      throw new AssertionError();
+    } catch (ExecutionException wrapper) {
+      if (wrapper.getCause() instanceof Error) {
+        throw new ExecutionError((Error) wrapper.getCause());
+      }
+      /*
+       * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
+       * classes, I believe that most users intended to extend Exception, so we'll treat it like an
+       * Exception.)
+       */
+      throw new UncheckedExecutionException(wrapper.getCause());
     }
-  }
-
-  private static void wrapAndThrowUnchecked(Throwable cause) {
-    if (cause instanceof Error) {
-      throw new ExecutionError((Error) cause);
-    }
-    /*
-     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
-     * classes, I believe that most users intended to extend Exception, so we'll treat it like an
-     * Exception.)
-     */
-    throw new UncheckedExecutionException(cause);
   }
 
   /*

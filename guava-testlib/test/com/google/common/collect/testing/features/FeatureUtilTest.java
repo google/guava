@@ -16,258 +16,297 @@
 
 package com.google.common.collect.testing.features;
 
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.testing.features.FeatureEnumTest.assertGoodFeatureEnum;
+import static com.google.common.collect.testing.features.FeatureUtil.addImpliedFeatures;
+import static com.google.common.collect.testing.features.FeatureUtil.buildDeclaredTesterRequirements;
+import static com.google.common.collect.testing.features.FeatureUtil.buildTesterRequirements;
+import static com.google.common.collect.testing.features.FeatureUtil.getTesterAnnotations;
+import static com.google.common.collect.testing.features.FeatureUtil.impliedFeatures;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.BAR;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.FOO;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.IMPLIES_BAR;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.IMPLIES_FOO;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.IMPLIES_IMPLIES_FOO;
+import static com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.NotTesterAnnotation;
+import com.google.common.collect.testing.features.FeatureUtilTest.ExampleFeature.Require;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.Set;
 import junit.framework.TestCase;
 
 /**
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
 public class FeatureUtilTest extends TestCase {
-  interface ExampleBaseInterface {
-    void behave();
-  }
-
-  interface ExampleDerivedInterface extends ExampleBaseInterface {
-    void misbehave();
-  }
-
-  enum ExampleBaseFeature implements Feature<ExampleBaseInterface> {
-    BASE_FEATURE_1,
-    BASE_FEATURE_2;
+  enum ExampleFeature implements Feature<Object> {
+    FOO,
+    IMPLIES_FOO,
+    IMPLIES_IMPLIES_FOO,
+    BAR,
+    IMPLIES_BAR,
+    IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR;
 
     @Override
-    public Set<Feature<? super ExampleBaseInterface>> getImpliedFeatures() {
-      return Collections.emptySet();
+    public ImmutableSet<Feature<? super Object>> getImpliedFeatures() {
+      switch (this) {
+        case IMPLIES_FOO:
+          return ImmutableSet.of(FOO);
+        case IMPLIES_IMPLIES_FOO:
+          return ImmutableSet.of(IMPLIES_FOO);
+        case IMPLIES_BAR:
+          return ImmutableSet.of(BAR);
+        case IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR:
+          return ImmutableSet.of(IMPLIES_FOO, IMPLIES_BAR);
+        default:
+          return ImmutableSet.of();
+      }
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
+    @Retention(RUNTIME)
     @Inherited
     @TesterAnnotation
     @interface Require {
-      ExampleBaseFeature[] value() default {};
+      ExampleFeature[] value() default {};
 
-      ExampleBaseFeature[] absent() default {};
-    }
-  }
-
-  enum ExampleDerivedFeature implements Feature<ExampleDerivedInterface> {
-    DERIVED_FEATURE_1,
-    DERIVED_FEATURE_2(ExampleBaseFeature.BASE_FEATURE_1),
-    DERIVED_FEATURE_3,
-
-    COMPOUND_DERIVED_FEATURE(
-        DERIVED_FEATURE_1, DERIVED_FEATURE_2, ExampleBaseFeature.BASE_FEATURE_2);
-
-    private Set<Feature<? super ExampleDerivedInterface>> implied;
-
-    ExampleDerivedFeature(Feature<? super ExampleDerivedInterface>... implied) {
-      this.implied = ImmutableSet.copyOf(implied);
+      ExampleFeature[] absent() default {};
     }
 
-    @Override
-    public Set<Feature<? super ExampleDerivedInterface>> getImpliedFeatures() {
-      return implied;
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
+    @Retention(RUNTIME)
     @Inherited
-    @TesterAnnotation
-    @interface Require {
-      ExampleDerivedFeature[] value() default {};
+    @interface NotTesterAnnotation {
+      ExampleFeature[] value() default {};
 
-      ExampleDerivedFeature[] absent() default {};
+      ExampleFeature[] absent() default {};
     }
   }
 
-  @Retention(RetentionPolicy.RUNTIME)
-  @interface NonTesterAnnotation {}
-
-  @ExampleBaseFeature.Require({ExampleBaseFeature.BASE_FEATURE_1})
-  private abstract static class ExampleBaseInterfaceTester extends TestCase {
-    protected final void doNotActuallyRunThis() {
-      fail("Nobody's meant to actually run this!");
-    }
-  }
-
-  @AndroidIncompatible // Android attempts to run directly
-  @NonTesterAnnotation
-  @ExampleDerivedFeature.Require({ExampleDerivedFeature.DERIVED_FEATURE_2})
-  private static class ExampleDerivedInterfaceTester extends ExampleBaseInterfaceTester {
-    // Exists to test that our framework doesn't run it:
-    @SuppressWarnings("unused")
-    @ExampleDerivedFeature.Require({
-      ExampleDerivedFeature.DERIVED_FEATURE_1,
-      ExampleDerivedFeature.DERIVED_FEATURE_2
-    })
-    public void testRequiringTwoExplicitDerivedFeatures() throws Exception {
-      doNotActuallyRunThis();
-    }
-
-    // Exists to test that our framework doesn't run it:
-    @SuppressWarnings("unused")
-    @ExampleDerivedFeature.Require({
-      ExampleDerivedFeature.DERIVED_FEATURE_1,
-      ExampleDerivedFeature.DERIVED_FEATURE_3
-    })
-    public void testRequiringAllThreeDerivedFeatures() {
-      doNotActuallyRunThis();
-    }
-
-    // Exists to test that our framework doesn't run it:
-    @SuppressWarnings("unused")
-    @ExampleBaseFeature.Require(absent = {ExampleBaseFeature.BASE_FEATURE_1})
-    public void testRequiringConflictingFeatures() throws Exception {
-      doNotActuallyRunThis();
-    }
-  }
-
-  @ExampleDerivedFeature.Require(absent = {ExampleDerivedFeature.DERIVED_FEATURE_2})
-  private static class ConflictingRequirementsExampleDerivedInterfaceTester
-      extends ExampleBaseInterfaceTester {}
-
-  public void testTestFeatureEnums() throws Exception {
+  public void testTestFeatureEnums() {
     // Haha! Let's test our own test rig!
-    FeatureEnumTest.assertGoodFeatureEnum(FeatureUtilTest.ExampleBaseFeature.class);
-    FeatureEnumTest.assertGoodFeatureEnum(FeatureUtilTest.ExampleDerivedFeature.class);
+    assertGoodFeatureEnum(ExampleFeature.class);
   }
 
-  public void testAddImpliedFeatures_returnsSameSetInstance() throws Exception {
-    Set<Feature<?>> features = Sets.<Feature<?>>newHashSet(ExampleBaseFeature.BASE_FEATURE_1);
-    assertSame(features, FeatureUtil.addImpliedFeatures(features));
+  public void testAddImpliedFeatures_returnsSameSetInstance() {
+    Set<Feature<?>> features = newHashSet(FOO);
+    assertThat(addImpliedFeatures(features)).isSameInstanceAs(features);
   }
 
-  public void testAddImpliedFeatures_addsImpliedFeatures() throws Exception {
-    Set<Feature<?>> features;
+  public void testAddImpliedFeatures_addsImpliedFeatures() {
+    assertThat(addImpliedFeatures(newHashSet(FOO))).containsExactly(FOO);
 
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.DERIVED_FEATURE_1);
-    assertThat(FeatureUtil.addImpliedFeatures(features))
-        .contains(ExampleDerivedFeature.DERIVED_FEATURE_1);
+    assertThat(addImpliedFeatures(newHashSet(IMPLIES_IMPLIES_FOO)))
+        .containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_FOO, FOO);
 
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.DERIVED_FEATURE_2);
-    assertThat(FeatureUtil.addImpliedFeatures(features))
-        .containsExactly(
-            ExampleDerivedFeature.DERIVED_FEATURE_2, ExampleBaseFeature.BASE_FEATURE_1);
-
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    assertThat(FeatureUtil.addImpliedFeatures(features))
-        .containsExactly(
-            ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE,
-            ExampleDerivedFeature.DERIVED_FEATURE_1,
-            ExampleDerivedFeature.DERIVED_FEATURE_2,
-            ExampleBaseFeature.BASE_FEATURE_1,
-            ExampleBaseFeature.BASE_FEATURE_2);
+    assertThat(addImpliedFeatures(newHashSet(IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR)))
+        .containsExactly(IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR, IMPLIES_FOO, FOO, IMPLIES_BAR, BAR);
   }
 
-  public void testImpliedFeatures_returnsNewSetInstance() throws Exception {
-    Set<Feature<?>> features = Sets.<Feature<?>>newHashSet(ExampleBaseFeature.BASE_FEATURE_1);
-    assertNotSame(features, FeatureUtil.impliedFeatures(features));
+  public void testImpliedFeatures_returnsNewSetInstance() {
+    Set<Feature<?>> features = newHashSet(IMPLIES_FOO);
+    assertThat(impliedFeatures(features)).isNotSameInstanceAs(features);
   }
 
-  public void testImpliedFeatures_returnsImpliedFeatures() throws Exception {
-    Set<Feature<?>> features;
+  public void testImpliedFeatures_returnsImpliedFeatures() {
+    assertThat(impliedFeatures(newHashSet(FOO))).isEmpty();
 
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.DERIVED_FEATURE_1);
-    assertTrue(FeatureUtil.impliedFeatures(features).isEmpty());
+    assertThat(impliedFeatures(newHashSet(IMPLIES_IMPLIES_FOO))).containsExactly(IMPLIES_FOO, FOO);
 
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.DERIVED_FEATURE_2);
-    assertThat(FeatureUtil.impliedFeatures(features)).contains(ExampleBaseFeature.BASE_FEATURE_1);
-
-    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    assertThat(FeatureUtil.impliedFeatures(features))
-        .containsExactly(
-            ExampleDerivedFeature.DERIVED_FEATURE_1,
-            ExampleDerivedFeature.DERIVED_FEATURE_2,
-            ExampleBaseFeature.BASE_FEATURE_1,
-            ExampleBaseFeature.BASE_FEATURE_2);
+    assertThat(impliedFeatures(newHashSet(IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR)))
+        .containsExactly(IMPLIES_FOO, FOO, IMPLIES_BAR, BAR);
   }
 
-  @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
-  public void testBuildTesterRequirements_class() throws Exception {
-    assertEquals(
-        FeatureUtil.buildTesterRequirements(ExampleBaseInterfaceTester.class),
-        new TesterRequirements(
-            Sets.<Feature<?>>newHashSet(ExampleBaseFeature.BASE_FEATURE_1),
-            Collections.<Feature<?>>emptySet()));
+  public void testBuildTesterRequirements_class_notAnnotated() throws Exception {
+    class Tester {}
 
-    assertEquals(
-        FeatureUtil.buildTesterRequirements(ExampleDerivedInterfaceTester.class),
-        new TesterRequirements(
-            Sets.<Feature<?>>newHashSet(
-                ExampleBaseFeature.BASE_FEATURE_1, ExampleDerivedFeature.DERIVED_FEATURE_2),
-            Collections.<Feature<?>>emptySet()));
+    TesterRequirements requirements = buildTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures()).isEmpty();
+    assertThat(requirements.getAbsentFeatures()).isEmpty();
   }
 
-  @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
-  public void testBuildTesterRequirements_method() throws Exception {
-    assertEquals(
-        FeatureUtil.buildTesterRequirements(
-            ExampleDerivedInterfaceTester.class.getMethod(
-                "testRequiringTwoExplicitDerivedFeatures")),
-        new TesterRequirements(
-            Sets.<Feature<?>>newHashSet(
-                ExampleBaseFeature.BASE_FEATURE_1,
-                ExampleDerivedFeature.DERIVED_FEATURE_1,
-                ExampleDerivedFeature.DERIVED_FEATURE_2),
-            Collections.<Feature<?>>emptySet()));
-    assertEquals(
-        FeatureUtil.buildTesterRequirements(
-            ExampleDerivedInterfaceTester.class.getMethod("testRequiringAllThreeDerivedFeatures")),
-        new TesterRequirements(
-            Sets.<Feature<?>>newHashSet(
-                ExampleBaseFeature.BASE_FEATURE_1,
-                ExampleDerivedFeature.DERIVED_FEATURE_1,
-                ExampleDerivedFeature.DERIVED_FEATURE_2,
-                ExampleDerivedFeature.DERIVED_FEATURE_3),
-            Collections.<Feature<?>>emptySet()));
+  public void testBuildTesterRequirements_class_empty() throws Exception {
+    @Require
+    class Tester {}
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures()).isEmpty();
+    assertThat(requirements.getAbsentFeatures()).isEmpty();
   }
 
-  @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
-  public void testBuildTesterRequirements_classClassConflict() throws Exception {
+  public void testBuildTesterRequirements_class_present() throws Exception {
+    @Require({IMPLIES_IMPLIES_FOO, IMPLIES_BAR})
+    class Tester {}
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_FOO, FOO, IMPLIES_BAR, BAR);
+    assertThat(requirements.getAbsentFeatures()).isEmpty();
+  }
+
+  public void testBuildTesterRequirements_class_absent() throws Exception {
+    @Require(absent = {IMPLIES_IMPLIES_FOO, IMPLIES_BAR})
+    class Tester {}
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures()).isEmpty();
+    assertThat(requirements.getAbsentFeatures()).containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_BAR);
+  }
+
+  public void testBuildTesterRequirements_class_present_and_absent() throws Exception {
+    @Require(value = IMPLIES_FOO, absent = IMPLIES_IMPLIES_FOO)
+    class Tester {}
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures()).containsExactly(IMPLIES_FOO, FOO);
+    assertThat(requirements.getAbsentFeatures()).containsExactly(IMPLIES_IMPLIES_FOO);
+  }
+
+  public void testBuildTesterRequirements_class_present_method_present() throws Exception {
+    @Require(IMPLIES_BAR)
+    class Tester {
+      @Require(IMPLIES_IMPLIES_FOO)
+      public void test() {}
+    }
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class.getMethod("test"));
+
+    assertThat(requirements.getPresentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_FOO, FOO, IMPLIES_BAR, BAR);
+    assertThat(requirements.getAbsentFeatures()).isEmpty();
+  }
+
+  public void testBuildTesterRequirements_class_absent_method_absent() throws Exception {
+    @Require(absent = IMPLIES_BAR)
+    class Tester {
+      @Require(absent = IMPLIES_IMPLIES_FOO)
+      public void test() {}
+    }
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class.getMethod("test"));
+
+    assertThat(requirements.getPresentFeatures()).isEmpty();
+    assertThat(requirements.getAbsentFeatures()).containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_BAR);
+  }
+
+  public void testBuildTesterRequirements_class_present_method_absent() throws Exception {
+    @Require(IMPLIES_IMPLIES_FOO)
+    class Tester {
+      @Require(absent = IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR)
+      public void test() {}
+    }
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class.getMethod("test"));
+
+    assertThat(requirements.getPresentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_FOO, FOO);
+    assertThat(requirements.getAbsentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR);
+  }
+
+  public void testBuildTesterRequirements_class_absent_method_present() throws Exception {
+    @Require(absent = IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR)
+    class Tester {
+      @Require(IMPLIES_IMPLIES_FOO)
+      public void test() {}
+    }
+
+    TesterRequirements requirements = buildTesterRequirements(Tester.class.getMethod("test"));
+
+    assertThat(requirements.getPresentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO, IMPLIES_FOO, FOO);
+    assertThat(requirements.getAbsentFeatures())
+        .containsExactly(IMPLIES_IMPLIES_FOO_AND_IMPLIES_BAR);
+  }
+
+  public void testBuildTesterRequirements_classClassConflict() {
+    @Require(value = FOO, absent = FOO)
+    class Tester {}
+
     ConflictingRequirementsException e =
         assertThrows(
-            ConflictingRequirementsException.class,
-            () ->
-                FeatureUtil.buildTesterRequirements(
-                    ConflictingRequirementsExampleDerivedInterfaceTester.class));
-    assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
-    assertEquals(ConflictingRequirementsExampleDerivedInterfaceTester.class, e.getSource());
+            ConflictingRequirementsException.class, () -> buildTesterRequirements(Tester.class));
+    assertThat(e.getConflicts()).containsExactly(FOO);
+    assertThat(e.getSource()).isEqualTo(Tester.class.getAnnotation(Require.class));
   }
 
-  @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
+  public void testBuildTesterRequirements_classClassConflict_inherited() {
+    @Require(FOO)
+    abstract class BaseTester {}
+    @Require(absent = FOO)
+    class Tester extends BaseTester {}
+
+    ConflictingRequirementsException e =
+        assertThrows(
+            ConflictingRequirementsException.class, () -> buildTesterRequirements(Tester.class));
+    assertThat(e.getConflicts()).containsExactly(FOO);
+    assertThat(e.getSource()).isEqualTo(Tester.class);
+  }
+
+  public void testBuildTesterRequirements_classClassConflict_implied() {
+    @Require(value = IMPLIES_FOO, absent = FOO)
+    class Tester {}
+
+    ConflictingRequirementsException e =
+        assertThrows(
+            ConflictingRequirementsException.class, () -> buildTesterRequirements(Tester.class));
+    assertThat(e.getConflicts()).containsExactly(FOO);
+    assertThat(e.getSource()).isEqualTo(Tester.class.getAnnotation(Require.class));
+  }
+
   public void testBuildTesterRequirements_methodClassConflict() throws Exception {
-    final Method method =
-        ExampleDerivedInterfaceTester.class.getMethod("testRequiringConflictingFeatures");
+    @Require(IMPLIES_FOO)
+    class Tester {
+      @Require(absent = FOO)
+      public void test() {}
+    }
+
+    Method method = Tester.class.getMethod("test");
     ConflictingRequirementsException e =
-        assertThrows(
-            ConflictingRequirementsException.class,
-            () -> FeatureUtil.buildTesterRequirements(method));
-    assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
-    assertEquals(method, e.getSource());
+        assertThrows(ConflictingRequirementsException.class, () -> buildTesterRequirements(method));
+    assertThat(e.getConflicts()).containsExactly(FOO);
+    assertThat(e.getSource()).isEqualTo(method);
   }
 
-  @AndroidIncompatible // Android runs ExampleDerivedInterfaceTester directly if it exists
   public void testBuildDeclaredTesterRequirements() throws Exception {
-    assertEquals(
-        FeatureUtil.buildDeclaredTesterRequirements(
-            ExampleDerivedInterfaceTester.class.getMethod(
-                "testRequiringTwoExplicitDerivedFeatures")),
-        new TesterRequirements(
-            FeatureUtil.addImpliedFeatures(
-                Sets.<Feature<?>>newHashSet(
-                    ExampleDerivedFeature.DERIVED_FEATURE_1,
-                    ExampleDerivedFeature.DERIVED_FEATURE_2)),
-            Collections.<Feature<?>>emptySet()));
+    @Require(IMPLIES_FOO)
+    abstract class BaseTester {}
+    @Require(IMPLIES_BAR)
+    class Tester extends BaseTester {}
+
+    TesterRequirements requirements = buildDeclaredTesterRequirements(Tester.class);
+
+    assertThat(requirements.getPresentFeatures()).containsExactly(IMPLIES_BAR, BAR);
+    assertThat(requirements.getAbsentFeatures()).isEmpty();
+  }
+
+  public void testGetTesterAnnotations_class() {
+    @Require
+    @NotTesterAnnotation
+    class Tester {}
+
+    assertThat(getTesterAnnotations(Tester.class))
+        .containsExactly(Tester.class.getAnnotation(Require.class));
+  }
+
+  public void testGetTesterAnnotations_method() throws Exception {
+    class Tester {
+      @Require
+      @NotTesterAnnotation
+      public void test() {}
+    }
+    Method method = Tester.class.getMethod("test");
+
+    assertThat(getTesterAnnotations(method)).containsExactly(method.getAnnotation(Require.class));
   }
 }

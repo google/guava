@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -103,7 +104,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
+
   public void testValueOfBigInteger() {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
@@ -125,7 +126,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -152,8 +152,7 @@ public class UnsignedLongTest extends TestCase {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
       assertWithMessage("Float value of " + unsignedValue)
           .that(unsignedValue.floatValue())
-          .isWithin(0.0f)
-          .of(unsignedValue.bigIntegerValue().floatValue());
+          .isEqualTo(unsignedValue.bigIntegerValue().floatValue());
     }
   }
 
@@ -162,12 +161,10 @@ public class UnsignedLongTest extends TestCase {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
       assertWithMessage("Double value of " + unsignedValue)
           .that(unsignedValue.doubleValue())
-          .isWithin(0.0)
-          .of(unsignedValue.bigIntegerValue().doubleValue());
+          .isEqualTo(unsignedValue.bigIntegerValue().doubleValue());
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testPlus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -180,7 +177,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testMinus() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -194,7 +190,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testTimes() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -208,7 +203,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible // TODO(b/285562794): Wrong result for j2kt
   public void testDividedBy() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -226,15 +220,12 @@ public class UnsignedLongTest extends TestCase {
 
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
-      try {
-        UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class,
+          () -> UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO));
     }
   }
 
-  @J2ktIncompatible // TODO(b/285538920): Wrong result for j2kt
   public void testMod() {
     for (long a : TEST_LONGS) {
       for (long b : TEST_LONGS) {
@@ -252,11 +243,8 @@ public class UnsignedLongTest extends TestCase {
 
   public void testModByZero() {
     for (long a : TEST_LONGS) {
-      try {
-        UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
-        fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {
-      }
+      assertThrows(
+          ArithmeticException.class, () -> UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO));
     }
   }
 
@@ -271,7 +259,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();

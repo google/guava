@@ -17,10 +17,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Collections.synchronizedSet;
+import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.base.Equivalence;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -80,13 +81,13 @@ final class BenchmarkHelpers {
     UnmodifiableSetImpl {
       @Override
       public <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
-        return Collections.unmodifiableSet(new HashSet<E>(contents));
+        return unmodifiableSet(new HashSet<E>(contents));
       }
     },
     SynchronizedSetImpl {
       @Override
       public <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
-        return Collections.synchronizedSet(new HashSet<E>(contents));
+        return synchronizedSet(new HashSet<E>(contents));
       }
     },
     ImmutableSetImpl {

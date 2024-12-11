@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
@@ -235,7 +236,7 @@ public class ConcurrentHashMultisetBenchmark {
      * either of these would recurse back to us again!
      */
     private List<E> snapshot() {
-      List<E> list = Lists.newArrayListWithExpectedSize(size());
+      List<E> list = newArrayListWithExpectedSize(size());
       for (Multiset.Entry<E> entry : entrySet()) {
         E element = entry.getElement();
         for (int i = entry.getCount(); i > 0; i--) {
@@ -518,7 +519,7 @@ public class ConcurrentHashMultisetBenchmark {
       }
 
       private List<Multiset.Entry<E>> snapshot() {
-        List<Multiset.Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
+        List<Multiset.Entry<E>> list = newArrayListWithExpectedSize(size());
         // not Iterables.addAll(list, this), because that'll forward back here
         Iterators.addAll(list, iterator());
         return list;

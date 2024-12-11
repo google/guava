@@ -16,14 +16,19 @@
 
 package com.google.common.escape;
 
+import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.escape.testing.EscaperAsserts;
 import java.io.IOException;
 import junit.framework.TestCase;
 
-/** @author David Beaumont */
+/**
+ * @author David Beaumont
+ */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ArrayBasedUnicodeEscaperTest extends TestCase {
   private static final ImmutableMap<Character, String> NO_REPLACEMENTS = ImmutableMap.of();
   private static final ImmutableMap<Character, String> SIMPLE_REPLACEMENTS =
@@ -53,12 +58,7 @@ public class ArrayBasedUnicodeEscaperTest extends TestCase {
 
     // Ensure that Unicode escapers behave correctly wrt badly formed input.
     String badUnicode = "\uDC00\uD800";
-    try {
-      escaper.escape(badUnicode);
-      fail("should fail for bad Unicode");
-    } catch (IllegalArgumentException e) {
-      // Pass
-    }
+    assertThrows(IllegalArgumentException.class, () -> escaper.escape(badUnicode));
   }
 
   public void testSafeRange() throws IOException {

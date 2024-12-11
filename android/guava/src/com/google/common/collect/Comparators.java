@@ -23,12 +23,14 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
- * comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ * comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  * com.google.common.collect.Ordering} (otherwise).
  *
  * <h3>Relationship to {@code Ordering}</h3>
@@ -127,10 +129,11 @@ public final class Comparators {
    * log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> least(
       int k, Comparator<? super T> comparator) {
     checkNonnegative(k, "k");
     checkNotNull(comparator);
@@ -160,12 +163,55 @@ public final class Comparators {
    * takes O(n log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
+   * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
+  public static <T extends @Nullable Object> Collector<T, ?, List<T>> greatest(
       int k, Comparator<? super T> comparator) {
     return least(k, comparator.reversed());
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Optional.
+  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<? super T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.<Optional<T>, @Nullable T>comparing(
+        o -> orElseNull(o), Comparator.nullsFirst(valueComparator));
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Optional.
+  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.<Optional<T>, @Nullable T>comparing(
+        o -> orElseNull(o), Comparator.nullsLast(valueComparator));
+  }
+
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // helper for emptiesFirst+emptiesLast
+  /*
+   * If we make these calls inline inside the lambda inside emptiesFirst()/emptiesLast(), we get an
+   * Animal Sniffer error, despite the @IgnoreJRERequirement annotation there. For details, see
+   * ImmutableSortedMultiset.
+   */
+  @CheckForNull
+  private static <T> T orElseNull(Optional<T> optional) {
+    return optional.orElse(null);
   }
 
   /**
@@ -202,7 +248,7 @@ public final class Comparators {
    */
   @ParametricNullness
   public static <T extends @Nullable Object> T min(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -240,7 +286,7 @@ public final class Comparators {
    */
   @ParametricNullness
   public static <T extends @Nullable Object> T max(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<? super T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

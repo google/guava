@@ -17,6 +17,10 @@
 package com.google.common.collect.testing;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -75,55 +79,55 @@ public class TestsForMapsInJavaUtil {
   }
 
   protected Collection<Method> suppressForCheckedMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedSortedMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEmptyMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForHashMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForHashtable() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedHashMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeMapNatural() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeMapWithComparator() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForUnmodifiableMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForUnmodifiableSortedMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEnumMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentHashMap() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentSkipListMap() {
@@ -187,7 +191,7 @@ public class TestsForMapsInJavaUtil {
             new TestStringMapGenerator() {
               @Override
               protected Map<String, String> create(Entry<String, String>[] entries) {
-                return Collections.emptyMap();
+                return emptyMap();
               }
             })
         .named("emptyMap")
@@ -201,7 +205,7 @@ public class TestsForMapsInJavaUtil {
             new TestStringMapGenerator() {
               @Override
               protected Map<String, String> create(Entry<String, String>[] entries) {
-                return Collections.singletonMap(entries[0].getKey(), entries[0].getValue());
+                return singletonMap(entries[0].getKey(), entries[0].getValue());
               }
             })
         .named("singletonMap")
@@ -337,7 +341,7 @@ public class TestsForMapsInJavaUtil {
             new TestStringMapGenerator() {
               @Override
               protected Map<String, String> create(Entry<String, String>[] entries) {
-                return Collections.unmodifiableMap(toHashMap(entries));
+                return unmodifiableMap(toHashMap(entries));
               }
             })
         .named("unmodifiableMap/HashMap")
@@ -465,7 +469,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
-    return new NullFriendlyComparator<T>();
+    return new NullFriendlyComparator<>();
   }
 
   private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {

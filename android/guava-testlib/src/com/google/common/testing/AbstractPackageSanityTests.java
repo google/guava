@@ -43,7 +43,6 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -233,6 +232,15 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   @Test
   public void testNulls() throws Exception {
     for (Class<?> classToTest : findClassesToTest(loadClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
+      if (classToTest.getSimpleName().equals("ReflectionFreeAssertThrows")) {
+        /*
+         * These classes handle null properly but throw IllegalArgumentException for the default
+         * Class argument that this test uses. Normally we'd fix that by declaring a
+         * ReflectionFreeAssertThrowsTest with a testNulls method, but that's annoying to have to do
+         * for a package-private utility class. So we skip the class entirely instead.
+         */
+        continue;
+      }
       try {
         tester.doTestNulls(classToTest, visibility);
       } catch (Throwable e) {
@@ -307,7 +315,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     this.classFilter = and(this.classFilter, not(condition));
   }
 
-  private static AssertionFailedError sanityError(
+  private static AssertionError sanityError(
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
     String message =
         String.format(
@@ -318,9 +326,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
             cls,
             explicitTestNames.get(0),
             cls.getName());
-    AssertionFailedError error = new AssertionFailedError(message);
-    error.initCause(e);
-    return error;
+    return new AssertionError(message, e);
   }
 
   /**

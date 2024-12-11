@@ -21,6 +21,7 @@ import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
@@ -29,7 +30,6 @@ import com.google.common.base.Objects;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,32 +45,26 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 public class FauxveridesTest extends TestCase {
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableBiMap() {
     doHasAllFauxveridesTest(ImmutableBiMap.class, ImmutableMap.class);
   }
 
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableListMultimap() {
     doHasAllFauxveridesTest(ImmutableListMultimap.class, ImmutableMultimap.class);
   }
 
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSetMultimap() {
     doHasAllFauxveridesTest(ImmutableSetMultimap.class, ImmutableMultimap.class);
   }
 
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedMap() {
     doHasAllFauxveridesTest(ImmutableSortedMap.class, ImmutableMap.class);
   }
 
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedSet() {
     doHasAllFauxveridesTest(ImmutableSortedSet.class, ImmutableSet.class);
   }
 
-  @AndroidIncompatible // similar to ImmutableTableTest.testNullPointerInstance
   public void testImmutableSortedMultiset() {
     doHasAllFauxveridesTest(ImmutableSortedMultiset.class, ImmutableMultiset.class);
   }
@@ -167,7 +161,7 @@ public class FauxveridesTest extends TestCase {
 
     MethodSignature(Method method) {
       name = method.getName();
-      parameterTypes = Arrays.asList(method.getParameterTypes());
+      parameterTypes = asList(method.getParameterTypes());
       typeSignature = new TypeSignature(method.getTypeParameters());
     }
 
@@ -205,7 +199,7 @@ public class FauxveridesTest extends TestCase {
     TypeSignature(TypeVariable<Method>[] parameters) {
       parameterSignatures =
           transform(
-              Arrays.asList(parameters),
+              asList(parameters),
               new Function<TypeVariable<?>, TypeParameterSignature>() {
                 @Override
                 public TypeParameterSignature apply(TypeVariable<?> from) {
@@ -243,7 +237,7 @@ public class FauxveridesTest extends TestCase {
 
     TypeParameterSignature(TypeVariable<?> typeParameter) {
       name = typeParameter.getName();
-      bounds = Arrays.asList(typeParameter.getBounds());
+      bounds = asList(typeParameter.getBounds());
     }
 
     @Override

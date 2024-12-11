@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -549,6 +551,7 @@ public final class Iterators {
    *
    * @throws NullPointerException if any of the provided iterators is null
    */
+  @SafeVarargs
   public static <T extends @Nullable Object> Iterator<T> concat(Iterator<? extends T>... inputs) {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
   }
@@ -634,8 +637,7 @@ public final class Iterators {
           throw new NoSuchElementException();
         }
         @SuppressWarnings("unchecked") // we only put Ts in it
-        @Nullable
-        T[] array = (@Nullable T[]) new Object[size];
+        @Nullable T[] array = (@Nullable T[]) new Object[size];
         int count = 0;
         for (; count < size && iterator.hasNext(); count++) {
           array[count] = iterator.next();
@@ -644,7 +646,7 @@ public final class Iterators {
           array[i] = null; // for GWT
         }
 
-        List<@Nullable T> list = Collections.unmodifiableList(Arrays.asList(array));
+        List<@Nullable T> list = unmodifiableList(asList(array));
         // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
         if (pad || count == size) {
           return list;
@@ -1104,30 +1106,26 @@ public final class Iterators {
 
   private static final class SingletonIterator<T extends @Nullable Object>
       extends UnmodifiableIterator<T> {
-    private static final Object SENTINEL = new Object();
-
-    private @Nullable Object valueOrSentinel;
+    private final T value;
+    private boolean done;
 
     SingletonIterator(T value) {
-      this.valueOrSentinel = value;
+      this.value = value;
     }
 
     @Override
     public boolean hasNext() {
-      return valueOrSentinel != SENTINEL;
+      return !done;
     }
 
     @Override
     @ParametricNullness
     public T next() {
-      if (valueOrSentinel == SENTINEL) {
+      if (done) {
         throw new NoSuchElementException();
       }
-      // The field held either a T or SENTINEL, and it turned out not to be SENTINEL.
-      @SuppressWarnings("unchecked")
-      T t = (T) valueOrSentinel;
-      valueOrSentinel = SENTINEL;
-      return t;
+      done = true;
+      return value;
     }
   }
 

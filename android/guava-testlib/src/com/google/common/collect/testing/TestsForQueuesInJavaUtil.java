@@ -16,13 +16,14 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.emptySet;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -60,35 +61,35 @@ public class TestsForQueuesInJavaUtil {
   }
 
   protected Collection<Method> suppressForArrayDeque() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentLinkedQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedBlockingDeque() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForPriorityBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForPriorityQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForArrayDeque() {

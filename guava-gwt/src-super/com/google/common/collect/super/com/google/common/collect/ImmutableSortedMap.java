@@ -32,6 +32,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper
@@ -39,17 +41,18 @@ import java.util.stream.Collectors;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     implements SortedMap<K, V> {
 
   @SuppressWarnings("unchecked")
-  static final Comparator NATURAL_ORDER = Ordering.natural();
+  static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
   // This reference is only used by GWT compiler to infer the keys and values
   // of the map that needs to be serialized.
-  private Comparator<? super K> unusedComparatorForSerialization;
-  private K unusedKeyForSerialization;
-  private V unusedValueForSerialization;
+  private @Nullable Comparator<? super K> unusedComparatorForSerialization;
+  private @Nullable K unusedKeyForSerialization;
+  private @Nullable V unusedValueForSerialization;
 
   private final transient SortedMap<K, V> sortedDelegate;
 
@@ -67,18 +70,20 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     this.sortedDelegate = delegate;
   }
 
-  public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
-      Comparator<? super K> comparator,
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Comparator<? super K> comparator,
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableSortedMap(comparator, keyFunction, valueFunction);
   }
 
-  public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
-      Comparator<? super K> comparator,
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Comparator<? super K> comparator,
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(comparator);
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
@@ -89,10 +94,10 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         ImmutableSortedMap::copyOfSorted);
   }
 
-  // Casting to any type is safe because the set will never hold any elements.
+  // unsafe, comparator() returns a comparator on the specified type
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> of() {
-    return new Builder<K, V>(NATURAL_ORDER).build();
+    return new Builder<K, V>((Comparator<K>) NATURAL_ORDER).build();
   }
 
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(K k1, V v1) {
@@ -251,8 +256,10 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         .build();
   }
 
+  // Unsafe, see ImmutableSortedMapFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    return copyOfInternal((Map) map, (Ordering<K>) Ordering.natural());
+    return copyOfInternal((Map<K, V>) map, (Ordering<K>) Ordering.natural());
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
@@ -260,9 +267,11 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return copyOfInternal(map, checkNotNull(comparator));
   }
 
+  // Unsafe, see ImmutableSortedMapFauxverideShim.
+  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    return new Builder<K, V>(NATURAL_ORDER).putAll(entries).build();
+    return new Builder<K, V>((Comparator<K>) NATURAL_ORDER).putAll(entries).build();
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
@@ -276,7 +285,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     // even though K doesn't explicitly implement Comparable.
     @SuppressWarnings("unchecked")
     Comparator<? super K> comparator =
-        (map.comparator() == null) ? NATURAL_ORDER : map.comparator();
+        (map.comparator() == null) ? (Comparator<? super K>) NATURAL_ORDER : map.comparator();
     return copyOfInternal(map, comparator);
   }
 
@@ -398,7 +407,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     }
   }
 
-  private transient ImmutableSortedSet<K> keySet;
+  private transient @Nullable ImmutableSortedSet<K> keySet;
 
   @Override
   public ImmutableSortedSet<K> keySet() {
@@ -421,14 +430,17 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return comparator;
   }
 
+  @CheckForNull
   public K firstKey() {
     return sortedDelegate.firstKey();
   }
 
+  @CheckForNull
   public K lastKey() {
     return sortedDelegate.lastKey();
   }
 
+  @CheckForNull
   K higher(K k) {
     Iterator<K> iterator = keySet().tailSet(k).iterator();
     while (iterator.hasNext()) {
@@ -476,7 +488,9 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return newView(sortedDelegate.tailMap(fromKey));
   }
 
-  public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
+  public ImmutableSortedMap<K, V> tailMap(K fromKeyParam, boolean inclusive) {
+    // Declare a "true" local variable so that the Checker Framework will infer nullness.
+    K fromKey = fromKeyParam;
     checkNotNull(fromKey);
     if (!inclusive) {
       fromKey = higher(fromKey);
@@ -513,7 +527,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return newTreeMap(nullAccepting(comparator));
   }
 
-  private static <E> Comparator<E> nullAccepting(Comparator<E> comparator) {
-    return Ordering.from(comparator).nullsFirst();
+  private static <E> Comparator<@Nullable E> nullAccepting(Comparator<E> comparator) {
+    return Ordering.from(comparator).<E>nullsFirst();
   }
 }

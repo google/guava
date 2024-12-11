@@ -21,11 +21,13 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.TestExceptions.SomeUncheckedException;
 import java.util.Map;
 import org.junit.Ignore;
 
@@ -36,7 +38,9 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testCompute_absentToPresent() {
@@ -165,40 +169,36 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
     assertEquals(getNumElements(), getMap().size());
   }
 
-  static class ExpectedException extends RuntimeException {}
-
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   @CollectionSize.Require(absent = ZERO)
   public void testCompute_presentFunctionThrows() {
-    try {
-      getMap()
-          .compute(
-              k0(),
-              (k, v) -> {
-                assertEquals(k0(), k);
-                assertEquals(v0(), v);
-                throw new ExpectedException();
-              });
-      fail("Expected ExpectedException");
-    } catch (ExpectedException expected) {
-    }
+    assertThrows(
+        SomeUncheckedException.class,
+        () ->
+            getMap()
+                .compute(
+                    k0(),
+                    (k, v) -> {
+                      assertEquals(k0(), k);
+                      assertEquals(v0(), v);
+                      throw new SomeUncheckedException();
+                    }));
     expectUnchanged();
   }
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testCompute_absentFunctionThrows() {
-    try {
-      getMap()
-          .compute(
-              k3(),
-              (k, v) -> {
-                assertEquals(k3(), k);
-                assertNull(v);
-                throw new ExpectedException();
-              });
-      fail("Expected ExpectedException");
-    } catch (ExpectedException expected) {
-    }
+    assertThrows(
+        SomeUncheckedException.class,
+        () ->
+            getMap()
+                .compute(
+                    k3(),
+                    (k, v) -> {
+                      assertEquals(k3(), k);
+                      assertNull(v);
+                      throw new SomeUncheckedException();
+                    }));
     expectUnchanged();
   }
 }

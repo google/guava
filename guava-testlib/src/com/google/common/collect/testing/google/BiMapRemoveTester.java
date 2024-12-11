@@ -33,9 +33,10 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyRemovesFromInverse() {
@@ -43,7 +44,6 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     expectMissing(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyFromKeySetRemovesFromInverse() {
@@ -51,7 +51,6 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     expectMissing(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromValuesRemovesFromInverse() {
@@ -59,7 +58,6 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     expectMissing(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseRemovesFromForward() {
@@ -67,7 +65,6 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     expectMissing(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseKeySetRemovesFromForward() {
@@ -75,7 +72,6 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     expectMissing(e0());
   }
 
-  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseValuesRemovesFromInverse() {

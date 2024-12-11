@@ -16,6 +16,8 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -42,7 +44,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -79,7 +80,6 @@ class CacheTesting {
    * that the given entry is a weak or soft reference, and throws an IllegalStateException if that
    * assumption does not hold.
    */
-  @SuppressWarnings("unchecked") // the instanceof check and the cast generate this warning
   static <K, V> void simulateKeyReclamation(Cache<K, V> cache, K key) {
     ReferenceEntry<K, V> entry = getReferenceEntry(cache, key);
 
@@ -356,7 +356,7 @@ class CacheTesting {
   }
 
   static int expirationQueueSize(Cache<?, ?> cache) {
-    return Math.max(accessQueueSize(cache), writeQueueSize(cache));
+    return max(accessQueueSize(cache), writeQueueSize(cache));
   }
 
   static void processPendingNotifications(Cache<?, ?> cache) {
@@ -421,7 +421,7 @@ class CacheTesting {
       drainRecencyQueue(segment);
     }
 
-    ticker.advance(2 * expiringTime, TimeUnit.MILLISECONDS);
+    ticker.advance(2 * expiringTime, MILLISECONDS);
 
     long now = ticker.read();
     for (Segment<?, ?> segment : cchm.segments) {

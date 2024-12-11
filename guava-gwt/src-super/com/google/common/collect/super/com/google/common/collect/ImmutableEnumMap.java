@@ -27,6 +27,7 @@ import java.util.Map.Entry;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 final class ImmutableEnumMap<K, V> extends ForwardingImmutableMap<K, V> {
   static <K, V> ImmutableMap<K, V> asImmutable(Map<K, V> map) {
     for (Entry<K, V> entry : checkNotNull(map).entrySet()) {

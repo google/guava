@@ -16,8 +16,9 @@
 
 package com.google.common.collect.testing.features;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.Helpers;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -28,8 +29,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum SetFeature implements Feature<Set> {
   GENERAL_PURPOSE(CollectionFeature.GENERAL_PURPOSE);
@@ -37,7 +37,7 @@ public enum SetFeature implements Feature<Set> {
   private final Set<Feature<? super Set>> implied;
 
   SetFeature(Feature<? super Set>... implied) {
-    this.implied = Helpers.copyToSet(implied);
+    this.implied = copyToSet(implied);
   }
 
   @Override

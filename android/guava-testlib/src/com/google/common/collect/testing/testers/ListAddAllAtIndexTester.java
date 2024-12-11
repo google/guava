@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -36,9 +37,10 @@ import org.junit.Ignore;
  *
  * @author Chris Povirk
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
@@ -52,11 +54,8 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedAllPresent() {
-    try {
-      getList().addAll(0, MinimalCollection.of(e0()));
-      fail("addAll(n, allPresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class, () -> getList().addAll(0, MinimalCollection.of(e0())));
     expectUnchanged();
   }
 
@@ -72,11 +71,9 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedSomePresent() {
-    try {
-      getList().addAll(0, MinimalCollection.of(e0(), e3()));
-      fail("addAll(n, allPresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> getList().addAll(0, MinimalCollection.of(e0(), e3())));
     expectUnchanged();
     expectMissing(e3());
   }
@@ -121,11 +118,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
   public void testAddAllAtIndex_nullUnsupported() {
     List<E> containsNull = singletonList(null);
-    try {
-      getList().addAll(0, containsNull);
-      fail("addAll(n, containsNull) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getList().addAll(0, containsNull));
     expectUnchanged();
     expectNullMissingWhenNullUnsupported(
         "Should not contain null after unsupported addAll(n, containsNull)");
@@ -151,32 +144,23 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_nullCollectionReference() {
-    try {
-      getList().addAll(0, null);
-      fail("addAll(n, null) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getList().addAll(0, null));
     expectUnchanged();
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_negative() {
-    try {
-      getList().addAll(-1, MinimalCollection.of(e3()));
-      fail("addAll(-1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> getList().addAll(-1, MinimalCollection.of(e3())));
     expectUnchanged();
     expectMissing(e3());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_tooLarge() {
-    try {
-      getList().addAll(getNumElements() + 1, MinimalCollection.of(e3()));
-      fail("addAll(size + 1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> getList().addAll(getNumElements() + 1, MinimalCollection.of(e3())));
     expectUnchanged();
     expectMissing(e3());
   }

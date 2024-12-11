@@ -39,6 +39,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
+  /** Constructor for use by subclasses. */
+  public ForwardingSetMultimap() {}
 
   @Override
   protected abstract SetMultimap<K, V> delegate();

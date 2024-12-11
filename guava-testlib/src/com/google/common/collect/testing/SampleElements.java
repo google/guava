@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -29,7 +31,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public class SampleElements<E> implements Iterable<E> {
+@ElementTypesAreNonnullByDefault
+public class SampleElements<E extends @Nullable Object> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
   private final E e0;
   private final E e1;
@@ -89,14 +92,14 @@ public class SampleElements<E> implements Iterable<E> {
     }
   }
 
-  public static <K, V> SampleElements<Entry<K, V>> mapEntries(
-      SampleElements<K> keys, SampleElements<V> values) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      SampleElements<Entry<K, V>> mapEntries(SampleElements<K> keys, SampleElements<V> values) {
     return new SampleElements<>(
-        Helpers.mapEntry(keys.e0(), values.e0()),
-        Helpers.mapEntry(keys.e1(), values.e1()),
-        Helpers.mapEntry(keys.e2(), values.e2()),
-        Helpers.mapEntry(keys.e3(), values.e3()),
-        Helpers.mapEntry(keys.e4(), values.e4()));
+        mapEntry(keys.e0(), values.e0()),
+        mapEntry(keys.e1(), values.e1()),
+        mapEntry(keys.e2(), values.e2()),
+        mapEntry(keys.e3(), values.e3()),
+        mapEntry(keys.e4(), values.e4()));
   }
 
   public E e0() {

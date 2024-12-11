@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.UnsignedBytes.max;
+import static com.google.common.primitives.UnsignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static org.junit.Assert.assertThrows;
@@ -91,34 +93,31 @@ public class UnsignedBytesTest extends TestCase {
         byte y = VALUES[j];
         // note: spec requires only that the sign is the same
         assertWithMessage(x + ", " + y)
-            .that(Math.signum(Ints.compare(i, j)))
-            .isEqualTo(Math.signum(UnsignedBytes.compare(x, y)));
+            .that(Math.signum(UnsignedBytes.compare(x, y)))
+            .isEqualTo(Math.signum(Integer.compare(i, j)));
       }
     }
   }
 
   public void testMax_noArgs() {
-    assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.max());
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
-    assertThat(UnsignedBytes.max(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedBytes.max(GREATEST)).isEqualTo(GREATEST);
-    assertThat(UnsignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
-        .isEqualTo((byte) 255);
+    assertThat(max(LEAST)).isEqualTo(LEAST);
+    assertThat(max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1)).isEqualTo((byte) 255);
   }
 
   public void testMin_noArgs() {
-    assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.min());
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
-    assertThat(UnsignedBytes.min(LEAST)).isEqualTo(LEAST);
-    assertThat(UnsignedBytes.min(GREATEST)).isEqualTo(GREATEST);
-    assertThat(UnsignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
-        .isEqualTo((byte) 0);
-    assertThat(UnsignedBytes.min((byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0))
-        .isEqualTo((byte) 0);
+    assertThat(min(LEAST)).isEqualTo(LEAST);
+    assertThat(min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1)).isEqualTo((byte) 0);
+    assertThat(min((byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0)).isEqualTo((byte) 0);
   }
 
   private static void assertParseFails(String value) {
@@ -274,7 +273,6 @@ public class UnsignedBytesTest extends TestCase {
     assertThat(SerializableTester.reserialize(javaImpl)).isSameInstanceAs(javaImpl);
   }
 
-  @SuppressWarnings("unchecked")
   public void testLexicographicalComparatorLongInputs() {
     Random rnd = new Random();
     for (Comparator<byte[]> comparator :

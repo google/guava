@@ -20,6 +20,11 @@ import static com.google.common.collect.testing.testers.ListListIteratorTester.g
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListLargeListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -29,7 +34,6 @@ import java.lang.reflect.Method;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -69,27 +73,27 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForEmptyList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArraysAsList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCopyOnWriteArrayList() {
-    return Arrays.asList(
+    return asList(
         getSubListOriginalListSetAffectsSubListMethod(),
         getSubListOriginalListSetAffectsSubListLargeListMethod(),
         getSubListSubListRemoveAffectsOriginalLargeListMethod(),
@@ -97,23 +101,23 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractSequentialList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForVector() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForEmptyList() {
@@ -121,7 +125,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.emptyList();
+                return emptyList();
               }
             })
         .named("emptyList")
@@ -135,7 +139,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.singletonList(elements[0]);
+                return singletonList(elements[0]);
               }
             })
         .named("singletonList")
@@ -152,7 +156,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Arrays.asList(elements.clone());
+                return asList(elements.clone());
               }
             })
         .named("Arrays.asList")
@@ -232,7 +236,7 @@ public class TestsForListsInJavaUtil {
               public List<String> create(String[] elements) {
                 List<String> innerList = new ArrayList<>();
                 Collections.addAll(innerList, elements);
-                return Collections.unmodifiableList(innerList);
+                return unmodifiableList(innerList);
               }
             })
         .named("unmodifiableList/ArrayList")

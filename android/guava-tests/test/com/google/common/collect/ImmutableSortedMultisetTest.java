@@ -15,11 +15,13 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSortedMultiset.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
@@ -96,7 +98,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    Set<String> set = Sets.newHashSet();
+                    Set<String> set = newHashSet();
                     ImmutableSortedMultiset.Builder<String> builder =
                         ImmutableSortedMultiset.naturalOrder();
                     for (String s : elements) {
@@ -176,15 +178,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testCreation_arrayOfArray() {
     Comparator<String[]> comparator =
-        Ordering.natural()
-            .lexicographical()
-            .onResultOf(
-                new Function<String[], Iterable<Comparable>>() {
-                  @Override
-                  public Iterable<Comparable> apply(String[] input) {
-                    return Arrays.<Comparable>asList(input);
-                  }
-                });
+        Ordering.natural().lexicographical().onResultOf(Arrays::asList);
     String[] array = new String[] {"a"};
     Multiset<String[]> multiset = ImmutableSortedMultiset.orderedBy(comparator).add(array).build();
     Multiset<String[]> expected = HashMultiset.create();
@@ -245,13 +239,13 @@ public class ImmutableSortedMultisetTest extends TestCase {
   }
 
   public void testCopyOf_iterator_empty() {
-    Iterator<String> iterator = Iterators.emptyIterator();
+    Iterator<String> iterator = emptyIterator();
     Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterator);
     assertTrue(multiset.isEmpty());
   }
 
   public void testCopyOf_iterator_oneElement() {
-    Iterator<String> iterator = Iterators.singletonIterator("a");
+    Iterator<String> iterator = singletonIterator("a");
     Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterator);
     assertEquals(HashMultiset.create(asList("a")), multiset);
   }
@@ -431,7 +425,6 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> builder.setCount("a", -2));
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }

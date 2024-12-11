@@ -16,12 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -47,7 +49,9 @@ import junit.framework.TestSuite;
  * @author Mike Bostock
  * @author Jared Levy
  */
+@J2ktIncompatible // EnumBimap
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class EnumBiMapTest extends TestCase {
   private enum Currency {
     DOLLAR,
@@ -80,17 +84,17 @@ public class EnumBiMapTest extends TestCase {
     @Override
     public SampleElements<Entry<Country, Currency>> samples() {
       return new SampleElements<>(
-          Helpers.mapEntry(Country.CANADA, Currency.DOLLAR),
-          Helpers.mapEntry(Country.CHILE, Currency.PESO),
-          Helpers.mapEntry(Country.UK, Currency.POUND),
-          Helpers.mapEntry(Country.JAPAN, Currency.YEN),
-          Helpers.mapEntry(Country.SWITZERLAND, Currency.FRANC));
+          mapEntry(Country.CANADA, Currency.DOLLAR),
+          mapEntry(Country.CHILE, Currency.PESO),
+          mapEntry(Country.UK, Currency.POUND),
+          mapEntry(Country.JAPAN, Currency.YEN),
+          mapEntry(Country.SWITZERLAND, Currency.FRANC));
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Entry<Country, Currency>[] createArray(int length) {
-      return new Entry[length];
+      return (Entry<Country, Currency>[]) new Entry<?, ?>[length];
     }
 
     @Override
@@ -109,6 +113,7 @@ public class EnumBiMapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -148,16 +153,12 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(Currency.DOLLAR, bimap.inverse().get(Country.CANADA));
 
     /* Map must have at least one entry if not an EnumBiMap. */
-    try {
-      EnumBiMap.create(Collections.<Currency, Country>emptyMap());
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      EnumBiMap.create(EnumHashBiMap.<Currency, Country>create(Currency.class));
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> EnumBiMap.create(Collections.<Currency, Country>emptyMap()));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> EnumBiMap.create(EnumHashBiMap.<Currency, Country>create(Currency.class)));
 
     /* Map can be empty if it's an EnumBiMap. */
     Map<Currency, Country> emptyBimap = EnumBiMap.create(Currency.class, Country.class);
@@ -287,12 +288,14 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // serialization
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(
         EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumBiMap.class);

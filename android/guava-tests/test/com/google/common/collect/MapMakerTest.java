@@ -16,10 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.testing.NullPointerTester;
 import java.util.Map;
@@ -27,8 +29,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
 
-/** @author Charles Fry */
+/**
+ * @author Charles Fry
+ */
 @GwtCompatible(emulated = true)
+@J2ktIncompatible // MapMaker
 public class MapMakerTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
@@ -58,11 +63,7 @@ public class MapMakerTest extends TestCase {
 
   public void testInitialCapacity_negative() {
     MapMaker maker = new MapMaker();
-    try {
-      maker.initialCapacity(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> maker.initialCapacity(-1));
   }
 
   // TODO(cpovirk): enable when ready (apparently after a change to our GWT emulation)

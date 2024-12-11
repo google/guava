@@ -118,7 +118,7 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals("ab", sb.toString());
   }
 
-  public void testSkipFully_EOF() throws IOException {
+  public void testSkipFully_eof() throws IOException {
     Reader reader = new StringReader("abcde");
     assertThrows(EOFException.class, () -> CharStreams.skipFully(reader, 6));
   }
@@ -216,7 +216,7 @@ public class CharStreamsTest extends IoTestCase {
   }
 
   /**
-   * Test for Guava issue 1061: http://code.google.com/p/guava-libraries/issues/detail?id=1061
+   * Test for Guava issue 1061: https://github.com/google/guava/issues/1061
    *
    * <p>CharStreams.copy was failing to clear its CharBuffer after each read call, which effectively
    * reduced the available size of the buffer each time a call to read didn't fill up the available

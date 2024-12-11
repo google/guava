@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
@@ -51,12 +52,14 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -157,6 +160,9 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 15.0 (present as an interface in 14.0)
    */
   public abstract static class Listener {
+    /** Constructor for use by subclasses. */
+    public Listener() {}
+
     /**
      * Called when the service initially becomes healthy.
      *
@@ -301,6 +307,23 @@ public final class ServiceManager implements ServiceManagerBridge {
    * reached the {@linkplain State#RUNNING running} state.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have finished starting within the deadline
+   * @throws IllegalStateException if the service manager reaches a state from which it cannot
+   *     become {@linkplain #isHealthy() healthy}.
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public void awaitHealthy(Duration timeout) throws TimeoutException {
+    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the {@link ServiceManager} to become {@linkplain #isHealthy() healthy} for no more
+   * than the given time. The manager will become healthy after all the component services have
+   * reached the {@linkplain State#RUNNING running} state.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
@@ -332,6 +355,21 @@ public final class ServiceManager implements ServiceManagerBridge {
    */
   public void awaitStopped() {
     state.awaitStopped();
+  }
+
+  /**
+   * Waits for the all the services to reach a terminal state for no more than the given time. After
+   * this method returns all services will either be {@linkplain Service.State#TERMINATED
+   * terminated} or {@linkplain Service.State#FAILED failed}.
+   *
+   * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have stopped within the deadline
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public void awaitStopped(Duration timeout) throws TimeoutException {
+    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -387,6 +425,23 @@ public final class ServiceManager implements ServiceManagerBridge {
     return state.startupTimes();
   }
 
+  /**
+   * Returns the service load times. This value will only return startup times for services that
+   * have finished starting.
+   *
+   * @return Map of services and their corresponding startup time, the map entries will be ordered
+   *     by startup time.
+   * @since NEXT (but since 31.0 in the JRE flavor)
+   */
+  @J2ObjCIncompatible
+  @SuppressWarnings("Java7ApiChecker")
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Duration calls
+  @IgnoreJRERequirement
+  public ImmutableMap<Service, Duration> startupDurations() {
+    return ImmutableMap.copyOf(
+        Maps.<Service, Long, Duration>transformValues(startupTimes(), Duration::ofMillis));
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(ServiceManager.class)
@@ -409,7 +464,7 @@ public final class ServiceManager implements ServiceManagerBridge {
     final Multiset<State> states = servicesByState.keys();
 
     @GuardedBy("monitor")
-    final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
+    final IdentityHashMap<Service, Stopwatch> startupTimers = new IdentityHashMap<>();
 
     /**
      * These two booleans are used to mark the state as ready to start.
@@ -725,6 +780,9 @@ public final class ServiceManager implements ServiceManagerBridge {
             new IllegalStateException(
                 "Expected to be healthy after starting. The following services are not running: "
                     + Multimaps.filterKeys(servicesByState, not(equalTo(RUNNING))));
+        for (Service service : servicesByState.get(State.FAILED)) {
+          exception.addSuppressed(new FailedService(service));
+        }
         throw exception;
       }
     }
@@ -796,6 +854,11 @@ public final class ServiceManager implements ServiceManagerBridge {
         // Log before the transition, so that if the process exits in response to server failure,
         // there is a higher likelihood that the cause will be in the logs.
         boolean log = !(service instanceof NoOpService);
+        /*
+         * We have already exposed startup exceptions to the user in the form of suppressed
+         * exceptions. We don't need to log those exceptions again.
+         */
+        log &= from != State.STARTING;
         if (log) {
           logger
               .get()
@@ -831,4 +894,14 @@ public final class ServiceManager implements ServiceManagerBridge {
 
   /** This is never thrown but only used for logging. */
   private static final class EmptyServiceManagerWarning extends Throwable {}
+
+  private static final class FailedService extends Throwable {
+    FailedService(Service service) {
+      super(
+          service.toString(),
+          service.failureCause(),
+          false /* don't enable suppression */,
+          false /* don't calculate a stack trace. */);
+    }
+  }
 }

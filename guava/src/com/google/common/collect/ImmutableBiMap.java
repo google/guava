@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Arrays.sort;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -468,7 +469,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
             if (entriesUsed) {
               entries = Arrays.copyOf(entries, size);
             }
-            Arrays.sort(
+            sort(
                 (Entry<K, V>[]) entries, // Entries up to size are not null
                 0,
                 size,

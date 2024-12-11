@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.math.IntMath.divide;
 import static com.google.common.math.IntMath.log2;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -37,6 +39,7 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
@@ -44,7 +47,7 @@ import javax.annotation.CheckForNull;
  * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
  *
  * <pre>{@code
- * BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
+ * BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
  * }</pre>
  *
  * <p>returns the string {@code "MZXW6==="}, and
@@ -136,12 +139,8 @@ public abstract class BaseEncoding {
    * @since 15.0
    */
   public static final class DecodingException extends IOException {
-    DecodingException(String message) {
+    DecodingException(@Nullable String message) {
       super(message);
-    }
-
-    DecodingException(Throwable cause) {
-      super(cause);
     }
   }
 
@@ -614,7 +613,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static class StandardBaseEncoding extends BaseEncoding {
+  private static class StandardBaseEncoding extends BaseEncoding {
     final Alphabet alphabet;
 
     @CheckForNull final Character paddingChar;
@@ -688,7 +687,7 @@ public abstract class BaseEncoding {
       checkNotNull(target);
       checkPositionIndexes(off, off + len, bytes.length);
       for (int i = 0; i < len; i += alphabet.bytesPerChunk) {
-        encodeChunkTo(target, bytes, off + i, Math.min(alphabet.bytesPerChunk, len - i));
+        encodeChunkTo(target, bytes, off + i, min(alphabet.bytesPerChunk, len - i));
       }
     }
 
@@ -951,7 +950,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base16Encoding extends StandardBaseEncoding {
+  private static final class Base16Encoding extends StandardBaseEncoding {
     final char[] encoding = new char[512];
 
     Base16Encoding(String name, String alphabetChars) {
@@ -998,7 +997,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  static final class Base64Encoding extends StandardBaseEncoding {
+  private static final class Base64Encoding extends StandardBaseEncoding {
     Base64Encoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {
       this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);
     }
@@ -1162,7 +1161,7 @@ public abstract class BaseEncoding {
     int maxEncodedSize(int bytes) {
       int unseparatedSize = delegate.maxEncodedSize(bytes);
       return unseparatedSize
-          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);
+          + separator.length() * divide(max(0, unseparatedSize - 1), afterEveryChars, FLOOR);
     }
 
     @J2ktIncompatible

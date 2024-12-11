@@ -179,10 +179,8 @@ public class PairedStatsAccumulatorTest extends TestCase {
     assertThrows(
         IllegalStateException.class,
         () -> emptyAccumulatorByAddAllEmptyPairedStats.populationCovariance());
-    assertThat(oneValueAccumulator.populationCovariance()).isWithin(0.0).of(0.0);
-    assertThat(oneValueAccumulatorByAddAllEmptyPairedStats.populationCovariance())
-        .isWithin(0.0)
-        .of(0.0);
+    assertThat(oneValueAccumulator.populationCovariance()).isEqualTo(0.0);
+    assertThat(oneValueAccumulatorByAddAllEmptyPairedStats.populationCovariance()).isEqualTo(0.0);
     assertThat(twoValuesAccumulator.populationCovariance())
         .isWithin(ALLOWED_ERROR)
         .of(TWO_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / 2);

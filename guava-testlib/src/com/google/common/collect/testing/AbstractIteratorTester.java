@@ -16,6 +16,12 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.copyToList;
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.asList;
+import static java.util.Collections.frequency;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
@@ -23,14 +29,12 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
-import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -42,7 +46,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;
   private final Set<IteratorFeature> features;
@@ -98,7 +103,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
                 + exception.getClass().getSimpleName()
                 + " was thrown; expected "
                 + getMessage();
-        Helpers.fail(exception, message);
+        throw new AssertionError(message, exception);
       }
     }
 
@@ -136,12 +141,14 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
      * The elements to be returned by future calls to {@code next()}, with the first at the top of
      * the stack.
      */
-    final Stack<E> nextElements = new Stack<E>();
+    final Stack<E> nextElements = new Stack<>();
+
     /**
      * The elements to be returned by future calls to {@code previous()}, with the first at the top
      * of the stack.
      */
-    final Stack<E> previousElements = new Stack<E>();
+    final Stack<E> previousElements = new Stack<>();
+
     /**
      * {@link #nextElements} if {@code next()} was called more recently then {@code previous},
      * {@link #previousElements} if the reverse is true, or -- overriding both of these -- {@code
@@ -255,7 +262,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     }
 
     private List<E> getElements() {
-      List<E> elements = new ArrayList<E>();
+      List<E> elements = new ArrayList<>();
       Helpers.addAll(elements, previousElements);
       Helpers.addAll(elements, Helpers.reverse(nextElements));
       return elements;
@@ -267,7 +274,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     UNKNOWN_ORDER
   }
 
-  @SuppressWarnings("unchecked") // creating array of generic class Stimulus
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Stop using arrays.
   AbstractIteratorTester(
       int steps,
       Iterable<E> elementsToInsertIterable,
@@ -277,13 +284,13 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       int startIndex) {
     // periodically we should manually try (steps * 3 / 2) here; all tests but
     // one should still pass (testVerifyGetsCalled()).
-    stimuli = new Stimulus[steps];
+    stimuli = (Stimulus<E, ? super I>[]) new Stimulus<?, ?>[steps];
     if (!elementsToInsertIterable.iterator().hasNext()) {
       throw new IllegalArgumentException();
     }
     elementsToInsert = Helpers.cycle(elementsToInsertIterable);
-    this.features = Helpers.copyToSet(features);
-    this.expectedElements = Helpers.copyToList(expectedElements);
+    this.features = copyToSet(features);
+    this.expectedElements = copyToList(expectedElements);
     this.knownOrder = knownOrder;
     this.startIndex = startIndex;
   }
@@ -324,7 +331,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
   public void testForEachRemaining() {
     for (int i = 0; i < expectedElements.size() - 1; i++) {
-      List<E> targetElements = new ArrayList<E>();
+      List<E> targetElements = new ArrayList<>();
       Iterator<E> iterator = newTargetIterator();
       for (int j = 0; j < i; j++) {
         targetElements.add(iterator.next());
@@ -333,7 +340,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       if (knownOrder == KnownOrder.KNOWN_ORDER) {
         assertEquals(expectedElements, targetElements);
       } else {
-        Helpers.assertEqualIgnoringOrder(expectedElements, targetElements);
+        assertEqualIgnoringOrder(expectedElements, targetElements);
       }
     }
   }
@@ -354,7 +361,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   }
 
   private void compareResultsForThisListOfStimuli() {
-    int removes = Collections.frequency(Arrays.asList(stimuli), remove);
+    int removes = frequency(asList(stimuli), remove);
     if ((!features.contains(IteratorFeature.SUPPORTS_REMOVE) && removes > 1)
         || (stimuli.length >= 5 && removes > 2)) {
       // removes are the most expensive thing to test, since they often throw exceptions with stack
@@ -368,16 +375,16 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       try {
         stimuli[i].executeAndCompare(reference, target);
         verify(reference.getElements());
-      } catch (AssertionFailedError cause) {
-        Helpers.fail(cause, "failed with stimuli " + subListCopy(stimuli, i + 1));
+      } catch (AssertionError cause) {
+        throw new AssertionError("failed with stimuli " + subListCopy(stimuli, i + 1), cause);
       }
     }
   }
 
   private static List<Object> subListCopy(Object[] source, int size) {
     final Object[] copy = new Object[size];
-    System.arraycopy(source, 0, copy, 0, size);
-    return Arrays.asList(copy);
+    arraycopy(source, 0, copy, 0, size);
+    return asList(copy);
   }
 
   private interface IteratorOperation {
@@ -414,20 +421,15 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         @SuppressWarnings("unchecked")
         E targetReturnValueFromNext = (E) targetReturnValue;
         /*
-         * We have an Iterator<E> and want to cast it to
-         * MultiExceptionListIterator. Because we're inside an
-         * AbstractIteratorTester<E>, that's implicitly a cast to
-         * AbstractIteratorTester<E>.MultiExceptionListIterator. The runtime
-         * won't be able to verify the AbstractIteratorTester<E> part, so it's
-         * an unchecked cast. We know, however, that the only possible value for
-         * the type parameter is <E>, since otherwise the
-         * MultiExceptionListIterator wouldn't be an Iterator<E>. The cast is
-         * safe, even though javac can't tell.
-         *
-         * Sun bug 6665356 is an additional complication. Until OpenJDK 7, javac
-         * doesn't recognize this kind of cast as unchecked cast. Neither does
-         * Eclipse 3.4. Right now, this suppression is mostly unnecessary.
+         * We have an Iterator<E> and want to cast it to MultiExceptionListIterator. Because we're
+         * inside an AbstractIteratorTester<E>, that's implicitly a cast to
+         * AbstractIteratorTester<E>.MultiExceptionListIterator. The runtime won't be able to verify
+         * the AbstractIteratorTester<E> part, so it's an unchecked cast. We know, however, that the
+         * only possible value for the type parameter is <E>, since otherwise the
+         * MultiExceptionListIterator wouldn't be an Iterator<E>. The cast is safe, even though
+         * javac can't tell.
          */
+        @SuppressWarnings("unchecked")
         MultiExceptionListIterator multiExceptionListIterator =
             (MultiExceptionListIterator) reference;
         multiExceptionListIterator.promoteToNext(targetReturnValueFromNext);
@@ -437,12 +439,12 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     } catch (PermittedMetaException e) {
       referenceException = e;
     } catch (UnknownElementException e) {
-      Helpers.fail(e, e.getMessage());
+      throw new AssertionError(e);
     }
 
     if (referenceException == null) {
       if (targetException != null) {
-        Helpers.fail(targetException, "Target threw exception when reference did not");
+        throw new AssertionError("Target threw exception when reference did not", targetException);
       }
 
       /*
@@ -477,7 +479,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation NEXT_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return iterator.next();
         }
       };
@@ -485,7 +487,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private static final IteratorOperation PREVIOUS_METHOD =
       new IteratorOperation() {
         @Override
-        public Object execute(Iterator<?> iterator) {
+        public @Nullable Object execute(Iterator<?> iterator) {
           return ((ListIterator<?>) iterator).previous();
         }
       };
@@ -516,7 +518,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     };
   }
 
-  abstract static class Stimulus<E, T extends Iterator<E>> {
+  abstract static class Stimulus<E extends @Nullable Object, T extends Iterator<E>> {
     private final String toString;
 
     protected Stimulus(String toString) {
@@ -557,9 +559,8 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, Iterator<E>>> iteratorStimuli() {
-    return Arrays.asList(hasNext, next, remove);
+    return asList(hasNext, next, remove);
   }
 
   Stimulus<E, ListIterator<E>> hasPrevious =
@@ -605,8 +606,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
         }
       };
 
-  @SuppressWarnings("unchecked")
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
-    return Arrays.asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
+    return asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
   }
 }

@@ -17,7 +17,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.primitives.Booleans;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
@@ -31,6 +30,7 @@ import javax.annotation.CheckForNull;
  *
  * @author Kevin Bourrillion
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
@@ -82,7 +82,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return result;
     }
     // same value. below comes before above
-    return Booleans.compare(this instanceof AboveValue, that instanceof AboveValue);
+    return Boolean.compare(this instanceof AboveValue, that instanceof AboveValue);
   }
 
   C endpoint() {
@@ -339,9 +339,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case OPEN:
           C previous = domain.previous(endpoint);
           return (previous == null) ? Cut.<C>belowAll() : new AboveValue<C>(previous);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -352,9 +351,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return (previous == null) ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
         case OPEN:
           return this;
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -423,9 +421,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case CLOSED:
           C next = domain.next(endpoint);
           return (next == null) ? Cut.<C>belowAll() : belowValue(next);
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override
@@ -436,9 +433,8 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return (next == null) ? Cut.<C>aboveAll() : belowValue(next);
         case CLOSED:
           return this;
-        default:
-          throw new AssertionError();
       }
+      throw new AssertionError();
     }
 
     @Override

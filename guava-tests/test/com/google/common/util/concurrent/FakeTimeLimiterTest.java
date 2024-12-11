@@ -17,11 +17,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 
 /**
@@ -44,8 +44,7 @@ public class FakeTimeLimiterTest extends TestCase {
 
   public void testCallWithTimeout_propagatesReturnValue() throws Exception {
     String result =
-        timeLimiter.callWithTimeout(
-            Callables.returning(RETURN_VALUE), DELAY_MS, TimeUnit.MILLISECONDS);
+        timeLimiter.callWithTimeout(Callables.returning(RETURN_VALUE), DELAY_MS, MILLISECONDS);
 
     assertThat(result).isEqualTo(RETURN_VALUE);
   }
@@ -55,10 +54,8 @@ public class FakeTimeLimiterTest extends TestCase {
     ExecutionException e =
         assertThrows(
             ExecutionException.class,
-            () ->
-                timeLimiter.callWithTimeout(
-                    callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
-    assertThat(e.getCause()).isEqualTo(exception);
+            () -> timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, MILLISECONDS));
+    assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
   public void testCallWithTimeout_wrapsUncheckedException() throws Exception {
@@ -66,22 +63,20 @@ public class FakeTimeLimiterTest extends TestCase {
     UncheckedExecutionException e =
         assertThrows(
             UncheckedExecutionException.class,
-            () ->
-                timeLimiter.callWithTimeout(
-                    callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
-    assertThat(e.getCause()).isEqualTo(exception);
+            () -> timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, MILLISECONDS));
+    assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
   public void testCallUninterruptiblyWithTimeout_propagatesReturnValue() throws Exception {
     String result =
         timeLimiter.callUninterruptiblyWithTimeout(
-            Callables.returning(RETURN_VALUE), DELAY_MS, TimeUnit.MILLISECONDS);
+            Callables.returning(RETURN_VALUE), DELAY_MS, MILLISECONDS);
 
     assertThat(result).isEqualTo(RETURN_VALUE);
   }
 
   public void testRunWithTimeout_returnsWithoutException() throws Exception {
-    timeLimiter.runWithTimeout(Runnables.doNothing(), DELAY_MS, TimeUnit.MILLISECONDS);
+    timeLimiter.runWithTimeout(Runnables.doNothing(), DELAY_MS, MILLISECONDS);
   }
 
   public void testRunWithTimeout_wrapsUncheckedException() throws Exception {
@@ -89,10 +84,8 @@ public class FakeTimeLimiterTest extends TestCase {
     UncheckedExecutionException e =
         assertThrows(
             UncheckedExecutionException.class,
-            () ->
-                timeLimiter.runWithTimeout(
-                    runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
-    assertThat(e.getCause()).isEqualTo(exception);
+            () -> timeLimiter.runWithTimeout(runnableThrowing(exception), DELAY_MS, MILLISECONDS));
+    assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
   public void testRunUninterruptiblyWithTimeout_wrapsUncheckedException() throws Exception {
@@ -102,8 +95,8 @@ public class FakeTimeLimiterTest extends TestCase {
             UncheckedExecutionException.class,
             () ->
                 timeLimiter.runUninterruptiblyWithTimeout(
-                    runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS));
-    assertThat(e.getCause()).isEqualTo(exception);
+                    runnableThrowing(exception), DELAY_MS, MILLISECONDS));
+    assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
   public static <T> Callable<T> callableThrowing(final Exception exception) {

@@ -39,6 +39,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public final class MutableTypeToInstanceMap<B extends @Nullable Object>
     extends ForwardingMap<TypeToken<? extends @NonNull B>, B> implements TypeToInstanceMap<B> {
+  /** Creates a new map. */
+  public MutableTypeToInstanceMap() {}
 
   private final Map<TypeToken<? extends @NonNull B>, B> backingMap = Maps.newHashMap();
 
@@ -162,7 +164,7 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
       return Iterators.transform(entries, UnmodifiableEntry::new);
     }
 
-    private UnmodifiableEntry(java.util.Map.Entry<K, V> delegate) {
+    private UnmodifiableEntry(Entry<K, V> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 

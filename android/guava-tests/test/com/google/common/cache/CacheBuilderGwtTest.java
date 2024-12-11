@@ -16,6 +16,8 @@
 
 package com.google.common.cache;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -29,7 +31,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 
 /**
@@ -130,39 +131,33 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testExpireAfterAccess() {
     final Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterAccess(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterAccess(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(0, 10);
     cache.put(2, 30);
 
-    fakeTicker.advance(999, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(999, MILLISECONDS);
     assertEquals(Integer.valueOf(30), cache.getIfPresent(2));
-    fakeTicker.advance(1, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(1, MILLISECONDS);
     assertEquals(Integer.valueOf(30), cache.getIfPresent(2));
-    fakeTicker.advance(1000, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(1000, MILLISECONDS);
     assertEquals(null, cache.getIfPresent(0));
   }
 
   public void testExpireAfterWrite() {
     final Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 100);
     cache.put(20, 200);
     cache.put(4, 2);
 
-    fakeTicker.advance(999, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(999, MILLISECONDS);
     assertEquals(Integer.valueOf(100), cache.getIfPresent(10));
     assertEquals(Integer.valueOf(200), cache.getIfPresent(20));
     assertEquals(Integer.valueOf(2), cache.getIfPresent(4));
 
-    fakeTicker.advance(2, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(2, MILLISECONDS);
     assertEquals(null, cache.getIfPresent(10));
     assertEquals(null, cache.getIfPresent(20));
     assertEquals(null, cache.getIfPresent(4));
@@ -170,15 +165,15 @@ public class CacheBuilderGwtTest extends TestCase {
     cache.put(10, 20);
     assertEquals(Integer.valueOf(20), cache.getIfPresent(10));
 
-    fakeTicker.advance(1000, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(1000, MILLISECONDS);
     assertEquals(null, cache.getIfPresent(10));
   }
 
   public void testExpireAfterWriteAndAccess() {
     final Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .expireAfterAccess(500, TimeUnit.MILLISECONDS)
+            .expireAfterWrite(1000, MILLISECONDS)
+            .expireAfterAccess(500, MILLISECONDS)
             .ticker(fakeTicker)
             .build();
 
@@ -186,23 +181,23 @@ public class CacheBuilderGwtTest extends TestCase {
     cache.put(20, 200);
     cache.put(4, 2);
 
-    fakeTicker.advance(499, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(499, MILLISECONDS);
     assertEquals(Integer.valueOf(100), cache.getIfPresent(10));
     assertEquals(Integer.valueOf(200), cache.getIfPresent(20));
 
-    fakeTicker.advance(2, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(2, MILLISECONDS);
     assertEquals(Integer.valueOf(100), cache.getIfPresent(10));
     assertEquals(Integer.valueOf(200), cache.getIfPresent(20));
     assertEquals(null, cache.getIfPresent(4));
 
-    fakeTicker.advance(499, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(499, MILLISECONDS);
     assertEquals(null, cache.getIfPresent(10));
     assertEquals(null, cache.getIfPresent(20));
 
     cache.put(10, 20);
     assertEquals(Integer.valueOf(20), cache.getIfPresent(10));
 
-    fakeTicker.advance(500, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(500, MILLISECONDS);
     assertEquals(null, cache.getIfPresent(10));
   }
 
@@ -276,7 +271,7 @@ public class CacheBuilderGwtTest extends TestCase {
 
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .expireAfterWrite(1000, MILLISECONDS)
             .removalListener(countingListener)
             .ticker(fakeTicker)
             .maximumSize(2)
@@ -296,7 +291,7 @@ public class CacheBuilderGwtTest extends TestCase {
     cache.put(56, 4);
 
     // Expire the two present elements.
-    fakeTicker.advance(1001, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(1001, MILLISECONDS);
 
     cache.getIfPresent(23);
     cache.getIfPresent(56);
@@ -371,17 +366,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMap_containsValue() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(20000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(654, 2675);
-    fakeTicker.advance(10000, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(10000, MILLISECONDS);
     cache.put(2456, 56);
     cache.put(2, 15);
 
-    fakeTicker.advance(10001, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(10001, MILLISECONDS);
 
     assertTrue(cache.asMap().containsValue(15));
     assertTrue(cache.asMap().containsValue(56));
@@ -390,17 +382,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMap_containsKey() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(20000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(654, 2675);
-    fakeTicker.advance(10000, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(10000, MILLISECONDS);
     cache.put(2456, 56);
     cache.put(2, 15);
 
-    fakeTicker.advance(10001, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(10001, MILLISECONDS);
 
     assertTrue(cache.asMap().containsKey(2));
     assertTrue(cache.asMap().containsKey(2456));
@@ -409,17 +398,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMapValues_contains() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 20);
-    fakeTicker.advance(500, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(500, MILLISECONDS);
     cache.put(20, 22);
     cache.put(5, 10);
 
-    fakeTicker.advance(501, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(501, MILLISECONDS);
 
     assertTrue(cache.asMap().values().contains(22));
     assertTrue(cache.asMap().values().contains(10));
@@ -428,17 +414,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMapKeySet() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 20);
-    fakeTicker.advance(500, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(500, MILLISECONDS);
     cache.put(20, 22);
     cache.put(5, 10);
 
-    fakeTicker.advance(501, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(501, MILLISECONDS);
 
     Set<Integer> foundKeys = new HashSet<>(cache.asMap().keySet());
 
@@ -447,17 +430,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMapKeySet_contains() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 20);
-    fakeTicker.advance(500, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(500, MILLISECONDS);
     cache.put(20, 22);
     cache.put(5, 10);
 
-    fakeTicker.advance(501, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(501, MILLISECONDS);
 
     assertTrue(cache.asMap().keySet().contains(20));
     assertTrue(cache.asMap().keySet().contains(5));
@@ -466,17 +446,14 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMapEntrySet() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 20);
-    fakeTicker.advance(500, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(500, MILLISECONDS);
     cache.put(20, 22);
     cache.put(5, 10);
 
-    fakeTicker.advance(501, TimeUnit.MILLISECONDS);
+    fakeTicker.advance(501, MILLISECONDS);
 
     int sum = 0;
     for (Entry<Integer, Integer> current : cache.asMap().entrySet()) {
@@ -487,10 +464,7 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testAsMapValues_iteratorRemove() {
     Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-            .ticker(fakeTicker)
-            .build();
+        CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 20);
     Iterator<Integer> iterator = cache.asMap().values().iterator();

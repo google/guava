@@ -15,12 +15,12 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
-  @VisibleForTesting
   static <K, V> ImmutableBiMap<K, V> create(int n, @Nullable Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);
     Map<V, K> backwardDelegate = Maps.newHashMapWithExpectedSize(n);
@@ -92,7 +91,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     @Override
     public Entry<V, K> get(int index) {
       Entry<K, V> entry = entries.get(index);
-      return Maps.immutableEntry(entry.getValue(), entry.getKey());
+      return immutableEntry(entry.getValue(), entry.getKey());
     }
 
     @Override

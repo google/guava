@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -27,6 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.annotation.CheckForNull;
 
 /**
@@ -212,7 +213,6 @@ public final class Splitter {
    * @return a splitter, with default settings, that uses this pattern
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
    */
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter on(Pattern separatorPattern) {
     return onPatternInternal(new JdkPattern(separatorPattern));
@@ -257,7 +257,6 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string or is a
    *     malformed expression
    */
-  @J2ktIncompatible
   @GwtIncompatible // java.util.regex
   public static Splitter onPattern(String separatorPattern) {
     return onPatternInternal(Platform.compilePattern(separatorPattern));
@@ -332,7 +331,7 @@ public final class Splitter {
    * <p>For example, {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
    * containing {@code ["a", "b", "c,d"]}. When omitting empty strings, the omitted strings do not
    * count. Hence, {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")} returns
-   * an iterable containing {@code ["a", "b", "c,d"}. When trim is requested, all entries are
+   * an iterable containing {@code ["a", "b", "c,d"]}. When trim is requested, all entries are
    * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
    * , c , d ")} results in {@code ["a", "b", "c , d"]}.
    *
@@ -424,6 +423,23 @@ public final class Splitter {
     }
 
     return Collections.unmodifiableList(result);
+  }
+
+  /**
+   * Splits {@code sequence} into string components and makes them available through an {@link
+   * Stream}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+   * {@link #splitToList(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return a stream over the segments split from the parameter
+   * @since NEXT (but since 28.2 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls.
+  @IgnoreJRERequirement
+  public Stream<String> splitToStream(CharSequence sequence) {
+    // Can't use Streams.stream() from base
+    return StreamSupport.stream(split(sequence).spliterator(), false);
   }
 
   /**

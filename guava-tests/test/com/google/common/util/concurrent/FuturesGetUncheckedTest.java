@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.CHECKED_EXCEPTION;
@@ -27,9 +28,11 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.OTHER_TH
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
+import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
@@ -41,6 +44,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     assertEquals("foo", getUnchecked(immediateFuture("foo")));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Thread.interrupt
   public void testGetUnchecked_interrupted() {
     Thread.currentThread().interrupt();
@@ -55,59 +59,44 @@ public class FuturesGetUncheckedTest extends TestCase {
   public void testGetUnchecked_cancelled() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(true);
-    try {
-      getUnchecked(future);
-      fail();
-    } catch (CancellationException expected) {
-    }
+    assertThrows(CancellationException.class, () -> getUnchecked(future));
   }
 
-  public void testGetUnchecked_ExecutionExceptionChecked() {
-    try {
-      getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION);
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(CHECKED_EXCEPTION, expected.getCause());
-    }
+  public void testGetUnchecked_executionExceptionChecked() {
+    UncheckedExecutionException expected =
+        assertThrows(
+            UncheckedExecutionException.class, () -> getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION));
+    assertThat(expected).hasCauseThat().isEqualTo(CHECKED_EXCEPTION);
   }
 
-  public void testGetUnchecked_ExecutionExceptionUnchecked() {
-    try {
-      getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION);
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(UNCHECKED_EXCEPTION, expected.getCause());
-    }
+  public void testGetUnchecked_executionExceptionUnchecked() {
+    UncheckedExecutionException expected =
+        assertThrows(
+            UncheckedExecutionException.class,
+            () -> getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION));
+    assertThat(expected).hasCauseThat().isEqualTo(UNCHECKED_EXCEPTION);
   }
 
-  public void testGetUnchecked_ExecutionExceptionError() {
-    try {
-      getUnchecked(FAILED_FUTURE_ERROR);
-      fail();
-    } catch (ExecutionError expected) {
-      assertEquals(ERROR, expected.getCause());
-    }
+  public void testGetUnchecked_executionExceptionError() {
+    ExecutionError expected =
+        assertThrows(ExecutionError.class, () -> getUnchecked(FAILED_FUTURE_ERROR));
+    assertThat(expected).hasCauseThat().isEqualTo(ERROR);
   }
 
-  public void testGetUnchecked_ExecutionExceptionOtherThrowable() {
-    try {
-      getUnchecked(FAILED_FUTURE_OTHER_THROWABLE);
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(OTHER_THROWABLE, expected.getCause());
-    }
+  public void testGetUnchecked_executionExceptionOtherThrowable() {
+    UncheckedExecutionException expected =
+        assertThrows(
+            UncheckedExecutionException.class, () -> getUnchecked(FAILED_FUTURE_OTHER_THROWABLE));
+    assertThat(expected).hasCauseThat().isEqualTo(OTHER_THROWABLE);
   }
 
-  public void testGetUnchecked_RuntimeException() {
-    try {
-      getUnchecked(RUNTIME_EXCEPTION_FUTURE);
-      fail();
-    } catch (RuntimeException expected) {
-      assertEquals(RUNTIME_EXCEPTION, expected);
-    }
+  public void testGetUnchecked_runtimeException() {
+    RuntimeException expected =
+        assertThrows(RuntimeException.class, () -> getUnchecked(RUNTIME_EXCEPTION_FUTURE));
+    assertEquals(RUNTIME_EXCEPTION, expected);
   }
 
-  public void testGetUnchecked_Error() {
+  public void testGetUnchecked_error() {
     try {
       getUnchecked(ERROR_FUTURE);
     } catch (Error expected) {

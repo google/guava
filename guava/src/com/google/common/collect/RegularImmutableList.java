@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.System.arraycopy;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -68,7 +70,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override
   int copyIntoArray(@Nullable Object[] dst, int dstOff) {
-    System.arraycopy(array, 0, dst, dstOff, array.length);
+    arraycopy(array, 0, dst, dstOff, array.length);
     return dstOff + array.length;
   }
 

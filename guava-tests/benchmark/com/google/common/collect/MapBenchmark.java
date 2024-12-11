@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Collections.sort;
+import static java.util.Collections.unmodifiableMap;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
@@ -63,7 +65,7 @@ public class MapBenchmark {
     UnmodHM {
       @Override
       Map<Element, Element> create(Collection<Element> keys) {
-        return Collections.unmodifiableMap(Hash.create(keys));
+        return unmodifiableMap(Hash.create(keys));
       }
     },
     SyncHM {
@@ -186,7 +188,7 @@ public class MapBenchmark {
 
     if (sortedData) {
       List<Element> valueList = newArrayList(sampleData.getValuesInSet());
-      Collections.sort(valueList);
+      sort(valueList);
       values = valueList;
     } else {
       values = sampleData.getValuesInSet();

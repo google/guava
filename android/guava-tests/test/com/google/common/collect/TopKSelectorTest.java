@@ -16,13 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.nCopies;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
@@ -36,26 +37,11 @@ import junit.framework.TestCase;
 public class TopKSelectorTest extends TestCase {
 
   public void testNegativeK() {
-    try {
-      TopKSelector.least(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.greatest(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.least(-1, Ordering.natural());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      TopKSelector.greatest(-1, Ordering.natural());
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.<String>least(-1));
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.<String>greatest(-1));
+    assertThrows(IllegalArgumentException.class, () -> TopKSelector.least(-1, Ordering.natural()));
+    assertThrows(
+        IllegalArgumentException.class, () -> TopKSelector.greatest(-1, Ordering.natural()));
   }
 
   public void testZeroK() {
@@ -118,7 +104,7 @@ public class TopKSelectorTest extends TestCase {
     for (int i = 1; i < n; i++) {
       top.offer(0);
     }
-    assertThat(top.topK()).containsExactlyElementsIn(Collections.nCopies(k, 0));
+    assertThat(top.topK()).containsExactlyElementsIn(nCopies(k, 0));
     assertThat(compareCalls[0]).isAtMost(10L * n * IntMath.log2(k, RoundingMode.CEILING));
   }
 

@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public interface Predicate<T extends @Nullable Object> {
   /**
-   * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
+   * Returns the result of applying this predicate to {@code input} (Java 8+ users, see notes in the
    * class documentation above). This method is <i>generally expected</i>, but not absolutely
    * required, to have the following properties:
    *

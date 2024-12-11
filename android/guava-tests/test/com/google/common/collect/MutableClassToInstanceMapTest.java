@@ -46,7 +46,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
                   // Other tests will verify what real, warning-free usage looks like
                   // but here we have to do some serious fudging
                   @Override
-                  @SuppressWarnings("unchecked")
+                  @SuppressWarnings({"unchecked", "rawtypes"})
                   public Map<Class, Impl> create(Object... elements) {
                     MutableClassToInstanceMap<Impl> map = MutableClassToInstanceMap.create();
                     for (Object object : elements) {

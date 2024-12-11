@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -40,6 +41,25 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
+  @SuppressWarnings("NullOptional")
+  public void testToJavaUtil_static() {
+    assertNull(Optional.toJavaUtil(null));
+    assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
+    assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
+  }
+
+  public void testToJavaUtil_instance() {
+    assertEquals(java.util.Optional.empty(), Optional.absent().toJavaUtil());
+    assertEquals(java.util.Optional.of("abc"), Optional.of("abc").toJavaUtil());
+  }
+
+  @SuppressWarnings("NullOptional")
+  public void testFromJavaUtil() {
+    assertNull(Optional.fromJavaUtil(null));
+    assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
+    assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
+  }
+
   public void testAbsent() {
     Optional<String> optionalName = Optional.absent();
     assertFalse(optionalName.isPresent());
@@ -50,11 +70,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOf_null() {
-    try {
-      Optional.of(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Optional.of(null));
   }
 
   public void testFromNullable() {
@@ -78,11 +94,7 @@ public final class OptionalTest extends TestCase {
 
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
-    try {
-      optional.get();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, optional::get);
   }
 
   public void testGet_present() {
@@ -90,11 +102,11 @@ public final class OptionalTest extends TestCase {
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
-  public void testOr_T_present() {
+  public void testOr_t_present() {
     assertEquals("a", Optional.of("a").or("default"));
   }
 
-  public void testOr_T_absent() {
+  public void testOr_t_absent() {
     assertEquals("default", Optional.absent().or("default"));
   }
 
@@ -108,27 +120,23 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOr_nullSupplier_absent() {
-    Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
+    Supplier<Object> nullSupplier = (Supplier<Object>) Suppliers.<@Nullable Object>ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
-    try {
-      absentOptional.or(nullSupplier);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> absentOptional.or(nullSupplier));
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_nullSupplier_present() {
-    Supplier<String> nullSupplier = Suppliers.ofInstance(null);
+    Supplier<String> nullSupplier = (Supplier<String>) Suppliers.<@Nullable String>ofInstance(null);
     assertEquals("a", Optional.of("a").or(nullSupplier));
   }
 
   @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
-  public void testOr_Optional_present() {
+  public void testOr_optional_present() {
     assertEquals(Optional.of("a"), Optional.of("a").or(Optional.of("fallback")));
   }
 
-  public void testOr_Optional_absent() {
+  public void testOr_optional_absent() {
     assertEquals(Optional.of("fallback"), Optional.absent().or(Optional.of("fallback")));
   }
 
@@ -152,20 +160,12 @@ public final class OptionalTest extends TestCase {
 
   public void testAsSet_presentIsImmutable() {
     Set<String> presentAsSet = Optional.of("a").asSet();
-    try {
-      presentAsSet.add("b");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> presentAsSet.add("b"));
   }
 
   public void testAsSet_absentIsImmutable() {
     Set<Object> absentAsSet = Optional.absent().asSet();
-    try {
-      absentAsSet.add("foo");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> absentAsSet.add("foo"));
   }
 
   public void testTransform_absent() {
@@ -182,41 +182,18 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testTransform_present_functionReturnsNull() {
-    try {
-      Optional<String> unused =
-          Optional.of("a")
-              .transform(
-                  (Function<String, String>)
-                      new Function<String, @Nullable String>() {
-                        @Override
-                        public @Nullable String apply(String input) {
-                          return null;
-                        }
-                      });
-      fail("Should throw if Function returns null.");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Optional.of("a").transform(input -> null));
   }
 
   public void testTransform_absent_functionReturnsNull() {
-    assertEquals(
-        Optional.absent(),
-        Optional.absent()
-            .transform(
-                (Function<Object, Object>)
-                    new Function<Object, @Nullable Object>() {
-                      @Override
-                      public @Nullable Object apply(Object input) {
-                        return null;
-                      }
-                    }));
+    assertEquals(Optional.absent(), Optional.absent().transform(input -> null));
   }
 
   public void testEqualsAndHashCode() {
     new EqualsTester()
         .addEqualityGroup(Optional.absent(), reserialize(Optional.absent()))
-        .addEqualityGroup(Optional.of(new Long(5)), reserialize(Optional.of(new Long(5))))
-        .addEqualityGroup(Optional.of(new Long(42)), reserialize(Optional.of(new Long(42))))
+        .addEqualityGroup(Optional.of(Long.valueOf(5)), reserialize(Optional.of(Long.valueOf(5))))
+        .addEqualityGroup(Optional.of(Long.valueOf(42)), reserialize(Optional.of(Long.valueOf(42))))
         .testEquals();
   }
 

@@ -58,8 +58,8 @@ import java.lang.ref.WeakReference;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -160,6 +160,9 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 15.0 (present as an interface in 14.0)
    */
   public abstract static class Listener {
+    /** Constructor for use by subclasses. */
+    public Listener() {}
+
     /**
      * Called when the service initially becomes healthy.
      *
@@ -307,7 +310,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
    *     become {@linkplain #isHealthy() healthy}.
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public void awaitHealthy(Duration timeout) throws TimeoutException {
     awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -359,7 +362,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *
    * @param timeout the maximum time to wait
    * @throws TimeoutException if not all of the services have stopped within the deadline
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public void awaitStopped(Duration timeout) throws TimeoutException {
     awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -424,7 +427,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *
    * @return Map of services and their corresponding startup time, the map entries will be ordered
    *     by startup time.
-   * @since 31.0
+   * @since 31.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ObjCIncompatible
   public ImmutableMap<Service, Duration> startupDurations() {
@@ -454,7 +457,7 @@ public final class ServiceManager implements ServiceManagerBridge {
     final Multiset<State> states = servicesByState.keys();
 
     @GuardedBy("monitor")
-    final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
+    final IdentityHashMap<Service, Stopwatch> startupTimers = new IdentityHashMap<>();
 
     /**
      * These two booleans are used to mark the state as ready to start.

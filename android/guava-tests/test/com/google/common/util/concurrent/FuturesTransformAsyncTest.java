@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.transformAsync;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
@@ -145,7 +146,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
   }
 
   public void testFutureGetThrowsRuntimeException() throws Exception {
-    BadFuture badInput = new BadFuture(Futures.immediateFuture(20));
+    BadFuture badInput = new BadFuture(immediateFuture(20));
     ListenableFuture<String> chain = buildChainingFuture(badInput);
     ExecutionException e = assertThrows(ExecutionException.class, () -> chain.get());
     assertSame(RuntimeException.class, e.getCause().getClass());

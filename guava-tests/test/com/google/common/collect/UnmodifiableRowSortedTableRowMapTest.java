@@ -16,12 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.unmodifiableRowSortedTable;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowMapTests;
 import java.util.Map;
 import java.util.SortedMap;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableRowSortedTableRowMapTest extends RowMapTests {
   public UnmodifiableRowSortedTableRowMapTest() {
     super(false, false, false, false);
@@ -30,7 +33,7 @@ public class UnmodifiableRowSortedTableRowMapTest extends RowMapTests {
   @Override
   RowSortedTable<String, Integer, Character> makeTable() {
     RowSortedTable<String, Integer, Character> original = TreeBasedTable.create();
-    return Tables.unmodifiableRowSortedTable(original);
+    return unmodifiableRowSortedTable(original);
   }
 
   @Override
@@ -39,6 +42,6 @@ public class UnmodifiableRowSortedTableRowMapTest extends RowMapTests {
     table.put("foo", 1, 'a');
     table.put("bar", 1, 'b');
     table.put("foo", 3, 'c');
-    return Tables.unmodifiableRowSortedTable(table).rowMap();
+    return unmodifiableRowSortedTable(table).rowMap();
   }
 }

@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
@@ -27,7 +28,6 @@ import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
-import java.util.Arrays;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -39,8 +39,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class HashMultisetTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -85,11 +87,12 @@ public class HashMultisetTest extends TestCase {
   }
 
   public void testCreateFromIterable() {
-    Multiset<String> multiset = HashMultiset.create(Arrays.asList("foo", "bar", "foo"));
+    Multiset<String> multiset = HashMultiset.create(asList("foo", "bar", "foo"));
     assertEquals(3, multiset.size());
     assertEquals(2, multiset.count("foo"));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializationContainingSelf() {
     Multiset<Multiset<?>> multiset = HashMultiset.create();
@@ -99,6 +102,7 @@ public class HashMultisetTest extends TestCase {
     assertSame(copy, copy.iterator().next());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // Only used by @GwtIncompatible code
   private static class MultisetHolder implements Serializable {
     public Multiset<?> member;
@@ -110,6 +114,7 @@ public class HashMultisetTest extends TestCase {
     private static final long serialVersionUID = 1L;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializationIndirectSelfReference() {
     Multiset<MultisetHolder> multiset = HashMultiset.create();

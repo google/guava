@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -26,7 +27,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 
 /**
@@ -47,7 +47,7 @@ public class TestingExecutorsTest extends TestCase {
           }
         };
     ScheduledFuture<?> future =
-        TestingExecutors.noOpScheduledExecutor().schedule(task, 10, TimeUnit.MILLISECONDS);
+        TestingExecutors.noOpScheduledExecutor().schedule(task, 10, MILLISECONDS);
     Thread.sleep(20);
     assertFalse(taskDone);
     assertFalse(future.isDone());
@@ -73,8 +73,7 @@ public class TestingExecutorsTest extends TestCase {
             return taskDone;
           }
         };
-    List<Future<Boolean>> futureList =
-        executor.invokeAll(ImmutableList.of(task), 10, TimeUnit.MILLISECONDS);
+    List<Future<Boolean>> futureList = executor.invokeAll(ImmutableList.of(task), 10, MILLISECONDS);
     Future<Boolean> future = futureList.get(0);
     assertFalse(taskDone);
     assertTrue(future.isDone());
@@ -92,7 +91,7 @@ public class TestingExecutorsTest extends TestCase {
           }
         };
     Future<Integer> future =
-        TestingExecutors.sameThreadScheduledExecutor().schedule(task, 10000, TimeUnit.MILLISECONDS);
+        TestingExecutors.sameThreadScheduledExecutor().schedule(task, 10000, MILLISECONDS);
     assertTrue("Should run callable immediately", taskDone);
     assertEquals(6, (int) future.get());
   }

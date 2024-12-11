@@ -254,6 +254,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @throws NullPointerException if any of the provided iterables is {@code null}
    * @since 20.0
    */
+  @SafeVarargs
   public static <T extends @Nullable Object> FluentIterable<T> concat(
       Iterable<? extends T>... inputs) {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
@@ -464,9 +465,9 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate).findFirst()}.
    */
-  @SuppressWarnings("nullness") // Unsafe, but we can't do much about it now.
   public final Optional<@NonNull E> firstMatch(Predicate<? super E> predicate) {
-    return Iterables.<E>tryFind((Iterable<@NonNull E>) getDelegate(), predicate);
+    // Unsafe, but we can't do much about it now.
+    return Iterables.<@NonNull E>tryFind((Iterable<@NonNull E>) getDelegate(), predicate);
   }
 
   /**

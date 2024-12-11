@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.System.arraycopy;
 import static java.util.Collections.emptyMap;
 
 import com.google.common.annotations.GwtCompatible;
@@ -132,6 +133,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
    *
    * @throws NullPointerException if {@code table} has a null key
    */
+  @SuppressWarnings("unchecked") // TODO(cpovirk): Make constructor accept wildcard types?
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, ? extends @Nullable V> table) {
     return (table instanceof ArrayTable)
         ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)
@@ -183,7 +185,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     V[][] copy = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
     array = copy;
     for (int i = 0; i < rowList.size(); i++) {
-      System.arraycopy(table.array[i], 0, copy[i], 0, table.array[i].length);
+      arraycopy(table.array[i], 0, copy[i], 0, table.array[i].length);
     }
   }
 
@@ -375,7 +377,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     @Nullable
     V[][] copy = (@Nullable V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
     for (int i = 0; i < rowList.size(); i++) {
-      System.arraycopy(array[i], 0, copy[i], 0, array[i].length);
+      arraycopy(array[i], 0, copy[i], 0, array[i].length);
     }
     return copy;
   }

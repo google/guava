@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Maps.transformValues;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -34,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTest<String, String> {
   // TODO(jlevy): Move shared code of this class and MapsTransformValuesTest
   // to a superclass.
@@ -133,7 +138,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   @Override
   protected Map<String, String> makeEmptyMap() {
     Map<String, Integer> underlying = Maps.newHashMap();
-    return Maps.transformValues(
+    return transformValues(
         new UnmodifiableIteratorMap<String, Integer>(underlying), Functions.toStringFunction());
   }
 
@@ -143,7 +148,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
-    return Maps.transformValues(
+    return transformValues(
         new UnmodifiableIteratorMap<String, Integer>(underlying), Functions.toStringFunction());
   }
 
@@ -174,13 +179,13 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
   public void testTransformEmptyMapEquality() {
     Map<String, String> map =
-        Maps.transformValues(ImmutableMap.<String, Integer>of(), Functions.toStringFunction());
+        transformValues(ImmutableMap.<String, Integer>of(), Functions.toStringFunction());
     assertMapsEqual(Maps.newHashMap(), map);
   }
 
   public void testTransformSingletonMapEquality() {
     Map<String, String> map =
-        Maps.transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
+        transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
     Map<String, String> expected = ImmutableMap.of("a", "1");
     assertMapsEqual(expected, map);
     assertEquals(expected.get("a"), map.get("a"));
@@ -188,49 +193,39 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
   public void testTransformIdentityFunctionEquality() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 1);
-    Map<String, Integer> map = Maps.transformValues(underlying, Functions.<Integer>identity());
+    Map<String, Integer> map = transformValues(underlying, Functions.<Integer>identity());
     assertMapsEqual(underlying, map);
   }
 
   public void testTransformPutEntryIsUnsupported() {
     Map<String, String> map =
-        Maps.transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
-    try {
-      map.put("b", "2");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+        transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
+    assertThrows(UnsupportedOperationException.class, () -> map.put("b", "2"));
 
-    try {
-      map.putAll(ImmutableMap.of("b", "2"));
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> map.putAll(ImmutableMap.of("b", "2")));
 
-    try {
-      map.entrySet().iterator().next().setValue("one");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> map.entrySet().iterator().next().setValue("one"));
   }
 
   public void testTransformRemoveEntry() {
     Map<String, Integer> underlying = Maps.newHashMap();
     underlying.put("a", 1);
-    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = transformValues(underlying, Functions.toStringFunction());
     assertEquals("1", map.remove("a"));
     assertNull(map.remove("b"));
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {
-    Map<String, String> underlying = Maps.newHashMap();
+    Map<String, @Nullable String> underlying = Maps.newHashMap();
     underlying.put("a", null);
     underlying.put("b", "");
 
-    Map<String, Boolean> map =
-        Maps.transformValues(
+    Map<@Nullable String, Boolean> map =
+        transformValues(
             underlying,
-            new Function<String, Boolean>() {
+            new Function<@Nullable String, Boolean>() {
               @Override
               public Boolean apply(@Nullable String from) {
                 return from == null;
@@ -251,7 +246,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
-    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = transformValues(underlying, Functions.toStringFunction());
     assertEquals(underlying.size(), map.size());
 
     underlying.put("d", 4);
@@ -275,7 +270,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("e", 5);
     underlying.put("f", 6);
     underlying.put("g", 7);
-    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = transformValues(underlying, Functions.toStringFunction());
 
     map.remove("a");
     assertFalse(underlying.containsKey("a"));
@@ -317,18 +312,17 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
   public void testTransformEquals() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 0, "b", 1, "c", 2);
-    Map<String, Integer> expected = Maps.transformValues(underlying, Functions.<Integer>identity());
+    Map<String, Integer> expected = transformValues(underlying, Functions.<Integer>identity());
 
     assertMapsEqual(expected, expected);
 
     Map<String, Integer> equalToUnderlying = Maps.newTreeMap();
     equalToUnderlying.putAll(underlying);
-    Map<String, Integer> map =
-        Maps.transformValues(equalToUnderlying, Functions.<Integer>identity());
+    Map<String, Integer> map = transformValues(equalToUnderlying, Functions.<Integer>identity());
     assertMapsEqual(expected, map);
 
     map =
-        Maps.transformValues(
+        transformValues(
             ImmutableMap.of("a", 1, "b", 2, "c", 3),
             new Function<Integer, Integer>() {
               @Override
@@ -346,7 +340,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put(null, true);
 
     Map<@Nullable String, @Nullable Boolean> map =
-        Maps.transformValues(
+        transformValues(
             underlying,
             new Function<@Nullable Boolean, @Nullable Boolean>() {
               @Override
@@ -356,12 +350,13 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             });
 
     Set<Entry<@Nullable String, @Nullable Boolean>> entries = map.entrySet();
-    assertTrue(entries.contains(Maps.immutableEntry("a", true)));
-    assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
-    assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));
+    assertTrue(entries.contains(immutableEntry("a", true)));
+    assertTrue(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("b", null)));
+    assertTrue(
+        entries.contains(Maps.<@Nullable String, @Nullable Boolean>immutableEntry(null, null)));
 
-    assertFalse(entries.contains(Maps.immutableEntry("c", (Boolean) null)));
-    assertFalse(entries.contains(Maps.immutableEntry((String) null, true)));
+    assertFalse(entries.contains(Maps.<String, @Nullable Boolean>immutableEntry("c", null)));
+    assertFalse(entries.contains(Maps.<@Nullable String, Boolean>immutableEntry(null, true)));
   }
 
   @Override

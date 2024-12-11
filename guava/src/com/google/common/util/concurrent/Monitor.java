@@ -368,7 +368,7 @@ public final class Monitor {
    *
    * @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
    *     isSatisfied()})
-   * @since 21.0
+   * @since 21.0 (but only since 33.4.0 in the Android flavor)
    */
   public Guard newGuard(final BooleanSupplier isSatisfied) {
     checkNotNull(isSatisfied, "isSatisfied");
@@ -389,7 +389,7 @@ public final class Monitor {
    * Enters this monitor. Blocks at most the given time.
    *
    * @return whether the monitor was entered
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enter(Duration time) {
     return enter(toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -439,7 +439,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered
    * @throws InterruptedException if interrupted while waiting
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterInterruptibly(Duration time) throws InterruptedException {
     return enterInterruptibly(toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -500,7 +500,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {
     return enterWhen(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -514,7 +514,10 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings({
+    "GoodTime", // should accept a java.time.Duration
+    "LabelledBreakTarget", // TODO(b/345814817): Maybe fix.
+  })
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -593,7 +596,7 @@ public final class Monitor {
    * the time to acquire the lock and the time to wait for the guard to be satisfied.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterWhenUninterruptibly(Guard guard, Duration time) {
     return enterWhenUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -694,7 +697,7 @@ public final class Monitor {
    * lock, but does not wait for the guard to be satisfied.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterIf(Guard guard, Duration time) {
     return enterIf(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -754,7 +757,7 @@ public final class Monitor {
    * lock, but does not wait for the guard to be satisfied, and may be interrupted.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {
     return enterIfInterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -835,7 +838,7 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean waitFor(Guard guard, Duration time) throws InterruptedException {
     return waitFor(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -881,7 +884,7 @@ public final class Monitor {
    * thread currently occupying this monitor.
    *
    * @return whether the guard is now satisfied
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean waitForUninterruptibly(Guard guard, Duration time) {
     return waitForUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);

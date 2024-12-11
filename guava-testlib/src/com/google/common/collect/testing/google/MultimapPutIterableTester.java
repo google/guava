@@ -21,6 +21,8 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet;
@@ -40,7 +42,9 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
@@ -111,11 +115,8 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   public void testPutAllNullValueNullLast_unsupported() {
     int size = getNumElements();
 
-    try {
-      multimap().putAll(k3(), Lists.newArrayList(v3(), null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> multimap().putAll(k3(), Lists.newArrayList(v3(), null)));
 
     Collection<V> values = multimap().get(k3());
     if (values.size() == 0) {
@@ -133,11 +134,8 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   public void testPutAllNullValueNullFirst_unsupported() {
     int size = getNumElements();
 
-    try {
-      multimap().putAll(k3(), Lists.newArrayList(null, v3()));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> multimap().putAll(k3(), Lists.newArrayList(null, v3())));
 
     /*
      * In principle, a Multimap implementation could add e3 first before failing on the null. But
@@ -156,14 +154,9 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertGet(null, v3(), v4());
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_KEYS)
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAllNullForbidden() {
-    try {
-      multimap().putAll(null, Collections.singletonList(v3()));
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-      // success
-    }
+    assertThrows(NullPointerException.class, () -> multimap().putAll(null, singletonList(v3())));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)

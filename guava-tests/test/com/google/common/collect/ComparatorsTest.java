@@ -16,13 +16,21 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Comparators.emptiesFirst;
+import static com.google.common.collect.Comparators.emptiesLast;
+import static com.google.common.collect.Comparators.isInOrder;
+import static com.google.common.collect.Comparators.isInStrictOrder;
+import static com.google.common.collect.Comparators.max;
+import static com.google.common.collect.Comparators.min;
+import static com.google.common.collect.testing.Helpers.testComparator;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,8 +44,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ComparatorsTest extends TestCase {
-  @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {
     Comparator<String> comparator = Ordering.natural();
     Comparator<Iterable<String>> lexy = Comparators.lexicographical(comparator);
@@ -48,7 +56,7 @@ public class ComparatorsTest extends TestCase {
     ImmutableList<String> ab = ImmutableList.of("a", "b");
     ImmutableList<String> b = ImmutableList.of("b");
 
-    Helpers.testComparator(lexy, empty, a, aa, ab, b);
+    testComparator(lexy, empty, a, aa, ab, b);
 
     new EqualsTester()
         .addEqualityGroup(lexy, Comparators.lexicographical(comparator))
@@ -58,23 +66,23 @@ public class ComparatorsTest extends TestCase {
   }
 
   public void testIsInOrder() {
-    assertFalse(Comparators.isInOrder(asList(5, 3, 0, 9), Ordering.natural()));
-    assertFalse(Comparators.isInOrder(asList(0, 5, 3, 9), Ordering.natural()));
-    assertTrue(Comparators.isInOrder(asList(0, 3, 5, 9), Ordering.natural()));
-    assertTrue(Comparators.isInOrder(asList(0, 0, 3, 3), Ordering.natural()));
-    assertTrue(Comparators.isInOrder(asList(0, 3), Ordering.natural()));
-    assertTrue(Comparators.isInOrder(Collections.singleton(1), Ordering.natural()));
-    assertTrue(Comparators.isInOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+    assertFalse(isInOrder(asList(5, 3, 0, 9), Ordering.natural()));
+    assertFalse(isInOrder(asList(0, 5, 3, 9), Ordering.natural()));
+    assertTrue(isInOrder(asList(0, 3, 5, 9), Ordering.natural()));
+    assertTrue(isInOrder(asList(0, 0, 3, 3), Ordering.natural()));
+    assertTrue(isInOrder(asList(0, 3), Ordering.natural()));
+    assertTrue(isInOrder(singleton(1), Ordering.natural()));
+    assertTrue(isInOrder(Collections.<Integer>emptyList(), Ordering.natural()));
   }
 
   public void testIsInStrictOrder() {
-    assertFalse(Comparators.isInStrictOrder(asList(5, 3, 0, 9), Ordering.natural()));
-    assertFalse(Comparators.isInStrictOrder(asList(0, 5, 3, 9), Ordering.natural()));
-    assertTrue(Comparators.isInStrictOrder(asList(0, 3, 5, 9), Ordering.natural()));
-    assertFalse(Comparators.isInStrictOrder(asList(0, 0, 3, 3), Ordering.natural()));
-    assertTrue(Comparators.isInStrictOrder(asList(0, 3), Ordering.natural()));
-    assertTrue(Comparators.isInStrictOrder(Collections.singleton(1), Ordering.natural()));
-    assertTrue(Comparators.isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+    assertFalse(isInStrictOrder(asList(5, 3, 0, 9), Ordering.natural()));
+    assertFalse(isInStrictOrder(asList(0, 5, 3, 9), Ordering.natural()));
+    assertTrue(isInStrictOrder(asList(0, 3, 5, 9), Ordering.natural()));
+    assertFalse(isInStrictOrder(asList(0, 0, 3, 3), Ordering.natural()));
+    assertTrue(isInStrictOrder(asList(0, 3), Ordering.natural()));
+    assertTrue(isInStrictOrder(singleton(1), Ordering.natural()));
+    assertTrue(isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
   }
 
   public void testEmptiesFirst() {
@@ -82,11 +90,11 @@ public class ComparatorsTest extends TestCase {
     Optional<String> abc = Optional.of("abc");
     Optional<String> z = Optional.of("z");
 
-    Comparator<Optional<String>> comparator = Comparators.emptiesFirst(comparing(String::length));
-    Helpers.testComparator(comparator, empty, z, abc);
+    Comparator<Optional<String>> comparator = emptiesFirst(comparing(String::length));
+    testComparator(comparator, empty, z, abc);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesFirst(naturalOrder());
+    Comparator<Optional<String>> unused = emptiesFirst(naturalOrder());
   }
 
   public void testEmptiesLast() {
@@ -94,34 +102,49 @@ public class ComparatorsTest extends TestCase {
     Optional<String> abc = Optional.of("abc");
     Optional<String> z = Optional.of("z");
 
-    Comparator<Optional<String>> comparator = Comparators.emptiesLast(comparing(String::length));
-    Helpers.testComparator(comparator, z, abc, empty);
+    Comparator<Optional<String>> comparator = emptiesLast(comparing(String::length));
+    testComparator(comparator, z, abc, empty);
 
     // Just demonstrate that no explicit type parameter is required
-    comparator = Comparators.emptiesLast(naturalOrder());
+    Comparator<Optional<String>> unused = emptiesLast(naturalOrder());
   }
 
   public void testMinMaxNatural() {
-    assertThat(Comparators.min(1, 2)).isEqualTo(1);
-    assertThat(Comparators.min(2, 1)).isEqualTo(1);
-    assertThat(Comparators.max(1, 2)).isEqualTo(2);
-    assertThat(Comparators.max(2, 1)).isEqualTo(2);
+    assertThat(min(1, 2)).isEqualTo(1);
+    assertThat(min(2, 1)).isEqualTo(1);
+    assertThat(max(1, 2)).isEqualTo(2);
+    assertThat(max(2, 1)).isEqualTo(2);
   }
 
   public void testMinMaxNatural_equalInstances() {
     Foo a = new Foo(1);
     Foo b = new Foo(1);
-    assertThat(Comparators.min(a, b)).isSameInstanceAs(a);
-    assertThat(Comparators.max(a, b)).isSameInstanceAs(a);
+    assertThat(min(a, b)).isSameInstanceAs(a);
+    assertThat(max(a, b)).isSameInstanceAs(a);
   }
 
   public void testMinMaxComparator() {
-    Comparator<Integer> natural = Ordering.natural();
-    Comparator<Integer> reverse = Collections.reverseOrder(natural);
-    assertThat(Comparators.min(1, 2, reverse)).isEqualTo(2);
-    assertThat(Comparators.min(2, 1, reverse)).isEqualTo(2);
-    assertThat(Comparators.max(1, 2, reverse)).isEqualTo(1);
-    assertThat(Comparators.max(2, 1, reverse)).isEqualTo(1);
+    Comparator<Integer> reverse = reverseOrder();
+    assertThat(min(1, 2, reverse)).isEqualTo(2);
+    assertThat(min(2, 1, reverse)).isEqualTo(2);
+    assertThat(max(1, 2, reverse)).isEqualTo(1);
+    assertThat(max(2, 1, reverse)).isEqualTo(1);
+  }
+
+  /**
+   * Fails compilation if the signature of min and max is changed to take {@code Comparator<T>}
+   * instead of {@code Comparator<? super T>}.
+   */
+  public void testMinMaxWithSupertypeComparator() {
+    Comparator<Number> numberComparator = comparing(Number::intValue);
+    Integer comparand1 = 1;
+    Integer comparand2 = 2;
+
+    Integer min = min(comparand1, comparand2, numberComparator);
+    Integer max = max(comparand1, comparand2, numberComparator);
+
+    assertThat(min).isEqualTo(1);
+    assertThat(max).isEqualTo(2);
   }
 
   public void testMinMaxComparator_equalInstances() {
@@ -129,8 +152,8 @@ public class ComparatorsTest extends TestCase {
     Comparator<Foo> reverse = Collections.reverseOrder(natural);
     Foo a = new Foo(1);
     Foo b = new Foo(1);
-    assertThat(Comparators.min(a, b, reverse)).isSameInstanceAs(a);
-    assertThat(Comparators.max(a, b, reverse)).isSameInstanceAs(a);
+    assertThat(min(a, b, reverse)).isSameInstanceAs(a);
+    assertThat(max(a, b, reverse)).isSameInstanceAs(a);
   }
 
   private static class Foo implements Comparable<Foo> {

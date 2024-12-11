@@ -17,19 +17,22 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterators.peekingIterator;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link PeekingIterator}.
@@ -38,6 +41,7 @@ import junit.framework.TestCase;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class PeekingIteratorTest extends TestCase {
 
   /**
@@ -47,11 +51,11 @@ public class PeekingIteratorTest extends TestCase {
    *
    * <p>This IteratorTester makes copies of the master so that it can later verify that {@link
    * PeekingIterator#remove()} removes the same elements as the reference's iterator {@code
-   * #remove()}.
+   * remove()}.
    */
-  private static class PeekingIteratorTester<T> extends IteratorTester<T> {
+  private static class PeekingIteratorTester<T extends @Nullable Object> extends IteratorTester<T> {
     private Iterable<T> master;
-    private List<T> targetList;
+    private @Nullable List<T> targetList;
 
     public PeekingIteratorTester(Collection<T> master) {
       super(master.size() + 3, MODIFIABLE, master, IteratorTester.KnownOrder.KNOWN_ORDER);
@@ -73,7 +77,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  private <T> void actsLikeIteratorHelper(final List<T> list) {
+  private <T extends @Nullable Object> void actsLikeIteratorHelper(final List<T> list) {
     // Check with modifiable copies of the list
     new PeekingIteratorTester<T>(list).test();
 
@@ -82,18 +86,18 @@ public class PeekingIteratorTest extends TestCase {
         list.size() * 2 + 2, UNMODIFIABLE, list, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<T> newTargetIterator() {
-        Iterator<T> iterator = Collections.unmodifiableList(list).iterator();
+        Iterator<T> iterator = unmodifiableList(list).iterator();
         return Iterators.peekingIterator(iterator);
       }
     }.test();
   }
 
   public void testPeekingIteratorBehavesLikeIteratorOnEmptyIterable() {
-    actsLikeIteratorHelper(Collections.emptyList());
+    actsLikeIteratorHelper(emptyList());
   }
 
   public void testPeekingIteratorBehavesLikeIteratorOnSingletonIterable() {
-    actsLikeIteratorHelper(Collections.singletonList(new Object()));
+    actsLikeIteratorHelper(singletonList(new Object()));
   }
 
   // TODO(cpovirk): instead of skipping, use a smaller number of steps
@@ -104,20 +108,15 @@ public class PeekingIteratorTest extends TestCase {
 
   @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorAcceptsNullElements() {
-    actsLikeIteratorHelper(Lists.newArrayList(null, "A", null));
+    actsLikeIteratorHelper(Lists.<@Nullable String>newArrayList(null, "A", null));
   }
 
   public void testPeekOnEmptyList() {
-    List<?> list = Collections.emptyList();
+    List<?> list = emptyList();
     Iterator<?> iterator = list.iterator();
     PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
 
-    try {
-      peekingIterator.peek();
-      fail("Should throw NoSuchElementException if nothing to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
   }
 
   public void testPeekDoesntChangeIteration() {
@@ -143,24 +142,9 @@ public class PeekingIteratorTest extends TestCase {
     assertEquals(
         "next() should still return last element after peeking", "C", peekingIterator.next());
 
-    try {
-      peekingIterator.peek();
-      fail("Should throw exception if no next to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
-    try {
-      peekingIterator.peek();
-      fail("Should continue to throw exception if no next to peek()");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
-    try {
-      peekingIterator.next();
-      fail("next() should still throw exception after the end of iteration");
-    } catch (NoSuchElementException e) {
-      /* expected */
-    }
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
+    assertThrows(NoSuchElementException.class, () -> peekingIterator.next());
   }
 
   public void testCantRemoveAfterPeek() {
@@ -172,12 +156,7 @@ public class PeekingIteratorTest extends TestCase {
     assertEquals("B", peekingIterator.peek());
 
     /* Should complain on attempt to remove() after peek(). */
-    try {
-      peekingIterator.remove();
-      fail("remove() should throw IllegalStateException after a peek()");
-    } catch (IllegalStateException e) {
-      /* expected */
-    }
+    assertThrows(IllegalStateException.class, () -> peekingIterator.remove());
 
     assertEquals(
         "After remove() throws exception, peek should still be ok", "B", peekingIterator.peek());

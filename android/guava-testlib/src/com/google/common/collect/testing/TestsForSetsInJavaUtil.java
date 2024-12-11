@@ -16,6 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableSet;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -72,31 +76,31 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForEmptySet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForHashSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedHashSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEnumSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeSetNatural() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeSetWithComparator() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCopyOnWriteArraySet() {
@@ -104,27 +108,27 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedSortedSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentSkipListSetNatural() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentSkipListSetWithComparator() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForEmptySet() {
@@ -132,7 +136,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return Collections.emptySet();
+                return emptySet();
               }
             })
         .named("emptySet")
@@ -146,7 +150,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return Collections.singleton(elements[0]);
+                return singleton(elements[0]);
               }
             })
         .named("singleton")
@@ -286,7 +290,7 @@ public class TestsForSetsInJavaUtil {
               public Set<String> create(String[] elements) {
                 Set<String> innerSet = new HashSet<>();
                 Collections.addAll(innerSet, elements);
-                return Collections.unmodifiableSet(innerSet);
+                return unmodifiableSet(innerSet);
               }
             })
         .named("unmodifiableSet/HashSet")
@@ -434,7 +438,7 @@ public class TestsForSetsInJavaUtil {
   }
 
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
-    return new NullFriendlyComparator<T>();
+    return new NullFriendlyComparator<>();
   }
 
   private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {

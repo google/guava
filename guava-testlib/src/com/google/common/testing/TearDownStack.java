@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayList;
@@ -40,7 +41,9 @@ import java.util.logging.Logger;
 public class TearDownStack implements TearDownAccepter {
   private static final Logger logger = Logger.getLogger(TearDownStack.class.getName());
 
-  @GuardedBy("stack")
+  @VisibleForTesting final Object lock = new Object();
+
+  @GuardedBy("lock")
   final LinkedList<TearDown> stack = new LinkedList<>();
 
   private final boolean suppressThrows;
@@ -55,7 +58,7 @@ public class TearDownStack implements TearDownAccepter {
 
   @Override
   public final void addTearDown(TearDown tearDown) {
-    synchronized (stack) {
+    synchronized (lock) {
       stack.addFirst(checkNotNull(tearDown));
     }
   }
@@ -64,7 +67,7 @@ public class TearDownStack implements TearDownAccepter {
   public final void runTearDown() {
     List<Throwable> exceptions = new ArrayList<>();
     List<TearDown> stackCopy;
-    synchronized (stack) {
+    synchronized (lock) {
       stackCopy = Lists.newArrayList(stack);
       stack.clear();
     }

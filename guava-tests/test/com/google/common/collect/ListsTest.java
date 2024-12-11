@@ -17,13 +17,25 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.elementsEqual;
+import static com.google.common.collect.Lists.cartesianProduct;
+import static com.google.common.collect.Lists.charactersOf;
+import static com.google.common.collect.Lists.computeArrayListCapacity;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.collect.Lists.partition;
+import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.nCopies;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.testing.IteratorTester;
@@ -39,7 +51,6 @@ import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +70,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ListsTest extends TestCase {
 
   private static final Collection<Integer> SOME_COLLECTION = asList(0, 1, 1);
@@ -98,6 +110,7 @@ public class ListsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -109,7 +122,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     String[] rest = new String[elements.length - 1];
-                    System.arraycopy(elements, 1, rest, 0, elements.length - 1);
+                    arraycopy(elements, 1, rest, 0, elements.length - 1);
                     return Lists.asList(elements[0], rest);
                   }
                 })
@@ -127,7 +140,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     String[] rest = new String[elements.length - 2];
-                    System.arraycopy(elements, 2, rest, 0, elements.length - 2);
+                    arraycopy(elements, 2, rest, 0, elements.length - 2);
                     return Lists.asList(elements[0], elements[1], rest);
                   }
                 })
@@ -149,7 +162,7 @@ public class ListsTest extends TestCase {
                     for (String element : elements) {
                       fromList.add("q" + checkNotNull(element));
                     }
-                    return Lists.transform(fromList, removeFirst);
+                    return transform(fromList, removeFirst);
                   }
                 })
             .named("Lists.transform, random access, no nulls")
@@ -169,7 +182,7 @@ public class ListsTest extends TestCase {
                     for (String element : elements) {
                       fromList.add("q" + checkNotNull(element));
                     }
-                    return Lists.transform(fromList, removeFirst);
+                    return transform(fromList, removeFirst);
                   }
                 })
             .named("Lists.transform, sequential access, no nulls")
@@ -186,7 +199,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     List<String> fromList = Lists.newArrayList(elements);
-                    return Lists.transform(fromList, Functions.<String>identity());
+                    return transform(fromList, Functions.<String>identity());
                   }
                 })
             .named("Lists.transform, random access, nulls")
@@ -203,7 +216,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     List<String> fromList = Lists.newLinkedList(asList(elements));
-                    return Lists.transform(fromList, Functions.<String>identity());
+                    return transform(fromList, Functions.<String>identity());
                   }
                 })
             .named("Lists.transform, sequential access, nulls")
@@ -305,7 +318,7 @@ public class ListsTest extends TestCase {
 
   public void testCharactersOfIsView() {
     StringBuilder builder = new StringBuilder("abc");
-    List<Character> chars = Lists.charactersOf(builder);
+    List<Character> chars = charactersOf(builder);
     assertEquals(asList('a', 'b', 'c'), chars);
     builder.append("def");
     assertEquals(asList('a', 'b', 'c', 'd', 'e', 'f'), chars);
@@ -315,39 +328,31 @@ public class ListsTest extends TestCase {
 
   public void testNewArrayListEmpty() {
     ArrayList<Integer> list = Lists.newArrayList();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testNewArrayListWithCapacity() {
     ArrayList<Integer> list = Lists.newArrayListWithCapacity(0);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
 
     ArrayList<Integer> bigger = Lists.newArrayListWithCapacity(256);
-    assertEquals(Collections.emptyList(), bigger);
+    assertEquals(emptyList(), bigger);
   }
 
   public void testNewArrayListWithCapacity_negative() {
-    try {
-      Lists.newArrayListWithCapacity(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Lists.newArrayListWithCapacity(-1));
   }
 
   public void testNewArrayListWithExpectedSize() {
-    ArrayList<Integer> list = Lists.newArrayListWithExpectedSize(0);
-    assertEquals(Collections.emptyList(), list);
+    ArrayList<Integer> list = newArrayListWithExpectedSize(0);
+    assertEquals(emptyList(), list);
 
-    ArrayList<Integer> bigger = Lists.newArrayListWithExpectedSize(256);
-    assertEquals(Collections.emptyList(), bigger);
+    ArrayList<Integer> bigger = newArrayListWithExpectedSize(256);
+    assertEquals(emptyList(), bigger);
   }
 
   public void testNewArrayListWithExpectedSize_negative() {
-    try {
-      Lists.newArrayListWithExpectedSize(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> newArrayListWithExpectedSize(-1));
   }
 
   public void testNewArrayListVarArgs() {
@@ -356,11 +361,11 @@ public class ListsTest extends TestCase {
   }
 
   public void testComputeArrayListCapacity() {
-    assertEquals(5, Lists.computeArrayListCapacity(0));
-    assertEquals(13, Lists.computeArrayListCapacity(8));
-    assertEquals(89, Lists.computeArrayListCapacity(77));
-    assertEquals(22000005, Lists.computeArrayListCapacity(20000000));
-    assertEquals(Integer.MAX_VALUE, Lists.computeArrayListCapacity(Integer.MAX_VALUE - 1000));
+    assertEquals(5, computeArrayListCapacity(0));
+    assertEquals(13, computeArrayListCapacity(8));
+    assertEquals(89, computeArrayListCapacity(77));
+    assertEquals(22000005, computeArrayListCapacity(20000000));
+    assertEquals(Integer.MAX_VALUE, computeArrayListCapacity(Integer.MAX_VALUE - 1000));
   }
 
   public void testNewArrayListFromCollection() {
@@ -380,7 +385,7 @@ public class ListsTest extends TestCase {
 
   public void testNewLinkedListEmpty() {
     LinkedList<Integer> list = Lists.newLinkedList();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testNewLinkedListFromCollection() {
@@ -393,18 +398,21 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALEmpty() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALFromIterable() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(SOME_ITERABLE);
     assertEquals(SOME_COLLECTION, list);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
@@ -427,20 +435,13 @@ public class ListsTest extends TestCase {
     assertEquals("FOO", otherWay.get(0));
 
     // But it can't grow
-    try {
-      otherWay.add("nope");
-      fail("no exception thrown");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> otherWay.add("nope"));
 
     // And it can't shrink
-    try {
-      otherWay.remove(2);
-      fail("no exception thrown");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> otherWay.remove(2));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList1() {
     List<String> list = Lists.asList("foo", new String[] {"bar", "baz"});
@@ -499,6 +500,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);
@@ -565,7 +567,7 @@ public class ListsTest extends TestCase {
     toList.set(1, 8);
     assertEquals(asList(5, 7, 8, 3), fromList);
     toList.clear();
-    assertEquals(Collections.emptyList(), fromList);
+    assertEquals(emptyList(), fromList);
   }
 
   @SafeVarargs
@@ -573,28 +575,24 @@ public class ListsTest extends TestCase {
     return ImmutableList.copyOf(elements);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
-    assertThat(Lists.cartesianProduct(list(1), list(2))).contains(list(1, 2));
+    assertThat(cartesianProduct(list(1), list(2))).contains(list(1, 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
-    assertThat(Lists.cartesianProduct(list(1), list(2, 3)))
+    assertThat(cartesianProduct(list(1), list(2, 3)))
         .containsExactly(list(1, 2), list(1, 3))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
-    assertThat(Lists.cartesianProduct(list(1, 2), list(3, 4)))
+    assertThat(cartesianProduct(list(1, 2), list(3, 4)))
         .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4))
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    assertThat(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1)))
+    assertThat(cartesianProduct(list(0, 1), list(0, 1), list(0, 1)))
         .containsExactly(
             list(0, 0, 0),
             list(0, 0, 1),
@@ -607,9 +605,8 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_contains() {
-    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
+    List<List<Integer>> actual = cartesianProduct(list(1, 2), list(3, 4));
     assertTrue(actual.contains(list(1, 3)));
     assertTrue(actual.contains(list(1, 4)));
     assertTrue(actual.contains(list(2, 3)));
@@ -618,7 +615,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testCartesianProduct_indexOf() {
-    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
+    List<List<Integer>> actual = cartesianProduct(list(1, 2), list(3, 4));
     assertEquals(0, actual.indexOf(list(1, 3)));
     assertEquals(1, actual.indexOf(list(1, 4)));
     assertEquals(2, actual.indexOf(list(2, 3)));
@@ -630,7 +627,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testCartesianProduct_lastIndexOf() {
-    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 1), list(2, 3));
+    List<List<Integer>> actual = cartesianProduct(list(1, 1), list(2, 3));
     assertThat(actual.lastIndexOf(list(1, 2))).isEqualTo(2);
     assertThat(actual.lastIndexOf(list(1, 3))).isEqualTo(3);
     assertThat(actual.lastIndexOf(list(1, 1))).isEqualTo(-1);
@@ -639,7 +636,6 @@ public class ListsTest extends TestCase {
     assertThat(actual.lastIndexOf(list(1, 1, 1))).isEqualTo(-1);
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     List<Integer> x = list(1, 2);
     List<String> y = list("3", "4");
@@ -654,35 +650,31 @@ public class ListsTest extends TestCase {
         .inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
-    List<String> list = Collections.nCopies(10000, "foo");
-    try {
-      Lists.cartesianProduct(list, list, list, list, list);
-      fail("Expected IAE");
-    } catch (IllegalArgumentException expected) {
-    }
+    List<String> list = nCopies(10000, "foo");
+    assertThrows(
+        IllegalArgumentException.class, () -> cartesianProduct(list, list, list, list, list));
   }
 
   public void testTransformHashCodeRandomAccess() {
-    List<String> list = Lists.transform(SOME_LIST, SOME_FUNCTION);
+    List<String> list = transform(SOME_LIST, SOME_FUNCTION);
     assertEquals(SOME_STRING_LIST.hashCode(), list.hashCode());
   }
 
   public void testTransformHashCodeSequential() {
-    List<String> list = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
+    List<String> list = transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
     assertEquals(SOME_STRING_LIST.hashCode(), list.hashCode());
   }
 
   public void testTransformModifiableRandomAccess() {
     List<Integer> fromList = Lists.newArrayList(SOME_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformModifiable(list);
   }
 
   public void testTransformModifiableSequential() {
     List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformModifiable(list);
   }
 
@@ -702,18 +694,18 @@ public class ListsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     list.clear();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testTransformViewRandomAccess() {
     List<Integer> fromList = Lists.newArrayList(SOME_LIST);
-    List<String> toList = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> toList = transform(fromList, SOME_FUNCTION);
     assertTransformView(fromList, toList);
   }
 
   public void testTransformViewSequential() {
     List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
-    List<String> toList = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> toList = transform(fromList, SOME_FUNCTION);
     assertTransformView(fromList, toList);
   }
 
@@ -734,46 +726,54 @@ public class ListsTest extends TestCase {
     toList.remove("5");
     assertEquals(asList(3), fromList);
     toList.clear();
-    assertEquals(Collections.emptyList(), fromList);
+    assertEquals(emptyList(), fromList);
   }
 
   public void testTransformRandomAccess() {
-    List<String> list = Lists.transform(SOME_LIST, SOME_FUNCTION);
+    List<String> list = transform(SOME_LIST, SOME_FUNCTION);
     assertTrue(list instanceof RandomAccess);
   }
 
   public void testTransformSequential() {
-    List<String> list = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
+    List<String> list = transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
     assertFalse(list instanceof RandomAccess);
+  }
+
+  public void testTransformRandomAccessIsNotEmpty() {
+    List<String> transformedList = transform(SOME_LIST, SOME_FUNCTION);
+    assertFalse(transformedList.isEmpty());
+  }
+
+  public void testTransformSequentialIsNotEmpty() {
+    List<String> transformedList = transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
+    assertFalse(transformedList.isEmpty());
   }
 
   public void testTransformListIteratorRandomAccess() {
     List<Integer> fromList = Lists.newArrayList(SOME_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformListIterator(list);
   }
 
   public void testTransformListIteratorSequential() {
     List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformListIterator(list);
   }
 
   public void testTransformPreservesIOOBEsThrownByFunction() {
-    try {
-      Lists.transform(
-              ImmutableList.of("foo", "bar"),
-              new Function<String, String>() {
-                @Override
-                public String apply(String input) {
-                  throw new IndexOutOfBoundsException();
-                }
-              })
-          .toArray();
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-      // success
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () ->
+            transform(
+                    ImmutableList.of("foo", "bar"),
+                    new Function<String, String>() {
+                      @Override
+                      public String apply(String input) {
+                        throw new IndexOutOfBoundsException();
+                      }
+                    })
+                .toArray());
   }
 
   private static void assertTransformListIterator(List<String> list) {
@@ -809,26 +809,24 @@ public class ListsTest extends TestCase {
     try {
       iterator.add("1");
       fail("transformed list iterator is addable");
-    } catch (UnsupportedOperationException expected) {
-    } catch (IllegalStateException expected) {
+    } catch (UnsupportedOperationException | IllegalStateException expected) {
     }
     try {
       iterator.set("1");
       fail("transformed list iterator is settable");
-    } catch (UnsupportedOperationException expected) {
-    } catch (IllegalStateException expected) {
+    } catch (UnsupportedOperationException | IllegalStateException expected) {
     }
   }
 
   public void testTransformIteratorRandomAccess() {
     List<Integer> fromList = Lists.newArrayList(SOME_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformIterator(list);
   }
 
   public void testTransformIteratorSequential() {
     List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
-    List<String> list = Lists.transform(fromList, SOME_FUNCTION);
+    List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformIterator(list);
   }
 
@@ -840,9 +838,8 @@ public class ListsTest extends TestCase {
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
     List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
     List<Integer> listIteratorOnlyList = new ListIterationOnlyList<>(randomAccessList);
-    List<String> transform = Lists.transform(listIteratorOnlyList, SOME_FUNCTION);
-    assertTrue(
-        Iterables.elementsEqual(transform, Lists.transform(randomAccessList, SOME_FUNCTION)));
+    List<String> transform = transform(listIteratorOnlyList, SOME_FUNCTION);
+    assertTrue(elementsEqual(transform, transform(randomAccessList, SOME_FUNCTION)));
   }
 
   private static class ListIterationOnlyList<E> extends ForwardingList<E> {
@@ -890,55 +887,52 @@ public class ListsTest extends TestCase {
   }
 
   public void testPartition_badSize() {
-    List<Integer> source = Collections.singletonList(1);
-    try {
-      Lists.partition(source, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    List<Integer> source = singletonList(1);
+    assertThrows(IllegalArgumentException.class, () -> partition(source, 0));
   }
 
   public void testPartition_empty() {
-    List<Integer> source = Collections.emptyList();
-    List<List<Integer>> partitions = Lists.partition(source, 1);
+    List<Integer> source = emptyList();
+    List<List<Integer>> partitions = partition(source, 1);
     assertTrue(partitions.isEmpty());
     assertEquals(0, partitions.size());
   }
 
   public void testPartition_1_1() {
-    List<Integer> source = Collections.singletonList(1);
-    List<List<Integer>> partitions = Lists.partition(source, 1);
+    List<Integer> source = singletonList(1);
+    List<List<Integer>> partitions = partition(source, 1);
     assertEquals(1, partitions.size());
-    assertEquals(Collections.singletonList(1), partitions.get(0));
+    assertEquals(singletonList(1), partitions.get(0));
   }
 
   public void testPartition_1_2() {
-    List<Integer> source = Collections.singletonList(1);
-    List<List<Integer>> partitions = Lists.partition(source, 2);
+    List<Integer> source = singletonList(1);
+    List<List<Integer>> partitions = partition(source, 2);
     assertEquals(1, partitions.size());
-    assertEquals(Collections.singletonList(1), partitions.get(0));
+    assertEquals(singletonList(1), partitions.get(0));
   }
 
   public void testPartition_2_1() {
     List<Integer> source = asList(1, 2);
-    List<List<Integer>> partitions = Lists.partition(source, 1);
+    List<List<Integer>> partitions = partition(source, 1);
     assertEquals(2, partitions.size());
-    assertEquals(Collections.singletonList(1), partitions.get(0));
-    assertEquals(Collections.singletonList(2), partitions.get(1));
+    assertEquals(singletonList(1), partitions.get(0));
+    assertEquals(singletonList(2), partitions.get(1));
   }
 
   public void testPartition_3_2() {
     List<Integer> source = asList(1, 2, 3);
-    List<List<Integer>> partitions = Lists.partition(source, 2);
+    List<List<Integer>> partitions = partition(source, 2);
     assertEquals(2, partitions.size());
     assertEquals(asList(1, 2), partitions.get(0));
     assertEquals(asList(3), partitions.get(1));
   }
 
+  @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
   @GwtIncompatible // ArrayList.subList doesn't implement RandomAccess in GWT.
   public void testPartitionRandomAccessTrue() {
     List<Integer> source = asList(1, 2, 3);
-    List<List<Integer>> partitions = Lists.partition(source, 2);
+    List<List<Integer>> partitions = partition(source, 2);
 
     assertTrue(
         "partition should be RandomAccess, but not: " + partitions.getClass(),
@@ -955,7 +949,7 @@ public class ListsTest extends TestCase {
 
   public void testPartitionRandomAccessFalse() {
     List<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
-    List<List<Integer>> partitions = Lists.partition(source, 2);
+    List<List<Integer>> partitions = partition(source, 2);
     assertFalse(partitions instanceof RandomAccess);
     assertFalse(partitions.get(0) instanceof RandomAccess);
     assertFalse(partitions.get(1) instanceof RandomAccess);
@@ -965,7 +959,7 @@ public class ListsTest extends TestCase {
 
   public void testPartition_view() {
     List<Integer> list = asList(1, 2, 3);
-    List<List<Integer>> partitions = Lists.partition(list, 3);
+    List<List<Integer>> partitions = partition(list, 3);
 
     // Changes before the partition is retrieved are reflected
     list.set(0, 3);
@@ -989,12 +983,13 @@ public class ListsTest extends TestCase {
 
   public void testPartitionSize_1() {
     List<Integer> list = asList(1, 2, 3);
-    assertEquals(1, Lists.partition(list, Integer.MAX_VALUE).size());
-    assertEquals(1, Lists.partition(list, Integer.MAX_VALUE - 1).size());
+    assertEquals(1, partition(list, Integer.MAX_VALUE).size());
+    assertEquals(1, partition(list, Integer.MAX_VALUE - 1).size());
   }
 
   @GwtIncompatible // cannot do such a big explicit copy
+  @J2ktIncompatible // too slow
   public void testPartitionSize_2() {
-    assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
+    assertEquals(2, partition(nCopies(0x40000001, 1), 0x40000000).size());
   }
 }

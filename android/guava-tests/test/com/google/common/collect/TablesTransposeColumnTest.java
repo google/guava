@@ -16,10 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.transpose;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransposeColumnTest extends ColumnTests {
   public TablesTransposeColumnTest() {
     super(false, true, true, true, true);
@@ -28,6 +31,6 @@ public class TablesTransposeColumnTest extends ColumnTests {
   @Override
   Table<String, Character, Integer> makeTable() {
     Table<Character, String, Integer> original = TreeBasedTable.create();
-    return Tables.transpose(original);
+    return transpose(original);
   }
 }

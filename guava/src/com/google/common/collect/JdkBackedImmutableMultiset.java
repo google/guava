@@ -40,7 +40,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   static <E> ImmutableMultiset<E> create(Collection<? extends Entry<? extends E>> entries) {
     @SuppressWarnings("unchecked")
-    Entry<E>[] entriesArray = entries.toArray(new Entry[0]);
+    Entry<E>[] entriesArray = entries.toArray((Entry<E>[]) new Entry<?>[0]);
     Map<E, Integer> delegateMap = Maps.newHashMapWithExpectedSize(entriesArray.length);
     long size = 0;
     for (int i = 0; i < entriesArray.length; i++) {

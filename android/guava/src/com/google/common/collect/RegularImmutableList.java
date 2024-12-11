@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
+import static java.lang.System.arraycopy;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -73,7 +74,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override
   int copyIntoArray(@Nullable Object[] dst, int dstOff) {
-    System.arraycopy(array, 0, dst, dstOff, size);
+    arraycopy(array, 0, dst, dstOff, size);
     return dstOff + size;
   }
 

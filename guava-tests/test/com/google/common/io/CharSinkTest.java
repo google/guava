@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.StandardSystemProperty.LINE_SEPARATOR;
 import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
@@ -92,7 +93,7 @@ public class CharSinkTest extends IoTestCase {
 
   public void testWriteLines_stream() throws IOException {
     sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream());
-    String separator = System.getProperty("line.separator");
+    String separator = LINE_SEPARATOR.value();
     assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
   }
 

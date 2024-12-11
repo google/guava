@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.System.arraycopy;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -79,12 +80,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * IllegalArgumentException} is thrown when the collection operation is performed. (This differs
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
@@ -98,13 +102,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * future occurrences of the key would reinsert it).
    *
    * <p>Entries will appear in the encounter order of the first occurrence of the key.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction, mergeFunction);
   }
 
@@ -542,7 +549,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     Builder<K, V> combine(Builder<K, V> other) {
       checkNotNull(other);
       ensureCapacity(this.size + other.size);
-      System.arraycopy(
+      arraycopy(
           other.alternatingKeysAndValues,
           0,
           this.alternatingKeysAndValues,
@@ -884,9 +891,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 23.5 (but since 21.0 in the JRE <a
    *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
-   *     Note that API Level 24 users can call this method with any version of Guava.
+   *     Note, however, that Java 8+ users can call this method with any version and flavor of
+   *     Guava.
    */
-  // @Override under Java 8 / API Level 24
+  @Override
   @CheckForNull
   public final V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {
     /*

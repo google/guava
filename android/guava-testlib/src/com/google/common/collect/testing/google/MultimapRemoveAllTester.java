@@ -18,6 +18,7 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
 import static com.google.common.collect.testing.Helpers.assertEmpty;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
@@ -27,7 +28,6 @@ import static com.google.common.collect.testing.google.GoogleHelpers.assertEmpty
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
@@ -39,7 +39,9 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllAbsentKey() {
@@ -68,8 +70,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllMultipleValues() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k0(), v2()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v2()));
 
     assertContentsAnyOrder(multimap().removeAll(k0()), v0(), v1(), v2());
     assertEmpty(multimap());
@@ -82,7 +83,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
 
     assertContentsAnyOrder(multimap().removeAll(null), getValueForNullKey());
 
-    expectMissing(Helpers.mapEntry((K) null, getValueForNullKey()));
+    expectMissing(mapEntry((K) null, getValueForNullKey()));
   }
 
   @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_ANY_NULL_QUERIES})

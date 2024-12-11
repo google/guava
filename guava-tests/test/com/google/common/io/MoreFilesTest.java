@@ -235,6 +235,7 @@ public class MoreFilesTest extends TestCase {
     assertTrue(Files.exists(temp));
     Files.delete(temp);
     assertFalse(Files.exists(temp));
+
     MoreFiles.touch(temp);
     assertTrue(Files.exists(temp));
     MoreFiles.touch(temp);
@@ -251,13 +252,13 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_root() throws IOException {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - *Sometimes* fails with "A:\: The device is not ready"
+    // We use a fake filesystem to sidestep flaky problems with Windows (b/136041958).
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path root = fs.getRootDirectories().iterator().next();
+      assertNull(root.getParent());
+      assertNull(root.toRealPath().getParent());
+      MoreFiles.createParentDirectories(root); // test that there's no exception
     }
-    Path root = root();
-    assertNull(root.getParent());
-    assertNull(root.toRealPath().getParent());
-    MoreFiles.createParentDirectories(root); // test that there's no exception
   }
 
   public void testCreateParentDirectories_relativePath() throws IOException {
@@ -311,13 +312,20 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testCreateParentDirectories_symlinkParentExists() throws IOException {
-    if (isWindows()) {
-      return; // TODO: b/136041958 - *Sometimes* fails with FileAlreadyExistsException
+    /*
+     * We use a fake filesystem to sidestep:
+     *
+     * - flaky problems with Windows (b/136041958)
+     *
+     * - the lack of support for symlinks in the default filesystem under Android's desugared
+     *   java.nio.file
+     */
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path symlink = fs.getPath("linkToDir");
+      Files.createSymbolicLink(symlink, fs.getRootDirectories().iterator().next());
+      Path file = symlink.resolve("foo");
+      MoreFiles.createParentDirectories(file);
     }
-    Path symlink = tempDir.resolve("linkToDir");
-    Files.createSymbolicLink(symlink, root());
-    Path file = symlink.resolve("foo");
-    MoreFiles.createParentDirectories(file);
   }
 
   public void testGetFileExtension() {
@@ -357,30 +365,37 @@ public class MoreFilesTest extends TestCase {
   }
 
   public void testPredicates() throws IOException {
-    Path file = createTempFile();
-    Path dir = tempDir.resolve("dir");
-    Files.createDirectory(dir);
+    /*
+     * We use a fake filesystem to sidestep the lack of support for symlinks in the default
+     * filesystem under Android's desugared java.nio.file.
+     */
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path file = fs.getPath("file");
+      Files.createFile(file);
+      Path dir = fs.getPath("dir");
+      Files.createDirectory(dir);
 
-    assertTrue(MoreFiles.isDirectory().apply(dir));
-    assertFalse(MoreFiles.isRegularFile().apply(dir));
+      assertTrue(MoreFiles.isDirectory().apply(dir));
+      assertFalse(MoreFiles.isRegularFile().apply(dir));
 
-    assertFalse(MoreFiles.isDirectory().apply(file));
-    assertTrue(MoreFiles.isRegularFile().apply(file));
+      assertFalse(MoreFiles.isDirectory().apply(file));
+      assertTrue(MoreFiles.isRegularFile().apply(file));
 
-    Path symlinkToDir = tempDir.resolve("symlinkToDir");
-    Path symlinkToFile = tempDir.resolve("symlinkToFile");
+      Path symlinkToDir = fs.getPath("symlinkToDir");
+      Path symlinkToFile = fs.getPath("symlinkToFile");
 
-    Files.createSymbolicLink(symlinkToDir, dir);
-    Files.createSymbolicLink(symlinkToFile, file);
+      Files.createSymbolicLink(symlinkToDir, dir);
+      Files.createSymbolicLink(symlinkToFile, file);
 
-    assertTrue(MoreFiles.isDirectory().apply(symlinkToDir));
-    assertFalse(MoreFiles.isRegularFile().apply(symlinkToDir));
+      assertTrue(MoreFiles.isDirectory().apply(symlinkToDir));
+      assertFalse(MoreFiles.isRegularFile().apply(symlinkToDir));
 
-    assertFalse(MoreFiles.isDirectory().apply(symlinkToFile));
-    assertTrue(MoreFiles.isRegularFile().apply(symlinkToFile));
+      assertFalse(MoreFiles.isDirectory().apply(symlinkToFile));
+      assertTrue(MoreFiles.isRegularFile().apply(symlinkToFile));
 
-    assertFalse(MoreFiles.isDirectory(NOFOLLOW_LINKS).apply(symlinkToDir));
-    assertFalse(MoreFiles.isRegularFile(NOFOLLOW_LINKS).apply(symlinkToFile));
+      assertFalse(MoreFiles.isDirectory(NOFOLLOW_LINKS).apply(symlinkToDir));
+      assertFalse(MoreFiles.isRegularFile(NOFOLLOW_LINKS).apply(symlinkToFile));
+    }
   }
 
   /**
@@ -575,7 +590,9 @@ public class MoreFilesTest extends TestCase {
    * <p>We can only test this with a file system that supports SecureDirectoryStream, because it's
    * not possible to protect against this if the file system doesn't.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   public void testDirectoryDeletion_directorySymlinkRace() throws IOException {
+    int iterations = isAndroid() ? 100 : 5000;
     for (DirectoryDeleteMethod method : EnumSet.allOf(DirectoryDeleteMethod.class)) {
       try (FileSystem fs = newTestFileSystem(SECURE_DIRECTORY_STREAM)) {
         Path dirToDelete = fs.getPath("dir/b/i");
@@ -586,7 +603,7 @@ public class MoreFilesTest extends TestCase {
         startDirectorySymlinkSwitching(changingFile, symlinkTarget, executor);
 
         try {
-          for (int i = 0; i < 5000; i++) {
+          for (int i = 0; i < iterations; i++) {
             try {
               Files.createDirectories(changingFile);
               Files.createFile(dirToDelete.resolve("j/k"));
@@ -642,6 +659,7 @@ public class MoreFilesTest extends TestCase {
    * between being a directory and being a symlink, while the given {@code target} is the target the
    * symlink should have.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
@@ -707,5 +725,9 @@ public class MoreFilesTest extends TestCase {
 
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

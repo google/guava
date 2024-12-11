@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Lists.asList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.util.concurrent.ClosingFuture.withoutCloser;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
@@ -347,11 +348,11 @@ public abstract class AbstractClosingFutureTest extends TestCase {
               @Override
               public String call(DeferredCloser closer) throws Exception {
                 closer.eventuallyClose(autoCloseable, closingExecutor);
-                return "";
+                return "foo";
               }
             },
             executor);
-    assertThat(getFinalValue(closingFuture)).isEqualTo("");
+    assertThat(getFinalValue(closingFuture)).isEqualTo("foo");
     waitUntilClosed(closingFuture);
     assertClosed(closeable1);
   }
@@ -693,7 +694,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                 },
                 executor)
             .transformAsync(
-                ClosingFuture.withoutCloser(
+                withoutCloser(
                     new AsyncFunction<TestCloseable, String>() {
                       @Override
                       public ListenableFuture<String> apply(TestCloseable v) throws Exception {
@@ -1490,7 +1491,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     ClosingFuture<String> unused =
         closingFuture.catchingAsync(
             Exception.class,
-            ClosingFuture.withoutCloser(
+            withoutCloser(
                 new AsyncFunction<Exception, String>() {
                   @Override
                   public ListenableFuture<String> apply(Exception x) throws Exception {
@@ -1725,53 +1726,65 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     private final CountDownLatch returned = new CountDownLatch(1);
     private Object proxy;
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V> Callable<V> waitFor(Callable<V> callable) {
       return waitFor(callable, Callable.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V> ClosingCallable<V> waitFor(ClosingCallable<V> closingCallable) {
       return waitFor(closingCallable, ClosingCallable.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V> AsyncClosingCallable<V> waitFor(AsyncClosingCallable<V> asyncClosingCallable) {
       return waitFor(asyncClosingCallable, AsyncClosingCallable.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <T, U> ClosingFunction<T, U> waitFor(ClosingFunction<T, U> closingFunction) {
       return waitFor(closingFunction, ClosingFunction.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <T, U> AsyncClosingFunction<T, U> waitFor(AsyncClosingFunction<T, U> asyncClosingFunction) {
       return waitFor(asyncClosingFunction, AsyncClosingFunction.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V> CombiningCallable<V> waitFor(CombiningCallable<V> combiningCallable) {
       return waitFor(combiningCallable, CombiningCallable.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V> AsyncCombiningCallable<V> waitFor(AsyncCombiningCallable<V> asyncCombiningCallable) {
       return waitFor(asyncCombiningCallable, AsyncCombiningCallable.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V1, V2, U> ClosingFunction2<V1, V2, U> waitFor(ClosingFunction2<V1, V2, U> closingFunction2) {
       return waitFor(closingFunction2, ClosingFunction2.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V1, V2, U> AsyncClosingFunction2<V1, V2, U> waitFor(
         AsyncClosingFunction2<V1, V2, U> asyncClosingFunction2) {
       return waitFor(asyncClosingFunction2, AsyncClosingFunction2.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V1, V2, V3, U> ClosingFunction3<V1, V2, V3, U> waitFor(
         ClosingFunction3<V1, V2, V3, U> closingFunction3) {
       return waitFor(closingFunction3, ClosingFunction3.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V1, V2, V3, V4, U> ClosingFunction4<V1, V2, V3, V4, U> waitFor(
         ClosingFunction4<V1, V2, V3, V4, U> closingFunction4) {
       return waitFor(closingFunction4, ClosingFunction4.class);
     }
 
+    @SuppressWarnings("unchecked") // proxy for a generic class
     <V1, V2, V3, V4, V5, U> ClosingFunction5<V1, V2, V3, V4, V5, U> waitFor(
         ClosingFunction5<V1, V2, V3, V4, V5, U> closingFunction5) {
       return waitFor(closingFunction5, ClosingFunction5.class);

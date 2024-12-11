@@ -20,11 +20,13 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.TestExceptions.SomeUncheckedException;
 import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.AssertionFailedError;
@@ -37,7 +39,9 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapComputeIfPresentTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -101,23 +105,20 @@ public class MapComputeIfPresentTester<K, V> extends AbstractMapTester<K, V> {
     expectReplacement(entry(getKeyForNullValue(), null));
   }
 
-  static class ExpectedException extends RuntimeException {}
-
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testComputeIfPresent_functionThrows() {
-    try {
-      getMap()
-          .computeIfPresent(
-              k0(),
-              (k, v) -> {
-                assertEquals(k0(), k);
-                assertEquals(v0(), v);
-                throw new ExpectedException();
-              });
-      fail("Expected ExpectedException");
-    } catch (ExpectedException expected) {
-    }
+    assertThrows(
+        SomeUncheckedException.class,
+        () ->
+            getMap()
+                .computeIfPresent(
+                    k0(),
+                    (k, v) -> {
+                      assertEquals(k0(), k);
+                      assertEquals(v0(), v);
+                      throw new SomeUncheckedException();
+                    }));
     expectUnchanged();
   }
 
@@ -172,11 +173,8 @@ public class MapComputeIfPresentTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testComputeIfPresent_unsupportedPresent() {
-    try {
-      getMap().computeIfPresent(k0(), (k, v) -> v3());
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(
+        UnsupportedOperationException.class, () -> getMap().computeIfPresent(k0(), (k, v) -> v3()));
     expectUnchanged();
   }
 }

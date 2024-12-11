@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.TableCollectionTest.FIRST_CHARACTER;
+import static com.google.common.collect.Tables.transformValues;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransformValuesColumnMapTest extends ColumnMapTests {
   public TablesTransformValuesColumnMapTest() {
     super(false, true, true, false);
@@ -31,7 +33,7 @@ public class TablesTransformValuesColumnMapTest extends ColumnMapTests {
   @Override
   Table<Integer, String, Character> makeTable() {
     Table<Integer, String, String> original = HashBasedTable.create();
-    return Tables.transformValues(original, FIRST_CHARACTER);
+    return transformValues(original, FIRST_CHARACTER);
   }
 
   @Override
@@ -40,6 +42,6 @@ public class TablesTransformValuesColumnMapTest extends ColumnMapTests {
     table.put(1, "foo", "apple");
     table.put(1, "bar", "banana");
     table.put(3, "foo", "cat");
-    return Tables.transformValues(table, FIRST_CHARACTER).columnMap();
+    return transformValues(table, FIRST_CHARACTER).columnMap();
   }
 }

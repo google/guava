@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -29,6 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 
 /**
@@ -49,7 +52,7 @@ public final class Longs {
   /**
    * The number of bytes required to represent a primitive {@code long} value.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -68,7 +71,7 @@ public final class Longs {
    * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
    * Long#hashCode()} in GWT does not obey the JRE contract.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
+   * <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
@@ -81,7 +84,7 @@ public final class Longs {
    * Compares the two specified {@code long} values. The sign of the value returned is the same as
    * that of {@code ((Long) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use the
    * equivalent {@link Long#compare} method instead.
    *
    * @param a the first {@code long} to compare
@@ -89,8 +92,9 @@ public final class Longs {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @InlineMe(replacement = "Long.compare(a, b)")
   public static int compare(long a, long b) {
-    return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    return Long.compare(a, b);
   }
 
   /**
@@ -227,6 +231,9 @@ public final class Longs {
    * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
    * value} is greater than {@code max}, {@code max} is returned.
    *
+   * <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
+   * constraining a {@code long} input to an {@code int} range.
+   *
    * @param value the {@code long} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
    * @param max the upper bound (inclusive) of the range to constrain {@code value} to
@@ -360,8 +367,8 @@ public final class Longs {
    * an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
    * {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
-   * the change to {@link Long#parseLong(String)} for that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link
+   * Integer#parseInt(String)} accepts them.
    *
    * @param string the string representation of a long value
    * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
@@ -382,8 +389,8 @@ public final class Longs {
    * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
    * and returns {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
-   * the change to {@link Long#parseLong(String, int)} for that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link
+   * Integer#parseInt(String)} accepts them.
    *
    * @param string the string representation of a long value
    * @param radix the radix to use when parsing
@@ -543,7 +550,7 @@ public final class Longs {
     public int compare(long[] left, long[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Longs.compare(left[i], right[i]);
+        int result = Long.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }
@@ -744,6 +751,17 @@ public final class Longs {
     public Long get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    @SuppressWarnings("Java7ApiChecker")
+    /*
+     * This is an override that is not directly visible to callers, so NewApi will catch calls to
+     * Collection.spliterator() where necessary.
+     */
+    @IgnoreJRERequirement
+    public Spliterator.OfLong spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override

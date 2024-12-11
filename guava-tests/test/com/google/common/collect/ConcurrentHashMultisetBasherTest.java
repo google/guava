@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.collect.Lists.transform;
+import static java.lang.Math.min;
+
 import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
 import java.util.List;
@@ -42,15 +46,15 @@ import junit.framework.TestCase;
 
 public class ConcurrentHashMultisetBasherTest extends TestCase {
 
-  public void testAddAndRemove_ConcurrentHashMap() throws Exception {
+  public void testAddAndRemove_concurrentHashMap() throws Exception {
     testAddAndRemove(new ConcurrentHashMap<String, AtomicInteger>());
   }
 
-  public void testAddAndRemove_ConcurrentSkipListMap() throws Exception {
+  public void testAddAndRemove_concurrentSkipListMap() throws Exception {
     testAddAndRemove(new ConcurrentSkipListMap<String, AtomicInteger>());
   }
 
-  public void testAddAndRemove_MapMakerMap() throws Exception {
+  public void testAddAndRemove_mapMakerMap() throws Exception {
     MapMaker mapMaker = new MapMaker();
     // force MapMaker to use its own MapMakerInternalMap
     mapMaker.useCustomMap = true;
@@ -67,7 +71,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     ExecutorService pool = Executors.newFixedThreadPool(nThreads);
     ImmutableList<String> keys = ImmutableList.of("a", "b", "c");
     try {
-      List<Future<int[]>> futures = Lists.newArrayListWithExpectedSize(nTasks);
+      List<Future<int[]>> futures = newArrayListWithExpectedSize(nTasks);
       for (int i = 0; i < nTasks; i++) {
         futures.add(pool.submit(new MutateTask(multiset, keys)));
       }
@@ -81,7 +85,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
       }
 
       List<Integer> actualCounts =
-          Lists.transform(
+          transform(
               keys,
               new Function<String, Integer>() {
                 @Override
@@ -148,7 +152,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
             {
               int delta = random.nextInt(6); // [0, 5]
               int oldValue = multiset.remove(key, delta);
-              deltas[keyIndex] -= Math.min(delta, oldValue);
+              deltas[keyIndex] -= min(delta, oldValue);
               break;
             }
           case REMOVE_EXACTLY:

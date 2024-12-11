@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.google;
 
+import static java.util.Collections.emptySet;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.AbstractTester;
@@ -32,7 +34,6 @@ import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerator
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.MapGenerator;
 import com.google.common.collect.testing.testers.SetCreationTester;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -53,6 +54,7 @@ public class BiMapTestSuiteBuilder<K, V>
     return new BiMapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = new ArrayList<>();
@@ -69,7 +71,7 @@ public class BiMapTestSuiteBuilder<K, V>
 
     @Override
     public Set<Feature<? super Void>> getImpliedFeatures() {
-      return Collections.emptySet();
+      return emptySet();
     }
   }
 

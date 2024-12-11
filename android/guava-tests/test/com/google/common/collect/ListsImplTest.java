@@ -18,13 +18,15 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,9 +34,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tests the package level *impl methods directly using various types of lists. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ListsImplTest extends TestCase {
 
   /** Describes how a list is modifiable */
@@ -70,6 +74,7 @@ public class ListsImplTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -82,6 +87,7 @@ public class ListsImplTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // suite sub call
   private static TestSuite createExampleSuite(ListExample example) {
     TestSuite resultSuite = new TestSuite(ListsImplTest.class);
@@ -92,19 +98,21 @@ public class ListsImplTest extends TestCase {
     return resultSuite;
   }
 
-  private ListExample example;
+  private @Nullable ListExample example;
 
   private ListExample getExample() {
     // because sometimes one version with a null example is created.
     return example == null ? new ImmutableListExample("test") : example;
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   @Override
   public String getName() {
     return example == null ? super.getName() : buildTestName();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   private String buildTestName() {
     return super.getName() + ":" + example.getName();
@@ -138,8 +146,8 @@ public class ListsImplTest extends TestCase {
     assertThat(Lists.equalsImpl(base, copy)).isTrue();
     assertThat(Lists.equalsImpl(base, otherType)).isTrue();
 
-    List<Object> unEqualItems =
-        Arrays.asList(outOfOrder, diffValue, diffLength, empty, null, new Object());
+    List<@Nullable Object> unEqualItems =
+        asList(outOfOrder, diffValue, diffLength, empty, null, new Object());
     for (Object other : unEqualItems) {
       assertWithMessage("%s", other).that(Lists.equalsImpl(base, other)).isFalse();
     }
@@ -153,14 +161,14 @@ public class ListsImplTest extends TestCase {
 
     List<Iterable<String>> toAdd =
         ImmutableList.of(
-            (Iterable<String>) Collections.singleton("A"),
-            Collections.<String>emptyList(),
+            singleton("A"),
+            emptyList(),
             ImmutableList.of("A", "B", "C"),
             ImmutableList.of("D", "E"));
     List<Integer> indexes = ImmutableList.of(0, 0, 1, 3);
     List<List<String>> expected =
         ImmutableList.of(
-            Collections.singletonList("A"),
+            ImmutableList.of("A"),
             ImmutableList.of("A"),
             ImmutableList.of("A", "A", "B", "C"),
             ImmutableList.of("A", "A", "D", "E", "B", "C"));
@@ -236,7 +244,7 @@ public class ListsImplTest extends TestCase {
   @SafeVarargs
   @SuppressWarnings("varargs")
   private final <T> List<T> createList(Class<T> listType, T... contents) {
-    return getExample().createList(listType, Arrays.asList(contents));
+    return getExample().createList(listType, asList(contents));
   }
 
   private static final class ArrayListExample extends ListExample {
@@ -272,9 +280,8 @@ public class ListsImplTest extends TestCase {
 
     @Override
     public <T> List<T> createList(Class<T> listType, Collection<? extends T> contents) {
-      @SuppressWarnings("unchecked") // safe by contract
       T[] array = Iterables.toArray(contents, listType);
-      return Arrays.asList(array);
+      return asList(array);
     }
   }
 
@@ -290,6 +297,7 @@ public class ListsImplTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   private static final class CopyOnWriteListExample extends ListExample {
 

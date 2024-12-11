@@ -131,7 +131,7 @@ public class JdkFutureAdaptersTest extends TestCase {
             0,
             Integer.MAX_VALUE,
             60L,
-            TimeUnit.SECONDS,
+            SECONDS,
             new SynchronousQueue<Runnable>(),
             new ThreadFactoryBuilder().setDaemon(true).build()) {
           @Override

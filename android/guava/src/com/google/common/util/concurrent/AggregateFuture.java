@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.AggregateFuture.ReleaseResourcesReason.ALL_INPUT_FUTURES_PROCESSED;
 import static com.google.common.util.concurrent.AggregateFuture.ReleaseResourcesReason.OUTPUT_FUTURE_DONE;
-import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.SEVERE;
 
@@ -27,6 +27,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
+import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -41,6 +43,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
+@SuppressWarnings(
+    // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+    "ShortCircuitBoolean")
 abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
     extends AggregateFutureState<OutputT> {
   private static final LazyLogger logger = new LazyLogger(AggregateFuture.class);
@@ -55,7 +60,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
+  @CheckForNull @LazyInit
+  private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
 
   private final boolean allMustSucceed;
   private final boolean collectsValues;
@@ -71,10 +77,11 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   @Override
+  @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
   protected final void afterDone() {
     super.afterDone();
 
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+    @RetainedLocalRef ImmutableCollection<? extends Future<?>> localFutures = futures;
     releaseResources(OUTPUT_FUTURE_DONE); // nulls out `futures`
 
     if (isCancelled() & localFutures != null) {
@@ -92,7 +99,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   @Override
   @CheckForNull
   protected final String pendingToString() {
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+    @RetainedLocalRef ImmutableCollection<? extends Future<?>> localFutures = futures;
     if (localFutures != null) {
       return "futures=" + localFutures;
     }
@@ -136,27 +143,12 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
       int i = 0;
       for (ListenableFuture<? extends InputT> future : futures) {
         int index = i++;
-        future.addListener(
-            () -> {
-              try {
-                if (future.isCancelled()) {
-                  // Clear futures prior to cancelling children. This sets our own state but lets
-                  // the input futures keep running, as some of them may be used elsewhere.
-                  futures = null;
-                  cancel(false);
-                } else {
-                  collectValueFromNonCancelledFuture(index, future);
-                }
-              } finally {
-                /*
-                 * "null" means: There is no need to access `futures` again during
-                 * `processCompleted` because we're reading each value during a call to
-                 * handleOneInputDone.
-                 */
-                decrementCountAndMaybeComplete(null);
-              }
-            },
-            directExecutor());
+        if (future.isDone()) {
+          processAllMustSucceedDoneFuture(index, future);
+        } else {
+          future.addListener(
+              () -> processAllMustSucceedDoneFuture(index, future), directExecutor());
+        }
       }
     } else {
       /*
@@ -165,22 +157,49 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
        * Future.get() when we don't need to (specifically, for whenAllComplete().call*()), and it
        * lets all futures share the same listener.
        *
-       * We store `localFutures` inside the listener because `this.futures` might be nulled out by
-       * the time the listener runs for the final future -- at which point we need to check all
-       * inputs for exceptions *if* we're collecting values. If we're not, then the listener doesn't
-       * need access to the futures again, so we can just pass `null`.
+       * We store `localFuturesOrNull` inside the listener because `this.futures` might be nulled
+       * out by the time the listener runs for the final future -- at which point we need to check
+       * all inputs for exceptions *if* we're collecting values. If we're not, then the listener
+       * doesn't need access to the futures again, so we can just pass `null`.
        *
        * TODO(b/112550045): Allocating a single, cheaper listener is (I think) only an optimization.
        * If we make some other optimizations, this one will no longer be necessary. The optimization
        * could actually hurt in some cases, as it forces us to keep all inputs in memory until the
        * final input completes.
        */
-      ImmutableCollection<? extends Future<? extends InputT>> localFutures =
-          collectsValues ? futures : null;
-      Runnable listener = () -> decrementCountAndMaybeComplete(localFutures);
-      for (ListenableFuture<? extends InputT> future : futures) {
-        future.addListener(listener, directExecutor());
+      @RetainedLocalRef
+      ImmutableCollection<? extends ListenableFuture<? extends InputT>> localFutures = futures;
+      ImmutableCollection<? extends Future<? extends InputT>> localFuturesOrNull =
+          collectsValues ? localFutures : null;
+      Runnable listener = () -> decrementCountAndMaybeComplete(localFuturesOrNull);
+      for (ListenableFuture<? extends InputT> future : localFutures) {
+        if (future.isDone()) {
+          decrementCountAndMaybeComplete(localFuturesOrNull);
+        } else {
+          future.addListener(listener, directExecutor());
+        }
       }
+    }
+  }
+
+  private void processAllMustSucceedDoneFuture(
+      int index, ListenableFuture<? extends InputT> future) {
+    try {
+      if (future.isCancelled()) {
+        // Clear futures prior to cancelling children. This sets our own state but lets
+        // the input futures keep running, as some of them may be used elsewhere.
+        futures = null;
+        cancel(false);
+      } else {
+        collectValueFromNonCancelledFuture(index, future);
+      }
+    } finally {
+      /*
+       * "null" means: There is no need to access `futures` again during
+       * `processCompleted` because we're reading each value during a call to
+       * handleOneInputDone.
+       */
+      decrementCountAndMaybeComplete(null);
     }
   }
 
@@ -264,7 +283,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   private void collectValueFromNonCancelledFuture(int index, Future<? extends InputT> future) {
     try {
       // We get the result, even if collectOneValue is a no-op, so that we can fail fast.
-      collectOneValue(index, getDone(future));
+      // We use getUninterruptibly over getDone as a micro-optimization, we know the future is done.
+      collectOneValue(index, getUninterruptibly(future));
     } catch (ExecutionException e) {
       handleException(e.getCause());
     } catch (Throwable t) { // sneaky checked exception

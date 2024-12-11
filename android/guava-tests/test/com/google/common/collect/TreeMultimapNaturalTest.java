@@ -17,12 +17,15 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -36,7 +39,6 @@ import com.google.common.collect.testing.google.SortedSetMultimapTestSuiteBuilde
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.SerializableTester;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -57,8 +59,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class TreeMultimapNaturalTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -141,27 +145,24 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @SuppressWarnings("unchecked")
                   @Override
                   public Collection<String>[] createValueArray(int length) {
-                    return new Collection[length];
+                    return (Collection<String>[]) new Collection<?>[length];
                   }
 
                   @Override
                   public SampleElements<Entry<String, Collection<String>>> samples() {
                     return new SampleElements<>(
-                        Helpers.mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
-                        Helpers.mapEntry(
-                            "b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
-                        Helpers.mapEntry(
-                            "c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
-                        Helpers.mapEntry(
-                            "d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
-                        Helpers.mapEntry(
+                        mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
+                        mapEntry("b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
+                        mapEntry("c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
+                        mapEntry("d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
+                        mapEntry(
                             "e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
                   }
 
                   @SuppressWarnings("unchecked")
                   @Override
                   public Entry<String, Collection<String>>[] createArray(int length) {
-                    return new Entry[length];
+                    return (Entry<String, Collection<String>>[]) new Entry<?, ?>[length];
                   }
 
                   @Override
@@ -190,26 +191,22 @@ public class TreeMultimapNaturalTest extends TestCase {
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesLesser() {
-                    return Helpers.mapEntry(
-                        "-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesGreater() {
-                    return Helpers.mapEntry(
-                        "-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesLesser() {
-                    return Helpers.mapEntry(
-                        "~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesGreater() {
-                    return Helpers.mapEntry(
-                        "~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
                   }
                 })
             .named("TreeMultimap.asMap")
@@ -227,7 +224,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   protected Set<String> create(String[] elements) {
                     TreeMultimap<Integer, String> multimap =
                         TreeMultimap.create(Ordering.natural(), Ordering.natural().nullsFirst());
-                    multimap.putAll(1, Arrays.asList(elements));
+                    multimap.putAll(1, asList(elements));
                     return multimap.get(1);
                   }
 
@@ -250,7 +247,7 @@ public class TreeMultimapNaturalTest extends TestCase {
                   protected Set<String> create(String[] elements) {
                     TreeMultimap<Integer, String> multimap =
                         TreeMultimap.create(Ordering.natural(), Ordering.natural().nullsFirst());
-                    multimap.putAll(1, Arrays.asList(elements));
+                    multimap.putAll(1, asList(elements));
                     return (Set<String>) multimap.asMap().entrySet().iterator().next().getValue();
                   }
 
@@ -290,8 +287,8 @@ public class TreeMultimapNaturalTest extends TestCase {
 
   public void testToString() {
     SetMultimap<String, Integer> multimap = create();
-    multimap.putAll("bar", Arrays.asList(3, 1, 2));
-    multimap.putAll("foo", Arrays.asList(2, 3, 1, -1, 4));
+    multimap.putAll("bar", asList(3, 1, 2));
+    multimap.putAll("foo", asList(2, 3, 1, -1, 4));
     assertEquals("{bar=[1, 2, 3], foo=[-1, 1, 2, 3, 4]}", multimap.toString());
   }
 
@@ -325,13 +322,13 @@ public class TreeMultimapNaturalTest extends TestCase {
     TreeMultimap<String, Integer> multimap = createPopulate();
     assertThat(multimap.entries())
         .containsExactly(
-            Maps.immutableEntry("foo", 1),
-            Maps.immutableEntry("foo", 3),
-            Maps.immutableEntry("foo", 7),
-            Maps.immutableEntry("google", 2),
-            Maps.immutableEntry("google", 6),
-            Maps.immutableEntry("tree", 0),
-            Maps.immutableEntry("tree", 4))
+            immutableEntry("foo", 1),
+            immutableEntry("foo", 3),
+            immutableEntry("foo", 7),
+            immutableEntry("google", 2),
+            immutableEntry("google", 6),
+            immutableEntry("tree", 0),
+            immutableEntry("tree", 4))
         .inOrder();
   }
 
@@ -342,8 +339,8 @@ public class TreeMultimapNaturalTest extends TestCase {
 
   public void testMultimapConstructor() {
     SetMultimap<String, Integer> multimap = create();
-    multimap.putAll("bar", Arrays.asList(3, 1, 2));
-    multimap.putAll("foo", Arrays.asList(2, 3, 1, -1, 4));
+    multimap.putAll("bar", asList(3, 1, 2));
+    multimap.putAll("foo", asList(2, 3, 1, -1, 4));
     TreeMultimap<String, Integer> copy = TreeMultimap.create(multimap);
     assertEquals(multimap, copy);
   }
@@ -351,7 +348,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   private static final Comparator<Double> KEY_COMPARATOR = Ordering.natural();
 
   private static final Comparator<Double> VALUE_COMPARATOR =
-      Ordering.natural().reverse().nullsFirst();
+      Ordering.<Double>natural().reverse().nullsFirst();
 
   /**
    * Test that creating one TreeMultimap from another does not copy the comparators from the source
@@ -407,6 +404,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(Ordering.natural(), multimap.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
@@ -417,6 +415,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapDerived() {
     TreeMultimap<DerivedComparable, DerivedComparable> multimap = TreeMultimap.create();
@@ -443,6 +442,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     SerializableTester.reserializeAndAssert(multimap);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testTreeMultimapNonGeneric() {
     TreeMultimap<LegacyComparable, LegacyComparable> multimap = TreeMultimap.create();
@@ -500,6 +500,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(4, multimap.keys().size());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testKeySetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -510,6 +511,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     fail("No bridge method found");
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testAsMapBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
@@ -519,6 +521,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testGetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {

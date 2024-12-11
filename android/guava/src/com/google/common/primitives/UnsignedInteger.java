@@ -199,7 +199,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns the value of this {@code UnsignedInteger} as a {@code float}, analogous to a widening
+   * Returns the value of this {@code UnsignedInteger} as a {@code double}, analogous to a widening
    * primitive conversion from {@code int} to {@code double}, and correctly rounded.
    */
   @Override

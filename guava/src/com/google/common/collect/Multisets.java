@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -106,7 +109,7 @@ public final class Multisets {
       Multiset<E> result = (Multiset<E>) multiset;
       return result;
     }
-    return new UnmodifiableMultiset<E>(checkNotNull(multiset));
+    return new UnmodifiableMultiset<>(checkNotNull(multiset));
   }
 
   /**
@@ -237,7 +240,7 @@ public final class Multisets {
   public static <E extends @Nullable Object> SortedMultiset<E> unmodifiableSortedMultiset(
       SortedMultiset<E> sortedMultiset) {
     // it's in its own file so it can be emulated for GWT
-    return new UnmodifiableSortedMultiset<E>(checkNotNull(sortedMultiset));
+    return new UnmodifiableSortedMultiset<>(checkNotNull(sortedMultiset));
   }
 
   /**
@@ -250,7 +253,7 @@ public final class Multisets {
    */
   public static <E extends @Nullable Object> Multiset.Entry<E> immutableEntry(
       @ParametricNullness E e, int n) {
-    return new ImmutableEntry<E>(e, n);
+    return new ImmutableEntry<>(e, n);
   }
 
   static class ImmutableEntry<E extends @Nullable Object> extends AbstractEntry<E>
@@ -314,10 +317,10 @@ public final class Multisets {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
       FilteredMultiset<E> filtered = (FilteredMultiset<E>) unfiltered;
-      Predicate<E> combinedPredicate = Predicates.<E>and(filtered.predicate, predicate);
-      return new FilteredMultiset<E>(filtered.unfiltered, combinedPredicate);
+      Predicate<E> combinedPredicate = Predicates.and(filtered.predicate, predicate);
+      return new FilteredMultiset<>(filtered.unfiltered, combinedPredicate);
     }
-    return new FilteredMultiset<E>(unfiltered, predicate);
+    return new FilteredMultiset<>(unfiltered, predicate);
   }
 
   private static final class FilteredMultiset<E extends @Nullable Object> extends ViewMultiset<E> {
@@ -432,7 +435,7 @@ public final class Multisets {
 
       @Override
       public int count(@CheckForNull Object element) {
-        return Math.max(multiset1.count(element), multiset2.count(element));
+        return max(multiset1.count(element), multiset2.count(element));
       }
 
       @Override
@@ -457,7 +460,7 @@ public final class Multisets {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = Math.max(entry1.getCount(), multiset2.count(element));
+              int count = max(entry1.getCount(), multiset2.count(element));
               return immutableEntry(element, count);
             }
             while (iterator2.hasNext()) {
@@ -495,7 +498,7 @@ public final class Multisets {
       @Override
       public int count(@CheckForNull Object element) {
         int count1 = multiset1.count(element);
-        return (count1 == 0) ? 0 : Math.min(count1, multiset2.count(element));
+        return (count1 == 0) ? 0 : min(count1, multiset2.count(element));
       }
 
       @Override
@@ -519,7 +522,7 @@ public final class Multisets {
             while (iterator1.hasNext()) {
               Entry<E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = Math.min(entry1.getCount(), multiset2.count(element));
+              int count = min(entry1.getCount(), multiset2.count(element));
               if (count > 0) {
                 return immutableEntry(element, count);
               }
@@ -630,7 +633,7 @@ public final class Multisets {
       @Override
       public int count(@CheckForNull Object element) {
         int count1 = multiset1.count(element);
-        return (count1 == 0) ? 0 : Math.max(0, count1 - multiset2.count(element));
+        return (count1 == 0) ? 0 : max(0, count1 - multiset2.count(element));
       }
 
       @Override
@@ -1030,10 +1033,6 @@ public final class Multisets {
     @Override
     public boolean contains(@CheckForNull Object o) {
       if (o instanceof Entry) {
-        /*
-         * The GWT compiler wrongly issues a warning here.
-         */
-        @SuppressWarnings("cast")
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
           return false;
@@ -1044,8 +1043,6 @@ public final class Multisets {
       return false;
     }
 
-    // GWT compiler warning; see contains().
-    @SuppressWarnings("cast")
     @Override
     public boolean remove(@CheckForNull Object object) {
       if (object instanceof Multiset.Entry) {
@@ -1071,7 +1068,7 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#iterator}. */
   static <E extends @Nullable Object> Iterator<E> iteratorImpl(Multiset<E> multiset) {
-    return new MultisetIteratorImpl<E>(multiset, multiset.entrySet().iterator());
+    return new MultisetIteratorImpl<>(multiset, multiset.entrySet().iterator());
   }
 
   static final class MultisetIteratorImpl<E extends @Nullable Object> implements Iterator<E> {
@@ -1137,7 +1134,7 @@ public final class Multisets {
     Spliterator<Entry<E>> entrySpliterator = multiset.entrySet().spliterator();
     return CollectSpliterators.flatMap(
         entrySpliterator,
-        entry -> Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),
+        (Entry<E> entry) -> Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),
         Spliterator.SIZED
             | (entrySpliterator.characteristics()
                 & (Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE)),
@@ -1165,9 +1162,11 @@ public final class Multisets {
    * @since 11.0
    */
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
-    Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
+    @SuppressWarnings("unchecked") // generics+arrays
+    // TODO(cpovirk): Consider storing an Entry<?> instead of Entry<E>.
+    Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);
-    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));
+    return ImmutableMultiset.copyFromEntries(asList(entries));
   }
 
   private static final class DecreasingCount implements Comparator<Entry<?>> {

@@ -287,7 +287,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       tester.testForwarding(interfaceType, wrapperFunction);
     } catch (AssertionFailedError expected) {
       for (String message : expectedMessages) {
-        assertThat(expected.getMessage()).contains(message);
+        assertThat(expected).hasMessageThat().contains(message);
       }
       return;
     }

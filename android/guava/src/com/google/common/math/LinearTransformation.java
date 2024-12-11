@@ -38,6 +38,13 @@ import javax.annotation.CheckForNull;
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class LinearTransformation {
+  /**
+   * Constructor for use by subclasses inside Guava.
+   *
+   * @deprecated Create instances by using the static factory methods of the class.
+   */
+  @Deprecated
+  public LinearTransformation() {}
 
   /**
    * Start building an instance which maps {@code x = x1} to {@code y = y1}. Both arguments must be

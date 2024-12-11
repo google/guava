@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.util.Objects.requireNonNull;
 
@@ -24,16 +25,14 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -79,7 +78,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // TODO
@@ -140,7 +139,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -201,7 +200,7 @@ public final class MoreExecutors {
    * @param service ExecutorService which uses daemon threads
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -300,110 +299,6 @@ public final class MoreExecutors {
             .build());
   }
 
-  // See newDirectExecutorService javadoc for behavioral notes.
-  @J2ktIncompatible
-  @GwtIncompatible // TODO
-  private static final class DirectExecutorService extends AbstractListeningExecutorService {
-    /** Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor */
-    private final Object lock = new Object();
-
-    /*
-     * Conceptually, these two variables describe the executor being in
-     * one of three states:
-     *   - Active: shutdown == false
-     *   - Shutdown: runningTasks > 0 and shutdown == true
-     *   - Terminated: runningTasks == 0 and shutdown == true
-     */
-    @GuardedBy("lock")
-    private int runningTasks = 0;
-
-    @GuardedBy("lock")
-    private boolean shutdown = false;
-
-    @Override
-    public void execute(Runnable command) {
-      startTask();
-      try {
-        command.run();
-      } finally {
-        endTask();
-      }
-    }
-
-    @Override
-    public boolean isShutdown() {
-      synchronized (lock) {
-        return shutdown;
-      }
-    }
-
-    @Override
-    public void shutdown() {
-      synchronized (lock) {
-        shutdown = true;
-        if (runningTasks == 0) {
-          lock.notifyAll();
-        }
-      }
-    }
-
-    // See newDirectExecutorService javadoc for unusual behavior of this method.
-    @Override
-    public List<Runnable> shutdownNow() {
-      shutdown();
-      return Collections.emptyList();
-    }
-
-    @Override
-    public boolean isTerminated() {
-      synchronized (lock) {
-        return shutdown && runningTasks == 0;
-      }
-    }
-
-    @Override
-    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-      long nanos = unit.toNanos(timeout);
-      synchronized (lock) {
-        while (true) {
-          if (shutdown && runningTasks == 0) {
-            return true;
-          } else if (nanos <= 0) {
-            return false;
-          } else {
-            long now = System.nanoTime();
-            TimeUnit.NANOSECONDS.timedWait(lock, nanos);
-            nanos -= System.nanoTime() - now; // subtract the actual time we waited
-          }
-        }
-      }
-    }
-
-    /**
-     * Checks if the executor has been shut down and increments the running task count.
-     *
-     * @throws RejectedExecutionException if the executor has been previously shutdown
-     */
-    private void startTask() {
-      synchronized (lock) {
-        if (shutdown) {
-          throw new RejectedExecutionException("Executor already shutdown");
-        }
-        runningTasks++;
-      }
-    }
-
-    /** Decrements the running task count. */
-    private void endTask() {
-      synchronized (lock) {
-        int numRunning = --runningTasks;
-        if (numRunning == 0) {
-          lock.notifyAll();
-        }
-      }
-    }
-  }
-
   /**
    * Creates an executor service that runs each task in the thread that invokes {@code
    * execute/submit}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}. This applies both to
@@ -430,7 +325,6 @@ public final class MoreExecutors {
    *
    * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)
    */
-  @J2ktIncompatible
   @GwtIncompatible // TODO
   public static ListeningExecutorService newDirectExecutorService() {
     return new DirectExecutorService();
@@ -507,7 +401,7 @@ public final class MoreExecutors {
    *
    * <p>{@linkplain Executor#execute executed} tasks have a happens-before order as defined in the
    * Java Language Specification. Tasks execute with the same happens-before order that the function
-   * calls to {@link Executor#execute `execute()`} that submitted those tasks had.
+   * calls to {@link Executor#execute execute()} that submitted those tasks had.
    *
    * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
    * turn, and does not create any threads of its own.
@@ -545,7 +439,6 @@ public final class MoreExecutors {
    *
    * @since 23.3 (since 23.1 as {@code sequentialExecutor})
    */
-  @J2ktIncompatible
   @GwtIncompatible
   public static Executor newSequentialExecutor(Executor delegate) {
     return new SequentialExecutor(delegate);
@@ -671,7 +564,7 @@ public final class MoreExecutors {
         Callable<V> callable, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<V>(task, scheduled);
+      return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
@@ -788,6 +681,7 @@ public final class MoreExecutors {
   @SuppressWarnings({
     "GoodTime", // should accept a java.time.Duration
     "CatchingUnchecked", // sneaky checked exception
+    "Interruption", // We copy AbstractExecutorService.invokeAny. Maybe we shouldn't: b/227335009.
   })
   @J2ktIncompatible
   @GwtIncompatible
@@ -912,19 +806,12 @@ public final class MoreExecutors {
           Class.forName("com.google.appengine.api.ThreadManager")
               .getMethod("currentRequestThreadFactory")
               .invoke(null);
-      /*
-       * Do not merge the 3 catch blocks below. javac would infer a type of
-       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of Android
-       * don't *seem* to mind, but there might be edge cases of which we're unaware.)
-       */
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
-    } catch (NoSuchMethodException e) {
+    } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throw Throwables.propagate(e.getCause());
+      throwIfUnchecked(e.getCause());
+      // This should be impossible: `currentRequestThreadFactory` has no `throws` clause.
+      throw new UndeclaredThrowableException(e.getCause());
     }
   }
 
@@ -1087,7 +974,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
    *     if the call timed out or was interrupted
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

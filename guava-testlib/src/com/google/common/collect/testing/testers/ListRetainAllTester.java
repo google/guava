@@ -21,12 +21,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import org.junit.Ignore;
 
 /**
@@ -36,7 +36,9 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
@@ -50,7 +52,6 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
     expectContents(array);
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_duplicatesRemoved() {
@@ -63,12 +64,11 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
     expectContents(e2());
   }
 
-  @SuppressWarnings("unchecked")
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_countIgnored() {
     resetContainer(getSubjectGenerator().create(e0(), e2(), e1(), e0()));
-    assertTrue(getList().retainAll(Arrays.asList(e0(), e1())));
+    assertTrue(getList().retainAll(asList(e0(), e1())));
     assertContentsInOrder(getList(), e0(), e1(), e0());
   }
 }

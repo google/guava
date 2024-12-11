@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Arrays.sort;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
@@ -51,7 +53,7 @@ public class ComparatorDelegationOverheadBenchmark {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy);
+      sort(copy);
       tmp += copy[0];
     }
     return tmp;
@@ -62,7 +64,7 @@ public class ComparatorDelegationOverheadBenchmark {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy, Ordering.natural());
+      sort(copy, Ordering.natural());
       tmp += copy[0];
     }
     return tmp;
@@ -81,7 +83,7 @@ public class ComparatorDelegationOverheadBenchmark {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy, Ordering.from(NATURAL_INTEGER));
+      sort(copy, Ordering.from(NATURAL_INTEGER));
       tmp += copy[0];
     }
     return tmp;

@@ -16,12 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
@@ -37,7 +37,9 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithSameEntries() {
     assertTrue(
@@ -116,11 +118,10 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testEquals_list() {
     assertFalse(
-        "A List should never equal a Map.",
-        getMap().equals(Helpers.copyToList(getMap().entrySet())));
+        "A List should never equal a Map.", getMap().equals(copyToList(getMap().entrySet())));
   }
 
-  private static <K, V> HashMap<K, V> newHashMap(
+  private static <K, V> Map<K, V> newHashMap(
       Collection<? extends Entry<? extends K, ? extends V>> entries) {
     HashMap<K, V> map = new HashMap<>();
     for (Entry<? extends K, ? extends V> entry : entries) {

@@ -56,10 +56,6 @@ public class GraphsTest {
   // in one class (may be a utility class for error messages).
   private static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
   private static final String ERROR_NEGATIVE_COUNT = "is non-negative";
-  private static final String ERROR_ADDED_PARALLEL_EDGE =
-      "Should not be allowed to add a parallel edge.";
-  private static final String ERROR_ADDED_SELF_LOOP =
-      "Should not be allowed to add a self-loop edge.";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
 
   @Test
@@ -472,7 +468,7 @@ public class GraphsTest {
     // By default, parallel edges are not allowed.
     IllegalArgumentException e =
         assertThrows(IllegalArgumentException.class, () -> directedGraph.addEdge(N1, N2, E12_A));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
 
     // By default, self-loop edges are not allowed.
     e = assertThrows(IllegalArgumentException.class, () -> directedGraph.addEdge(N1, N1, E11));
@@ -491,9 +487,9 @@ public class GraphsTest {
     // By default, parallel edges are not allowed.
     IllegalArgumentException e =
         assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N1, N2, E12_A));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
     e = assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N2, N1, E21));
-    assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
 
     // By default, self-loop edges are not allowed.
     e = assertThrows(IllegalArgumentException.class, () -> undirectedGraph.addEdge(N1, N1, E11));
@@ -544,7 +540,7 @@ public class GraphsTest {
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class, () -> NetworkBuilder.directed().expectedNodeCount(-1));
-    assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
+    assertThat(e).hasMessageThat().contains(ERROR_NEGATIVE_COUNT);
   }
 
   @Test
@@ -570,7 +566,7 @@ public class GraphsTest {
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class, () -> NetworkBuilder.directed().expectedEdgeCount(-1));
-    assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
+    assertThat(e).hasMessageThat().contains(ERROR_NEGATIVE_COUNT);
   }
 
   private static <N> void checkTransitiveClosure(Graph<N> originalGraph, Graph<N> expectedClosure) {

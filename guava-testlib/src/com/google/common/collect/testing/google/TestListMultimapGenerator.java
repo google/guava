@@ -18,6 +18,7 @@ package com.google.common.collect.testing.google;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A generator for {@code ListMultimap} implementations based on test data.
@@ -25,5 +26,6 @@ import com.google.common.collect.ListMultimap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface TestListMultimapGenerator<K, V>
+@ElementTypesAreNonnullByDefault
+public interface TestListMultimapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestMultimapGenerator<K, V, ListMultimap<K, V>> {}

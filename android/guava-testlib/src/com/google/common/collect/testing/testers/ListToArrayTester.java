@@ -17,10 +17,10 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import org.junit.Ignore;
 
 /**
@@ -30,7 +30,9 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListToArrayTester<E> extends AbstractListTester<E> {
   // CollectionToArrayTester tests everything except ordering.
 
@@ -51,6 +53,6 @@ public class ListToArrayTester<E> extends AbstractListTester<E> {
   }
 
   private static void assertArrayEquals(String message, Object[] expected, Object[] actual) {
-    assertEquals(message, Arrays.asList(expected), Arrays.asList(actual));
+    assertEquals(message, asList(expected), asList(actual));
   }
 }

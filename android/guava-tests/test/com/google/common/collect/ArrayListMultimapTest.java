@@ -16,11 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -40,9 +42,11 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ArrayListMultimapTest extends TestCase {
 
   @GwtIncompatible // suite
+  @J2ktIncompatible
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -116,11 +120,7 @@ public class ArrayListMultimapTest extends TestCase {
     assertTrue(sublist.isEmpty());
     multimap.put("foo", 6);
 
-    try {
-      sublist.isEmpty();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-    }
+    assertThrows(ConcurrentModificationException.class, () -> sublist.isEmpty());
   }
 
   public void testCreateFromMultimap() {
@@ -143,17 +143,9 @@ public class ArrayListMultimapTest extends TestCase {
   }
 
   public void testCreateFromIllegalSizes() {
-    try {
-      ArrayListMultimap.create(15, -2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ArrayListMultimap.create(15, -2));
 
-    try {
-      ArrayListMultimap.create(-15, 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ArrayListMultimap.create(-15, 2));
   }
 
   public void testCreateFromHashMultimap() {

@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.sort;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Enums;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestEnumSetGenerator implements TestSetGenerator<AnEnum> {
   @Override
   public SampleElements<AnEnum> samples() {
@@ -54,7 +56,7 @@ public abstract class TestEnumSetGenerator implements TestSetGenerator<AnEnum> {
   /** Sorts the enums according to their natural ordering. */
   @Override
   public List<AnEnum> order(List<AnEnum> insertionOrder) {
-    Collections.sort(insertionOrder);
+    sort(insertionOrder);
     return insertionOrder;
   }
 }

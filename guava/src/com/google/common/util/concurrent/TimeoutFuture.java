@@ -15,10 +15,13 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,8 +78,8 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
    * write-barriers).
    */
 
-  @CheckForNull private ListenableFuture<V> delegateRef;
-  @CheckForNull private ScheduledFuture<?> timer;
+  @CheckForNull @LazyInit private ListenableFuture<V> delegateRef;
+  @CheckForNull @LazyInit private ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
@@ -84,13 +87,15 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   /** A runnable that is called when the delegate or the timer completes. */
   private static final class Fire<V extends @Nullable Object> implements Runnable {
-    @CheckForNull TimeoutFuture<V> timeoutFutureRef;
+    @CheckForNull @LazyInit TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
       this.timeoutFutureRef = timeoutFuture;
     }
 
     @Override
+    // TODO: b/227335009 - Maybe change interruption behavior, but it requires thought.
+    @SuppressWarnings("Interruption")
     public void run() {
       // If either of these reads return null then we must be after a successful cancel or another
       // call to this method.
@@ -98,7 +103,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
       if (timeoutFuture == null) {
         return;
       }
-      ListenableFuture<V> delegate = timeoutFuture.delegateRef;
+      @RetainedLocalRef ListenableFuture<V> delegate = timeoutFuture.delegateRef;
       if (delegate == null) {
         return;
       }
@@ -120,14 +125,14 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
         timeoutFuture.setFuture(delegate);
       } else {
         try {
-          ScheduledFuture<?> timer = timeoutFuture.timer;
+          @RetainedLocalRef ScheduledFuture<?> timer = timeoutFuture.timer;
           timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
           String message = "Timed out";
           // This try-finally block ensures that we complete the timeout future, even if attempting
           // to produce the message throws (probably StackOverflowError from delegate.toString())
           try {
             if (timer != null) {
-              long overDelayMs = Math.abs(timer.getDelay(TimeUnit.MILLISECONDS));
+              long overDelayMs = Math.abs(timer.getDelay(MILLISECONDS));
               if (overDelayMs > 10) { // Not all timing drift is worth reporting
                 message += " (timeout delayed by " + overDelayMs + " ms after scheduled time)";
               }
@@ -158,12 +163,12 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   @Override
   @CheckForNull
   protected String pendingToString() {
-    ListenableFuture<? extends V> localInputFuture = delegateRef;
-    ScheduledFuture<?> localTimer = timer;
+    @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = delegateRef;
+    @RetainedLocalRef ScheduledFuture<?> localTimer = timer;
     if (localInputFuture != null) {
       String message = "inputFuture=[" + localInputFuture + "]";
       if (localTimer != null) {
-        long delay = localTimer.getDelay(TimeUnit.MILLISECONDS);
+        long delay = localTimer.getDelay(MILLISECONDS);
         // Negative delays look confusing in an error message
         if (delay > 0) {
           message += ", remaining delay=[" + delay + " ms]";
@@ -176,9 +181,10 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   @Override
   protected void afterDone() {
-    maybePropagateCancellationTo(delegateRef);
+    @RetainedLocalRef ListenableFuture<? extends V> delegate = delegateRef;
+    maybePropagateCancellationTo(delegate);
 
-    Future<?> localTimer = timer;
+    @RetainedLocalRef Future<?> localTimer = timer;
     // Try to cancel the timer as an optimization.
     // timer may be null if this call to run was by the timer task since there is no happens-before
     // edge between the assignment to timer and an execution of the timer task.

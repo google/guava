@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
@@ -70,7 +73,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   private boolean satisfies(@ParametricNullness K key, @ParametricNullness V value) {
-    return predicate.apply(Maps.immutableEntry(key, value));
+    return predicate.apply(immutableEntry(key, value));
   }
 
   final class ValuePredicate implements Predicate<V> {
@@ -154,7 +157,8 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       Entry<K, Collection<V>> entry = entryIterator.next();
       K key = entry.getKey();
       Collection<V> collection = filterCollection(entry.getValue(), new ValuePredicate(key));
-      if (!collection.isEmpty() && predicate.apply(Maps.immutableEntry(key, collection))) {
+      if (!collection.isEmpty()
+          && predicate.apply(Maps.<K, Collection<V>>immutableEntry(key, collection))) {
         if (collection.size() == entry.getValue().size()) {
           entryIterator.remove();
         } else {
@@ -212,9 +216,9 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       if (result.isEmpty()) {
         return null;
       } else if (unfiltered instanceof SetMultimap) {
-        return Collections.unmodifiableSet(Sets.newLinkedHashSet(result));
+        return unmodifiableSet(Sets.newLinkedHashSet(result));
       } else {
-        return Collections.unmodifiableList(result);
+        return unmodifiableList(result);
       }
     }
 
@@ -268,7 +272,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
                 Collection<V> collection =
                     filterCollection(entry.getValue(), new ValuePredicate(key));
                 if (!collection.isEmpty()) {
-                  return Maps.immutableEntry(key, collection);
+                  return immutableEntry(key, collection);
                 }
               }
               return endOfData();
@@ -400,7 +404,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
           return FilteredEntryMultimap.this.removeEntriesIf(
               (Map.Entry<K, Collection<V>> entry) ->
                   predicate.apply(
-                      Multisets.immutableEntry(entry.getKey(), entry.getValue().size())));
+                      Multisets.<K>immutableEntry(entry.getKey(), entry.getValue().size())));
         }
 
         @Override

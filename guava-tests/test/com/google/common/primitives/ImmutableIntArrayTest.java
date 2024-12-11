@@ -14,9 +14,11 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.stream;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -152,11 +154,7 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testBuilder_presize_negative() {
-    try {
-      ImmutableIntArray.builder(-1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> ImmutableIntArray.builder(-1));
   }
 
   /**
@@ -224,7 +222,7 @@ public class ImmutableIntArrayTest extends TestCase {
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
-        builder.addAll(Arrays.stream(array));
+        builder.addAll(stream(array));
       }
     },
     ADD_IIA {
@@ -285,23 +283,11 @@ public class ImmutableIntArrayTest extends TestCase {
 
   public void testGet_bad() {
     ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia.get(3);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia.get(3));
 
-    iia = iia.subArray(1, 2);
-    try {
-      iia.get(-1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    ImmutableIntArray sub = iia.subArray(1, 2);
+    assertThrows(IndexOutOfBoundsException.class, () -> sub.get(-1));
   }
 
   public void testIndexOf() {
@@ -361,16 +347,8 @@ public class ImmutableIntArrayTest extends TestCase {
     assertThat(iia3.subArray(0, 2).asList()).containsExactly(5, 25).inOrder();
     assertThat(iia3.subArray(1, 3).asList()).containsExactly(25, 125).inOrder();
 
-    try {
-      iia3.subArray(-1, 1);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      iia3.subArray(1, 4);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(-1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> iia3.subArray(1, 4));
   }
 
   /*

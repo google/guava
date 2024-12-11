@@ -16,13 +16,15 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
@@ -36,7 +38,9 @@ import org.junit.Ignore;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = ZERO)
@@ -76,33 +80,21 @@ public class ListSetTester<E> extends AbstractListTester<E> {
 
   @ListFeature.Require(SUPPORTS_SET)
   public void testSet_indexTooLow() {
-    try {
-      getList().set(-1, e3());
-      fail("set(-1) should throw IndexOutOfBoundsException");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().set(-1, e3()));
     expectUnchanged();
   }
 
   @ListFeature.Require(SUPPORTS_SET)
   public void testSet_indexTooHigh() {
     int index = getNumElements();
-    try {
-      getList().set(index, e3());
-      fail("set(size) should throw IndexOutOfBoundsException");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().set(index, e3()));
     expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)
   @ListFeature.Require(absent = SUPPORTS_SET)
   public void testSet_unsupported() {
-    try {
-      getList().set(aValidIndex(), e3());
-      fail("set() should throw UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().set(aValidIndex(), e3()));
     expectUnchanged();
   }
 
@@ -112,7 +104,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
     try {
       getList().set(0, e3());
       fail("set() should throw UnsupportedOperationException or IndexOutOfBoundsException");
-    } catch (UnsupportedOperationException | IndexOutOfBoundsException tolerated) {
+    } catch (UnsupportedOperationException | IndexOutOfBoundsException expected) {
     }
     expectUnchanged();
   }
@@ -121,11 +113,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
   public void testSet_nullUnsupported() {
-    try {
-      getList().set(aValidIndex(), null);
-      fail("set(null) should throw NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getList().set(aValidIndex(), null));
     expectUnchanged();
   }
 
@@ -142,8 +130,9 @@ public class ListSetTester<E> extends AbstractListTester<E> {
    * will be to permit them, as it seems more likely that code would depend on that behavior than on
    * the other. Thus, we say the bug is in set(), which fails to support null.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSetNullSupportedMethod() {
-    return Helpers.getMethod(ListSetTester.class, "testSet_null");
+    return getMethod(ListSetTester.class, "testSet_null");
   }
 }

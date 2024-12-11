@@ -20,10 +20,17 @@ import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_V
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
@@ -133,7 +140,7 @@ public class AbstractFutureTest extends TestCase {
             set("foo");
           }
         };
-    assertEquals("foo", future.get(0, TimeUnit.SECONDS));
+    assertEquals("foo", future.get(0, SECONDS));
   }
 
   public void testEvilFuture_setFuture() throws Exception {
@@ -254,10 +261,9 @@ public class AbstractFutureTest extends TestCase {
     assertThat(testFuture.toString())
         .matches(
             "[^\\[]+\\[status=PENDING, info=\\[cause=\\[Because this test isn't done\\]\\]\\]");
-    TimeoutException e =
-        assertThrows(TimeoutException.class, () -> testFuture.get(1, TimeUnit.NANOSECONDS));
-    assertThat(e.getMessage()).contains("1 nanoseconds");
-    assertThat(e.getMessage()).contains("Because this test isn't done");
+    TimeoutException e = assertThrows(TimeoutException.class, () -> testFuture.get(1, NANOSECONDS));
+    assertThat(e).hasMessageThat().contains("1 nanoseconds");
+    assertThat(e).hasMessageThat().contains("Because this test isn't done");
   }
 
   public void testToString_completesDuringToString() throws Exception {
@@ -279,38 +285,36 @@ public class AbstractFutureTest extends TestCase {
    * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
    * derived from observing how much time actually passed for various operations.
    */
-  @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
+  @SuppressWarnings("ThreadPriorityCheck")
   @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
     Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
     // Parsing to an integer might fail because Java 8 returns "1.8" instead of "8."
     // We can continue if it's 1.8, and we can continue if it's an integer in [9, 20).
     if (javaVersion != null && javaVersion >= 20) {
-      // TODO(b/261217224): Make this test work under newer JDKs.
+      // TODO(b/261217224, b/361604053): Make this test work under newer JDKs.
       return;
     }
-    TimedWaiterThread thread =
-        new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
+    TimedWaiterThread thread = new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, SECONDS);
     thread.start();
     thread.awaitWaiting();
-    thread.suspend();
+    Thread.class.getMethod("suspend").invoke(thread);
     // Sleep for enough time to add 1500 milliseconds of overwait to the get() call.
-    long toWaitMillis = 3500 - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - thread.startTime);
+    long toWaitMillis = 3500 - NANOSECONDS.toMillis(System.nanoTime() - thread.startTime);
     Thread.sleep(toWaitMillis);
     thread.setPriority(Thread.MAX_PRIORITY);
-    thread.resume();
+    Thread.class.getMethod("resume").invoke(thread);
     thread.join();
     // It's possible to race and suspend the thread just before the park call actually takes effect,
     // causing the thread to be suspended for 3.5 seconds, and then park itself for 2 seconds after
     // being resumed. To avoid a flake in this scenario, calculate how long that thread actually
     // waited and assert based on that time. Empirically, the race where the thread ends up waiting
     // for 5.5 seconds happens about 2% of the time.
-    boolean longWait = TimeUnit.NANOSECONDS.toSeconds(thread.timeSpentBlocked) >= 5;
+    boolean longWait = NANOSECONDS.toSeconds(thread.timeSpentBlocked) >= 5;
     // Count how long it actually took to return; we'll accept any number between the expected delay
     // and the approximate actual delay, to be robust to variance in thread scheduling.
     char overWaitNanosFirstDigit =
-        Long.toString(
-                thread.timeSpentBlocked - TimeUnit.MILLISECONDS.toNanos(longWait ? 5000 : 3000))
+        Long.toString(thread.timeSpentBlocked - MILLISECONDS.toNanos(longWait ? 5000 : 3000))
             .charAt(0);
     if (overWaitNanosFirstDigit < '4') {
       overWaitNanosFirstDigit = '9';
@@ -348,12 +352,11 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testToString_cancelled() throws Exception {
-    assertThat(Futures.immediateCancelledFuture().toString())
-        .matches("[^\\[]+\\[status=CANCELLED\\]");
+    assertThat(immediateCancelledFuture().toString()).matches("[^\\[]+\\[status=CANCELLED\\]");
   }
 
   public void testToString_failed() {
-    assertThat(Futures.immediateFailedFuture(new RuntimeException("foo")).toString())
+    assertThat(immediateFailedFuture(new RuntimeException("foo")).toString())
         .matches("[^\\[]+\\[status=FAILURE, cause=\\[java.lang.RuntimeException: foo\\]\\]");
   }
 
@@ -471,7 +474,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCompleteSuccessfullyRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future = Futures.immediateFuture("setFuture");
+          ListenableFuture<String> future = immediateFuture("setFuture");
 
           @Override
           public @Nullable Void call() {
@@ -484,8 +487,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCompleteExceptionallyRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future =
-              Futures.immediateFailedFuture(new Exception("setFuture"));
+          ListenableFuture<String> future = immediateFailedFuture(new Exception("setFuture"));
 
           @Override
           public @Nullable Void call() {
@@ -498,7 +500,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCancelRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future = Futures.immediateCancelledFuture();
+          ListenableFuture<String> future = immediateCancelledFuture();
 
           @Override
           public @Nullable Void call() {
@@ -533,7 +535,7 @@ public class AbstractFutureTest extends TestCase {
             Future<String> future = currentFuture.get();
             while (true) {
               try {
-                String result = Uninterruptibles.getUninterruptibly(future, 0, TimeUnit.SECONDS);
+                String result = Uninterruptibles.getUninterruptibly(future, 0, SECONDS);
                 finalResults.add(result);
                 break;
               } catch (ExecutionException e) {
@@ -664,7 +666,7 @@ public class AbstractFutureTest extends TestCase {
             Future<String> future = currentFuture.get();
             while (true) {
               try {
-                String result = Uninterruptibles.getUninterruptibly(future, 0, TimeUnit.SECONDS);
+                String result = Uninterruptibles.getUninterruptibly(future, 0, SECONDS);
                 finalResults.add(result);
                 break;
               } catch (ExecutionException e) {
@@ -764,7 +766,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCompleteSuccessfullyRunnable =
         new Callable<@Nullable Void>() {
-          final ListenableFuture<String> future = Futures.immediateFuture("hello");
+          final ListenableFuture<String> future = immediateFuture("hello");
 
           @Override
           public @Nullable Void call() {
@@ -841,6 +843,7 @@ public class AbstractFutureTest extends TestCase {
 
   // Verify that StackOverflowError in a long chain of SetFuture doesn't cause the entire toString
   // call to fail
+  @J2ktIncompatible
   @GwtIncompatible
   @AndroidIncompatible
   public void testSetFutureToString_stackOverflow() {
@@ -1012,7 +1015,7 @@ public class AbstractFutureTest extends TestCase {
                     ranImmediately.set(true);
                   }
                 },
-                MoreExecutors.directExecutor());
+                directExecutor());
             assertThat(ranImmediately.get()).isTrue();
           }
         };
@@ -1028,7 +1031,7 @@ public class AbstractFutureTest extends TestCase {
           protected void afterDone() {
             // this simply delays executing listeners
             try {
-              Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+              Thread.sleep(SECONDS.toMillis(10));
             } catch (InterruptedException ignored) {
               Thread.currentThread().interrupt(); // preserve status
             }
@@ -1051,7 +1054,7 @@ public class AbstractFutureTest extends TestCase {
             ranImmediately.set(true);
           }
         },
-        MoreExecutors.directExecutor());
+        directExecutor());
     assertThat(ranImmediately.get()).isTrue();
     t.interrupt();
     t.join();
@@ -1076,51 +1079,51 @@ public class AbstractFutureTest extends TestCase {
     new SneakyThrower<Error>().throwIt(t);
   }
 
-  public void testTrustedGetFailure_Completed() {
+  public void testTrustedGetFailure_completed() {
     SettableFuture<String> future = SettableFuture.create();
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_Failed() {
+  public void testTrustedGetFailure_failed() {
     SettableFuture<String> future = SettableFuture.create();
     Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isEqualTo(failure);
   }
 
-  public void testTrustedGetFailure_NotCompleted() {
+  public void testTrustedGetFailure_notCompleted() {
     SettableFuture<String> future = SettableFuture.create();
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testTrustedGetFailure_CanceledNoCause() {
+  public void testTrustedGetFailure_canceledNoCause() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Completed() {
+  public void testGetFailure_completed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.set("261");
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_Failed() {
+  public void testGetFailure_failed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     final Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_NotCompleted() {
+  public void testGetFailure_notCompleted() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     assertThat(future.isDone()).isFalse();
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testGetFailure_CanceledNoCause() {
+  public void testGetFailure_canceledNoCause() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.cancel(false);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
@@ -1206,11 +1209,8 @@ public class AbstractFutureTest extends TestCase {
         return i;
       }
     }
-    AssertionFailedError failure =
-        new AssertionFailedError(
-            "Expected element " + clazz + "." + method + " not found in stack trace");
-    failure.initCause(e);
-    throw failure;
+    throw new AssertionError(
+        "Expected element " + clazz + "." + method + " not found in stack trace", e);
   }
 
   private ExecutionException getExpectingExecutionException(AbstractFuture<String> future)
@@ -1239,6 +1239,7 @@ public class AbstractFutureTest extends TestCase {
       }
     }
 
+    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
     void awaitWaiting() {
       while (!isBlocked()) {
         if (getState() == State.TERMINATED) {
@@ -1280,6 +1281,7 @@ public class AbstractFutureTest extends TestCase {
       }
     }
 
+    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
     void awaitWaiting() {
       while (!isBlocked()) {
         if (getState() == State.TERMINATED) {
@@ -1306,7 +1308,7 @@ public class AbstractFutureTest extends TestCase {
     public void run() {
       while (true) {
         try {
-          future.get(0, TimeUnit.SECONDS);
+          future.get(0, SECONDS);
           return;
         } catch (InterruptedException | ExecutionException e) {
           return;

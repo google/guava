@@ -35,7 +35,10 @@ import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} with two or more entries.
+ * Implementation of {@link ImmutableMap} used for 0 entries and for 2+ entries. Additional
+ * implementations exist for particular cases, like {@link ImmutableTable} views and hash flooding.
+ * (This doc discusses {@link ImmutableMap} subclasses only for the JRE flavor; the Android flavor
+ * differs.)
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
@@ -65,7 +68,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
    * implementation. Experimentally determined.
    */
-  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 8;
+  static final int MAX_HASH_BUCKET_LENGTH = 8;
 
   // entries in insertion order
   @VisibleForTesting final transient Entry<K, V>[] entries;

@@ -21,7 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.Sets.newHashSet;
+import static java.lang.Math.ceil;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
@@ -151,7 +154,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @J2ktIncompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -190,11 +192,12 @@ public final class Maps {
    * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
    * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
    * IllegalStateException}.)
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @J2ktIncompatible
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K extends Enum<K>, V>
+  public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction) {
@@ -209,11 +212,12 @@ public final class Maps {
    *
    * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
    * function.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @J2ktIncompatible
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, K extends Enum<K>, V>
+  public static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
           java.util.function.Function<? super T, ? extends V> valueFunction,
@@ -230,10 +234,12 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code HashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code HashMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMap<K, V> newHashMap() {
     return new HashMap<>();
@@ -248,11 +254,13 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code HashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new {@code HashMap} initialized with the mappings from {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object> HashMap<K, V> newHashMap(
       Map<? extends K, ? extends V> map) {
     return new HashMap<>(map);
@@ -269,6 +277,7 @@ public final class Maps {
    *     without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return new HashMap<>(capacity(expectedSize));
@@ -296,7 +305,7 @@ public final class Maps {
       // computed from that capacity. Because the internal table is only allocated on the first
       // write, we won't see copying because of the new threshold. So it is always OK to use the
       // calculation here.
-      return (int) Math.ceil(expectedSize / 0.75);
+      return (int) ceil(expectedSize / 0.75);
     }
     return Integer.MAX_VALUE; // any large value
   }
@@ -308,10 +317,12 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code LinkedHashMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMap() {
     return new LinkedHashMap<>();
@@ -325,11 +336,13 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the mappings to be placed in the new map
    * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<>(map);
@@ -347,6 +360,7 @@ public final class Maps {
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    * @since 19.0
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return new LinkedHashMap<>(capacity(expectedSize));
@@ -369,10 +383,15 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings({
+    "rawtypes", // https://github.com/google/guava/issues/989
+    "NonApiType", // acts as a direct substitute for a constructor call
+  })
   public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }
@@ -386,13 +405,15 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the sorted map whose mappings are to be placed in the new map and whose comparator
    *     is to be used to sort the new map
    * @return a new {@code TreeMap} initialized with the mappings from {@code map} and using the
    *     comparator of {@code map}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <K extends @Nullable Object, V extends @Nullable Object> TreeMap<K, V> newTreeMap(
       SortedMap<K, ? extends V> map) {
     return new TreeMap<>(map);
@@ -406,11 +427,13 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code TreeMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
    */
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <C extends @Nullable Object, K extends C, V extends @Nullable Object>
       TreeMap<K, V> newTreeMap(@CheckForNull Comparator<C> comparator) {
     // Ideally, the extra type parameter "C" shouldn't be necessary. It is a
@@ -437,7 +460,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code EnumMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @param map the map from which to initialize this {@code EnumMap}
    * @return a new {@code EnumMap} initialized with the mappings from {@code map}
@@ -454,7 +478,8 @@ public final class Maps {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code IdentityHashMap} constructor directly, taking advantage of <a
-   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    *
    * @return a new, empty {@code IdentityHashMap}
    */
@@ -685,7 +710,7 @@ public final class Maps {
 
     static <V extends @Nullable Object> ValueDifference<V> create(
         @ParametricNullness V left, @ParametricNullness V right) {
-      return new ValueDifferenceImpl<V>(left, right);
+      return new ValueDifferenceImpl<>(left, right);
     }
 
     private ValueDifferenceImpl(@ParametricNullness V left, @ParametricNullness V right) {
@@ -1214,6 +1239,18 @@ public final class Maps {
    * <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of a copy using {@link
    * Maps#asMap(Set, Function)}.
    *
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
+   *
+   * <pre>{@code
+   * import static com.google.common.collect.ImmutableMap.toImmutableMap;
+   * ...
+   * ImmutableMap<Color, String> colorNames =
+   *     allColors.stream().collect(toImmutableMap(c -> c, c -> c.toString()));
+   * }</pre>
+   *
+   * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
+   * and values in the map are.
+   *
    * @throws NullPointerException if any element of {@code keys} is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
@@ -1267,7 +1304,7 @@ public final class Maps {
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
-   * <p><b>Note:</b> on Java 8 and later, it is usually better to use streams. For example:
+   * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
    * <pre>{@code
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;
@@ -1622,6 +1659,7 @@ public final class Maps {
    * @param bimap the bimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified bimap
    */
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
@@ -2805,7 +2843,7 @@ public final class Maps {
       // implying that key is a K.
       @SuppressWarnings({"unchecked", "nullness"})
       K k = (K) key;
-      return predicate.apply(Maps.immutableEntry(k, value));
+      return predicate.apply(immutableEntry(k, value));
     }
 
     @Override
@@ -3327,7 +3365,8 @@ public final class Maps {
       return new Predicate<Entry<V, K>>() {
         @Override
         public boolean apply(Entry<V, K> input) {
-          return forwardPredicate.apply(Maps.immutableEntry(input.getValue(), input.getKey()));
+          return forwardPredicate.apply(
+              Maps.<K, V>immutableEntry(input.getValue(), input.getKey()));
         }
       };
     }
@@ -3606,6 +3645,7 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
+  @J2ktIncompatible // Synchronized
   public static <K extends @Nullable Object, V extends @Nullable Object>
       NavigableMap<K, V> synchronizedNavigableMap(NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);
@@ -4042,7 +4082,7 @@ public final class Maps {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRemove = Sets.newHashSet();
+        Set<K> toRemove = newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRemove.add(entry.getKey());
@@ -4057,7 +4097,7 @@ public final class Maps {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRetain = Sets.newHashSet();
+        Set<K> toRetain = newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRetain.add(entry.getKey());

@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
+
 import com.google.common.annotations.GwtIncompatible;
 import java.util.List;
 
@@ -37,9 +39,10 @@ public class ConcurrentNavigableMapTestSuiteBuilder<K, V>
     return result;
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    List<Class<? extends AbstractTester>> testers = copyToList(super.getTesters());
     testers.addAll(ConcurrentMapTestSuiteBuilder.TESTERS);
     return testers;
   }

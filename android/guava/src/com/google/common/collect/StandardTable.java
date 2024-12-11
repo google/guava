@@ -21,9 +21,12 @@ import static com.google.common.base.Predicates.alwaysTrue;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.safeContainsKey;
 import static com.google.common.collect.Maps.safeGet;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.Tables.immutableCell;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -270,7 +273,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
        */
       requireNonNull(rowEntry);
       Entry<C, V> columnEntry = columnIterator.next();
-      return Tables.immutableCell(rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue());
+      return immutableCell(rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue());
     }
 
     @Override
@@ -337,7 +340,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     @CheckForNull
     public V get(@CheckForNull Object key) {
       updateBackingRowMapField();
-      return (key != null && backingRowMap != null) ? Maps.safeGet(backingRowMap, key) : null;
+      return (key != null && backingRowMap != null) ? safeGet(backingRowMap, key) : null;
     }
 
     @Override
@@ -474,7 +477,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
         Entry<R, Map<C, V>> entry = iterator.next();
         Map<C, V> map = entry.getValue();
         V value = map.get(columnKey);
-        if (value != null && predicate.apply(Maps.immutableEntry(entry.getKey(), value))) {
+        if (value != null && predicate.apply(immutableEntry(entry.getKey(), value))) {
           map.remove(columnKey);
           changed = true;
           if (map.isEmpty()) {
@@ -749,7 +752,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     // consistent with equals().
     final Map<C, V> seen = factory.get();
     final Iterator<Map<C, V>> mapIterator = backingMap.values().iterator();
-    Iterator<Entry<C, V>> entryIterator = Iterators.emptyIterator();
+    Iterator<Entry<C, V>> entryIterator = emptyIterator();
 
     @Override
     @CheckForNull
@@ -971,7 +974,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
         checkNotNull(c);
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
-          if (!c.contains(Maps.immutableEntry(columnKey, column(columnKey)))) {
+          if (!c.contains(immutableEntry(columnKey, column(columnKey)))) {
             removeColumn(columnKey);
             changed = true;
           }

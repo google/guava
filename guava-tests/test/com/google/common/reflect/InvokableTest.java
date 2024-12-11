@@ -28,6 +28,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -53,15 +54,9 @@ public class InvokableTest extends TestCase {
     ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
     assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
-    Class<?> genericDeclaration;
-    try {
-      genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
-      ImmutableSet<String> genericDeclarationMethods =
-          publicMethodSignatures(genericDeclaration, ImmutableSet.<String>of());
-      assertThat(invokableMethods).containsAtLeastElementsIn(genericDeclarationMethods);
-    } catch (ClassNotFoundException e) {
-      // OK: we're on Java 7, which doesn't have this class
-    }
+    ImmutableSet<String> genericDeclarationMethods =
+        publicMethodSignatures(GenericDeclaration.class, ImmutableSet.<String>of());
+    assertThat(invokableMethods).containsAtLeastElementsIn(genericDeclarationMethods);
   }
 
   private static ImmutableSet<String> publicMethodSignatures(
@@ -228,7 +223,6 @@ public class InvokableTest extends TestCase {
   }
 
   public void testConstructor_returnType_hasTypeParameter() throws Exception {
-    @SuppressWarnings("rawtypes") // Foo.class for Foo<T> is always raw type
     Class<WithConstructorAndTypeParameter> type = WithConstructorAndTypeParameter.class;
     @SuppressWarnings("rawtypes") // Foo.class
     Constructor<WithConstructorAndTypeParameter> constructor = type.getDeclaredConstructor();
@@ -637,7 +631,7 @@ public class InvokableTest extends TestCase {
     }
   }
 
-  public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
+  public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_bug() {
     LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
         new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }

@@ -15,9 +15,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.transform;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -198,6 +200,7 @@ final class SortedLists {
    * <p>Equivalent to {@link #binarySearch(List, Function, Object, Comparator, KeyPresentBehavior,
    * KeyAbsentBehavior)} using {@link Ordering#natural}.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends Comparable> int binarySearch(
       List<? extends E> list,
       E e,
@@ -213,6 +216,7 @@ final class SortedLists {
    * <p>Equivalent to {@link #binarySearch(List, Function, Object, Comparator, KeyPresentBehavior,
    * KeyAbsentBehavior)} using {@link Ordering#natural}.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static <E extends @Nullable Object, K extends Comparable> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
@@ -239,7 +243,7 @@ final class SortedLists {
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
     return binarySearch(
-        Lists.transform(list, keyFunction), key, keyComparator, presentBehavior, absentBehavior);
+        transform(list, keyFunction), key, keyComparator, presentBehavior, absentBehavior);
   }
 
   /**
@@ -276,7 +280,7 @@ final class SortedLists {
     checkNotNull(presentBehavior);
     checkNotNull(absentBehavior);
     if (!(list instanceof RandomAccess)) {
-      list = Lists.newArrayList(list);
+      list = new ArrayList<>(list);
     }
     // TODO(lowasser): benchmark when it's best to do a linear search
 

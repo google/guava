@@ -16,16 +16,15 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Streams.findLast;
 import static com.google.common.collect.Streams.stream;
+import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.primitives.Doubles;
 import com.google.common.truth.IterableSubject;
-import com.google.common.truth.Truth;
-import com.google.common.truth.Truth8;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -41,9 +40,11 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit test for {@link Streams}. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
@@ -58,15 +59,15 @@ public class StreamsTest extends TestCase {
 
   @SuppressWarnings("deprecation")
   public void testStream_collection() {
-    assertThat(stream(Arrays.asList())).isEmpty();
-    assertThat(stream(Arrays.asList("a"))).containsExactly("a");
-    assertThat(stream(Arrays.asList(1, 2, 3)).filter(n -> n > 1)).containsExactly(2, 3);
+    assertThat(stream(asList())).isEmpty();
+    assertThat(stream(asList("a"))).containsExactly("a");
+    assertThat(stream(asList(1, 2, 3)).filter(n -> n > 1)).containsExactly(2, 3);
   }
 
   public void testStream_iterator() {
-    assertThat(stream(Arrays.asList().iterator())).isEmpty();
-    assertThat(stream(Arrays.asList("a").iterator())).containsExactly("a");
-    assertThat(stream(Arrays.asList(1, 2, 3).iterator()).filter(n -> n > 1)).containsExactly(2, 3);
+    assertThat(stream(asList().iterator())).isEmpty();
+    assertThat(stream(asList("a").iterator())).containsExactly("a");
+    assertThat(stream(asList(1, 2, 3).iterator()).filter(n -> n > 1)).containsExactly(2, 3);
   }
 
   public void testStream_googleOptional() {
@@ -80,58 +81,57 @@ public class StreamsTest extends TestCase {
   }
 
   public void testFindLast_refStream() {
-    Truth8.assertThat(findLast(Stream.of())).isEmpty();
-    Truth8.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
+    assertThat(findLast(Stream.of())).isEmpty();
+    assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
 
     // test with a large, not-subsized Spliterator
     List<Integer> list =
         IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth8.assertThat(findLast(list.stream())).hasValue(10000);
+    assertThat(findLast(list.stream())).hasValue(10000);
 
     // no way to find out the stream is empty without walking its spliterator
-    Truth8.assertThat(findLast(list.stream().filter(i -> i < 0))).isEmpty();
+    assertThat(findLast(list.stream().filter(i -> i < 0))).isEmpty();
   }
 
   public void testFindLast_intStream() {
-    Truth.assertThat(findLast(IntStream.of())).isEqualTo(OptionalInt.empty());
-    Truth.assertThat(findLast(IntStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalInt.of(5));
+    assertThat(findLast(IntStream.of())).isEqualTo(OptionalInt.empty());
+    assertThat(findLast(IntStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalInt.of(5));
 
     // test with a large, not-subsized Spliterator
     List<Integer> list =
         IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToInt(i -> i))).isEqualTo(OptionalInt.of(10000));
+    assertThat(findLast(list.stream().mapToInt(i -> i))).isEqualTo(OptionalInt.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToInt(i -> i).filter(i -> i < 0)))
+    assertThat(findLast(list.stream().mapToInt(i -> i).filter(i -> i < 0)))
         .isEqualTo(OptionalInt.empty());
   }
 
   public void testFindLast_longStream() {
-    Truth.assertThat(findLast(LongStream.of())).isEqualTo(OptionalLong.empty());
-    Truth.assertThat(findLast(LongStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalLong.of(5));
+    assertThat(findLast(LongStream.of())).isEqualTo(OptionalLong.empty());
+    assertThat(findLast(LongStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalLong.of(5));
 
     // test with a large, not-subsized Spliterator
     List<Long> list =
         LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToLong(i -> i))).isEqualTo(OptionalLong.of(10000));
+    assertThat(findLast(list.stream().mapToLong(i -> i))).isEqualTo(OptionalLong.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToLong(i -> i).filter(i -> i < 0)))
+    assertThat(findLast(list.stream().mapToLong(i -> i).filter(i -> i < 0)))
         .isEqualTo(OptionalLong.empty());
   }
 
   public void testFindLast_doubleStream() {
-    Truth.assertThat(findLast(DoubleStream.of())).isEqualTo(OptionalDouble.empty());
-    Truth.assertThat(findLast(DoubleStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalDouble.of(5));
+    assertThat(findLast(DoubleStream.of())).isEqualTo(OptionalDouble.empty());
+    assertThat(findLast(DoubleStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalDouble.of(5));
 
     // test with a large, not-subsized Spliterator
     List<Long> list =
         LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToDouble(i -> i)))
-        .isEqualTo(OptionalDouble.of(10000));
+    assertThat(findLast(list.stream().mapToDouble(i -> i))).isEqualTo(OptionalDouble.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToDouble(i -> i).filter(i -> i < 0)))
+    assertThat(findLast(list.stream().mapToDouble(i -> i).filter(i -> i < 0)))
         .isEqualTo(OptionalDouble.empty());
   }
 
@@ -153,10 +153,10 @@ public class StreamsTest extends TestCase {
         Streams.concat(Stream.of("a"), streamB, Stream.empty(), Stream.of("c", "d"));
     assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
     concatenated.close();
-    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+    assertThat(closeCountB.get()).isEqualTo(1);
   }
 
-  public void testConcat_refStream_closeIsPropagated_Stream_concat() {
+  public void testConcat_refStream_closeIsPropagated_stream_concat() {
     // Just to demonstrate behavior of Stream::concat in the standard library
     AtomicInteger closeCountB = new AtomicInteger(0);
     Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
@@ -165,10 +165,10 @@ public class StreamsTest extends TestCase {
             .reduce(Stream.empty(), Stream::concat);
     assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
     concatenated.close();
-    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+    assertThat(closeCountB.get()).isEqualTo(1);
   }
 
-  public void testConcat_refStream_closeIsPropagated_Stream_flatMap() {
+  public void testConcat_refStream_closeIsPropagated_stream_flatMap() {
     // Just to demonstrate behavior of Stream::flatMap in the standard library
     AtomicInteger closeCountB = new AtomicInteger(0);
     Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
@@ -178,7 +178,7 @@ public class StreamsTest extends TestCase {
     assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
     concatenated.close();
     // even without close, see doc for flatMap
-    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+    assertThat(closeCountB.get()).isEqualTo(1);
   }
 
   public void testConcat_refStream_closeIsPropagated_exceptionsChained() {
@@ -193,8 +193,8 @@ public class StreamsTest extends TestCase {
     } catch (RuntimeException e) {
       exception = e;
     }
-    Truth.assertThat(exception).isEqualTo(exception1);
-    Truth.assertThat(exception.getSuppressed())
+    assertThat(exception).isEqualTo(exception1);
+    assertThat(exception.getSuppressed())
         .asList()
         .containsExactly(exception2, exception3)
         .inOrder();
@@ -207,7 +207,7 @@ public class StreamsTest extends TestCase {
   }
 
   public void testConcat_refStream_parallel() {
-    Truth.assertThat(
+    assertThat(
             Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
                 .parallel()
                 .toArray())
@@ -232,7 +232,7 @@ public class StreamsTest extends TestCase {
   }
 
   public void testConcat_doubleStream() {
-    assertThat(
+    assertThatDoubleStream(
             Streams.concat(
                 DoubleStream.of(1),
                 DoubleStream.of(2),
@@ -253,8 +253,8 @@ public class StreamsTest extends TestCase {
   }
 
   public void testStream_optionalDouble() {
-    assertThat(stream(OptionalDouble.empty())).isEmpty();
-    assertThat(stream(OptionalDouble.of(5.0))).containsExactly(5.0);
+    assertThatDoubleStream(stream(OptionalDouble.empty())).isEmpty();
+    assertThatDoubleStream(stream(OptionalDouble.of(5.0))).containsExactly(5.0);
   }
 
   public void testConcatInfiniteStream() {
@@ -276,7 +276,8 @@ public class StreamsTest extends TestCase {
   }
 
   public void testConcatInfiniteStream_double() {
-    assertThat(Streams.concat(DoubleStream.of(1, 2, 3), DoubleStream.generate(() -> 5)).limit(5))
+    assertThatDoubleStream(
+            Streams.concat(DoubleStream.of(1, 2, 3), DoubleStream.generate(() -> 5)).limit(5))
         .containsExactly(1., 2., 3., 5., 5.)
         .inOrder();
   }
@@ -307,7 +308,9 @@ public class StreamsTest extends TestCase {
 
   public void testMapWithIndex_unsizedSource() {
     testMapWithIndex(
-        elems -> Stream.of((Object) null).flatMap(unused -> ImmutableList.copyOf(elems).stream()));
+        elems ->
+            Stream.<@Nullable Object>of((Object) null)
+                .flatMap(unused -> ImmutableList.copyOf(elems).stream()));
   }
 
   public void testMapWithIndex_closeIsPropagated_sizedSource() {
@@ -316,7 +319,7 @@ public class StreamsTest extends TestCase {
 
   public void testMapWithIndex_closeIsPropagated_unsizedSource() {
     testMapWithIndex_closeIsPropagated(
-        Stream.of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
+        Stream.<@Nullable Object>of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
   }
 
   private void testMapWithIndex_closeIsPropagated(Stream<String> source) {
@@ -326,7 +329,7 @@ public class StreamsTest extends TestCase {
 
     withIndex.close();
 
-    Truth.assertThat(stringsCloseCount.get()).isEqualTo(1);
+    assertThat(stringsCloseCount.get()).isEqualTo(1);
   }
 
   public void testMapWithIndex_intStream() {
@@ -351,7 +354,7 @@ public class StreamsTest extends TestCase {
 
     withIndex.close();
 
-    Truth.assertThat(intStreamCloseCount.get()).isEqualTo(1);
+    assertThat(intStreamCloseCount.get()).isEqualTo(1);
   }
 
   public void testMapWithIndex_longStream() {
@@ -376,7 +379,7 @@ public class StreamsTest extends TestCase {
 
     withIndex.close();
 
-    Truth.assertThat(longStreamCloseCount.get()).isEqualTo(1);
+    assertThat(longStreamCloseCount.get()).isEqualTo(1);
   }
 
   @GwtIncompatible // TODO(b/38490623): reenable after GWT double-to-string conversion is fixed
@@ -403,7 +406,7 @@ public class StreamsTest extends TestCase {
 
     withIndex.close();
 
-    Truth.assertThat(doubleStreamCloseCount.get()).isEqualTo(1);
+    assertThat(doubleStreamCloseCount.get()).isEqualTo(1);
   }
 
   public void testZip() {
@@ -422,8 +425,8 @@ public class StreamsTest extends TestCase {
 
     zipped.close();
 
-    Truth.assertThat(lettersCloseCount.get()).isEqualTo(1);
-    Truth.assertThat(numbersCloseCount.get()).isEqualTo(1);
+    assertThat(lettersCloseCount.get()).isEqualTo(1);
+    assertThat(numbersCloseCount.get()).isEqualTo(1);
   }
 
   public void testZipFiniteWithInfinite() {
@@ -460,21 +463,21 @@ public class StreamsTest extends TestCase {
     List<String> list = new ArrayList<>();
     Streams.forEachPair(
         Stream.of("a", "b", "c"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
-    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+    assertThat(list).containsExactly("a:1", "b:2", "c:3");
   }
 
   public void testForEachPair_differingLengths1() {
     List<String> list = new ArrayList<>();
     Streams.forEachPair(
         Stream.of("a", "b", "c", "d"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
-    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+    assertThat(list).containsExactly("a:1", "b:2", "c:3");
   }
 
   public void testForEachPair_differingLengths2() {
     List<String> list = new ArrayList<>();
     Streams.forEachPair(
         Stream.of("a", "b", "c"), Stream.of(1, 2, 3, 4), (a, b) -> list.add(a + ":" + b));
-    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+    assertThat(list).containsExactly("a:1", "b:2", "c:3");
   }
 
   public void testForEachPair_oneEmpty() {
@@ -485,7 +488,7 @@ public class StreamsTest extends TestCase {
     List<String> list = new ArrayList<>();
     Streams.forEachPair(
         Stream.of("a", "b", "c"), Stream.iterate(1, i -> i + 1), (a, b) -> list.add(a + ":" + b));
-    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+    assertThat(list).containsExactly("a:1", "b:2", "c:3");
   }
 
   public void testForEachPair_parallel() {
@@ -498,26 +501,14 @@ public class StreamsTest extends TestCase {
         streamB,
         (a, b) -> {
           count.incrementAndGet();
-          Truth.assertThat(a.equals(String.valueOf(b))).isTrue();
+          assertThat(a.equals(String.valueOf(b))).isTrue();
         });
-    Truth.assertThat(count.get()).isEqualTo(100000);
+    assertThat(count.get()).isEqualTo(100000);
     // of course, this test doesn't prove that anything actually happened in parallel...
   }
 
-  // TODO(kevinb): switch to importing Truth's assertThat(Stream) if we get that added
-  private static IterableSubject assertThat(Stream<?> stream) {
-    return Truth.assertThat(stream.toArray()).asList();
-  }
-
-  private static IterableSubject assertThat(IntStream stream) {
-    return Truth.assertThat(stream.toArray()).asList();
-  }
-
-  private static IterableSubject assertThat(LongStream stream) {
-    return Truth.assertThat(stream.toArray()).asList();
-  }
-
-  private static IterableSubject assertThat(DoubleStream stream) {
-    return Truth.assertThat(Doubles.asList(stream.toArray()));
+  // TODO(kevinb): switch to importing Truth's assertThat(DoubleStream) if we get that added
+  private static IterableSubject assertThatDoubleStream(DoubleStream stream) {
+    return assertThat(Doubles.asList(stream.toArray()));
   }
 }

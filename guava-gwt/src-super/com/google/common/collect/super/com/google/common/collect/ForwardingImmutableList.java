@@ -25,6 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
+@ElementTypesAreNonnullByDefault
 abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   ForwardingImmutableList() {}
@@ -55,7 +56,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return delegateList().equals(obj);
   }
 
@@ -89,7 +90,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
+  public <T extends @Nullable Object> T[] toArray(T[] other) {
     return delegateList().toArray(other);
   }
 

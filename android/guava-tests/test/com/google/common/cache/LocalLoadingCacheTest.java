@@ -20,6 +20,7 @@ import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
 import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
@@ -31,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 
@@ -81,9 +81,9 @@ public class LocalLoadingCacheTest extends TestCase {
     CacheStats stats = cache.stats();
     assertEquals(1, stats.requestCount());
     assertEquals(0, stats.hitCount());
-    assertEquals(0.0, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(0.0);
     assertEquals(1, stats.missCount());
-    assertEquals(1.0, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(1.0);
     assertEquals(1, stats.loadCount());
     long totalLoadTime = stats.totalLoadTime();
     assertTrue(totalLoadTime >= 0);
@@ -94,9 +94,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(2, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 2, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 2);
     assertEquals(1, stats.missCount());
-    assertEquals(1.0 / 2, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(1.0 / 2);
     assertEquals(1, stats.loadCount());
     assertEquals(0, stats.evictionCount());
 
@@ -105,9 +105,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(3, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 3, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 3);
     assertEquals(2, stats.missCount());
-    assertEquals(2.0 / 3, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(2.0 / 3);
     assertEquals(2, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -119,12 +119,11 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(4, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0 / 4, stats.hitRate());
+    assertThat(stats.hitRate()).isEqualTo(1.0 / 4);
     assertEquals(3, stats.missCount());
-    assertEquals(3.0 / 4, stats.missRate());
+    assertThat(stats.missRate()).isEqualTo(3.0 / 4);
     assertEquals(3, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
-    totalLoadTime = stats.totalLoadTime();
     assertTrue(stats.averageLoadPenalty() >= 0.0);
     assertEquals(1, stats.evictionCount());
   }
@@ -344,7 +343,7 @@ public class LocalLoadingCacheTest extends TestCase {
         });
     thread.start();
 
-    boolean done = doneSignal.await(1, TimeUnit.SECONDS);
+    boolean done = doneSignal.await(1, SECONDS);
     if (!done) {
       StringBuilder builder = new StringBuilder();
       for (StackTraceElement trace : thread.getStackTrace()) {

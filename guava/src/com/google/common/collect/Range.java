@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
@@ -119,42 +118,14 @@ import javax.annotation.CheckForNull;
  * @since 10.0
  */
 @GwtCompatible
-@SuppressWarnings("rawtypes")
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @Immutable(containerOf = "C")
 @ElementTypesAreNonnullByDefault
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
-
-  static class LowerBoundFn implements Function<Range, Cut> {
-    static final LowerBoundFn INSTANCE = new LowerBoundFn();
-
-    @Override
-    public Cut apply(Range range) {
-      return range.lowerBound;
-    }
-  }
-
-  static class UpperBoundFn implements Function<Range, Cut> {
-    static final UpperBoundFn INSTANCE = new UpperBoundFn();
-
-    @Override
-    public Cut apply(Range range) {
-      return range.upperBound;
-    }
-  }
-
   @SuppressWarnings("unchecked")
-  static <C extends Comparable<?>> Function<Range<C>, Cut<C>> lowerBoundFn() {
-    return (Function) LowerBoundFn.INSTANCE;
-  }
-
-  @SuppressWarnings("unchecked")
-  static <C extends Comparable<?>> Function<Range<C>, Cut<C>> upperBoundFn() {
-    return (Function) UpperBoundFn.INSTANCE;
-  }
-
   static <C extends Comparable<?>> Ordering<Range<C>> rangeLexOrdering() {
-    return (Ordering<Range<C>>) (Ordering) RangeLexOrdering.INSTANCE;
+    return (Ordering<Range<C>>) RangeLexOrdering.INSTANCE;
   }
 
   static <C extends Comparable<?>> Range<C> create(Cut<C> lowerBound, Cut<C> upperBound) {
@@ -260,9 +231,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
         return lessThan(endpoint);
       case CLOSED:
         return atMost(endpoint);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**
@@ -295,9 +265,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
         return greaterThan(endpoint);
       case CLOSED:
         return atLeast(endpoint);
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   private static final Range<Comparable> ALL = new Range<>(Cut.belowAll(), Cut.aboveAll());
@@ -708,6 +677,16 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     return sb.toString();
   }
 
+  // We declare accessors so that we can use method references like `Range::lowerBound`.
+
+  Cut<C> lowerBound() {
+    return lowerBound;
+  }
+
+  Cut<C> upperBound() {
+    return upperBound;
+  }
+
   Object readResolve() {
     if (this.equals(ALL)) {
       return all();
@@ -723,7 +702,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
 
   /** Needed to serialize sorted collections of Ranges. */
   private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
-    static final Ordering<Range<?>> INSTANCE = new RangeLexOrdering();
+    static final Ordering<?> INSTANCE = new RangeLexOrdering();
 
     @Override
     public int compare(Range<?> left, Range<?> right) {

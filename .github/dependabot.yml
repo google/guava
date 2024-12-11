@@ -5,12 +5,27 @@ updates:
 #  - package-ecosystem: "maven"
 #    directory: "/"
 #    schedule:
-#      interval: "daily"
+#      interval: "weekly"
+#    groups:
+#      dependencies:
+#        applies-to: version-updates
+#        patterns:
+#          - "*"
 #  - package-ecosystem: "maven"
 #    directory: "/android"
 #    schedule:
-#      interval: "daily"
+#      interval: "weekly"
+#    groups:
+#      dependencies:
+#        applies-to: version-updates
+#        patterns:
+#          - "*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"

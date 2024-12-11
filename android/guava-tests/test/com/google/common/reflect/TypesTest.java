@@ -145,6 +145,7 @@ public class TypesTest extends TestCase {
     Type jvmType1 = new TypeCapture<List<String>[]>() {}.capture();
     GenericArrayType ourType1 =
         (GenericArrayType) Types.newArrayType(Types.newParameterizedType(List.class, String.class));
+    @SuppressWarnings("rawtypes") // test of raw types
     Type jvmType2 = new TypeCapture<List[]>() {}.capture();
     Type ourType2 = Types.newArrayType(List.class);
     new EqualsTester()
@@ -256,7 +257,16 @@ public class TypesTest extends TestCase {
     @SuppressWarnings("unused")
     <T> void withoutBound(List<T> list) {}
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({
+      "unused",
+      /*
+       * Since reflection can't tell the difference between <T> and <T extends Object>, it doesn't
+       * make a ton of sense to have a separate tests for each. But having tests for each doesn't
+       * really hurt anything, and maybe it will serve a purpose in a future in which Java has a
+       * built-in nullness feature?
+       */
+      "ExtendsObject",
+    })
     <T extends Object> void withObjectBound(List<T> list) {}
 
     @SuppressWarnings("unused")

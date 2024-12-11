@@ -23,17 +23,18 @@ import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.SKIP_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
+import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
-import com.google.common.io.Closer.LoggingSuppressor;
 import com.google.common.primitives.UnsignedBytes;
-import com.google.common.testing.TestLogHandler;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -175,7 +176,7 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testHash() throws IOException {
-    ByteSource byteSource = new TestByteSource("hamburger\n".getBytes(Charsets.US_ASCII));
+    ByteSource byteSource = new TestByteSource("hamburger\n".getBytes(US_ASCII));
 
     // Pasted this expected string from `echo hamburger | md5sum`
     assertEquals("cfa0c5002275c90508338a5cdb2a9781", byteSource.hash(Hashing.md5()).toString());
@@ -277,7 +278,7 @@ public class ByteSourceTest extends IoTestCase {
           return -1;
         }
 
-        int lenToRead = Math.min(len, bytes.length - pos);
+        int lenToRead = min(len, bytes.length - pos);
         System.arraycopy(bytes, pos, b, off, lenToRead);
         pos += lenToRead;
         return lenToRead;
@@ -293,7 +294,7 @@ public class ByteSourceTest extends IoTestCase {
    */
   private static void assertCorrectSlice(int input, int offset, long length, int expectRead)
       throws IOException {
-    checkArgument(expectRead == (int) Math.max(0, Math.min(input, offset + length) - offset));
+    checkArgument(expectRead == (int) max(0, min(input, offset + length) - offset));
 
     byte[] expected = newPreFilledByteArray(offset, expectRead);
 
@@ -378,81 +379,34 @@ public class ByteSourceTest extends IoTestCase {
       ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
-    if (Closer.create().suppressor instanceof LoggingSuppressor) {
-      // test that exceptions are logged
+    // test that exceptions are suppressed
 
-      TestLogHandler logHandler = new TestLogHandler();
-      Closeables.logger.addHandler(logHandler);
-      try {
-        for (ByteSource in : BROKEN_SOURCES) {
-          runFailureTest(in, newNormalByteSink());
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+    for (ByteSource in : BROKEN_SOURCES) {
+      int suppressed = runSuppressionFailureTest(in, newNormalByteSink());
+      assertEquals(0, suppressed);
 
-          runFailureTest(in, BROKEN_CLOSE_SINK);
-          assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, getAndResetRecords(logHandler));
-        }
+      suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
+      assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
+    }
 
-        for (ByteSink out : BROKEN_SINKS) {
-          runFailureTest(newNormalByteSource(), out);
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+    for (ByteSink out : BROKEN_SINKS) {
+      int suppressed = runSuppressionFailureTest(newNormalByteSource(), out);
+      assertEquals(0, suppressed);
 
-          runFailureTest(BROKEN_CLOSE_SOURCE, out);
-          assertEquals(1, getAndResetRecords(logHandler));
-        }
+      suppressed = runSuppressionFailureTest(BROKEN_CLOSE_SOURCE, out);
+      assertEquals(1, suppressed);
+    }
 
-        for (ByteSource in : BROKEN_SOURCES) {
-          for (ByteSink out : BROKEN_SINKS) {
-            runFailureTest(in, out);
-            assertTrue(getAndResetRecords(logHandler) <= 1);
-          }
-        }
-      } finally {
-        Closeables.logger.removeHandler(logHandler);
-      }
-    } else {
-      // test that exceptions are suppressed
-
-      for (ByteSource in : BROKEN_SOURCES) {
-        int suppressed = runSuppressionFailureTest(in, newNormalByteSink());
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
-        assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
-      }
-
+    for (ByteSource in : BROKEN_SOURCES) {
       for (ByteSink out : BROKEN_SINKS) {
-        int suppressed = runSuppressionFailureTest(newNormalByteSource(), out);
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_SOURCE, out);
-        assertEquals(1, suppressed);
-      }
-
-      for (ByteSource in : BROKEN_SOURCES) {
-        for (ByteSink out : BROKEN_SINKS) {
-          int suppressed = runSuppressionFailureTest(in, out);
-          assertTrue(suppressed <= 1);
-        }
+        int suppressed = runSuppressionFailureTest(in, out);
+        assertThat(suppressed).isAtMost(1);
       }
     }
   }
 
   public void testSlice_returnEmptySource() {
     assertEquals(ByteSource.empty(), source.slice(0, 3).slice(4, 3));
-  }
-
-  private static int getAndResetRecords(TestLogHandler logHandler) {
-    int records = logHandler.getStoredLogRecords().size();
-    logHandler.clear();
-    return records;
-  }
-
-  private static void runFailureTest(ByteSource in, ByteSink out) {
-    try {
-      in.copyTo(out);
-      fail();
-    } catch (IOException expected) {
-    }
   }
 
   /**
@@ -463,7 +417,7 @@ public class ByteSourceTest extends IoTestCase {
       in.copyTo(out);
       fail();
     } catch (IOException expected) {
-      return CloserTest.getSuppressed(expected).length;
+      return expected.getSuppressed().length;
     }
     throw new AssertionError(); // can't happen
   }

@@ -13,6 +13,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.max;
 
 /** Unit test for {@link AtomicDouble}. */
@@ -104,6 +105,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
         newStartedThread(
             new CheckedRunnable() {
               @Override
+              @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
               public void realRun() {
                 while (!at.compareAndSet(2.0, 3.0)) {
                   Thread.yield();
@@ -329,7 +331,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
   /** doubleValue returns current value. */
   public void testDoubleValue() {
     AtomicDouble at = new AtomicDouble();
-    assertEquals(0.0d, at.doubleValue());
+    assertThat(at.doubleValue()).isEqualTo(0.0d);
     for (double x : VALUES) {
       at.set(x);
       assertBitEquals(x, at.doubleValue());

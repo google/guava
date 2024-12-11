@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -41,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class FunctionsTest extends TestCase {
 
   public void testIdentity_same() {
-    Function<String, String> identity = Functions.identity();
+    Function<@Nullable String, @Nullable String> identity = Functions.identity();
     assertNull(identity.apply(null));
     assertSame("foo", identity.apply("foo"));
   }
@@ -70,11 +72,7 @@ public class FunctionsTest extends TestCase {
                     return "I'm a string";
                   }
                 }));
-    try {
-      Functions.toStringFunction().apply(null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Functions.toStringFunction().apply(null));
   }
 
   @J2ktIncompatible
@@ -91,21 +89,17 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForMapWithoutDefault() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, @Nullable Integer> map = Maps.newHashMap();
     map.put("One", 1);
     map.put("Three", 3);
     map.put("Null", null);
-    Function<String, Integer> function = Functions.forMap(map);
+    Function<String, @Nullable Integer> function = Functions.forMap(map);
 
     assertEquals(1, function.apply("One").intValue());
     assertEquals(3, function.apply("Three").intValue());
     assertNull(function.apply("Null"));
 
-    try {
-      function.apply("Two");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> function.apply("Two"));
 
     new EqualsTester()
         .addEqualityGroup(function, Functions.forMap(map))
@@ -120,11 +114,11 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForMapWithDefault() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, @Nullable Integer> map = Maps.newHashMap();
     map.put("One", 1);
     map.put("Three", 3);
     map.put("Null", null);
-    Function<String, Integer> function = Functions.forMap(map, 42);
+    Function<String, @Nullable Integer> function = Functions.forMap(map, 42);
 
     assertEquals(1, function.apply("One").intValue());
     assertEquals(42, function.apply("Two").intValue());
@@ -168,7 +162,7 @@ public class FunctionsTest extends TestCase {
 
   public void testForMapWithDefault_null() {
     ImmutableMap<String, Integer> map = ImmutableMap.of("One", 1);
-    Function<String, Integer> function = Functions.forMap(map, null);
+    Function<String, @Nullable Integer> function = Functions.forMap(map, null);
 
     assertEquals((Integer) 1, function.apply("One"));
     assertNull(function.apply("Two"));
@@ -225,17 +219,9 @@ public class FunctionsTest extends TestCase {
         Functions.compose(integerToSpanish, japaneseToInteger);
 
     assertEquals("Uno", japaneseToSpanish.apply("Ichi"));
-    try {
-      japaneseToSpanish.apply("Ni");
-      fail();
-    } catch (IllegalArgumentException e) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> japaneseToSpanish.apply("Ni"));
     assertEquals("Tres", japaneseToSpanish.apply("San"));
-    try {
-      japaneseToSpanish.apply("Shi");
-      fail();
-    } catch (IllegalArgumentException e) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> japaneseToSpanish.apply("Shi"));
 
     new EqualsTester()
         .addEqualityGroup(japaneseToSpanish, Functions.compose(integerToSpanish, japaneseToInteger))
@@ -280,7 +266,7 @@ public class FunctionsTest extends TestCase {
 
     Function<Object, String> numberToSpanish = Functions.constant("Yo no se");
 
-    Function<String, String> japaneseToSpanish =
+    Function<String, String> unusedJapaneseToSpanish =
         Functions.compose(numberToSpanish, japaneseToInteger);
   }
 
@@ -350,11 +336,11 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testConstant() {
-    Function<Object, Object> f = Functions.<Object>constant("correct");
+    Function<@Nullable Object, Object> f = Functions.<Object>constant("correct");
     assertEquals("correct", f.apply(new Object()));
     assertEquals("correct", f.apply(null));
 
-    Function<Object, String> g = Functions.constant(null);
+    Function<@Nullable Object, @Nullable String> g = Functions.constant(null);
     assertEquals(null, g.apply(2));
     assertEquals(null, g.apply(null));
 
@@ -366,7 +352,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
 
     new EqualsTester()
-        .addEqualityGroup(g, Functions.constant(null))
+        .addEqualityGroup(g, Functions.<@Nullable Object>constant(null))
         .addEqualityGroup(Functions.constant("incorrect"))
         .addEqualityGroup(Functions.toStringFunction())
         .addEqualityGroup(f)
@@ -406,7 +392,7 @@ public class FunctionsTest extends TestCase {
 
   public void testForSupplier() {
     Supplier<Integer> supplier = new CountingSupplier();
-    Function<Object, Integer> function = Functions.forSupplier(supplier);
+    Function<@Nullable Object, Integer> function = Functions.forSupplier(supplier);
 
     assertEquals(1, (int) function.apply(null));
     assertEquals(2, (int) function.apply("foo"));

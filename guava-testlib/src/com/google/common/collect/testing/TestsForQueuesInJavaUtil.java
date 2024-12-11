@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.emptySet;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -63,43 +65,43 @@ public class TestsForQueuesInJavaUtil {
   }
 
   protected Collection<Method> suppressForCheckedQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayDeque() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentLinkedDeque() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentLinkedQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedBlockingDeque() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForPriorityBlockingQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForPriorityQueue() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForCheckedQueue() {

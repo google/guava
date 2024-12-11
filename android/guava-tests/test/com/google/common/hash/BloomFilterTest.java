@@ -16,8 +16,9 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
@@ -36,7 +37,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -122,7 +122,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00015);
+    assertThat(actualReportedFpp).isWithin(0.00015).of(expectedReportedFpp);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
@@ -166,7 +166,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
+    assertThat(actualReportedFpp).isWithin(0.00033).of(expectedReportedFpp);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
@@ -209,7 +209,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(knownNumberOfFalsePositives, numFpp);
     double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
     double actualReportedFpp = bf.expectedFpp();
-    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
+    assertThat(actualReportedFpp).isWithin(0.00033).of(expectedReportedFpp);
   }
 
   /** Sanity checking with many combinations of false positive rates and expected insertions */
@@ -246,7 +246,6 @@ public class BloomFilterTest extends TestCase {
         });
   }
 
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.unencodedCharsFunnel(), 100));
@@ -256,15 +255,15 @@ public class BloomFilterTest extends TestCase {
   /** Tests that we never get an optimal hashes number of zero. */
   public void testOptimalHashes() {
     for (int n = 1; n < 1000; n++) {
-      for (int m = 0; m < 1000; m++) {
-        assertTrue(BloomFilter.optimalNumOfHashFunctions(n, m) > 0);
+      for (double p = 0.1; p > 1e-10; p /= 10) {
+        assertThat(BloomFilter.optimalNumOfHashFunctions(p)).isGreaterThan(0);
       }
     }
   }
 
-  // https://code.google.com/p/guava-libraries/issues/detail?id=1781
+  // https://github.com/google/guava/issues/1781
   public void testOptimalNumOfHashFunctionsRounding() {
-    assertEquals(7, BloomFilter.optimalNumOfHashFunctions(319, 3072));
+    assertEquals(5, BloomFilter.optimalNumOfHashFunctions(0.03));
   }
 
   /** Tests that we always get a non-negative optimal size. */
@@ -324,7 +323,7 @@ public class BloomFilterTest extends TestCase {
   public void testExpectedFpp() {
     BloomFilter<Object> bf = BloomFilter.create(HashTestUtils.BAD_FUNNEL, 10, 0.03);
     double fpp = bf.expectedFpp();
-    assertEquals(0.0, fpp);
+    assertThat(fpp).isEqualTo(0.0);
     // usually completed in less than 200 iterations
     while (fpp != 1.0) {
       boolean changed = bf.put(new Object());
@@ -486,7 +485,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < 10; i++) {
       assertTrue(copy.mightContain(Ints.toByteArray(i)));
     }
-    assertEquals(bf.expectedFpp(), copy.expectedFpp());
+    assertThat(copy.expectedFpp()).isEqualTo(bf.expectedFpp());
 
     SerializableTester.reserializeAndAssert(bf);
   }
@@ -558,7 +557,7 @@ public class BloomFilterTest extends TestCase {
               // Don't forget, the bloom filter slowly saturates over time and the
               // expected false positive probability goes up!
               assertThat(bloomFilter.expectedFpp()).isLessThan(safetyFalsePositiveRate);
-            } while (stopwatch.elapsed(TimeUnit.SECONDS) < 1);
+            } while (stopwatch.elapsed(SECONDS) < 1);
           }
         };
 

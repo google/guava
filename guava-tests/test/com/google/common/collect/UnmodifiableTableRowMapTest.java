@@ -16,11 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Tables.unmodifiableTable;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowMapTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableTableRowMapTest extends RowMapTests {
   public UnmodifiableTableRowMapTest() {
     super(false, false, false, false);
@@ -29,7 +32,7 @@ public class UnmodifiableTableRowMapTest extends RowMapTests {
   @Override
   Table<String, Integer, Character> makeTable() {
     Table<String, Integer, Character> original = HashBasedTable.create();
-    return Tables.unmodifiableTable(original);
+    return unmodifiableTable(original);
   }
 
   @Override
@@ -38,6 +41,6 @@ public class UnmodifiableTableRowMapTest extends RowMapTests {
     table.put("foo", 1, 'a');
     table.put("bar", 1, 'b');
     table.put("foo", 3, 'c');
-    return Tables.unmodifiableTable(table).rowMap();
+    return unmodifiableTable(table).rowMap();
   }
 }

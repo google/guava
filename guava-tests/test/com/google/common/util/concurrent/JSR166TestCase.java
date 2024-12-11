@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FilePermission;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.CodeSource;
@@ -98,6 +99,8 @@ import junit.framework.TestCase;
  *       tests.
  * </ul>
  */
+// We call threadUnexpectedException, which does the right thing for errors.
+@SuppressWarnings("AssertionFailureIgnored")
 abstract class JSR166TestCase extends TestCase {
   private static final boolean useSecurityManager = Boolean.getBoolean("jsr166.useSecurityManager");
 
@@ -434,6 +437,7 @@ abstract class JSR166TestCase extends TestCase {
    * Delays, via Thread.sleep, for the given millisecond delay, but if the sleep is shorter than
    * specified, may re-sleep or yield until time elapses.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait?
   static void delay(long millis) throws InterruptedException {
     long startTime = System.nanoTime();
     long ns = millis * 1000 * 1000;
@@ -448,7 +452,7 @@ abstract class JSR166TestCase extends TestCase {
   }
 
   /** Waits out termination of a thread pool or fails doing so. */
-  void joinPool(ExecutorService exec) {
+  void joinPool(ExecutorService exec) throws InterruptedException {
     try {
       exec.shutdown();
       assertTrue(
@@ -456,8 +460,6 @@ abstract class JSR166TestCase extends TestCase {
           exec.awaitTermination(2 * LONG_DELAY_MS, MILLISECONDS));
     } catch (SecurityException ok) {
       // Allowed in case test doesn't have privs
-    } catch (InterruptedException ie) {
-      fail("Unexpected InterruptedException");
     }
   }
 
@@ -465,47 +467,41 @@ abstract class JSR166TestCase extends TestCase {
    * Checks that thread does not terminate within the default millisecond delay of {@code
    * timeoutMillis()}.
    */
-  void assertThreadStaysAlive(Thread thread) {
+  void assertThreadStaysAlive(Thread thread) throws InterruptedException {
     assertThreadStaysAlive(thread, timeoutMillis());
   }
 
   /** Checks that thread does not terminate within the given millisecond delay. */
-  void assertThreadStaysAlive(Thread thread, long millis) {
-    try {
-      // No need to optimize the failing case via Thread.join.
-      delay(millis);
-      assertTrue(thread.isAlive());
-    } catch (InterruptedException ie) {
-      fail("Unexpected InterruptedException");
-    }
+  void assertThreadStaysAlive(Thread thread, long millis) throws InterruptedException {
+    // No need to optimize the failing case via Thread.join.
+    delay(millis);
+    assertTrue(thread.isAlive());
   }
 
   /**
    * Checks that the threads do not terminate within the default millisecond delay of {@code
    * timeoutMillis()}.
    */
-  void assertThreadsStayAlive(Thread... threads) {
+  void assertThreadsStayAlive(Thread... threads) throws InterruptedException {
     assertThreadsStayAlive(timeoutMillis(), threads);
   }
 
   /** Checks that the threads do not terminate within the given millisecond delay. */
-  void assertThreadsStayAlive(long millis, Thread... threads) {
-    try {
-      // No need to optimize the failing case via Thread.join.
-      delay(millis);
-      for (Thread thread : threads) assertTrue(thread.isAlive());
-    } catch (InterruptedException ie) {
-      fail("Unexpected InterruptedException");
+  void assertThreadsStayAlive(long millis, Thread... threads) throws InterruptedException {
+    // No need to optimize the failing case via Thread.join.
+    delay(millis);
+    for (Thread thread : threads) {
+      assertTrue(thread.isAlive());
     }
   }
 
   /** Checks that future.get times out, with the default timeout of {@code timeoutMillis()}. */
-  void assertFutureTimesOut(Future future) {
+  void assertFutureTimesOut(Future<?> future) {
     assertFutureTimesOut(future, timeoutMillis());
   }
 
   /** Checks that future.get times out, with the given millisecond timeout. */
-  void assertFutureTimesOut(Future future, long timeoutMillis) {
+  void assertFutureTimesOut(Future<?> future, long timeoutMillis) {
     long startTime = System.nanoTime();
     try {
       future.get(timeoutMillis, MILLISECONDS);
@@ -534,23 +530,23 @@ abstract class JSR166TestCase extends TestCase {
 
   // Some convenient Integer constants
 
-  public static final Integer zero = new Integer(0);
-  public static final Integer one = new Integer(1);
-  public static final Integer two = new Integer(2);
-  public static final Integer three = new Integer(3);
-  public static final Integer four = new Integer(4);
-  public static final Integer five = new Integer(5);
-  public static final Integer six = new Integer(6);
-  public static final Integer seven = new Integer(7);
-  public static final Integer eight = new Integer(8);
-  public static final Integer nine = new Integer(9);
-  public static final Integer m1 = new Integer(-1);
-  public static final Integer m2 = new Integer(-2);
-  public static final Integer m3 = new Integer(-3);
-  public static final Integer m4 = new Integer(-4);
-  public static final Integer m5 = new Integer(-5);
-  public static final Integer m6 = new Integer(-6);
-  public static final Integer m10 = new Integer(-10);
+  public static final Integer zero = 0;
+  public static final Integer one = 1;
+  public static final Integer two = 2;
+  public static final Integer three = 3;
+  public static final Integer four = 4;
+  public static final Integer five = 5;
+  public static final Integer six = 6;
+  public static final Integer seven = 7;
+  public static final Integer eight = 8;
+  public static final Integer nine = 9;
+  public static final Integer m1 = -1;
+  public static final Integer m2 = -2;
+  public static final Integer m3 = -3;
+  public static final Integer m4 = -4;
+  public static final Integer m5 = -5;
+  public static final Integer m6 = -6;
+  public static final Integer m10 = -10;
 
   /**
    * Runs Runnable r with a security policy that permits precisely the specified permissions. If
@@ -590,7 +586,7 @@ abstract class JSR166TestCase extends TestCase {
   }
 
   /** A security policy where new permissions can be dynamically added or all cleared. */
-  public static class AdjustablePolicy extends java.security.Policy {
+  public static class AdjustablePolicy extends Policy {
     Permissions perms = new Permissions();
 
     AdjustablePolicy(Permission... permissions) {
@@ -639,7 +635,7 @@ abstract class JSR166TestCase extends TestCase {
         // Permissions needed by the junit test harness
         new RuntimePermission("accessDeclaredMembers"),
         new PropertyPermission("*", "read"),
-        new java.io.FilePermission("<<ALL FILES>>", "read"));
+        new FilePermission("<<ALL FILES>>", "read"));
   }
 
   /** Sleeps until the given time has elapsed. Throws AssertionFailedError if interrupted. */
@@ -657,6 +653,7 @@ abstract class JSR166TestCase extends TestCase {
    * Spin-waits up to the specified number of milliseconds for the given thread to enter a wait
    * state: BLOCKED, WAITING, or TIMED_WAITING.
    */
+  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   void waitForThreadToEnterWaitState(Thread thread, long timeoutMillis) {
     long startTime = System.nanoTime();
     for (; ; ) {
@@ -831,7 +828,7 @@ abstract class JSR166TestCase extends TestCase {
     public void run() {}
   }
 
-  public static class NoOpCallable implements Callable {
+  public static class NoOpCallable implements Callable<Object> {
     @Override
     public Object call() {
       return Boolean.TRUE;
@@ -949,7 +946,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public class SmallCallable extends CheckedCallable {
+  public class SmallCallable extends CheckedCallable<Object> {
     @Override
     protected Object realCall() throws InterruptedException {
       delay(SMALL_DELAY_MS);
@@ -1096,7 +1093,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public static class TrackedCallable implements Callable {
+  public static class TrackedCallable implements Callable<Object> {
     public volatile boolean done = false;
 
     @Override
@@ -1170,7 +1167,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  void checkEmpty(BlockingQueue q) {
+  void checkEmpty(BlockingQueue<?> q) {
     try {
       assertTrue(q.isEmpty());
       assertEquals(0, q.size());

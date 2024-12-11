@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionFeature.DESCENDING_VIEW;
 import static com.google.common.collect.testing.features.CollectionFeature.SUBSET_VIEW;
 
@@ -143,9 +144,10 @@ public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBui
         .createTestSuite();
   }
 
+  @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    List<Class<? extends AbstractTester>> testers = copyToList(super.getTesters());
     testers.add(NavigableSetNavigationTester.class);
     return testers;
   }

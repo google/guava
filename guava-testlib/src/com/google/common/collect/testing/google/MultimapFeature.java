@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.TesterAnnotation;
 import java.lang.annotation.Inherited;
@@ -31,8 +32,7 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-// Enum values use constructors with generic varargs.
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes") // maybe avoidable if we rework the whole package?
 @GwtCompatible
 public enum MultimapFeature implements Feature<Multimap> {
   VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE;
@@ -40,7 +40,7 @@ public enum MultimapFeature implements Feature<Multimap> {
   private final Set<Feature<? super Multimap>> implied;
 
   MultimapFeature(Feature<? super Multimap>... implied) {
-    this.implied = Helpers.copyToSet(implied);
+    this.implied = copyToSet(implied);
   }
 
   @Override

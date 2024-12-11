@@ -531,6 +531,7 @@ public class AbstractScheduledServiceTest extends TestCase {
             protected Scheduler scheduler() {
               return new CustomScheduler() {
                 @Override
+                @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
                 protected Schedule getNextSchedule() throws Exception {
                   if (state() != State.STARTING) {
                     inGetNextSchedule.await();
@@ -555,6 +556,7 @@ public class AbstractScheduledServiceTest extends TestCase {
           protected Scheduler scheduler() {
             return new AbstractScheduledService.CustomScheduler() {
               @Override
+              @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
               protected Schedule getNextSchedule() throws Exception {
                 // Explicitly yield to increase the probability of a pathological scheduling.
                 Thread.yield();
@@ -616,9 +618,8 @@ public class AbstractScheduledServiceTest extends TestCase {
       service.secondBarrier.await();
     }
     Thread.sleep(1000);
-    IllegalStateException e =
-        assertThrows(
-            IllegalStateException.class, () -> service.stopAsync().awaitTerminated(100, SECONDS));
+    assertThrows(
+        IllegalStateException.class, () -> service.stopAsync().awaitTerminated(100, SECONDS));
     assertEquals(State.FAILED, service.state());
   }
 

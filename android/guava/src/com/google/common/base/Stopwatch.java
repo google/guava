@@ -25,7 +25,11 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -61,7 +65,7 @@ import java.util.concurrent.TimeUnit;
  * doSomething();
  * stopwatch.stop(); // optional
  *
- * long millis = stopwatch.elapsed(MILLISECONDS);
+ * Duration duration = stopwatch.elapsed();
  *
  * log.info("time: " + stopwatch); // formatted string like "12.3 ms"
  * }</pre>
@@ -201,13 +205,38 @@ public final class Stopwatch {
    * Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
    * with any fraction rounded down.
    *
-   * <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
-   * useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+   * <p><b>Note:</b> the overhead of measurement can be more than a microsecond, so it is generally
+   * not useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+   *
+   * <p>It is generally not a good idea to use an ambiguous, unitless {@code long} to represent
+   * elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a
+   * strongly-typed {@code Duration} instance.
    *
    * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
   public long elapsed(TimeUnit desiredUnit) {
     return desiredUnit.convert(elapsedNanos(), NANOSECONDS);
+  }
+
+  /**
+   * Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link
+   * #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.
+   *
+   * <p><b>Warning:</b> do not call this method from Android code unless you are on Android API
+   * level 26+ or you <a
+   * href="https://developer.android.com/studio/write/java11-default-support-table">opt in to
+   * library desugaring</a>.
+   *
+   * @since NEXT (but since 22.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  // If users use this when they shouldn't, we hope that NewApi will catch subsequent Duration calls
+  @IgnoreJRERequirement
+  @J2ktIncompatible
+  @GwtIncompatible
+  @J2ObjCIncompatible
+  public Duration elapsed() {
+    return Duration.ofNanos(elapsedNanos());
   }
 
   /** Returns a string representation of the current elapsed time. */
@@ -260,8 +289,7 @@ public final class Stopwatch {
         return "h";
       case DAYS:
         return "d";
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 }

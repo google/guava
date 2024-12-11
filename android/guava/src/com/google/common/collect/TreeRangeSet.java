@@ -16,6 +16,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Maps.immutableEntry;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -396,7 +398,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
           if (upperBoundWindow.upperBound.isLessThan(range.upperBound)) {
             return endOfData();
           } else {
-            return Maps.immutableEntry(range.upperBound, range);
+            return immutableEntry(range.upperBound, range);
           }
         }
       };
@@ -428,7 +430,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
           }
           Range<C> range = backingItr.next();
           return upperBoundWindow.lowerBound.isLessThan(range.upperBound)
-              ? Maps.immutableEntry(range.upperBound, range)
+              ? immutableEntry(range.upperBound, range)
               : endOfData();
         }
       };
@@ -536,7 +538,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       } else if (positiveItr.hasNext()) {
         firstComplementRangeLowerBound = positiveItr.next().upperBound;
       } else {
-        return Iterators.emptyIterator();
+        return emptyIterator();
       }
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         Cut<C> nextComplementRangeLowerBound = firstComplementRangeLowerBound;
@@ -557,7 +559,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
             negativeRange = Range.create(nextComplementRangeLowerBound, Cut.<C>aboveAll());
             nextComplementRangeLowerBound = Cut.aboveAll();
           }
-          return Maps.immutableEntry(negativeRange.lowerBound, negativeRange);
+          return immutableEntry(negativeRange.lowerBound, negativeRange);
         }
       };
     }
@@ -594,7 +596,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                 : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
       } else if (!complementLowerBoundWindow.contains(Cut.<C>belowAll())
           || positiveRangesByLowerBound.containsKey(Cut.belowAll())) {
-        return Iterators.emptyIterator();
+        return emptyIterator();
       } else {
         cut = positiveRangesByLowerBound.higherKey(Cut.<C>belowAll());
       }
@@ -613,12 +615,12 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                 Range.create(positiveRange.upperBound, nextComplementRangeUpperBound);
             nextComplementRangeUpperBound = positiveRange.lowerBound;
             if (complementLowerBoundWindow.lowerBound.isLessThan(negativeRange.lowerBound)) {
-              return Maps.immutableEntry(negativeRange.lowerBound, negativeRange);
+              return immutableEntry(negativeRange.lowerBound, negativeRange);
             }
           } else if (complementLowerBoundWindow.lowerBound.isLessThan(Cut.<C>belowAll())) {
             Range<C> negativeRange = Range.create(Cut.<C>belowAll(), nextComplementRangeUpperBound);
             nextComplementRangeUpperBound = Cut.belowAll();
-            return Maps.immutableEntry(Cut.<C>belowAll(), negativeRange);
+            return immutableEntry(Cut.<C>belowAll(), negativeRange);
           }
           return endOfData();
         }
@@ -781,11 +783,11 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     @Override
     Iterator<Entry<Cut<C>, Range<C>>> entryIterator() {
       if (restriction.isEmpty()) {
-        return Iterators.emptyIterator();
+        return emptyIterator();
       }
       Iterator<Range<C>> completeRangeItr;
       if (lowerBoundWindow.upperBound.isLessThan(restriction.lowerBound)) {
-        return Iterators.emptyIterator();
+        return emptyIterator();
       } else if (lowerBoundWindow.lowerBound.isLessThan(restriction.lowerBound)) {
         // starts at the first range with upper bound strictly greater than restriction.lowerBound
         completeRangeItr =
@@ -815,7 +817,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
             return endOfData();
           } else {
             nextRange = nextRange.intersection(restriction);
-            return Maps.immutableEntry(nextRange.lowerBound, nextRange);
+            return immutableEntry(nextRange.lowerBound, nextRange);
           }
         }
       };
@@ -824,7 +826,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     @Override
     Iterator<Entry<Cut<C>, Range<C>>> descendingEntryIterator() {
       if (restriction.isEmpty()) {
-        return Iterators.emptyIterator();
+        return emptyIterator();
       }
       Cut<Cut<C>> upperBoundOnLowerBounds =
           Ordering.<Cut<Cut<C>>>natural()
@@ -850,7 +852,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
           }
           nextRange = nextRange.intersection(restriction);
           if (lowerBoundWindow.contains(nextRange.lowerBound)) {
-            return Maps.immutableEntry(nextRange.lowerBound, nextRange);
+            return immutableEntry(nextRange.lowerBound, nextRange);
           } else {
             return endOfData();
           }

@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Longs.max;
+import static com.google.common.primitives.Longs.min;
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Long.MAX_VALUE;
@@ -45,7 +48,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @ElementTypesAreNonnullByDefault
 @GwtCompatible(emulated = true)
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class LongsTest extends TestCase {
   private static final long[] EMPTY = {};
   private static final long[] ARRAY1 = {(long) 1};
@@ -53,7 +55,6 @@ public class LongsTest extends TestCase {
 
   private static final long[] VALUES = {MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE};
 
-  @J2ktIncompatible
   @GwtIncompatible // Long.hashCode returns different values in GWT.
   public void testHashCode() {
     for (long value : VALUES) {
@@ -143,32 +144,24 @@ public class LongsTest extends TestCase {
   }
 
   public void testMax_noArgs() {
-    try {
-      Longs.max();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> max());
   }
 
   public void testMax() {
-    assertThat(Longs.max(MIN_VALUE)).isEqualTo(MIN_VALUE);
-    assertThat(Longs.max(MAX_VALUE)).isEqualTo(MAX_VALUE);
-    assertThat(Longs.max((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
+    assertThat(max(MIN_VALUE)).isEqualTo(MIN_VALUE);
+    assertThat(max(MAX_VALUE)).isEqualTo(MAX_VALUE);
+    assertThat(max((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
         .isEqualTo((long) 9);
   }
 
   public void testMin_noArgs() {
-    try {
-      Longs.min();
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> min());
   }
 
   public void testMin() {
-    assertThat(Longs.min(MIN_VALUE)).isEqualTo(MIN_VALUE);
-    assertThat(Longs.min(MAX_VALUE)).isEqualTo(MAX_VALUE);
-    assertThat(Longs.min((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
+    assertThat(min(MIN_VALUE)).isEqualTo(MIN_VALUE);
+    assertThat(min(MAX_VALUE)).isEqualTo(MAX_VALUE);
+    assertThat(min((long) 8, (long) 6, (long) 7, (long) 5, (long) 3, (long) 0, (long) 9))
         .isEqualTo((long) 0);
   }
 
@@ -178,11 +171,8 @@ public class LongsTest extends TestCase {
     assertThat(Longs.constrainToRange((long) 1, (long) 3, (long) 5)).isEqualTo((long) 3);
     assertThat(Longs.constrainToRange((long) 0, (long) -5, (long) -1)).isEqualTo((long) -1);
     assertThat(Longs.constrainToRange((long) 5, (long) 2, (long) 2)).isEqualTo((long) 2);
-    try {
-      Longs.constrainToRange((long) 1, (long) 3, (long) 2);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.constrainToRange((long) 1, (long) 3, (long) 2));
   }
 
   public void testConcat() {
@@ -203,7 +193,7 @@ public class LongsTest extends TestCase {
     int dim1 = 1 << 16;
     int dim2 = 1 << 15;
     assertThat(dim1 * dim2).isLessThan(0);
-    testConcat_overflow(dim1, dim2);
+    testConcatOverflow(dim1, dim2);
   }
 
   @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
@@ -211,10 +201,10 @@ public class LongsTest extends TestCase {
     int dim1 = 1 << 16;
     int dim2 = 1 << 16;
     assertThat(dim1 * dim2).isAtLeast(0);
-    testConcat_overflow(dim1, dim2);
+    testConcatOverflow(dim1, dim2);
   }
 
-  private static void testConcat_overflow(int arraysDim1, int arraysDim2) {
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
     assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
 
     long[][] arrays = new long[arraysDim1][];
@@ -262,11 +252,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testFromByteArrayFails() {
-    try {
-      Longs.fromByteArray(new byte[Longs.BYTES - 1]);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.fromByteArray(new byte[Longs.BYTES - 1]));
   }
 
   public void testFromBytes() {
@@ -317,17 +304,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Longs.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Longs.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Longs.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Longs.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testJoin() {
@@ -556,11 +534,7 @@ public class LongsTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Long> list = Arrays.asList((long) 0, (long) 1, null);
-    try {
-      Longs.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Longs.toArray(list));
   }
 
   public void testToArray_withConversion() {
@@ -581,7 +555,7 @@ public class LongsTest extends TestCase {
     assertThat(Longs.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // b/285319375
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     long[] array = {(long) 0, (long) 1};
     List<Long> list = Longs.asList(array);
@@ -634,11 +608,7 @@ public class LongsTest extends TestCase {
   }
 
   public void testStringConverter_convertError() {
-    try {
-      Longs.stringConverter().convert("notanumber");
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> Longs.stringConverter().convert("notanumber"));
   }
 
   public void testStringConverter_nullConversions() {
@@ -736,27 +706,17 @@ public class LongsTest extends TestCase {
   }
 
   public void testTryParse_radixTooBig() {
-    try {
-      Longs.tryParse("0", Character.MAX_RADIX + 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.tryParse("0", Character.MAX_RADIX + 1));
   }
 
   public void testTryParse_radixTooSmall() {
-    try {
-      Longs.tryParse("0", Character.MIN_RADIX - 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> Longs.tryParse("0", Character.MIN_RADIX - 1));
   }
 
   public void testTryParse_withNullGwt() {
     assertThat(Longs.tryParse("null")).isNull();
-    try {
-      Longs.tryParse(null);
-      fail("Expected NPE");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Longs.tryParse(null));
   }
 }

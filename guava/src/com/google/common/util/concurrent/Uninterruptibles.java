@@ -77,7 +77,7 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -118,7 +118,7 @@ public final class Uninterruptibles {
    * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -181,7 +181,7 @@ public final class Uninterruptibles {
    * Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
    * uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -273,7 +273,7 @@ public final class Uninterruptibles {
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    * @throws TimeoutException if the wait timed out
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible
@@ -382,7 +382,7 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -421,7 +421,7 @@ public final class Uninterruptibles {
    * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
    * timeout, unit)} uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -447,7 +447,7 @@ public final class Uninterruptibles {
    * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
    * timeout, unit)} uninterruptibly.
    *
-   * @since 28.0
+   * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -493,7 +493,7 @@ public final class Uninterruptibles {
    * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
    * uninterruptibly.
    *
-   * @since 30.0
+   * @since 30.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -548,7 +548,7 @@ public final class Uninterruptibles {
    * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
    * awaitTermination(long, TimeUnit)} uninterruptibly.
    *
-   * @since 30.0
+   * @since 30.0 (but only since 33.4.0 in the Android flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency

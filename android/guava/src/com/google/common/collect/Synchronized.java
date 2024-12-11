@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.transformValues;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -55,6 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  * @author Jared Levy
  */
+@J2ktIncompatible
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 /*
@@ -111,7 +113,7 @@ final class Synchronized {
 
   private static <E extends @Nullable Object> Collection<E> collection(
       Collection<E> collection, @CheckForNull Object mutex) {
-    return new SynchronizedCollection<E>(collection, mutex);
+    return new SynchronizedCollection<>(collection, mutex);
   }
 
   @VisibleForTesting
@@ -222,7 +224,7 @@ final class Synchronized {
 
   @VisibleForTesting
   static <E extends @Nullable Object> Set<E> set(Set<E> set, @CheckForNull Object mutex) {
-    return new SynchronizedSet<E>(set, mutex);
+    return new SynchronizedSet<>(set, mutex);
   }
 
   static class SynchronizedSet<E extends @Nullable Object> extends SynchronizedCollection<E>
@@ -259,7 +261,7 @@ final class Synchronized {
 
   private static <E extends @Nullable Object> SortedSet<E> sortedSet(
       SortedSet<E> set, @CheckForNull Object mutex) {
-    return new SynchronizedSortedSet<E>(set, mutex);
+    return new SynchronizedSortedSet<>(set, mutex);
   }
 
   static class SynchronizedSortedSet<E extends @Nullable Object> extends SynchronizedSet<E>
@@ -437,7 +439,7 @@ final class Synchronized {
     if (multiset instanceof SynchronizedMultiset || multiset instanceof ImmutableMultiset) {
       return multiset;
     }
-    return new SynchronizedMultiset<E>(multiset, mutex);
+    return new SynchronizedMultiset<>(multiset, mutex);
   }
 
   static final class SynchronizedMultiset<E extends @Nullable Object>
@@ -1439,7 +1441,7 @@ final class Synchronized {
   @GwtIncompatible // NavigableSet
   static <E extends @Nullable Object> NavigableSet<E> navigableSet(
       NavigableSet<E> navigableSet, @CheckForNull Object mutex) {
-    return new SynchronizedNavigableSet<E>(navigableSet, mutex);
+    return new SynchronizedNavigableSet<>(navigableSet, mutex);
   }
 
   @GwtIncompatible // NavigableSet
@@ -1771,7 +1773,7 @@ final class Synchronized {
   }
 
   static <E extends @Nullable Object> Deque<E> deque(Deque<E> deque, @CheckForNull Object mutex) {
-    return new SynchronizedDeque<E>(deque, mutex);
+    return new SynchronizedDeque<>(deque, mutex);
   }
 
   static final class SynchronizedDeque<E extends @Nullable Object> extends SynchronizedQueue<E>
@@ -2060,7 +2062,7 @@ final class Synchronized {
     public Map<R, Map<C, V>> rowMap() {
       synchronized (mutex) {
         return map(
-            Maps.transformValues(
+            transformValues(
                 delegate().rowMap(),
                 new com.google.common.base.Function<Map<C, V>, Map<C, V>>() {
                   @Override
@@ -2076,7 +2078,7 @@ final class Synchronized {
     public Map<C, Map<R, V>> columnMap() {
       synchronized (mutex) {
         return map(
-            Maps.transformValues(
+            transformValues(
                 delegate().columnMap(),
                 new com.google.common.base.Function<Map<R, V>, Map<R, V>>() {
                   @Override

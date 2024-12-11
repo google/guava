@@ -16,6 +16,8 @@
 
 package com.google.common.escape;
 
+import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
@@ -25,12 +27,7 @@ import junit.framework.TestCase;
 @GwtCompatible
 public class ArrayBasedEscaperMapTest extends TestCase {
   public void testNullMap() {
-    try {
-      ArrayBasedEscaperMap.create(null);
-      fail("expected exception did not occur");
-    } catch (NullPointerException e) {
-      // pass
-    }
+    assertThrows(NullPointerException.class, () -> ArrayBasedEscaperMap.create(null));
   }
 
   public void testEmptyMap() {

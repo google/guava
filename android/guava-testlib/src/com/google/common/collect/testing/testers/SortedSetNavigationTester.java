@@ -16,17 +16,19 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -37,24 +39,27 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
+@ElementTypesAreNonnullByDefault
+public class SortedSetNavigationTester<E extends @Nullable Object> extends AbstractSetTester<E> {
 
   private SortedSet<E> sortedSet;
   private List<E> values;
-  private E a;
-  private E b;
-  private E c;
+  private @Nullable E a;
+  private @Nullable E b;
+  private @Nullable E c;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     sortedSet = (SortedSet<E>) getSet();
     values =
-        Helpers.copyToList(
+        copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    Collections.sort(values, sortedSet.comparator());
+    sort(values, sortedSet.comparator());
 
     // some tests assume SEVERAL == 3
     if (values.size() >= 1) {
@@ -68,20 +73,12 @@ public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
 
   @CollectionSize.Require(ZERO)
   public void testEmptySetFirst() {
-    try {
-      sortedSet.first();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedSet.first());
   }
 
   @CollectionSize.Require(ZERO)
   public void testEmptySetLast() {
-    try {
-      sortedSet.last();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
+    assertThrows(NoSuchElementException.class, () -> sortedSet.last());
   }
 
   @CollectionSize.Require(ONE)

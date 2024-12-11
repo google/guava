@@ -16,7 +16,7 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Charsets.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.FilterWriter;
 import java.io.IOException;

@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.min;
 import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
@@ -180,7 +181,7 @@ public final class Strings {
     checkNotNull(a);
     checkNotNull(b);
 
-    int maxPrefixLength = Math.min(a.length(), b.length());
+    int maxPrefixLength = min(a.length(), b.length());
     int p = 0;
     while (p < maxPrefixLength && a.charAt(p) == b.charAt(p)) {
       p++;
@@ -202,7 +203,7 @@ public final class Strings {
     checkNotNull(a);
     checkNotNull(b);
 
-    int maxSuffixLength = Math.min(a.length(), b.length());
+    int maxSuffixLength = min(a.length(), b.length());
     int s = 0;
     while (s < maxSuffixLength && a.charAt(a.length() - s - 1) == b.charAt(b.length() - s - 1)) {
       s++;

@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.lang.Math.max;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -28,6 +29,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
@@ -157,6 +159,36 @@ public abstract class RateLimiter {
    *     permits become available per second
    * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
    *     before reaching its stable (maximum) rate
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
+   *     warmupPeriod} is negative
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {
+    return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
+   * second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+   * during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum
+   * rate at the end of the period (as long as there are enough requests to saturate it). Similarly,
+   * if the {@code RateLimiter} is left <i>unused</i> for a duration of {@code warmupPeriod}, it
+   * will gradually return to its "cold" state, i.e. it will go through the same warming up process
+   * as when it was first created.
+   *
+   * <p>The returned {@code RateLimiter} is intended for cases where the resource that actually
+   * fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being
+   * immediately accessed at the stable (maximum) rate.
+   *
+   * <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will
+   * follow), and if it is left unused for long enough, it will return to that state.
+   *
+   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
+   *     permits become available per second
+   * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
+   *     before reaching its stable (maximum) rate
    * @param unit the time unit of the warmupPeriod argument
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
    *     warmupPeriod} is negative
@@ -225,8 +257,7 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
    */
   public final void setRate(double permitsPerSecond) {
-    checkArgument(
-        permitsPerSecond > 0.0 && !Double.isNaN(permitsPerSecond), "rate must be positive");
+    checkArgument(permitsPerSecond > 0.0, "rate must be positive");
     synchronized (mutex()) {
       doSetRate(permitsPerSecond, stopwatch.readMicros());
     }
@@ -296,6 +327,24 @@ public abstract class RateLimiter {
    * specified {@code timeout}, or returns {@code false} immediately (without waiting) if the permit
    * would not have been granted before the timeout expired.
    *
+   * <p>This method is equivalent to {@code tryAcquire(1, timeout)}.
+   *
+   * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
+   * @return {@code true} if the permit was acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public boolean tryAcquire(Duration timeout) {
+    return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Acquires a permit from this {@code RateLimiter} if it can be obtained without exceeding the
+   * specified {@code timeout}, or returns {@code false} immediately (without waiting) if the permit
+   * would not have been granted before the timeout expired.
+   *
    * <p>This method is equivalent to {@code tryAcquire(1, timeout, unit)}.
    *
    * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
@@ -333,6 +382,23 @@ public abstract class RateLimiter {
    */
   public boolean tryAcquire() {
     return tryAcquire(1, 0, MICROSECONDS);
+  }
+
+  /**
+   * Acquires the given number of permits from this {@code RateLimiter} if it can be obtained
+   * without exceeding the specified {@code timeout}, or returns {@code false} immediately (without
+   * waiting) if the permits would not have been granted before the timeout expired.
+   *
+   * @param permits the number of permits to acquire
+   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
+   * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
+   * @since NEXT (but since 28.0 in the JRE flavor)
+   */
+  @SuppressWarnings("Java7ApiChecker")
+  @IgnoreJRERequirement // Users will use this only if they're already using Duration.
+  public boolean tryAcquire(int permits, Duration timeout) {
+    return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

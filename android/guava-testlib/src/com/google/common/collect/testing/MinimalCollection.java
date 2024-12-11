@@ -16,11 +16,15 @@
 
 package com.google.common.collect.testing;
 
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractCollection;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A simplistic collection which implements only the bare minimum allowed by the spec, and throws
@@ -29,24 +33,26 @@ import java.util.Iterator;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public class MinimalCollection<E> extends AbstractCollection<E> {
+@ElementTypesAreNonnullByDefault
+public class MinimalCollection<E extends @Nullable Object> extends AbstractCollection<E> {
   // TODO: expose allow nulls parameter?
 
-  public static <E> MinimalCollection<E> of(E... contents) {
+  public static <E extends @Nullable Object> MinimalCollection<E> of(E... contents) {
     return new MinimalCollection<>(Object.class, true, contents);
   }
 
   // TODO: use this
-  public static <E> MinimalCollection<E> ofClassAndContents(Class<? super E> type, E... contents) {
+  public static <E extends @Nullable Object> MinimalCollection<E> ofClassAndContents(
+      Class<? super @NonNull E> type, E... contents) {
     return new MinimalCollection<>(type, true, contents);
   }
 
   private final E[] contents;
-  private final Class<? super E> type;
+  private final Class<? super @NonNull E> type;
   private final boolean allowNulls;
 
   // Package-private so that it can be extended.
-  MinimalCollection(Class<? super E> type, boolean allowNulls, E... contents) {
+  MinimalCollection(Class<? super @NonNull E> type, boolean allowNulls, E... contents) {
     // TODO: consider making it shuffle the contents to test iteration order.
     this.contents = Platform.clone(contents);
     this.type = type;
@@ -67,7 +73,7 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     if (!allowNulls) {
       // behave badly
       if (object == null) {
@@ -75,7 +81,7 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
       }
     }
     Platform.checkCast(type, object); // behave badly
-    return Arrays.asList(contents).contains(object);
+    return asList(contents).contains(object);
   }
 
   @Override
@@ -93,13 +99,13 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
 
   @Override
   public Iterator<E> iterator() {
-    return Arrays.asList(contents).iterator();
+    return asList(contents).iterator();
   }
 
   @Override
-  public Object[] toArray() {
-    Object[] result = new Object[contents.length];
-    System.arraycopy(contents, 0, result, 0, contents.length);
+  public @Nullable Object[] toArray() {
+    @Nullable Object[] result = new @Nullable Object[contents.length];
+    arraycopy(contents, 0, result, 0, contents.length);
     return result;
   }
 

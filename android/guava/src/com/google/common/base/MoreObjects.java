@@ -170,6 +170,24 @@ public final class MoreObjects {
     }
 
     /**
+     * Configures the {@link ToStringHelper} so {@link #toString()} will ignore properties with
+     * empty values. The order of calling this method, relative to the {@code add()}/{@code
+     * addValue()} methods, is not significant.
+     *
+     * <p><b>Note:</b> in general, code should assume that the string form returned by {@code
+     * ToStringHelper} for a given object may change. In particular, the list of types which are
+     * checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
+     * Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
+     *
+     * @since NEXT
+     */
+    @CanIgnoreReturnValue
+    public ToStringHelper omitEmptyValues() {
+      omitEmptyValues = true;
+      return this;
+    }
+
+    /**
      * Adds a name/value pair to the formatted output in {@code name=value} format. If {@code value}
      * is {@code null}, the string {@code "null"} is used, unless {@link #omitNullValues()} is
      * called, in which case this name/value pair will not be added.

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.System.arraycopy;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -74,6 +76,9 @@ final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
     return elements.length;
   }
 
+  // We're careful to put only E instances into the array in the mainline.
+  // (In the backport, we don't need this suppression, but we keep it to minimize diffs.)
+  @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableIterator<E> iterator() {
     return (UnmodifiableIterator<E>) Iterators.forArray(elements);
@@ -101,7 +106,7 @@ final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
 
   @Override
   int copyIntoArray(@Nullable Object[] dst, int offset) {
-    System.arraycopy(elements, 0, dst, offset, elements.length);
+    arraycopy(elements, 0, dst, offset, elements.length);
     return offset + elements.length;
   }
 

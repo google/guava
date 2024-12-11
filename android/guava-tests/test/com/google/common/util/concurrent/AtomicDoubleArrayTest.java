@@ -15,6 +15,9 @@ package com.google.common.util.concurrent;
 
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 
 /** Unit test for {@link AtomicDoubleArray}. */
@@ -48,6 +51,14 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
 
   static void assertBitEquals(double x, double y) {
     assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
+  }
+
+  @J2ktIncompatible
+  @GwtIncompatible // NullPointerTester
+  public void testNulls() {
+    new NullPointerTester().testAllPublicStaticMethods(AtomicDoubleArray.class);
+    new NullPointerTester().testAllPublicConstructors(AtomicDoubleArray.class);
+    new NullPointerTester().testAllPublicInstanceMethods(new AtomicDoubleArray(1));
   }
 
   /** constructor creates array of given size with all elements zero */
@@ -149,6 +160,8 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     Thread t =
         newStartedThread(
             new CheckedRunnable() {
+              @Override
+              @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
               public void realRun() {
                 while (!a.compareAndSet(0, 2.0, 3.0)) {
                   Thread.yield();
@@ -171,7 +184,8 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
         assertBitEquals(prev, aa.get(i));
         assertFalse(aa.weakCompareAndSet(i, unused, x));
         assertBitEquals(prev, aa.get(i));
-        while (!aa.weakCompareAndSet(i, prev, x)) {;
+        while (!aa.weakCompareAndSet(i, prev, x)) {
+          ;
         }
         assertBitEquals(x, aa.get(i));
         prev = x;
@@ -231,6 +245,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
       aa = a;
     }
 
+    @Override
     public void realRun() {
       for (; ; ) {
         boolean done = true;

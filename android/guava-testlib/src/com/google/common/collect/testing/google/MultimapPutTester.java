@@ -19,22 +19,25 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.Helpers.assertContains;
 import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.copyToList;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static com.google.common.collect.testing.google.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -43,15 +46,15 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
+@ElementTypesAreNonnullByDefault
+public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutUnsupported() {
-    try {
-      multimap().put(k3(), v3());
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multimap().put(k3(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -83,7 +86,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutTwoElements() {
     int size = getNumElements();
 
-    List<V> values = Helpers.copyToList(multimap().get(k0()));
+    List<V> values = copyToList(multimap().get(k0()));
 
     assertTrue(multimap().put(k0(), v1()));
     assertTrue(multimap().put(k0(), v2()));
@@ -107,11 +110,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutNullValue_unsupported() {
-    try {
-      multimap().put(k1(), null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> multimap().put(k1(), null));
 
     expectUnchanged();
   }
@@ -139,31 +138,31 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutNotPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(k3(), v3())));
+    assertFalse(entries.contains(mapEntry(k3(), v3())));
     multimap().put(k3(), v3());
-    assertContains(entries, Helpers.mapEntry(k3(), v3()));
+    assertContains(entries, mapEntry(k3(), v3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(k0(), v3())));
+    assertFalse(entries.contains(mapEntry(k0(), v3())));
     multimap().put(k0(), v3());
-    assertContains(entries, Helpers.mapEntry(k0(), v3()));
+    assertContains(entries, mapEntry(k0(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToGet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
       int size = getNumElements();
 
       Collection<V> collection = multimap().get(key);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
@@ -175,7 +174,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToAsMapGet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
@@ -183,7 +182,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       Collection<V> collection = multimap().asMap().get(key);
       assertNotNull(collection);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
@@ -195,7 +194,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToAsMapEntrySet() {
-    List<K> keys = Helpers.copyToList(multimap().keySet());
+    List<K> keys = copyToList(multimap().keySet());
     for (K key : keys) {
       resetContainer();
 
@@ -211,7 +210,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
         }
       }
       assertNotNull(collection);
-      Collection<V> expectedCollection = Helpers.copyToList(collection);
+      Collection<V> expectedCollection = copyToList(collection);
 
       multimap().put(key, v3());
       expectedCollection.add(v3());

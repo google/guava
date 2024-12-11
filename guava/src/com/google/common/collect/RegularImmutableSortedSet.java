@@ -297,7 +297,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     if (newFromIndex == 0 && newToIndex == size()) {
       return this;
     } else if (newFromIndex < newToIndex) {
-      return new RegularImmutableSortedSet<E>(
+      return new RegularImmutableSortedSet<>(
           elements.subList(newFromIndex, newToIndex), comparator);
     } else {
       return emptySet(comparator);

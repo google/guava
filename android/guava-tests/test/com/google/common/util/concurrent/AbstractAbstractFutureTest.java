@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.util.concurrent.Runnables.doNothing;
 import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
@@ -29,6 +30,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -330,28 +332,16 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testNullListener() {
-    try {
-      future.addListener(null, directExecutor());
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.addListener(null, directExecutor()));
   }
 
   public void testNullExecutor() {
-    try {
-      future.addListener(doNothing(), null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.addListener(doNothing(), null));
   }
 
   public void testNullTimeUnit() throws Exception {
     future.set(1);
-    try {
-      future.get(0, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.get(0, null));
   }
 
   public void testNegativeTimeout() throws Exception {
@@ -359,6 +349,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertEquals(1, future.get(-1, SECONDS).intValue());
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // threads
   public void testOverflowTimeout() throws Exception {
     // First, sanity check that naive multiplication would really overflow to a negative number:
@@ -374,17 +365,14 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     waiter.join();
   }
 
+  @J2ktIncompatible // TODO(b/324550390): Enable
   public void testSetNull() throws Exception {
     future.set(null);
     assertSuccessful(future, null);
   }
 
   public void testSetExceptionNull() throws Exception {
-    try {
-      future.setException(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.setException(null));
 
     assertThat(future.isDone()).isFalse();
     assertThat(future.set(1)).isTrue();
@@ -392,11 +380,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSetFutureNull() throws Exception {
-    try {
-      future.setFuture(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> future.setFuture(null));
 
     assertThat(future.isDone()).isFalse();
     assertThat(future.set(1)).isTrue();
@@ -463,7 +447,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
       getDone(future);
       fail();
     } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameInstanceAs(expectedException);
+      assertThat(e).hasCauseThat().isSameInstanceAs(expectedException);
     }
 
     try {

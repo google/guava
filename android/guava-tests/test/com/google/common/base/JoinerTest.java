@@ -16,23 +16,25 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Collections.unmodifiableList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Joiner.MapJoiner;
+import com.google.common.collect.ForwardingList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,41 +53,71 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_1 = Arrays.asList(1);
   private static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
   private static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
-  private static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
-  private static final Iterable<Integer> ITERABLE_NULL_NULL = Arrays.asList((Integer) null, null);
-  private static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
-  private static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
-  private static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
-  private static final Iterable<Integer> ITERABLE_FOUR_NULLS =
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL_NULL =
+      Arrays.asList((Integer) null, null);
+  private static final Iterable<@Nullable Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
+  private static final Iterable<@Nullable Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
+  private static final Iterable<@Nullable Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
+  private static final Iterable<@Nullable Integer> ITERABLE_FOUR_NULLS =
       Arrays.asList((Integer) null, null, null, null);
 
+  /*
+   * Both of these fields *are* immutable/constant. They don't use the type ImmutableList because
+   * they need to behave slightly differently.
+   */
+  @SuppressWarnings("ConstantCaseForConstants")
+  private static final List<Integer> UNDERREPORTING_SIZE_LIST;
+
+  @SuppressWarnings("ConstantCaseForConstants")
+  private static final List<Integer> OVERREPORTING_SIZE_LIST;
+
+  static {
+    List<Integer> collection123 = Arrays.asList(1, 2, 3);
+    UNDERREPORTING_SIZE_LIST = unmodifiableList(new MisleadingSizeList<>(collection123, -1));
+    OVERREPORTING_SIZE_LIST = unmodifiableList(new MisleadingSizeList<>(collection123, 1));
+  }
+
+  /*
+   * c.g.c.collect.testing.Helpers.misleadingSizeList has a broken Iterator, so we can't use it. (I
+   * mean, ideally we'd fix it....) Also, we specifically need a List so that we trigger the fast
+   * path in join(Iterable).
+   */
+  private static final class MisleadingSizeList<E extends @Nullable Object>
+      extends ForwardingList<E> {
+    final List<E> delegate;
+    final int delta;
+
+    MisleadingSizeList(List<E> delegate, int delta) {
+      this.delegate = delegate;
+      this.delta = delta;
+    }
+
+    @Override
+    protected List<E> delegate() {
+      return delegate;
+    }
+
+    @Override
+    public int size() {
+      return delegate.size() + delta;
+    }
+  }
+
+  @SuppressWarnings("JoinIterableIterator") // explicitly testing iterator overload, too
   public void testNoSpecialNullBehavior() {
     checkNoOutput(J, ITERABLE_);
     checkResult(J, ITERABLE_1, "1");
     checkResult(J, ITERABLE_12, "1-2");
     checkResult(J, ITERABLE_123, "1-2-3");
+    checkResult(J, UNDERREPORTING_SIZE_LIST, "1-2-3");
+    checkResult(J, OVERREPORTING_SIZE_LIST, "1-2-3");
 
-    try {
-      J.join(ITERABLE_NULL);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      J.join(ITERABLE_1_NULL_2);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> J.join(ITERABLE_NULL));
+    assertThrows(NullPointerException.class, () -> J.join(ITERABLE_1_NULL_2));
 
-    try {
-      J.join(ITERABLE_NULL.iterator());
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      J.join(ITERABLE_1_NULL_2.iterator());
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> J.join(ITERABLE_NULL.iterator()));
+    assertThrows(NullPointerException.class, () -> J.join(ITERABLE_1_NULL_2.iterator()));
   }
 
   public void testOnCharOverride() {
@@ -94,6 +126,8 @@ public class JoinerTest extends TestCase {
     checkResult(onChar, ITERABLE_1, "1");
     checkResult(onChar, ITERABLE_12, "1-2");
     checkResult(onChar, ITERABLE_123, "1-2-3");
+    checkResult(J, UNDERREPORTING_SIZE_LIST, "1-2-3");
+    checkResult(J, OVERREPORTING_SIZE_LIST, "1-2-3");
   }
 
   public void testSkipNulls() {
@@ -105,6 +139,8 @@ public class JoinerTest extends TestCase {
     checkResult(skipNulls, ITERABLE_1, "1");
     checkResult(skipNulls, ITERABLE_12, "1-2");
     checkResult(skipNulls, ITERABLE_123, "1-2-3");
+    checkResult(J, UNDERREPORTING_SIZE_LIST, "1-2-3");
+    checkResult(J, OVERREPORTING_SIZE_LIST, "1-2-3");
     checkResult(skipNulls, ITERABLE_NULL_1, "1");
     checkResult(skipNulls, ITERABLE_1_NULL, "1");
     checkResult(skipNulls, ITERABLE_1_NULL_2, "1-2");
@@ -116,6 +152,8 @@ public class JoinerTest extends TestCase {
     checkResult(zeroForNull, ITERABLE_1, "1");
     checkResult(zeroForNull, ITERABLE_12, "1-2");
     checkResult(zeroForNull, ITERABLE_123, "1-2-3");
+    checkResult(J, UNDERREPORTING_SIZE_LIST, "1-2-3");
+    checkResult(J, OVERREPORTING_SIZE_LIST, "1-2-3");
     checkResult(zeroForNull, ITERABLE_NULL, "0");
     checkResult(zeroForNull, ITERABLE_NULL_NULL, "0-0");
     checkResult(zeroForNull, ITERABLE_NULL_1, "0-1");
@@ -128,7 +166,7 @@ public class JoinerTest extends TestCase {
     assertEquals("", joiner.join(set));
     assertEquals("", joiner.join(set.iterator()));
 
-    Object[] array = Lists.newArrayList(set).toArray(new Integer[0]);
+    Object[] array = newArrayList(set).toArray(new Integer[0]);
     assertEquals("", joiner.join(array));
 
     StringBuilder sb1FromIterable = new StringBuilder();
@@ -193,7 +231,8 @@ public class JoinerTest extends TestCase {
     joiner.appendTo(sb1FromIterator, parts.iterator());
     assertEquals("x" + expected, sb1FromIterator.toString());
 
-    Integer[] partsArray = Lists.newArrayList(parts).toArray(new Integer[0]);
+    // The use of iterator() works around J2KT b/381065164.
+    Integer[] partsArray = newArrayList(parts.iterator()).toArray(new Integer[0]);
     assertEquals(expected, joiner.join(partsArray));
 
     StringBuilder sb2 = new StringBuilder().append('x');
@@ -217,29 +256,17 @@ public class JoinerTest extends TestCase {
 
   public void test_useForNull_skipNulls() {
     Joiner j = Joiner.on("x").useForNull("y");
-    try {
-      j = j.skipNulls();
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, j::skipNulls);
   }
 
   public void test_skipNulls_useForNull() {
     Joiner j = Joiner.on("x").skipNulls();
-    try {
-      j = j.useForNull("y");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> j.useForNull("y"));
   }
 
   public void test_useForNull_twice() {
     Joiner j = Joiner.on("x").useForNull("y");
-    try {
-      j = j.useForNull("y");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> j.useForNull("y"));
   }
 
   public void testMap() {
@@ -247,15 +274,11 @@ public class JoinerTest extends TestCase {
     assertEquals("", j.join(ImmutableMap.of()));
     assertEquals(":", j.join(ImmutableMap.of("", "")));
 
-    Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
 
-    try {
-      j.join(mapWithNulls);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> j.join(mapWithNulls));
 
     assertEquals("a:00;00:b", j.useForNull("00").join(mapWithNulls));
 
@@ -273,22 +296,14 @@ public class JoinerTest extends TestCase {
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries()));
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries().iterator()));
 
-    Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
     Set<Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
 
-    try {
-      j.join(entriesWithNulls);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> j.join(entriesWithNulls));
 
-    try {
-      j.join(entriesWithNulls.iterator());
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> j.join(entriesWithNulls.iterator()));
 
     assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls));
     assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls.iterator()));
@@ -304,72 +319,7 @@ public class JoinerTest extends TestCase {
 
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
-    try {
-      j.withKeyValueSeparator("/");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
-  }
-
-  private static class DontStringMeBro implements CharSequence {
-    @Override
-    public int length() {
-      return 3;
-    }
-
-    @Override
-    public char charAt(int index) {
-      return "foo".charAt(index);
-    }
-
-    @Override
-    public CharSequence subSequence(int start, int end) {
-      return "foo".subSequence(start, end);
-    }
-
-    @Override
-    public String toString() {
-      throw new AssertionFailedError("shouldn't be invoked");
-    }
-  }
-
-  // Don't do this.
-  private static class IterableIterator implements Iterable<Integer>, Iterator<Integer> {
-    private static final ImmutableSet<Integer> INTEGERS = ImmutableSet.of(1, 2, 3, 4);
-    private final Iterator<Integer> iterator;
-
-    public IterableIterator() {
-      this.iterator = iterator();
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-      return INTEGERS.iterator();
-    }
-
-    @Override
-    public boolean hasNext() {
-      return iterator.hasNext();
-    }
-
-    @Override
-    public Integer next() {
-      return iterator.next();
-    }
-
-    @Override
-    public void remove() {
-      iterator.remove();
-    }
-  }
-
-  @J2ktIncompatible
-  @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
-  public void testDontConvertCharSequenceToString() {
-    assertEquals("foo,foo", Joiner.on(",").join(new DontStringMeBro(), new DontStringMeBro()));
-    assertEquals(
-        "foo,bar,foo",
-        Joiner.on(",").useForNull("bar").join(new DontStringMeBro(), null, new DontStringMeBro()));
+    assertThrows(UnsupportedOperationException.class, () -> j.withKeyValueSeparator("/"));
   }
 
   @J2ktIncompatible

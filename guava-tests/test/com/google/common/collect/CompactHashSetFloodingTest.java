@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.lang.Math.log;
+
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class CompactHashSetFloodingTest extends AbstractHashFloodingTest<Set<Obj
   public CompactHashSetFloodingTest() {
     super(
         ImmutableList.of(Construction.setFromElements(CompactHashSet::create)),
-        n -> n * Math.log(n),
+        n -> n * log(n),
         ImmutableList.of(QueryOp.SET_CONTAINS));
   }
 }

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class SortedIterablesTest extends TestCase {
   public void testSameComparator() {
     assertTrue(SortedIterables.hasSameComparator(Ordering.natural(), Sets.newTreeSet()));

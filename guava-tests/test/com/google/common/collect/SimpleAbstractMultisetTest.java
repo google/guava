@@ -15,9 +15,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -41,7 +43,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class SimpleAbstractMultisetTest extends TestCase {
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -65,6 +69,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     return suite;
   }
 
+  @SuppressWarnings("ModifiedButNotUsed")
   public void testFastAddAllMultiset() {
     final AtomicInteger addCalls = new AtomicInteger();
     Multiset<String> multiset =
@@ -84,15 +89,12 @@ public class SimpleAbstractMultisetTest extends TestCase {
   public void testRemoveUnsupported() {
     Multiset<String> multiset = new NoRemoveMultiset<>();
     multiset.add("a");
-    try {
-      multiset.remove("a");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> multiset.remove("a"));
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
+  private static class NoRemoveMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
+      implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
     @Override
@@ -116,7 +118,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    public int add(@Nullable E element, int occurrences) {
+    public int add(E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

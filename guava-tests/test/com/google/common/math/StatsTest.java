@@ -16,6 +16,7 @@
 
 package com.google.common.math;
 
+import static com.google.common.math.Stats.toStats;
 import static com.google.common.math.StatsTesting.ALLOWED_ERROR;
 import static com.google.common.math.StatsTesting.ALL_MANY_VALUES;
 import static com.google.common.math.StatsTesting.ALL_STATS;
@@ -84,6 +85,7 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.DoubleSummaryStatistics;
@@ -199,7 +201,7 @@ public class StatsTest extends TestCase {
   public void testPopulationVariance() {
     assertThrows(IllegalStateException.class, () -> EMPTY_STATS_VARARGS.populationVariance());
     assertThrows(IllegalStateException.class, () -> EMPTY_STATS_ITERABLE.populationVariance());
-    assertThat(ONE_VALUE_STATS.populationVariance()).isWithin(0.0).of(0.0);
+    assertThat(ONE_VALUE_STATS.populationVariance()).isEqualTo(0.0);
     assertThat(Stats.of(POSITIVE_INFINITY).populationVariance()).isNaN();
     assertThat(Stats.of(NEGATIVE_INFINITY).populationVariance()).isNaN();
     assertThat(Stats.of(NaN).populationVariance()).isNaN();
@@ -253,7 +255,7 @@ public class StatsTest extends TestCase {
         IllegalStateException.class, () -> EMPTY_STATS_VARARGS.populationStandardDeviation());
     assertThrows(
         IllegalStateException.class, () -> EMPTY_STATS_ITERABLE.populationStandardDeviation());
-    assertThat(ONE_VALUE_STATS.populationStandardDeviation()).isWithin(0.0).of(0.0);
+    assertThat(ONE_VALUE_STATS.populationStandardDeviation()).isEqualTo(0.0);
     assertThat(TWO_VALUES_STATS.populationStandardDeviation())
         .isWithin(ALLOWED_ERROR)
         .of(sqrt(TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS / 2));
@@ -599,5 +601,27 @@ public class StatsTest extends TestCase {
     } else {
       assertThat(actual).isWithin(ALLOWED_ERROR).of(expected);
     }
+  }
+
+  public void testBoxedDoubleStreamToStats() {
+    Stats stats = megaPrimitiveDoubleStream().boxed().collect(toStats());
+    assertThat(stats.count()).isEqualTo(MEGA_STREAM_COUNT);
+    assertThat(stats.mean()).isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT).of(MEGA_STREAM_MEAN);
+    assertThat(stats.populationVariance())
+        .isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT)
+        .of(MEGA_STREAM_POPULATION_VARIANCE);
+    assertThat(stats.min()).isEqualTo(MEGA_STREAM_MIN);
+    assertThat(stats.max()).isEqualTo(MEGA_STREAM_MAX);
+  }
+
+  public void testBoxedBigDecimalStreamToStats() {
+    Stats stats = megaPrimitiveDoubleStream().mapToObj(BigDecimal::valueOf).collect(toStats());
+    assertThat(stats.count()).isEqualTo(MEGA_STREAM_COUNT);
+    assertThat(stats.mean()).isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT).of(MEGA_STREAM_MEAN);
+    assertThat(stats.populationVariance())
+        .isWithin(ALLOWED_ERROR * MEGA_STREAM_COUNT)
+        .of(MEGA_STREAM_POPULATION_VARIANCE);
+    assertThat(stats.min()).isEqualTo(MEGA_STREAM_MIN);
+    assertThat(stats.max()).isEqualTo(MEGA_STREAM_MAX);
   }
 }

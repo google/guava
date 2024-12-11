@@ -24,6 +24,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.Iterators.elementsEqual;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -77,9 +79,12 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
     return new ArrayList<>();
   }
@@ -100,6 +105,7 @@ public final class Lists {
    */
   @SafeVarargs
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
     // Avoid integer overflow when a large array is passed in
@@ -119,9 +125,12 @@ public final class Lists {
    *
    * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
    * the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
       Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
@@ -139,6 +148,7 @@ public final class Lists {
    * ImmutableList#copyOf(Iterator)} instead.
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
       Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
@@ -160,9 +170,10 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. (Unlike here, there is no risk
-   * of overload ambiguity, since the {@code ArrayList} constructors very wisely did not accept
-   * varargs.)
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>. (Unlike here, there is no risk of overload ambiguity, since the {@code ArrayList}
+   * constructors very wisely did not accept varargs.)
    *
    * @param initialArraySize the exact size of the initial backing array for the returned array list
    *     ({@code ArrayList} documentation calls this value the "capacity")
@@ -171,6 +182,7 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code initialArraySize} is negative
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayListWithCapacity(
       int initialArraySize) {
     checkNonnegative(initialArraySize, "initialArraySize"); // for GWT.
@@ -191,6 +203,7 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code estimatedSize} is negative
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayListWithExpectedSize(
       int estimatedSize) {
     return new ArrayList<>(computeArrayListCapacity(estimatedSize));
@@ -210,9 +223,12 @@ public final class Lists {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
-   * advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<>();
   }
@@ -231,9 +247,12 @@ public final class Lists {
    *
    * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
    * the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
-   * taking advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * taking advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
    */
   @GwtCompatible(serializable = true)
+  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
       Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
@@ -523,7 +542,7 @@ public final class Lists {
    * serialize the copy. Other methods similar to this do not implement serialization at all for
    * this reason.
    *
-   * <p><b>Java 8 users:</b> many use cases for this method are better addressed by {@link
+   * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
    * java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
    * to migrate to streams.
    */
@@ -562,6 +581,11 @@ public final class Lists {
     @Override
     public int size() {
       return fromList.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return fromList.isEmpty();
     }
 
     @Override
@@ -626,8 +650,6 @@ public final class Lists {
       };
     }
 
-    // TODO: cpovirk - Why override `isEmpty` here but not in TransformingSequentialList?
-
     @Override
     public boolean isEmpty() {
       return fromList.isEmpty();
@@ -682,7 +704,7 @@ public final class Lists {
     public List<T> get(int index) {
       checkElementIndex(index, size());
       int start = index * size;
-      int end = Math.min(start + size, list.size());
+      int end = min(start + size, list.size());
       return list.subList(start, end);
     }
 
@@ -1008,7 +1030,7 @@ public final class Lists {
       }
       return true;
     } else {
-      return Iterators.elementsEqual(thisList.iterator(), otherList.iterator());
+      return elementsEqual(thisList.iterator(), otherList.iterator());
     }
   }
 

@@ -39,6 +39,8 @@ import java.util.stream.LongStream;
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
+  /** Creates a new accumulator. */
+  public StatsAccumulator() {}
 
   // These fields must satisfy the requirements of Stats' constructor as well as those of the stat
   // methods of this class.
@@ -136,7 +138,7 @@ public final class StatsAccumulator {
    * Adds the given values to the dataset. The stream will be completely consumed by this method.
    *
    * @param values a series of values
-   * @since 28.2
+   * @since 28.2 (but only since 33.4.0 in the Android flavor)
    */
   public void addAll(DoubleStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));
@@ -146,7 +148,7 @@ public final class StatsAccumulator {
    * Adds the given values to the dataset. The stream will be completely consumed by this method.
    *
    * @param values a series of values
-   * @since 28.2
+   * @since 28.2 (but only since 33.4.0 in the Android flavor)
    */
   public void addAll(IntStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));
@@ -157,7 +159,7 @@ public final class StatsAccumulator {
    *
    * @param values a series of values, which will be converted to {@code double} values (this may
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
-   * @since 28.2
+   * @since 28.2 (but only since 33.4.0 in the Android flavor)
    */
   public void addAll(LongStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));

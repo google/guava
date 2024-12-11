@@ -19,10 +19,10 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.Comparator;
@@ -35,7 +35,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -43,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-@SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs with Java 8 types in them
 // (not used publicly by guava-android as of this writing, but we include it in the jar as a test)
 final class CollectCollectors {
@@ -210,8 +209,7 @@ final class CollectCollectors {
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
     return collectingAndThen(
-        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
-        ImmutableMap::copyOf);
+        toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new), ImmutableMap::copyOf);
   }
 
   static <T extends @Nullable Object, K, V>
@@ -245,8 +243,7 @@ final class CollectCollectors {
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
     return collectingAndThen(
-        Collectors.toMap(
-            keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
+        toMap(keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
         ImmutableSortedMap::copyOfSorted);
   }
 
@@ -263,7 +260,6 @@ final class CollectCollectors {
         new Collector.Characteristics[0]);
   }
 
-  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -292,7 +288,6 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
-  @J2ktIncompatible
   static <T extends @Nullable Object, K extends Enum<K>, V>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
           Function<? super T, ? extends K> keyFunction,
@@ -319,7 +314,6 @@ final class CollectCollectors {
         EnumMapAccumulator::toImmutableMap);
   }
 
-  @J2ktIncompatible
   @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
   private static class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;

@@ -30,6 +30,8 @@ import javax.annotation.CheckForNull;
 @Beta
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
+  /** Constructor for use by subclasses. */
+  public AbstractGraph() {}
 
   @Override
   public final boolean equals(@CheckForNull Object obj) {

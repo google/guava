@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.TableCollectionTest.DIVIDE_BY_2;
+import static com.google.common.collect.Tables.transformValues;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class TablesTransformValuesColumnTest extends ColumnTests {
   public TablesTransformValuesColumnTest() {
     super(false, false, true, true, false);
@@ -31,7 +33,7 @@ public class TablesTransformValuesColumnTest extends ColumnTests {
   @Override
   Table<String, Character, Integer> makeTable() {
     Table<String, Character, Integer> table = HashBasedTable.create();
-    return Tables.transformValues(table, DIVIDE_BY_2);
+    return transformValues(table, DIVIDE_BY_2);
   }
 
   @Override
@@ -41,6 +43,6 @@ public class TablesTransformValuesColumnTest extends ColumnTests {
     table.put("two", 'a', 2);
     table.put("three", 'a', 3);
     table.put("four", 'b', 4);
-    return Tables.transformValues(table, DIVIDE_BY_2).column('a');
+    return transformValues(table, DIVIDE_BY_2).column('a');
   }
 }

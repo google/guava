@@ -261,7 +261,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     suite.addTest(
         NavigableMapTestSuiteBuilder.using(
                 new TestStringSortedMapGenerator() {
-                  private final Object mutex = new Integer(1);
+                  private final Object mutex = new Object[0]; // something Serializable
 
                   @Override
                   protected SortedMap<String, String> create(Entry<String, String>[] entries) {
@@ -330,14 +330,14 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     create().floorKey("a");
   }
 
-  public void testHeadMap_K() {
+  public void testHeadMap_k() {
     NavigableMap<String, Integer> map = create();
     SortedMap<String, Integer> headMap = map.headMap("a");
     assertTrue(headMap instanceof SynchronizedSortedMap);
     assertSame(mutex, ((SynchronizedSortedMap<String, Integer>) headMap).mutex);
   }
 
-  public void testHeadMap_K_B() {
+  public void testHeadMap_k_b() {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> headMap = map.headMap("a", true);
     assertTrue(headMap instanceof SynchronizedNavigableMap);
@@ -385,28 +385,28 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     create().pollLastEntry();
   }
 
-  public void testSubMap_K_K() {
+  public void testSubMap_k_k() {
     NavigableMap<String, Integer> map = create();
     SortedMap<String, Integer> subMap = map.subMap("a", "b");
     assertTrue(subMap instanceof SynchronizedSortedMap);
     assertSame(mutex, ((SynchronizedSortedMap<String, Integer>) subMap).mutex);
   }
 
-  public void testSubMap_K_B_K_B() {
+  public void testSubMap_k_b_k_b() {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> subMap = map.subMap("a", true, "b", false);
     assertTrue(subMap instanceof SynchronizedNavigableMap);
     assertSame(mutex, ((SynchronizedNavigableMap<String, Integer>) subMap).mutex);
   }
 
-  public void testTailMap_K() {
+  public void testTailMap_k() {
     NavigableMap<String, Integer> map = create();
     SortedMap<String, Integer> subMap = map.tailMap("a");
     assertTrue(subMap instanceof SynchronizedSortedMap);
     assertSame(mutex, ((SynchronizedSortedMap<String, Integer>) subMap).mutex);
   }
 
-  public void testTailMap_K_B() {
+  public void testTailMap_k_b() {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> subMap = map.tailMap("a", true);
     assertTrue(subMap instanceof SynchronizedNavigableMap);

@@ -16,8 +16,8 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.io.Files.simplifyPath;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -120,13 +120,13 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("../ok", simplifyPath("../this/../ok"));
   }
 
-  // https://code.google.com/p/guava-libraries/issues/detail?id=705
+  // https://github.com/google/guava/issues/705
   public void test705() {
     assertEquals("../b", simplifyPath("x/../../b"));
     assertEquals("b", simplifyPath("x/../b"));
   }
 
-  // https://code.google.com/p/guava-libraries/issues/detail?id=716
+  // https://github.com/google/guava/issues/716
   public void test716() {
     assertEquals("b", simplifyPath("./b"));
     assertEquals("b", simplifyPath("./b/."));
@@ -142,7 +142,7 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals(".metadata/b", simplifyPath("./.metadata/b"));
   }
 
-  // https://code.google.com/p/guava-libraries/issues/detail?id=716
+  // https://github.com/google/guava/issues/716
   public void testMultipleDotFilenames() {
     assertEquals("..a", simplifyPath("..a"));
     assertEquals("/..a", simplifyPath("/..a"));
@@ -156,18 +156,18 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("/", simplifyPath("/."));
   }
 
-  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  // https://github.com/google/guava/issues/722
   public void testInitialSlashDotDot() {
     assertEquals("/c", simplifyPath("/../c"));
   }
 
-  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  // https://github.com/google/guava/issues/722
   public void testInitialSlashDot() {
     assertEquals("/a", simplifyPath("/./a"));
     assertEquals("/.a", simplifyPath("/.a/a/.."));
   }
 
-  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  // https://github.com/google/guava/issues/722
   public void testConsecutiveParentsAfterPresent() {
     assertEquals("../..", simplifyPath("./../../"));
     assertEquals("../..", simplifyPath("./.././../"));

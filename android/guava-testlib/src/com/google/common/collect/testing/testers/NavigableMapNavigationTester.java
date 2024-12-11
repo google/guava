@@ -16,10 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static java.util.Collections.sort;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -42,7 +44,9 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private NavigableMap<K, V> navigableMap;
@@ -56,10 +60,10 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
     super.setUp();
     navigableMap = (NavigableMap<K, V>) getMap();
     entries =
-        Helpers.copyToList(
+        copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
     if (entries.size() >= 1) {
@@ -74,7 +78,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   /** Resets the contents of navigableMap to have entries a, c, for the navigation tests. */
   @SuppressWarnings("unchecked") // Needed to stop Eclipse whining
   private void resetWithHole() {
-    Entry<K, V>[] entries = new Entry[] {a, c};
+    Entry<K, V>[] entries = (Entry<K, V>[]) new Entry<?, ?>[] {a, c};
     super.resetMap(entries);
     navigableMap = (NavigableMap<K, V>) getMap();
   }
@@ -158,7 +162,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, navigableMap.pollFirstEntry());
-    assertEquals(entries.subList(1, entries.size()), Helpers.copyToList(navigableMap.entrySet()));
+    assertEquals(entries.subList(1, entries.size()), copyToList(navigableMap.entrySet()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
@@ -219,8 +223,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
     assertEquals(c, navigableMap.pollLastEntry());
-    assertEquals(
-        entries.subList(0, entries.size() - 1), Helpers.copyToList(navigableMap.entrySet()));
+    assertEquals(entries.subList(0, entries.size() - 1), copyToList(navigableMap.entrySet()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)

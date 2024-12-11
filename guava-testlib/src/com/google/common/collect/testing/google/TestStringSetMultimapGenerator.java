@@ -15,9 +15,11 @@
  */
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.copyToSet;
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import java.util.Collection;
 import java.util.List;
@@ -29,17 +31,18 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringSetMultimapGenerator
     implements TestSetMultimapGenerator<String, String> {
 
   @Override
   public SampleElements<Entry<String, String>> samples() {
     return new SampleElements<>(
-        Helpers.mapEntry("one", "January"),
-        Helpers.mapEntry("two", "February"),
-        Helpers.mapEntry("three", "March"),
-        Helpers.mapEntry("four", "April"),
-        Helpers.mapEntry("five", "May"));
+        mapEntry("one", "January"),
+        mapEntry("two", "February"),
+        mapEntry("three", "March"),
+        mapEntry("four", "April"),
+        mapEntry("five", "May"));
   }
 
   @Override
@@ -54,13 +57,13 @@ public abstract class TestStringSetMultimapGenerator
 
   @Override
   public Collection<String> createCollection(Iterable<? extends String> values) {
-    return Helpers.copyToSet(values);
+    return copyToSet(values);
   }
 
   @Override
   public final SetMultimap<String, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
-    Entry<String, String>[] array = new Entry[entries.length];
+    Entry<String, String>[] array = (Entry<String, String>[]) new Entry<?, ?>[entries.length];
     int i = 0;
     for (Object o : entries) {
       @SuppressWarnings("unchecked")
@@ -75,7 +78,7 @@ public abstract class TestStringSetMultimapGenerator
   @Override
   @SuppressWarnings("unchecked")
   public final Entry<String, String>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<String, String>[]) new Entry<?, ?>[length];
   }
 
   @Override

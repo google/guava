@@ -17,9 +17,9 @@
 package com.google.common.hash;
 
 import static com.google.common.io.BaseEncoding.base16;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
@@ -183,7 +183,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testRoundTripHashCodeUsingBaseEncoding() {
-    HashCode hash1 = Hashing.sha1().hashString("foo", Charsets.US_ASCII);
+    HashCode hash1 = Hashing.sha1().hashString("foo", US_ASCII);
     HashCode hash2 = HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
     assertEquals(hash1, hash2);
   }
@@ -193,7 +193,7 @@ public class HashCodeTest extends TestCase {
     assertEquals(42, hashCode42.hashCode());
   }
 
-  // See https://code.google.com/p/guava-libraries/issues/detail?id=1494
+  // See https://github.com/google/guava/issues/1494
   public void testObjectHashCodeWithSameLowOrderBytes() {
     // These will have the same first 4 bytes (all 0).
     byte[] bytesA = new byte[5];
@@ -215,7 +215,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testRoundTripHashCodeUsingFromString() {
-    HashCode hash1 = Hashing.sha1().hashString("foo", Charsets.US_ASCII);
+    HashCode hash1 = Hashing.sha1().hashString("foo", US_ASCII);
     HashCode hash2 = HashCode.fromString(hash1.toString());
     assertEquals(hash1, hash2);
   }
@@ -235,7 +235,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testFromStringFailsWithUpperCaseString() {
-    String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
+    String string = Hashing.sha1().hashString("foo", US_ASCII).toString().toUpperCase();
     assertThrows(IllegalArgumentException.class, () -> HashCode.fromString(string));
   }
 

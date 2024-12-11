@@ -27,9 +27,9 @@ import static com.google.common.collect.testing.testers.MapEntrySetTester.getCon
 import static com.google.common.collect.testing.testers.MapMergeTester.getMergeNullValueMethod;
 import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
+import static java.util.Arrays.asList;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +41,7 @@ import junit.framework.Test;
  *
  * @author Kevin Bourrillion
  */
-/*
- * TODO(cpovirk): consider renaming this class in light of our now running it
- * under JDK7
- */
+// TODO(cpovirk): consider renaming this class in light of our now running it under newer JDKs.
 public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
   public static Test suite() {
     return new OpenJdk6MapTests().allTests();
@@ -52,7 +49,7 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
 
   @Override
   protected Collection<Method> suppressForTreeMapNatural() {
-    return Arrays.asList(
+    return asList(
         getPutNullKeyUnsupportedMethod(),
         getPutAllNullKeyUnsupportedMethod(),
         getCreateWithNullKeyUnsupportedMethod(),
@@ -67,14 +64,14 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
      * The entrySet() of ConcurrentHashMap, unlike that of other Map
      * implementations, supports add() under JDK8. This seems problematic, but I
      * didn't see that discussed in the review, which included many other
-     * changes: http://goo.gl/okTTdr
+     * changes: https://mail.openjdk.org/pipermail/core-libs-dev/2013-May/thread.html#17367
      *
      * TODO(cpovirk): decide what the best long-term action here is: force users
      * to suppress (as we do now), stop testing entrySet().add() at all, make
      * entrySet().add() tests tolerant of either behavior, introduce a map
      * feature for entrySet() that supports add(), or something else
      */
-    return Arrays.asList(
+    return asList(
         getAddUnsupportedNotPresentMethod(),
         getAddAllUnsupportedNonePresentMethod(),
         getAddAllUnsupportedSomePresentMethod());
@@ -91,6 +88,6 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
 
   @Override
   protected Collection<Method> suppressForHashtable() {
-    return Arrays.asList(getMergeNullValueMethod());
+    return asList(getMergeNullValueMethod());
   }
 }

@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.collect.Tables.immutableCell;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -60,10 +62,12 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, or value functions return null on any input.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, R, C, V>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -79,10 +83,12 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, value, or merging functions return null on any input.
+   *
+   * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  static <T extends @Nullable Object, R, C, V>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -153,7 +159,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * new entry with those values.
    */
   static <R, C, V> Cell<R, C, V> cellOf(R rowKey, C columnKey, V value) {
-    return Tables.immutableCell(
+    return immutableCell(
         checkNotNull(rowKey, "rowKey"),
         checkNotNull(columnKey, "columnKey"),
         checkNotNull(value, "value"));
@@ -286,7 +292,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
         case 0:
           return of();
         case 1:
-          return new SingletonImmutableTable<>(Iterables.getOnlyElement(cells));
+          return new SingletonImmutableTable<>(getOnlyElement(cells));
         default:
           return RegularImmutableTable.forCells(cells, rowComparator, columnComparator);
       }

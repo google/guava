@@ -60,8 +60,9 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
   /**
    * Creates a new, empty {@code HashMultimap} with the default initial capacities.
    *
-   * <p>This method will soon be deprecated in favor of {@code
-   * MultimapBuilder.hashKeys().hashSetValues().build()}.
+   * <p>You may also consider the equivalent {@code
+   * MultimapBuilder.hashKeys().hashSetValues().build()}, which provides more control over the
+   * underlying data structure.
    */
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMultimap<K, V> create() {
@@ -72,8 +73,9 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
    * Constructs an empty {@code HashMultimap} with enough capacity to hold the specified numbers of
    * keys and values without rehashing.
    *
-   * <p>This method will soon be deprecated in favor of {@code
-   * MultimapBuilder.hashKeys(expectedKeys).hashSetValues(expectedValuesPerKey).build()}.
+   * <p>You may also consider the equivalent {@code
+   * MultimapBuilder.hashKeys(expectedKeys).hashSetValues(expectedValuesPerKey).build()}, which
+   * provides more control over the underlying data structure.
    *
    * @param expectedKeys the expected number of distinct keys
    * @param expectedValuesPerKey the expected average number of values per key
@@ -90,8 +92,9 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
    * key-value mapping appears multiple times in the input multimap, it only appears once in the
    * constructed multimap.
    *
-   * <p>This method will soon be deprecated in favor of {@code
-   * MultimapBuilder.hashKeys().hashSetValues().build(multimap)}.
+   * <p>You may also consider the equivalent {@code
+   * MultimapBuilder.hashKeys().hashSetValues().build(multimap)}, which provides more control over
+   * the underlying data structure.
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */

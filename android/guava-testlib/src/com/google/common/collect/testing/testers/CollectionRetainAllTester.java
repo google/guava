@@ -20,13 +20,14 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,9 +39,10 @@ import org.junit.Ignore;
  *
  * @author Chris Povirk
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   /** A collection of elements to retain, along with a description for use in failure messages. */
@@ -79,11 +81,11 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
      * MinimalCollection, which throws NullPointerException on calls to
      * contains(null).
      */
-    List<E> disjointList = Arrays.asList(e3(), e4());
+    List<E> disjointList = asList(e3(), e4());
     disjoint = new Target(disjointList, "disjoint");
     superset = new Target(MinimalCollection.of(e0(), e1(), e2(), e3(), e4()), "superset");
     nonEmptyProperSubset = new Target(MinimalCollection.of(e1()), "subset");
-    sameElements = new Target(Arrays.asList(createSamplesArray()), "sameElements");
+    sameElements = new Target(asList(createSamplesArray()), "sameElements");
     containsDuplicates =
         new Target(MinimalCollection.of(e0(), e0(), e3(), e3()), "containsDuplicates");
     partialOverlap = new Target(MinimalCollection.of(e2(), e3()), "partialOverlap");
@@ -292,11 +294,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_nullCollectionReferenceNonEmptySubject() {
-    try {
-      collection.retainAll(null);
-      fail("retainAll(null) should throw NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> collection.retainAll(null));
   }
 
   private void expectReturnsTrue(Target target) {

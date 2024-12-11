@@ -21,6 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.System.arraycopy;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -137,6 +140,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * Creates and returns a new builder, configured to build {@code MinMaxPriorityQueue} instances
    * sized appropriately to hold {@code expectedSize} elements.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static Builder<Comparable> expectedSize(int expectedSize) {
     return new Builder<Comparable>(Ordering.natural()).expectedSize(expectedSize);
   }
@@ -147,6 +151,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * immediately removes its greatest element (according to its comparator), which might be the
    * element that was just added.
    */
+  @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   public static Builder<Comparable> maximumSize(int maximumSize) {
     return new Builder<Comparable>(Ordering.natural()).maximumSize(maximumSize);
   }
@@ -609,7 +614,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         return -1;
       }
       checkState(index > 0);
-      int limit = Math.min(index, size - len) + len;
+      int limit = min(index, size - len) + len;
       int minIndex = index;
       for (int i = index + 1; i < limit; i++) {
         if (compareElements(i, minIndex) < 0) {
@@ -920,7 +925,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @J2ktIncompatible // Incompatible return type change. Use inherited (unoptimized) implementation
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
-    System.arraycopy(queue, 0, copyTo, 0, size);
+    arraycopy(queue, 0, copyTo, 0, size);
     return copyTo;
   }
 
@@ -954,7 +959,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     // Enlarge to contain initial contents
     if (initialContents instanceof Collection) {
       int initialSize = ((Collection<?>) initialContents).size();
-      result = Math.max(result, initialSize);
+      result = max(result, initialSize);
     }
 
     // Now cap it at maxSize + 1
@@ -965,7 +970,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     if (size > queue.length) {
       int newCapacity = calculateNewCapacity();
       Object[] newQueue = new Object[newCapacity];
-      System.arraycopy(queue, 0, newQueue, 0, queue.length);
+      arraycopy(queue, 0, newQueue, 0, queue.length);
       queue = newQueue;
     }
   }
@@ -980,6 +985,6 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /** There's no reason for the queueSize to ever be more than maxSize + 1 */
   private static int capAtMaximumSize(int queueSize, int maximumSize) {
-    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow
+    return min(queueSize - 1, maximumSize) + 1; // don't overflow
   }
 }

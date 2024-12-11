@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -131,6 +132,37 @@ public class BytesTest extends TestCase {
         .isEqualTo(new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    byte[][] arrays = new byte[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    byte[] sharedArray = new byte[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Bytes.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testEnsureCapacity() {
     assertThat(Bytes.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
     assertThat(Bytes.ensureCapacity(ARRAY1, 0, 1)).isSameInstanceAs(ARRAY1);
@@ -140,17 +172,8 @@ public class BytesTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Bytes.ensureCapacity(ARRAY1, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Bytes.ensureCapacity(ARRAY1, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Bytes.ensureCapacity(ARRAY1, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Bytes.ensureCapacity(ARRAY1, 1, -1));
   }
 
   public void testToArray() {
@@ -186,11 +209,7 @@ public class BytesTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
-    try {
-      Bytes.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Bytes.toArray(list));
   }
 
   public void testToArray_withConversion() {
@@ -211,7 +230,7 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.toArray(doubles)).isEqualTo(array);
   }
 
-  @J2ktIncompatible // TODO(b/278877942): Enable
+  @J2ktIncompatible // b/239034072: Kotlin varargs copy parameter arrays.
   public void testAsList_isAView() {
     byte[] array = {(byte) 0, (byte) 1};
     List<Byte> list = Bytes.asList(array);

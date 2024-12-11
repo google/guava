@@ -16,13 +16,19 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.TestExceptions.SomeCheckedException;
+import com.google.common.collect.TestExceptions.SomeUncheckedException;
 import com.google.common.testing.GcFinalization;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code AbstractIterator}.
@@ -31,6 +37,7 @@ import junit.framework.TestCase;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class AbstractIteratorTest extends TestCase {
 
   public void testDefaultBehaviorOfNextAndHasNext() {
@@ -42,7 +49,7 @@ public class AbstractIteratorTest extends TestCase {
           private int rep;
 
           @Override
-          public Integer computeNext() {
+          public @Nullable Integer computeNext() {
             switch (rep++) {
               case 0:
                 return 0;
@@ -70,11 +77,7 @@ public class AbstractIteratorTest extends TestCase {
     // Make sure computeNext() doesn't get invoked again
     assertFalse(iter.hasNext());
 
-    try {
-      iter.next();
-      fail("no exception thrown");
-    } catch (NoSuchElementException expected) {
-    }
+    assertThrows(NoSuchElementException.class, iter::next);
   }
 
   public void testDefaultBehaviorOfPeek() {
@@ -87,7 +90,7 @@ public class AbstractIteratorTest extends TestCase {
           private int rep;
 
           @Override
-          public Integer computeNext() {
+          public @Nullable Integer computeNext() {
             switch (rep++) {
               case 0:
                 return 0;
@@ -110,32 +113,18 @@ public class AbstractIteratorTest extends TestCase {
     assertEquals(1, (int) iter.peek());
     assertEquals(1, (int) iter.next());
 
-    try {
-      iter.peek();
-      fail("peek() should throw NoSuchElementException at end");
-    } catch (NoSuchElementException expected) {
-    }
-
-    try {
-      iter.peek();
-      fail("peek() should continue to throw NoSuchElementException at end");
-    } catch (NoSuchElementException expected) {
-    }
-
-    try {
-      iter.next();
-      fail("next() should throw NoSuchElementException as usual");
-    } catch (NoSuchElementException expected) {
-    }
-
-    try {
-      iter.peek();
-      fail("peek() should still throw NoSuchElementException after next()");
-    } catch (NoSuchElementException expected) {
-    }
+    /*
+     * We test peek() after various calls to make sure that one bad call doesn't interfere with its
+     * ability to throw the correct exception in the future.
+     */
+    assertThrows(NoSuchElementException.class, iter::peek);
+    assertThrows(NoSuchElementException.class, iter::peek);
+    assertThrows(NoSuchElementException.class, iter::next);
+    assertThrows(NoSuchElementException.class, iter::peek);
   }
 
 
+  @J2ktIncompatible // weak references, details of GC
   @GwtIncompatible // weak references
   @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
@@ -157,7 +146,7 @@ public class AbstractIteratorTest extends TestCase {
           private boolean alreadyCalledEndOfData;
 
           @Override
-          public Integer computeNext() {
+          public @Nullable Integer computeNext() {
             if (alreadyCalledEndOfData) {
               fail("Should not have been invoked again");
             }
@@ -166,17 +155,12 @@ public class AbstractIteratorTest extends TestCase {
           }
         };
 
-    try {
-      empty.peek();
-      fail("peek() should throw NoSuchElementException at end");
-    } catch (NoSuchElementException expected) {
-    }
-
-    try {
-      empty.peek();
-      fail("peek() should continue to throw NoSuchElementException at end");
-    } catch (NoSuchElementException expected) {
-    }
+    /*
+     * We test multiple calls to peek() to make sure that one bad call doesn't interfere with its
+     * ability to throw the correct exception in the future.
+     */
+    assertThrows(NoSuchElementException.class, empty::peek);
+    assertThrows(NoSuchElementException.class, empty::peek);
   }
 
   public void testSneakyThrow() throws Exception {
@@ -197,21 +181,9 @@ public class AbstractIteratorTest extends TestCase {
         };
 
     // The first time, the sneakily-thrown exception comes out
-    try {
-      iter.hasNext();
-      fail("No exception thrown");
-    } catch (Exception e) {
-      if (!(e instanceof SomeCheckedException)) {
-        throw e;
-      }
-    }
-
+    assertThrows(SomeCheckedException.class, iter::hasNext);
     // But the second time, AbstractIterator itself throws an ISE
-    try {
-      iter.hasNext();
-      fail("No exception thrown");
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, iter::hasNext);
   }
 
   public void testException() {
@@ -225,12 +197,8 @@ public class AbstractIteratorTest extends TestCase {
         };
 
     // It should pass through untouched
-    try {
-      iter.hasNext();
-      fail("No exception thrown");
-    } catch (SomeUncheckedException e) {
-      assertSame(exception, e);
-    }
+    SomeUncheckedException e = assertThrows(SomeUncheckedException.class, iter::hasNext);
+    assertSame(exception, e);
   }
 
   public void testExceptionAfterEndOfData() {
@@ -242,11 +210,7 @@ public class AbstractIteratorTest extends TestCase {
             throw new SomeUncheckedException();
           }
         };
-    try {
-      iter.hasNext();
-      fail("No exception thrown");
-    } catch (SomeUncheckedException expected) {
-    }
+    assertThrows(SomeUncheckedException.class, iter::hasNext);
   }
 
   @SuppressWarnings("DoNotCall")
@@ -267,11 +231,7 @@ public class AbstractIteratorTest extends TestCase {
 
     assertEquals(0, (int) iter.next());
 
-    try {
-      iter.remove();
-      fail("No exception thrown");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, iter::remove);
   }
 
   public void testReentrantHasNext() {
@@ -283,11 +243,7 @@ public class AbstractIteratorTest extends TestCase {
             throw new AssertionError();
           }
         };
-    try {
-      iter.hasNext();
-      fail();
-    } catch (IllegalStateException expected) {
-    }
+    assertThrows(IllegalStateException.class, iter::hasNext);
   }
 
   // Technically we should test other reentrant scenarios (9 combinations of
@@ -304,8 +260,4 @@ public class AbstractIteratorTest extends TestCase {
     }
     new SneakyThrower<Error>().throwIt(t);
   }
-
-  private static class SomeCheckedException extends Exception {}
-
-  private static class SomeUncheckedException extends RuntimeException {}
 }

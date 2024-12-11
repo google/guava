@@ -40,6 +40,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
+  /** Constructor for use by subclasses. */
+  public AbstractListeningExecutorService() {}
 
   /**
    * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)

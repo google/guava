@@ -36,8 +36,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     assume().that(graphIsMutable()).isTrue();
 
     Set<Integer> nodes = graph.nodes();
-    UnsupportedOperationException e =
-        assertThrows(UnsupportedOperationException.class, () -> nodes.add(N2));
+    assertThrows(UnsupportedOperationException.class, () -> nodes.add(N2));
     addNode(N1);
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
@@ -49,8 +48,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
     addNode(N1);
     Set<Integer> adjacentNodes = graph.adjacentNodes(N1);
-    UnsupportedOperationException e =
-        assertThrows(UnsupportedOperationException.class, () -> adjacentNodes.add(N2));
+    assertThrows(UnsupportedOperationException.class, () -> adjacentNodes.add(N2));
     putEdge(N1, N2);
     assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
   }
@@ -62,8 +60,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
     addNode(N2);
     Set<Integer> predecessors = graph.predecessors(N2);
-    UnsupportedOperationException e =
-        assertThrows(UnsupportedOperationException.class, () -> predecessors.add(N1));
+    assertThrows(UnsupportedOperationException.class, () -> predecessors.add(N1));
     putEdge(N1, N2);
     assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
   }
@@ -75,8 +72,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
     addNode(N1);
     Set<Integer> successors = graph.successors(N1);
-    UnsupportedOperationException e =
-        assertThrows(UnsupportedOperationException.class, () -> successors.add(N2));
+    assertThrows(UnsupportedOperationException.class, () -> successors.add(N2));
     putEdge(N1, N2);
     assertThat(successors).containsExactlyElementsIn(graph.successors(N1));
   }
@@ -88,10 +84,8 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
     addNode(N1);
     Set<EndpointPair<Integer>> incidentEdges = graph.incidentEdges(N1);
-    UnsupportedOperationException e =
-        assertThrows(
-            UnsupportedOperationException.class,
-            () -> incidentEdges.add(EndpointPair.ordered(N1, N2)));
+    assertThrows(
+        UnsupportedOperationException.class, () -> incidentEdges.add(EndpointPair.ordered(N1, N2)));
     putEdge(N1, N2);
     assertThat(incidentEdges).containsExactlyElementsIn(graph.incidentEdges(N1));
   }

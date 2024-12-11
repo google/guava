@@ -53,6 +53,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
 
     GcFinalization.awaitDone(
         new GcFinalization.FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return reference.finalizeReferentCalled;
           }
@@ -153,7 +154,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
 
   public void testFinalizeClassHasNoNestedClasses() throws Exception {
     // Ensure that the Finalizer class has no nested classes.
-    // See https://code.google.com/p/guava-libraries/issues/detail?id=1505
+    // See https://github.com/google/guava/issues/1505
     assertEquals(Collections.emptyList(), Arrays.asList(Finalizer.class.getDeclaredClasses()));
   }
 }

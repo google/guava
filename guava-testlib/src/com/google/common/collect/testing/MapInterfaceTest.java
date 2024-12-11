@@ -16,18 +16,24 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
+import static com.google.common.collect.testing.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
+import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
-import java.util.Arrays;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests representing the contract of {@link Map}. Concrete subclasses of this base class test
@@ -42,7 +48,9 @@ import junit.framework.TestCase;
 // check the order if so.
 // TODO: Refactor to share code with SetTestBuilder etc.
 @GwtCompatible
-public abstract class MapInterfaceTest<K, V> extends TestCase {
+@ElementTypesAreNonnullByDefault
+public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nullable Object>
+    extends TestCase {
 
   /** A key type that is not assignable to any classes but Object. */
   private static final class IncompatibleKeyType {
@@ -183,7 +191,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsKey(key));
       assertTrue(map.containsValue(value));
       assertTrue(valueCollection.contains(value));
-      assertTrue(valueCollection.containsAll(Collections.singleton(value)));
+      assertTrue(valueCollection.containsAll(singleton(value)));
       assertTrue(entrySet.contains(mapEntry(key, value)));
       assertTrue(allowsNullKeys || (key != null));
     }
@@ -221,23 +229,23 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
     Object[] entrySetToArray1 = entrySet.toArray();
     assertEquals(map.size(), entrySetToArray1.length);
-    assertTrue(Arrays.asList(entrySetToArray1).containsAll(entrySet));
+    assertTrue(asList(entrySetToArray1).containsAll(entrySet));
 
     Entry<?, ?>[] entrySetToArray2 = new Entry<?, ?>[map.size() + 2];
     entrySetToArray2[map.size()] = mapEntry("foo", 1);
     assertSame(entrySetToArray2, entrySet.toArray(entrySetToArray2));
     assertNull(entrySetToArray2[map.size()]);
-    assertTrue(Arrays.asList(entrySetToArray2).containsAll(entrySet));
+    assertTrue(asList(entrySetToArray2).containsAll(entrySet));
 
     Object[] valuesToArray1 = valueCollection.toArray();
     assertEquals(map.size(), valuesToArray1.length);
-    assertTrue(Arrays.asList(valuesToArray1).containsAll(valueCollection));
+    assertTrue(asList(valuesToArray1).containsAll(valueCollection));
 
     Object[] valuesToArray2 = new Object[map.size() + 2];
     valuesToArray2[map.size()] = "foo";
     assertSame(valuesToArray2, valueCollection.toArray(valuesToArray2));
     assertNull(valuesToArray2[map.size()]);
-    assertTrue(Arrays.asList(valuesToArray2).containsAll(valueCollection));
+    assertTrue(asList(valuesToArray2).containsAll(valueCollection));
 
     if (supportsValuesHashCode) {
       int expectedHash = 0;
@@ -276,15 +284,12 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       map.clear();
       assertTrue(map.isEmpty());
     } else {
-      try {
-        map.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.clear());
     }
     assertInvariants(map);
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   public void testContainsKey() {
     Map<K, V> map;
     K unmappedKey;
@@ -335,7 +340,6 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
   public void testEntrySet() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -343,7 +347,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     K unmappedKey;
     V unmappedValue;
     try {
@@ -368,9 +372,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
   }
 
+  @J2ktIncompatible // https://youtrack.jetbrains.com/issue/KT-58242/ undefined behavior (crash)
   public void testEntrySetContainsEntryIncompatibleKey() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -378,7 +382,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -397,7 +401,6 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -405,7 +408,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -414,14 +417,14 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     map.put(null, unmappedValue);
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> entry = mapEntry(null, unmappedValue);
     assertTrue(entrySet.contains(entry));
-    assertFalse(entrySet.contains(mapEntry(null, null)));
+    Entry<@Nullable K, @Nullable V> nonEntry = mapEntry(null, null);
+    assertFalse(entrySet.contains(nonEntry));
   }
 
   public void testEntrySetContainsEntryNullKeyMissing() {
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -429,21 +432,22 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
     } catch (UnsupportedOperationException e) {
       return;
     }
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> nullKeyEntry = mapEntry(null, unmappedValue);
     try {
-      assertFalse(entrySet.contains(entry));
+      assertFalse(entrySet.contains(nullKeyEntry));
     } catch (NullPointerException e) {
       assertFalse(allowsNullKeys);
     }
+    Entry<@Nullable K, @Nullable V> nullKeyValueEntry = mapEntry(null, null);
     try {
-      assertFalse(entrySet.contains(mapEntry(null, null)));
+      assertFalse(entrySet.contains(nullKeyValueEntry));
     } catch (NullPointerException e) {
       assertFalse(allowsNullKeys && allowsNullValues);
     }
@@ -462,7 +466,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     if (supportsIteratorRemove) {
       int initialSize = map.size();
       Entry<K, V> entry = iterator.next();
-      Entry<K, V> entryCopy = Helpers.mapEntry(entry.getKey(), entry.getValue());
+      Entry<K, V> entryCopy = mapEntry(entry.getKey(), entry.getValue());
 
       iterator.remove();
       assertEquals(initialSize - 1, map.size());
@@ -471,18 +475,10 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       // iterator.remove().
       assertFalse(entrySet.contains(entryCopy));
       assertInvariants(map);
-      try {
-        iterator.remove();
-        fail("Expected IllegalStateException.");
-      } catch (IllegalStateException expected) {
-      }
+      assertThrows(IllegalStateException.class, () -> iterator.remove());
     } else {
       iterator.next();
-      try {
-        iterator.remove();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
     assertInvariants(map);
   }
@@ -502,11 +498,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(didRemove);
       assertEquals(initialSize - 1, map.size());
     } else {
-      try {
-        entrySet.remove(entrySet.iterator().next());
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> entrySet.remove(entrySet.iterator().next()));
     }
     assertInvariants(map);
   }
@@ -571,7 +564,6 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
     Map<K, V> map;
-    Set<Entry<K, V>> entrySet;
     try {
       map = makeEitherMap();
     } catch (UnsupportedOperationException e) {
@@ -579,7 +571,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    entrySet = map.entrySet();
+    Set<Entry<K, V>> entrySet = map.entrySet();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -590,7 +582,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     map.put(null, unmappedValue);
     assertEquals(unmappedValue, map.get(null));
     assertTrue(map.containsKey(null));
-    Entry<K, V> entry = mapEntry(null, unmappedValue);
+    Entry<@Nullable K, V> entry = mapEntry(null, unmappedValue);
     assertTrue(entrySet.remove(entry));
     assertNull(map.get(null));
     assertFalse(map.containsKey(null));
@@ -605,7 +597,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Entry<K, V> entry = mapEntry(null, getValueNotInPopulatedMap());
+    Entry<@Nullable K, V> entry = mapEntry(null, getValueNotInPopulatedMap());
     int initialSize = map.size();
     if (supportsRemove) {
       try {
@@ -641,8 +633,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       // We use a copy of "entryToRemove" in the assertion because "entryToRemove" might be
       // invalidated and have undefined behavior after entrySet.removeAll(entriesToRemove),
       // for example entryToRemove.getValue() might be null.
-      Entry<K, V> entryToRemoveCopy =
-          Helpers.mapEntry(entryToRemove.getKey(), entryToRemove.getValue());
+      Entry<K, V> entryToRemoveCopy = mapEntry(entryToRemove.getKey(), entryToRemove.getValue());
 
       int initialSize = map.size();
       boolean didRemove = entrySet.removeAll(entriesToRemove);
@@ -653,11 +644,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       // have undefined behavior after entrySet.removeAll(entriesToRemove),
       assertFalse(entrySet.contains(entryToRemoveCopy));
     } else {
-      try {
-        entrySet.removeAll(entriesToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.removeAll(entriesToRemove));
     }
     assertInvariants(map);
   }
@@ -672,11 +659,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
     Set<Entry<K, V>> entrySet = map.entrySet();
     if (supportsRemove) {
-      try {
-        entrySet.removeAll(null);
-        fail("Expected NullPointerException.");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> entrySet.removeAll(null));
     } else {
       try {
         entrySet.removeAll(null);
@@ -697,7 +680,10 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Set<Entry<K, V>> entriesToRetain = singleton(entrySet.iterator().next());
+    Entry<K, V> originalEntry = entrySet.iterator().next();
+    // Copy the Entry, as discussed in testEntrySetRemoveAll.
+    Set<Entry<K, V>> entriesToRetain =
+        singleton(mapEntry(originalEntry.getKey(), originalEntry.getValue()));
     if (supportsRemove) {
       boolean shouldRemove = (entrySet.size() > entriesToRetain.size());
       boolean didRemove = entrySet.retainAll(entriesToRetain);
@@ -707,11 +693,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
         assertTrue(entrySet.contains(entry));
       }
     } else {
-      try {
-        entrySet.retainAll(entriesToRetain);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.retainAll(entriesToRetain));
     }
     assertInvariants(map);
   }
@@ -755,11 +737,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       entrySet.clear();
       assertTrue(entrySet.isEmpty());
     } else {
-      try {
-        entrySet.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> entrySet.clear());
     }
     assertInvariants(map);
   }
@@ -768,9 +746,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     Map<K, V> map = makeEitherMap();
 
     Set<Entry<K, V>> entrySet = map.entrySet();
-    Entry<K, V> entryToAdd = mapEntry(null, null);
+    Entry<@Nullable K, @Nullable V> entryToAdd = mapEntry(null, null);
     try {
-      entrySet.add(entryToAdd);
+      entrySet.add((Entry<K, V>) entryToAdd);
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
@@ -778,7 +756,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertInvariants(map);
 
     try {
-      entrySet.addAll(singleton(entryToAdd));
+      entrySet.addAll(singleton((Entry<K, V>) entryToAdd));
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
@@ -847,7 +825,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     // Explicitly call `equals`; `assertEquals` might return fast
     assertTrue(map.equals(map));
     assertTrue(makePopulatedMap().equals(map));
-    assertFalse(map.equals(Collections.emptyMap()));
+    assertFalse(map.equals(emptyMap()));
     // no-inspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
@@ -899,8 +877,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     // Explicitly call `equals`; `assertEquals` might return fast
     assertTrue(map.equals(map));
     assertTrue(makeEmptyMap().equals(map));
-    assertEquals(Collections.emptyMap(), map);
-    assertFalse(map.equals(Collections.emptySet()));
+    assertEquals(emptyMap(), map);
+    assertFalse(map.equals(emptySet()));
     // noinspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
@@ -994,18 +972,13 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertEquals(initialSize + 1, map.size());
       assertNull(oldValue);
     } else {
-      try {
-        map.put(keyToPut, valueToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.put(keyToPut, valueToPut));
     }
     assertInvariants(map);
   }
 
   public void testPutExistingKey() {
     Map<K, V> map;
-    K keyToPut;
     V valueToPut;
     try {
       map = makePopulatedMap();
@@ -1013,7 +986,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToPut = map.keySet().iterator().next();
+    K keyToPut = map.keySet().iterator().next();
     if (supportsPut) {
       int initialSize = map.size();
       map.put(keyToPut, valueToPut);
@@ -1022,11 +995,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsValue(valueToPut));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.put(keyToPut, valueToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.put(keyToPut, valueToPut));
     }
     assertInvariants(map);
   }
@@ -1050,11 +1019,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsKey(null));
       assertTrue(map.containsValue(valueToPut));
     } else {
-      try {
-        map.put(null, valueToPut);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(null, valueToPut));
     }
     assertInvariants(map);
   }
@@ -1080,11 +1045,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsValue(null));
       assertEquals(initialSize + 1, map.size());
     } else {
-      try {
-        map.put(keyToPut, null);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(keyToPut, null));
     }
     assertInvariants(map);
   }
@@ -1111,11 +1072,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsValue(null));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.put(keyToPut, null);
-        fail("Expected RuntimeException");
-      } catch (RuntimeException expected) {
-      }
+      assertThrows(RuntimeException.class, () -> map.put(keyToPut, null));
     }
     assertInvariants(map);
   }
@@ -1130,7 +1087,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     } catch (UnsupportedOperationException e) {
       return;
     }
-    Map<K, V> mapToPut = Collections.singletonMap(keyToPut, valueToPut);
+    Map<K, V> mapToPut = singletonMap(keyToPut, valueToPut);
     if (supportsPut) {
       int initialSize = map.size();
       map.putAll(mapToPut);
@@ -1139,18 +1096,13 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsValue(valueToPut));
       assertEquals(initialSize + 1, map.size());
     } else {
-      try {
-        map.putAll(mapToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.putAll(mapToPut));
     }
     assertInvariants(map);
   }
 
   public void testPutAllExistingKey() {
     Map<K, V> map;
-    K keyToPut;
     V valueToPut;
     try {
       map = makePopulatedMap();
@@ -1158,8 +1110,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToPut = map.keySet().iterator().next();
-    Map<K, V> mapToPut = Collections.singletonMap(keyToPut, valueToPut);
+    K keyToPut = map.keySet().iterator().next();
+    Map<K, V> mapToPut = singletonMap(keyToPut, valueToPut);
     int initialSize = map.size();
     if (supportsPut) {
       map.putAll(mapToPut);
@@ -1167,11 +1119,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertTrue(map.containsKey(keyToPut));
       assertTrue(map.containsValue(valueToPut));
     } else {
-      try {
-        map.putAll(mapToPut);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.putAll(mapToPut));
     }
     assertEquals(initialSize, map.size());
     assertInvariants(map);
@@ -1179,13 +1127,12 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
   public void testRemove() {
     Map<K, V> map;
-    K keyToRemove;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
       return;
     }
-    keyToRemove = map.keySet().iterator().next();
+    K keyToRemove = map.keySet().iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
       V expectedValue = map.get(keyToRemove);
@@ -1194,11 +1141,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertFalse(map.containsKey(keyToRemove));
       assertEquals(initialSize - 1, map.size());
     } else {
-      try {
-        map.remove(keyToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
     }
     assertInvariants(map);
   }
@@ -1217,11 +1160,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertNull(map.remove(keyToRemove));
       assertEquals(initialSize, map.size());
     } else {
-      try {
-        map.remove(keyToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> map.remove(keyToRemove));
     }
     assertInvariants(map);
   }
@@ -1246,11 +1185,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       assertEquals(initialSize - 1, map.size());
       assertFalse(map.containsKey(key));
     } else {
-      try {
-        keys.remove(key);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keys.remove(key));
     }
     assertInvariants(map);
   }
@@ -1267,15 +1202,11 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     K key = keys.iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
-      assertTrue(keys.removeAll(Collections.singleton(key)));
+      assertTrue(keys.removeAll(singleton(key)));
       assertEquals(initialSize - 1, map.size());
       assertFalse(map.containsKey(key));
     } else {
-      try {
-        keys.removeAll(Collections.singleton(key));
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keys.removeAll(singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1291,15 +1222,11 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     Set<K> keys = map.keySet();
     K key = keys.iterator().next();
     if (supportsRemove) {
-      keys.retainAll(Collections.singleton(key));
+      keys.retainAll(singleton(key));
       assertEquals(1, map.size());
       assertTrue(map.containsKey(key));
     } else {
-      try {
-        keys.retainAll(Collections.singleton(key));
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keys.retainAll(singleton(key)));
     }
     assertInvariants(map);
   }
@@ -1317,11 +1244,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       keySet.clear();
       assertTrue(keySet.isEmpty());
     } else {
-      try {
-        keySet.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> keySet.clear());
     }
     assertInvariants(map);
   }
@@ -1336,11 +1259,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
     Set<K> keySet = map.keySet();
     if (supportsRemove) {
-      try {
-        keySet.removeAll(null);
-        fail("Expected NullPointerException.");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> keySet.removeAll(null));
     } else {
       try {
         keySet.removeAll(null);
@@ -1380,7 +1299,6 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
 
   public void testValues() {
     Map<K, V> map;
-    Collection<V> valueCollection;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -1388,7 +1306,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     assertInvariants(map);
 
-    valueCollection = map.values();
+    Collection<V> valueCollection = map.values();
     V unmappedValue;
     try {
       unmappedValue = getValueNotInPopulatedMap();
@@ -1419,18 +1337,10 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       // removed value, because the underlying map can have multiple mappings
       // to the same value.)
       assertInvariants(map);
-      try {
-        iterator.remove();
-        fail("Expected IllegalStateException.");
-      } catch (IllegalStateException expected) {
-      }
+      assertThrows(IllegalStateException.class, () -> iterator.remove());
     } else {
       iterator.next();
-      try {
-        iterator.remove();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
     assertInvariants(map);
   }
@@ -1452,11 +1362,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       // removed value, because the underlying map can have multiple mappings
       // to the same value.)
     } else {
-      try {
-        valueCollection.remove(valueCollection.iterator().next());
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class,
+          () -> valueCollection.remove(valueCollection.iterator().next()));
     }
     assertInvariants(map);
   }
@@ -1505,11 +1413,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
         assertFalse(valuesToRemove.contains(value));
       }
     } else {
-      try {
-        valueCollection.removeAll(valuesToRemove);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> valueCollection.removeAll(valuesToRemove));
     }
     assertInvariants(map);
   }
@@ -1559,11 +1464,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
         assertTrue(valuesToRetain.contains(value));
       }
     } else {
-      try {
-        valueCollection.retainAll(valuesToRetain);
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(
+          UnsupportedOperationException.class, () -> valueCollection.retainAll(valuesToRetain));
     }
     assertInvariants(map);
   }
@@ -1607,16 +1509,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       valueCollection.clear();
       assertTrue(valueCollection.isEmpty());
     } else {
-      try {
-        valueCollection.clear();
-        fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertThrows(UnsupportedOperationException.class, () -> valueCollection.clear());
     }
     assertInvariants(map);
-  }
-
-  static <K, V> Entry<K, V> mapEntry(K key, V value) {
-    return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 }

@@ -16,17 +16,23 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Unhashables;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-import java.util.Arrays;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultimap}.
@@ -34,32 +40,66 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableMultimapTest extends TestCase {
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withImmutableEntry() {
     ImmutableMultimap<String, Integer> multimap =
-        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
-    assertEquals(Arrays.asList(1), multimap.get("one"));
+        new Builder<String, Integer>().put(immutableEntry("one", 1)).build();
+    assertEquals(asList(1), multimap.get("one"));
   }
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    try {
-      builder.put(Maps.immutableEntry("one", (Integer) null));
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      builder.put(Maps.immutableEntry((String) null, 1));
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
+  }
+
+  public void testBuilderWithExpectedKeysNegative() {
+    assertThrows(
+        IllegalArgumentException.class, () -> ImmutableMultimap.builderWithExpectedKeys(-1));
+  }
+
+  public void testBuilderWithExpectedKeysZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedKeysPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.builderWithExpectedKeys(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyNegative() {
+    assertThrows(
+        IllegalArgumentException.class, () -> ImmutableMultimap.builder().expectedValuesPerKey(-1));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyZero() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(0);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
+  }
+
+  public void testBuilderWithExpectedValuesPerKeyPositive() {
+    ImmutableMultimap.Builder<String, String> builder =
+        ImmutableMultimap.<String, String>builder().expectedValuesPerKey(1);
+    builder.put("key", "value");
+    assertThat(builder.build().entries()).containsExactly(immutableEntry("key", "value"));
   }
 
   private static class StringHolder {
-    String string;
+    @Nullable String string;
   }
 
+  @SuppressWarnings("JUnitIncompatibleType")
   public void testBuilder_withMutableEntry() {
     ImmutableMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();
@@ -79,7 +119,7 @@ public class ImmutableMultimapTest extends TestCase {
 
     builder.put(entry);
     holder.string = "two";
-    assertEquals(Arrays.asList(1), builder.build().get("one"));
+    assertEquals(asList(1), builder.build().get("one"));
   }
 
   // TODO: test ImmutableMultimap builder and factory methods
@@ -127,8 +167,8 @@ public class ImmutableMultimapTest extends TestCase {
         .testEquals();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // reflection
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultimap.class);

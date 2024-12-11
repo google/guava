@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -49,7 +50,6 @@ public class BooleansTest extends TestCase {
 
   private static final boolean[] VALUES = {false, true};
 
-  @J2ktIncompatible // TODO(b/285538920): Fix and enable.
   public void testHashCode() {
     assertThat(Booleans.hashCode(true)).isEqualTo(Boolean.TRUE.hashCode());
     assertThat(Booleans.hashCode(false)).isEqualTo(Boolean.FALSE.hashCode());
@@ -131,6 +131,37 @@ public class BooleansTest extends TestCase {
         .isEqualTo(new boolean[] {false, false, true});
   }
 
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat(dim1 * dim2).isLessThan(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  @GwtIncompatible // different overflow behavior; could probably be made to work by using ~~
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat(dim1 * dim2).isAtLeast(0);
+    testConcatOverflow(dim1, dim2);
+  }
+
+  private static void testConcatOverflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    boolean[][] arrays = new boolean[arraysDim1][];
+    // it's shared to avoid using too much memory in tests
+    boolean[] sharedArray = new boolean[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
+
+    try {
+      Booleans.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testEnsureCapacity() {
     assertThat(Booleans.ensureCapacity(EMPTY, 0, 1)).isSameInstanceAs(EMPTY);
     assertThat(Booleans.ensureCapacity(ARRAY_FALSE, 0, 1)).isSameInstanceAs(ARRAY_FALSE);
@@ -140,17 +171,8 @@ public class BooleansTest extends TestCase {
   }
 
   public void testEnsureCapacity_fail() {
-    try {
-      Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    try {
-      // notice that this should even fail when no growth was needed
-      Booleans.ensureCapacity(ARRAY_FALSE, 1, -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Booleans.ensureCapacity(ARRAY_FALSE, -1, 1));
+    assertThrows(IllegalArgumentException.class, () -> Booleans.ensureCapacity(ARRAY_FALSE, 1, -1));
   }
 
   public void testJoin() {
@@ -482,11 +504,7 @@ public class BooleansTest extends TestCase {
 
   public void testToArray_withNull() {
     List<@Nullable Boolean> list = Arrays.asList(false, true, null);
-    try {
-      Booleans.toArray(list);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> Booleans.toArray(list));
   }
 
   @SuppressWarnings({"CollectionIsEmptyTruth", "CollectionIsNotEmptyTruth"})
@@ -563,16 +581,8 @@ public class BooleansTest extends TestCase {
     List<Boolean> list = Booleans.asList(ARRAY_FALSE);
     assertThat(list.set(0, true)).isFalse();
     assertThat(list.set(0, false)).isTrue();
-    try {
-      list.set(0, null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-    try {
-      list.set(1, true);
-      fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> list.set(0, null));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.set(1, true));
   }
 
   public void testAsListCanonicalValues() {

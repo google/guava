@@ -32,7 +32,7 @@ public abstract class AbstractRangeSetTest extends TestCase {
     testInvariantsInternal(rangeSet.complement());
   }
 
-  private static <C extends Comparable> void testInvariantsInternal(RangeSet<C> rangeSet) {
+  private static <C extends Comparable<?>> void testInvariantsInternal(RangeSet<C> rangeSet) {
     assertEquals(rangeSet.asRanges().isEmpty(), rangeSet.isEmpty());
     assertEquals(rangeSet.asDescendingSetOfRanges().isEmpty(), rangeSet.isEmpty());
     assertEquals(!rangeSet.asRanges().iterator().hasNext(), rangeSet.isEmpty());

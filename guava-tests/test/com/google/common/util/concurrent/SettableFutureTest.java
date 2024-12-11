@@ -17,11 +17,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
@@ -45,7 +45,7 @@ public class SettableFutureTest extends TestCase {
   }
 
   public void testDefaultState() throws Exception {
-    assertThrows(TimeoutException.class, () -> future.get(5, TimeUnit.MILLISECONDS));
+    assertThrows(TimeoutException.class, () -> future.get(5, MILLISECONDS));
   }
 
   public void testSetValue() throws Exception {
@@ -116,7 +116,7 @@ public class SettableFutureTest extends TestCase {
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
-    assertThrows(TimeoutException.class, () -> future.get(0, TimeUnit.MILLISECONDS));
+    assertThrows(TimeoutException.class, () -> future.get(0, MILLISECONDS));
     nested.set("foo");
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -138,7 +138,7 @@ public class SettableFutureTest extends TestCase {
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
-    assertThrows(TimeoutException.class, () -> future.get(0, TimeUnit.MILLISECONDS));
+    assertThrows(TimeoutException.class, () -> future.get(0, MILLISECONDS));
     FooChild value = new FooChild();
     nested.set(value);
     assertTrue(future.isDone());

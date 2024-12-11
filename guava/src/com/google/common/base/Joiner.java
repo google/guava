@@ -205,9 +205,59 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
-  public final String join(Iterable<? extends @Nullable Object> parts) {
+  public String join(Iterable<? extends @Nullable Object> parts) {
+    /*
+     * If we can quickly determine how many elements there are likely to be, then we can use the
+     * fastest possible implementation, which delegates to the array overload of String.join.
+     *
+     * In theory, we can quickly determine the size of any Collection. However, thanks to
+     * regrettable implementations like our own Sets.filter, Collection.size() is sometimes a
+     * linear-time operation, and it can even have side effects. Thus, we limit the special case to
+     * List, which is _even more likely_ to have size() implemented to be fast and side-effect-free.
+     *
+     * We could consider recognizing specific other collections as safe (like ImmutableCollection,
+     * except ContiguousSet!) or as not worth this optimization (CopyOnWriteArrayList?).
+     */
+    if (parts instanceof List) {
+      int size = ((List<?>) parts).size();
+      if (size == 0) {
+        return "";
+      }
+      CharSequence[] toJoin = new CharSequence[size];
+      int i = 0;
+      for (Object part : parts) {
+        if (i == toJoin.length) {
+          /*
+           * We first initialized toJoin to the size of the input collection. However, that size can
+           * go out of date (for a collection like CopyOnWriteArrayList, which may have been safely
+           * modified concurrently), or it might have been only an estimate to begin with (for a
+           * collection like ConcurrentHashMap, which sums up several counters that may not be in
+           * sync with one another). We accommodate that by resizing as necessary.
+           */
+          toJoin = Arrays.copyOf(toJoin, expandedCapacity(toJoin.length, toJoin.length + 1));
+        }
+        toJoin[i++] = toString(part);
+      }
+      // We might not have seen the expected number of elements, as discussed above.
+      if (i != toJoin.length) {
+        toJoin = Arrays.copyOf(toJoin, i);
+      }
+      // What we care about is Android, under which this method is always desugared:
+      // https://r8.googlesource.com/r8/+/05ba76883518bff06496d6d7df5f06b94a88fb00/src/main/java/com/android/tools/r8/ir/desugar/BackportedMethodRewriter.java#831
+      @SuppressWarnings("Java7ApiChecker")
+      String result = String.join(separator, toJoin);
+      return result;
+    }
     return join(parts.iterator());
   }
+
+  /*
+   * TODO: b/381289911 - Make the Iterator overload use StringJoiner (including Android or not)—or
+   * some other optimization, given that StringJoiner can over-allocate:
+   * https://bugs.openjdk.org/browse/JDK-8305774
+   */
+
+  // TODO: b/381289911 - Optimize MapJoiner similarly to Joiner (including Android or not).
 
   /**
    * Returns a string containing the string representation of each of {@code parts}, using the
@@ -268,6 +318,12 @@ public class Joiner {
    */
   public Joiner skipNulls() {
     return new Joiner(this) {
+      @Override
+      @SuppressWarnings("JoinIterableIterator") // suggests infinite recursion
+      public String join(Iterable<? extends @Nullable Object> parts) {
+        return join(parts.iterator());
+      }
+
       @Override
       public <A extends Appendable> A appendTo(
           A appendable, Iterator<? extends @Nullable Object> parts) throws IOException {
@@ -470,6 +526,7 @@ public class Joiner {
     }
   }
 
+  // TODO(cpovirk): Rename to "toCharSequence."
   CharSequence toString(@CheckForNull Object part) {
     /*
      * requireNonNull is not safe: Joiner.on(...).join(somethingThatContainsNull) will indeed throw.
@@ -514,5 +571,24 @@ public class Joiner {
         }
       }
     };
+  }
+
+  // cloned from ImmutableCollection
+  private static int expandedCapacity(int oldCapacity, int minCapacity) {
+    if (minCapacity < 0) {
+      throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE elements");
+    } else if (minCapacity <= oldCapacity) {
+      return oldCapacity;
+    }
+    // careful of overflow!
+    int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
+    if (newCapacity < minCapacity) {
+      newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
+    }
+    if (newCapacity < 0) {
+      newCapacity = Integer.MAX_VALUE;
+      // guaranteed to be >= newCapacity
+    }
+    return newCapacity;
   }
 }

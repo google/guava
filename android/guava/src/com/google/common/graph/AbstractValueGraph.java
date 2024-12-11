@@ -40,6 +40,8 @@ import javax.annotation.CheckForNull;
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
     implements ValueGraph<N, V> {
+  /** Constructor for use by subclasses. */
+  public AbstractValueGraph() {}
 
   @Override
   public Graph<N> asGraph() {

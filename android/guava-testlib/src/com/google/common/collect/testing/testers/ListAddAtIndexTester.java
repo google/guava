@@ -16,15 +16,17 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
@@ -39,9 +41,10 @@ import org.junit.Ignore;
  *
  * @author Chris Povirk
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
@@ -57,11 +60,7 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * throw regardless, but it keeps the method name accurate.
    */
   public void testAddAtIndex_unsupportedPresent() {
-    try {
-      getList().add(0, e0());
-      fail("add(n, present) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().add(0, e0()));
     expectUnchanged();
   }
 
@@ -74,23 +73,18 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(FAILS_FAST_ON_CONCURRENT_MODIFICATION)
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndexConcurrentWithIteration() {
-    try {
-      Iterator<E> iterator = collection.iterator();
-      getList().add(0, e3());
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<E> iterator = collection.iterator();
+          getList().add(0, e3());
+          iterator.next();
+        });
   }
 
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_unsupportedNotPresent() {
-    try {
-      getList().add(0, e3());
-      fail("add(n, notPresent) should throw");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> getList().add(0, e3()));
     expectUnchanged();
     expectMissing(e3());
   }
@@ -119,33 +113,21 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
   public void testAddAtIndex_nullUnsupported() {
-    try {
-      getList().add(0, null);
-      fail("add(n, null) should throw");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> getList().add(0, null));
     expectUnchanged();
     expectNullMissingWhenNullUnsupported("Should not contain null after unsupported add(n, null)");
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_negative() {
-    try {
-      getList().add(-1, e3());
-      fail("add(-1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().add(-1, e3()));
     expectUnchanged();
     expectMissing(e3());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAtIndex_tooLarge() {
-    try {
-      getList().add(getNumElements() + 1, e3());
-      fail("add(size + 1, e) should throw");
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(IndexOutOfBoundsException.class, () -> getList().add(getNumElements() + 1, e3()));
     expectUnchanged();
     expectMissing(e3());
   }
@@ -154,8 +136,9 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * Returns the {@link Method} instance for {@link #testAddAtIndex_nullSupported()} so that tests
    * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
-    return Helpers.getMethod(ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
+    return getMethod(ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
   }
 }

@@ -16,13 +16,15 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
@@ -36,7 +38,9 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
@@ -51,12 +55,11 @@ public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   public void testCreateWithNull_unsupported() {
     E[] array = createArrayWithNullElement();
 
-    try {
-      // TODO(kak): remove unused capture
-      Object unused = getSubjectGenerator().create(array);
-      fail("Creating a collection containing null should fail");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(
+        NullPointerException.class,
+        () -> {
+          Object unused = getSubjectGenerator().create(array);
+        });
   }
 
   /**
@@ -64,8 +67,9 @@ public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
    * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
+  @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getCreateWithNullUnsupportedMethod() {
-    return Helpers.getMethod(CollectionCreationTester.class, "testCreateWithNull_unsupported");
+    return getMethod(CollectionCreationTester.class, "testCreateWithNull_unsupported");
   }
 }

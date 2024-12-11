@@ -16,13 +16,21 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
+import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.collect.testing.Helpers.misleadingSizeCollection;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.nCopies;
+import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.MinimalIterable;
@@ -39,12 +47,12 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ImmutableList}.
@@ -54,8 +62,10 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableListTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -107,12 +117,12 @@ public class ImmutableListTest extends TestCase {
 
   public void testCreation_noArgs() {
     List<String> list = ImmutableList.of();
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCreation_oneElement() {
     List<String> list = ImmutableList.of("a");
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCreation_twoElements() {
@@ -190,19 +200,11 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCreation_singletonNull() {
-    try {
-      ImmutableList.of((String) null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableList.of((String) null));
   }
 
   public void testCreation_withNull() {
-    try {
-      ImmutableList.of("a", null, "b");
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableList.of("a", null, "b"));
   }
 
   public void testCreation_generic() {
@@ -214,49 +216,41 @@ public class ImmutableListTest extends TestCase {
   public void testCreation_arrayOfArray() {
     String[] array = new String[] {"a"};
     List<String[]> list = ImmutableList.<String[]>of(array);
-    assertEquals(Collections.singletonList(array), list);
+    assertEquals(singletonList(array), list);
   }
 
   public void testCopyOf_emptyArray() {
     String[] array = new String[0];
     List<String> list = ImmutableList.copyOf(array);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_arrayOfOneElement() {
     String[] array = new String[] {"a"};
     List<String> list = ImmutableList.copyOf(array);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_nullArray() {
-    try {
-      ImmutableList.copyOf((String[]) null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableList.copyOf((String[]) null));
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
-    String[] array = new String[] {null};
-    try {
-      ImmutableList.copyOf(array);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    @Nullable String[] array = new @Nullable String[] {null};
+    assertThrows(NullPointerException.class, () -> ImmutableList.copyOf((String[]) array));
   }
 
   public void testCopyOf_collection_empty() {
     // "<String>" is required to work around a javac 1.5 bug.
     Collection<String> c = MinimalCollection.<String>of();
     List<String> list = ImmutableList.copyOf(c);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_collection_oneElement() {
     Collection<String> c = MinimalCollection.of("a");
     List<String> list = ImmutableList.copyOf(c);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_collection_general() {
@@ -270,24 +264,20 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_collectionContainingNull() {
-    Collection<String> c = MinimalCollection.of("a", null, "b");
-    try {
-      ImmutableList.copyOf(c);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
+    assertThrows(NullPointerException.class, () -> ImmutableList.copyOf((Collection<String>) c));
   }
 
   public void testCopyOf_iterator_empty() {
-    Iterator<String> iterator = Iterators.emptyIterator();
+    Iterator<String> iterator = emptyIterator();
     List<String> list = ImmutableList.copyOf(iterator);
-    assertEquals(Collections.emptyList(), list);
+    assertEquals(emptyList(), list);
   }
 
   public void testCopyOf_iterator_oneElement() {
-    Iterator<String> iterator = Iterators.singletonIterator("a");
+    Iterator<String> iterator = singletonIterator("a");
     List<String> list = ImmutableList.copyOf(iterator);
-    assertEquals(Collections.singletonList("a"), list);
+    assertEquals(singletonList("a"), list);
   }
 
   public void testCopyOf_iterator_general() {
@@ -297,27 +287,21 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_iteratorContainingNull() {
-    Iterator<String> iterator = asList("a", null, "b").iterator();
-    try {
-      ImmutableList.copyOf(iterator);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    Iterator<@Nullable String> iterator =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
+    assertThrows(
+        NullPointerException.class, () -> ImmutableList.copyOf((Iterator<String>) iterator));
   }
 
   public void testCopyOf_iteratorNull() {
-    try {
-      ImmutableList.copyOf((Iterator<String>) null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> ImmutableList.copyOf((Iterator<String>) null));
   }
 
   public void testCopyOf_concurrentlyMutating() {
     List<String> sample = Lists.newArrayList("a", "b", "c");
     for (int delta : new int[] {-1, 0, 1}) {
       for (int i = 0; i < sample.size(); i++) {
-        Collection<String> misleading = Helpers.misleadingSizeCollection(delta);
+        Collection<String> misleading = misleadingSizeCollection(delta);
         List<String> expected = sample.subList(0, i);
         misleading.addAll(expected);
         assertEquals(expected, ImmutableList.copyOf(misleading));
@@ -364,13 +348,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testBuilderAddArrayHandlesNulls() {
-    String[] elements = {"a", null, "b"};
+    @Nullable String[] elements = new @Nullable String[] {"a", null, "b"};
     ImmutableList.Builder<String> builder = ImmutableList.builder();
-    try {
-      builder.add(elements);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.add((String[]) elements));
     ImmutableList<String> result = builder.build();
 
     /*
@@ -385,13 +365,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testBuilderAddCollectionHandlesNulls() {
-    List<String> elements = Arrays.asList("a", null, "b");
+    List<@Nullable String> elements = asList("a", null, "b");
     ImmutableList.Builder<String> builder = ImmutableList.builder();
-    try {
-      builder.addAll(elements);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) elements));
     ImmutableList<String> result = builder.build();
     assertEquals(ImmutableList.of("a"), result);
     assertEquals(1, result.size());
@@ -416,12 +392,9 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testSortedCopyOf_natural_containsNull() {
-    Collection<Integer> c = MinimalCollection.of(1, 3, null, 2);
-    try {
-      ImmutableList.sortedCopyOf(c);
-      fail("Expected NPE");
-    } catch (NullPointerException expected) {
-    }
+    Collection<@Nullable Integer> c = MinimalCollection.of(1, 3, null, 2);
+    assertThrows(
+        NullPointerException.class, () -> ImmutableList.sortedCopyOf((Collection<Integer>) c));
   }
 
   public void testSortedCopyOf() {
@@ -443,12 +416,10 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testSortedCopyOf_containsNull() {
-    Collection<String> c = MinimalCollection.of("a", "b", "A", null, "c");
-    try {
-      ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
-      fail("Expected NPE");
-    } catch (NullPointerException expected) {
-    }
+    Collection<@Nullable String> c = MinimalCollection.of("a", "b", "A", null, "c");
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, (Collection<String>) c));
   }
 
   // TODO(b/172823566): Use mainline testToImmutableList once CollectorTester is usable to java7.
@@ -461,26 +432,29 @@ public class ImmutableListTest extends TestCase {
 
   // Basic tests
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  @AndroidIncompatible // see ImmutableTableTest.testNullPointerInstance
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableList.class);
     tester.testAllPublicInstanceMethods(ImmutableList.of(1, 2, 3));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableList.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_singleton() {
     Collection<String> c = ImmutableList.of("a");
     SerializableTester.reserializeAndAssert(c);
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableList.of("a", "b", "c");
@@ -584,60 +558,43 @@ public class ImmutableListTest extends TestCase {
 
   public void testBuilderAddHandlesNullsCorrectly() {
     ImmutableList.Builder<String> builder = ImmutableList.builder();
-    try {
-      builder.add((String) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.add((String) null));
 
-    try {
-      builder.add((String[]) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.add((String[]) null));
 
-    try {
-      builder.add("a", null, "b");
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
+    assertThrows(NullPointerException.class, () -> builder.add("a", null, "b"));
   }
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
+    {
     ImmutableList.Builder<String> builder = ImmutableList.builder();
-    try {
-      builder.addAll((Iterable<String>) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+      assertThrows(NullPointerException.class, () -> builder.addAll((Iterable<String>) null));
     }
 
-    try {
-      builder.addAll((Iterator<String>) null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+      assertThrows(NullPointerException.class, () -> builder.addAll((Iterator<String>) null));
     }
 
-    builder = ImmutableList.builder();
-    List<String> listWithNulls = asList("a", null, "b");
-    try {
-      builder.addAll(listWithNulls);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+    List<@Nullable String> listWithNulls = asList("a", null, "b");
+      assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
     }
 
-    builder = ImmutableList.builder();
-    Iterator<String> iteratorWithNulls = asList("a", null, "b").iterator();
-    try {
-      builder.addAll(iteratorWithNulls);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+    Iterator<@Nullable String> iteratorWithNulls =
+        Arrays.<@Nullable String>asList("a", null, "b").iterator();
+      assertThrows(
+          NullPointerException.class, () -> builder.addAll((Iterator<String>) iteratorWithNulls));
     }
 
-    Iterable<String> iterableWithNulls = MinimalIterable.of("a", null, "b");
-    try {
-      builder.addAll(iterableWithNulls);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
+    {
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+      assertThrows(
+          NullPointerException.class, () -> builder.addAll((Iterable<String>) iterableWithNulls));
     }
   }
 
@@ -656,5 +613,22 @@ public class ImmutableListTest extends TestCase {
     RegularImmutableList<String> list = (RegularImmutableList<String>) builder.build();
     builder.add("baz");
     assertTrue(list.array != builder.contents);
+  }
+
+  @SuppressWarnings("ModifiedButNotUsed")
+  @GwtIncompatible // actually allocates nCopies
+  @J2ktIncompatible // actually allocates nCopies
+  public void testAddOverflowCollection() {
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    for (int i = 0; i < 100; i++) {
+      builder.add("a");
+    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> builder.addAll(nCopies(Integer.MAX_VALUE - 50, "a")));
+    assertThat(expected)
+        .hasMessageThat()
+        .contains("cannot store more than Integer.MAX_VALUE elements");
   }
 }

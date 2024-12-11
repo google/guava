@@ -16,8 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.sort;
+
 import com.google.common.annotations.GwtCompatible;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -28,6 +29,7 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenerator {
   @Override
   protected abstract SortedSet<Integer> create(Integer[] elements);
@@ -35,7 +37,7 @@ public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenera
   /** Sorts the elements by their natural ordering. */
   @Override
   public List<Integer> order(List<Integer> insertionOrder) {
-    Collections.sort(insertionOrder);
+    sort(insertionOrder);
     return insertionOrder;
   }
 }

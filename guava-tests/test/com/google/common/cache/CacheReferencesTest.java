@@ -17,6 +17,7 @@ package com.google.common.cache;
 import static com.google.common.cache.LocalCache.Strength.STRONG;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.max;
 
 import com.google.common.base.Function;
 import com.google.common.cache.LocalCache.Strength;
@@ -120,7 +121,7 @@ public class CacheReferencesTest extends TestCase {
     }
   }
 
-  // fails in Maven with 64-bit JDK: http://code.google.com/p/guava-libraries/issues/detail?id=1568
+  // fails in Maven with 64-bit JDK: https://github.com/google/guava/issues/1568
 
   private void assertCleanup(
       LoadingCache<Integer, String> cache,
@@ -147,7 +148,7 @@ public class CacheReferencesTest extends TestCase {
       }
       try {
         // Fill up heap so soft references get cleared.
-        filler = new byte[Math.max(filler.length, filler.length * 2)];
+        filler = new byte[max(filler.length, filler.length * 2)];
       } catch (OutOfMemoryError e) {
       }
     }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Static methods pertaining to ASCII characters (those in the range of values {@code 0x00} through
@@ -27,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * <ul>
  *   <!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? -->
- *   <li>{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
+ *   <li>{@link StandardCharsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
  *   <li>{@link CharMatcher#ascii} matches ASCII characters and provides text processing methods
  *       which operate only on the ASCII characters of a string.
  * </ul>

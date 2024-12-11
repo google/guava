@@ -16,25 +16,26 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableList;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.LinkedHashMultiset;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A series of tests that support asserting that collections cannot be modified, either through
@@ -43,11 +44,15 @@ import java.util.Set;
  * @author Robert Konigsberg
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class UnmodifiableCollectionTests {
 
   public static void assertMapEntryIsUnmodifiable(Entry<?, ?> entry) {
     try {
-      entry.setValue(null);
+      // fine because the call is going to fail without modifying the entry
+      @SuppressWarnings("unchecked")
+      Entry<?, @Nullable Object> nullableValueEntry = (Entry<?, @Nullable Object>) entry;
+      nullableValueEntry.setValue(null);
       fail("setValue on unmodifiable Map.Entry succeeded");
     } catch (UnsupportedOperationException expected) {
     }
@@ -109,14 +114,13 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code collection}.
    *     {@code collection} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertCollectionIsUnmodifiable(Collection<E> collection, E sampleElement) {
+  public static <E extends @Nullable Object> void assertCollectionIsUnmodifiable(
+      Collection<E> collection, E sampleElement) {
     Collection<E> siblingCollection = new ArrayList<>();
     siblingCollection.add(sampleElement);
 
     Collection<E> copy = new ArrayList<>();
-    // Avoid copy.addAll(collection), which runs afoul of an Android bug in older versions:
-    // http://b.android.com/72073 http://r.android.com/98929
-    Iterators.addAll(copy, collection.iterator());
+    copy.addAll(collection);
 
     try {
       collection.add(sampleElement);
@@ -181,7 +185,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code set}. {@code set}
    *     may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertSetIsUnmodifiable(Set<E> set, E sampleElement) {
+  public static <E extends @Nullable Object> void assertSetIsUnmodifiable(
+      Set<E> set, E sampleElement) {
     assertCollectionIsUnmodifiable(set, sampleElement);
   }
 
@@ -201,7 +206,8 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code multiset}. {@code
    *     multiset} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, E sampleElement) {
+  public static <E extends @Nullable Object> void assertMultisetIsUnmodifiable(
+      Multiset<E> multiset, E sampleElement) {
     Multiset<E> copy = LinkedHashMultiset.create(multiset);
     assertCollectionsAreEquivalent(multiset, copy);
 
@@ -268,14 +274,13 @@ public class UnmodifiableCollectionTests {
    * @param sampleValue a key of the same type as that contained by {@code multimap}. {@code
    *     multimap} may or may not have {@code sampleValue} as a key.
    */
-  public static <K, V> void assertMultimapIsUnmodifiable(
-      Multimap<K, V> multimap, K sampleKey, V sampleValue) {
-    List<Entry<K, V>> originalEntries =
-        Collections.unmodifiableList(Lists.newArrayList(multimap.entries()));
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      void assertMultimapIsUnmodifiable(Multimap<K, V> multimap, K sampleKey, V sampleValue) {
+    List<Entry<K, V>> originalEntries = unmodifiableList(Lists.newArrayList(multimap.entries()));
 
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 
-    Collection<V> sampleValueAsCollection = Collections.singleton(sampleValue);
+    Collection<V> sampleValueAsCollection = singleton(sampleValue);
 
     // Test #clear()
     try {
@@ -288,7 +293,7 @@ public class UnmodifiableCollectionTests {
 
     // Test asMap().entrySet()
     assertSetIsUnmodifiable(
-        multimap.asMap().entrySet(), Maps.immutableEntry(sampleKey, sampleValueAsCollection));
+        multimap.asMap().entrySet(), immutableEntry(sampleKey, sampleValueAsCollection));
 
     // Test #values()
 
@@ -300,7 +305,7 @@ public class UnmodifiableCollectionTests {
     }
 
     // Test #entries()
-    assertCollectionIsUnmodifiable(multimap.entries(), Maps.immutableEntry(sampleKey, sampleValue));
+    assertCollectionIsUnmodifiable(multimap.entries(), immutableEntry(sampleKey, sampleValue));
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 
     // Iterate over every element in the entry set
@@ -408,13 +413,13 @@ public class UnmodifiableCollectionTests {
     assertMultimapRemainsUnmodified(multimap, originalEntries);
   }
 
-  private static <E> void assertCollectionsAreEquivalent(
+  private static <E extends @Nullable Object> void assertCollectionsAreEquivalent(
       Collection<E> expected, Collection<E> actual) {
     assertIteratorsInOrder(expected.iterator(), actual.iterator());
   }
 
-  private static <K, V> void assertMultimapRemainsUnmodified(
-      Multimap<K, V> expected, List<Entry<K, V>> actual) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      void assertMultimapRemainsUnmodified(Multimap<K, V> expected, List<Entry<K, V>> actual) {
     assertIteratorsInOrder(expected.entries().iterator(), actual.iterator());
   }
 }

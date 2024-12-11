@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.not;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -87,8 +88,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
         multimap.unfiltered().entries(),
         // explicit <Entry<K, V>> is required to build with JDK6
         Predicates.<Entry<K, V>>and(
-            multimap.entryPredicate(),
-            Maps.<V>valuePredicateOnEntries(Predicates.not(Predicates.in(c)))));
+            multimap.entryPredicate(), Maps.<V>valuePredicateOnEntries(not(Predicates.in(c)))));
   }
 
   @Override

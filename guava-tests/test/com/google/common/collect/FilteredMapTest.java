@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class FilteredMapTest extends AbstractFilteredMapTest {
   @Override
   Map<String, Integer> createUnfiltered() {

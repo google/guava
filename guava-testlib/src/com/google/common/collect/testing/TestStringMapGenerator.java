@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.List;
 import java.util.Map;
@@ -29,22 +31,23 @@ import java.util.Map.Entry;
  * @author George van den Driessche
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TestStringMapGenerator implements TestMapGenerator<String, String> {
 
   @Override
   public SampleElements<Entry<String, String>> samples() {
     return new SampleElements<>(
-        Helpers.mapEntry("one", "January"),
-        Helpers.mapEntry("two", "February"),
-        Helpers.mapEntry("three", "March"),
-        Helpers.mapEntry("four", "April"),
-        Helpers.mapEntry("five", "May"));
+        mapEntry("one", "January"),
+        mapEntry("two", "February"),
+        mapEntry("three", "March"),
+        mapEntry("four", "April"),
+        mapEntry("five", "May"));
   }
 
   @Override
   public Map<String, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
-    Entry<String, String>[] array = new Entry[entries.length];
+    Entry<String, String>[] array = (Entry<String, String>[]) new Entry<?, ?>[entries.length];
     int i = 0;
     for (Object o : entries) {
       @SuppressWarnings("unchecked")
@@ -59,7 +62,7 @@ public abstract class TestStringMapGenerator implements TestMapGenerator<String,
   @Override
   @SuppressWarnings("unchecked")
   public final Entry<String, String>[] createArray(int length) {
-    return new Entry[length];
+    return (Entry<String, String>[]) new Entry<?, ?>[length];
   }
 
   @Override

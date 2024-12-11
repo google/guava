@@ -18,8 +18,10 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.murmur3_32;
 import static com.google.common.hash.Hashing.murmur3_32_fixed;
+import static java.nio.charset.StandardCharsets.UTF_16;
+import static java.nio.charset.StandardCharsets.UTF_16LE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Charsets;
 import com.google.common.hash.HashTestUtils.HashFn;
 import java.nio.charset.Charset;
 import java.util.Random;
@@ -55,25 +57,25 @@ public class Murmur3Hash32Test extends TestCase {
 
   @SuppressWarnings("deprecation")
   public void testKnownEncodedStringInputs() {
-    assertStringHash(0, "", Charsets.UTF_8);
-    assertStringHash(0xcfbda5d1, "k", Charsets.UTF_8);
-    assertStringHash(0xa167dbf3, "hell", Charsets.UTF_8);
-    assertStringHash(0x248bfa47, "hello", Charsets.UTF_8);
-    assertStringHash(0x3d41b97c, "http://www.google.com/", Charsets.UTF_8);
-    assertStringHash(0x2e4ff723, "The quick brown fox jumps over the lazy dog", Charsets.UTF_8);
-    assertStringHash(0xb5a4be05, "ABCDefGHI\u0799", Charsets.UTF_8);
-    assertStringHash(0xfc5ba834, "毎月１日,毎週月曜日", Charsets.UTF_8);
-    assertStringHash(0x8a5c3699, "surrogate pair: \uD83D\uDCB0", Charsets.UTF_8);
+    assertStringHash(0, "", UTF_8);
+    assertStringHash(0xcfbda5d1, "k", UTF_8);
+    assertStringHash(0xa167dbf3, "hell", UTF_8);
+    assertStringHash(0x248bfa47, "hello", UTF_8);
+    assertStringHash(0x3d41b97c, "http://www.google.com/", UTF_8);
+    assertStringHash(0x2e4ff723, "The quick brown fox jumps over the lazy dog", UTF_8);
+    assertStringHash(0xb5a4be05, "ABCDefGHI\u0799", UTF_8);
+    assertStringHash(0xfc5ba834, "毎月１日,毎週月曜日", UTF_8);
+    assertStringHash(0x8a5c3699, "surrogate pair: \uD83D\uDCB0", UTF_8);
 
-    assertStringHash(0, "", Charsets.UTF_16LE);
-    assertStringHash(0x288418e4, "k", Charsets.UTF_16LE);
-    assertStringHash(0x5a0cb7c3, "hell", Charsets.UTF_16LE);
-    assertStringHash(0xd7c31989, "hello", Charsets.UTF_16LE);
-    assertStringHash(0x73564d8c, "http://www.google.com/", Charsets.UTF_16LE);
-    assertStringHash(0xe07db09c, "The quick brown fox jumps over the lazy dog", Charsets.UTF_16LE);
-    assertStringHash(0xfefa3e76, "ABCDefGHI\u0799", Charsets.UTF_16LE);
-    assertStringHash(0x6a7be132, "毎月１日,毎週月曜日", Charsets.UTF_16LE);
-    assertStringHash(0x5a2d41c7, "surrogate pair: \uD83D\uDCB0", Charsets.UTF_16LE);
+    assertStringHash(0, "", UTF_16LE);
+    assertStringHash(0x288418e4, "k", UTF_16LE);
+    assertStringHash(0x5a0cb7c3, "hell", UTF_16LE);
+    assertStringHash(0xd7c31989, "hello", UTF_16LE);
+    assertStringHash(0x73564d8c, "http://www.google.com/", UTF_16LE);
+    assertStringHash(0xe07db09c, "The quick brown fox jumps over the lazy dog", UTF_16LE);
+    assertStringHash(0xfefa3e76, "ABCDefGHI\u0799", UTF_16LE);
+    assertStringHash(0x6a7be132, "毎月１日,毎週月曜日", UTF_16LE);
+    assertStringHash(0x5a2d41c7, "surrogate pair: \uD83D\uDCB0", UTF_16LE);
   }
 
   @SuppressWarnings("deprecation")
@@ -105,15 +107,14 @@ public class Murmur3Hash32Test extends TestCase {
   @SuppressWarnings("deprecation")
   public void testSimpleStringUtf8() {
     assertEquals(
-        murmur3_32().hashBytes("ABCDefGHI\u0799".getBytes(Charsets.UTF_8)),
-        murmur3_32().hashString("ABCDefGHI\u0799", Charsets.UTF_8));
+        murmur3_32().hashBytes("ABCDefGHI\u0799".getBytes(UTF_8)),
+        murmur3_32().hashString("ABCDefGHI\u0799", UTF_8));
   }
 
   @SuppressWarnings("deprecation")
   public void testEncodedStringInputs() {
     Random rng = new Random(0);
     for (int z = 0; z < 100; z++) {
-      String str;
       int[] codePoints = new int[rng.nextInt(8)];
       for (int i = 0; i < codePoints.length; i++) {
         do {
@@ -126,17 +127,15 @@ public class Murmur3Hash32Test extends TestCase {
       for (int i = 0; i < codePoints.length; i++) {
         builder.appendCodePoint(codePoints[i]);
       }
-      str = builder.toString();
-      HashCode hashUtf8 = murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8));
-      assertEquals(
-          hashUtf8, murmur3_32().newHasher().putBytes(str.getBytes(Charsets.UTF_8)).hash());
-      assertEquals(hashUtf8, murmur3_32().hashString(str, Charsets.UTF_8));
-      assertEquals(hashUtf8, murmur3_32().newHasher().putString(str, Charsets.UTF_8).hash());
-      HashCode hashUtf16 = murmur3_32().hashBytes(str.getBytes(Charsets.UTF_16));
-      assertEquals(
-          hashUtf16, murmur3_32().newHasher().putBytes(str.getBytes(Charsets.UTF_16)).hash());
-      assertEquals(hashUtf16, murmur3_32().hashString(str, Charsets.UTF_16));
-      assertEquals(hashUtf16, murmur3_32().newHasher().putString(str, Charsets.UTF_16).hash());
+      String str = builder.toString();
+      HashCode hashUtf8 = murmur3_32().hashBytes(str.getBytes(UTF_8));
+      assertEquals(hashUtf8, murmur3_32().newHasher().putBytes(str.getBytes(UTF_8)).hash());
+      assertEquals(hashUtf8, murmur3_32().hashString(str, UTF_8));
+      assertEquals(hashUtf8, murmur3_32().newHasher().putString(str, UTF_8).hash());
+      HashCode hashUtf16 = murmur3_32().hashBytes(str.getBytes(UTF_16));
+      assertEquals(hashUtf16, murmur3_32().newHasher().putBytes(str.getBytes(UTF_16)).hash());
+      assertEquals(hashUtf16, murmur3_32().hashString(str, UTF_16));
+      assertEquals(hashUtf16, murmur3_32().newHasher().putString(str, UTF_16).hash());
     }
   }
 
@@ -181,12 +180,9 @@ public class Murmur3Hash32Test extends TestCase {
     String str =
         new String(
             new char[] {'a', Character.MIN_HIGH_SURROGATE, Character.MIN_HIGH_SURROGATE, 'z'});
+    assertEquals(murmur3_32().hashBytes(str.getBytes(UTF_8)), murmur3_32().hashString(str, UTF_8));
     assertEquals(
-        murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
-        murmur3_32().hashString(str, Charsets.UTF_8));
-    assertEquals(
-        murmur3_32_fixed().hashBytes(str.getBytes(Charsets.UTF_8)),
-        murmur3_32().hashString(str, Charsets.UTF_8));
+        murmur3_32_fixed().hashBytes(str.getBytes(UTF_8)), murmur3_32().hashString(str, UTF_8));
   }
 
   @SuppressWarnings("deprecation")
@@ -195,10 +191,10 @@ public class Murmur3Hash32Test extends TestCase {
         new String(
             new char[] {'a', Character.MIN_HIGH_SURROGATE, Character.MIN_HIGH_SURROGATE, 'z'});
     assertEquals(
-        murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
-        murmur3_32().newHasher().putString(str, Charsets.UTF_8).hash());
+        murmur3_32().hashBytes(str.getBytes(UTF_8)),
+        murmur3_32().newHasher().putString(str, UTF_8).hash());
     assertEquals(
-        murmur3_32_fixed().hashBytes(str.getBytes(Charsets.UTF_8)),
-        murmur3_32_fixed().newHasher().putString(str, Charsets.UTF_8).hash());
+        murmur3_32_fixed().hashBytes(str.getBytes(UTF_8)),
+        murmur3_32_fixed().newHasher().putString(str, UTF_8).hash());
   }
 }
