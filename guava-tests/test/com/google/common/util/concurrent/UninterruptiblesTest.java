@@ -22,6 +22,8 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.offerUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.pollUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterruptibly;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -36,6 +38,7 @@ import com.google.common.testing.TearDownStack;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -217,6 +220,51 @@ public class UninterruptiblesTest extends TestCase {
     TimedPutQueue queue = TimedPutQueue.createWithDelay(20);
     queue.putSuccessfully();
     assertNotInterrupted();
+  }
+
+  public void testOfferNoInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    boolean offered = offerUninterruptibly(queue, "", LONG_DELAY_MS, MILLISECONDS);
+    assertTrue(offered);
+  }
+
+  public void testOfferSingleInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    requestInterruptIn(10);
+    offerUninterruptibly(queue, "", 100, MILLISECONDS);
+    assertInterrupted();
+  }
+
+  public void testOfferMultiInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    repeatedlyInterruptTestThread(20, tearDownStack);
+    offerUninterruptibly(queue, "", 100, MILLISECONDS);
+    assertInterrupted();
+  }
+
+  public void testPollNoInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    putUninterruptibly(queue, "");
+    String element = pollUninterruptibly(queue, 200, MILLISECONDS);
+    assertTrue(Objects.nonNull(element));
+  }
+
+  public void testPollSingleInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    requestInterruptIn(10);
+    putUninterruptibly(queue, "");
+    String element = pollUninterruptibly(queue, 200, MILLISECONDS);
+    assertTrue(Objects.nonNull(element));
+    assertInterrupted();
+  }
+
+  public void testPollMultiInterrupt() {
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
+    repeatedlyInterruptTestThread(20, tearDownStack);
+    putUninterruptibly(queue, "");
+    String element = pollUninterruptibly(queue, 200, MILLISECONDS);
+    assertTrue(Objects.nonNull(element));
+    assertInterrupted();
   }
 
   public void testPutSingleInterrupt() {
