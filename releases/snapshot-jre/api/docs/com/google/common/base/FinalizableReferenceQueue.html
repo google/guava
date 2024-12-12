@@ -137,11 +137,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.92">FinalizableReferenceQueue</a>
+public class <a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.139">FinalizableReferenceQueue</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></pre>
 <div class="block">A reference queue with an associated background thread that dequeues references and invokes
- <a href="FinalizableReference.html#finalizeReferent()"><code>FinalizableReference.finalizeReferent()</code></a> on them.
+ <a href="FinalizableReference.html#finalizeReferent()"><code>FinalizableReference.finalizeReferent()</code></a> on them. Java 9+ users should prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ref/Cleaner.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>Cleaner</code></a>; see example <a href="#cleaner">below</a>.
 
  <p>Keep a strong reference to this object until all of the associated referents have been
  finalized. If this object is garbage collected earlier, the backing thread will not invoke <code>
@@ -153,12 +153,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/C
  its <code>close</code> method. You <em>could</em> use a finalizer to accomplish this, but that has a
  number of well-known problems. Here is how you might use this class instead:
 
- <pre><code>
+ <pre>{@code
  public class MyServer implements Closeable {
    private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
    // You might also share this between several objects.
 
-   private static final Set&lt;Reference&lt;?&gt;&gt; references = Sets.newConcurrentHashSet();
+   private static final Set<Reference<?>> references = Sets.newConcurrentHashSet();
    // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
 
    private final ServerSocket serverSocket;
@@ -171,29 +171,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/C
 
    public static MyServer create(...) {
      MyServer myServer = new MyServer(...);
-     final ServerSocket serverSocket = myServer.serverSocket;
-     Reference&lt;?&gt; reference = new FinalizablePhantomReference&lt;MyServer&gt;(myServer, frq) {
-       public void finalizeReferent() {
-         references.remove(this):
-         if (!serverSocket.isClosed()) {
-           ...log a message about how nobody called close()...
-           try {
-             serverSocket.close();
-           } catch (IOException e) {
-             ...
-           }
-         }
-       }
-     };
-     references.add(reference);
-     return myServer;
-   }
-
-   public void close() {
-     serverSocket.close();
-   }
- }
- </code></pre></div>
+     ServerSocket serverSocket = myServer.serverSocket;
+     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -278,7 +257,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/C
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FinalizableReferenceQueue</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.158">FinalizableReferenceQueue</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.205">FinalizableReferenceQueue</a>()</pre>
 <div class="block">Constructs a new queue.</div>
 </li>
 </ul>
@@ -298,7 +277,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/C
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.179">close</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.226">close</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
