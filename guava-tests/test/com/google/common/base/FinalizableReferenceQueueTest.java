@@ -25,6 +25,8 @@ import com.google.common.testing.GcFinalization;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.ref.Cleaner;
+import java.lang.ref.Cleaner.Cleanable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -218,6 +220,57 @@ public class FinalizableReferenceQueueTest {
     AtomicBoolean finalizeReferentRan = new AtomicBoolean(false);
     ServerSocket serverSocket = makeMyServerExampleWithFrq(finalizeReferentRan);
     GcFinalization.awaitDone(finalizeReferentRan::get);
+    assertThat(serverSocket.isClosed()).isTrue();
+  }
+
+  @SuppressWarnings("Java8ApiChecker")
+  static class MyServerExampleWithCleaner implements AutoCloseable {
+    private static final Cleaner cleaner = Cleaner.create();
+
+    private static Runnable closeServerSocketRunnable(
+        ServerSocket serverSocket, AtomicBoolean cleanerRan) {
+      return () -> {
+        cleanerRan.set(true);
+        try {
+          serverSocket.close();
+        } catch (IOException e) {
+          throw new UncheckedIOException(e);
+        }
+      };
+    }
+
+    private final ServerSocket serverSocket;
+    private final Cleanable cleanable;
+
+    MyServerExampleWithCleaner(AtomicBoolean cleanerRan) throws IOException {
+      this.serverSocket = new ServerSocket(0);
+      this.cleanable = cleaner.register(this, closeServerSocketRunnable(serverSocket, cleanerRan));
+    }
+
+    @Override
+    public void close() {
+      cleanable.clean();
+    }
+  }
+
+  @SuppressWarnings("Java8ApiChecker")
+  private ServerSocket makeMyServerExampleWithCleaner(AtomicBoolean cleanerRan) throws IOException {
+    MyServerExampleWithCleaner myServer = new MyServerExampleWithCleaner(cleanerRan);
+    assertThat(myServer.serverSocket.isClosed()).isFalse();
+    return myServer.serverSocket;
+  }
+
+  @SuppressWarnings("Java8ApiChecker")
+  @Test
+  public void testMyServerExampleWithCleaner() throws Exception {
+    try {
+      Class.forName("java.lang.ref.Cleaner");
+    } catch (ClassNotFoundException beforeJava9) {
+      return;
+    }
+    AtomicBoolean cleanerRan = new AtomicBoolean(false);
+    ServerSocket serverSocket = makeMyServerExampleWithCleaner(cleanerRan);
+    GcFinalization.awaitDone(cleanerRan::get);
     assertThat(serverSocket.isClosed()).isTrue();
   }
 }
