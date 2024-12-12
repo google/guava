@@ -670,6 +670,7 @@ public abstract class BaseEncoding {
             int charIndex = (bitBuffer << (alphabet.bitsPerChar - bitBufferLength)) & alphabet.mask;
             out.write(alphabet.encode(charIndex));
             writtenChars++;
+            bitBufferLength = 0;
             if (paddingChar != null) {
               while (writtenChars % alphabet.charsPerChunk != 0) {
                 out.write(paddingChar.charValue());

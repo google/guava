@@ -558,6 +558,19 @@ public class BaseEncodingTest extends TestCase {
     assertThat(writer.toString()).isEqualTo(encoded);
   }
 
+  public void testStreamingEncodingIdempotency()
+      throws IOException {
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = base64().encodingStream(writer);
+    encodingStream.write(0);
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
+    // Close again and ensure nothing happens.
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
+  }
+
+
   @GwtIncompatible // Reader
   private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
