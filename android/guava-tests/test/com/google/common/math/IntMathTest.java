@@ -690,6 +690,33 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  public void testMultifactorialBasic() {
+    assertEquals(105, IntMath.multiFactorial(7, 2)); // 7 * 5 * 3 * 1
+    assertEquals(28, IntMath.multiFactorial(7, 3));  // 7 * 4 * 1
+    assertEquals(1, IntMath.multiFactorial(0, 1));          // Base case
+    assertEquals(1, IntMath.multiFactorial(1, 1));          // 1!
+  }
+
+  public void testMultifactorialWithIncrementOne() {
+    assertEquals(120, IntMath.multiFactorial(5, 1)); // 5 * 4 * 3 * 2 * 1
+  }
+
+  public void testMultifactorialNegativeIncrement() {
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      IntMath.multiFactorial(5, -1);
+    });
+    assertEquals("Step value k must be a positive integer.", exception.getMessage());
+  }
+
+  public void testMultifactorialWithLargeNumber() {
+    assertEquals(3628800, IntMath.multiFactorial(10, 1));
+  }
+
+  public void testMultifactorialWithLargeInput() {
+    int result = IntMath.multiFactorial(100, 10);
+    assertTrue(result > 0); // Result should be positive
+  }
+
   private static int force32(int value) {
     // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
     return value & 0xffffffff;

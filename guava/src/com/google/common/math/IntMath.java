@@ -718,5 +718,29 @@ public final class IntMath {
     return LongMath.isPrime(n);
   }
 
+  /**
+   * Computes the multifactorial of a given non-negative integer {@code n}
+   * with a specified step {@code k}. The multifactorial is defined as the
+   * product of all integers from {@code n} down to 1, decrementing by {@code k}.
+   *
+   * @param n the non-negative integer for which to compute the multifactorial
+   * @param k the step value (must be a positive integer)
+   * @return the computed multifactorial of {@code n} with step {@code k}
+   * @throws IllegalArgumentException if {@code k} is less than or equal to 0
+   */
+  public static int multiFactorial(int n, int k) {
+    if (k <= 0) {
+      throw new IllegalArgumentException("Step value k must be a positive integer.");
+    }
+    if (n <= 0) {
+      return 1; // Base case for n <= 0
+    }
+    int result = 1;
+    for (int i = n; i > 0; i -= k) {
+      result *= i;
+    }
+    return result;
+  }
+
   private IntMath() {}
 }
