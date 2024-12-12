@@ -110,18 +110,34 @@ public final class Suppliers {
    * <p>If {@code delegate} is an instance created by an earlier call to {@code memoize}, it is
    * returned directly.
    */
-  public static <T extends @Nullable Object> Supplier<T> memoize(Supplier<T> delegate) {
+  public static <T extends @Nullable Object> MemoizingSupplier<T> memoize(Supplier<T> delegate) {
     if (delegate instanceof NonSerializableMemoizingSupplier
-        || delegate instanceof MemoizingSupplier) {
-      return delegate;
+        || delegate instanceof SerializableMemoizingSupplier) {
+      return (MemoizingSupplier<T>) delegate;
     }
     return delegate instanceof Serializable
-        ? new MemoizingSupplier<T>(delegate)
+        ? new SerializableMemoizingSupplier<T>(delegate)
         : new NonSerializableMemoizingSupplier<T>(delegate);
   }
 
+  /**
+   * A supplier that memoizes the result of the first call to {@link #get()} and returns the same
+   * result on subsequent calls to {@link #get()}.
+   *
+   * @author Alexey Pelykh
+   */
+  @ElementTypesAreNonnullByDefault
+  public interface MemoizingSupplier<T extends @Nullable Object> extends Supplier<T> {
+    /**
+     * Returns {@code true} if the supplier has been initialized, i.e. if the first call to
+     * {@link #get()} has been made or if the supplier has been explicitly initialized.
+     */
+    boolean isMemoized();
+  }
+
   @VisibleForTesting
-  static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
+  static class SerializableMemoizingSupplier<T extends @Nullable Object>
+      implements MemoizingSupplier<T>, Serializable {
     private transient Object lock = new Object();
 
     final Supplier<T> delegate;
@@ -130,7 +146,7 @@ public final class Suppliers {
     // on volatile read of "initialized".
     @CheckForNull transient T value;
 
-    MemoizingSupplier(Supplier<T> delegate) {
+    SerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 
@@ -155,6 +171,11 @@ public final class Suppliers {
     }
 
     @Override
+    public boolean isMemoized() {
+      return initialized;
+    }
+
+    @Override
     public String toString() {
       return "Suppliers.memoize("
           + (initialized ? "<supplier that returned " + value + ">" : delegate)
@@ -172,7 +193,8 @@ public final class Suppliers {
   }
 
   @VisibleForTesting
-  static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+  static class NonSerializableMemoizingSupplier<T extends @Nullable Object>
+      implements MemoizingSupplier<T> {
     private final Object lock = new Object();
 
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
@@ -206,6 +228,11 @@ public final class Suppliers {
       }
       // This is safe because we checked `delegate`.
       return uncheckedCastNullableTToT(value);
+    }
+
+    @Override
+    public boolean isMemoized() {
+      return delegate == SUCCESSFULLY_COMPUTED;
     }
 
     @Override

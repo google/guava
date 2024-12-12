@@ -80,15 +80,16 @@ public class SuppliersTest extends TestCase {
     private static final long serialVersionUID = 0L;
   }
 
-  static void checkMemoize(CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {
+  static void checkMemoize(CountingSupplier countingSupplier,
+      Suppliers.MemoizingSupplier<Integer> memoizedSupplier) {
     // the underlying supplier hasn't executed yet
     assertEquals(0, countingSupplier.calls);
-
+    assertFalse(memoizedSupplier.isMemoized());
     assertEquals(10, (int) memoizedSupplier.get());
 
     // now it has
     assertEquals(1, countingSupplier.calls);
-
+    assertTrue(memoizedSupplier.isMemoized());
     assertEquals(10, (int) memoizedSupplier.get());
 
     // it still should only have executed once due to memoization
@@ -101,7 +102,7 @@ public class SuppliersTest extends TestCase {
   }
 
   private void memoizeTest(CountingSupplier countingSupplier) {
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    Suppliers.MemoizingSupplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     checkMemoize(countingSupplier, memoizedSupplier);
   }
 
@@ -138,7 +139,7 @@ public class SuppliersTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testMemoizeNonSerializable() throws Exception {
     CountingSupplier countingSupplier = new CountingSupplier();
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    Suppliers.MemoizingSupplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
@@ -155,7 +156,7 @@ public class SuppliersTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testMemoizeSerializable() throws Exception {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    Suppliers.MemoizingSupplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
@@ -163,11 +164,11 @@ public class SuppliersTest extends TestCase {
     assertThat(memoizedSupplier.toString())
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
-    Supplier<Integer> copy = reserialize(memoizedSupplier);
+    Suppliers.MemoizingSupplier<Integer> copy = reserialize(memoizedSupplier);
     Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
-        (CountingSupplier) ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
+        (CountingSupplier) ((Suppliers.SerializableMemoizingSupplier<Integer>) copy).delegate;
     checkMemoize(countingCopy, copy);
   }
 
