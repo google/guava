@@ -264,6 +264,14 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0x12345678, in.readInt());
   }
 
+  public void testNewDataInput_mark_reset() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(new byte[] {0x00, 0x01});
+    in.mark(2);
+    assertEquals(0x00, in.readByte());
+    in.reset();
+    assertEquals(0x00, in.readByte());
+  }
+
   public void testNewDataOutput_empty() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     assertEquals(0, out.toByteArray().length);
