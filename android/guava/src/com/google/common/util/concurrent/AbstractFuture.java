@@ -161,12 +161,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       helper = new UnsafeAtomicHelper();
     } catch (Exception | Error unsafeFailure) { // sneaky checked exception
       thrownUnsafeFailure = unsafeFailure;
-      // catch absolutely everything and fall through to our 'SafeAtomicHelper'
-      // The access control checks that ARFU does means the caller class has to be AbstractFuture
-      // instead of SafeAtomicHelper, so we annoyingly define these here
+      // catch absolutely everything and fall through to our
+      // 'AtomicReferenceFieldUpdaterAtomicHelper' The access control checks that ARFU does means
+      // the caller class has to be AbstractFuture instead of
+      // AtomicReferenceFieldUpdaterAtomicHelper, so we annoyingly define these here
       try {
         helper =
-            new SafeAtomicHelper(
+            new AtomicReferenceFieldUpdaterAtomicHelper(
                 newUpdater(Waiter.class, Thread.class, "thread"),
                 newUpdater(Waiter.class, Waiter.class, "next"),
                 newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
@@ -196,7 +197,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       log.get()
           .log(
               Level.SEVERE,
-              "SafeAtomicHelper is broken!",
+              "AtomicReferenceFieldUpdaterAtomicHelper is broken!",
               thrownAtomicReferenceFieldUpdaterFailure);
     }
   }
@@ -1325,21 +1326,21 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     /** Non-volatile write of the waiter to the {@link Waiter#next} field. */
     abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);
 
-    /** Performs a CAS operation on the {@link #waiters} field. */
+    /** Performs a CAS operation on the {@link AbstractFuture#waiters} field. */
     abstract boolean casWaiters(
         AbstractFuture<?> future, @CheckForNull Waiter expect, @CheckForNull Waiter update);
 
-    /** Performs a CAS operation on the {@link #listeners} field. */
+    /** Performs a CAS operation on the {@link AbstractFuture#listeners} field. */
     abstract boolean casListeners(
         AbstractFuture<?> future, @CheckForNull Listener expect, Listener update);
 
-    /** Performs a GAS operation on the {@link #waiters} field. */
+    /** Performs a GAS operation on the {@link AbstractFuture#waiters} field. */
     abstract Waiter gasWaiters(AbstractFuture<?> future, Waiter update);
 
-    /** Performs a GAS operation on the {@link #listeners} field. */
+    /** Performs a GAS operation on the {@link AbstractFuture#listeners} field. */
     abstract Listener gasListeners(AbstractFuture<?> future, Listener update);
 
-    /** Performs a CAS operation on the {@link #value} field. */
+    /** Performs a CAS operation on the {@link AbstractFuture#value} field. */
     abstract boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update);
   }
 
@@ -1407,20 +1408,17 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);
     }
 
-    /** Performs a CAS operation on the {@link #waiters} field. */
     @Override
     boolean casWaiters(
         AbstractFuture<?> future, @CheckForNull Waiter expect, @CheckForNull Waiter update) {
       return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);
     }
 
-    /** Performs a CAS operation on the {@link #listeners} field. */
     @Override
     boolean casListeners(AbstractFuture<?> future, @CheckForNull Listener expect, Listener update) {
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
-    /** Performs a GAS operation on the {@link #listeners} field. */
     @Override
     Listener gasListeners(AbstractFuture<?> future, Listener update) {
       while (true) {
@@ -1434,7 +1432,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
     }
 
-    /** Performs a GAS operation on the {@link #waiters} field. */
     @Override
     Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
       while (true) {
@@ -1448,7 +1445,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
     }
 
-    /** Performs a CAS operation on the {@link #value} field. */
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
       return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
@@ -1456,14 +1452,14 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
-  private static final class SafeAtomicHelper extends AtomicHelper {
+  private static final class AtomicReferenceFieldUpdaterAtomicHelper extends AtomicHelper {
     final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
     final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;
     final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater;
     final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener> listenersUpdater;
     final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object> valueUpdater;
 
-    SafeAtomicHelper(
+    AtomicReferenceFieldUpdaterAtomicHelper(
         AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater,
         AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater,
         AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater,
@@ -1497,13 +1493,11 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return listenersUpdater.compareAndSet(future, expect, update);
     }
 
-    /** Performs a GAS operation on the {@link #listeners} field. */
     @Override
     Listener gasListeners(AbstractFuture<?> future, Listener update) {
       return listenersUpdater.getAndSet(future, update);
     }
 
-    /** Performs a GAS operation on the {@link #waiters} field. */
     @Override
     Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
       return waitersUpdater.getAndSet(future, update);
@@ -1555,7 +1549,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
     }
 
-    /** Performs a GAS operation on the {@link #listeners} field. */
     @Override
     Listener gasListeners(AbstractFuture<?> future, Listener update) {
       synchronized (future) {
@@ -1567,7 +1560,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       }
     }
 
-    /** Performs a GAS operation on the {@link #waiters} field. */
     @Override
     Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
       synchronized (future) {
