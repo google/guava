@@ -627,8 +627,6 @@ public class ImmutableListTest extends TestCase {
         assertThrows(
             IllegalArgumentException.class,
             () -> builder.addAll(nCopies(Integer.MAX_VALUE - 50, "a")));
-    assertThat(expected)
-        .hasMessageThat()
-        .contains("cannot store more than Integer.MAX_VALUE elements");
+    assertThat(expected).hasMessageThat().contains("cannot store more than MAX_VALUE elements");
   }
 }
