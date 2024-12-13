@@ -120,9 +120,9 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
       long mul = K2 + length * 2L;
       long a = load64(bytes, offset) + K2;
       long b = load64(bytes, offset + length - 8);
-      long c = rotateRight(b, 37) * mul + a;
-      long d = (rotateRight(a, 25) + b) * mul;
-      return hashLength16(c, d, mul);
+      long c = rotateRight(b, 37) * mul;
+      long d = rotateRight(a, 25) * mul;
+      return hashLength16(c + a, d + b * mul, mul);
     }
     if (length >= 4) {
       long mul = K2 + length * 2;
