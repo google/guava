@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
@@ -421,6 +422,19 @@ public abstract class RateLimiter {
     }
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
     return true;
+  }
+
+  public Duration durationToNextPermit() {
+    long nowMicros = stopwatch.readMicros();
+    return Duration.of(max(queryEarliestAvailable(nowMicros) - nowMicros, 0), ChronoUnit.MICROS);
+  }
+
+  public boolean canAcquire() {
+    return canAcquire(stopwatch.readMicros(), 0);
+  }
+
+  public boolean canAcquire(Duration timeout) {
+    return canAcquire(stopwatch.readMicros(), TimeUnit.NANOSECONDS.toMicros(timeout.toNanos()));
   }
 
   private boolean canAcquire(long nowMicros, long timeoutMicros) {
