@@ -951,7 +951,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7838#page-8">{@code Alt-Svc}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   public static final String ALT_SVC = "Alt-Svc";
 }

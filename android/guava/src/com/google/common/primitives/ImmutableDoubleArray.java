@@ -172,7 +172,7 @@ public final class ImmutableDoubleArray implements Serializable {
   /**
    * Returns an immutable array containing all the values from {@code stream}, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -277,7 +277,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends all values from {@code stream}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      *
-     * @since NEXT (but since 22.0 in the JRE flavor)
+     * @since 33.4.0 (but since 22.0 in the JRE flavor)
      */
     @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -426,7 +426,7 @@ public final class ImmutableDoubleArray implements Serializable {
   /**
    * Invokes {@code consumer} for each value contained in this array, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // We rely on users not to call this without library desugaring.
@@ -440,7 +440,7 @@ public final class ImmutableDoubleArray implements Serializable {
   /**
    * Returns a stream over the values in this array, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent stream calls

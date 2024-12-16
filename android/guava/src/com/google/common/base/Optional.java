@@ -123,7 +123,7 @@ public abstract class Optional<T> implements Serializable {
    * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
    * java.util.Optional}, or {@code null} if the argument is null.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Optional.
@@ -143,7 +143,7 @@ public abstract class Optional<T> implements Serializable {
    * could refer to either the static or instance version of this method. Write out the lambda
    * expression {@code o -> Optional.toJavaUtil(o)} instead.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings({
     "AmbiguousMethodReference", // We chose the name despite knowing this risk.
@@ -163,7 +163,7 @@ public abstract class Optional<T> implements Serializable {
    * could refer to either the static or instance version of this method. Write out the lambda
    * expression {@code o -> o.toJavaUtil()} instead.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings({
     "AmbiguousMethodReference", // We chose the name despite knowing this risk.

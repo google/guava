@@ -287,7 +287,7 @@ public final class Queues {
    * @param timeout how long to wait before giving up
    * @return the number of elements transferred
    * @throws InterruptedException if interrupted while waiting
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible
@@ -359,7 +359,7 @@ public final class Queues {
    * @param numElements the number of elements to be waited for
    * @param timeout how long to wait before giving up
    * @return the number of elements transferred
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

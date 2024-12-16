@@ -128,7 +128,7 @@ public abstract class CharSink {
    * writeLines(lines, System.getProperty("line.separator"))}.
    *
    * @throws IOException if an I/O error occurs while writing to this sink
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Stream.
@@ -141,7 +141,7 @@ public abstract class CharSink {
    * the given line separator.
    *
    * @throws IOException if an I/O error occurs while writing to this sink
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Stream.

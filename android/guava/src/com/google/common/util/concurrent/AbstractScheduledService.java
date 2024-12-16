@@ -126,7 +126,7 @@ public abstract class AbstractScheduledService implements Service {
      * @param initialDelay the time to delay first execution
      * @param delay the delay between the termination of one execution and the commencement of the
      *     next
-     * @since NEXT (but since 28.0 in the JRE flavor)
+     * @since 33.4.0 (but since 28.0 in the JRE flavor)
      */
     @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using Duration
@@ -165,7 +165,7 @@ public abstract class AbstractScheduledService implements Service {
      *
      * @param initialDelay the time to delay first execution
      * @param period the period between successive executions of the task
-     * @since NEXT (but since 28.0 in the JRE flavor)
+     * @since 33.4.0 (but since 28.0 in the JRE flavor)
      */
     @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using Duration
@@ -724,7 +724,7 @@ public abstract class AbstractScheduledService implements Service {
 
       /**
        * @param delay the time from now to delay execution
-       * @since NEXT (but since 31.1 in the JRE flavor)
+       * @since 33.4.0 (but since 31.1 in the JRE flavor)
        */
       @SuppressWarnings("Java7ApiChecker")
       @IgnoreJRERequirement // Users will use this only if they're already using Duration
