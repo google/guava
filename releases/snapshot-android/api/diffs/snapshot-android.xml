@@ -3161,7 +3161,7 @@
  checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
  Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3485,7 +3485,7 @@
       <![CDATA[Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
  java.util.Optional}, or {@code null} if the argument is null.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
@@ -3504,7 +3504,7 @@
  could refer to either the static or instance version of this method. Write out the lambda
  expression {@code o -> Optional.toJavaUtil(o)} instead.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
@@ -3518,7 +3518,7 @@
  could refer to either the static or instance version of this method. Write out the lambda
  expression {@code o -> o.toJavaUtil()} instead.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="isPresent" return="boolean"
@@ -5745,7 +5745,7 @@
 
  @param sequence the sequence of characters to split
  @return a stream over the segments split from the parameter
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="withKeyValueSeparator" return="com.google.common.base.Splitter.MapSplitter"
@@ -6088,7 +6088,7 @@
  href="https://developer.android.com/studio/write/java11-default-support-table">opt in to
  library desugaring</a>.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -11001,7 +11001,7 @@
  than all other values, and orders the rest using {@code valueComparator} on the contained
  value.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="emptiesLast" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
@@ -11014,7 +11014,7 @@
  than all other values, and orders the rest using {@code valueComparator} on the contained
  value.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
@@ -33336,7 +33336,7 @@
  @param timeout how long to wait before giving up
  @return the number of elements transferred
  @throws InterruptedException if interrupted while waiting
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="drain" return="int"
@@ -33381,7 +33381,7 @@
  @param numElements the number of elements to be waited for
  @param timeout how long to wait before giving up
  @return the number of elements transferred
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="drainUninterruptibly" return="int"
@@ -36270,7 +36270,7 @@
  This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
  temporary pair objects and then using {@link Stream#forEach} on that stream.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
@@ -36467,7 +36467,7 @@
     <doc>
     <![CDATA[Static utility methods related to {@code Stream} instances.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.Streams -->
@@ -36491,7 +36491,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
  DoubleFunctionWithIndex)}.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
@@ -36515,7 +36515,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
  FunctionWithIndex)}.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.FunctionWithIndex -->
@@ -36539,7 +36539,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
  IntFunctionWithIndex)}.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.IntFunctionWithIndex -->
@@ -36563,7 +36563,7 @@
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
  LongFunctionWithIndex)}.
 
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.LongFunctionWithIndex -->
@@ -37580,7 +37580,7 @@
       <doc>
       <![CDATA[Returns a new {@link TreeRangeMap} containing the same ranges as the given {@code RangeMap}.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </method>
     <method name="get" return="V"
@@ -43242,7 +43242,7 @@
  @param expectedInsertions the number of expected insertions to the constructed {@code
      BloomFilter}; must be positive
  @return a {@code Collector} generating a {@code BloomFilter} of the received elements
- @since NEXT (but since 23.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 23.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toBloomFilter" return="java.util.stream.Collector&lt;T, ?, com.google.common.hash.BloomFilter&lt;T&gt;&gt;"
@@ -43272,7 +43272,7 @@
      BloomFilter}; must be positive
  @param fpp the desired false positive probability (must be positive and less than 1.0)
  @return a {@code Collector} generating a {@code BloomFilter} of the received elements
- @since NEXT (but since 23.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 23.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.hash.BloomFilter&lt;T&gt;"
@@ -46560,7 +46560,7 @@
  writeLines(lines, System.getProperty("line.separator"))}.
 
  @throws IOException if an I/O error occurs while writing to this sink
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="writeLines"
@@ -46575,7 +46575,7 @@
  the given line separator.
 
  @throws IOException if an I/O error occurs while writing to this sink
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="writeFrom" return="long"
@@ -46704,7 +46704,7 @@
  }</pre>
 
  @throws IOException if an I/O error occurs while opening the stream
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="lengthIfKnown" return="com.google.common.base.Optional&lt;java.lang.Long&gt;"
@@ -46862,7 +46862,7 @@
 
  @throws IOException if an I/O error occurs while reading from this source or if {@code action}
      throws an {@code UncheckedIOException}
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="isEmpty" return="boolean"
@@ -48389,7 +48389,7 @@
  <p>{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method
  to proceed anyway.
 
- @since NEXT (but since 21.0 in the JRE flavor)
+ @since 33.4.0 (but since 21.0 in the JRE flavor)
  @author Colin Decker]]>
     </doc>
   </class>
@@ -49105,7 +49105,7 @@
  now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
  class if a sibling method from {@code Files} appears to be missing from this class.
 
- @since NEXT (but since 21.0 in the JRE flavor)
+ @since 33.4.0 (but since 21.0 in the JRE flavor)
  @author Colin Decker]]>
     </doc>
   </class>
@@ -49171,7 +49171,7 @@
     <![CDATA[Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
  MoreFiles#deleteDirectoryContents}).
 
- @since NEXT (but since 21.0 in the JRE flavor)
+ @since 33.4.0 (but since 21.0 in the JRE flavor)
  @author Colin Decker]]>
     </doc>
   </class>
@@ -51533,7 +51533,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -51549,7 +51549,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -51566,7 +51566,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toStats" return="java.util.stream.Collector&lt;java.lang.Number, com.google.common.math.StatsAccumulator, com.google.common.math.Stats&gt;"
@@ -51582,7 +51582,7 @@
  <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
  LongStream}, you should use the factory method {@link #of} instead.
 
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="count" return="long"
@@ -52010,7 +52010,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll"
@@ -52022,7 +52022,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll"
@@ -52035,7 +52035,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since NEXT (but since 28.2 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.2 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll"
@@ -54189,7 +54189,7 @@
       <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7838#page-8">{@code Alt-Svc}</a>
  header field name.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </field>
     <doc>
@@ -56004,7 +56004,7 @@
  constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
  data format.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </field>
     <field name="GEO_JSON" type="com.google.common.net.MediaType"
@@ -58754,7 +58754,7 @@
       <doc>
       <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
@@ -58854,7 +58854,7 @@
       <doc>
       <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.DoubleStream"
@@ -58864,7 +58864,7 @@
       <doc>
       <![CDATA[Returns a stream over the values in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -59045,7 +59045,7 @@
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
  ImmutableDoubleArray} will contain.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
@@ -59211,7 +59211,7 @@
       <doc>
       <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableIntArray.Builder"
@@ -59309,7 +59309,7 @@
       <doc>
       <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.IntStream"
@@ -59319,7 +59319,7 @@
       <doc>
       <![CDATA[Returns a stream over the values in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="int[]"
@@ -59500,7 +59500,7 @@
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
  ImmutableIntArray} will contain.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
@@ -59666,7 +59666,7 @@
       <doc>
       <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.primitives.ImmutableLongArray.Builder"
@@ -59764,7 +59764,7 @@
       <doc>
       <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="stream" return="java.util.stream.LongStream"
@@ -59774,7 +59774,7 @@
       <doc>
       <![CDATA[Returns a stream over the values in this array, in order.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -59955,7 +59955,7 @@
       <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
  ImmutableLongArray} will contain.
 
- @since NEXT (but since 22.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.primitives.ImmutableLongArray.Builder"
@@ -65817,7 +65817,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[@param delay the time from now to delay execution
- @since NEXT (but since 31.1 in the JRE flavor)]]>
+ @since 33.4.0 (but since 31.1 in the JRE flavor)]]>
       </doc>
     </constructor>
     <doc>
@@ -65846,7 +65846,7 @@
  @param initialDelay the time to delay first execution
  @param delay the delay between the termination of one execution and the commencement of the
      next
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="newFixedDelaySchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
@@ -65878,7 +65878,7 @@
 
  @param initialDelay the time to delay first execution
  @param period the period between successive executions of the task
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
@@ -69411,7 +69411,7 @@
 
  @param timeout when to time out the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
@@ -70289,7 +70289,7 @@
       <![CDATA[Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
 
  @throws RejectedExecutionException if the task cannot be scheduled for execution
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="scheduleAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -70432,7 +70432,7 @@
  @param delegate The future to delegate to.
  @param time when to time out the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -70920,7 +70920,7 @@
  @throws CancellationException if {@code get} throws a {@code CancellationException}
  @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
      does not have a suitable constructor
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="getChecked" return="V extends java.lang.Object"
@@ -71630,7 +71630,7 @@
 
  @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
      isSatisfied()})
- @since NEXT (but since 21.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 21.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enter"
@@ -71650,7 +71650,7 @@
       <![CDATA[Enters this monitor. Blocks at most the given time.
 
  @return whether the monitor was entered
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enter" return="boolean"
@@ -71687,7 +71687,7 @@
 
  @return whether the monitor was entered
  @throws InterruptedException if interrupted while waiting
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enterInterruptibly" return="boolean"
@@ -71742,7 +71742,7 @@
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enterWhen" return="boolean"
@@ -71782,7 +71782,7 @@
  the time to acquire the lock and the time to wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enterWhenUninterruptibly" return="boolean"
@@ -71822,7 +71822,7 @@
  lock, but does not wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enterIf" return="boolean"
@@ -71865,7 +71865,7 @@
  lock, but does not wait for the guard to be satisfied, and may be interrupted.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="enterIfInterruptibly" return="boolean"
@@ -71923,7 +71923,7 @@
 
  @return whether the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="waitFor" return="boolean"
@@ -71963,7 +71963,7 @@
  thread currently occupying this monitor.
 
  @return whether the guard is now satisfied
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="waitForUninterruptibly" return="boolean"
@@ -72308,7 +72308,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
@@ -72368,7 +72368,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
@@ -72426,7 +72426,7 @@
  @param service ExecutorService which uses daemon threads
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="addDelayedShutdownHook"
@@ -72680,7 +72680,7 @@
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
  @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
      if the call timed out or was interrupted
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="shutdownAndAwaitTermination" return="boolean"
@@ -72780,7 +72780,7 @@
      before reaching its stable (maximum) rate
  @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
      warmupPeriod} is negative
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.util.concurrent.RateLimiter"
@@ -72894,7 +72894,7 @@
  @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
  @return {@code true} if the permit was acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -72961,7 +72961,7 @@
  @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
  @return {@code true} if the permits were acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -73454,7 +73454,7 @@
  @throws TimeoutException if not all of the services have finished starting within the deadline
  @throws IllegalStateException if the service manager reaches a state from which it cannot
      become {@linkplain #isHealthy() healthy}.
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="awaitHealthy"
@@ -73510,7 +73510,7 @@
 
  @param timeout the maximum time to wait
  @throws TimeoutException if not all of the services have stopped within the deadline
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="awaitStopped"
@@ -73576,7 +73576,7 @@
 
  @return Map of services and their corresponding startup time, the map entries will be ordered
      by startup time.
- @since NEXT (but since 31.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 31.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -74464,7 +74464,7 @@
       <![CDATA[Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -74489,7 +74489,7 @@
       <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -74525,7 +74525,7 @@
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
  uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="joinUninterruptibly"
@@ -74589,7 +74589,7 @@
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled
  @throws TimeoutException if the wait timed out
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="getUninterruptibly" return="V extends java.lang.Object"
@@ -74652,7 +74652,7 @@
       <doc>
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="sleepUninterruptibly"
@@ -74675,7 +74675,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
  timeout, unit)} uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -74703,7 +74703,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
  timeout, unit)} uninterruptibly.
 
- @since NEXT (but since 28.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -74731,7 +74731,7 @@
       <![CDATA[Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
  uninterruptibly.
 
- @since NEXT (but since 30.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 30.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="tryLockUninterruptibly" return="boolean"
@@ -74770,7 +74770,7 @@
       <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
  awaitTermination(long, TimeUnit)} uninterruptibly.
 
- @since NEXT (but since 30.0 in the JRE flavor)]]>
+ @since 33.4.0 (but since 30.0 in the JRE flavor)]]>
       </doc>
     </method>
     <method name="awaitTerminationUninterruptibly" return="boolean"

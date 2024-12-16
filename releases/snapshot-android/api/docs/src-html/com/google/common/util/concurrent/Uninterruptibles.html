@@ -86,7 +86,7 @@
 <span class="sourceLineNo">077</span><a id="line.77">   * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}</a>
 <span class="sourceLineNo">078</span><a id="line.78">   * uninterruptibly.</a>
 <span class="sourceLineNo">079</span><a id="line.79">   *</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">081</span><a id="line.81">   */</a>
 <span class="sourceLineNo">082</span><a id="line.82">  @J2ktIncompatible</a>
 <span class="sourceLineNo">083</span><a id="line.83">  @GwtIncompatible // concurrency</a>
@@ -129,7 +129,7 @@
 <span class="sourceLineNo">120</span><a id="line.120">   * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}</a>
 <span class="sourceLineNo">121</span><a id="line.121">   * uninterruptibly.</a>
 <span class="sourceLineNo">122</span><a id="line.122">   *</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">124</span><a id="line.124">   */</a>
 <span class="sourceLineNo">125</span><a id="line.125">  @J2ktIncompatible</a>
 <span class="sourceLineNo">126</span><a id="line.126">  @GwtIncompatible // concurrency</a>
@@ -194,7 +194,7 @@
 <span class="sourceLineNo">185</span><a id="line.185">   * Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}</a>
 <span class="sourceLineNo">186</span><a id="line.186">   * uninterruptibly.</a>
 <span class="sourceLineNo">187</span><a id="line.187">   *</a>
-<span class="sourceLineNo">188</span><a id="line.188">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">189</span><a id="line.189">   */</a>
 <span class="sourceLineNo">190</span><a id="line.190">  @J2ktIncompatible</a>
 <span class="sourceLineNo">191</span><a id="line.191">  @GwtIncompatible // concurrency</a>
@@ -288,7 +288,7 @@
 <span class="sourceLineNo">279</span><a id="line.279">   * @throws ExecutionException if the computation threw an exception</a>
 <span class="sourceLineNo">280</span><a id="line.280">   * @throws CancellationException if the computation was cancelled</a>
 <span class="sourceLineNo">281</span><a id="line.281">   * @throws TimeoutException if the wait timed out</a>
-<span class="sourceLineNo">282</span><a id="line.282">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">282</span><a id="line.282">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">283</span><a id="line.283">   */</a>
 <span class="sourceLineNo">284</span><a id="line.284">  @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">285</span><a id="line.285">  @J2ktIncompatible</a>
@@ -399,7 +399,7 @@
 <span class="sourceLineNo">390</span><a id="line.390">  /**</a>
 <span class="sourceLineNo">391</span><a id="line.391">   * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.</a>
 <span class="sourceLineNo">392</span><a id="line.392">   *</a>
-<span class="sourceLineNo">393</span><a id="line.393">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">393</span><a id="line.393">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">394</span><a id="line.394">   */</a>
 <span class="sourceLineNo">395</span><a id="line.395">  @J2ktIncompatible</a>
 <span class="sourceLineNo">396</span><a id="line.396">  @GwtIncompatible // concurrency</a>
@@ -440,7 +440,7 @@
 <span class="sourceLineNo">431</span><a id="line.431">   * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,</a>
 <span class="sourceLineNo">432</span><a id="line.432">   * timeout, unit)} uninterruptibly.</a>
 <span class="sourceLineNo">433</span><a id="line.433">   *</a>
-<span class="sourceLineNo">434</span><a id="line.434">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">434</span><a id="line.434">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">435</span><a id="line.435">   */</a>
 <span class="sourceLineNo">436</span><a id="line.436">  @J2ktIncompatible</a>
 <span class="sourceLineNo">437</span><a id="line.437">  @GwtIncompatible // concurrency</a>
@@ -468,7 +468,7 @@
 <span class="sourceLineNo">459</span><a id="line.459">   * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,</a>
 <span class="sourceLineNo">460</span><a id="line.460">   * timeout, unit)} uninterruptibly.</a>
 <span class="sourceLineNo">461</span><a id="line.461">   *</a>
-<span class="sourceLineNo">462</span><a id="line.462">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">462</span><a id="line.462">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">463</span><a id="line.463">   */</a>
 <span class="sourceLineNo">464</span><a id="line.464">  @J2ktIncompatible</a>
 <span class="sourceLineNo">465</span><a id="line.465">  @GwtIncompatible // concurrency</a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">507</span><a id="line.507">   * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}</a>
 <span class="sourceLineNo">508</span><a id="line.508">   * uninterruptibly.</a>
 <span class="sourceLineNo">509</span><a id="line.509">   *</a>
-<span class="sourceLineNo">510</span><a id="line.510">   * @since NEXT (but since 30.0 in the JRE flavor)</a>
+<span class="sourceLineNo">510</span><a id="line.510">   * @since 33.4.0 (but since 30.0 in the JRE flavor)</a>
 <span class="sourceLineNo">511</span><a id="line.511">   */</a>
 <span class="sourceLineNo">512</span><a id="line.512">  @J2ktIncompatible</a>
 <span class="sourceLineNo">513</span><a id="line.513">  @GwtIncompatible // concurrency</a>
@@ -573,7 +573,7 @@
 <span class="sourceLineNo">564</span><a id="line.564">   * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)</a>
 <span class="sourceLineNo">565</span><a id="line.565">   * awaitTermination(long, TimeUnit)} uninterruptibly.</a>
 <span class="sourceLineNo">566</span><a id="line.566">   *</a>
-<span class="sourceLineNo">567</span><a id="line.567">   * @since NEXT (but since 30.0 in the JRE flavor)</a>
+<span class="sourceLineNo">567</span><a id="line.567">   * @since 33.4.0 (but since 30.0 in the JRE flavor)</a>
 <span class="sourceLineNo">568</span><a id="line.568">   */</a>
 <span class="sourceLineNo">569</span><a id="line.569">  @J2ktIncompatible</a>
 <span class="sourceLineNo">570</span><a id="line.570">  @GwtIncompatible // concurrency</a>

@@ -377,7 +377,7 @@
 <span class="sourceLineNo">368</span><a id="line.368">   *</a>
 <span class="sourceLineNo">369</span><a id="line.369">   * @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied</a>
 <span class="sourceLineNo">370</span><a id="line.370">   *     isSatisfied()})</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">372</span><a id="line.372">   */</a>
 <span class="sourceLineNo">373</span><a id="line.373">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">374</span><a id="line.374">  // We have to rely on users not to call this, as NewApi won't flag BooleanSupplier creation.</a>
@@ -401,7 +401,7 @@
 <span class="sourceLineNo">392</span><a id="line.392">   * Enters this monitor. Blocks at most the given time.</a>
 <span class="sourceLineNo">393</span><a id="line.393">   *</a>
 <span class="sourceLineNo">394</span><a id="line.394">   * @return whether the monitor was entered</a>
-<span class="sourceLineNo">395</span><a id="line.395">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">395</span><a id="line.395">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">396</span><a id="line.396">   */</a>
 <span class="sourceLineNo">397</span><a id="line.397">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">398</span><a id="line.398">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -453,7 +453,7 @@
 <span class="sourceLineNo">444</span><a id="line.444">   *</a>
 <span class="sourceLineNo">445</span><a id="line.445">   * @return whether the monitor was entered</a>
 <span class="sourceLineNo">446</span><a id="line.446">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">447</span><a id="line.447">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">447</span><a id="line.447">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">448</span><a id="line.448">   */</a>
 <span class="sourceLineNo">449</span><a id="line.449">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">450</span><a id="line.450">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">507</span><a id="line.507">   *</a>
 <span class="sourceLineNo">508</span><a id="line.508">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
 <span class="sourceLineNo">509</span><a id="line.509">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">510</span><a id="line.510">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">510</span><a id="line.510">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">511</span><a id="line.511">   */</a>
 <span class="sourceLineNo">512</span><a id="line.512">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">513</span><a id="line.513">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -614,7 +614,7 @@
 <span class="sourceLineNo">605</span><a id="line.605">   * the time to acquire the lock and the time to wait for the guard to be satisfied.</a>
 <span class="sourceLineNo">606</span><a id="line.606">   *</a>
 <span class="sourceLineNo">607</span><a id="line.607">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">608</span><a id="line.608">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">608</span><a id="line.608">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">609</span><a id="line.609">   */</a>
 <span class="sourceLineNo">610</span><a id="line.610">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">611</span><a id="line.611">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -717,7 +717,7 @@
 <span class="sourceLineNo">708</span><a id="line.708">   * lock, but does not wait for the guard to be satisfied.</a>
 <span class="sourceLineNo">709</span><a id="line.709">   *</a>
 <span class="sourceLineNo">710</span><a id="line.710">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">711</span><a id="line.711">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">712</span><a id="line.712">   */</a>
 <span class="sourceLineNo">713</span><a id="line.713">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">714</span><a id="line.714">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -779,7 +779,7 @@
 <span class="sourceLineNo">770</span><a id="line.770">   * lock, but does not wait for the guard to be satisfied, and may be interrupted.</a>
 <span class="sourceLineNo">771</span><a id="line.771">   *</a>
 <span class="sourceLineNo">772</span><a id="line.772">   * @return whether the monitor was entered, which guarantees that the guard is now satisfied</a>
-<span class="sourceLineNo">773</span><a id="line.773">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">774</span><a id="line.774">   */</a>
 <span class="sourceLineNo">775</span><a id="line.775">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">776</span><a id="line.776">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -862,7 +862,7 @@
 <span class="sourceLineNo">853</span><a id="line.853">   *</a>
 <span class="sourceLineNo">854</span><a id="line.854">   * @return whether the guard is now satisfied</a>
 <span class="sourceLineNo">855</span><a id="line.855">   * @throws InterruptedException if interrupted while waiting</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">856</span><a id="line.856">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">857</span><a id="line.857">   */</a>
 <span class="sourceLineNo">858</span><a id="line.858">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">859</span><a id="line.859">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>
@@ -910,7 +910,7 @@
 <span class="sourceLineNo">901</span><a id="line.901">   * thread currently occupying this monitor.</a>
 <span class="sourceLineNo">902</span><a id="line.902">   *</a>
 <span class="sourceLineNo">903</span><a id="line.903">   * @return whether the guard is now satisfied</a>
-<span class="sourceLineNo">904</span><a id="line.904">   * @since NEXT (but since 28.0 in the JRE flavor)</a>
+<span class="sourceLineNo">904</span><a id="line.904">   * @since 33.4.0 (but since 28.0 in the JRE flavor)</a>
 <span class="sourceLineNo">905</span><a id="line.905">   */</a>
 <span class="sourceLineNo">906</span><a id="line.906">  @SuppressWarnings("Java7ApiChecker")</a>
 <span class="sourceLineNo">907</span><a id="line.907">  @IgnoreJRERequirement // Users will use this only if they're already using Duration.</a>

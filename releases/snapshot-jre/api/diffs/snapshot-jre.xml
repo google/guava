@@ -3159,7 +3159,7 @@
  checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
  Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -37876,7 +37876,7 @@
       <doc>
       <![CDATA[Returns a new {@link TreeRangeMap} containing the same ranges as the given {@code RangeMap}.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </method>
     <method name="get" return="V"
@@ -54594,7 +54594,7 @@
       <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/html/rfc7838#page-8">{@code Alt-Svc}</a>
  header field name.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </field>
     <doc>
@@ -56409,7 +56409,7 @@
  constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
  data format.
 
- @since NEXT]]>
+ @since 33.4.0]]>
       </doc>
     </field>
     <field name="GEO_JSON" type="com.google.common.net.MediaType"

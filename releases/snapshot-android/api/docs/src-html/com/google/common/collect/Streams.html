@@ -64,7 +64,7 @@
 <span class="sourceLineNo">055</span><a id="line.55">/**</a>
 <span class="sourceLineNo">056</span><a id="line.56"> * Static utility methods related to {@code Stream} instances.</a>
 <span class="sourceLineNo">057</span><a id="line.57"> *</a>
-<span class="sourceLineNo">058</span><a id="line.58"> * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">058</span><a id="line.58"> * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">059</span><a id="line.59"> */</a>
 <span class="sourceLineNo">060</span><a id="line.60">@GwtCompatible</a>
 <span class="sourceLineNo">061</span><a id="line.61">@ElementTypesAreNonnullByDefault</a>
@@ -418,7 +418,7 @@
 <span class="sourceLineNo">409</span><a id="line.409">   * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into</a>
 <span class="sourceLineNo">410</span><a id="line.410">   * temporary pair objects and then using {@link Stream#forEach} on that stream.</a>
 <span class="sourceLineNo">411</span><a id="line.411">   *</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * @since NEXT (but since 22.0 in the JRE flavor)</a>
+<span class="sourceLineNo">412</span><a id="line.412">   * @since 33.4.0 (but since 22.0 in the JRE flavor)</a>
 <span class="sourceLineNo">413</span><a id="line.413">   */</a>
 <span class="sourceLineNo">414</span><a id="line.414">  @Beta</a>
 <span class="sourceLineNo">415</span><a id="line.415">  public static &lt;A extends @Nullable Object, B extends @Nullable Object&gt; void forEachPair(</a>
@@ -776,7 +776,7 @@
 <span class="sourceLineNo">767</span><a id="line.767">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(Stream,</a>
 <span class="sourceLineNo">768</span><a id="line.768">   * FunctionWithIndex)}.</a>
 <span class="sourceLineNo">769</span><a id="line.769">   *</a>
-<span class="sourceLineNo">770</span><a id="line.770">   * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">770</span><a id="line.770">   * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">771</span><a id="line.771">   */</a>
 <span class="sourceLineNo">772</span><a id="line.772">  public interface FunctionWithIndex&lt;T extends @Nullable Object, R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">773</span><a id="line.773">    /** Applies this function to the given argument and its index within a stream. */</a>
@@ -837,7 +837,7 @@
 <span class="sourceLineNo">828</span><a id="line.828">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,</a>
 <span class="sourceLineNo">829</span><a id="line.829">   * IntFunctionWithIndex)}.</a>
 <span class="sourceLineNo">830</span><a id="line.830">   *</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">831</span><a id="line.831">   * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">832</span><a id="line.832">   */</a>
 <span class="sourceLineNo">833</span><a id="line.833">  public interface IntFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">834</span><a id="line.834">    /** Applies this function to the given argument and its index within a stream. */</a>
@@ -851,7 +851,7 @@
 <span class="sourceLineNo">842</span><a id="line.842">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,</a>
 <span class="sourceLineNo">843</span><a id="line.843">   * LongFunctionWithIndex)}.</a>
 <span class="sourceLineNo">844</span><a id="line.844">   *</a>
-<span class="sourceLineNo">845</span><a id="line.845">   * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">845</span><a id="line.845">   * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">846</span><a id="line.846">   */</a>
 <span class="sourceLineNo">847</span><a id="line.847">  public interface LongFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">848</span><a id="line.848">    /** Applies this function to the given argument and its index within a stream. */</a>
@@ -865,7 +865,7 @@
 <span class="sourceLineNo">856</span><a id="line.856">   * &lt;p&gt;This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,</a>
 <span class="sourceLineNo">857</span><a id="line.857">   * DoubleFunctionWithIndex)}.</a>
 <span class="sourceLineNo">858</span><a id="line.858">   *</a>
-<span class="sourceLineNo">859</span><a id="line.859">   * @since NEXT (but since 21.0 in the JRE flavor)</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * @since 33.4.0 (but since 21.0 in the JRE flavor)</a>
 <span class="sourceLineNo">860</span><a id="line.860">   */</a>
 <span class="sourceLineNo">861</span><a id="line.861">  public interface DoubleFunctionWithIndex&lt;R extends @Nullable Object&gt; {</a>
 <span class="sourceLineNo">862</span><a id="line.862">    /** Applies this function to the given argument and its index within a stream. */</a>
