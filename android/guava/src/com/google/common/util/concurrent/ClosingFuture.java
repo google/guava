@@ -1223,9 +1223,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *           .closing(executor);
    * }</pre>
    */
-  // TODO(cpovirk): Use simple name instead of fully qualified after we stop building with JDK 8.
-  @com.google.errorprone.annotations.DoNotMock(
-      "Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
+  @DoNotMock("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
   public static class Combiner {
 
     private final CloseableList closeables = new CloseableList();
