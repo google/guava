@@ -50,7 +50,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 33.4.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {

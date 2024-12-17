@@ -36,7 +36,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class LinearTransformation {
   /**
    * Constructor for use by subclasses inside Guava.

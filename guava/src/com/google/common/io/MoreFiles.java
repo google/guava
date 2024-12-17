@@ -69,7 +69,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 public final class MoreFiles {
 
   private MoreFiles() {}

@@ -22,6 +22,7 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class AbstractTableTest<C extends @Nullable Character>
     extends AbstractTableReadTest<C> {
 

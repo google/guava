@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-@ElementTypesAreNonnullByDefault
 // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
 // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
 // Since this class only needs CAS on one field, we can avoid this bug by extending AtomicReference

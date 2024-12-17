@@ -40,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class DummyProxy {
 
   /**

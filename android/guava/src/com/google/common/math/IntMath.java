@@ -47,7 +47,6 @@ import java.math.RoundingMode;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class IntMath {
   @VisibleForTesting static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 

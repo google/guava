@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final byte ABSENT = -1;
 

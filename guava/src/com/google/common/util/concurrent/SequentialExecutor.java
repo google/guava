@@ -50,7 +50,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
   private static final LazyLogger log = new LazyLogger(SequentialExecutor.class);
 

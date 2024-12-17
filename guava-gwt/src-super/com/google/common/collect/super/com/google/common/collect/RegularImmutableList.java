@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 class RegularImmutableList<E> extends ForwardingImmutableList<E> {
 
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(emptyList());

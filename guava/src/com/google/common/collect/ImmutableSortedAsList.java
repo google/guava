@@ -29,7 +29,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
-@ElementTypesAreNonnullByDefault
 final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
   ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {

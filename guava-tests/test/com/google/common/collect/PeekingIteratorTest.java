@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -41,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class PeekingIteratorTest extends TestCase {
 
   /**

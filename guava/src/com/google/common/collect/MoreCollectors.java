@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class MoreCollectors {
 
   /*

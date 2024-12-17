@@ -29,7 +29,6 @@ import com.google.common.escape.Escaper;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class UrlEscapers {
   private UrlEscapers() {}
 

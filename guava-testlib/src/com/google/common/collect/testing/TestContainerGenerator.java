@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestContainerGenerator<T, E extends @Nullable Object> {
   /** Returns the sample elements that this generate populates its container with. */
   SampleElements<E> samples();

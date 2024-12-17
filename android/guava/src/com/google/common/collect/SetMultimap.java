@@ -52,7 +52,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends Multimap<K, V> {
   /**

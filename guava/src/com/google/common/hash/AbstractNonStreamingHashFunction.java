@@ -30,7 +30,6 @@ import java.util.Arrays;
  * @author Dimitris Andreou
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
   @Override
   public Hasher newHasher() {

@@ -25,7 +25,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   ForwardingImmutableList() {}

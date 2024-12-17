@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ListIteratorTester<E extends @Nullable Object>
     extends AbstractIteratorTester<E, ListIterator<E>> {
   protected ListIteratorTester(

@@ -126,7 +126,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public abstract class BaseEncoding {
   // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.
 

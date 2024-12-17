@@ -23,7 +23,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * the {@link Futures#catching(ListenableFuture, Class, com.google.common.base.Function)
  * Futures.catching} family of methods. Those versions have slightly different signatures.
  */
-@ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * In the GWT versions of the methods (below), every exceptionType parameter is required to be

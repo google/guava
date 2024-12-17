@@ -76,7 +76,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ByteSource {
 
   /** Constructor for use by subclasses. */

@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  * @since 11.0
  */
-@ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object> extends Multiset<E>, SortedIterable<E> {
   Comparator<? super E> comparator();
 

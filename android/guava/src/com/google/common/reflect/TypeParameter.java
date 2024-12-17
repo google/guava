@@ -33,7 +33,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 12.0
  */
-@ElementTypesAreNonnullByDefault
 /*
  * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable
  * bound. However, it would also let them create `new TypeParameter<@Nullable T>() {}`, which

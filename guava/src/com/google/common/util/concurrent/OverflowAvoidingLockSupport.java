@@ -25,7 +25,6 @@ import javax.annotation.CheckForNull;
  * signal on 32 bit devices running Android Q.
  */
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 final class OverflowAvoidingLockSupport {
   // Represents the max nanoseconds representable on a linux timespec with a 32 bit tv_sec
   static final long MAX_NANOSECONDS_THRESHOLD = (1L + Integer.MAX_VALUE) * 1_000_000_000L - 1L;

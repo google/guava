@@ -23,7 +23,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * versions of the {@link FluentFuture#catching(Class, com.google.common.base.Function)
  * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
  */
-@ElementTypesAreNonnullByDefault
 abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
     extends AbstractFuture<V> {
   /*

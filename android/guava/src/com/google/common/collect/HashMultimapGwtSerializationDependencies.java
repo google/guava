@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A dummy superclass to support GWT serialization of the element types of a {@link HashMultimap}.
@@ -30,7 +31,9 @@ import java.util.Map;
  * <p>TODO(cpovirk): Consider applying this subclass approach to our other types.
  */
 @GwtCompatible(emulated = true)
-abstract class HashMultimapGwtSerializationDependencies<K, V> extends AbstractSetMultimap<K, V> {
+abstract class HashMultimapGwtSerializationDependencies<
+        K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractSetMultimap<K, V> {
   HashMultimapGwtSerializationDependencies(Map<K, Collection<V>> map) {
     super(map);
   }

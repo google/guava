@@ -26,6 +26,7 @@ import com.google.common.base.Objects;
 import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -34,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class GeneralRangeTest extends TestCase {
   private static final Ordering<@Nullable Integer> ORDERING =
       Ordering.<Integer>natural().<Integer>nullsFirst();

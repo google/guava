@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIndexedListIterator<E extends @Nullable Object>
     extends UnmodifiableListIterator<E> {
   private final int size;

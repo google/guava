@@ -30,7 +30,6 @@ import java.util.logging.Logger;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Flushables {
   private static final Logger logger = Logger.getLogger(Flushables.class.getName());
 

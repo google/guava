@@ -38,7 +38,6 @@ import com.google.common.escape.Escapers;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class XmlEscapers {
   private XmlEscapers() {}
 

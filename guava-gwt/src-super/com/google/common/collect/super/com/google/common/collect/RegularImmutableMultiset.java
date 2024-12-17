@@ -17,7 +17,6 @@ import java.util.Collection;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Never actually created; instead delegates to JdkBackedImmutableMultiset. */
-@ElementTypesAreNonnullByDefault
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final ImmutableMultiset<Object> EMPTY =
       JdkBackedImmutableMultiset.create(ImmutableList.of());

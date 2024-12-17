@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class MinimalCollection<E extends @Nullable Object> extends AbstractCollection<E> {
   // TODO: expose allow nulls parameter?
 

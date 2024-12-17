@@ -40,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
   static <V extends @Nullable Object> ListenableFuture<V> create(
       ListenableFuture<V> delegate,

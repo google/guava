@@ -53,7 +53,6 @@ import javax.annotation.CheckForNull;
  */
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
 

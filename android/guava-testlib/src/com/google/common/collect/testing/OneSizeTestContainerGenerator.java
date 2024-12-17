@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface OneSizeTestContainerGenerator<T, E extends @Nullable Object>
     extends TestSubjectGenerator<T>, TestContainerGenerator<T, E> {
   TestContainerGenerator<T, E> getInnerGenerator();

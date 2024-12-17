@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     implements Table<R, C, V> {

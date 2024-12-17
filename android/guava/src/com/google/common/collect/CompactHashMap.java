@@ -80,7 +80,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jon Noack
  */
 @GwtIncompatible // not worth using in GWT for now
-@ElementTypesAreNonnullByDefault
 class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements Serializable {
   /*

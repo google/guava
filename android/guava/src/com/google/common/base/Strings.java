@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 3.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Strings {
   private Strings() {}
 

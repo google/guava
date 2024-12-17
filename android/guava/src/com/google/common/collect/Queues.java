@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 

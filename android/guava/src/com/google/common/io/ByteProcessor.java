@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @DoNotMock("Implement it normally")
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface ByteProcessor<T extends @Nullable Object> {
   /**
    * This method will be called for each chunk of bytes in an input stream. The implementation

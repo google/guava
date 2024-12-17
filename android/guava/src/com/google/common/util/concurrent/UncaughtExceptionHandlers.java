@@ -30,7 +30,6 @@ import java.util.Locale;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}
 

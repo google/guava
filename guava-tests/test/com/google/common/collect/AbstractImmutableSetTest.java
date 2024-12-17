@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -49,7 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of();

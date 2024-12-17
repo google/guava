@@ -31,7 +31,6 @@ import java.nio.file.SecureDirectoryStream;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 public enum RecursiveDeleteOption {
   /**
    * Specifies that the recursive delete should not throw an exception when it can't be guaranteed

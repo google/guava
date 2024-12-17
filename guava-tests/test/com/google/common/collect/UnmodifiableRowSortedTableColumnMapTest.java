@@ -21,9 +21,10 @@ import static com.google.common.collect.Tables.unmodifiableRowSortedTable;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class UnmodifiableRowSortedTableColumnMapTest extends ColumnMapTests {
   public UnmodifiableRowSortedTableColumnMapTest() {
     super(false, false, false, false);

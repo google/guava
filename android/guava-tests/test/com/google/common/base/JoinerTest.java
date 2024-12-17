@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -44,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class JoinerTest extends TestCase {
   private static final Joiner J = Joiner.on("-");
 

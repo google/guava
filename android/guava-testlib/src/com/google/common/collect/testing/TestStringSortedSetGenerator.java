@@ -28,7 +28,6 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestStringSortedSetGenerator extends TestStringSetGenerator
     implements TestSortedSetGenerator<String> {
 

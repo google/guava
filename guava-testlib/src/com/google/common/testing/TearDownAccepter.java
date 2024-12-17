@@ -27,7 +27,6 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @DoNotMock("Implement with a lambda")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TearDownAccepter {
   /**
    * Registers a TearDown implementor which will be run after the test proper.

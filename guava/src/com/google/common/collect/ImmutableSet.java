@@ -57,7 +57,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   static final int SPLITERATOR_CHARACTERISTICS =
       ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;

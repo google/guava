@@ -49,7 +49,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @see ImmutableSortedMap
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {

@@ -30,7 +30,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**

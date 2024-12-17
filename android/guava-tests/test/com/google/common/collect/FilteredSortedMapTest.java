@@ -18,9 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class FilteredSortedMapTest extends AbstractFilteredMapTest {
   @Override
   SortedMap<String, Integer> createUnfiltered() {

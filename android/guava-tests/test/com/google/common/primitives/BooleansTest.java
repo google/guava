@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -40,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class BooleansTest extends TestCase {
   private static final boolean[] EMPTY = {};
   private static final boolean[] ARRAY_FALSE = {false};

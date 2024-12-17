@@ -30,7 +30,6 @@ import java.util.Set;
  * @since 1.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Primitives {
   private Primitives() {}
 

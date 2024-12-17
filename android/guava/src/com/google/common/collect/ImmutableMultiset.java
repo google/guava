@@ -56,7 +56,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
 

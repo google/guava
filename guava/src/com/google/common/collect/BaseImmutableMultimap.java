@@ -22,5 +22,4 @@ import com.google.common.annotations.GwtCompatible;
  * retaining additional implementation details of {@link ImmutableMultimap}.
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class BaseImmutableMultimap<K, V> extends AbstractMultimap<K, V> {}

@@ -85,7 +85,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @since 26.0
  */
-@ElementTypesAreNonnullByDefault
 @J2ktIncompatible
 public final class ExecutionSequencer {
 

@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jon Noack
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class CompactHashing {
   private CompactHashing() {}
 

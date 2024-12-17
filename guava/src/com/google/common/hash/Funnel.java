@@ -44,7 +44,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @DoNotMock("Implement with a lambda")
-@ElementTypesAreNonnullByDefault
 public interface Funnel<T extends @Nullable Object> extends Serializable {
 
   /**

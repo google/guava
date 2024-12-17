@@ -46,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class CollectorTester<
     T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
   /**

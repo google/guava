@@ -28,7 +28,6 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
   /** Constructor for use by subclasses. */
   public AbstractGraph() {}

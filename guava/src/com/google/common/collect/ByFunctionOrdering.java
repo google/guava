@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * elements.
  */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
     extends Ordering<F> implements Serializable {
   final Function<F, ? extends T> function;

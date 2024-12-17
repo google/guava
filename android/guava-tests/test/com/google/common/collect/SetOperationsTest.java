@@ -32,6 +32,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit tests for {@link Sets#union}, {@link Sets#intersection} and {@link Sets#difference}.
@@ -39,7 +40,7 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class SetOperationsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite

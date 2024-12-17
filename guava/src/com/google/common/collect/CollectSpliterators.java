@@ -38,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class CollectSpliterators {
   private CollectSpliterators() {}
 

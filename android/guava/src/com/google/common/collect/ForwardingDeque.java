@@ -43,7 +43,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingDeque<E extends @Nullable Object> extends ForwardingQueue<E>
     implements Deque<E> {
 

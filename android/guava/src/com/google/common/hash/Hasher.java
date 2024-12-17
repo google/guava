@@ -54,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public interface Hasher extends PrimitiveSink {
   @CanIgnoreReturnValue
   @Override

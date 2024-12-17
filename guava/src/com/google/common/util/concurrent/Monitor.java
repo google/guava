@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -203,7 +204,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
-@ElementTypesAreNonnullByDefault
 public final class Monitor {
   // TODO(user): Use raw LockSupport or AbstractQueuedSynchronizer instead of ReentrantLock.
   // TODO(user): "Port" jsr166 tests for ReentrantLock.
@@ -1158,7 +1158,8 @@ public final class Monitor {
     int waiters = --guard.waiterCount;
     if (waiters == 0) {
       // unlink guard from activeGuards
-      for (Guard p = activeGuards, pred = null; ; pred = p, p = p.next) {
+      // TODO(cpovirk): Better justify why this is safe.
+      for (Guard p = activeGuards, pred = null; ; pred = p, p = requireNonNull(p).next) {
         if (p == guard) {
           if (pred == null) {
             activeGuards = p.next;

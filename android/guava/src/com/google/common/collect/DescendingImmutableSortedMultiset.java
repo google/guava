@@ -25,7 +25,6 @@ import javax.annotation.CheckForNull;
  */
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;
 

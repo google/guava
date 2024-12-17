@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     private final transient ImmutableMap<K, V> map;

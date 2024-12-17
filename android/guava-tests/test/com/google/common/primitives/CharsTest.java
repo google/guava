@@ -35,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -43,7 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class CharsTest extends TestCase {
   private static final char[] EMPTY = {};
   private static final char[] ARRAY1 = {(char) 1};

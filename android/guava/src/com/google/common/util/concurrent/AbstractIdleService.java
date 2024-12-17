@@ -35,7 +35,6 @@ import java.util.concurrent.TimeoutException;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractIdleService implements Service {
 
   /* Thread names will look like {@code "MyService STARTING"}. */

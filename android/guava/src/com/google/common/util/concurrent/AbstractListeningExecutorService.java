@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @CheckReturnValue
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */
@@ -70,6 +69,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
 
   @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
+  @SuppressWarnings("nullness") // some kind of checker bug
   public <T extends @Nullable Object> ListenableFuture<T> submit(
       Runnable task, @ParametricNullness T result) {
     return (ListenableFuture<T>) super.submit(task, result);

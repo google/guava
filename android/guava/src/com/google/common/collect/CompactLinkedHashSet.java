@@ -49,7 +49,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-@ElementTypesAreNonnullByDefault
 class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E> {
 
   /** Creates an empty {@code CompactLinkedHashSet} instance. */

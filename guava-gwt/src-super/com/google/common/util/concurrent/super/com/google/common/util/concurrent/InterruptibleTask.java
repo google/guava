@@ -21,7 +21,6 @@ import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNulla
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation for InterruptibleTask in GWT. */
-@ElementTypesAreNonnullByDefault
 abstract class InterruptibleTask<T extends @Nullable Object> implements Runnable {
 
   @Override

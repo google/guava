@@ -45,7 +45,6 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public final class Graphs extends GraphsBridgeMethods {
 
   private Graphs() {}

@@ -46,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;

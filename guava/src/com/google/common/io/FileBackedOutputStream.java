@@ -65,7 +65,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible
-@ElementTypesAreNonnullByDefault
 public final class FileBackedOutputStream extends OutputStream {
   private final int fileThreshold;
   private final boolean resetOnFinalize;

@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 4.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListenableFuture<V extends @Nullable Object>
     extends ForwardingFuture<V> implements ListenableFuture<V> {
 

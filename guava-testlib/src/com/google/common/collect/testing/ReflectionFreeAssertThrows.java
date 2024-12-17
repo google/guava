@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Replacements for JUnit's {@code assertThrows} that work under GWT/J2CL. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class ReflectionFreeAssertThrows {
   interface ThrowingRunnable {
     void run() throws Throwable;

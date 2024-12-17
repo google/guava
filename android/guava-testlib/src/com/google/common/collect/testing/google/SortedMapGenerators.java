@@ -42,7 +42,6 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
     @Override

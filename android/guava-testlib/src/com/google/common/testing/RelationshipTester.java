@@ -33,7 +33,6 @@ import junit.framework.AssertionFailedError;
  * @author Gregory Kick
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class RelationshipTester<T> {
 
   static class ItemReporter {

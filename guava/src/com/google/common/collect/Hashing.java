@@ -30,7 +30,6 @@ import javax.annotation.CheckForNull;
  * @author Austin Appleby
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class Hashing {
   private Hashing() {}
 

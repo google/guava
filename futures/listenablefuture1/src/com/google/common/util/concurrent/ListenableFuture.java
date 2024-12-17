@@ -102,22 +102,20 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 /*
- * Some of the annotations below were added after we released our separate
+ * The annotation below was added after we released our separate
  * com.google.guava:listenablefuture:1.0 artifact. (For more on that artifact, see
  * https://github.com/google/guava/releases/tag/v27.0) This means that the copy of ListenableFuture
  * in com.google.guava:guava differs from the "frozen" copy in the listenablefuture artifact. This
- * could in principle cause problems for some users. Still, we expect that the benefits of the
- * nullness annotations in particular will outweigh the costs. (And it's worth noting that we have
- * released multiple ListenableFuture.class files that are not byte-for-byte compatible even from
- * the beginning, thanks to using different `-source -target` values for compiling our `-jre` and
- * `-android` "flavors.")
+ * could in principle cause problems for some users. Still, we expect that the benefits will
+ * outweigh the costs. (And it's worth noting that we have released multiple ListenableFuture.class
+ * files that are not byte-for-byte compatible even from the beginning, thanks to using different
+ * `-source -target` values for compiling our `-jre` and `-android` "flavors.")
  *
  * (We could consider releasing a listenablefuture:1.0.1 someday. But we would want to look into how
  * that affects users, especially users of the Android Gradle Plugin, since the plugin developers
  * put in a special hack for us: https://issuetracker.google.com/issues/131431257)
  */
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
-@ElementTypesAreNonnullByDefault
 public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.

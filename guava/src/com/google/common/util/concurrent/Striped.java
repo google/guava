@@ -84,7 +84,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class Striped<L> {
   /**
    * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be

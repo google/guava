@@ -50,6 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Charles Fry
  * @author Jon Donovan
  */
+@SuppressWarnings("nullness")
 public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   private static final int UNSET_INT = CacheBuilder.UNSET_INT;
 

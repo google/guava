@@ -28,7 +28,6 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-@ElementTypesAreNonnullByDefault
 interface NetworkConnections<N, E> {
 
   Set<N> adjacentNodes();

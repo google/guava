@@ -30,7 +30,6 @@ import java.io.InputStream;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class CountingInputStream extends FilterInputStream {
 
   private long count;

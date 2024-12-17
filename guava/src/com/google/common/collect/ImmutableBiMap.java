@@ -46,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 
   /**

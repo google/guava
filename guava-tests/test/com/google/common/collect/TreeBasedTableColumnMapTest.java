@@ -18,9 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnMapTests;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TreeBasedTableColumnMapTest extends ColumnMapTests {
   public TreeBasedTableColumnMapTest() {
     super(false, true, true, false);

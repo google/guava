@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nullable Object>
     extends TransformedIterator<F, T> implements ListIterator<T> {
   TransformedListIterator(ListIterator<? extends F> backingIterator) {

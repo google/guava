@@ -62,7 +62,6 @@ import java.util.SortedSet;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public class SetGenerators {
 
   public static class ImmutableSetCopyOfGenerator extends TestStringSetGenerator {

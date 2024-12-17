@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Callables {
   private Callables() {}
 

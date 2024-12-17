@@ -20,9 +20,10 @@ import static com.google.common.collect.Tables.transpose;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TablesTransposeRowTest extends RowTests {
   public TablesTransposeRowTest() {
     super(false, true, true, true, false);

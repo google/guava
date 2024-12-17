@@ -50,7 +50,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0 (but only since 33.4.0 in the Android flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class SpliteratorTester<E extends @Nullable Object> {
   /** Return type from "contains the following elements" assertions. */
   public interface Ordered {

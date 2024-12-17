@@ -30,6 +30,7 @@ import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -39,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Vlad Patryshev
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class FunctionsTest extends TestCase {
 
   public void testIdentity_same() {

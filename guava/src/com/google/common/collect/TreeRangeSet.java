@@ -41,7 +41,6 @@ import javax.annotation.CheckForNull;
  * @since 14.0
  */
 @GwtIncompatible // uses NavigableMap
-@ElementTypesAreNonnullByDefault
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     implements Serializable {
 

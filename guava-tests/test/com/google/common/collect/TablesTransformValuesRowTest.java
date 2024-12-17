@@ -21,9 +21,10 @@ import static com.google.common.collect.Tables.transformValues;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TablesTransformValuesRowTest extends RowTests {
   public TablesTransformValuesRowTest() {
     super(false, false, true, true, true);

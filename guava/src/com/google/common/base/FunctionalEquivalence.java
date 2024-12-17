@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serializable {
 
   private static final long serialVersionUID = 0;

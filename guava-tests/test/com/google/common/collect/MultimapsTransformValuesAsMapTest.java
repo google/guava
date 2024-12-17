@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Functions;
 import java.util.Collection;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for Multimaps.transformValues().asMap().
@@ -27,7 +28,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MultimapsTransformValuesAsMapTest extends AbstractMultimapAsMapImplementsMapTest {
 
   public MultimapsTransformValuesAsMapTest() {

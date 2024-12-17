@@ -33,5 +33,4 @@ import java.lang.annotation.Target;
 @GwtCompatible
 @Retention(RUNTIME)
 @Target(FIELD)
-@ElementTypesAreNonnullByDefault
 @interface GwtTransient {}

@@ -36,7 +36,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
-@ElementTypesAreNonnullByDefault
 final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   private final Range<C> range;
 

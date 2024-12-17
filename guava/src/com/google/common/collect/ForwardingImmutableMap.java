@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtCompatible;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingImmutableMap<K, V> {
   private ForwardingImmutableMap() {}
 }

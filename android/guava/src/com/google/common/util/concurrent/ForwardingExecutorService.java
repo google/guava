@@ -43,7 +43,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingExecutorService extends ForwardingObject
     implements ExecutorService {
   /** Constructor for use by subclasses. */

@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
   // 2K chars (4K bytes)

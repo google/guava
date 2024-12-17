@@ -125,6 +125,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -134,6 +135,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
+@NullUnmarked
+@SuppressWarnings("nullness")
 class FreshValueGenerator {
 
   private static final ImmutableMap<Class<?>, Method> GENERATORS;

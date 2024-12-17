@@ -76,7 +76,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
 

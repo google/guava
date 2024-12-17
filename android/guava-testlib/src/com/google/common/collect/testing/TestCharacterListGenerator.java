@@ -27,7 +27,6 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestCharacterListGenerator implements TestListGenerator<Character> {
   @Override
   public SampleElements<Character> samples() {

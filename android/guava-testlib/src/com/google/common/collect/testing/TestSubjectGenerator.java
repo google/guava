@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestSubjectGenerator<T extends @Nullable Object> {
   T createTestSubject();
 }

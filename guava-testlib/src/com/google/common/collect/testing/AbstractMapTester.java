@@ -43,7 +43,6 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractMapTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractContainerTester<Map<K, V>, Entry<K, V>> {
   protected Map<K, V> getMap() {

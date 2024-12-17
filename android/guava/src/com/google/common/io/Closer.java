@@ -81,7 +81,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // Coffee's for {@link Closer closers} only.
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Closer implements Closeable {
   /** Creates a new {@link Closer}. */
   public static Closer create() {

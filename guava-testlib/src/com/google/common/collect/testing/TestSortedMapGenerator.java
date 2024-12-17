@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestSortedMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestMapGenerator<K, V> {
   @Override

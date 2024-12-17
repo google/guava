@@ -52,7 +52,6 @@ import javax.annotation.CheckForNull;
  */
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible // NavigableMap
-@ElementTypesAreNonnullByDefault
 public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, V> {
 
   private final NavigableMap<Cut<K>, RangeMapEntry<K, V>> entriesByLowerBound;

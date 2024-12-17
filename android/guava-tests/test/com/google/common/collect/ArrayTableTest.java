@@ -31,6 +31,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -39,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   @Override

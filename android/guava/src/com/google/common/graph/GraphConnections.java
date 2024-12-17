@@ -29,7 +29,6 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-@ElementTypesAreNonnullByDefault
 interface GraphConnections<N, V> {
 
   Set<N> adjacentNodes();

@@ -60,7 +60,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList

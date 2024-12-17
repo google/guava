@@ -28,7 +28,6 @@ import com.google.common.annotations.VisibleForTesting;
  * @author kylemaddison@google.com (Kyle Maddison)
  * @author gpike@google.com (Geoff Pike)
  */
-@ElementTypesAreNonnullByDefault
 final class Fingerprint2011 extends AbstractNonStreamingHashFunction {
   static final HashFunction FINGERPRINT_2011 = new Fingerprint2011();
 

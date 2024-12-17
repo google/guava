@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 interface SortedIterable<T extends @Nullable Object> extends Iterable<T> {
   /**
    * Returns the {@code Comparator} by which the elements of this iterable are ordered, or {@code

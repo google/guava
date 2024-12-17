@@ -85,7 +85,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible
 @Immutable
-@ElementTypesAreNonnullByDefault
 public final class ImmutableDoubleArray implements Serializable {
   private static final ImmutableDoubleArray EMPTY = new ImmutableDoubleArray(new double[0]);
 

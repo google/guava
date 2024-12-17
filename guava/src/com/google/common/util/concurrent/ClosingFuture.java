@@ -191,7 +191,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V extends @Nullable Object> {
 
