@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+
 import com.google.common.collect.ImmutableSet;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -31,18 +33,12 @@ import sun.misc.Unsafe;
  * <p>On different platforms AbstractFuture uses different strategies for its core synchronization
  * primitives. The strategies are all implemented as subtypes of AtomicHelper and the strategy is
  * selected in the static initializer of AbstractFuture. This is convenient and performant but
- * introduces some testing difficulties. This test exercises the two fallback strategies in abstract
- * future.
+ * introduces some testing difficulties. This test exercises the fallback strategies.
  *
- * <ul>
- *   <li>SafeAtomicHelper: uses AtomicReferenceFieldsUpdaters to implement synchronization
- *   <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
- * </ul>
- *
- * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of {@code
- * com.google.common.util.concurrent}) in degenerate class loaders which make certain platform
- * classes unavailable. Then we construct a test suite so we can run the normal AbstractFutureTest
- * test methods in these degenerate classloaders.
+ * <p>To force selection of our fallback strategies, we load {@link AbstractFuture} (and all of
+ * {@code com.google.common.util.concurrent}) in degenerate class loaders which make certain
+ * platform classes unavailable. Then we construct a test suite so we can run the normal
+ * AbstractFutureTest test methods in these degenerate classloaders.
  */
 
 public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
@@ -60,7 +56,8 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   /**
    * This classloader disallows {@link sun.misc.Unsafe} and {@link AtomicReferenceFieldUpdater},
-   * which will prevent us from selecting our {@code SafeAtomicHelper} strategy.
+   * which will prevent us from selecting our {@code AtomicReferenceFieldUpdaterAtomicHelper}
+   * strategy.
    */
   @SuppressWarnings({"SunApi", "removal"}) // b/345822163
   private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
@@ -141,5 +138,9 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
         return super.loadClass(name);
       }
     };
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }
