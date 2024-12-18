@@ -38,6 +38,7 @@ import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
 import static java.math.RoundingMode.values;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -740,6 +741,33 @@ public class BigIntegerMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(BigIntegerMath.class);
+  }
+
+  public void testMultifactorialBasic() {
+    assertEquals(BigInteger.valueOf(105), BigIntegerMath.multiFactorial(7, 2)); // 7 * 5 * 3 * 1
+    assertEquals(BigInteger.valueOf(28), BigIntegerMath.multiFactorial(7, 3));  // 7 * 4 * 1
+    assertEquals(BigInteger.ONE, BigIntegerMath.multiFactorial(0, 1));          // Base case
+    assertEquals(BigInteger.ONE, BigIntegerMath.multiFactorial(1, 1));          // 1!
+  }
+
+  public void testMultifactorialWithIncrementOne() {
+    assertEquals(BigInteger.valueOf(120), BigIntegerMath.multiFactorial(5, 1)); // 5 * 4 * 3 * 2 * 1
+  }
+
+  public void testMultifactorialNegativeIncrement() {
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      BigIntegerMath.multiFactorial(5, -1);
+    });
+    assertEquals("Step value k must be a positive integer.", exception.getMessage());
+  }
+
+  public void testMultifactorialWithLargeNumber() {
+    assertEquals(new BigInteger("3628800"), BigIntegerMath.multiFactorial(10, 1));
+  }
+
+  public void testMultifactorialWithLargeInput() {
+    BigInteger result = BigIntegerMath.multiFactorial(100, 10);
+    assertTrue(result.compareTo(BigInteger.ZERO) > 0); // Result should be positive
   }
 
   @GwtIncompatible // String.format

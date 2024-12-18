@@ -921,6 +921,33 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  public void testMultifactorialBasic() {
+    assertEquals(105l, LongMath.multiFactorial(7, 2)); // 7 * 5 * 3 * 1
+    assertEquals(28l, LongMath.multiFactorial(7, 3));  // 7 * 4 * 1
+    assertEquals(1l, LongMath.multiFactorial(0, 1));          // Base case
+    assertEquals(1l, LongMath.multiFactorial(1, 1));          // 1!
+  }
+
+  public void testMultifactorialWithIncrementOne() {
+    assertEquals(120l, LongMath.multiFactorial(5, 1)); // 5 * 4 * 3 * 2 * 1
+  }
+
+  public void testMultifactorialNegativeIncrement() {
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      LongMath.multiFactorial(5, -1);
+    });
+    assertEquals("Step value k must be a positive integer.", exception.getMessage());
+  }
+
+  public void testMultifactorialWithLargeNumber() {
+    assertEquals(3628800l, LongMath.multiFactorial(10, 1));
+  }
+
+  public void testMultifactorialWithLargeInput() {
+    long result = LongMath.multiFactorial(100, 10);
+    assertTrue(result > 0l); // Result should be positive
+  }
+
   private static void failFormat(String template, Object... args) {
     assertWithMessage(template, args).fail();
   }
