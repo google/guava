@@ -32,7 +32,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
   @CheckForNull private Reader current;

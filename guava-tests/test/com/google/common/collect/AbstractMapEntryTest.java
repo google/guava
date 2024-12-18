@@ -21,6 +21,7 @@ import static java.util.Collections.singletonMap;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -29,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class AbstractMapEntryTest extends TestCase {
   private static final @Nullable String NK = null;
   private static final @Nullable Integer NV = null;

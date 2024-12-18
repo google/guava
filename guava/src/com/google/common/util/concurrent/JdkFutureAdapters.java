@@ -39,7 +39,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.

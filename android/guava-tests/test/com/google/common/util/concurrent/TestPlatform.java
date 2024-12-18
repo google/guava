@@ -29,9 +29,11 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 final class TestPlatform {
   static void verifyGetOnPendingFuture(Future<?> future) {
     checkNotNull(future);

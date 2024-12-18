@@ -56,8 +56,8 @@ import java.lang.annotation.Target;
  * <ul>
  *   <li>Kotlin, for which it makes the type-variable usage (a) a Kotlin platform type when the type
  *       argument is non-nullable and (b) nullable when the type argument is nullable. We use this
- *       to "undo" {@link ElementTypesAreNonnullByDefault}. It is the best we can do for Kotlin
- *       under our current constraints.
+ *       to reduce the immediate effects of {@code NullMarked} as we transition to JSpecify
+ *       annotations.
  *   <li>NullAway, which will <a
  *       href="https://github.com/google/guava/issues/6126#issuecomment-1204399671">treat it
  *       identically to {@code Nullable} as of version 0.9.9</a>. To treat it that way before then,

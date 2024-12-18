@@ -20,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** A holder for a {@link Logger} that is initialized only when requested. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class LazyLogger {
   private final Object lock = new Object();
 

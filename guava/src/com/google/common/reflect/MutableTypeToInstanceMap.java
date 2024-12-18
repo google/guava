@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 13.0
  */
-@ElementTypesAreNonnullByDefault
 public final class MutableTypeToInstanceMap<B extends @Nullable Object>
     extends ForwardingMap<TypeToken<? extends @NonNull B>, B> implements TypeToInstanceMap<B> {
   /** Creates a new map. */

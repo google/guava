@@ -32,13 +32,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link SignedBytes}.
  *
  * @author Kevin Bourrillion
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class SignedBytesTest extends TestCase {
   private static final byte[] EMPTY = {};

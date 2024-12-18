@@ -8,7 +8,6 @@ import java.util.Set;
  * changed. This provides binary compatibility for users who compiled against the old signatures.
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 abstract class GraphsBridgeMethods {
 
   @SuppressWarnings("PreferredInterfaceType")

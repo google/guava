@@ -31,7 +31,6 @@ import java.util.regex.PatternSyntaxException;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class PatternFilenameFilter implements FilenameFilter {
 
   private final Pattern pattern;

@@ -44,7 +44,6 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Shorts extends ShortsMethodsForWeb {
   private Shorts() {}
 

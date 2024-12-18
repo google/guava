@@ -48,7 +48,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 // TODO: b/227335009 - Maybe change interruption behavior, but it requires thought.
 @SuppressWarnings("Interruption")
 public final class SimpleTimeLimiter implements TimeLimiter {

@@ -48,7 +48,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // check the order if so.
 // TODO: Refactor to share code with SetTestBuilder etc.
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nullable Object>
     extends TestCase {
 

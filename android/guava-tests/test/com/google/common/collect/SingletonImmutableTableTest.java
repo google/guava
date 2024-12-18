@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests {@link SingletonImmutableTable}.
@@ -30,7 +31,7 @@ import com.google.common.testing.EqualsTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   private final ImmutableTable<Character, Integer, String> testTable =
       new SingletonImmutableTable<>('a', 1, "blah");

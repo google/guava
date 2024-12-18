@@ -25,7 +25,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   /** true if this set is a subset of another immutable sorted set. */

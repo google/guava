@@ -28,7 +28,6 @@ import sun.misc.Unsafe;
  */
 @SuppressWarnings({"SunApi", "removal"}) // b/345822163
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class Striped64 extends Number {
   /*
    * This class maintains a lazily-initialized table of atomically

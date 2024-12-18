@@ -50,7 +50,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 15.0
  */
-@ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 
   private final TypeTable typeTable;

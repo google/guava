@@ -57,7 +57,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ForwardingWrapperTester {
 
   private boolean testsEquals = false;

@@ -53,7 +53,6 @@ import java.util.function.DoubleUnaryOperator;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements Serializable {
   private static final long serialVersionUID = 0L;
 

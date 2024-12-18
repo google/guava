@@ -62,7 +62,6 @@ import java.util.function.DoubleUnaryOperator;
 @GwtIncompatible
 @J2ktIncompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-@ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements Serializable {
   private static final long serialVersionUID = 0L;
 

@@ -54,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements BiMap<K, V>, Serializable {
 

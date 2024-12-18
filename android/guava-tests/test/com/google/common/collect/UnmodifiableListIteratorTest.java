@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for UnmodifiableListIterator.
@@ -30,7 +31,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class UnmodifiableListIteratorTest extends TestCase {
   @SuppressWarnings("DoNotCall")
   public void testRemove() {

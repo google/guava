@@ -47,7 +47,6 @@ import java.util.Arrays;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class ReaderInputStream extends InputStream {
   private final Reader reader;
   private final CharsetEncoder encoder;

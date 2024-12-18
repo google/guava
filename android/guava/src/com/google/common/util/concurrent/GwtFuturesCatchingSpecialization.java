@@ -25,7 +25,6 @@ import com.google.common.annotations.J2ktIncompatible;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible // Super-sourced
-@ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * This server copy of the class is empty. The corresponding GWT copy contains alternative

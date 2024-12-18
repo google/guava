@@ -51,7 +51,6 @@ import javax.annotation.CheckForNull;
  *
  * @author Colin Decker
  */
-@ElementTypesAreNonnullByDefault
 final class SubscriberRegistry {
 
   /**

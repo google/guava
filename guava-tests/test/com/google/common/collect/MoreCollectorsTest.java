@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MoreCollectorsTest extends TestCase {
   public void testToOptionalEmpty() {
     assertThat(Stream.empty().collect(toOptional())).isEmpty();

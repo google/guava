@@ -22,7 +22,6 @@ import java.util.concurrent.Future;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation of Uninterruptibles in GWT. */
-@ElementTypesAreNonnullByDefault
 public final class Uninterruptibles {
 
   private Uninterruptibles() {}

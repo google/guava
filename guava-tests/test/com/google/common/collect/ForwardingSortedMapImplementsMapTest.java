@@ -22,6 +22,7 @@ import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link ForwardingSortedMap} using {@link MapInterfaceTest}.
@@ -29,7 +30,7 @@ import java.util.TreeMap;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest<String, Integer> {
 
   private static class SimpleForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {

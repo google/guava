@@ -105,7 +105,6 @@ import org.junit.Test;
 @GwtIncompatible
 @J2ktIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**

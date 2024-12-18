@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestContainerGenerator<Map<K, V>, Map.Entry<K, V>> {
   K[] createKeyArray(int length);

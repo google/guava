@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings({
   // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   "ShortCircuitBoolean",

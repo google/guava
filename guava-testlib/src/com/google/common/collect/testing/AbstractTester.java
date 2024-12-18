@@ -34,7 +34,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;
   private String suiteName;

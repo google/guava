@@ -52,13 +52,14 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for BigIntegerMath.
  *
  * @author Louis Wasserman
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class BigIntegerMathTest extends TestCase {
   public void testCeilingPowerOfTwo() {

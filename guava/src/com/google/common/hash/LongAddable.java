@@ -20,7 +20,6 @@ package com.google.common.hash;
  *
  * @author Louis Wasserman
  */
-@ElementTypesAreNonnullByDefault
 interface LongAddable {
   void increment();
 

@@ -80,7 +80,6 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @Beta
 @DoNotMock("Implement with a lambda, or use GraphBuilder to build a Graph with the desired edges")
-@ElementTypesAreNonnullByDefault
 public interface SuccessorsFunction<N> {
 
   /**

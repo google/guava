@@ -32,11 +32,12 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TableCollectorsTest extends TestCase {
   public void testToImmutableTable() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =

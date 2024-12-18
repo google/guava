@@ -76,7 +76,6 @@ import javax.annotation.CheckForNull;
 @Deprecated
 @Beta
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
   /** Constructor for use by subclasses. */
   public TreeTraverser() {}

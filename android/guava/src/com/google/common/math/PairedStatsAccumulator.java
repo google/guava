@@ -32,7 +32,6 @@ import com.google.common.primitives.Doubles;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class PairedStatsAccumulator {
   /** Creates a new accumulator. */
   public PairedStatsAccumulator() {}

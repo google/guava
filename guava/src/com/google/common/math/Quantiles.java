@@ -128,7 +128,6 @@ import java.util.Map;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Quantiles {
   /**
    * Constructor for a type that is not meant to be instantiated.

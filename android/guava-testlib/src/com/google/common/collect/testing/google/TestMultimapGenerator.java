@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestMultimapGenerator<
         K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends TestContainerGenerator<M, Entry<K, V>> {

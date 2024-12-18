@@ -26,7 +26,6 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 
   abstract Network<N, E> delegate();

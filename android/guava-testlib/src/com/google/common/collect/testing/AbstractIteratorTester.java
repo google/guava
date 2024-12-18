@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;

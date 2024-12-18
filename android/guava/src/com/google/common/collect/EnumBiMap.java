@@ -42,7 +42,6 @@ import java.util.Map;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends AbstractBiMap<K, V> {
   /*
    * J2CL's EnumMap does not need the Class instance, so we can use Object.class instead. (Or we

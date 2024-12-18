@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface LineProcessor<T extends @Nullable Object> {
 
   /**

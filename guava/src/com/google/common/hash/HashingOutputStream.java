@@ -28,7 +28,6 @@ import java.io.OutputStream;
  * @since 16.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public final class HashingOutputStream extends FilterOutputStream {
   private final Hasher hasher;
 

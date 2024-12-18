@@ -38,7 +38,6 @@ import java.nio.charset.StandardCharsets;
  * @since 7.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Ascii {
 
   private Ascii() {}

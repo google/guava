@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Emily Soldal
  */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class AllEqualOrdering extends Ordering<@Nullable Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 

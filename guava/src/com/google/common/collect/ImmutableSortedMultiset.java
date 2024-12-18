@@ -54,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible // hasn't been tested yet
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility

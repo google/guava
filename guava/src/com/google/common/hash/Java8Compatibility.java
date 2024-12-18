@@ -22,7 +22,6 @@ import java.nio.Buffer;
  * https://github.com/google/guava/issues/3990
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class Java8Compatibility {
   static void clear(Buffer b) {
     b.clear();

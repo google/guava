@@ -27,6 +27,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link EvictingQueue}.
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class EvictingQueueTest extends TestCase {
 
   public void testCreateWithNegativeSize() throws Exception {

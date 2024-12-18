@@ -42,7 +42,6 @@ import javax.annotation.CheckForNull;
  */
 @DoNotMock("Use CacheBuilder.newBuilder().build()")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Cache<K, V> {
 
   /**

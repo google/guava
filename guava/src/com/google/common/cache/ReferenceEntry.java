@@ -39,7 +39,6 @@ import javax.annotation.CheckForNull;
  * </ul>
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
   @CheckForNull

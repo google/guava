@@ -26,5 +26,4 @@ import java.lang.annotation.Target;
  * <p>Each package's copy of this annotation needs to be listed in our {@code pom.xml}.
  */
 @Target({METHOD, CONSTRUCTOR, TYPE})
-@ElementTypesAreNonnullByDefault
 @interface IgnoreJRERequirement {}

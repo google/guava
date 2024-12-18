@@ -52,7 +52,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
-@ElementTypesAreNonnullByDefault
 final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */

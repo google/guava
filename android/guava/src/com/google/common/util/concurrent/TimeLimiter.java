@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("GoodTime") // should have java.time.Duration overloads
-@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**

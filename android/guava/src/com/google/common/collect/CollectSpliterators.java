@@ -38,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs that work with Stream
 final class CollectSpliterators {

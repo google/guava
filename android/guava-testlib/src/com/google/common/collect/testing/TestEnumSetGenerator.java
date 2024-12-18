@@ -29,7 +29,6 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestEnumSetGenerator implements TestSetGenerator<AnEnum> {
   @Override
   public SampleElements<AnEnum> samples() {

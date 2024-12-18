@@ -47,7 +47,6 @@ import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public class Helpers {
   // Clone of Objects.equal
   static boolean equal(@Nullable Object a, @Nullable Object b) {

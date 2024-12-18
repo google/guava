@@ -24,6 +24,7 @@ import com.google.common.base.Function;
 import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@code TreeTraverser}.
@@ -31,7 +32,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TreeTraverserTest extends TestCase {
   private static class Node {
     final char value;

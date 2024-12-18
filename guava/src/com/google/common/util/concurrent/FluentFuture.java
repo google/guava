@@ -74,7 +74,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public abstract class FluentFuture<V extends @Nullable Object>
     extends GwtFluentFutureCatchingSpecialization<V> {
 

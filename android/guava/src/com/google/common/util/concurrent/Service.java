@@ -55,7 +55,6 @@ import java.util.concurrent.TimeoutException;
 @DoNotMock("Create an AbstractIdleService")
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns

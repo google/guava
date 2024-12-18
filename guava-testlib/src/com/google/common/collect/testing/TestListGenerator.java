@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestListGenerator<E extends @Nullable Object> extends TestCollectionGenerator<E> {
   @Override
   List<E> create(Object... elements);

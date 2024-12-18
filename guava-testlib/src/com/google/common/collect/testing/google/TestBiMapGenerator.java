@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface TestBiMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestContainerGenerator<BiMap<K, V>, Entry<K, V>> {
   K[] createKeyArray(int length);

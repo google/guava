@@ -40,7 +40,6 @@ import javax.annotation.CheckForNull;
  * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator<T> {
   @CheckForNull private T nextOrNull;
 

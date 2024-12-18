@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 33.2.0 (available since 21.0 in guava-jre)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using streams.
 public final class MoreCollectors {

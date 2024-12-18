@@ -27,7 +27,6 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestStringCollectionGenerator implements TestCollectionGenerator<String> {
   @Override
   public SampleElements<String> samples() {

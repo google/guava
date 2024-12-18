@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * iterates. This class is not thread safe.
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
   private final Queue<T> queue;
 

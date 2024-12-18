@@ -76,7 +76,6 @@ import sun.misc.Unsafe;
 })
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractFuture<V extends @Nullable Object> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
   static final boolean GENERATE_CANCELLATION_CAUSES;

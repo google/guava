@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class SampleElements<E extends @Nullable Object> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
   private final E e0;

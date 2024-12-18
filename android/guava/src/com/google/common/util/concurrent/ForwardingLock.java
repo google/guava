@@ -21,7 +21,6 @@ import java.util.concurrent.locks.Lock;
 
 /** Forwarding wrapper around a {@code Lock}. */
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingLock implements Lock {
   abstract Lock delegate();
 

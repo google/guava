@@ -42,7 +42,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <OutputT> the type of the output (i.e. this) future
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings(
     // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
     "ShortCircuitBoolean")

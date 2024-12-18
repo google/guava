@@ -44,7 +44,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Robert Konigsberg
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class UnmodifiableCollectionTests {
 
   public static void assertMapEntryIsUnmodifiable(Entry<?, ?> entry) {

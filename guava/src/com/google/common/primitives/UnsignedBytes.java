@@ -49,7 +49,6 @@ import sun.misc.Unsafe;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class UnsignedBytes {
   private UnsignedBytes() {}
 

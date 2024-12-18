@@ -22,9 +22,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.RowMapTests;
 import java.util.Map;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class UnmodifiableRowSortedTableRowMapTest extends RowMapTests {
   public UnmodifiableRowSortedTableRowMapTest() {
     super(false, false, false, false);

@@ -32,6 +32,7 @@ import com.google.common.testing.NullPointerTester;
 import java.util.Collections;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link Multisets}.
@@ -41,7 +42,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MultisetsTest extends TestCase {
 
   /* See MultisetsImmutableEntryTest for immutableEntry() tests. */

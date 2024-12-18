@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 interface LongAddable {
   void increment();
 

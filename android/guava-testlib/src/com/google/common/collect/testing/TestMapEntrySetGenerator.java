@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jesse Wilson
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestMapEntrySetGenerator<
         K extends @Nullable Object, V extends @Nullable Object>
     implements TestSetGenerator<Map.Entry<K, V>> {

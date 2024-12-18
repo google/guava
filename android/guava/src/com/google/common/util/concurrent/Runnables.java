@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
  * @since 16.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Runnables {
 
   private static final Runnable EMPTY_RUNNABLE =

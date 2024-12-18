@@ -29,7 +29,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * reasons).
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
   private State state = State.NOT_READY;
 

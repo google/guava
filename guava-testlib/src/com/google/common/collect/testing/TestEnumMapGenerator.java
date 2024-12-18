@@ -30,7 +30,6 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, String> {
 
   @Override

@@ -75,7 +75,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jon Noack
  */
 @GwtIncompatible // not worth using in GWT for now
-@ElementTypesAreNonnullByDefault
 class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implements Serializable {
   // TODO(user): cache all field accesses in local vars
 

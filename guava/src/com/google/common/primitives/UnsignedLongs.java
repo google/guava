@@ -48,7 +48,6 @@ import java.util.Comparator;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class UnsignedLongs {
   private UnsignedLongs() {}
 

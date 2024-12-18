@@ -42,6 +42,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@code EnumBiMap}.
@@ -51,7 +52,7 @@ import junit.framework.TestSuite;
  */
 @J2ktIncompatible // EnumBimap
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class EnumBiMapTest extends TestCase {
   private enum Currency {
     DOLLAR,

@@ -33,7 +33,6 @@ import javax.annotation.CheckForNull;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class UncheckedExecutionException extends RuntimeException {
   /*
    * Ideally, this class would have exposed only constructors that require a non-null cause. See

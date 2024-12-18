@@ -21,5 +21,4 @@ import com.google.common.annotations.GwtCompatible;
  * version.
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class DoublesMethodsForWeb {}

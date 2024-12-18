@@ -48,7 +48,6 @@ import java.nio.charset.Charset;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ByteSink {
 
   /** Constructor for use by subclasses. */

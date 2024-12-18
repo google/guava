@@ -53,7 +53,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class TestLogHandler extends Handler {
   private final Object lock = new Object();
 

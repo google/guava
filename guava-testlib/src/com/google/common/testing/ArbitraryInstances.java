@@ -176,7 +176,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ArbitraryInstances {
 
   private static final Ordering<Field> BY_FIELD_NAME =

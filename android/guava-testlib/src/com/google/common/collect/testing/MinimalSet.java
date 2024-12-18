@@ -34,7 +34,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Regina O'Dell
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E> implements Set<E> {
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]

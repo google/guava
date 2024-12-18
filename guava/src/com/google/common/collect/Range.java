@@ -120,7 +120,6 @@ import javax.annotation.CheckForNull;
 @GwtCompatible
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @Immutable(containerOf = "C")
-@ElementTypesAreNonnullByDefault
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
   @SuppressWarnings("unchecked")

@@ -26,7 +26,6 @@ import java.nio.charset.Charset;
  * @since 12.0 (in 11.0 as {@code Sink})
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public interface PrimitiveSink {
   /**
    * Puts a byte into this sink.
