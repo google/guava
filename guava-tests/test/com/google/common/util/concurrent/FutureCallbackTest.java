@@ -155,10 +155,10 @@ public class FutureCallbackTest extends TestCase {
   public void testWildcardFuture() {
     SettableFuture<String> settable = SettableFuture.create();
     ListenableFuture<?> f = settable;
-    FutureCallback<Object> callback =
-        new FutureCallback<Object>() {
+    FutureCallback<@Nullable Object> callback =
+        new FutureCallback<@Nullable Object>() {
           @Override
-          public void onSuccess(Object result) {}
+          public void onSuccess(@Nullable Object result) {}
 
           @Override
           public void onFailure(Throwable t) {}

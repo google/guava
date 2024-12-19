@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code AbstractIterator}.
@@ -46,7 +47,7 @@ public class AbstractIteratorTest extends TestCase {
           private int rep;
 
           @Override
-          public Integer computeNext() {
+          public @Nullable Integer computeNext() {
             switch (rep++) {
               case 0:
                 return 0;

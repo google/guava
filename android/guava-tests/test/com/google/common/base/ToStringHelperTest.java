@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link MoreObjects#toStringHelper(Object)}.
@@ -580,7 +581,7 @@ public class ToStringHelperTest extends TestCase {
     String[] strings = {"hello", "world"};
     int[] ints = {2, 42};
     Object[] objects = {"obj"};
-    String[] arrayWithNull = {null};
+    @Nullable String[] arrayWithNull = new @Nullable String[] {null};
     Object[] empty = {};
     String toTest =
         MoreObjects.toStringHelper("TSH")
