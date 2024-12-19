@@ -19,12 +19,14 @@ package com.google.common.cache;
 import static com.google.common.truth.Truth.assertThat;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link CacheStats}.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class CacheStatsTest extends TestCase {
 
   public void testEmpty() {

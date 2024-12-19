@@ -39,6 +39,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link IntMath}.
@@ -46,6 +47,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class IntMathTest extends TestCase {
   public void testMaxSignedPowerOfTwo() {
     assertTrue(IntMath.isPowerOfTwo(IntMath.MAX_SIGNED_POWER_OF_TWO));

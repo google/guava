@@ -20,12 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link TestLogHandler}.
  *
  * @author kevinb
  */
+@NullUnmarked
 public class TestLogHandlerTest extends TestCase {
 
   private TestLogHandler handler;

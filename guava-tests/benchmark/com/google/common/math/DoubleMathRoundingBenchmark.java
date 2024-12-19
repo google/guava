@@ -25,12 +25,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the rounding methods of {@code DoubleMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class DoubleMathRoundingBenchmark {
   private static final double[] doubleInIntRange = new double[ARRAY_SIZE];
   private static final double[] doubleInLongRange = new double[ARRAY_SIZE];

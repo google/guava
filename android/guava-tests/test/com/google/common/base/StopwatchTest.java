@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Stopwatch}.
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@NullUnmarked
 public class StopwatchTest extends TestCase {
 
   private final FakeTicker ticker = new FakeTicker();

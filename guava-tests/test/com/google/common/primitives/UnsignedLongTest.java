@@ -27,6 +27,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.math.BigInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@code UnsignedLong}.
@@ -34,6 +35,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class UnsignedLongTest extends TestCase {
   private static final ImmutableSet<Long> TEST_LONGS;
   private static final ImmutableSet<BigInteger> TEST_BIG_INTEGERS;

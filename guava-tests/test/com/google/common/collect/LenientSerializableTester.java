@@ -27,6 +27,7 @@ import com.google.common.testing.SerializableTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Variant of {@link SerializableTester} that does not require the reserialized object's class to be
@@ -39,6 +40,7 @@ import java.util.Set;
  * parameter for non-GWT, non-test files, and it didn't seem worth adding one for this unusual case.
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 final class LenientSerializableTester {
   /*
    * TODO(cpovirk): move this to c.g.c.testing if we allow for c.g.c.annotations dependencies so

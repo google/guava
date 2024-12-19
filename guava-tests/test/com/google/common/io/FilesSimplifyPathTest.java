@@ -25,12 +25,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Files#simplifyPath}.
  *
  * @author Pablo Bellver
  */
+@NullUnmarked
 public class FilesSimplifyPathTest extends TestCase {
 
   public void testSimplifyEmptyString() {

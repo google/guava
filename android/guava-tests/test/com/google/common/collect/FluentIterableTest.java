@@ -49,6 +49,7 @@ import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -57,6 +58,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Marcin Mikosik
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class FluentIterableTest extends TestCase {
 
   @GwtIncompatible // NullPointerTester

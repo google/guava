@@ -33,6 +33,7 @@ import com.google.common.primitives.Ints;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.DoubleStream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Inputs, expected outputs, and helper methods for tests of {@link StatsAccumulator}, {@link
@@ -40,6 +41,7 @@ import java.util.stream.DoubleStream;
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 class StatsTesting {
   // TODO(cpovirk): Convince myself that this larger error makes sense.
   static final double ALLOWED_ERROR = isAndroid() ? .25 : 1e-10;

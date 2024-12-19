@@ -21,6 +21,7 @@ import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Ascii}.
@@ -28,6 +29,7 @@ import junit.framework.TestCase;
  * @author Craig Berry
  */
 @GwtCompatible
+@NullUnmarked
 public class AsciiTest extends TestCase {
 
   /**

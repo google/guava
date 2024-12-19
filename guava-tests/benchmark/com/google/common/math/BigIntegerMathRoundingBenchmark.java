@@ -26,12 +26,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the rounding methods of {@code BigIntegerMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class BigIntegerMathRoundingBenchmark {
   private static final BigInteger[] nonzero1 = new BigInteger[ARRAY_SIZE];
   private static final BigInteger[] nonzero2 = new BigInteger[ARRAY_SIZE];

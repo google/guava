@@ -20,8 +20,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+@NullUnmarked
 public class SynchronizedTableTest extends AbstractTableTest<Character> {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
     final Table<R, C, V> delegate = HashBasedTable.create();

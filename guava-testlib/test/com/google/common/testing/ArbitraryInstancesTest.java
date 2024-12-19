@@ -133,6 +133,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -140,6 +141,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class ArbitraryInstancesTest extends TestCase {
 
   public void testGet_primitives() {

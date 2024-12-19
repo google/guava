@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.TestExceptions.SomeError;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -34,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Anthony Zana
  */
 @GwtCompatible
+@NullUnmarked
 public class FutureCallbackTest extends TestCase {
   public void testSameThreadSuccess() {
     SettableFuture<String> f = SettableFuture.create();

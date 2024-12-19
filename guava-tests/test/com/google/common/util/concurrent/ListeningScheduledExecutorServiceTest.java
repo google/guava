@@ -28,8 +28,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for default methods of the interface. */
+@NullUnmarked
 public class ListeningScheduledExecutorServiceTest extends TestCase {
 
   private Runnable recordedCommand;

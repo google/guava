@@ -29,6 +29,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeoutException;
 import junit.framework.AssertionFailedError;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -48,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <L> the type of the lock-like object to be used
  * @author Justin T. Sampson
  */
+@NullUnmarked
 public final class TestThread<L> extends Thread implements TearDown {
 
   private static final long DUE_DILIGENCE_MILLIS = 100;

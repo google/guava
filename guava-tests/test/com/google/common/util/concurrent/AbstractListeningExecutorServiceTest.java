@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link AbstractListeningExecutorService}.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class AbstractListeningExecutorServiceTest extends TestCase {
 
   public void testSubmit() throws Exception {

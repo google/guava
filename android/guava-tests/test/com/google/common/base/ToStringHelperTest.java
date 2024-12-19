@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jason Lee
  */
 @GwtCompatible
+@NullUnmarked
 public class ToStringHelperTest extends TestCase {
 
   @GwtIncompatible // Class names are obfuscated in GWT

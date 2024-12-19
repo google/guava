@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.mockito.Mockito;
 
 /**
@@ -45,6 +46,7 @@ import org.mockito.Mockito;
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class RateLimiterTest extends TestCase {
   private static final double EPSILON = 1e-8;
 

@@ -36,6 +36,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -43,6 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * different "source Future" for {@link AbstractFuture#setFuture} calls.
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 abstract class AbstractAbstractFutureTest extends TestCase {
   private TestedFuture<Integer> future;
   private AbstractFuture<Integer> delegate;

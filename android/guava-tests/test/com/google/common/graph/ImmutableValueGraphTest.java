@@ -18,12 +18,14 @@ package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link ImmutableValueGraph} . */
 @RunWith(JUnit4.class)
+@NullUnmarked
 public class ImmutableValueGraphTest {
 
   @Test

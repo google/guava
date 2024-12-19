@@ -106,12 +106,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link FreshValueGenerator}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class FreshValueGeneratorTest extends TestCase {
 
   @AndroidIncompatible // problem with equality of Type objects?

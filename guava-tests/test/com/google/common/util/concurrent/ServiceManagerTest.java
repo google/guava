@@ -48,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ServiceManager}.
@@ -55,6 +56,7 @@ import junit.framework.TestCase;
  * @author Luke Sandberg
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class ServiceManagerTest extends TestCase {
 
   private static class NoOpService extends AbstractService {

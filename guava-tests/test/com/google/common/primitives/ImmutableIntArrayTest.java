@@ -43,9 +43,13 @@ import java.util.stream.IntStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Kevin Bourrillion */
+/**
+ * @author Kevin Bourrillion
+ */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ImmutableIntArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 

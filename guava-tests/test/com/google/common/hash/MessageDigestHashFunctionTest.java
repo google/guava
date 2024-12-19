@@ -25,12 +25,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the MessageDigestHashFunction.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class MessageDigestHashFunctionTest extends TestCase {
   private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");
 

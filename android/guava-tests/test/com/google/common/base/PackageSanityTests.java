@@ -18,10 +18,12 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Basic sanity tests for classes in {@code common.base}. */
 
 @GwtIncompatible
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     // package private classes like FunctionalEquivalence are tested through the public API.

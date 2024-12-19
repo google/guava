@@ -33,9 +33,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.jspecify.annotations.NullUnmarked;
 
 /** A benchmark comparing the various striped implementations. */
 @VmOptions({"-Xms12g", "-Xmx12g", "-d64"})
+@NullUnmarked
 public class StripedBenchmark {
   private static final Supplier<Lock> LOCK_SUPPLIER =
       new Supplier<Lock>() {

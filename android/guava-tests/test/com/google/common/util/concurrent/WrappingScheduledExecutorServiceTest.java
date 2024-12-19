@@ -31,12 +31,14 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test for {@link WrappingScheduledExecutorService}
  *
  * @author Luke Sandberg
  */
+@NullUnmarked
 public class WrappingScheduledExecutorServiceTest extends TestCase {
   private static final Runnable DO_NOTHING =
       new Runnable() {

@@ -20,12 +20,14 @@ import com.google.common.base.Function;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests {@link ForwardingTable}.
  *
  * @author Gregory Kick
  */
+@NullUnmarked
 public class ForwardingTableTest extends TestCase {
 
   @SuppressWarnings("rawtypes")

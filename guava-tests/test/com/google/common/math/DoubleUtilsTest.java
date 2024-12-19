@@ -25,12 +25,14 @@ import static org.junit.Assert.assertThrows;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link DoubleUtils}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class DoubleUtilsTest extends TestCase {
   @AndroidIncompatible // no FpUtils and no Math.nextDown in old versions
   public void testNextDown() throws Exception {

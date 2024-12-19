@@ -24,12 +24,14 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test cases for {@link SettableFuture}.
  *
  * @author Sven Mawson
  */
+@NullUnmarked
 public class SettableFutureTest extends TestCase {
 
   private SettableFuture<String> future;

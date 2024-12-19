@@ -38,6 +38,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.logging.Logger;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -45,6 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class SourceSinkFactories {
 
   private SourceSinkFactories() {}

@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for UnsignedLongs
@@ -39,6 +40,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class UnsignedLongsTest extends TestCase {
   private static final long LEAST = 0L;
   private static final long GREATEST = 0xffffffffffffffffL;

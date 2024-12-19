@@ -18,6 +18,7 @@ package com.google.common.eventbus;
 
 import com.google.common.testing.AbstractPackageSanityTests;
 import java.lang.reflect.Method;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
   public PackageSanityTests() throws Exception {

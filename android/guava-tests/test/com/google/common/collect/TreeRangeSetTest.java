@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
 import java.util.List;
 import java.util.NavigableMap;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link TreeRangeSet}.
@@ -31,6 +32,7 @@ import java.util.NavigableMap;
  * @author Chris Povirk
  */
 @GwtIncompatible // TreeRangeSet
+@NullUnmarked
 public class TreeRangeSetTest extends AbstractRangeSetTest {
   // TODO(cpovirk): test all of these with the ranges added in the reverse order
 

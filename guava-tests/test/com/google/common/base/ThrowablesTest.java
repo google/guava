@@ -46,6 +46,7 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Throwables}.
@@ -54,6 +55,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("deprecation") // tests of numerous deprecated methods
+@NullUnmarked
 public class ThrowablesTest extends TestCase {
   // We're testing that the method is in fact equivalent to throwing the exception directly.
   @SuppressWarnings("ThrowIfUncheckedKnownUnchecked")

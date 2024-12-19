@@ -33,6 +33,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 // TODO(cpovirk): Should this be merged into UninterruptiblesTest?
 /**
@@ -41,6 +42,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
+@NullUnmarked
 public class UninterruptibleFutureTest extends TestCase {
   private SleepingRunnable sleeper;
   private Future<Boolean> delayedFuture;

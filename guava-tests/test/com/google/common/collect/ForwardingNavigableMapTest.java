@@ -39,6 +39,7 @@ import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -47,6 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Robert Konigsberg
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingNavigableMapTest extends TestCase {
   static class StandardImplForwardingNavigableMap<K, V> extends ForwardingNavigableMap<K, V> {
     private final NavigableMap<K, V> backingMap;

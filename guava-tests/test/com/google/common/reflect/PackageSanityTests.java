@@ -17,7 +17,9 @@
 package com.google.common.reflect;
 
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests nulls for the entire package. */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {}

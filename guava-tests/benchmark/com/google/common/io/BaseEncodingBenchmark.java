@@ -23,8 +23,10 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmark for {@code BaseEncoding} performance. */
+@NullUnmarked
 public class BaseEncodingBenchmark {
   private static final int INPUTS_COUNT = 0x1000;
   private static final int INPUTS_MASK = 0xFFF;

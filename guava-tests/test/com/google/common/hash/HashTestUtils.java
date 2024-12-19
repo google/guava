@@ -36,6 +36,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Assert;
 
 /**
@@ -44,6 +45,7 @@ import org.junit.Assert;
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 final class HashTestUtils {
   private HashTestUtils() {}
 

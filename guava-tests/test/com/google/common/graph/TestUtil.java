@@ -22,8 +22,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Utility methods used in various common.graph tests. */
+@NullUnmarked
 final class TestUtil {
   static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
   static final String ERROR_NODE_NOT_IN_GRAPH =

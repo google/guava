@@ -19,12 +19,14 @@ package com.google.common.io;
 import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayOutputStream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link CountingOutputStream}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class CountingOutputStreamTest extends IoTestCase {
 
   public void testCount() throws Exception {

@@ -33,12 +33,14 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Helper classes for various benchmarks.
  *
  * @author Christopher Swenson
  */
+@NullUnmarked
 final class BenchmarkHelpers {
   /** So far, this is the best way to test various implementations of {@link Set} subclasses. */
   public interface CollectionsImplEnum {

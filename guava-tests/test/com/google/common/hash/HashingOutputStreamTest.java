@@ -22,12 +22,14 @@ import static org.mockito.Mockito.when;
 import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayOutputStream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link HashingOutputStream}.
  *
  * @author Zoe Piepmeier
  */
+@NullUnmarked
 public class HashingOutputStreamTest extends TestCase {
   private Hasher hasher;
   private HashFunction hashFunction;

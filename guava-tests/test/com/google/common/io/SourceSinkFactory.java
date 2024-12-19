@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import java.io.File;
 import java.io.IOException;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A test factory for byte or char sources or sinks. In addition to creating sources or sinks, the
@@ -32,6 +33,7 @@ import java.io.IOException;
  * @param <T> the data type (byte[] or String)
  * @author Colin Decker
  */
+@NullUnmarked
 public interface SourceSinkFactory<S, T> {
 
   /**

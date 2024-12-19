@@ -20,12 +20,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for various ways of writing the expression {@code foo + ((bar < baz) ? 1 : 0)}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class LessThanBenchmark {
   static final int SAMPLE_SIZE = 0x1000;
   static final int SAMPLE_MASK = 0x0FFF;

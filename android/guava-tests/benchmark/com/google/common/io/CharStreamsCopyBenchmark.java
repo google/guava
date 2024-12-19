@@ -24,6 +24,7 @@ import java.io.StringWriter;
 import java.nio.Buffer;
 import java.nio.CharBuffer;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for {@link CharStreams#copy}.
@@ -33,6 +34,7 @@ import java.util.Random;
  */
 // These benchmarks allocate a lot of data so use a large heap
 @VmOptions({"-Xms12g", "-Xmx12g", "-d64"})
+@NullUnmarked
 public class CharStreamsCopyBenchmark {
   enum CopyStrategy {
     OLD {

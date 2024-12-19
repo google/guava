@@ -26,12 +26,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the rounding methods of {@code IntMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class IntMathRoundingBenchmark {
   private static final int[] positive = new int[ARRAY_SIZE];
   private static final int[] nonzero = new int[ARRAY_SIZE];

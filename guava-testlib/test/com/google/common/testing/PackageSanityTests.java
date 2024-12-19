@@ -16,7 +16,9 @@
 
 package com.google.common.testing;
 
+import org.jspecify.annotations.NullUnmarked;
 
 /** Test nulls for the entire package. */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {}

@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.escape.UnicodeEscaper;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link PercentEscaper}.
@@ -33,6 +34,7 @@ import junit.framework.TestCase;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 public class PercentEscaperTest extends TestCase {
 
   /** Tests that the simple escaper treats 0-9, a-z and A-Z as safe */

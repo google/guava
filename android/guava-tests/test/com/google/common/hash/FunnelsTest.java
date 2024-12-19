@@ -29,6 +29,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.mockito.InOrder;
 
 /**
@@ -36,6 +37,7 @@ import org.mockito.InOrder;
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class FunnelsTest extends TestCase {
   public void testForBytes() {
     PrimitiveSink primitiveSink = mock(PrimitiveSink.class);

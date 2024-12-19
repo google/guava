@@ -22,6 +22,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Charsets}.
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class CharsetsTest extends TestCase {
 
   @J2ktIncompatible

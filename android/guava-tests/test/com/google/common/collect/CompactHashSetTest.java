@@ -32,6 +32,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for CompactHashSet.
@@ -39,6 +40,7 @@ import junit.framework.TestSuite;
  * @author Dimitris Andreou
  */
 @GwtIncompatible // java.util.Arrays#copyOf(Object[], int), java.lang.reflect.Array
+@NullUnmarked
 public class CompactHashSetTest extends TestCase {
   public static Test suite() {
     List<Feature<?>> allFeatures =

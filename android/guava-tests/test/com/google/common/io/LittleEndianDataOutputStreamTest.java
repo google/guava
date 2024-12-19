@@ -25,12 +25,14 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test class for {@link LittleEndianDataOutputStream}.
  *
  * @author Keith Bottner
  */
+@NullUnmarked
 public class LittleEndianDataOutputStreamTest extends TestCase {
 
   private ByteArrayOutputStream baos = new ByteArrayOutputStream();

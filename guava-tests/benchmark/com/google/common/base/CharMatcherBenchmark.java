@@ -25,6 +25,7 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmark for the {@link CharMatcher} class.
@@ -33,6 +34,7 @@ import java.util.Random;
  * @author Kevin Bourrillion
  * @author David Richter
  */
+@NullUnmarked
 public class CharMatcherBenchmark {
 
   // Caliper injects params automatically

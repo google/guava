@@ -29,10 +29,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.concurrent.GuardedBy;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link AbstractFuture} with the cancellation cause system property set */
 @AndroidIncompatible // custom classloading
 
+@NullUnmarked
 public class AbstractFutureCancellationCauseTest extends TestCase {
 
   private ClassLoader oldClassLoader;

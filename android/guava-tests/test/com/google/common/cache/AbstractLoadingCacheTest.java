@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,6 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class AbstractLoadingCacheTest extends TestCase {
 
   public void testGetUnchecked_checked() {

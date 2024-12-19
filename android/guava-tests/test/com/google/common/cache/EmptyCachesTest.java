@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * {@link LoadingCache} tests that deal with empty caches.
@@ -40,6 +41,7 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 
+@NullUnmarked
 public class EmptyCachesTest extends TestCase {
 
   public void testEmpty() {

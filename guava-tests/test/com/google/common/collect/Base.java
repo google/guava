@@ -18,10 +18,12 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Simple base class to verify that we handle generics correctly. */
 @GwtCompatible
+@NullUnmarked
 class Base implements Comparable<Base>, Serializable {
   private final String s;
 

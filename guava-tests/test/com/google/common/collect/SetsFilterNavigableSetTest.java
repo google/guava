@@ -19,7 +19,9 @@ package com.google.common.collect;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FilteredCollectionsTestUtil.AbstractFilteredNavigableSetTest;
 import java.util.NavigableSet;
+import org.jspecify.annotations.NullUnmarked;
 
+@NullUnmarked
 public final class SetsFilterNavigableSetTest extends AbstractFilteredNavigableSetTest {
   @Override
   NavigableSet<Integer> createUnfiltered(Iterable<Integer> contents) {

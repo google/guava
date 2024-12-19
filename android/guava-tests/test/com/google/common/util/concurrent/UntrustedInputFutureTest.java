@@ -19,12 +19,14 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link AbstractFuture} that use a non-{@link TrustedFuture} for {@link
  * AbstractFuture#setFuture} calls.
  */
 @GwtCompatible
+@NullUnmarked
 public class UntrustedInputFutureTest extends AbstractAbstractFutureTest {
   @Override
   AbstractFuture<Integer> newDelegate() {

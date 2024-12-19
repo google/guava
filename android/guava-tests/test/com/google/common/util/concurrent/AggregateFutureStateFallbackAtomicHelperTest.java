@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests our AtomicHelper fallback strategy in AggregateFutureState.
@@ -45,6 +46,7 @@ import junit.framework.TestSuite;
  * test methods in these degenerate classloaders.
  */
 
+@NullUnmarked
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   /**

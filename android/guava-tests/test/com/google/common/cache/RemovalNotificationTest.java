@@ -18,12 +18,14 @@ package com.google.common.cache;
 
 import com.google.common.testing.EqualsTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests of {@link RemovalNotification}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class RemovalNotificationTest extends TestCase {
 
   public void testEquals() {

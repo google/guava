@@ -24,12 +24,14 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests of {@link TypeVisitor}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class TypeVisitorTest extends TestCase {
 
   public void testVisitNull() {

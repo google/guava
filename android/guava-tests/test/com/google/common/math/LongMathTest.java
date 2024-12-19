@@ -42,6 +42,7 @@ import java.math.RoundingMode;
 import java.util.EnumSet;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for LongMath.
@@ -49,6 +50,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class LongMathTest extends TestCase {
   @SuppressWarnings("ConstantOverflow")
   public void testMaxSignedPowerOfTwo() {

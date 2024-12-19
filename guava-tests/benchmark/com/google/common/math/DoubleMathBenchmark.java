@@ -24,12 +24,14 @@ import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the non-rounding methods of {@code DoubleMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class DoubleMathBenchmark {
   private static final double[] positiveDoubles = new double[ARRAY_SIZE];
   private static final int[] factorials = new int[ARRAY_SIZE];

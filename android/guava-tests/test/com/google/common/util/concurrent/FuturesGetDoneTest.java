@@ -25,10 +25,12 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Unit tests for {@link Futures#getDone}. */
 @GwtCompatible
+@NullUnmarked
 public class FuturesGetDoneTest extends TestCase {
   public void testSuccessful() throws ExecutionException {
     assertThat(getDone(immediateFuture("a"))).isEqualTo("a");

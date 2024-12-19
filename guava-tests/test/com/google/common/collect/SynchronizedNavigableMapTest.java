@@ -33,6 +33,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -40,6 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   @Override
   protected <K, V> NavigableMap<K, V> create() {

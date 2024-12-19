@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link MathPreconditions}.
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  * @author Ben Yu
  */
 @GwtCompatible
+@NullUnmarked
 public class MathPreconditionsTest extends TestCase {
 
   public void testCheckPositive_zeroInt() {

@@ -24,12 +24,14 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.PatternSyntaxException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link PatternFilenameFilter}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class PatternFilenameFilterTest extends TestCase {
 
   public void testSyntaxException() {

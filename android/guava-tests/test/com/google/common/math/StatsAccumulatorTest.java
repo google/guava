@@ -62,6 +62,7 @@ import com.google.common.math.StatsTesting.ManyValues;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Longs;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link StatsAccumulator}. This tests the stats methods for instances built with {@link
@@ -71,6 +72,7 @@ import junit.framework.TestCase;
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class StatsAccumulatorTest extends TestCase {
 
   private StatsAccumulator emptyAccumulator;

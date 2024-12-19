@@ -34,8 +34,12 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Charles Fry */
+/**
+ * @author Charles Fry
+ */
+@NullUnmarked
 public class LocalLoadingCacheTest extends TestCase {
 
   private static <K, V> LocalLoadingCache<K, V> makeCache(

@@ -29,8 +29,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Test Java8 map.compute in concurrent cache context. */
+@NullUnmarked
 public class LocalCacheMapComputeTest extends TestCase {
   final int count = 10000;
   final String delimiter = "-";

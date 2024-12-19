@@ -22,12 +22,14 @@ import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A char sink for testing that has configurable behavior.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class TestCharSink extends CharSink implements TestStreamSupplier {
 
   private final TestByteSink byteSink;

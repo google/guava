@@ -22,6 +22,7 @@ import com.google.caliper.Param;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for comparing the various {@link HashCode#equals} methods.
@@ -41,6 +42,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class HashCodeBenchmark {
 
   // Use a statically configured random instance for all of the benchmarks

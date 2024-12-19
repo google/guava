@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link AbstractIdleService}.
@@ -33,6 +34,7 @@ import junit.framework.TestCase;
  * @author Chris Nokleberg
  * @author Ben Yu
  */
+@NullUnmarked
 public class AbstractIdleServiceTest extends TestCase {
   public void testStart() {
     TestService service = new TestService();

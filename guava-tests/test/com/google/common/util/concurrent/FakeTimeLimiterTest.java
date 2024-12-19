@@ -23,12 +23,14 @@ import static org.junit.Assert.assertThrows;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link FakeTimeLimiter}.
  *
  * @author Jens Nyman
  */
+@NullUnmarked
 public class FakeTimeLimiterTest extends TestCase {
 
   private static final int DELAY_MS = 50;

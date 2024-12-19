@@ -26,6 +26,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -35,6 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @SuppressWarnings("MissingTestCall")
+@NullUnmarked
 public class EqualsTesterTest extends TestCase {
   private ValidTestObject reference;
   private EqualsTester equalsTester;

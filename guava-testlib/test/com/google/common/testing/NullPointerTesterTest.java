@@ -48,6 +48,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -60,6 +61,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
   "CheckReturnValue",
   "unused", // many methods tested reflectively -- maybe prefer local @Keep annotations?
 })
+@NullUnmarked
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */

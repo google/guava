@@ -26,12 +26,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the rounding methods of {@code LongMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class LongMathRoundingBenchmark {
   @Param({"DOWN", "UP", "FLOOR", "CEILING", "HALF_EVEN", "HALF_UP", "HALF_DOWN"})
   RoundingMode mode;

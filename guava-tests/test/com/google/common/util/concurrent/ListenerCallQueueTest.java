@@ -31,8 +31,10 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link ListenerCallQueue}. */
+@NullUnmarked
 public class ListenerCallQueueTest extends TestCase {
 
   private static final ListenerCallQueue.Event<Object> THROWING_EVENT =

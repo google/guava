@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link EquivalenceTester}.
@@ -34,6 +35,7 @@ import junit.framework.TestCase;
  * @author Gregory Kick
  */
 @GwtCompatible
+@NullUnmarked
 public class EquivalenceTesterTest extends TestCase {
   private EquivalenceTester<Object> tester;
   private MockEquivalence equivalenceMock;

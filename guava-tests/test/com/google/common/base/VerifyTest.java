@@ -24,9 +24,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link com.google.common.base.Verify}. */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class VerifyTest extends TestCase {
   public void testVerify_simple_success() {
     verify(true);

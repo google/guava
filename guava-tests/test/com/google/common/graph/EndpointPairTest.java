@@ -24,12 +24,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import java.util.Collection;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link EndpointPair} and {@link Graph#edges()}. */
 @RunWith(JUnit4.class)
+@NullUnmarked
 public final class EndpointPairTest {
   private static final Integer N0 = 0;
   private static final Integer N1 = 1;

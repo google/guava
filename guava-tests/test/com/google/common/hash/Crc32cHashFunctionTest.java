@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Arrays;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Crc32c}. Known test values are from RFC 3720, Section B.4.
@@ -26,6 +27,7 @@ import junit.framework.TestCase;
  * @author Patrick Costello
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class Crc32cHashFunctionTest extends TestCase {
   public void testEmpty() {
     assertCrc(0, new byte[0]);

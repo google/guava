@@ -25,9 +25,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Utilities for the AbstractFutureBenchmarks */
+@NullUnmarked
 final class AbstractFutureBenchmarks {
   private AbstractFutureBenchmarks() {}
 

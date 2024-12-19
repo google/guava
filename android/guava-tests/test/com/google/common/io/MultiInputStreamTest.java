@@ -23,12 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test class for {@link MultiInputStream}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class MultiInputStreamTest extends IoTestCase {
 
   public void testJoin() throws Exception {

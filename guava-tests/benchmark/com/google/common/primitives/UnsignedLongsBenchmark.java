@@ -19,12 +19,14 @@ package com.google.common.primitives;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for certain methods of {@code UnsignedLongs}.
  *
  * @author Eamonn McManus
  */
+@NullUnmarked
 public class UnsignedLongsBenchmark {
   private static final int ARRAY_SIZE = 0x10000;
   private static final int ARRAY_MASK = 0x0ffff;

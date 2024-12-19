@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Basher test for {@link AtomicLongMap}.
@@ -35,6 +36,7 @@ import junit.framework.TestCase;
  */
 @J2ktIncompatible // threads
 @GwtIncompatible // threads
+@NullUnmarked
 public class AtomicLongMapBasherTest extends TestCase {
   private final Random random = new Random(301);
 

@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -32,6 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Sverre Sundsdal
  */
+@NullUnmarked
 public class MinMaxPriorityQueueBenchmark {
   @Param private ComparatorType comparator;
 

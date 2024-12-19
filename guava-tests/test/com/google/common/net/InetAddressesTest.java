@@ -30,12 +30,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link InetAddresses}.
  *
  * @author Erik Kline
  */
+@NullUnmarked
 public class InetAddressesTest extends TestCase {
 
   public void testNulls() {

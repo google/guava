@@ -22,6 +22,7 @@ import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.CharEscaper;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the {@link XmlEscapers} class.
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 public class XmlEscapersTest extends TestCase {
 
   public void testXmlContentEscaper() throws Exception {

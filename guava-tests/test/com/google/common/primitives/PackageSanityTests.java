@@ -17,6 +17,7 @@
 package com.google.common.primitives;
 
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests basic sanity for each class in the package.
@@ -24,6 +25,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Ben Yu
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(String.class, "string");

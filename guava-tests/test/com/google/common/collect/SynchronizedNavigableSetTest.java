@@ -32,6 +32,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Object[0]; // something Serializable
 

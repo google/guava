@@ -21,12 +21,14 @@ import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 import java.util.List;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the {@code TreeTraverser} operations on binary trees.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class BinaryTreeTraverserBenchmark {
   private static class BinaryNode {
     final int x;

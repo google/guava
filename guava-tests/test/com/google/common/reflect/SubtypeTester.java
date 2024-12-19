@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.lang.model.element.Modifier;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -65,6 +66,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>The declaration methods must be public.
  */
 @AndroidIncompatible // only used by android incompatible tests.
+@NullUnmarked
 abstract class SubtypeTester implements Cloneable {
 
   /** Annotates a public method that declares subtype assertion. */

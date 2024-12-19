@@ -18,12 +18,14 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@code AbstractBiMap}.
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class AbstractBiMapTest extends TestCase {
 
   // The next two tests verify that map entries are not accessed after they're

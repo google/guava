@@ -42,12 +42,14 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ImmutableSortedMultiset}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ImmutableSortedMultisetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

@@ -17,6 +17,7 @@
 package com.google.common.math;
 
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Basic sanity tests for the entire package.
@@ -24,6 +25,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Ben Yu
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     publicApiOnly();

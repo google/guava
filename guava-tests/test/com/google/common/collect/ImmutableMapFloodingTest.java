@@ -25,8 +25,10 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class ImmutableMapFloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
   public ImmutableMapFloodingTest() {
     super(asList(ConstructionPathway.values()), n -> n * log(n), ImmutableList.of(QueryOp.MAP_GET));

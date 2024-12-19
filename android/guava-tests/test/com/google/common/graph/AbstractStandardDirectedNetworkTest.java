@@ -27,12 +27,14 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableSet;
 import java.util.Collections;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.After;
 import org.junit.Test;
 
 /**
  * Abstract base class for testing directed {@link Network} implementations defined in this package.
  */
+@NullUnmarked
 public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetworkTest {
 
   @After

@@ -22,6 +22,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
 import java.lang.reflect.Method;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.CharsetEncoder;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Basic sanity tests for the entire package.
@@ -29,6 +30,7 @@ import java.nio.charset.CharsetEncoder;
  * @author Ben Yu
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(BaseEncoding.class, BaseEncoding.base64());

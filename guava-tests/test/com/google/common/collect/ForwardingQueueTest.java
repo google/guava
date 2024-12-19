@@ -29,6 +29,7 @@ import java.util.Queue;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -37,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Robert Konigsberg
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingQueueTest extends TestCase {
 
   static final class StandardImplForwardingQueue<T> extends ForwardingQueue<T> {

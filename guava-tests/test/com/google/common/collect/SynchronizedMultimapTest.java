@@ -35,6 +35,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -42,6 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class SynchronizedMultimapTest extends TestCase {
 
   public static Test suite() {

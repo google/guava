@@ -27,12 +27,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.EnumSet;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the default implementations of {@code ByteSink} methods.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class ByteSinkTest extends IoTestCase {
 
   private final byte[] bytes = newPreFilledByteArray(10000);

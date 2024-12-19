@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Nokleberg
  * @author Colin Decker
  */
+@NullUnmarked
 public abstract class IoTestCase extends TestCase {
 
   private static final Logger logger = Logger.getLogger(IoTestCase.class.getName());

@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link UnsignedBytes}.
@@ -37,6 +38,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class UnsignedBytesTest extends TestCase {
   private static final byte LEAST = 0;
   private static final byte GREATEST = (byte) 255;

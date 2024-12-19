@@ -23,12 +23,14 @@ import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link HashingInputStream}.
  *
  * @author Qian Huang
  */
+@NullUnmarked
 public class HashingInputStreamTest extends TestCase {
   private Hasher hasher;
   private HashFunction hashFunction;

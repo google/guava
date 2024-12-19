@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Closeables}.
@@ -35,6 +36,7 @@ import junit.framework.TestCase;
  *
  * @author Michael Lancaster
  */
+@NullUnmarked
 public class CloseablesTest extends TestCase {
   private Closeable mockCloseable;
 

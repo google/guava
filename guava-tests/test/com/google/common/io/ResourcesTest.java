@@ -33,6 +33,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Resources}.
@@ -40,6 +41,7 @@ import junit.framework.TestSuite;
  * @author Chris Nokleberg
  */
 
+@NullUnmarked
 public class ResourcesTest extends IoTestCase {
 
   @AndroidIncompatible // wouldn't run anyway, but strip the source entirely because of b/230620681

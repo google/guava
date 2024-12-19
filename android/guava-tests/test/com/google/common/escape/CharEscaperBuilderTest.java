@@ -17,7 +17,9 @@
 package com.google.common.escape;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
+@NullUnmarked
 public class CharEscaperBuilderTest extends TestCase {
 
   public void testAddEscapes() {

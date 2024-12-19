@@ -22,12 +22,14 @@ import static org.junit.Assert.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link CountingInputStream}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class CountingInputStreamTest extends IoTestCase {
   private CountingInputStream counter;
 

@@ -24,6 +24,7 @@ import com.google.common.testing.SerializableTester;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@code ImmutableRangeMap}.
@@ -31,6 +32,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtIncompatible // NavigableMap
+@NullUnmarked
 public class ImmutableRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = 0;

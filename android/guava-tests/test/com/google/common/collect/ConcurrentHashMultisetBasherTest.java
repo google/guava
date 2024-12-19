@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Basher test for {@link ConcurrentHashMultiset}: start a bunch of threads, have each of them do
@@ -44,6 +45,7 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 
+@NullUnmarked
 public class ConcurrentHashMultisetBasherTest extends TestCase {
 
   public void testAddAndRemove_concurrentHashMap() throws Exception {

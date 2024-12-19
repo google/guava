@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -35,6 +36,7 @@ import org.junit.runners.JUnit4;
  * the missing nodes to the graph, then adds the edge between them.
  */
 @RunWith(JUnit4.class)
+@NullUnmarked
 public class GraphsTest {
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;

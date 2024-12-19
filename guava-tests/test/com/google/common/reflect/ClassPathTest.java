@@ -53,9 +53,11 @@ import java.util.jar.Manifest;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 
 /** Functional tests of {@link ClassPath}. */
+@NullUnmarked
 public class ClassPathTest extends TestCase {
   private static final Logger log = Logger.getLogger(ClassPathTest.class.getName());
   private static final File FILE = new File(".");

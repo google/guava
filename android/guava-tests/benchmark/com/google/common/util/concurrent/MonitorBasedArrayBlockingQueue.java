@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -52,6 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <E> the type of elements held in this collection
  */
 // TODO(kak): consider removing some of the @CanIgnoreReturnValue annotations as appropriate
+@NullUnmarked
 public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 

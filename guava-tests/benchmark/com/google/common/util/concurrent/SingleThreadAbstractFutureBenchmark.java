@@ -30,9 +30,11 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.NullUnmarked;
 
 /** A benchmark that times how long it takes to add a given number of */
 @VmOptions({"-Xms8g", "-Xmx8g"})
+@NullUnmarked
 public class SingleThreadAbstractFutureBenchmark {
   @Param Impl impl;
 

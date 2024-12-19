@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for ThreadFactoryBuilder.
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  * @author Martin Buchholz
  */
+@NullUnmarked
 public class ThreadFactoryBuilderTest extends TestCase {
   private final Runnable monitoredRunnable =
       new Runnable() {

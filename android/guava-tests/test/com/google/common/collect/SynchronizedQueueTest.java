@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class SynchronizedQueueTest extends TestCase {
 
   protected Queue<String> create() {

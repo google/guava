@@ -43,11 +43,13 @@ import java.util.stream.DoubleStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ImmutableDoubleArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 

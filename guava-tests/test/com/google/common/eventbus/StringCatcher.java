@@ -19,6 +19,7 @@ package com.google.common.eventbus;
 import com.google.common.collect.Lists;
 import java.util.List;
 import junit.framework.Assert;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -29,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Cliff Biffle
  */
+@NullUnmarked
 public class StringCatcher {
   private List<String> events = Lists.newArrayList();
 

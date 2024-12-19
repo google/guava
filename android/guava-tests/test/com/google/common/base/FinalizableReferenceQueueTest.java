@@ -35,6 +35,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.After;
 import org.junit.Test;
@@ -52,6 +53,7 @@ import org.junit.runners.JUnit4;
 @AndroidIncompatible
 @GwtIncompatible
 @RunWith(JUnit4.class)
+@NullUnmarked
 public class FinalizableReferenceQueueTest {
 
   private @Nullable FinalizableReferenceQueue frq;

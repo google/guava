@@ -37,9 +37,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tests for {@link ExecutionSequencer} */
+@NullUnmarked
 public class ExecutionSequencerTest extends TestCase {
 
   ExecutorService executor;

@@ -23,12 +23,14 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.testing.EqualsTester;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.After;
 import org.junit.Test;
 
 /**
  * Abstract base class for testing undirected {@link Graph} implementations defined in this package.
  */
+@NullUnmarked
 public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphTest {
 
   @After

@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * {@link TestCase} for {@link InternetDomainName}.
@@ -35,6 +36,7 @@ import junit.framework.TestCase;
  * @author Craig Berry
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public final class InternetDomainNameTest extends TestCase {
   private static final InternetDomainName UNICODE_EXAMPLE =
       InternetDomainName.from("j\u00f8rpeland.no");

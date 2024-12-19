@@ -16,7 +16,10 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.max;
 
+import org.jspecify.annotations.NullUnmarked;
+
 /** Unit test for {@link AtomicDouble}. */
+@NullUnmarked
 public class AtomicDoubleTest extends JSR166TestCase {
 
   private static final double[] VALUES = {

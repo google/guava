@@ -25,12 +25,14 @@ import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the non-rounding methods of {@code IntMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class IntMathBenchmark {
   private static int[] exponent = new int[ARRAY_SIZE];
   private static int[] factorial = new int[ARRAY_SIZE];

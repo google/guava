@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link DiscreteDomain}.
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author Chris Povirk
  */
 @GwtIncompatible // SerializableTester
+@NullUnmarked
 public class DiscreteDomainTest extends TestCase {
   public void testSerialization() {
     reserializeAndAssert(DiscreteDomain.integers());
