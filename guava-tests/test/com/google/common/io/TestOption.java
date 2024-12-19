@@ -16,11 +16,14 @@
 
 package com.google.common.io;
 
+import org.jspecify.annotations.NullUnmarked;
+
 /**
  * Options controlling the behavior of sources/sinks/streams for testing.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public enum TestOption {
   OPEN_THROWS,
   SKIP_THROWS,

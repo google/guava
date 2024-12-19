@@ -90,6 +90,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.DoubleSummaryStatistics;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and {@link
@@ -97,6 +98,7 @@ import junit.framework.TestCase;
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class StatsTest extends TestCase {
 
   public void testCount() {

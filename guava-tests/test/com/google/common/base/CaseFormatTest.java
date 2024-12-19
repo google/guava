@@ -28,6 +28,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link CaseFormat}.
@@ -35,6 +36,7 @@ import junit.framework.TestCase;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class CaseFormatTest extends TestCase {
 
   public void testIdentity() {

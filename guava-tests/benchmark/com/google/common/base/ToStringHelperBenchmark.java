@@ -20,12 +20,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Arrays;
 import java.util.Collections;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Some microbenchmarks for the {@link MoreObjects.ToStringHelper} class.
  *
  * @author Osvaldo Doederlein
  */
+@NullUnmarked
 public class ToStringHelperBenchmark {
 
   @Param({"0", "1", "5"})

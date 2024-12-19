@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link TypeToken} and {@link TypeResolver}.
@@ -37,6 +38,7 @@ import junit.framework.TestCase;
  * @author Ben Yu
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
+@NullUnmarked
 public class TypeTokenResolutionTest extends TestCase {
 
   private static class Foo<A, B> {

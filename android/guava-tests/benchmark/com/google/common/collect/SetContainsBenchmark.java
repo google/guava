@@ -22,12 +22,14 @@ import com.google.caliper.Param;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A microbenchmark that tests the performance of contains() on various Set implementations.
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class SetContainsBenchmark {
   // Start at 4.88 then multiply by 2*2^phi <evil cackle> - The goal is be uniform
   // yet visit a variety of "values-relative-to-the-next-power-of-2"

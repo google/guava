@@ -22,6 +22,7 @@ import com.google.caliper.Param;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A benchmark to determine the overhead of sorting with {@link Ordering#from(Comparator)}, or with
@@ -30,6 +31,7 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ComparatorDelegationOverheadBenchmark {
   private final Integer[][] inputArrays = new Integer[0x100][];
 

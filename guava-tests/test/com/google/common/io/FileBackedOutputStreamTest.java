@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Arrays;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link FileBackedOutputStream}.
@@ -38,6 +39,7 @@ import java.util.Arrays;
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class FileBackedOutputStreamTest extends IoTestCase {
 
 

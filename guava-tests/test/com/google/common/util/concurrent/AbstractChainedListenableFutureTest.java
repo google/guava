@@ -23,6 +23,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.util.concurrent.testing.MockFutureListener;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for any listenable future that chains other listenable futures. Unit tests need only
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  *
  * @author Nishant Thakkar
  */
+@NullUnmarked
 public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
   protected static final int EXCEPTION_DATA = -1;
   protected static final int VALID_INPUT_DATA = 1;

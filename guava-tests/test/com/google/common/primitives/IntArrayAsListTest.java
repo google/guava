@@ -32,6 +32,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test suite covering {@link Ints#asList(int[])}.
@@ -40,6 +41,7 @@ import junit.framework.TestSuite;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
+@NullUnmarked
 public class IntArrayAsListTest extends TestCase {
 
   private static List<Integer> asList(Integer[] values) {

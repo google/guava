@@ -28,12 +28,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * @author Charles Fry
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible // MapMaker
+@NullUnmarked
 public class MapMakerTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,7 @@ import org.junit.Test;
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
+@NullUnmarked
 public abstract class AbstractGraphTest {
 
   Graph<Integer> graph;

@@ -25,12 +25,14 @@ import com.google.common.collect.Lists;
 import java.lang.reflect.Field;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the HttpHeaders class.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class HttpHeadersTest extends TestCase {
 
   public void testConstantNameMatchesString() throws Exception {

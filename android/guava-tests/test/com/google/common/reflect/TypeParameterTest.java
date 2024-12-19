@@ -23,12 +23,14 @@ import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link TypeParameter}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class TypeParameterTest extends TestCase {
 
   public <T> void testCaptureTypeParameter() throws Exception {

@@ -45,6 +45,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -53,6 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author mike nonemacher
  */
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
+@NullUnmarked
 class CacheTesting {
 
   /**

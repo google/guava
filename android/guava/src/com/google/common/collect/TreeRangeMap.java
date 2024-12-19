@@ -65,7 +65,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   /**
    * Returns a new {@link TreeRangeMap} containing the same ranges as the given {@code RangeMap}.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> TreeRangeMap<K, V> copyOf(

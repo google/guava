@@ -179,7 +179,7 @@ public final class MoreObjects {
      * checked for emptiness is subject to change. We currently check {@code CharSequence}s, {@code
      * Collection}s, {@code Map}s, optionals (including Guava's), and arrays.
      *
-     * @since NEXT
+     * @since 33.4.0
      */
     @CanIgnoreReturnValue
     public ToStringHelper omitEmptyValues() {

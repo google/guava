@@ -24,8 +24,10 @@ import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.LockSupport;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+@NullUnmarked
 public final class InterruptibleTaskTest extends TestCase {
 
   // Regression test for a deadlock where a task could be stuck busy waiting for the task to

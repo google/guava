@@ -96,7 +96,7 @@ public class AbstractTester<G> extends TestCase {
    * <p>The {@link TestCase} version (which is from JUnit 3) produces a failure message that does
    * not include the value of the object.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   public static void assertNull(String message, Object object) {
     assertEquals(message, null, object);

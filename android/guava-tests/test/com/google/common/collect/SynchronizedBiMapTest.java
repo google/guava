@@ -29,6 +29,7 @@ import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class SynchronizedBiMapTest extends SynchronizedMapTest {
 
   public static TestSuite suite() {

@@ -23,9 +23,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link MoreObjects}. */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class MoreObjectsTest extends TestCase {
   public void testFirstNonNull_withNonNull() {
     String s1 = "foo";

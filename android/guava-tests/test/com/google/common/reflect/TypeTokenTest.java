@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test cases for {@link TypeToken}.
@@ -53,6 +54,7 @@ import junit.framework.TestCase;
  * @author Ben Yu
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
+@NullUnmarked
 public class TypeTokenTest extends TestCase {
 
   private abstract static class StringList implements List<String> {}

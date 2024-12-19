@@ -28,12 +28,14 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test stream operation speed.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class StreamsBenchmark {
   @Param({"1", "10", "100", "1000", "10000"})
   private int size;

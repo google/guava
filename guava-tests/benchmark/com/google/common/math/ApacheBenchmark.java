@@ -25,6 +25,7 @@ import static com.google.common.math.MathBenchmarking.randomNonNegativeBigIntege
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks against the Apache Commons Math utilities.
@@ -33,6 +34,7 @@ import com.google.caliper.Param;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ApacheBenchmark {
   private enum Impl {
     GUAVA {

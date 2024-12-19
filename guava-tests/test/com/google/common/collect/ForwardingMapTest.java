@@ -49,6 +49,7 @@ import java.util.function.Predicate;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -57,6 +58,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingMapTest extends TestCase {
   static class StandardImplForwardingMap<K, V> extends ForwardingMap<K, V> {
     private final Map<K, V> backingMap;

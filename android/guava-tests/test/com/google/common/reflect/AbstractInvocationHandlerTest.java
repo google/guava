@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class AbstractInvocationHandlerTest extends TestCase {
 
   private static final ImmutableList<String> LIST1 = ImmutableList.of("one", "two");

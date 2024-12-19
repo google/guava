@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -51,6 +52,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Luke Sandberg
  */
+@NullUnmarked
 public class AbstractScheduledServiceTest extends TestCase {
 
   volatile Scheduler configuration = newFixedDelaySchedule(0, 10, MILLISECONDS);

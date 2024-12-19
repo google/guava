@@ -21,6 +21,7 @@ import static java.util.Collections.shuffle;
 
 import java.util.List;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Nicholaus Shupe
  */
+@NullUnmarked
 class CollectionBenchmarkSampleData {
   private final boolean isUserTypeFast;
   private final SpecialRandom random;

@@ -51,6 +51,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link MediaType}.
@@ -58,6 +59,7 @@ import junit.framework.TestCase;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class MediaTypeTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // reflection

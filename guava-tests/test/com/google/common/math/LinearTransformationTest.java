@@ -24,12 +24,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link LinearTransformation}.
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class LinearTransformationTest extends TestCase {
 
   private static final double ALLOWED_ERROR = 1e-10;

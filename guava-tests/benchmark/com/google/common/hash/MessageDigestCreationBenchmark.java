@@ -20,12 +20,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.security.MessageDigest;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for comparing instance creation of {@link MessageDigest}s.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class MessageDigestCreationBenchmark {
 
   @Param({"MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512"})

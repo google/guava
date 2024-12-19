@@ -30,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -37,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Sven Mawson
  */
+@NullUnmarked
 public class ListenableFutureTester {
 
   private final ExecutorService exec;

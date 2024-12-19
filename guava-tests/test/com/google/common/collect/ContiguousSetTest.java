@@ -45,11 +45,13 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ContiguousSetTest extends TestCase {
   private static final DiscreteDomain<Integer> NOT_EQUAL_TO_INTEGERS =
       new DiscreteDomain<Integer>() {

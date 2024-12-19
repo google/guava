@@ -29,9 +29,11 @@ import com.google.common.testing.SerializableTester;
 import java.util.Iterator;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Converter}. */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ConverterTest extends TestCase {
 
   private static final Converter<String, Long> STR_TO_LONG =

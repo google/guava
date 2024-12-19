@@ -264,7 +264,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *
    * @param timeout when to time out the future
    * @param scheduledExecutor The executor service to enforce the timeout.
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // ScheduledExecutorService

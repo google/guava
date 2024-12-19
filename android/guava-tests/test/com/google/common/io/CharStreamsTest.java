@@ -29,12 +29,14 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link CharStreams}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class CharStreamsTest extends IoTestCase {
 
   private static final String TEXT = "The quick brown fox jumped over the lazy dog.";

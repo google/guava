@@ -49,6 +49,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.math.StatsTesting.ManyValues;
 import java.util.Collections;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link PairedStatsAccumulator}. This tests the stats methods for instances built with
@@ -58,6 +59,7 @@ import junit.framework.TestCase;
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class PairedStatsAccumulatorTest extends TestCase {
 
   private PairedStatsAccumulator emptyAccumulator;

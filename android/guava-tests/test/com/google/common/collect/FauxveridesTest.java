@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -44,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Chris Povirk
  */
+@NullUnmarked
 public class FauxveridesTest extends TestCase {
   public void testImmutableBiMap() {
     doHasAllFauxveridesTest(ImmutableBiMap.class, ImmutableMap.class);

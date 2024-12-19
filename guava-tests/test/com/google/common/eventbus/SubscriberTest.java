@@ -23,6 +23,7 @@ import com.google.common.testing.EqualsTester;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,6 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Cliff Biffle
  * @author Colin Decker
  */
+@NullUnmarked
 public class SubscriberTest extends TestCase {
 
   private static final Object FIXTURE_ARGUMENT = new Object();

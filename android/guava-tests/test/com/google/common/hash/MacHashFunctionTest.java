@@ -30,6 +30,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import sun.security.jca.ProviderList;
 import sun.security.jca.Providers;
@@ -39,6 +40,7 @@ import sun.security.jca.Providers;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class MacHashFunctionTest extends TestCase {
 
   private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");

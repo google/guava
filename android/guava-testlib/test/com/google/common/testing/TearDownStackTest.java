@@ -20,10 +20,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/** @author Luiz-Otavio "Z" Zorzella */
+/**
+ * @author Luiz-Otavio "Z" Zorzella
+ */
 @GwtCompatible
+@NullUnmarked
 public class TearDownStackTest extends TestCase {
 
   private TearDownStack tearDownStack = new TearDownStack();

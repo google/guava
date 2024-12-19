@@ -23,9 +23,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import org.jspecify.annotations.NullUnmarked;
 
 // TODO(b/65488446): Make this a public API.
 /** Utility method to parse the system class path. */
+@NullUnmarked
 final class ClassPathUtil {
   private ClassPathUtil() {}
 

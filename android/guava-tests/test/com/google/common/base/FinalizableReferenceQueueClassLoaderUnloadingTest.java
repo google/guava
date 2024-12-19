@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.concurrent.atomic.AtomicReference;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -43,6 +44,7 @@ import org.junit.runners.JUnit4;
  */
 @AndroidIncompatible
 @RunWith(JUnit4.class)
+@NullUnmarked
 public class FinalizableReferenceQueueClassLoaderUnloadingTest {
 
   /*

@@ -25,11 +25,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests that the different algorithms benchmarked in {@link QuantilesBenchmark} are actually all
  * returning more-or-less the same answers.
  */
+@NullUnmarked
 public class QuantilesAlgorithmTest extends TestCase {
 
   private static final Random RNG = new Random(82674067L);

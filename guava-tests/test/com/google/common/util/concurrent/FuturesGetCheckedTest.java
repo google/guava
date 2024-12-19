@@ -49,8 +49,10 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Futures#getChecked(Future, Class)}. */
+@NullUnmarked
 public class FuturesGetCheckedTest extends TestCase {
   // Boring untimed-get tests:
 

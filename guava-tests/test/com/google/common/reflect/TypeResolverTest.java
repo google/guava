@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests of {@link TypeResolver}.
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  * @author Ben Yu
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
+@NullUnmarked
 public class TypeResolverTest extends TestCase {
 
   public void testWhere_noMapping() {

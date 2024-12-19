@@ -28,12 +28,14 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.EnumSet;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the default implementations of {@code CharSink} methods.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class CharSinkTest extends IoTestCase {
 
   private static final String STRING = ASCII + I18N;

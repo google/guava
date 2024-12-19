@@ -48,6 +48,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Base class for JSR166 Junit TCK tests. Defines some constants, utility methods and classes, as
@@ -101,6 +102,7 @@ import junit.framework.TestCase;
  */
 // We call threadUnexpectedException, which does the right thing for errors.
 @SuppressWarnings("AssertionFailureIgnored")
+@NullUnmarked
 abstract class JSR166TestCase extends TestCase {
   private static final boolean useSecurityManager = Boolean.getBoolean("jsr166.useSecurityManager");
 

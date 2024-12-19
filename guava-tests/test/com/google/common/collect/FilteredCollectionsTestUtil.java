@@ -33,6 +33,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Class that contains nested abstract tests for filtered collection views, along with their
@@ -44,6 +45,7 @@ import junit.framework.TestCase;
  * TODO(cpovirk): Should all the tests for filtered collections run under GWT, too? Currently, they
  * don't.
  */
+@NullUnmarked
 public final class FilteredCollectionsTestUtil {
   private static final Predicate<Integer> EVEN =
       new Predicate<Integer>() {

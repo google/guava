@@ -29,6 +29,7 @@ import java.util.Collection;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ForwardingCollection}.
@@ -37,6 +38,7 @@ import junit.framework.TestSuite;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingCollectionTest extends TestCase {
   static final class StandardImplForwardingCollection<T> extends ForwardingCollection<T> {
     private final Collection<T> backingCollection;

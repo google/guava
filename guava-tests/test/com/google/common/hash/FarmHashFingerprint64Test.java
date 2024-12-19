@@ -23,6 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for FarmHashFingerprint64.
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
  * @author Kyle Maddison
  * @author Geoff Pike
  */
+@NullUnmarked
 public class FarmHashFingerprint64Test extends TestCase {
 
   private static final HashFunction HASH_FN = Hashing.farmHashFingerprint64();

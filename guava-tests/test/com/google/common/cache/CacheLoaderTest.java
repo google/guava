@@ -28,12 +28,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link CacheLoader}.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class CacheLoaderTest extends TestCase {
 
   private static class QueuingExecutor implements Executor {

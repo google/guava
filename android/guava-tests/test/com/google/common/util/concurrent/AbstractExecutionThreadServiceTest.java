@@ -31,12 +31,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link AbstractExecutionThreadService}.
  *
  * @author Jesse Wilson
  */
+@NullUnmarked
 public class AbstractExecutionThreadServiceTest extends TestCase {
 
   private final TearDownStack tearDownStack = new TearDownStack(true);

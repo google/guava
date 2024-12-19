@@ -37,12 +37,14 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for Striped.
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class StripedTest extends TestCase {
   private static List<Striped<?>> strongImplementations() {
     return ImmutableList.of(

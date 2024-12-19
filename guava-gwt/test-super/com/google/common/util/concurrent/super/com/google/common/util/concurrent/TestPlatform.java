@@ -24,6 +24,7 @@ import static junit.framework.Assert.fail;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 final class TestPlatform {
@@ -55,7 +56,8 @@ final class TestPlatform {
     // There is no thread interruption in GWT, so there's nothing to do.
   }
 
-  static <V> V getDoneFromTimeoutOverload(Future<V> future) throws ExecutionException {
+  static <V extends @Nullable Object> V getDoneFromTimeoutOverload(Future<V> future)
+      throws ExecutionException {
     checkState(future.isDone(), "Future was expected to be done: %s", future);
     try {
       return future.get(0, SECONDS);

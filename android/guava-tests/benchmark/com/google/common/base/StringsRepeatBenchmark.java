@@ -19,12 +19,14 @@ package com.google.common.base;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Microbenchmark for {@link com.google.common.base.Strings#repeat}
  *
  * @author Mike Cripps
  */
+@NullUnmarked
 public class StringsRepeatBenchmark {
   @Param({"1", "5", "25", "125"})
   int count;

@@ -19,8 +19,12 @@ import static java.util.Arrays.asList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Charles Fry */
+/**
+ * @author Charles Fry
+ */
+@NullUnmarked
 public class CacheManualTest extends TestCase {
 
   public void testGetIfPresent() {

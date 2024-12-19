@@ -20,7 +20,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FilteredCollectionsTestUtil.AbstractFilteredSortedSetTest;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import org.jspecify.annotations.NullUnmarked;
 
+@NullUnmarked
 public final class SetsFilterSortedSetTest
     extends AbstractFilteredSortedSetTest<SortedSet<Integer>> {
   @Override

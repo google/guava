@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Utility {@link RemovalListener} implementations intended for use in testing.
@@ -25,6 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author mike nonemacher
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 class TestingRemovalListeners {
 
   /** Returns a new no-op {@code RemovalListener}. */

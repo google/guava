@@ -6,12 +6,14 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@NullUnmarked
 public final class InvalidatableSetTest {
   Set<Integer> wrappedSet;
   Set<Integer> copyOfWrappedSet;

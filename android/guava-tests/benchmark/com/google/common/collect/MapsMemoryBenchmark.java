@@ -30,8 +30,10 @@ import com.google.common.collect.BenchmarkHelpers.MapsImplEnum;
 import com.google.common.collect.BenchmarkHelpers.SortedMapImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmarks for memory consumption of map implementations. */
+@NullUnmarked
 public class MapsMemoryBenchmark {
   static final Map<String, MapsImplEnum> mapEnums =
       uniqueIndex(

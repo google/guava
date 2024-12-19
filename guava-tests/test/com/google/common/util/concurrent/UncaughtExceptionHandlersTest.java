@@ -21,8 +21,12 @@ import static org.mockito.Mockito.verify;
 
 import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Gregory Kick */
+/**
+ * @author Gregory Kick
+ */
+@NullUnmarked
 public class UncaughtExceptionHandlersTest extends TestCase {
 
   private Runtime runtimeMock;

@@ -12,12 +12,14 @@ import com.google.common.collect.Ordering;
 import com.google.common.primitives.UnsignedLong;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for Fingerprint2011.
  *
  * @author kylemaddison@google.com (Kyle Maddison)
  */
+@NullUnmarked
 public class Fingerprint2011Test extends TestCase {
 
   // Length of the sample string to produce

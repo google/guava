@@ -75,6 +75,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
@@ -84,6 +85,7 @@ import org.mockito.Mockito;
  *
  * @author Kyle Littlefield (klittle)
  */
+@NullUnmarked
 public class MoreExecutorsTest extends JSR166TestCase {
 
   private static final Runnable EMPTY_RUNNABLE =

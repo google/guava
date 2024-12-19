@@ -20,12 +20,14 @@ import com.google.common.base.Function;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link ForwardingListMultimap}.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class ForwardingListMultimapTest extends TestCase {
 
   @SuppressWarnings("rawtypes")

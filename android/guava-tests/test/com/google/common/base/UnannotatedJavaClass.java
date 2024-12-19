@@ -16,7 +16,10 @@
 
 package com.google.common.base;
 
+import org.jspecify.annotations.NullUnmarked;
+
 /** Class containing an unannotated Java method for use from {@code OptionalExtensionsTest}. */
+@NullUnmarked
 final class UnannotatedJavaClass {
   static Object getNull() {
     return null;

@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
@@ -66,7 +67,8 @@ final class TestPlatform {
    * Retrieves the result of a {@code Future} known to be done but uses the {@code get(long,
    * TimeUnit)} overload in order to test that method.
    */
-  static <V> V getDoneFromTimeoutOverload(Future<V> future) throws ExecutionException {
+  static <V extends @Nullable Object> V getDoneFromTimeoutOverload(Future<V> future)
+      throws ExecutionException {
     checkState(future.isDone(), "Future was expected to be done: %s", future);
     try {
       return getUninterruptibly(future, 0, SECONDS);

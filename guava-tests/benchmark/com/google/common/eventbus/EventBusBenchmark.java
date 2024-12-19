@@ -18,12 +18,14 @@ package com.google.common.eventbus;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmark for {@link EventBus}.
  *
  * @author Eric Fellheimer
  */
+@NullUnmarked
 public class EventBusBenchmark {
 
   private EventBus eventBus;

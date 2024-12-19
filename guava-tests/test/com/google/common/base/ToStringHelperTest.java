@@ -31,6 +31,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link MoreObjects#toStringHelper(Object)}.
@@ -38,6 +40,7 @@ import junit.framework.TestCase;
  * @author Jason Lee
  */
 @GwtCompatible
+@NullUnmarked
 public class ToStringHelperTest extends TestCase {
 
   @GwtIncompatible // Class names are obfuscated in GWT
@@ -591,7 +594,7 @@ public class ToStringHelperTest extends TestCase {
     String[] strings = {"hello", "world"};
     int[] ints = {2, 42};
     Object[] objects = {"obj"};
-    String[] arrayWithNull = {null};
+    @Nullable String[] arrayWithNull = new @Nullable String[] {null};
     Object[] empty = {};
     String toTest =
         MoreObjects.toStringHelper("TSH")

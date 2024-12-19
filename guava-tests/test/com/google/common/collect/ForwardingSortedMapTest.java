@@ -36,6 +36,7 @@ import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -43,6 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Robert KonigsbergSortedMapFeature
  */
+@NullUnmarked
 public class ForwardingSortedMapTest extends TestCase {
   static class StandardImplForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
     private final SortedMap<K, V> backingSortedMap;

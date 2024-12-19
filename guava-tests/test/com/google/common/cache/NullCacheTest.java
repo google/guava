@@ -26,12 +26,14 @@ import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * {@link LoadingCache} tests for caches with a maximum size of zero.
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 public class NullCacheTest extends TestCase {
   QueuingRemovalListener<Object, Object> listener;
 

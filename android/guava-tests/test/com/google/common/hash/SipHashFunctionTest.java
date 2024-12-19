@@ -18,12 +18,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableSet;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link SipHashFunction}.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class SipHashFunctionTest extends TestCase {
 
   // From https://131002.net/siphash/siphash24.c

@@ -25,6 +25,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class HashCodeTest extends TestCase {
   // note: asInt(), asLong() are in little endian
   private static final ImmutableList<ExpectedHashCode> expectedHashCodes =

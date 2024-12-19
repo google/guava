@@ -35,8 +35,10 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class BigDecimalMathTest extends TestCase {
   private static final class RoundToDoubleTester {
     private final BigDecimal input;

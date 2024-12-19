@@ -432,7 +432,7 @@ public final class Splitter {
    *
    * @param sequence the sequence of characters to split
    * @return a stream over the segments split from the parameter
-   * @since NEXT (but since 28.2 in the JRE flavor)
+   * @since 33.4.0 (but since 28.2 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls.

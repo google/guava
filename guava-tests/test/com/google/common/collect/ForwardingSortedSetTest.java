@@ -32,6 +32,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingSortedSetTest extends TestCase {
   static class StandardImplForwardingSortedSet<T> extends ForwardingSortedSet<T> {
     private final SortedSet<T> backingSortedSet;

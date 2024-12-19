@@ -17,12 +17,14 @@
 package com.google.common.util.concurrent;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ForwardingListenableFuture}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class ForwardingListenableFutureTest extends TestCase {
   public void testForwarding() {
     ForwardingObjectTester.testForwardingObject(ForwardingListenableFuture.class);

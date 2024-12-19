@@ -35,12 +35,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link AbstractService}.
  *
  * @author Jesse Wilson
  */
+@NullUnmarked
 public class AbstractServiceTest extends TestCase {
 
   private static final long LONG_TIMEOUT_MILLIS = 10000;

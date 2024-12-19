@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verify;
 import java.io.Flushable;
 import java.io.IOException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Flushables}.
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
  *
  * @author Michael Lancaster
  */
+@NullUnmarked
 public class FlushablesTest extends TestCase {
   private Flushable mockFlushable;
 

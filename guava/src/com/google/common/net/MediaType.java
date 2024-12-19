@@ -464,7 +464,7 @@ public final class MediaType {
    * constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
    * data format.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   public static final MediaType CBOR = createConstant(APPLICATION_TYPE, "cbor");
 

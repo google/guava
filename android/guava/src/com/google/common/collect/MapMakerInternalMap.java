@@ -51,6 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * The concurrent hash map implementation built by {@link MapMaker}.
@@ -73,7 +74,7 @@ import javax.annotation.CheckForNull;
   "GuardedBy", // TODO(b/35466881): Fix or suppress.
   "nullness", // too much trouble for the payoff
 })
-// TODO(cpovirk): Annotate for nullness.
+@NullUnmarked // TODO(cpovirk): Annotate for nullness.
 class MapMakerInternalMap<
         K,
         V,

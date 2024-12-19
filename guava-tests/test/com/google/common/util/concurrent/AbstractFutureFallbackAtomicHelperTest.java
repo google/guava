@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import sun.misc.Unsafe;
 
 /**
@@ -45,6 +46,7 @@ import sun.misc.Unsafe;
  * test methods in these degenerate classloaders.
  */
 
+@NullUnmarked
 public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   // stash these in static fields to avoid loading them over and over again (speeds up test

@@ -21,8 +21,10 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.TableCollectionTest.RowTests;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible // TODO(hhchan): ArrayTable
+@NullUnmarked
 public class ArrayTableRowTest extends RowTests {
   public ArrayTableRowTest() {
     super(true, true, false, false, false);

@@ -36,9 +36,11 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Futures#getUnchecked(Future)}. */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class FuturesGetUncheckedTest extends TestCase {
   public void testGetUnchecked_success() {
     assertEquals("foo", getUnchecked(immediateFuture("foo")));

@@ -19,8 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Colliders;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 public class ImmutableMapWithBadHashesMapInterfaceTest
     extends AbstractImmutableMapMapInterfaceTest<Object, Integer> {
   @Override

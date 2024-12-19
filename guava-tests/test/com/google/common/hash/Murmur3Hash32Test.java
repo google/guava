@@ -26,8 +26,10 @@ import com.google.common.hash.HashTestUtils.HashFn;
 import java.nio.charset.Charset;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link Murmur3_32HashFunction}. */
+@NullUnmarked
 public class Murmur3Hash32Test extends TestCase {
   public void testKnownIntegerInputs() {
     assertHash(593689054, murmur3_32().hashInt(0));

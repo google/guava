@@ -28,6 +28,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.testing.EqualsTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests CacheBuilderSpec. TODO(user): tests of a few invalid input conditions, boundary
@@ -35,6 +36,7 @@ import junit.framework.TestCase;
  *
  * @author Adam Winer
  */
+@NullUnmarked
 public class CacheBuilderSpecTest extends TestCase {
   public void testParse_empty() {
     CacheBuilderSpec spec = parse("");

@@ -25,12 +25,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.math.BigInteger;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the non-rounding methods of {@code BigIntegerMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class BigIntegerMathBenchmark {
   private static final int[] factorials = new int[ARRAY_SIZE];
   private static final int[] slowFactorials = new int[ARRAY_SIZE];

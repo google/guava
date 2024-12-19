@@ -29,12 +29,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unittests for {@link CycleDetectingLockFactory}.
  *
  * @author Darick Tong
  */
+@NullUnmarked
 public class CycleDetectingLockFactoryTest extends TestCase {
 
   private ReentrantLock lockA;

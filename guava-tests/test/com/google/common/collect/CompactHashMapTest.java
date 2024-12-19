@@ -30,12 +30,14 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@code CompactHashMap}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class CompactHashMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

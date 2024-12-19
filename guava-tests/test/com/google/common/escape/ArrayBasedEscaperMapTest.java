@@ -22,9 +22,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author David Beaumont */
+/**
+ * @author David Beaumont
+ */
 @GwtCompatible
+@NullUnmarked
 public class ArrayBasedEscaperMapTest extends TestCase {
   public void testNullMap() {
     assertThrows(NullPointerException.class, () -> ArrayBasedEscaperMap.create(null));

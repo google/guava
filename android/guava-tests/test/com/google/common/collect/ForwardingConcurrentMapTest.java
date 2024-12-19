@@ -19,12 +19,14 @@ package com.google.common.collect;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ForwardingConcurrentMap}.
  *
  * @author Jared Levy
  */
+@NullUnmarked
 public class ForwardingConcurrentMapTest extends TestCase {
 
   private static class TestMap extends ForwardingConcurrentMap<String, Integer> {

@@ -17,12 +17,14 @@
 package com.google.common.base;
 
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Some microbenchmarks for the {@link com.google.common.base.Objects} class.
  *
  * @author Ben L. Titzer
  */
+@NullUnmarked
 public class ObjectsBenchmark {
 
   private static final Integer I0 = -45;

@@ -57,6 +57,7 @@ import com.google.common.testing.SerializableTester;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link PairedStats}. This tests instances created by {@link
@@ -64,6 +65,7 @@ import junit.framework.TestCase;
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class PairedStatsTest extends TestCase {
 
   public void testCount() {

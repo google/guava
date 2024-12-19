@@ -20,6 +20,7 @@ import static com.google.common.graph.TestUtil.ERROR_ELEMENT_NOT_IN_GRAPH;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Covers basic sanity checks for the entire package.
@@ -27,6 +28,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Kurt Alfred Kluever
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =

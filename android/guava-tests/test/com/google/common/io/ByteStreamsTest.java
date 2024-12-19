@@ -37,12 +37,14 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link ByteStreams}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class ByteStreamsTest extends IoTestCase {
 
   public void testCopyChannel() throws IOException {

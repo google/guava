@@ -55,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Static utility methods related to {@code Stream} instances.
  *
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.4.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
@@ -409,7 +409,7 @@ public final class Streams {
    * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
    * temporary pair objects and then using {@link Stream#forEach} on that stream.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @Beta
   public static <A extends @Nullable Object, B extends @Nullable Object> void forEachPair(
@@ -767,7 +767,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
    * FunctionWithIndex)}.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -828,7 +828,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
    * IntFunctionWithIndex)}.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -842,7 +842,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
    * LongFunctionWithIndex)}.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
@@ -856,7 +856,7 @@ public final class Streams {
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
    * DoubleFunctionWithIndex)}.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */

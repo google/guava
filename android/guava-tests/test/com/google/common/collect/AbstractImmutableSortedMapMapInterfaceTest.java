@@ -24,8 +24,10 @@ import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
     extends SortedMapInterfaceTest<K, V> {
   public AbstractImmutableSortedMapMapInterfaceTest() {

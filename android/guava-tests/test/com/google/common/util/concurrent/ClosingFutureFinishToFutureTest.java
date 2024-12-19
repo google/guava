@@ -26,8 +26,10 @@ import com.google.common.util.concurrent.ClosingFuture.ClosingCallable;
 import com.google.common.util.concurrent.ClosingFuture.DeferredCloser;
 import java.io.Closeable;
 import java.util.concurrent.ExecutionException;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link ClosingFuture} that exercise {@link ClosingFuture#finishToFuture()}. */
+@NullUnmarked
 public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
   public void testFinishToFuture_throwsIfCalledTwice() throws Exception {
     ClosingFuture<Closeable> closingFuture =

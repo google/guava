@@ -41,6 +41,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -48,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class QueuesTest extends TestCase {
   /*
    * All the following tests relate to BlockingQueue methods in Queues.

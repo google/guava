@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiFunction;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -37,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class SynchronizedBiMapTest extends SynchronizedMapTest {
 
   public static TestSuite suite() {

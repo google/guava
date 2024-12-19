@@ -368,7 +368,7 @@ public final class Monitor {
    *
    * @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
    *     isSatisfied()})
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // We have to rely on users not to call this, as NewApi won't flag BooleanSupplier creation.
@@ -392,7 +392,7 @@ public final class Monitor {
    * Enters this monitor. Blocks at most the given time.
    *
    * @return whether the monitor was entered
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -444,7 +444,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered
    * @throws InterruptedException if interrupted while waiting
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -507,7 +507,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -605,7 +605,7 @@ public final class Monitor {
    * the time to acquire the lock and the time to wait for the guard to be satisfied.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -708,7 +708,7 @@ public final class Monitor {
    * lock, but does not wait for the guard to be satisfied.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -770,7 +770,7 @@ public final class Monitor {
    * lock, but does not wait for the guard to be satisfied, and may be interrupted.
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -853,7 +853,7 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -901,7 +901,7 @@ public final class Monitor {
    * thread currently occupying this monitor.
    *
    * @return whether the guard is now satisfied
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.

@@ -29,12 +29,14 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test of {@link MutableClassToInstanceMap}.
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class MutableClassToInstanceMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

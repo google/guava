@@ -21,12 +21,14 @@ import static org.junit.Assert.assertThrows;
 import java.io.IOException;
 import java.nio.CharBuffer;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link CharSequenceReader}.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class CharSequenceReaderTest extends TestCase {
 
   public void testReadEmptyString() throws IOException {

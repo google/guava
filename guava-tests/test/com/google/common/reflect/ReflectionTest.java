@@ -23,8 +23,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link Reflection} */
+@NullUnmarked
 public class ReflectionTest extends TestCase {
 
   public void testGetPackageName() throws Exception {

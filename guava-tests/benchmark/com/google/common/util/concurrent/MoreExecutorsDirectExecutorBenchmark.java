@@ -29,12 +29,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A benchmark comparing the {@link MoreExecutors#newDirectExecutorService()} to {@link
  * MoreExecutors#directExecutor}.
  */
 @VmOptions({"-Xms12g", "-Xmx12g", "-d64"})
+@NullUnmarked
 public class MoreExecutorsDirectExecutorBenchmark {
   enum Impl {
     EXECUTOR_SERVICE {

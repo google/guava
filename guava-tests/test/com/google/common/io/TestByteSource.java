@@ -23,12 +23,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A byte source for testing that has configurable behavior.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public final class TestByteSource extends ByteSource implements TestStreamSupplier {
 
   private final byte[] bytes;

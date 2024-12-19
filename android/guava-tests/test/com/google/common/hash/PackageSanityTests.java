@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Basic sanity tests for the entire package.
@@ -25,6 +26,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Ben Yu
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(LockFreeBitArray.class, new LockFreeBitArray(1));

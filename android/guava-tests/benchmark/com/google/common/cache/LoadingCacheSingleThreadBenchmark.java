@@ -23,12 +23,14 @@ import com.google.caliper.Param;
 import com.google.common.primitives.Ints;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Single-threaded benchmark for {@link LoadingCache}.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class LoadingCacheSingleThreadBenchmark {
   @Param({"1000", "2000"})
   int maximumSize;

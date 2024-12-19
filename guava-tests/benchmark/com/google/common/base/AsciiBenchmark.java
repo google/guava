@@ -25,12 +25,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the ASCII class.
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class AsciiBenchmark {
   private static final String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   private static final String NONALPHA = "0123456789`~-_=+[]{}|;:',.<>/?!@#$%^&*()\"\\";

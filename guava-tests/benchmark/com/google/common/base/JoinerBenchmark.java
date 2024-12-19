@@ -21,12 +21,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Arrays;
 import java.util.Iterator;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks {@link Joiner} against some common implementations of delimiter-based string joining.
  *
  * @author Adomas Paltanavicius
  */
+@NullUnmarked
 public class JoinerBenchmark {
 
   private static final String DELIMITER_STRING = ",";

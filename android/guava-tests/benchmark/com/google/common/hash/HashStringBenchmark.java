@@ -22,8 +22,10 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmarks for the hashing of UTF-8 strings. */
+@NullUnmarked
 public class HashStringBenchmark {
   static class MaxCodePoint {
     final int value;

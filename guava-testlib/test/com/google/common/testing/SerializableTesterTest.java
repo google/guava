@@ -19,6 +19,7 @@ package com.google.common.testing;
 import java.io.Serializable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Nick Kralevich
  */
+@NullUnmarked
 public class SerializableTesterTest extends TestCase {
   public void testStringAssertions() {
     String original = "hello world";

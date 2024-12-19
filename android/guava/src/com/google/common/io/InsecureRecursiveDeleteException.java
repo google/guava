@@ -32,7 +32,7 @@ import javax.annotation.CheckForNull;
  * <p>{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method
  * to proceed anyway.
  *
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.4.0 (but since 21.0 in the JRE flavor)
  * @author Colin Decker
  */
 @J2ktIncompatible

@@ -226,7 +226,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
    *
    * @throws RejectedExecutionException if the task cannot be scheduled for execution
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
@@ -383,7 +383,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param delegate The future to delegate to.
    * @param time when to time out the future
    * @param scheduledExecutor The executor service to enforce the timeout.
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
@@ -1278,7 +1278,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws CancellationException if {@code get} throws a {@code CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
    *     does not have a suitable constructor
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

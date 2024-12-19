@@ -22,8 +22,10 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Returns a random portion of the requested bytes on each call. */
+@NullUnmarked
 class RandomAmountInputStream extends FilterInputStream {
   private final Random random;
 

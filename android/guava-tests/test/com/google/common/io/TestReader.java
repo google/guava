@@ -23,8 +23,12 @@ import java.io.ByteArrayInputStream;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Colin Decker */
+/**
+ * @author Colin Decker
+ */
+@NullUnmarked
 public class TestReader extends FilterReader {
 
   private final TestInputStream in;

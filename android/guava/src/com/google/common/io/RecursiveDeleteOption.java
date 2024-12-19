@@ -25,7 +25,7 @@ import java.nio.file.SecureDirectoryStream;
  * Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
  * MoreFiles#deleteDirectoryContents}).
  *
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.4.0 (but since 21.0 in the JRE flavor)
  * @author Colin Decker
  */
 @J2ktIncompatible

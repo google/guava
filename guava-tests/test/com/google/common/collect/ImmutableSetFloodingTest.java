@@ -22,8 +22,10 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.List;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class ImmutableSetFloodingTest extends AbstractHashFloodingTest<Set<Object>> {
   public ImmutableSetFloodingTest() {
     super(

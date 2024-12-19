@@ -17,8 +17,10 @@
 package com.google.common.util.concurrent;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link ForwardingListeningExecutorService} */
+@NullUnmarked
 public class ForwardingListeningExecutorServiceTest extends TestCase {
   public void testForwarding() {
     ForwardingObjectTester.testForwardingObject(ForwardingListeningExecutorService.class);

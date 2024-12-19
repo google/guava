@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link MoreFiles#fileTraverser()}.
@@ -33,6 +34,7 @@ import junit.framework.TestCase;
  * @author Jens Nyman
  */
 
+@NullUnmarked
 public class MoreFilesFileTraverserTest extends TestCase {
 
   private Path rootDir;

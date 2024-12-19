@@ -21,12 +21,14 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.testing.NullPointerTester;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Atomics}.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class AtomicsTest extends TestCase {
 
   private static final Object OBJECT = new Object();

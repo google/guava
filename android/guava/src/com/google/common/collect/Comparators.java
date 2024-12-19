@@ -177,7 +177,7 @@ public final class Comparators {
    * than all other values, and orders the rest using {@code valueComparator} on the contained
    * value.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Optional.
@@ -192,7 +192,7 @@ public final class Comparators {
    * than all other values, and orders the rest using {@code valueComparator} on the contained
    * value.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Optional.

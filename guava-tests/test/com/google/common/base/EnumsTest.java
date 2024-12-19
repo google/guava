@@ -39,6 +39,7 @@ import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Enums}.
@@ -47,6 +48,7 @@ import junit.framework.TestCase;
  */
 @GwtIncompatible
 @J2ktIncompatible
+@NullUnmarked
 public class EnumsTest extends TestCase {
 
   private enum TestEnum {

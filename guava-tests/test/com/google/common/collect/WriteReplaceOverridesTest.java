@@ -28,6 +28,7 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.TypeToken;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests that all package-private {@code writeReplace} methods are overridden in any existing
@@ -36,6 +37,7 @@ import junit.framework.TestCase;
  * writeReplace} when serializing an instance of the subclass. For an example of this problem, see
  * b/310253115.
  */
+@NullUnmarked
 public class WriteReplaceOverridesTest extends TestCase {
   private static final ImmutableSet<String> GUAVA_PACKAGES =
       FluentIterable.of(

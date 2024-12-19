@@ -29,6 +29,7 @@ import java.io.StringReader;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link LineBuffer} and {@link LineReader}.
@@ -36,6 +37,7 @@ import java.util.List;
  * @author Chris Nokleberg
  */
 @AndroidIncompatible // occasionally very slow
+@NullUnmarked
 public class LineBufferTest extends IoTestCase {
 
   public void testProcess() throws IOException {

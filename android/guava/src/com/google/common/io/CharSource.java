@@ -154,7 +154,7 @@ public abstract class CharSource {
    * }</pre>
    *
    * @throws IOException if an I/O error occurs while opening the stream
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @MustBeClosed
   @SuppressWarnings("Java7ApiChecker")
@@ -397,7 +397,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source or if {@code action}
    *     throws an {@code UncheckedIOException}
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   /*

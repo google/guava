@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.After;
 import org.junit.Test;
 
@@ -33,6 +34,7 @@ import org.junit.Test;
  * Abstract base class for testing undirected {@link Network} implementations defined in this
  * package.
  */
+@NullUnmarked
 public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetworkTest {
   private static final EndpointPair<Integer> ENDPOINTS_N1N2 = EndpointPair.ordered(N1, N2);
   private static final EndpointPair<Integer> ENDPOINTS_N2N1 = EndpointPair.ordered(N2, N1);

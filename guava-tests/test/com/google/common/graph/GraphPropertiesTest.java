@@ -20,6 +20,7 @@ import static com.google.common.graph.Graphs.hasCycle;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,7 @@ import org.junit.runners.JUnit4;
 /** Tests for {@link Graphs#hasCycle(Graph)} and {@link Graphs#hasCycle(Network)}. */
 // TODO(user): Consider moving this to GraphsTest.
 @RunWith(JUnit4.class)
+@NullUnmarked
 public class GraphPropertiesTest {
   ImmutableList<MutableGraph<Integer>> graphsToTest;
   Graph<Integer> directedGraph;

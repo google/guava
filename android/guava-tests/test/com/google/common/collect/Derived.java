@@ -17,9 +17,11 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Simple derived class to verify that we handle generics correctly. */
 @GwtCompatible
+@NullUnmarked
 class Derived extends Base {
   public Derived(String s) {
     super(s);

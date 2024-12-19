@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for comparing {@link Checksum}s and {@link HashFunction}s that wrap {@link Checksum}s.
@@ -35,6 +36,7 @@ import java.util.zip.Checksum;
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class ChecksumBenchmark {
 
   // Use a constant seed for all of the benchmarks to ensure apples to apples comparisons.

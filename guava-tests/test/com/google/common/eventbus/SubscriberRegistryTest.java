@@ -22,12 +22,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import java.util.Iterator;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link SubscriberRegistry}.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class SubscriberRegistryTest extends TestCase {
 
   private final SubscriberRegistry registry = new SubscriberRegistry(new EventBus());

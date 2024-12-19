@@ -324,7 +324,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
-   * @since NEXT (but since 23.0 in the JRE flavor)
+   * @since 33.4.0 (but since 23.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -353,7 +353,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
-   * @since NEXT (but since 23.0 in the JRE flavor)
+   * @since 33.4.0 (but since 23.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.

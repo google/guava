@@ -24,8 +24,10 @@ import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.MinimalSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 abstract class AbstractImmutableMapMapInterfaceTest<K, V> extends MapInterfaceTest<K, V> {
   AbstractImmutableMapMapInterfaceTest() {
     super(false, false, false, false, false);

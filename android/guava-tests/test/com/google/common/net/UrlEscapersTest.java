@@ -27,6 +27,7 @@ import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the {@link UrlEscapers} class.
@@ -34,6 +35,7 @@ import junit.framework.TestCase;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 public class UrlEscapersTest extends TestCase {
   public void testUrlFormParameterEscaper() {
     UnicodeEscaper e = (UnicodeEscaper) urlFormParameterEscaper();

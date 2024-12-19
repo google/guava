@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Provides supporting data for performance notes in the documentation of {@link
@@ -34,6 +35,7 @@ import java.util.TreeSet;
  * suggestions.
  *
  */
+@NullUnmarked
 public class SortedCopyBenchmark {
   @Param({"1", "10", "1000", "1000000"})
   int size; // logarithmic triangular

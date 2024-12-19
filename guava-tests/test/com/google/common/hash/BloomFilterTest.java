@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -45,6 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class BloomFilterTest extends TestCase {
   private static final int NUM_PUTS = 100_000;
   private static final ThreadLocal<Random> random =
