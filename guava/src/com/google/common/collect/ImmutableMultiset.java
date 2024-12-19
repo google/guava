@@ -193,7 +193,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
     Multiset<? extends E> multiset =
         (elements instanceof Multiset)
-            ? Multisets.cast(elements)
+            ? (Multiset<? extends E>) elements
             : LinkedHashMultiset.create(elements);
 
     return copyFromEntries(multiset.entrySet());
@@ -561,7 +561,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
-        Multiset<? extends E> multiset = Multisets.cast(elements);
+        Multiset<? extends E> multiset = (Multiset<? extends E>) elements;
         multiset.forEachEntry((e, n) -> contents.add(checkNotNull(e), n));
       } else {
         super.addAll(elements);

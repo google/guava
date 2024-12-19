@@ -191,16 +191,11 @@ public class MapGenerators {
     @Override
     public SampleElements<Entry<String, Collection<Integer>>> samples() {
       return new SampleElements<>(
-          mapEntry("one", collectionOf(10000)),
-          mapEntry("two", collectionOf(-2000)),
-          mapEntry("three", collectionOf(300)),
-          mapEntry("four", collectionOf(-40)),
-          mapEntry("five", collectionOf(5)));
-    }
-
-    // javac7 can't infer the type parameters correctly in samples()
-    private static Collection<Integer> collectionOf(int item) {
-      return ImmutableSet.of(item);
+          mapEntry("one", ImmutableSet.of(10000)),
+          mapEntry("two", ImmutableSet.of(-2000)),
+          mapEntry("three", ImmutableSet.of(300)),
+          mapEntry("four", ImmutableSet.of(-40)),
+          mapEntry("five", ImmutableSet.of(5)));
     }
 
     @Override

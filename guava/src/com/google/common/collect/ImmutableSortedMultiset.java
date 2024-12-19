@@ -416,7 +416,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * reverse of their natural ordering.
    *
    * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
+   * Comparable<? super E>} in order to accommodate users of obsolete javac versions affected by <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
@@ -430,7 +430,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * that implement {@link Comparable}.
    *
    * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
+   * Comparable<? super E>} in order to accommodate users of obsolete javac versions affected by <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
