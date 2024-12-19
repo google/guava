@@ -26,6 +26,7 @@ import junit.framework.TestCase;
  * Unit test for {@link Ascii}.
  *
  * @author Craig Berry
+ * @author François Martin
  */
 @GwtCompatible
 public class AsciiTest extends TestCase {
@@ -135,5 +136,143 @@ public class AsciiTest extends TestCase {
     assertEquals("PASSWORD", "pa\u00dfword".toUpperCase()); // [*]
     assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD")); // [*]
     assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
+  }
+
+  public void testIndexOfIgnoreCase() {
+    assertEquals(0, Ascii.indexOfIgnoreCase("", ""));
+    assertEquals(-1, Ascii.indexOfIgnoreCase("", "x"));
+    assertEquals(0, Ascii.indexOfIgnoreCase("x", ""));
+    assertEquals(0, Ascii.indexOfIgnoreCase(LOWER, UPPER));
+    assertEquals(0, Ascii.indexOfIgnoreCase(UPPER, LOWER));
+    // Create new strings here to avoid early-out logic.
+    assertEquals(0, Ascii.indexOfIgnoreCase(new String(IGNORED), new String(IGNORED)));
+    // Test chars just outside the alphabetic range ('A'-1 vs 'a'-1, 'Z'+1 vs 'z'+1)
+    assertEquals(-1, Ascii.indexOfIgnoreCase("@", "`"));
+    assertEquals(-1, Ascii.indexOfIgnoreCase("[", "{"));
+    // Test matched substrings
+    assertEquals(0, Ascii.indexOfIgnoreCase("abcd", "a"));     // first
+    assertEquals(0, Ascii.indexOfIgnoreCase("abcd", "abc"));   // beginning
+    assertEquals(1, Ascii.indexOfIgnoreCase("abcd", "bcd"));   // end
+    assertEquals(1, Ascii.indexOfIgnoreCase("abcd", "bc"));    // middle
+    assertEquals(-1, Ascii.indexOfIgnoreCase("abcd", "efgh")); // non-matching
+    assertEquals(3, Ascii.indexOfIgnoreCase("abcd", "d"));     // last
+    // Test for case insensitivity
+    assertEquals(0, Ascii.indexOfIgnoreCase("aBcD", "A"));     // first
+    assertEquals(0, Ascii.indexOfIgnoreCase("aBcD", "AbC"));   // beginning
+    assertEquals(1, Ascii.indexOfIgnoreCase("aBcD", "bCd"));   // end
+    assertEquals(1, Ascii.indexOfIgnoreCase("aBcD", "bC"));    // middle
+    assertEquals(-1, Ascii.indexOfIgnoreCase("aBcD", "EFGH")); // non-matching
+    assertEquals(3, Ascii.indexOfIgnoreCase("aBcD", "d"));     // last
+    // Test with fromIndex < 0
+    assertEquals(3, Ascii.indexOfIgnoreCase("aBcD", "d", -1));
+  }
+
+  public void testContainsIgnoreCase() {
+    assertTrue(Ascii.containsIgnoreCase("", ""));
+    assertFalse(Ascii.containsIgnoreCase("", "x"));
+    assertTrue(Ascii.containsIgnoreCase("x", ""));
+    assertTrue(Ascii.containsIgnoreCase(LOWER, UPPER));
+    assertTrue(Ascii.containsIgnoreCase(UPPER, LOWER));
+    // Create new strings here to avoid early-out logic.
+    assertTrue(Ascii.containsIgnoreCase(new String(IGNORED), new String(IGNORED)));
+    assertTrue(
+        Ascii.containsIgnoreCase(new String(IGNORED), new String(IGNORED).subSequence(3,6))
+    );
+    assertFalse(
+        Ascii.containsIgnoreCase(new String(IGNORED).subSequence(3,6), new String(IGNORED))
+    );
+    // Test chars just outside the alphabetic range ('A'-1 vs 'a'-1, 'Z'+1 vs 'z'+1)
+    assertFalse(Ascii.containsIgnoreCase("@", "`"));
+    assertFalse(Ascii.containsIgnoreCase("[", "{"));
+    // Test matched substrings
+    assertTrue(Ascii.containsIgnoreCase("abcd", "abc"));   // beginning
+    assertTrue(Ascii.containsIgnoreCase("abcd", "bcd"));   // end
+    assertTrue(Ascii.containsIgnoreCase("abcd", "bc"));    // middle
+    assertFalse(Ascii.containsIgnoreCase("abcd", "efgh")); // non-matching
+    // Test for case insensitivity
+    assertTrue(Ascii.containsIgnoreCase("aBcD", "AbC"));   // beginning
+    assertTrue(Ascii.containsIgnoreCase("aBcD", "bCd"));   // end
+    assertTrue(Ascii.containsIgnoreCase("aBcD", "bC"));    // middle
+    assertFalse(Ascii.containsIgnoreCase("aBcD", "EFGH")); // non-matching
+  }
+
+  public void testStartsWithIgnoreCase() {
+    assertTrue(Ascii.startsWithIgnoreCase("", ""));
+    assertFalse(Ascii.startsWithIgnoreCase("", "x"));
+    assertTrue(Ascii.startsWithIgnoreCase("x", ""));
+    assertTrue(Ascii.startsWithIgnoreCase(LOWER, UPPER));
+    assertTrue(Ascii.startsWithIgnoreCase(UPPER, LOWER));
+    // Create new strings here to avoid early-out logic.
+    assertTrue(Ascii.startsWithIgnoreCase(new String(IGNORED), new String(IGNORED)));
+    assertFalse(
+        Ascii.startsWithIgnoreCase(new String(IGNORED), new String(IGNORED).subSequence(3,6))
+    );
+    assertFalse(
+        Ascii.startsWithIgnoreCase(new String(IGNORED).subSequence(3,6), new String(IGNORED))
+    );
+    assertTrue(
+        Ascii.startsWithIgnoreCase(new String(IGNORED), new String(IGNORED).subSequence(0,6))
+    );
+    assertFalse(
+        Ascii.startsWithIgnoreCase(new String(IGNORED).subSequence(0,6), new String(IGNORED))
+    );
+    // Test chars just outside the alphabetic range ('A'-1 vs 'a'-1, 'Z'+1 vs 'z'+1)
+    assertFalse(Ascii.startsWithIgnoreCase("@", "`"));
+    assertFalse(Ascii.startsWithIgnoreCase("[", "{"));
+    // Test matched substrings
+    assertTrue(Ascii.startsWithIgnoreCase("abcd", "abc"));   // beginning
+    assertFalse(Ascii.startsWithIgnoreCase("abcd", "bcd"));  // end
+    assertFalse(Ascii.startsWithIgnoreCase("abcd", "bc"));   // middle
+    assertFalse(Ascii.startsWithIgnoreCase("abcd", "efgh")); // non-matching
+    // Test for case insensitivity
+    assertTrue(Ascii.startsWithIgnoreCase("aBcD", "AbC"));   // beginning
+    assertFalse(Ascii.startsWithIgnoreCase("aBcD", "bCd"));  // end
+    assertFalse(Ascii.startsWithIgnoreCase("aBcD", "bC"));   // middle
+    assertFalse(Ascii.startsWithIgnoreCase("aBcD", "EFGH")); // non-matching
+    // Test with different indices
+    assertTrue(Ascii.startsWithIgnoreCase("aaa", "a", 1));
+    assertTrue(Ascii.startsWithIgnoreCase("baa", "a", 1));
+    assertTrue(Ascii.startsWithIgnoreCase("bba", "a", 2));
+  }
+
+  public void testEndsWithIgnoreCase() {
+    assertTrue(Ascii.endsWithIgnoreCase("", ""));
+    assertFalse(Ascii.endsWithIgnoreCase("", "x"));
+    assertTrue(Ascii.endsWithIgnoreCase("x", ""));
+    assertTrue(Ascii.endsWithIgnoreCase(LOWER, UPPER));
+    assertTrue(Ascii.endsWithIgnoreCase(UPPER, LOWER));
+    // Create new strings here to avoid early-out logic.
+    assertTrue(Ascii.endsWithIgnoreCase(new String(IGNORED), new String(IGNORED)));
+    assertFalse(
+        Ascii.endsWithIgnoreCase(new String(IGNORED), new String(IGNORED).subSequence(3,6))
+    );
+    assertFalse(
+        Ascii.endsWithIgnoreCase(new String(IGNORED).subSequence(3,6), new String(IGNORED))
+    );
+    assertTrue(
+        Ascii.endsWithIgnoreCase(
+            new String(IGNORED), new String(IGNORED).subSequence(3,IGNORED.length())
+        )
+    );
+    assertFalse(
+        Ascii.endsWithIgnoreCase(
+            new String(IGNORED).subSequence(3,IGNORED.length()), new String(IGNORED)
+        )
+    );
+    // Test chars just outside the alphabetic range ('A'-1 vs 'a'-1, 'Z'+1 vs 'z'+1)
+    assertFalse(Ascii.endsWithIgnoreCase("@", "`"));
+    assertFalse(Ascii.endsWithIgnoreCase("[", "{"));
+    // Test matched substrings
+    assertFalse(Ascii.endsWithIgnoreCase("abcd", "abc"));  // beginning
+    assertTrue(Ascii.endsWithIgnoreCase("abcd", "bcd"));   // end
+    assertFalse(Ascii.endsWithIgnoreCase("abcd", "bc"));   // middle
+    assertFalse(Ascii.endsWithIgnoreCase("abcd", "efgh")); // non-matching
+    // Test for case insensitivity
+    assertFalse(Ascii.endsWithIgnoreCase("aBcD", "AbC"));  // beginning
+    assertTrue(Ascii.endsWithIgnoreCase("aBcD", "bCd"));   // end
+    assertFalse(Ascii.endsWithIgnoreCase("aBcD", "bC"));   // middle
+    assertFalse(Ascii.endsWithIgnoreCase("aBcD", "EFGH")); // non-matching
+    // Test for multiple occurences
+    assertTrue(Ascii.endsWithIgnoreCase("aaa", "a"));
   }
 }
