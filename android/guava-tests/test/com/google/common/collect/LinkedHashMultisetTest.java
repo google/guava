@@ -61,6 +61,7 @@ public class LinkedHashMultisetTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   private static TestStringMultisetGenerator linkedHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

@@ -44,6 +44,7 @@ import junit.framework.TestSuite;
 @ElementTypesAreNonnullByDefault
 public class HashBiMapTest extends TestCase {
 
+  @J2ktIncompatible
   public static final class HashBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {

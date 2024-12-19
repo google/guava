@@ -61,6 +61,7 @@ public class HashMultisetTest extends TestCase {
     return suite;
   }
 
+  @J2ktIncompatible
   private static TestStringMultisetGenerator hashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

@@ -51,6 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public class ImmutableSetMultimapTest extends TestCase {
+  @J2ktIncompatible
   private static final class ImmutableSetMultimapGenerator extends TestStringSetMultimapGenerator {
     @Override
     protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
@@ -62,6 +63,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   private static final class ImmutableSetMultimapCopyOfEntriesGenerator
       extends TestStringSetMultimapGenerator {
     @Override

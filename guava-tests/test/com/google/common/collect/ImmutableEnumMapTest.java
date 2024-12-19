@@ -50,6 +50,7 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public class ImmutableEnumMapTest extends TestCase {
+  @J2ktIncompatible
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
     @Override
     protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
