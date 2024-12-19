@@ -109,7 +109,7 @@ public class ListListIteratorTester<E extends @Nullable Object> extends Abstract
    * Returns the {@link Method} instance for {@link #testListIterator_fullyModifiable()} so that
    * tests of {@link CopyOnWriteArraySet} can suppress it with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-6570575">JDK-6570575</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection
