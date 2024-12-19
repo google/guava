@@ -795,7 +795,7 @@ public final class Iterables {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
-      List<? extends T> list = Lists.cast(iterable);
+      List<? extends T> list = (List<? extends T>) iterable;
       return (position < list.size()) ? list.get(position) : defaultValue;
     } else {
       Iterator<? extends T> iterator = iterable.iterator();
@@ -869,7 +869,7 @@ public final class Iterables {
       if (c.isEmpty()) {
         return defaultValue;
       } else if (iterable instanceof List) {
-        return getLastInNonemptyList(Lists.cast(iterable));
+        return getLastInNonemptyList((List<? extends T>) iterable);
       }
     }
 

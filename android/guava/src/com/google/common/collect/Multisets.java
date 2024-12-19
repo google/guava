@@ -904,7 +904,7 @@ public final class Multisets {
     checkNotNull(self);
     checkNotNull(elements);
     if (elements instanceof Multiset) {
-      return addAllImpl(self, cast(elements));
+      return addAllImpl(self, (Multiset<? extends E>) elements);
     } else if (elements.isEmpty()) {
       return false;
     } else {
@@ -1153,11 +1153,6 @@ public final class Multisets {
       size += entry.getCount();
     }
     return Ints.saturatedCast(size);
-  }
-
-  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T extends @Nullable Object> Multiset<T> cast(Iterable<T> iterable) {
-    return (Multiset<T>) iterable;
   }
 
   /**

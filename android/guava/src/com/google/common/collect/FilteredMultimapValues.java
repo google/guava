@@ -15,12 +15,14 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.and;
+import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.Maps.valuePredicateOnEntries;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.j2objc.annotations.Weak;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -77,18 +79,14 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   public boolean removeAll(Collection<?> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
-        // explicit <Entry<K, V>> is required to build with JDK6
-        Predicates.<Entry<K, V>>and(
-            multimap.entryPredicate(), Maps.<V>valuePredicateOnEntries(Predicates.in(c))));
+        and(multimap.entryPredicate(), valuePredicateOnEntries(in(c))));
   }
 
   @Override
   public boolean retainAll(Collection<?> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
-        // explicit <Entry<K, V>> is required to build with JDK6
-        Predicates.<Entry<K, V>>and(
-            multimap.entryPredicate(), Maps.<V>valuePredicateOnEntries(not(Predicates.in(c)))));
+        and(multimap.entryPredicate(), valuePredicateOnEntries(not(in(c)))));
   }
 
   @Override

@@ -51,8 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>In addition to these required methods, implementations of {@code Multiset} are expected to
  * provide two {@code static} creation methods: {@code create()}, returning an empty multiset, and
  * {@code create(Iterable<? extends E>)}, returning a multiset containing the given initial
- * elements. This is simply a refinement of {@code Collection}'s constructor recommendations,
- * reflecting the new developments of Java 5.
+ * elements. This is simply a refinement of {@code Collection}'s constructor recommendations.
  *
  * <p>As with other collection types, the modification operations are optional, and should throw
  * {@link UnsupportedOperationException} when they are not implemented. Most implementations should
