@@ -21,6 +21,7 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.4</truth.version>
+    <jspecify.version>1.0.0</jspecify.version>
     <jsr305.version>3.0.2</jsr305.version>
     <checker.version>3.43.0</checker.version>
     <errorprone.version>2.36.0</errorprone.version>
@@ -412,6 +413,11 @@
   </distributionManagement>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>

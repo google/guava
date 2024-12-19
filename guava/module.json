@@ -41,6 +41,13 @@
           }
         },
         {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "${jspecify.version}"
+          }
+        },
+        {
           "group": "com.google.code.findbugs",
           "module": "jsr305",
           "version": {
@@ -111,6 +118,13 @@
           "module": "listenablefuture",
           "version": {
             "requires": "9999.0-empty-to-avoid-conflict-with-guava"
+          }
+        },
+        {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "${jspecify.version}"
           }
         },
         {
@@ -187,6 +201,13 @@
           }
         },
         {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "${jspecify.version}"
+          }
+        },
+        {
           "group": "com.google.code.findbugs",
           "module": "jsr305",
           "version": {
@@ -257,6 +278,13 @@
           "module": "listenablefuture",
           "version": {
             "requires": "9999.0-empty-to-avoid-conflict-with-guava"
+          }
+        },
+        {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "${jspecify.version}"
           }
         },
         {
