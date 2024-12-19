@@ -813,7 +813,7 @@
 <span class="sourceLineNo">804</span><a id="line.804">    checkNotNull(iterable);</a>
 <span class="sourceLineNo">805</span><a id="line.805">    Iterators.checkNonnegative(position);</a>
 <span class="sourceLineNo">806</span><a id="line.806">    if (iterable instanceof List) {</a>
-<span class="sourceLineNo">807</span><a id="line.807">      List&lt;? extends T&gt; list = Lists.cast(iterable);</a>
+<span class="sourceLineNo">807</span><a id="line.807">      List&lt;? extends T&gt; list = (List&lt;? extends T&gt;) iterable;</a>
 <span class="sourceLineNo">808</span><a id="line.808">      return (position &lt; list.size()) ? list.get(position) : defaultValue;</a>
 <span class="sourceLineNo">809</span><a id="line.809">    } else {</a>
 <span class="sourceLineNo">810</span><a id="line.810">      Iterator&lt;? extends T&gt; iterator = iterable.iterator();</a>
@@ -887,7 +887,7 @@
 <span class="sourceLineNo">878</span><a id="line.878">      if (c.isEmpty()) {</a>
 <span class="sourceLineNo">879</span><a id="line.879">        return defaultValue;</a>
 <span class="sourceLineNo">880</span><a id="line.880">      } else if (iterable instanceof List) {</a>
-<span class="sourceLineNo">881</span><a id="line.881">        return getLastInNonemptyList(Lists.cast(iterable));</a>
+<span class="sourceLineNo">881</span><a id="line.881">        return getLastInNonemptyList((List&lt;? extends T&gt;) iterable);</a>
 <span class="sourceLineNo">882</span><a id="line.882">      }</a>
 <span class="sourceLineNo">883</span><a id="line.883">    }</a>
 <span class="sourceLineNo">884</span><a id="line.884"></a>

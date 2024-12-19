@@ -611,7 +611,7 @@
 <span class="sourceLineNo">602</span><a id="line.602">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">603</span><a id="line.603">      requireNonNull(contents); // see the comment on the field</a>
 <span class="sourceLineNo">604</span><a id="line.604">      if (elements instanceof Multiset) {</a>
-<span class="sourceLineNo">605</span><a id="line.605">        Multiset&lt;? extends E&gt; multiset = Multisets.cast(elements);</a>
+<span class="sourceLineNo">605</span><a id="line.605">        Multiset&lt;? extends E&gt; multiset = (Multiset&lt;? extends E&gt;) elements;</a>
 <span class="sourceLineNo">606</span><a id="line.606">        ObjectCountHashMap&lt;? extends E&gt; backingMap = tryGetMap(multiset);</a>
 <span class="sourceLineNo">607</span><a id="line.607">        if (backingMap != null) {</a>
 <span class="sourceLineNo">608</span><a id="line.608">          contents.ensureCapacity(Math.max(contents.size(), backingMap.size()));</a>

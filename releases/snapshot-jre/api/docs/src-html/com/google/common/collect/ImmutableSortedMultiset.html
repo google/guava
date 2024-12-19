@@ -425,7 +425,7 @@
 <span class="sourceLineNo">416</span><a id="line.416">   * reverse of their natural ordering.</a>
 <span class="sourceLineNo">417</span><a id="line.417">   *</a>
 <span class="sourceLineNo">418</span><a id="line.418">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
-<span class="sourceLineNo">419</span><a id="line.419">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * Comparable&lt;? super E&gt;} in order to accommodate users of obsolete javac versions affected by &lt;a</a>
 <span class="sourceLineNo">420</span><a id="line.420">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
 <span class="sourceLineNo">421</span><a id="line.421">   */</a>
 <span class="sourceLineNo">422</span><a id="line.422">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
@@ -439,7 +439,7 @@
 <span class="sourceLineNo">430</span><a id="line.430">   * that implement {@link Comparable}.</a>
 <span class="sourceLineNo">431</span><a id="line.431">   *</a>
 <span class="sourceLineNo">432</span><a id="line.432">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
-<span class="sourceLineNo">433</span><a id="line.433">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
+<span class="sourceLineNo">433</span><a id="line.433">   * Comparable&lt;? super E&gt;} in order to accommodate users of obsolete javac versions affected by &lt;a</a>
 <span class="sourceLineNo">434</span><a id="line.434">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
 <span class="sourceLineNo">435</span><a id="line.435">   */</a>
 <span class="sourceLineNo">436</span><a id="line.436">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {</a>

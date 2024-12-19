@@ -202,7 +202,7 @@
 <span class="sourceLineNo">193</span><a id="line.193"></a>
 <span class="sourceLineNo">194</span><a id="line.194">    Multiset&lt;? extends E&gt; multiset =</a>
 <span class="sourceLineNo">195</span><a id="line.195">        (elements instanceof Multiset)</a>
-<span class="sourceLineNo">196</span><a id="line.196">            ? Multisets.cast(elements)</a>
+<span class="sourceLineNo">196</span><a id="line.196">            ? (Multiset&lt;? extends E&gt;) elements</a>
 <span class="sourceLineNo">197</span><a id="line.197">            : LinkedHashMultiset.create(elements);</a>
 <span class="sourceLineNo">198</span><a id="line.198"></a>
 <span class="sourceLineNo">199</span><a id="line.199">    return copyFromEntries(multiset.entrySet());</a>
@@ -570,7 +570,7 @@
 <span class="sourceLineNo">561</span><a id="line.561">    @Override</a>
 <span class="sourceLineNo">562</span><a id="line.562">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
 <span class="sourceLineNo">563</span><a id="line.563">      if (elements instanceof Multiset) {</a>
-<span class="sourceLineNo">564</span><a id="line.564">        Multiset&lt;? extends E&gt; multiset = Multisets.cast(elements);</a>
+<span class="sourceLineNo">564</span><a id="line.564">        Multiset&lt;? extends E&gt; multiset = (Multiset&lt;? extends E&gt;) elements;</a>
 <span class="sourceLineNo">565</span><a id="line.565">        multiset.forEachEntry((e, n) -&gt; contents.add(checkNotNull(e), n));</a>
 <span class="sourceLineNo">566</span><a id="line.566">      } else {</a>
 <span class="sourceLineNo">567</span><a id="line.567">        super.addAll(elements);</a>
