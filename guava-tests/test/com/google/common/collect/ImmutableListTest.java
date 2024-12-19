@@ -242,8 +242,7 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_collection_empty() {
-    // "<String>" is required to work around a javac 1.5 bug.
-    Collection<String> c = MinimalCollection.<String>of();
+    Collection<String> c = MinimalCollection.of();
     List<String> list = ImmutableList.copyOf(c);
     assertEquals(emptyList(), list);
   }

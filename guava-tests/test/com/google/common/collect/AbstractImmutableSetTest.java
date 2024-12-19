@@ -147,8 +147,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_collection_empty() {
-    // "<String>" is required to work around a javac 1.5 bug.
-    Collection<String> c = MinimalCollection.<String>of();
+    Collection<String> c = MinimalCollection.of();
     Set<String> set = copyOf(c);
     assertEquals(Collections.<String>emptySet(), set);
     assertSame(this.<String>of(), set);

@@ -194,8 +194,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
   }
 
   public void testCopyOf_collection_empty() {
-    // "<String>" is required to work around a javac 1.5 bug.
-    Collection<String> c = MinimalCollection.<String>of();
+    Collection<String> c = MinimalCollection.of();
     Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
     assertTrue(multiset.isEmpty());
   }
