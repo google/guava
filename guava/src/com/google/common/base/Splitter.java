@@ -514,7 +514,7 @@ public final class Splitter {
     public Map<String, String> split(CharSequence sequence) {
       Map<String, String> map = new LinkedHashMap<>();
       for (String entry : outerSplitter.split(sequence)) {
-        Iterator<String> entryFields = entrySplitter.splittingIterator(entry);
+        Iterator<String> entryFields = entrySplitter.limit(2).splittingIterator(entry);
 
         checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
         String key = entryFields.next();
@@ -523,8 +523,6 @@ public final class Splitter {
         checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
         String value = entryFields.next();
         map.put(key, value);
-
-        checkArgument(!entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
       }
       return Collections.unmodifiableMap(map);
     }
