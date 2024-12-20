@@ -48,13 +48,6 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
           "group": "org.checkerframework",
           "module": "checker-qual",
           "version": {
@@ -125,13 +118,6 @@
           "module": "jspecify",
           "version": {
             "requires": "${jspecify.version}"
-          }
-        },
-        {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
           }
         },
         {
@@ -208,13 +194,6 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
           "group": "org.checkerframework",
           "module": "checker-qual",
           "version": {
@@ -285,13 +264,6 @@
           "module": "jspecify",
           "version": {
             "requires": "${jspecify.version}"
-          }
-        },
-        {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
-          "version": {
-            "requires": "${jsr305.version}"
           }
         },
         {
