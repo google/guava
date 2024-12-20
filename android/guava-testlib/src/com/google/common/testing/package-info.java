@@ -19,5 +19,4 @@
  * href="https://github.com/google/guava">Guava</a> library.
  */
 @com.google.errorprone.annotations.CheckReturnValue
-@javax.annotation.ParametersAreNonnullByDefault
 package com.google.common.testing;

@@ -29,8 +29,7 @@
  * @author Charles Fry
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
+@ElementTypesAreNonnullByDefault
 package com.google.common.cache;
 
 import com.google.errorprone.annotations.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;

@@ -20,8 +20,7 @@
  * href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
+@ElementTypesAreNonnullByDefault
 package com.google.common.eventbus;
 
 import com.google.errorprone.annotations.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;
