@@ -2640,7 +2640,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="appendable" type="A extends java.lang.Appendable"/>
-      <param name="parts" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.lang.Iterable&lt;?&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Appends the string representation of each of {@code parts}, using the previously configured
@@ -2652,7 +2652,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="appendable" type="A extends java.lang.Appendable"/>
-      <param name="parts" type="java.util.Iterator&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.util.Iterator&lt;?&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Appends the string representation of each of {@code parts}, using the previously configured
@@ -2691,7 +2691,7 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="builder" type="java.lang.StringBuilder"/>
-      <param name="parts" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.lang.Iterable&lt;?&gt;"/>
       <doc>
       <![CDATA[Appends the string representation of each of {@code parts}, using the previously configured
  separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
@@ -2703,7 +2703,7 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="builder" type="java.lang.StringBuilder"/>
-      <param name="parts" type="java.util.Iterator&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.util.Iterator&lt;?&gt;"/>
       <doc>
       <![CDATA[Appends the string representation of each of {@code parts}, using the previously configured
  separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
@@ -2742,7 +2742,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="parts" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.lang.Iterable&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns a string containing the string representation of each of {@code parts}, using the
  previously configured separator between each.]]>
@@ -2752,7 +2752,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="parts" type="java.util.Iterator&lt;? extends java.lang.Object&gt;"/>
+      <param name="parts" type="java.util.Iterator&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns a string containing the string representation of each of {@code parts}, using the
  previously configured separator between each.
