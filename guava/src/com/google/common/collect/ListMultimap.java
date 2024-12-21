@@ -21,7 +21,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -61,7 +60,7 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> removeAll(@CheckForNull Object key);
+  List<V> removeAll(@Nullable Object key);
 
   /**
    * {@inheritDoc}
@@ -94,5 +93,5 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * empty {@code SetMultimap}.
    */
   @Override
-  boolean equals(@CheckForNull Object obj);
+  boolean equals(@Nullable Object obj);
 }

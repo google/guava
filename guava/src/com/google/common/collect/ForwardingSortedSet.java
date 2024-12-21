@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -64,8 +63,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
   protected abstract SortedSet<E> delegate();
 
   @Override
-  @CheckForNull
-  public Comparator<? super E> comparator() {
+  public @Nullable Comparator<? super E> comparator() {
     return delegate().comparator();
   }
 
@@ -104,7 +102,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(@CheckForNull Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
       @SuppressWarnings({"unchecked", "nullness"})
@@ -124,7 +122,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Override
-  protected boolean standardRemove(@CheckForNull Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     try {
       // any ClassCastExceptions and NullPointerExceptions are caught
       @SuppressWarnings({"unchecked", "nullness"})

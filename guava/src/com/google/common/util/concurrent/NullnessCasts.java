@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
@@ -51,7 +50,7 @@ final class NullnessCasts {
    */
   @SuppressWarnings("nullness")
   @ParametricNullness
-  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@CheckForNull T t) {
+  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;
   }
 

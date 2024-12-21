@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -47,7 +46,7 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public Set<V> removeAll(@CheckForNull Object key) {
+  public Set<V> removeAll(@Nullable Object key) {
     return (Set<V>) super.removeAll(key);
   }
 
@@ -73,7 +72,7 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
     }
 
     @Override
-    public boolean equals(@CheckForNull Object o) {
+    public boolean equals(@Nullable Object o) {
       return Sets.equalsImpl(this, o);
     }
   }

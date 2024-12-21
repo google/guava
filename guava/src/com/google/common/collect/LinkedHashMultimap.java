@@ -42,7 +42,6 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -166,7 +165,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       extends ImmutableEntry<K, V> implements ValueSetLink<K, V> {
     final int smearedValueHash;
 
-    @CheckForNull ValueEntry<K, V> nextInValueBucket;
+    @Nullable ValueEntry<K, V> nextInValueBucket;
     /*
      * The *InValueSet and *InMultimap fields below are null after construction, but we almost
      * always call succeedsIn*() to initialize them immediately thereafter.
@@ -192,17 +191,17 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.
      */
 
-    @CheckForNull private ValueSetLink<K, V> predecessorInValueSet;
-    @CheckForNull private ValueSetLink<K, V> successorInValueSet;
+    private @Nullable ValueSetLink<K, V> predecessorInValueSet;
+    private @Nullable ValueSetLink<K, V> successorInValueSet;
 
-    @CheckForNull private ValueEntry<K, V> predecessorInMultimap;
-    @CheckForNull private ValueEntry<K, V> successorInMultimap;
+    private @Nullable ValueEntry<K, V> predecessorInMultimap;
+    private @Nullable ValueEntry<K, V> successorInMultimap;
 
     ValueEntry(
         @ParametricNullness K key,
         @ParametricNullness V value,
         int smearedValueHash,
-        @CheckForNull ValueEntry<K, V> nextInValueBucket) {
+        @Nullable ValueEntry<K, V> nextInValueBucket) {
       super(key, value);
       this.smearedValueHash = smearedValueHash;
       this.nextInValueBucket = nextInValueBucket;
@@ -213,7 +212,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       return new ValueEntry<>(null, null, 0, null);
     }
 
-    boolean matchesValue(@CheckForNull Object v, int smearedVHash) {
+    boolean matchesValue(@Nullable Object v, int smearedVHash) {
       return smearedValueHash == smearedVHash && Objects.equal(getValue(), v);
     }
 
@@ -411,7 +410,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     public Iterator<V> iterator() {
       return new Iterator<V>() {
         ValueSetLink<K, V> nextEntry = firstEntry;
-        @CheckForNull ValueEntry<K, V> toRemove;
+        @Nullable ValueEntry<K, V> toRemove;
         int expectedModCount = modCount;
 
         private void checkForComodification() {
@@ -466,7 +465,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       int smearedHash = Hashing.smearedHash(o);
       for (ValueEntry<K, V> entry = hashTable[smearedHash & mask()];
           entry != null;
@@ -521,7 +520,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
 
     @CanIgnoreReturnValue
     @Override
-    public boolean remove(@CheckForNull Object o) {
+    public boolean remove(@Nullable Object o) {
       int smearedHash = Hashing.smearedHash(o);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> prev = null;
@@ -564,7 +563,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
   Iterator<Entry<K, V>> entryIterator() {
     return new Iterator<Entry<K, V>>() {
       ValueEntry<K, V> nextEntry = multimapHeaderEntry.getSuccessorInMultimap();
-      @CheckForNull ValueEntry<K, V> toRemove;
+      @Nullable ValueEntry<K, V> toRemove;
 
       @Override
       public boolean hasNext() {

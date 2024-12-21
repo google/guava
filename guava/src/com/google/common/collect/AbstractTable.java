@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -42,12 +41,12 @@ abstract class AbstractTable<
     implements Table<R, C, V> {
 
   @Override
-  public boolean containsRow(@CheckForNull Object rowKey) {
+  public boolean containsRow(@Nullable Object rowKey) {
     return Maps.safeContainsKey(rowMap(), rowKey);
   }
 
   @Override
-  public boolean containsColumn(@CheckForNull Object columnKey) {
+  public boolean containsColumn(@Nullable Object columnKey) {
     return Maps.safeContainsKey(columnMap(), columnKey);
   }
 
@@ -62,7 +61,7 @@ abstract class AbstractTable<
   }
 
   @Override
-  public boolean containsValue(@CheckForNull Object value) {
+  public boolean containsValue(@Nullable Object value) {
     for (Map<C, V> row : rowMap().values()) {
       if (row.containsValue(value)) {
         return true;
@@ -72,14 +71,13 @@ abstract class AbstractTable<
   }
 
   @Override
-  public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = safeGet(rowMap(), rowKey);
     return row != null && Maps.safeContainsKey(row, columnKey);
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+  public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = safeGet(rowMap(), rowKey);
     return (row == null) ? null : safeGet(row, columnKey);
   }
@@ -96,16 +94,14 @@ abstract class AbstractTable<
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+  public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeRemove(row, columnKey);
   }
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public V put(
+  public @Nullable V put(
       @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value) {
     return row(rowKey).put(columnKey, value);
   }
@@ -117,7 +113,7 @@ abstract class AbstractTable<
     }
   }
 
-  @LazyInit @CheckForNull private transient Set<Cell<R, C, V>> cellSet;
+  @LazyInit private transient @Nullable Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -136,7 +132,7 @@ abstract class AbstractTable<
   @WeakOuter
   class CellSet extends AbstractSet<Cell<R, C, V>> {
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = safeGet(rowMap(), cell.getRowKey());
@@ -148,7 +144,7 @@ abstract class AbstractTable<
     }
 
     @Override
-    public boolean remove(@CheckForNull Object o) {
+    public boolean remove(@Nullable Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = safeGet(rowMap(), cell.getRowKey());
@@ -180,7 +176,7 @@ abstract class AbstractTable<
     }
   }
 
-  @LazyInit @CheckForNull private transient Collection<V> values;
+  @LazyInit private transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -219,7 +215,7 @@ abstract class AbstractTable<
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       return containsValue(o);
     }
 
@@ -235,7 +231,7 @@ abstract class AbstractTable<
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 

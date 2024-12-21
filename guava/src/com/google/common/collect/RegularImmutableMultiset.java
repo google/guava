@@ -26,7 +26,6 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Arrays;
 import java.util.Collection;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -123,14 +122,14 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final transient int size;
   private final transient int hashCode;
 
-  @LazyInit @CheckForNull private transient ImmutableSet<E> elementSet;
+  @LazyInit private transient @Nullable ImmutableSet<E> elementSet;
 
   private RegularImmutableMultiset(
       ImmutableEntry<E>[] entries,
       @Nullable ImmutableEntry<?>[] hashTable,
       int size,
       int hashCode,
-      @CheckForNull ImmutableSet<E> elementSet) {
+      @Nullable ImmutableSet<E> elementSet) {
     this.entries = entries;
     this.hashTable = hashTable;
     this.size = size;
@@ -158,7 +157,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@CheckForNull Object element) {
+  public int count(@Nullable Object element) {
     @Nullable ImmutableEntry<?>[] hashTable = this.hashTable;
     if (element == null || hashTable.length == 0) {
       return 0;

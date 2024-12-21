@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -186,21 +185,20 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key}.
    */
-  boolean containsKey(@CompatibleWith("K") @CheckForNull Object key);
+  boolean containsKey(@CompatibleWith("K") @Nullable Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the value
    * {@code value}.
    */
-  boolean containsValue(@CompatibleWith("V") @CheckForNull Object value);
+  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key} and the value {@code value}.
    */
   boolean containsEntry(
-      @CompatibleWith("K") @CheckForNull Object key,
-      @CompatibleWith("V") @CheckForNull Object value);
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Modification Operations
 
@@ -226,8 +224,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    */
   @CanIgnoreReturnValue
   boolean remove(
-      @CompatibleWith("K") @CheckForNull Object key,
-      @CompatibleWith("V") @CheckForNull Object value);
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Bulk Operations
 
@@ -279,7 +276,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    *     modifiable, but updating it will have no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> removeAll(@CompatibleWith("K") @CheckForNull Object key);
+  Collection<V> removeAll(@CompatibleWith("K") @Nullable Object key);
 
   /** Removes all key-value pairs from the multimap, leaving it {@linkplain #isEmpty empty}. */
   void clear();
@@ -375,7 +372,7 @@ public interface Multimap<K extends @Nullable Object, V extends @Nullable Object
    * multimaps are equal, because they both have empty {@link #asMap} views.
    */
   @Override
-  boolean equals(@CheckForNull Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this multimap.

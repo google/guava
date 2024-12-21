@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -522,9 +521,8 @@ public final class Files {
   @InlineMe(
       replacement = "Files.asCharSource(file, charset).readFirstLine()",
       imports = "com.google.common.io.Files")
-  @CheckForNull
   public
-  static String readFirstLine(File file, Charset charset) throws IOException {
+  static @Nullable String readFirstLine(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).readFirstLine();
   }
 

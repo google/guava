@@ -19,7 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash
@@ -58,13 +58,11 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     // null check would be redundant
   }
 
-  @CheckForNull
-  ImmutableMapEntry<K, V> getNextInKeyBucket() {
+  @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {
     return null;
   }
 
-  @CheckForNull
-  ImmutableMapEntry<K, V> getNextInValueBucket() {
+  @Nullable ImmutableMapEntry<K, V> getNextInValueBucket() {
     return null;
   }
 
@@ -83,17 +81,16 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
      * subclass below. That's because the Entry might be non-terminal in the key bucket but terminal
      * in the value bucket (or vice versa).
      */
-    @CheckForNull private final transient ImmutableMapEntry<K, V> nextInKeyBucket;
+    private final transient @Nullable ImmutableMapEntry<K, V> nextInKeyBucket;
 
     NonTerminalImmutableMapEntry(
-        K key, V value, @CheckForNull ImmutableMapEntry<K, V> nextInKeyBucket) {
+        K key, V value, @Nullable ImmutableMapEntry<K, V> nextInKeyBucket) {
       super(key, value);
       this.nextInKeyBucket = nextInKeyBucket;
     }
 
     @Override
-    @CheckForNull
-    final ImmutableMapEntry<K, V> getNextInKeyBucket() {
+    final @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {
       return nextInKeyBucket;
     }
 
@@ -105,20 +102,19 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
 
   static final class NonTerminalImmutableBiMapEntry<K, V>
       extends NonTerminalImmutableMapEntry<K, V> {
-    @CheckForNull private final transient ImmutableMapEntry<K, V> nextInValueBucket;
+    private final transient @Nullable ImmutableMapEntry<K, V> nextInValueBucket;
 
     NonTerminalImmutableBiMapEntry(
         K key,
         V value,
-        @CheckForNull ImmutableMapEntry<K, V> nextInKeyBucket,
-        @CheckForNull ImmutableMapEntry<K, V> nextInValueBucket) {
+        @Nullable ImmutableMapEntry<K, V> nextInKeyBucket,
+        @Nullable ImmutableMapEntry<K, V> nextInValueBucket) {
       super(key, value, nextInKeyBucket);
       this.nextInValueBucket = nextInValueBucket;
     }
 
     @Override
-    @CheckForNull
-    ImmutableMapEntry<K, V> getNextInValueBucket() {
+    @Nullable ImmutableMapEntry<K, V> getNextInValueBucket() {
       return nextInValueBucket;
     }
   }

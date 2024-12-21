@@ -24,7 +24,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -69,7 +69,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public int indexOf(@CheckForNull Object o) {
+  public int indexOf(@Nullable Object o) {
     if (!(o instanceof List)) {
       return -1;
     }
@@ -91,7 +91,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public int lastIndexOf(@CheckForNull Object o) {
+  public int lastIndexOf(@Nullable Object o) {
     if (!(o instanceof List)) {
       return -1;
     }
@@ -151,7 +151,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     if (!(object instanceof List)) {
       return false;
     }

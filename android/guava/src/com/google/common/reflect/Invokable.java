@@ -29,7 +29,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -87,8 +86,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   }
 
   @Override
-  @CheckForNull
-  public final <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
+  public final <A extends Annotation> @Nullable A getAnnotation(Class<A> annotationClass) {
     return accessibleObject.getAnnotation(annotationClass);
   }
 
@@ -209,7 +207,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Invokable) {
       Invokable<?, ?> that = (Invokable<?, ?>) obj;
       return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);
@@ -252,8 +250,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   // All subclasses are owned by us and we'll make sure to get the R type right, including nullness.
   @SuppressWarnings({"unchecked", "nullness"})
   @CanIgnoreReturnValue
-  @CheckForNull
-  public final R invoke(@CheckForNull T receiver, @Nullable Object... args)
+  public final @Nullable R invoke(@Nullable T receiver, @Nullable Object... args)
       throws InvocationTargetException, IllegalAccessException {
     return (R) invokeInternal(receiver, checkNotNull(args));
   }
@@ -334,8 +331,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
-  @CheckForNull
-  abstract Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
+  abstract @Nullable Object invokeInternal(@Nullable Object receiver, @Nullable Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
   abstract Type[] getGenericParameterTypes();
@@ -357,8 +353,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
 
     @Override
-    @CheckForNull
-    final Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
+    final @Nullable Object invokeInternal(@Nullable Object receiver, @Nullable Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
@@ -412,7 +407,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
 
     @Override
-    final Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
+    final Object invokeInternal(@Nullable Object receiver, @Nullable Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);

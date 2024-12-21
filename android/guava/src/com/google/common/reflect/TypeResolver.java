@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -525,8 +525,7 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    @CheckForNull
-    private Type captureNullable(@CheckForNull Type type) {
+    private @Nullable Type captureNullable(@Nullable Type type) {
       if (type == null) {
         return null;
       }
@@ -560,7 +559,7 @@ public final class TypeResolver {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof TypeVariableKey) {
         TypeVariableKey that = (TypeVariableKey) obj;
         return equalsTypeVariable(that.var);
@@ -575,8 +574,7 @@ public final class TypeResolver {
     }
 
     /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */
-    @CheckForNull
-    static TypeVariableKey forLookup(Type t) {
+    static @Nullable TypeVariableKey forLookup(Type t) {
       if (t instanceof TypeVariable) {
         return new TypeVariableKey((TypeVariable<?>) t);
       } else {

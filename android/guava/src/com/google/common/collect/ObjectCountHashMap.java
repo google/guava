@@ -28,7 +28,6 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
-import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -387,7 +386,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     this.table = newTable;
   }
 
-  int indexOf(@CheckForNull Object key) {
+  int indexOf(@Nullable Object key) {
     int hash = smearedHash(key);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -400,21 +399,21 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     return -1;
   }
 
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return indexOf(key) != -1;
   }
 
-  public int get(@CheckForNull Object key) {
+  public int get(@Nullable Object key) {
     int index = indexOf(key);
     return (index == -1) ? 0 : values[index];
   }
 
   @CanIgnoreReturnValue
-  public int remove(@CheckForNull Object key) {
+  public int remove(@Nullable Object key) {
     return remove(key, smearedHash(key));
   }
 
-  private int remove(@CheckForNull Object key, int hash) {
+  private int remove(@Nullable Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket

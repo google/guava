@@ -37,7 +37,6 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -192,8 +191,7 @@ public final class InetAddresses {
   }
 
   /** Returns {@code null} if unable to parse into a {@code byte[]}. */
-  @CheckForNull
-  private static byte[] ipStringToBytes(String ipStringParam, @Nullable Scope scope) {
+  private static byte @Nullable [] ipStringToBytes(String ipStringParam, @Nullable Scope scope) {
     String ipString = ipStringParam;
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
@@ -240,8 +238,7 @@ public final class InetAddresses {
     return null;
   }
 
-  @CheckForNull
-  private static byte[] textToNumericFormatV4(String ipString) {
+  private static byte @Nullable [] textToNumericFormatV4(String ipString) {
     if (IPV4_DELIMITER_MATCHER.countIn(ipString) + 1 != IPV4_PART_COUNT) {
       return null; // Wrong number of parts
     }
@@ -266,8 +263,7 @@ public final class InetAddresses {
     return bytes;
   }
 
-  @CheckForNull
-  private static byte[] textToNumericFormatV6(String ipString) {
+  private static byte @Nullable [] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons.
     int delimiterCount = IPV6_DELIMITER_MATCHER.countIn(ipString);
     if (delimiterCount < 2 || delimiterCount > IPV6_PART_COUNT) {
@@ -337,8 +333,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  @CheckForNull
-  private static String convertDottedQuadToHex(String ipString) {
+  private static @Nullable String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
     String dottedQuad = ipString.substring(lastColon + 1);
@@ -619,8 +614,7 @@ public final class InetAddresses {
     return addr;
   }
 
-  @CheckForNull
-  private static InetAddress forUriStringOrNull(String hostAddr, boolean parseScope) {
+  private static @Nullable InetAddress forUriStringOrNull(String hostAddr, boolean parseScope) {
     checkNotNull(hostAddr);
 
     // Decide if this should be an IPv6 or IPv4 address.
@@ -772,7 +766,7 @@ public final class InetAddresses {
      */
     // TODO: why is this public?
     public TeredoInfo(
-        @CheckForNull Inet4Address server, @CheckForNull Inet4Address client, int port, int flags) {
+        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(

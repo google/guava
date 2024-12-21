@@ -28,7 +28,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -77,8 +76,8 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
    * write-barriers).
    */
 
-  @CheckForNull @LazyInit private ListenableFuture<V> delegateRef;
-  @CheckForNull @LazyInit private ScheduledFuture<?> timer;
+  @LazyInit private @Nullable ListenableFuture<V> delegateRef;
+  @LazyInit private @Nullable ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
@@ -86,7 +85,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
 
   /** A runnable that is called when the delegate or the timer completes. */
   private static final class Fire<V extends @Nullable Object> implements Runnable {
-    @CheckForNull @LazyInit TimeoutFuture<V> timeoutFutureRef;
+    @LazyInit @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
       this.timeoutFutureRef = timeoutFuture;
@@ -160,8 +159,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = delegateRef;
     @RetainedLocalRef ScheduledFuture<?> localTimer = timer;
     if (localInputFuture != null) {

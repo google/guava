@@ -33,7 +33,7 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
@@ -101,7 +101,7 @@ public final class Throwables {
   @J2ktIncompatible
   @GwtIncompatible // throwIfInstanceOf
   public static <X extends Throwable> void propagateIfInstanceOf(
-      @CheckForNull Throwable throwable, Class<X> declaredType) throws X {
+      @Nullable Throwable throwable, Class<X> declaredType) throws X {
     if (throwable != null) {
       throwIfInstanceOf(throwable, declaredType);
     }
@@ -146,7 +146,7 @@ public final class Throwables {
   @Deprecated
   @J2ktIncompatible
   @GwtIncompatible
-  public static void propagateIfPossible(@CheckForNull Throwable throwable) {
+  public static void propagateIfPossible(@Nullable Throwable throwable) {
     if (throwable != null) {
       throwIfUnchecked(throwable);
     }
@@ -168,7 +168,7 @@ public final class Throwables {
   @J2ktIncompatible
   @GwtIncompatible // propagateIfInstanceOf
   public static <X extends Throwable> void propagateIfPossible(
-      @CheckForNull Throwable throwable, Class<X> declaredType) throws X {
+      @Nullable Throwable throwable, Class<X> declaredType) throws X {
     propagateIfInstanceOf(throwable, declaredType);
     propagateIfPossible(throwable);
   }
@@ -188,7 +188,7 @@ public final class Throwables {
   @J2ktIncompatible
   @GwtIncompatible // propagateIfInstanceOf
   public static <X1 extends Throwable, X2 extends Throwable> void propagateIfPossible(
-      @CheckForNull Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
+      @Nullable Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
       throws X1, X2 {
     checkNotNull(declaredType2);
     propagateIfInstanceOf(throwable, declaredType1);
@@ -321,8 +321,7 @@ public final class Throwables {
    * @since 22.0
    */
   @GwtIncompatible // Class.cast(Object)
-  @CheckForNull
-  public static <X extends Throwable> X getCauseAs(
+  public static <X extends Throwable> @Nullable X getCauseAs(
       Throwable throwable, Class<X> expectedCauseType) {
     try {
       return expectedCauseType.cast(throwable.getCause());
@@ -454,28 +453,24 @@ public final class Throwables {
   static final String SHARED_SECRETS_CLASSNAME = "sun.misc.SharedSecrets";
 
   /** Access to some fancy internal JVM internals. */
-  @J2ktIncompatible
-  @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static final Object jla = getJLA();
+  @J2ktIncompatible @GwtIncompatible // java.lang.reflect
+  private static final @Nullable Object jla = getJLA();
 
   /**
    * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to
    * find it when available. When this is null, use the slow way.
    */
-  @J2ktIncompatible
-  @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static final Method getStackTraceElementMethod = (jla == null) ? null : getGetMethod();
+  @J2ktIncompatible @GwtIncompatible // java.lang.reflect
+  private static final @Nullable Method getStackTraceElementMethod =
+      (jla == null) ? null : getGetMethod();
 
   /**
    * The "getStackTraceDepth" method, only available on some JDKs so we use reflection to find it
    * when available. When this is null, use the slow way.
    */
-  @J2ktIncompatible
-  @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod(jla);
+  @J2ktIncompatible @GwtIncompatible // java.lang.reflect
+  private static final @Nullable Method getStackTraceDepthMethod =
+      (jla == null) ? null : getSizeMethod(jla);
 
   /**
    * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in
@@ -484,8 +479,7 @@ public final class Throwables {
   @SuppressWarnings("removal") // b/318391980
   @J2ktIncompatible
   @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static Object getJLA() {
+  private static @Nullable Object getJLA() {
     try {
       /*
        * We load sun.misc.* classes using reflection since Android doesn't support these classes and
@@ -511,8 +505,7 @@ public final class Throwables {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static Method getGetMethod() {
+  private static @Nullable Method getGetMethod() {
     return getJlaMethod("getStackTraceElement", Throwable.class, int.class);
   }
 
@@ -527,8 +520,7 @@ public final class Throwables {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static Method getSizeMethod(Object jla) {
+  private static @Nullable Method getSizeMethod(Object jla) {
     try {
       Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);
       if (getStackTraceDepth == null) {
@@ -544,8 +536,8 @@ public final class Throwables {
   @SuppressWarnings("removal") // b/318391980
   @J2ktIncompatible
   @GwtIncompatible // java.lang.reflect
-  @CheckForNull
-  private static Method getJlaMethod(String name, Class<?>... parameterTypes) throws ThreadDeath {
+  private static @Nullable Method getJlaMethod(String name, Class<?>... parameterTypes)
+      throws ThreadDeath {
     try {
       return Class.forName(JAVA_LANG_ACCESS_CLASSNAME, false, null).getMethod(name, parameterTypes);
     } catch (ThreadDeath death) {

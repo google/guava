@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Table} whose iteration ordering across row keys is sorted by their
@@ -103,8 +103,7 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
     }
 
     @Override
-    @CheckForNull
-    public Comparator<? super R> comparator() {
+    public @Nullable Comparator<? super R> comparator() {
       return sortedBackingMap().comparator();
     }
 

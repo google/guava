@@ -30,7 +30,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -146,8 +145,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public B put(Class<? extends @NonNull B> key, @ParametricNullness B value) {
+  public @Nullable B put(Class<? extends @NonNull B> key, @ParametricNullness B value) {
     cast(key, value);
     return super.put(key, value);
   }
@@ -163,20 +161,18 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public <T extends B> T putInstance(Class<@NonNull T> type, @ParametricNullness T value) {
+  public <T extends B> @Nullable T putInstance(
+      Class<@NonNull T> type, @ParametricNullness T value) {
     return cast(type, put(type, value));
   }
 
   @Override
-  @CheckForNull
-  public <T extends @NonNull B> T getInstance(Class<T> type) {
+  public <T extends @NonNull B> @Nullable T getInstance(Class<T> type) {
     return cast(type, get(type));
   }
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  private static <T> T cast(Class<T> type, @CheckForNull Object value) {
+  private static <T> @Nullable T cast(Class<T> type, @Nullable Object value) {
     return Primitives.wrap(type).cast(value);
   }
 

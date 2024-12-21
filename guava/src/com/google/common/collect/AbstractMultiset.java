@@ -26,7 +26,6 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -53,7 +52,7 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
   }
 
   @Override
-  public boolean contains(@CheckForNull Object element) {
+  public boolean contains(@Nullable Object element) {
     return count(element) > 0;
   }
 
@@ -73,13 +72,13 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   @CanIgnoreReturnValue
   @Override
-  public final boolean remove(@CheckForNull Object element) {
+  public final boolean remove(@Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(@CheckForNull Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -126,7 +125,7 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   // Views
 
-  @LazyInit @CheckForNull private transient Set<E> elementSet;
+  @LazyInit private transient @Nullable Set<E> elementSet;
 
   @Override
   public Set<E> elementSet() {
@@ -160,7 +159,7 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   abstract Iterator<E> elementIterator();
 
-  @LazyInit @CheckForNull private transient Set<Entry<E>> entrySet;
+  @LazyInit private transient @Nullable Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {
@@ -206,7 +205,7 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
    * and if, for each element, the two multisets have the same count.
    */
   @Override
-  public final boolean equals(@CheckForNull Object object) {
+  public final boolean equals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

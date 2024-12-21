@@ -21,7 +21,6 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -64,7 +63,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    * <p>{@code volatile} is required for j2objc transpiling:
    * https://developers.google.com/j2objc/guides/j2objc-memory-model#atomicity
    */
-  @CheckForNull private volatile InterruptibleTask<?> task;
+  private volatile @Nullable InterruptibleTask<?> task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);
@@ -102,8 +101,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";

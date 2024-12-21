@@ -42,7 +42,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -100,11 +99,11 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     // Using @Weak is necessary to avoid retain-cycles between BiEntry instances on iOS,
     // which would cause memory leaks when non-empty HashBiMap with cyclic BiEntry
     // instances is deallocated.
-    @CheckForNull BiEntry<K, V> nextInKToVBucket;
-    @Weak @CheckForNull BiEntry<K, V> nextInVToKBucket;
+    @Nullable BiEntry<K, V> nextInKToVBucket;
+    @Weak @Nullable BiEntry<K, V> nextInVToKBucket;
 
-    @Weak @CheckForNull BiEntry<K, V> nextInKeyInsertionOrder;
-    @Weak @CheckForNull BiEntry<K, V> prevInKeyInsertionOrder;
+    @Weak @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
+    @Weak @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
 
     BiEntry(@ParametricNullness K key, int keyHash, @ParametricNullness V value, int valueHash) {
       super(key, value);
@@ -126,8 +125,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable BiEntry<K, V>[] hashTableVToK;
 
-  @Weak @CheckForNull private transient BiEntry<K, V> firstInKeyInsertionOrder;
-  @Weak @CheckForNull private transient BiEntry<K, V> lastInKeyInsertionOrder;
+  @Weak private transient @Nullable BiEntry<K, V> firstInKeyInsertionOrder;
+  @Weak private transient @Nullable BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
   private transient int mask;
   private transient int modCount;
@@ -201,7 +200,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     modCount++;
   }
 
-  private void insert(BiEntry<K, V> entry, @CheckForNull BiEntry<K, V> oldEntryForKey) {
+  private void insert(BiEntry<K, V> entry, @Nullable BiEntry<K, V> oldEntryForKey) {
     int keyBucket = entry.keyHash & mask;
     entry.nextInKToVBucket = hashTableKToV[keyBucket];
     hashTableKToV[keyBucket] = entry;
@@ -238,8 +237,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     modCount++;
   }
 
-  @CheckForNull
-  private BiEntry<K, V> seekByKey(@CheckForNull Object key, int keyHash) {
+  private @Nullable BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
     for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
         entry != null;
         entry = entry.nextInKToVBucket) {
@@ -250,8 +248,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return null;
   }
 
-  @CheckForNull
-  private BiEntry<K, V> seekByValue(@CheckForNull Object value, int valueHash) {
+  private @Nullable BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
     for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
         entry != null;
         entry = entry.nextInVToKBucket) {
@@ -263,7 +260,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @Override
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return seekByKey(key, smearedHash(key)) != null;
   }
 
@@ -278,25 +275,22 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * @return true if a mapping exists from a key to the specified value
    */
   @Override
-  public boolean containsValue(@CheckForNull Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return seekByValue(value, smearedHash(value)) != null;
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public V put(@ParametricNullness K key, @ParametricNullness V value) {
+  public @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {
     return put(key, value, false);
   }
 
-  @CheckForNull
-  private V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
+  private @Nullable V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
 
@@ -332,14 +326,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
+  public @Nullable V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
     return put(key, value, true);
   }
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  private K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {
+  private @Nullable K putInverse(
+      @ParametricNullness V value, @ParametricNullness K key, boolean force) {
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 
@@ -409,8 +402,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  @CheckForNull
-  public V remove(@CheckForNull Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;
@@ -438,8 +430,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
-    @CheckForNull BiEntry<K, V> next = firstInKeyInsertionOrder;
-    @CheckForNull BiEntry<K, V> toRemove = null;
+    @Nullable BiEntry<K, V> next = firstInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> toRemove = null;
     int expectedModCount = modCount;
     int remaining = size();
 
@@ -503,7 +495,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean remove(@CheckForNull Object o) {
+    public boolean remove(@Nullable Object o) {
       BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
       if (entry == null) {
         return false;
@@ -593,7 +585,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @LazyInit @RetainedWith @CheckForNull private transient BiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
@@ -618,32 +610,28 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean containsKey(@CheckForNull Object value) {
+    public boolean containsKey(@Nullable Object value) {
       return forward().containsValue(value);
     }
 
     @Override
-    @CheckForNull
-    public K get(@CheckForNull Object value) {
+    public @Nullable K get(@Nullable Object value) {
       return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
     @CanIgnoreReturnValue
     @Override
-    @CheckForNull
-    public K put(@ParametricNullness V value, @ParametricNullness K key) {
+    public @Nullable K put(@ParametricNullness V value, @ParametricNullness K key) {
       return putInverse(value, key, false);
     }
 
     @Override
-    @CheckForNull
-    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
+    public @Nullable K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
       return putInverse(value, key, true);
     }
 
     @Override
-    @CheckForNull
-    public K remove(@CheckForNull Object value) {
+    public @Nullable K remove(@Nullable Object value) {
       BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
       if (entry == null) {
         return null;
@@ -671,7 +659,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       }
 
       @Override
-      public boolean remove(@CheckForNull Object o) {
+      public boolean remove(@Nullable Object o) {
         BiEntry<K, V> entry = seekByValue(o, smearedHash(o));
         if (entry == null) {
           return false;

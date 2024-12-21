@@ -26,7 +26,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -201,8 +201,7 @@ public abstract class TreeTraverser<T> {
     }
 
     @Override
-    @CheckForNull
-    protected T computeNext() {
+    protected @Nullable T computeNext() {
       while (!stack.isEmpty()) {
         PostOrderNode<T> top = stack.getLast();
         if (top.childIterator.hasNext()) {

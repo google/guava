@@ -29,7 +29,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -53,8 +52,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  @CheckForNull
-  Object[] internalArray() {
+  Object @Nullable [] internalArray() {
     return elements.internalArray();
   }
 
@@ -95,7 +93,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object o) {
+  public boolean contains(@Nullable Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
@@ -170,7 +168,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -223,29 +221,25 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  @CheckForNull
-  public E lower(E element) {
+  public @Nullable E lower(E element) {
     int index = headIndex(element, false) - 1;
     return (index == -1) ? null : elements.get(index);
   }
 
   @Override
-  @CheckForNull
-  public E floor(E element) {
+  public @Nullable E floor(E element) {
     int index = headIndex(element, true) - 1;
     return (index == -1) ? null : elements.get(index);
   }
 
   @Override
-  @CheckForNull
-  public E ceiling(E element) {
+  public @Nullable E ceiling(E element) {
     int index = tailIndex(element, true);
     return (index == size()) ? null : elements.get(index);
   }
 
   @Override
-  @CheckForNull
-  public E higher(E element) {
+  public @Nullable E higher(E element) {
     int index = tailIndex(element, false);
     return (index == size()) ? null : elements.get(index);
   }
@@ -304,7 +298,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(@CheckForNull Object target) {
+  int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }

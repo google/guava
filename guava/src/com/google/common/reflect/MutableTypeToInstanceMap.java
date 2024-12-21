@@ -26,7 +26,6 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -44,28 +43,26 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
   private final Map<TypeToken<? extends @NonNull B>, B> backingMap = Maps.newHashMap();
 
   @Override
-  @CheckForNull
-  public <T extends @NonNull B> T getInstance(Class<T> type) {
+  public <T extends @NonNull B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
   @Override
-  @CheckForNull
-  public <T extends @NonNull B> T getInstance(TypeToken<T> type) {
+  public <T extends @NonNull B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public <T extends B> T putInstance(Class<@NonNull T> type, @ParametricNullness T value) {
+  public <T extends B> @Nullable T putInstance(
+      Class<@NonNull T> type, @ParametricNullness T value) {
     return trustedPut(TypeToken.of(type), value);
   }
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public <T extends B> T putInstance(TypeToken<@NonNull T> type, @ParametricNullness T value) {
+  public <T extends B> @Nullable T putInstance(
+      TypeToken<@NonNull T> type, @ParametricNullness T value) {
     return this.<T>trustedPut(type.rejectTypeVariables(), value);
   }
 
@@ -79,8 +76,7 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public B put(TypeToken<? extends @NonNull B> key, @ParametricNullness B value) {
+  public @Nullable B put(TypeToken<? extends @NonNull B> key, @ParametricNullness B value) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
@@ -108,14 +104,13 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  private <T extends B> T trustedPut(TypeToken<@NonNull T> type, @ParametricNullness T value) {
+  private <T extends B> @Nullable T trustedPut(
+      TypeToken<@NonNull T> type, @ParametricNullness T value) {
     return (T) backingMap.put(type, value);
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @CheckForNull
-  private <T extends @NonNull B> T trustedGet(TypeToken<T> type) {
+  private <T extends @NonNull B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
   }
 

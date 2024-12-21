@@ -24,7 +24,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
@@ -37,7 +36,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
    * there: cancel() never reads this field, only writes to it. That makes the race here completely
    * harmless, rather than just 99.99% harmless.
    */
-  @CheckForNull @LazyInit private List<@Nullable Present<V>> values;
+  @LazyInit private @Nullable List<@Nullable Present<V>> values;
 
   CollectionFuture(
       ImmutableCollection<? extends ListenableFuture<? extends V>> futures,

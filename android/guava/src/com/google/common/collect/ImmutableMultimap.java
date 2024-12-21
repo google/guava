@@ -42,7 +42,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -163,9 +162,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @DoNotMock
   public static class Builder<K, V> {
-    @CheckForNull Map<K, ImmutableCollection.Builder<V>> builderMap;
-    @CheckForNull Comparator<? super K> keyComparator;
-    @CheckForNull Comparator<? super V> valueComparator;
+    @Nullable Map<K, ImmutableCollection.Builder<V>> builderMap;
+    @Nullable Comparator<? super K> keyComparator;
+    @Nullable Comparator<? super V> valueComparator;
     int expectedValuesPerKey = ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY;
 
     /**
@@ -441,7 +440,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // DoNotCall wants this to be final, but we want to override it to return more specific types.
   // Inheritance is closed, and all subtypes are @DoNotCall, so this is safe to suppress.
   @SuppressWarnings("DoNotCall")
-  public ImmutableCollection<V> removeAll(@CheckForNull Object key) {
+  public ImmutableCollection<V> removeAll(@Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -543,7 +542,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
+  public final boolean remove(@Nullable Object key, @Nullable Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -560,12 +559,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // accessors
 
   @Override
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@CheckForNull Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return value != null && super.containsValue(value);
   }
 
@@ -639,7 +638,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     }
 
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains(@Nullable Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -664,7 +663,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     return new UnmodifiableIterator<Entry<K, V>>() {
       final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>> asMapItr =
           map.entrySet().iterator();
-      @CheckForNull K currentKey = null;
+      @Nullable K currentKey = null;
       Iterator<V> valueItr = emptyIterator();
 
       @Override
@@ -707,12 +706,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @WeakOuter
   class Keys extends ImmutableMultiset<K> {
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains(@Nullable Object object) {
       return containsKey(object);
     }
 
     @Override
-    public int count(@CheckForNull Object element) {
+    public int count(@Nullable Object element) {
       Collection<V> values = map.get(element);
       return (values == null) ? 0 : values.size();
     }
@@ -809,7 +808,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     }
 
     @Override
-    public boolean contains(@CheckForNull Object object) {
+    public boolean contains(@Nullable Object object) {
       return multimap.containsValue(object);
     }
 

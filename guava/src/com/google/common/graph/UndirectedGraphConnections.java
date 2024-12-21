@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for undirected graphs.
@@ -84,8 +84,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  @CheckForNull
-  public V value(N node) {
+  public @Nullable V value(N node) {
     return adjacentNodeValues.get(node);
   }
 
@@ -96,8 +95,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  @CheckForNull
-  public V removeSuccessor(N node) {
+  public @Nullable V removeSuccessor(N node) {
     return adjacentNodeValues.remove(node);
   }
 
@@ -108,8 +106,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  @CheckForNull
-  public V addSuccessor(N node, V value) {
+  public @Nullable V addSuccessor(N node, V value) {
     return adjacentNodeValues.put(node, value);
   }
 }

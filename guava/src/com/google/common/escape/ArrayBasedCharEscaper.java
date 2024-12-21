@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link CharEscaper} that uses an array to quickly look up replacement characters for a given
@@ -120,8 +120,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * @return the replacement characters, or {@code null} if no escaping was required
    */
   @Override
-  @CheckForNull
-  protected final char[] escape(char c) {
+  protected final char @Nullable [] escape(char c) {
     if (c < replacementsLength) {
       char[] chars = replacements[c];
       if (chars != null) {
@@ -147,6 +146,5 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * @return the replacement characters, or {@code null} if no escaping was required
    */
   // TODO(dbeaumont,cpovirk): Rename this something better once refactoring done
-  @CheckForNull
-  protected abstract char[] escapeUnsafe(char c);
+  protected abstract char @Nullable [] escapeUnsafe(char c);
 }

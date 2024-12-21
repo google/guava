@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -75,7 +74,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> removeAll(@CheckForNull Object key);
+  SortedSet<V> removeAll(@Nullable Object key);
 
   /**
    * Stores a collection of values with the same key, replacing any existing values for that key.
@@ -114,6 +113,5 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Returns the comparator that orders the multimap values, with {@code null} indicating that
    * natural ordering is used.
    */
-  @CheckForNull
-  Comparator<? super V> valueComparator();
+  @Nullable Comparator<? super V> valueComparator();
 }

@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As with {@code
@@ -63,7 +63,7 @@ public class ExecutionError extends Error {
    *     omits the cause.
    */
   @Deprecated
-  protected ExecutionError(@CheckForNull String message) {
+  protected ExecutionError(@Nullable String message) {
     super(message);
   }
 
@@ -71,7 +71,7 @@ public class ExecutionError extends Error {
    * Creates a new instance with the given detail message and cause. Prefer to provide a
    * non-nullable {@code cause}, as many users expect to find one.
    */
-  public ExecutionError(@CheckForNull String message, @CheckForNull Error cause) {
+  public ExecutionError(@Nullable String message, @Nullable Error cause) {
     super(message, cause);
   }
 
@@ -79,7 +79,7 @@ public class ExecutionError extends Error {
    * Creates a new instance with {@code null} as its detail message and the given cause. Prefer to
    * provide a non-nullable {@code cause}, as many users expect to find one.
    */
-  public ExecutionError(@CheckForNull Error cause) {
+  public ExecutionError(@Nullable Error cause) {
     super(cause);
   }
 

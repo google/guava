@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -59,8 +58,7 @@ public interface ClassToInstanceMap<B extends @Nullable Object>
    * is present. This will only return a value that was bound to this specific class, not a value
    * that may have been bound to a subtype.
    */
-  @CheckForNull
-  <T extends @NonNull B> T getInstance(Class<T> type);
+  <T extends @NonNull B> @Nullable T getInstance(Class<T> type);
 
   /**
    * Maps the specified class to the specified value. Does <i>not</i> associate this value with any
@@ -70,6 +68,5 @@ public interface ClassToInstanceMap<B extends @Nullable Object>
    *     null} if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  <T extends B> T putInstance(Class<@NonNull T> type, @ParametricNullness T value);
+  <T extends B> @Nullable T putInstance(Class<@NonNull T> type, @ParametricNullness T value);
 }

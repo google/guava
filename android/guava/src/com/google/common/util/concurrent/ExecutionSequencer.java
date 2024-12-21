@@ -30,7 +30,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -130,13 +129,13 @@ public final class ExecutionSequencer {
      * All the states where thread != currentThread are identical for our purposes, and so even
      * though it's racy, we don't care which of those values we get, so no need to synchronize.
      */
-    @CheckForNull @LazyInit Thread thread;
+    @LazyInit @Nullable Thread thread;
 
     /** Only used by the thread associated with this object */
-    @CheckForNull Runnable nextTask;
+    @Nullable Runnable nextTask;
 
     /** Only used by the thread associated with this object */
-    @CheckForNull Executor nextExecutor;
+    @Nullable Executor nextExecutor;
   }
 
   /**
@@ -294,22 +293,22 @@ public final class ExecutionSequencer {
      * Used to update and read the latestTaskQueue field. Set to null once the runnable has been run
      * or queued.
      */
-    @CheckForNull ExecutionSequencer sequencer;
+    @Nullable ExecutionSequencer sequencer;
 
     /**
      * Executor the task was set to run on. Set to null when the task has been queued, run, or
      * cancelled.
      */
-    @CheckForNull Executor delegate;
+    @Nullable Executor delegate;
 
     /**
      * Set before calling delegate.execute(); set to null once run, so that it can be GCed; this
      * object may live on after, if submitAsync returns an incomplete future.
      */
-    @CheckForNull Runnable task;
+    @Nullable Runnable task;
 
     /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */
-    @CheckForNull @LazyInit Thread submitting;
+    @LazyInit @Nullable Thread submitting;
 
     private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {
       super(NOT_RUN);

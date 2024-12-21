@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with {@code
@@ -68,7 +68,7 @@ public class UncheckedExecutionException extends RuntimeException {
    *     constructor that omits the cause.
    */
   @Deprecated
-  protected UncheckedExecutionException(@CheckForNull String message) {
+  protected UncheckedExecutionException(@Nullable String message) {
     super(message);
   }
 
@@ -76,7 +76,7 @@ public class UncheckedExecutionException extends RuntimeException {
    * Creates a new instance with the given detail message and cause. Prefer to provide a
    * non-nullable {@code cause}, as many users expect to find one.
    */
-  public UncheckedExecutionException(@CheckForNull String message, @CheckForNull Throwable cause) {
+  public UncheckedExecutionException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
@@ -84,7 +84,7 @@ public class UncheckedExecutionException extends RuntimeException {
    * Creates a new instance with {@code null} as its detail message and the given cause. Prefer to
    * provide a non-nullable {@code cause}, as many users expect to find one.
    */
-  public UncheckedExecutionException(@CheckForNull Throwable cause) {
+  public UncheckedExecutionException(@Nullable Throwable cause) {
     super(cause);
   }
 

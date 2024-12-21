@@ -25,7 +25,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Reader} that reads the characters in a {@link CharSequence}. Like {@code StringReader},
@@ -38,7 +38,7 @@ import javax.annotation.CheckForNull;
 @GwtIncompatible
 final class CharSequenceReader extends Reader {
 
-  @CheckForNull private CharSequence seq;
+  private @Nullable CharSequence seq;
   private int pos;
   private int mark;
 

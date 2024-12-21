@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -129,10 +128,7 @@ public class Joiner {
   /** Appends to {@code appendable} the string representation of each of the remaining arguments. */
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(
-      A appendable,
-      @CheckForNull Object first,
-      @CheckForNull Object second,
-      @Nullable Object... rest)
+      A appendable, @Nullable Object first, @Nullable Object second, @Nullable Object... rest)
       throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
@@ -184,8 +180,8 @@ public class Joiner {
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
       StringBuilder builder,
-      @CheckForNull Object first,
-      @CheckForNull Object second,
+      @Nullable Object first,
+      @Nullable Object second,
       @Nullable Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
@@ -273,7 +269,7 @@ public class Joiner {
    * configured separator between each.
    */
   public final String join(
-      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object... rest) {
+      @Nullable Object first, @Nullable Object second, @Nullable Object... rest) {
     return join(iterable(first, second, rest));
   }
 
@@ -285,7 +281,7 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(@CheckForNull Object part) {
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
@@ -515,7 +511,7 @@ public class Joiner {
   }
 
   // TODO(cpovirk): Rename to "toCharSequence."
-  CharSequence toString(@CheckForNull Object part) {
+  CharSequence toString(@Nullable Object part) {
     /*
      * requireNonNull is not safe: Joiner.on(...).join(somethingThatContainsNull) will indeed throw.
      * However, Joiner.on(...).useForNull(...).join(somethingThatContainsNull) *is* safe -- because
@@ -538,7 +534,7 @@ public class Joiner {
   }
 
   private static Iterable<@Nullable Object> iterable(
-      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object[] rest) {
+      @Nullable Object first, @Nullable Object second, @Nullable Object[] rest) {
     checkNotNull(rest);
     return new AbstractList<@Nullable Object>() {
       @Override
@@ -547,8 +543,7 @@ public class Joiner {
       }
 
       @Override
-      @CheckForNull
-      public Object get(int index) {
+      public @Nullable Object get(int index) {
         switch (index) {
           case 0:
             return first;

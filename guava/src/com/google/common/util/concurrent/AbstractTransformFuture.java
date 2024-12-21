@@ -27,7 +27,6 @@ import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
@@ -62,8 +61,8 @@ abstract class AbstractTransformFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull @LazyInit ListenableFuture<? extends I> inputFuture;
-  @CheckForNull @LazyInit F function;
+  @LazyInit @Nullable ListenableFuture<? extends I> inputFuture;
+  @LazyInit @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -193,8 +192,7 @@ abstract class AbstractTransformFuture<
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     @RetainedLocalRef ListenableFuture<? extends I> localInputFuture = inputFuture;
     @RetainedLocalRef F localFunction = function;
     String superString = super.pendingToString();

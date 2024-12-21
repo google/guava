@@ -32,7 +32,7 @@ import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
@@ -175,7 +175,7 @@ final class SequentialExecutor implements Executor {
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
   private final class QueueWorker implements Runnable {
-    @CheckForNull Runnable task;
+    @Nullable Runnable task;
 
     @Override
     public void run() {

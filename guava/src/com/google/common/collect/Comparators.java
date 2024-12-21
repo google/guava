@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -194,8 +193,7 @@ public final class Comparators {
   }
 
   // For discussion of why this exists, see the Android flavor.
-  @CheckForNull
-  private static <T> T orElseNull(Optional<T> optional) {
+  private static <T> @Nullable T orElseNull(Optional<T> optional) {
     return optional.orElse(null);
   }
 

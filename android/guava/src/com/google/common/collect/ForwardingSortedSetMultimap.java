@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -51,7 +50,7 @@ public abstract class ForwardingSortedSetMultimap<
   }
 
   @Override
-  public SortedSet<V> removeAll(@CheckForNull Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
@@ -61,8 +60,7 @@ public abstract class ForwardingSortedSetMultimap<
   }
 
   @Override
-  @CheckForNull
-  public Comparator<? super V> valueComparator() {
+  public @Nullable Comparator<? super V> valueComparator() {
     return delegate().valueComparator();
   }
 }

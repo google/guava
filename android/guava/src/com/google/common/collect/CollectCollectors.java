@@ -36,7 +36,6 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
@@ -114,7 +113,7 @@ final class CollectCollectors {
     static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
         (Collector) toImmutableEnumSetGeneric();
 
-    @CheckForNull private EnumSet<E> set;
+    private @Nullable EnumSet<E> set;
 
     void add(E e) {
       if (set == null) {
@@ -316,7 +315,7 @@ final class CollectCollectors {
   @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
   private static class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
-    @CheckForNull private EnumMap<K, V> map = null;
+    private @Nullable EnumMap<K, V> map = null;
 
     EnumMapAccumulator(BinaryOperator<V> mergeFunction) {
       this.mergeFunction = mergeFunction;

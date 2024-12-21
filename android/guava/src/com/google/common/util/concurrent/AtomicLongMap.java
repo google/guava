@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -328,7 +328,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  @LazyInit @CheckForNull private transient Map<K, Long> asMap;
+  @LazyInit private transient @Nullable Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {

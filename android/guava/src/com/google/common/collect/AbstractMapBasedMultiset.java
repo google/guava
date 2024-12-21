@@ -32,7 +32,6 @@ import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -58,7 +57,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   abstract ObjectCountHashMap<E> newBackingMap(int distinctElements);
 
   @Override
-  public final int count(@CheckForNull Object element) {
+  public final int count(@Nullable Object element) {
     return backingMap.get(element);
   }
 
@@ -93,7 +92,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @CanIgnoreReturnValue
   @Override
-  public final int remove(@CheckForNull Object element, int occurrences) {
+  public final int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }

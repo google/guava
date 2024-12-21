@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -113,7 +112,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly zero but never
    *     negative
    */
-  int count(@CompatibleWith("E") @CheckForNull Object element);
+  int count(@CompatibleWith("E") @Nullable Object element);
 
   // Bulk Operations
 
@@ -174,7 +173,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  int remove(@CompatibleWith("E") @CheckForNull Object element, int occurrences);
+  int remove(@CompatibleWith("E") @Nullable Object element, int occurrences);
 
   /**
    * Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
@@ -190,7 +189,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean remove(@CheckForNull Object element);
+  boolean remove(@Nullable Object element);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the element attains the
@@ -307,7 +306,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      */
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(@CheckForNull Object o);
+    boolean equals(@Nullable Object o);
 
     /**
      * {@inheritDoc}
@@ -341,7 +340,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(@CheckForNull Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -387,7 +386,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    * @return {@code true} if this multiset contains at least one occurrence of the element
    */
   @Override
-  boolean contains(@CheckForNull Object element);
+  boolean contains(@Nullable Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of each element in the

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -324,8 +323,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     }
   }
 
-  @CheckForNull
-  E higher(E e) {
+  @Nullable E higher(E e) {
     checkNotNull(e);
     Iterator<E> iterator = tailSet(e).iterator();
     while (iterator.hasNext()) {
@@ -337,14 +335,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return null;
   }
 
-  @CheckForNull
-  public E ceiling(E e) {
+  public @Nullable E ceiling(E e) {
     ImmutableSortedSet<E> set = tailSet(e, true);
     return !set.isEmpty() ? set.first() : null;
   }
 
-  @CheckForNull
-  public E floor(E e) {
+  public @Nullable E floor(E e) {
     ImmutableSortedSet<E> set = headSet(e, true);
     return !set.isEmpty() ? set.last() : null;
   }

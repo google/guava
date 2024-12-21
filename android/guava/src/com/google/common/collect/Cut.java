@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation detail for the internal structure of {@link Range} instances. Represents a unique
@@ -53,11 +53,9 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
   abstract void describeAsUpperBound(StringBuilder sb);
 
-  @CheckForNull
-  abstract C leastValueAbove(DiscreteDomain<C> domain);
+  abstract @Nullable C leastValueAbove(DiscreteDomain<C> domain);
 
-  @CheckForNull
-  abstract C greatestValueBelow(DiscreteDomain<C> domain);
+  abstract @Nullable C greatestValueBelow(DiscreteDomain<C> domain);
 
   /*
    * The canonical form is a BelowValue cut whenever possible, otherwise ABOVE_ALL, or
@@ -90,7 +88,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
   @SuppressWarnings("unchecked") // catching CCE
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Cut) {
       // It might not really be a Cut<C>, but we'll catch a CCE if it's not
       Cut<C> that = (Cut<C>) obj;
@@ -370,8 +368,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
-    @CheckForNull
-    C greatestValueBelow(DiscreteDomain<C> domain) {
+    @Nullable C greatestValueBelow(DiscreteDomain<C> domain) {
       return domain.previous(endpoint);
     }
 
@@ -447,8 +444,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
-    @CheckForNull
-    C leastValueAbove(DiscreteDomain<C> domain) {
+    @Nullable C leastValueAbove(DiscreteDomain<C> domain) {
       return domain.next(endpoint);
     }
 

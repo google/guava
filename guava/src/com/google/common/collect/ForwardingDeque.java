@@ -21,7 +21,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Deque;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -92,28 +91,24 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   }
 
   @Override
-  @CheckForNull
-  public E peekFirst() {
+  public @Nullable E peekFirst() {
     return delegate().peekFirst();
   }
 
   @Override
-  @CheckForNull
-  public E peekLast() {
+  public @Nullable E peekLast() {
     return delegate().peekLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  @CheckForNull
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return delegate().pollFirst();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  @CheckForNull
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return delegate().pollLast();
   }
 
@@ -145,13 +140,13 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeFirstOccurrence(@CheckForNull Object o) {
+  public boolean removeFirstOccurrence(@Nullable Object o) {
     return delegate().removeFirstOccurrence(o);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeLastOccurrence(@CheckForNull Object o) {
+  public boolean removeLastOccurrence(@Nullable Object o) {
     return delegate().removeLastOccurrence(o);
   }
 }

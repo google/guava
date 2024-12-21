@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Standard implementation of {@link MutableValueGraph} that supports both directed and undirected
@@ -84,8 +84,7 @@ final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public V putEdgeValue(N nodeU, N nodeV, V value) {
+  public @Nullable V putEdgeValue(N nodeU, N nodeV, V value) {
     checkNotNull(nodeU, "nodeU");
     checkNotNull(nodeV, "nodeV");
     checkNotNull(value, "value");
@@ -112,8 +111,7 @@ final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public V putEdgeValue(EndpointPair<N> endpoints, V value) {
+  public @Nullable V putEdgeValue(EndpointPair<N> endpoints, V value) {
     validateEndpoints(endpoints);
     return putEdgeValue(endpoints.nodeU(), endpoints.nodeV(), value);
   }
@@ -161,8 +159,7 @@ final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public V removeEdge(N nodeU, N nodeV) {
+  public @Nullable V removeEdge(N nodeU, N nodeV) {
     checkNotNull(nodeU, "nodeU");
     checkNotNull(nodeV, "nodeV");
 
@@ -182,8 +179,7 @@ final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
 
   @Override
   @CanIgnoreReturnValue
-  @CheckForNull
-  public V removeEdge(EndpointPair<N> endpoints) {
+  public @Nullable V removeEdge(EndpointPair<N> endpoints) {
     validateEndpoints(endpoints);
     return removeEdge(endpoints.nodeU(), endpoints.nodeV());
   }
