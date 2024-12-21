@@ -33,7 +33,6 @@ import java.nio.charset.StandardCharsets;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Charsets {
 
   /**

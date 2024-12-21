@@ -36,7 +36,6 @@ import javax.annotation.CheckForNull;
  * @since 18.0 (since 2.0 as {@code Objects})
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class MoreObjects {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise

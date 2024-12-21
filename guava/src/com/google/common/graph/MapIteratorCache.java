@@ -41,7 +41,6 @@ import javax.annotation.CheckForNull;
  *
  * @author James Sexton
  */
-@ElementTypesAreNonnullByDefault
 class MapIteratorCache<K, V> {
   private final Map<K, V> backingMap;
 

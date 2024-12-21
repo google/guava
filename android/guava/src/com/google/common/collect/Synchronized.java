@@ -58,7 +58,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 /*
  * I have decided not to bother adding @ParametricNullness annotations in this class. Adding them is
  * a lot of busy work, and the annotation matters only when the APIs to be annotated are visible to

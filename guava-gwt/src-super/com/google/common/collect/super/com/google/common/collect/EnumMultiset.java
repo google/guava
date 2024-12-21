@@ -25,7 +25,6 @@ import java.util.Iterator;
 
 @GwtCompatible(emulated = true)
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E>
     implements Serializable {
   public static <E extends Enum<E>> EnumMultiset<E> create(Class<E> type) {

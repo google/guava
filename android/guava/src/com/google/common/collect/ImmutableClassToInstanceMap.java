@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @Immutable(containerOf = "B")
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 // TODO(b/278589132): Remove the redundant "@NonNull" on B once it's no longer required by J2KT.
 public final class ImmutableClassToInstanceMap<B>
     extends ForwardingMap<Class<? extends @NonNull B>, B>

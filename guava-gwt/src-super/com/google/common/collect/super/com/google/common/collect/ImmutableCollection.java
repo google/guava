@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jesse Wilson
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
   static final int SPLITERATOR_CHARACTERISTICS =
       Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;

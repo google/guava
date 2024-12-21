@@ -46,7 +46,6 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Ints extends IntsMethodsForWeb {
   private Ints() {}
 

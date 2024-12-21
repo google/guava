@@ -41,7 +41,6 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedCharEscaper extends CharEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;

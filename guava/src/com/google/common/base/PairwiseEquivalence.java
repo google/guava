@@ -21,7 +21,6 @@ import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class PairwiseEquivalence<E, T extends @Nullable E> extends Equivalence<Iterable<T>>
     implements Serializable {
   final Equivalence<E> elementEquivalence;

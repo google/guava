@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class FakeTimeLimiter implements TimeLimiter {
   /** Creates a new {@link FakeTimeLimiter}. */
   public FakeTimeLimiter() {}

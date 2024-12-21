@@ -25,7 +25,6 @@ import java.math.RoundingMode;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class MathPreconditions {
   @CanIgnoreReturnValue
   static int checkPositive(String role, int x) {

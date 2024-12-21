@@ -37,7 +37,6 @@ import java.util.stream.LongStream;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
   /** Creates a new accumulator. */
   public StatsAccumulator() {}

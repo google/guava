@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * protecting against hash flooding.
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static <K, V> ImmutableBiMap<K, V> create(int n, @Nullable Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);

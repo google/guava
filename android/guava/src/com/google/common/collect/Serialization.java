@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 final class Serialization {
   private Serialization() {}
 

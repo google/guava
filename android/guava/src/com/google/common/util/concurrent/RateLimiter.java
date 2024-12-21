@@ -96,7 +96,6 @@ import javax.annotation.CheckForNull;
 @Beta
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per

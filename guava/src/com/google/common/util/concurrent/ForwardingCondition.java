@@ -21,7 +21,6 @@ import java.util.concurrent.locks.Condition;
 
 /** Forwarding wrapper around a {@code Condition}. */
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingCondition implements Condition {
   abstract Condition delegate();
 

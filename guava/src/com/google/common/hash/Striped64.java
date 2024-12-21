@@ -27,7 +27,6 @@ import sun.misc.Unsafe;
  * so.
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings({"SunApi", "removal"}) // b/345822163
 abstract class Striped64 extends Number {
   /*

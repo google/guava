@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Dimitris Andreou
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
 
   @SuppressWarnings("Immutable") // array not modified after creation

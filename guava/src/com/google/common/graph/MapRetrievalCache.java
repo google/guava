@@ -27,7 +27,6 @@ import javax.annotation.CheckForNull;
  *
  * @author James Sexton
  */
-@ElementTypesAreNonnullByDefault
 final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // See the note about volatile in the superclass.
   @CheckForNull private transient volatile CacheEntry<K, V> cacheEntry1;

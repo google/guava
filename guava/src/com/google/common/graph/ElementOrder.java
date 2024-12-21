@@ -46,7 +46,6 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @Immutable
-@ElementTypesAreNonnullByDefault
 public final class ElementOrder<T> {
   private final Type type;
 

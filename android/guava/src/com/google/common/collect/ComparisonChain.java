@@ -54,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ComparisonChain {
   private ComparisonChain() {}
 

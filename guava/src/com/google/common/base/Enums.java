@@ -35,7 +35,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Enums {
 
   private Enums() {}

@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Table<R, C, V> {

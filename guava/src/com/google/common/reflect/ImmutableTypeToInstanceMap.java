@@ -28,7 +28,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 13.0
  */
-@ElementTypesAreNonnullByDefault
 public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<? extends B>, B>
     implements TypeToInstanceMap<B> {
 

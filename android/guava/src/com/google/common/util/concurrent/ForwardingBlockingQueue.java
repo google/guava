@@ -39,7 +39,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingQueue<E> extends ForwardingQueue<E>
     implements BlockingQueue<E> {
 

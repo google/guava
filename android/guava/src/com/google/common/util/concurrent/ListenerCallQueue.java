@@ -54,7 +54,6 @@ import java.util.logging.Level;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final LazyLogger logger = new LazyLogger(ListenerCallQueue.class);

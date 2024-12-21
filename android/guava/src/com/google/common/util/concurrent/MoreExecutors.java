@@ -63,7 +63,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 3.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class MoreExecutors {
   private MoreExecutors() {}
 

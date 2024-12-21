@@ -35,7 +35,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   static <E extends Enum<E>> ImmutableSet<E> asImmutable(EnumSet<E> set) {
     switch (set.size()) {

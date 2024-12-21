@@ -25,7 +25,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   // This reference is used both by the custom field serializer, and by the

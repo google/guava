@@ -115,7 +115,6 @@ import javax.annotation.CheckForNull;
  * @since 16.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 /*
  * 1. The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
  * doForward and doBackward methods to indicate that the parameter cannot be null. (We also take

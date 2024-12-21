@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     implements SortedSet<E>, SortedIterable<E> {
   // TODO(cpovirk): split into ImmutableSortedSet/ForwardingImmutableSortedSet?

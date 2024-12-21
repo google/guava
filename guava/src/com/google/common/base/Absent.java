@@ -23,7 +23,6 @@ import javax.annotation.CheckForNull;
 
 /** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<>();
 

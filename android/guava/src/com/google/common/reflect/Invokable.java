@@ -61,7 +61,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0 (no longer implements {@link AccessibleObject} or {@code GenericDeclaration} since
  *     31.0)
  */
-@ElementTypesAreNonnullByDefault
 public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   private final AccessibleObject accessibleObject;
   private final Member member;

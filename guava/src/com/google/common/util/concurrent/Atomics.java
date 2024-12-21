@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Atomics {
   private Atomics() {}
 

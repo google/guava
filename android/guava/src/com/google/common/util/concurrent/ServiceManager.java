@@ -122,7 +122,6 @@ import java.util.logging.Level;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ServiceManager implements ServiceManagerBridge {
   private static final LazyLogger logger = new LazyLogger(ServiceManager.class);
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =

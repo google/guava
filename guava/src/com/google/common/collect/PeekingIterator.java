@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use Iterators.peekingIterator")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E> {
   /**
    * Returns the next element in the iteration, without advancing the iteration.

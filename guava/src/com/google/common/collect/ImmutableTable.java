@@ -52,7 +52,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     implements Serializable {
 

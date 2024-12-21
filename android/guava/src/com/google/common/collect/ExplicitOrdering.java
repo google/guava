@@ -23,7 +23,6 @@ import javax.annotation.CheckForNull;
 
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableMap<T, Integer> rankMap;
 

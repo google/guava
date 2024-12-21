@@ -33,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class HashMultiset<E extends @Nullable Object> extends AbstractMapBasedMultiset<E> {
 
   /** Creates a new, empty {@code HashMultiset} using the default initial capacity. */

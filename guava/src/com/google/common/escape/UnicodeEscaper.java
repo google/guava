@@ -50,7 +50,6 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class UnicodeEscaper extends Escaper {
   /** The amount of padding (chars) to use when growing the escape buffer. */
   private static final int DEST_PAD = 32;

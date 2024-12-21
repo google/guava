@@ -24,7 +24,6 @@ import java.nio.ByteBuffer;
  * @author Kurt Alfred Kluever
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 final class Crc32cHashFunction extends AbstractHashFunction {
   static final HashFunction CRC_32_C = new Crc32cHashFunction();
 

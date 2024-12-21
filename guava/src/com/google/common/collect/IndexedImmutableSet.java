@@ -26,7 +26,6 @@ import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class IndexedImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
   abstract E get(int index);
 

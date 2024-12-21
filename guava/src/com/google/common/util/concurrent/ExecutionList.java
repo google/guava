@@ -41,7 +41,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ExecutionList {
   /** Logger to log exceptions caught when running runnables. */
   private static final LazyLogger log = new LazyLogger(ExecutionList.class);

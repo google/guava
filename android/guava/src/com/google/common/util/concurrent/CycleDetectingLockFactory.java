@@ -160,7 +160,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public class CycleDetectingLockFactory {
 
   /**

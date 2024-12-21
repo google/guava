@@ -41,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
   @ParametricNullness

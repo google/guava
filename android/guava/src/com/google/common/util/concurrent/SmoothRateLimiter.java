@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class SmoothRateLimiter extends RateLimiter {
   /*
    * How is the RateLimiter designed, and why?

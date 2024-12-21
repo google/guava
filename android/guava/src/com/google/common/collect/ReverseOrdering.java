@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that uses the reverse of a given order. */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Ordering<? super T> forwardOrder;

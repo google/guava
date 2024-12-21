@@ -38,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 12.0
  */
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractInvocationHandler implements InvocationHandler {
   /** Constructor for use by subclasses. */
   public AbstractInvocationHandler() {}

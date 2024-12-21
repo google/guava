@@ -47,7 +47,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
 

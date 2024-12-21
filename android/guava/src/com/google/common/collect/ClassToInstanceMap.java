@@ -52,7 +52,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface ClassToInstanceMap<B extends @Nullable Object>
     extends Map<Class<? extends @NonNull B>, B> {
   /**

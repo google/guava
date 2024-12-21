@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @CheckReturnValue
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */

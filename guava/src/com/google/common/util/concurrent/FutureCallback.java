@@ -29,7 +29,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface FutureCallback<V extends @Nullable Object> {
   /** Invoked with the result of the {@code Future} computation when it is successful. */
   void onSuccess(@ParametricNullness V result);

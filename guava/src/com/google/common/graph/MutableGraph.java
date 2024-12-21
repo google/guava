@@ -29,7 +29,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public interface MutableGraph<N> extends Graph<N> {
 
   /**

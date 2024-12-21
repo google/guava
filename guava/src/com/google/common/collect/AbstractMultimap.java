@@ -39,7 +39,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable Object>
     implements Multimap<K, V> {
   @Override

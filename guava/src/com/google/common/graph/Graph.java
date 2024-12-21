@@ -103,7 +103,6 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @DoNotMock("Use GraphBuilder to create a real instance")
-@ElementTypesAreNonnullByDefault
 public interface Graph<N> extends BaseGraph<N> {
   //
   // Graph-level accessors

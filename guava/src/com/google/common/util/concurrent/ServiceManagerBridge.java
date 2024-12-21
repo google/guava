@@ -28,7 +28,6 @@ import com.google.common.util.concurrent.Service.State;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 interface ServiceManagerBridge {
   ImmutableMultimap<State, Service> servicesByState();
 }

@@ -23,7 +23,6 @@ import com.google.errorprone.annotations.RestrictedApi;
  * java.util.ServiceLoader} mechanism.
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 interface PatternCompiler {
   /**
    * Compiles the given pattern.

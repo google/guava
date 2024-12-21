@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   // These references are used both by the custom field serializer, and by the

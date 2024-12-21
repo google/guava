@@ -36,7 +36,6 @@ import java.util.Map;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class ArrayBasedEscaperMap {
   /**
    * Returns a new ArrayBasedEscaperMap for creating ArrayBasedCharEscaper or

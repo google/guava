@@ -69,7 +69,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 @IgnoreJRERequirement // Users will use this only if they're already using Path.
 public final class MoreFiles {
 

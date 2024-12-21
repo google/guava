@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Java super source for ListenableFuture, implementing a structural thenable via a default method.
  * For restrictions, please refer to the documentation of the then() method.
  */
-@ElementTypesAreNonnullByDefault
 public interface ListenableFuture<V extends @Nullable Object> extends Future<V>, IThenable<V> {
   void addListener(Runnable listener, Executor executor);
 

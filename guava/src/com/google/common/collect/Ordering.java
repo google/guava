@@ -151,7 +151,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class Ordering<T extends @Nullable Object> implements Comparator<T> {
   // Natural order
 

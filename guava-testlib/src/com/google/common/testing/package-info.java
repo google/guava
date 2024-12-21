@@ -18,5 +18,8 @@
  * Testing utilities. This package is a part of the open-source <a
  * href="https://github.com/google/guava">Guava</a> library.
  */
-@com.google.errorprone.annotations.CheckReturnValue
+@CheckReturnValue
+@ElementTypesAreNonnullByDefault
 package com.google.common.testing;
+
+import com.google.errorprone.annotations.CheckReturnValue;

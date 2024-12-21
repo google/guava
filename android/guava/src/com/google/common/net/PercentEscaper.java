@@ -51,7 +51,6 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class PercentEscaper extends UnicodeEscaper {
 
   // In some escapers spaces are escaped to '+'

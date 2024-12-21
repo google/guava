@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class UnmodifiableIterator<E extends @Nullable Object> implements Iterator<E> {
   /** Constructor for use by subclasses. */
   protected UnmodifiableIterator() {}

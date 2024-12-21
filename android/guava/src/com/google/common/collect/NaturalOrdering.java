@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
 @SuppressWarnings({"unchecked", "rawtypes"}) // TODO(kevinb): the right way to explain this??
-@ElementTypesAreNonnullByDefault
 final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 

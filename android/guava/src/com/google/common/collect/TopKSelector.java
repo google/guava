@@ -56,7 +56,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class TopKSelector<
     T extends @Nullable Object> {
 

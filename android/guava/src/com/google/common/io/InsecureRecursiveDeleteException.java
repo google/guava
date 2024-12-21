@@ -38,7 +38,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 // Users are unlikely to use this unless they're already interacting with MoreFiles and Path.
 @IgnoreJRERequirement
 public final class InsecureRecursiveDeleteException extends FileSystemException {

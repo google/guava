@@ -43,7 +43,6 @@ import javax.annotation.CheckForNull;
  * collected, and this class can detect when the main class loader has been garbage collected and
  * stop itself.
  */
-// no @ElementTypesAreNonNullByDefault for the reasons discussed above
 public class Finalizer implements Runnable {
 
   private static final Logger logger = Logger.getLogger(Finalizer.class.getName());

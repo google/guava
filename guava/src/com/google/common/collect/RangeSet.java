@@ -51,7 +51,6 @@ import javax.annotation.CheckForNull;
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @DoNotMock("Use ImmutableRangeSet or TreeRangeSet")
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface RangeSet<C extends Comparable> {
   // TODO(lowasser): consider adding default implementations of some of these methods
 

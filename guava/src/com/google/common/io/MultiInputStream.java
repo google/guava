@@ -32,7 +32,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class MultiInputStream extends InputStream {
 
   private Iterator<? extends ByteSource> it;

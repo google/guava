@@ -28,7 +28,6 @@ import javax.annotation.CheckForNull;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class ExecutionError extends Error {
   /*
    * Ideally, this class would have exposed only constructors that require a non-null cause. See

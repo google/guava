@@ -49,7 +49,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @J2ktIncompatible
 @GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
-@ElementTypesAreNonnullByDefault
 public final class MutableClassToInstanceMap<B extends @Nullable Object>
     extends ForwardingMap<Class<? extends @NonNull B>, B>
     implements ClassToInstanceMap<B>, Serializable {

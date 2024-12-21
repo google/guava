@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 /** See newDirectExecutorService javadoc for behavioral notes. */
 @J2ktIncompatible // Emulated
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class DirectExecutorService extends AbstractListeningExecutorService {
 
   /** Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor */

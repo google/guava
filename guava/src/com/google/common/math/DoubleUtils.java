@@ -34,7 +34,6 @@ import java.math.BigInteger;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class DoubleUtils {
   private DoubleUtils() {}
 

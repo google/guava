@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Colin Decker
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 final class ChecksumHashFunction extends AbstractHashFunction implements Serializable {
   private final ImmutableSupplier<? extends Checksum> checksumSupplier;
   private final int bits;

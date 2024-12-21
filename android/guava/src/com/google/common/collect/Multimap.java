@@ -161,7 +161,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use ImmutableMultimap, HashMultimap, or another implementation")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Multimap<K extends @Nullable Object, V extends @Nullable Object> {
   // Query Operations
 

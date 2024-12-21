@@ -102,7 +102,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractScheduledService implements Service {
   private static final LazyLogger logger = new LazyLogger(AbstractScheduledService.class);
 

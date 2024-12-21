@@ -58,7 +58,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0 (but only since 33.4.0 in the Android flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link

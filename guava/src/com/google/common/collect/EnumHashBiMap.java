@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     extends AbstractBiMap<K, V> {
   transient Class<K> keyTypeOrObjectUnderJ2cl;

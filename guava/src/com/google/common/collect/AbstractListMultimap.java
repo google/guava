@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**

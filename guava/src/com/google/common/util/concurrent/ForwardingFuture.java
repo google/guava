@@ -35,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
     implements Future<V> {
   /** Constructor for use by subclasses. */

@@ -169,7 +169,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @DoNotMock("Use ImmutableList.of or another implementation")
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {

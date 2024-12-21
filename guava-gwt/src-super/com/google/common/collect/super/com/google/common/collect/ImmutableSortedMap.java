@@ -41,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     implements SortedMap<K, V> {
 

@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
   public static <T extends @Nullable Object, K, V>

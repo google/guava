@@ -55,7 +55,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;

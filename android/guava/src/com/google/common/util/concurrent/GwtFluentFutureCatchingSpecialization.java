@@ -25,7 +25,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible // Super-sourced
-@ElementTypesAreNonnullByDefault
 abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
     extends AbstractFuture<V> {
   /*

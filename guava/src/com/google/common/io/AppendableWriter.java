@@ -34,7 +34,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 class AppendableWriter extends Writer {
   private final Appendable target;
   private boolean closed;

@@ -23,7 +23,6 @@ import javax.annotation.CheckForNull;
 
 /** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class Present<T> extends Optional<T> {
   private final T reference;
 

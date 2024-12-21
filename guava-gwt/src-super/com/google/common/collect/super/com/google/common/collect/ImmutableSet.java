@@ -40,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @see ImmutableSortedSet
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   ImmutableSet() {}

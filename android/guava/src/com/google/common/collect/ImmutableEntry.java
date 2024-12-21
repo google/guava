@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * common.collect} as a superclass.
  */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 class ImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapEntry<K, V> implements Serializable {
   @ParametricNullness final K key;

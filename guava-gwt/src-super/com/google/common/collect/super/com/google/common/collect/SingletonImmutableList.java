@@ -26,7 +26,6 @@ import java.util.List;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 final class SingletonImmutableList<E> extends ForwardingImmutableList<E> {
 
   final transient List<E> delegate;

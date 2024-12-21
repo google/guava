@@ -48,7 +48,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-@ElementTypesAreNonnullByDefault
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing Entry<?, ?>[] instead.
   static final RegularImmutableBiMap<Object, Object> EMPTY =

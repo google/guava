@@ -26,7 +26,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible // java.lang.System#getProperty
-@ElementTypesAreNonnullByDefault
 public enum StandardSystemProperty {
 
   /** Java Runtime Environment version. */

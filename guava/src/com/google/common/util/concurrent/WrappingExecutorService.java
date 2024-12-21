@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class WrappingExecutorService implements ExecutorService {
   private final ExecutorService delegate;
 

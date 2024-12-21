@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Louis Wasserman
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
     extends ForwardingMultiset<E> implements SortedMultiset<E> {
   /** Constructor for use by subclasses. */

@@ -24,7 +24,6 @@ import java.lang.reflect.Type;
  *
  * @author Ben Yu
  */
-@ElementTypesAreNonnullByDefault
 abstract class TypeCapture<T> {
 
   /** Returns the captured type. */

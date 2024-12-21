@@ -29,7 +29,6 @@ import javax.annotation.CheckForNull;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class Platform {
   private static final Logger logger = Logger.getLogger(Platform.class.getName());
   private static final PatternCompiler patternCompiler = loadPatternCompiler();

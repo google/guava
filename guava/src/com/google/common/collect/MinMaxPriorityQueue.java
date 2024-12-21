@@ -102,7 +102,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 8.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**

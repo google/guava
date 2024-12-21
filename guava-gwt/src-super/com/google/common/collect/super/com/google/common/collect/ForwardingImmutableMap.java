@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   final transient Map<K, V> delegate;

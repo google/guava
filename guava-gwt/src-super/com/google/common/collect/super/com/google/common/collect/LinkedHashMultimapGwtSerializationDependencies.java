@@ -22,7 +22,6 @@ import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class LinkedHashMultimapGwtSerializationDependencies<
         K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSetMultimap<K, V> {

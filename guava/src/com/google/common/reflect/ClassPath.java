@@ -90,7 +90,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 14.0
  */
-@ElementTypesAreNonnullByDefault
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 

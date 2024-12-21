@@ -51,7 +51,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
       new ListenerCallQueue.Event<Listener>() {

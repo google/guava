@@ -20,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class NullnessCasts {
   /**
    * Accepts a {@code @Nullable T} and returns a plain {@code T}, without performing any check that

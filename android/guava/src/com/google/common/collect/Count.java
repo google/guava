@@ -24,7 +24,6 @@ import javax.annotation.CheckForNull;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class Count implements Serializable {
   private int value;
 

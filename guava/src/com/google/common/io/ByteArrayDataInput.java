@@ -35,7 +35,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface ByteArrayDataInput extends DataInput {
   @Override
   void readFully(byte b[]);

@@ -24,7 +24,6 @@ import java.util.Set;
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableSet<E> extends ForwardingImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<Object>(Collections.emptySet());

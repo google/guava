@@ -38,7 +38,6 @@ import javax.annotation.CheckForNull;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 
   public InsecureRecursiveDeleteException(@CheckForNull String file) {

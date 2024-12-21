@@ -32,7 +32,6 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-@ElementTypesAreNonnullByDefault
 abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /** Keys are edges incident to the origin node, values are the node at the other end. */
   final Map<E, N> incidentEdgeMap;
