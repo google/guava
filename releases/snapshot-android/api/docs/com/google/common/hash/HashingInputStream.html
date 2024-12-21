@@ -308,7 +308,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Filt
 <ul class="blockListLast">
 <li class="blockList">
 <h4>HashingInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.42">HashingInputStream</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.41">HashingInputStream</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;in)</pre>
 <div class="block">Creates an input stream that hashes using the given <a href="HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a> and delegates all data
  read from it to the underlying <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>InputStream</code></a>.
@@ -333,7 +333,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Filt
 <li class="blockList">
 <h4>read</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.51">read</a>()
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.50">read</a>()
          throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Reads the next byte of data from the underlying input stream and updates the hasher with the
  byte read.</div>
@@ -352,7 +352,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <li class="blockList">
 <h4>read</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.65">read</a>&#8203;(byte[]&nbsp;bytes,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.64">read</a>&#8203;(byte[]&nbsp;bytes,
                 int&nbsp;off,
                 int&nbsp;len)
          throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
@@ -372,7 +372,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <ul class="blockList">
 <li class="blockList">
 <h4>markSupported</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.80">markSupported</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.79">markSupported</a>()</pre>
 <div class="block">mark() is not supported for HashingInputStream</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -388,7 +388,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <ul class="blockList">
 <li class="blockList">
 <h4>mark</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.86">mark</a>&#8203;(int&nbsp;readlimit)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.85">mark</a>&#8203;(int&nbsp;readlimit)</pre>
 <div class="block">mark() is not supported for HashingInputStream</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -402,7 +402,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.94">reset</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.93">reset</a>()
            throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">reset() is not supported for HashingInputStream.</div>
 <dl>
@@ -419,7 +419,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashin
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hash</h4>
-<pre class="methodSignature">public&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.103">hash</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.102">hash</a>()</pre>
 <div class="block">Returns the <a href="HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> based on the data read from this stream. The result is unspecified
  if this method is called more than once on the same instance.</div>
 </li>

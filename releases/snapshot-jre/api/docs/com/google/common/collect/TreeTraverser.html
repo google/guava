@@ -304,7 +304,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TreeTraverser</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.82">TreeTraverser</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.81">TreeTraverser</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
@@ -326,7 +326,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>using</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.94">using</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&gt;&nbsp;nodeToChildrenFunction)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.93">using</a>&#8203;(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,&#8203;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&gt;&nbsp;nodeToChildrenFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="../graph/Traverser.html#forTree(com.google.common.graph.SuccessorsFunction)"><code>Traverser.forTree(com.google.common.graph.SuccessorsFunction&lt;N&gt;)</code></a> instead. If you are using a
      lambda, these methods have exactly the same signature.</div>
@@ -349,7 +349,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="TreeTraverser.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>children</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.107">children</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.106">children</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Returns the children of the specified node. Must not contain null.</div>
 </li>
@@ -363,7 +363,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="TreeTraverser.html" title="class in c
 <li class="blockList">
 <h4>preOrderTraversal</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.119">preOrderTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
+public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.118">preOrderTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="../graph/Traverser.html#depthFirstPreOrder(N)"><code>Traverser.depthFirstPreOrder(N)</code></a> instead, which has
      the same behavior.</div>
@@ -384,7 +384,7 @@ public final&nbsp;<a href="FluentIterable.html" title="class in com.google.commo
 <li class="blockList">
 <h4>postOrderTraversal</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.184">postOrderTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
+public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.183">postOrderTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="../graph/Traverser.html#depthFirstPostOrder(N)"><code>Traverser.depthFirstPostOrder(N)</code></a> instead, which
      has the same behavior.</div>
@@ -405,7 +405,7 @@ public final&nbsp;<a href="FluentIterable.html" title="class in com.google.commo
 <li class="blockList">
 <h4>breadthFirstTraversal</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.260">breadthFirstTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
+public final&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line.259">breadthFirstTraversal</a>&#8203;(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="../graph/Traverser.html#breadthFirst(N)"><code>Traverser.breadthFirst(N)</code></a> instead, which has the
      same behavior.</div>

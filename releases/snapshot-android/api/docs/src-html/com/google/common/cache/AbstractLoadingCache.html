@@ -48,44 +48,43 @@
 <span class="sourceLineNo">039</span><a id="line.39"> * @since 11.0</a>
 <span class="sourceLineNo">040</span><a id="line.40"> */</a>
 <span class="sourceLineNo">041</span><a id="line.41">@GwtIncompatible</a>
-<span class="sourceLineNo">042</span><a id="line.42">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">043</span><a id="line.43">public abstract class AbstractLoadingCache&lt;K, V&gt; extends AbstractCache&lt;K, V&gt;</a>
-<span class="sourceLineNo">044</span><a id="line.44">    implements LoadingCache&lt;K, V&gt; {</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">047</span><a id="line.47">  protected AbstractLoadingCache() {}</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?</a>
-<span class="sourceLineNo">050</span><a id="line.50">  @Override</a>
-<span class="sourceLineNo">051</span><a id="line.51">  public V getUnchecked(K key) {</a>
-<span class="sourceLineNo">052</span><a id="line.52">    try {</a>
-<span class="sourceLineNo">053</span><a id="line.53">      return get(key);</a>
-<span class="sourceLineNo">054</span><a id="line.54">    } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">055</span><a id="line.55">      throw new UncheckedExecutionException(e.getCause());</a>
-<span class="sourceLineNo">056</span><a id="line.56">    }</a>
-<span class="sourceLineNo">057</span><a id="line.57">  }</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
-<span class="sourceLineNo">060</span><a id="line.60">  public ImmutableMap&lt;K, V&gt; getAll(Iterable&lt;? extends K&gt; keys) throws ExecutionException {</a>
-<span class="sourceLineNo">061</span><a id="line.61">    Map&lt;K, V&gt; result = Maps.newLinkedHashMap();</a>
-<span class="sourceLineNo">062</span><a id="line.62">    for (K key : keys) {</a>
-<span class="sourceLineNo">063</span><a id="line.63">      if (!result.containsKey(key)) {</a>
-<span class="sourceLineNo">064</span><a id="line.64">        result.put(key, get(key));</a>
-<span class="sourceLineNo">065</span><a id="line.65">      }</a>
-<span class="sourceLineNo">066</span><a id="line.66">    }</a>
-<span class="sourceLineNo">067</span><a id="line.67">    return ImmutableMap.copyOf(result);</a>
-<span class="sourceLineNo">068</span><a id="line.68">  }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
-<span class="sourceLineNo">071</span><a id="line.71">  public final V apply(K key) {</a>
-<span class="sourceLineNo">072</span><a id="line.72">    return getUnchecked(key);</a>
-<span class="sourceLineNo">073</span><a id="line.73">  }</a>
-<span class="sourceLineNo">074</span><a id="line.74"></a>
-<span class="sourceLineNo">075</span><a id="line.75">  @Override</a>
-<span class="sourceLineNo">076</span><a id="line.76">  public void refresh(K key) {</a>
-<span class="sourceLineNo">077</span><a id="line.77">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">078</span><a id="line.78">  }</a>
-<span class="sourceLineNo">079</span><a id="line.79">}</a>
+<span class="sourceLineNo">042</span><a id="line.42">public abstract class AbstractLoadingCache&lt;K, V&gt; extends AbstractCache&lt;K, V&gt;</a>
+<span class="sourceLineNo">043</span><a id="line.43">    implements LoadingCache&lt;K, V&gt; {</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">046</span><a id="line.46">  protected AbstractLoadingCache() {}</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?</a>
+<span class="sourceLineNo">049</span><a id="line.49">  @Override</a>
+<span class="sourceLineNo">050</span><a id="line.50">  public V getUnchecked(K key) {</a>
+<span class="sourceLineNo">051</span><a id="line.51">    try {</a>
+<span class="sourceLineNo">052</span><a id="line.52">      return get(key);</a>
+<span class="sourceLineNo">053</span><a id="line.53">    } catch (ExecutionException e) {</a>
+<span class="sourceLineNo">054</span><a id="line.54">      throw new UncheckedExecutionException(e.getCause());</a>
+<span class="sourceLineNo">055</span><a id="line.55">    }</a>
+<span class="sourceLineNo">056</span><a id="line.56">  }</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
+<span class="sourceLineNo">059</span><a id="line.59">  public ImmutableMap&lt;K, V&gt; getAll(Iterable&lt;? extends K&gt; keys) throws ExecutionException {</a>
+<span class="sourceLineNo">060</span><a id="line.60">    Map&lt;K, V&gt; result = Maps.newLinkedHashMap();</a>
+<span class="sourceLineNo">061</span><a id="line.61">    for (K key : keys) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">      if (!result.containsKey(key)) {</a>
+<span class="sourceLineNo">063</span><a id="line.63">        result.put(key, get(key));</a>
+<span class="sourceLineNo">064</span><a id="line.64">      }</a>
+<span class="sourceLineNo">065</span><a id="line.65">    }</a>
+<span class="sourceLineNo">066</span><a id="line.66">    return ImmutableMap.copyOf(result);</a>
+<span class="sourceLineNo">067</span><a id="line.67">  }</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  @Override</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public final V apply(K key) {</a>
+<span class="sourceLineNo">071</span><a id="line.71">    return getUnchecked(key);</a>
+<span class="sourceLineNo">072</span><a id="line.72">  }</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">  @Override</a>
+<span class="sourceLineNo">075</span><a id="line.75">  public void refresh(K key) {</a>
+<span class="sourceLineNo">076</span><a id="line.76">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">077</span><a id="line.77">  }</a>
+<span class="sourceLineNo">078</span><a id="line.78">}</a>
 
 
 

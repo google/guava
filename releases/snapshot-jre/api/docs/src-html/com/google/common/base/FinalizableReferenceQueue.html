@@ -147,269 +147,268 @@
 <span class="sourceLineNo">138</span><a id="line.138"> */</a>
 <span class="sourceLineNo">139</span><a id="line.139">@J2ktIncompatible</a>
 <span class="sourceLineNo">140</span><a id="line.140">@GwtIncompatible</a>
-<span class="sourceLineNo">141</span><a id="line.141">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">142</span><a id="line.142">public class FinalizableReferenceQueue implements Closeable {</a>
-<span class="sourceLineNo">143</span><a id="line.143">  /*</a>
-<span class="sourceLineNo">144</span><a id="line.144">   * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a</a>
-<span class="sourceLineNo">145</span><a id="line.145">   * map built by MapMaker) no longer has a strong reference to this object, the garbage collector</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * will reclaim it and enqueue the phantom reference. The enqueued reference will trigger the</a>
-<span class="sourceLineNo">147</span><a id="line.147">   * Finalizer to stop.</a>
-<span class="sourceLineNo">148</span><a id="line.148">   *</a>
-<span class="sourceLineNo">149</span><a id="line.149">   * If this library is loaded in the system class loader, FinalizableReferenceQueue can load</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * Finalizer directly with no problems.</a>
-<span class="sourceLineNo">151</span><a id="line.151">   *</a>
-<span class="sourceLineNo">152</span><a id="line.152">   * If this library is loaded in an application class loader, it's important that Finalizer not</a>
-<span class="sourceLineNo">153</span><a id="line.153">   * have a strong reference back to the class loader. Otherwise, you could have a graph like this:</a>
-<span class="sourceLineNo">154</span><a id="line.154">   *</a>
-<span class="sourceLineNo">155</span><a id="line.155">   * Finalizer Thread runs instance of -&gt; Finalizer.class loaded by -&gt; Application class loader</a>
-<span class="sourceLineNo">156</span><a id="line.156">   * which loaded -&gt; ReferenceMap.class which has a static -&gt; FinalizableReferenceQueue instance</a>
-<span class="sourceLineNo">157</span><a id="line.157">   *</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * Even if no other references to classes from the application class loader remain, the Finalizer</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * thread keeps an indirect strong reference to the queue in ReferenceMap, which keeps the</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * Finalizer running, and as a result, the application class loader can never be reclaimed.</a>
-<span class="sourceLineNo">161</span><a id="line.161">   *</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * This means that dynamically loaded web applications and OSGi bundles can't be unloaded.</a>
-<span class="sourceLineNo">163</span><a id="line.163">   *</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * If the library is loaded in an application class loader, we try to break the cycle by loading</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * Finalizer in its own independent class loader:</a>
-<span class="sourceLineNo">166</span><a id="line.166">   *</a>
-<span class="sourceLineNo">167</span><a id="line.167">   * System class loader -&gt; Application class loader -&gt; ReferenceMap -&gt; FinalizableReferenceQueue -&gt;</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * etc. -&gt; Decoupled class loader -&gt; Finalizer</a>
-<span class="sourceLineNo">169</span><a id="line.169">   *</a>
-<span class="sourceLineNo">170</span><a id="line.170">   * Now, Finalizer no longer keeps an indirect strong reference to the static</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * FinalizableReferenceQueue field in ReferenceMap. The application class loader can be reclaimed</a>
-<span class="sourceLineNo">172</span><a id="line.172">   * at which point the Finalizer thread will stop and its decoupled class loader can also be</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * reclaimed.</a>
-<span class="sourceLineNo">174</span><a id="line.174">   *</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * If any of this fails along the way, we fall back to loading Finalizer directly in the</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * application class loader.</a>
-<span class="sourceLineNo">177</span><a id="line.177">   *</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * NOTE: The tests for this behavior (FinalizableReferenceQueueClassLoaderUnloadingTest) fail</a>
-<span class="sourceLineNo">179</span><a id="line.179">   * strangely when run in JDK 9. We are considering this a known issue. Please see</a>
-<span class="sourceLineNo">180</span><a id="line.180">   * https://github.com/google/guava/issues/3086 for more information.</a>
-<span class="sourceLineNo">181</span><a id="line.181">   */</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">  private static final Logger logger = Logger.getLogger(FinalizableReferenceQueue.class.getName());</a>
-<span class="sourceLineNo">184</span><a id="line.184"></a>
-<span class="sourceLineNo">185</span><a id="line.185">  private static final String FINALIZER_CLASS_NAME = "com.google.common.base.internal.Finalizer";</a>
-<span class="sourceLineNo">186</span><a id="line.186"></a>
-<span class="sourceLineNo">187</span><a id="line.187">  /** Reference to Finalizer.startFinalizer(). */</a>
-<span class="sourceLineNo">188</span><a id="line.188">  private static final Method startFinalizer;</a>
-<span class="sourceLineNo">189</span><a id="line.189"></a>
-<span class="sourceLineNo">190</span><a id="line.190">  static {</a>
-<span class="sourceLineNo">191</span><a id="line.191">    Class&lt;?&gt; finalizer =</a>
-<span class="sourceLineNo">192</span><a id="line.192">        loadFinalizer(new SystemLoader(), new DecoupledLoader(), new DirectLoader());</a>
-<span class="sourceLineNo">193</span><a id="line.193">    startFinalizer = getStartFinalizer(finalizer);</a>
-<span class="sourceLineNo">194</span><a id="line.194">  }</a>
-<span class="sourceLineNo">195</span><a id="line.195"></a>
-<span class="sourceLineNo">196</span><a id="line.196">  /** The actual reference queue that our background thread will poll. */</a>
-<span class="sourceLineNo">197</span><a id="line.197">  final ReferenceQueue&lt;Object&gt; queue;</a>
-<span class="sourceLineNo">198</span><a id="line.198"></a>
-<span class="sourceLineNo">199</span><a id="line.199">  final PhantomReference&lt;Object&gt; frqRef;</a>
-<span class="sourceLineNo">200</span><a id="line.200"></a>
-<span class="sourceLineNo">201</span><a id="line.201">  /** Whether or not the background thread started successfully. */</a>
-<span class="sourceLineNo">202</span><a id="line.202">  final boolean threadStarted;</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">  /** Constructs a new queue. */</a>
-<span class="sourceLineNo">205</span><a id="line.205">  public FinalizableReferenceQueue() {</a>
-<span class="sourceLineNo">206</span><a id="line.206">    // We could start the finalizer lazily, but I'd rather it blow up early.</a>
-<span class="sourceLineNo">207</span><a id="line.207">    queue = new ReferenceQueue&lt;&gt;();</a>
-<span class="sourceLineNo">208</span><a id="line.208">    frqRef = new PhantomReference&lt;&gt;(this, queue);</a>
-<span class="sourceLineNo">209</span><a id="line.209">    boolean threadStarted = false;</a>
-<span class="sourceLineNo">210</span><a id="line.210">    try {</a>
-<span class="sourceLineNo">211</span><a id="line.211">      startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);</a>
-<span class="sourceLineNo">212</span><a id="line.212">      threadStarted = true;</a>
-<span class="sourceLineNo">213</span><a id="line.213">    } catch (IllegalAccessException impossible) {</a>
-<span class="sourceLineNo">214</span><a id="line.214">      throw new AssertionError(impossible); // startFinalizer() is public</a>
-<span class="sourceLineNo">215</span><a id="line.215">    } catch (Throwable t) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">      logger.log(</a>
-<span class="sourceLineNo">217</span><a id="line.217">          Level.INFO,</a>
-<span class="sourceLineNo">218</span><a id="line.218">          "Failed to start reference finalizer thread."</a>
-<span class="sourceLineNo">219</span><a id="line.219">              + " Reference cleanup will only occur when new references are created.",</a>
-<span class="sourceLineNo">220</span><a id="line.220">          t);</a>
-<span class="sourceLineNo">221</span><a id="line.221">    }</a>
-<span class="sourceLineNo">222</span><a id="line.222"></a>
-<span class="sourceLineNo">223</span><a id="line.223">    this.threadStarted = threadStarted;</a>
-<span class="sourceLineNo">224</span><a id="line.224">  }</a>
-<span class="sourceLineNo">225</span><a id="line.225"></a>
-<span class="sourceLineNo">226</span><a id="line.226">  @Override</a>
-<span class="sourceLineNo">227</span><a id="line.227">  public void close() {</a>
-<span class="sourceLineNo">228</span><a id="line.228">    frqRef.enqueue();</a>
-<span class="sourceLineNo">229</span><a id="line.229">    cleanUp();</a>
-<span class="sourceLineNo">230</span><a id="line.230">  }</a>
-<span class="sourceLineNo">231</span><a id="line.231"></a>
-<span class="sourceLineNo">232</span><a id="line.232">  /**</a>
-<span class="sourceLineNo">233</span><a id="line.233">   * Repeatedly dequeues references from the queue and invokes {@link</a>
-<span class="sourceLineNo">234</span><a id="line.234">   * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a</a>
-<span class="sourceLineNo">235</span><a id="line.235">   * no-op if the background thread was created successfully.</a>
-<span class="sourceLineNo">236</span><a id="line.236">   */</a>
-<span class="sourceLineNo">237</span><a id="line.237">  void cleanUp() {</a>
-<span class="sourceLineNo">238</span><a id="line.238">    if (threadStarted) {</a>
-<span class="sourceLineNo">239</span><a id="line.239">      return;</a>
-<span class="sourceLineNo">240</span><a id="line.240">    }</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">    Reference&lt;?&gt; reference;</a>
-<span class="sourceLineNo">243</span><a id="line.243">    while ((reference = queue.poll()) != null) {</a>
-<span class="sourceLineNo">244</span><a id="line.244">      /*</a>
-<span class="sourceLineNo">245</span><a id="line.245">       * This is for the benefit of phantom references. Weak and soft references will have already</a>
-<span class="sourceLineNo">246</span><a id="line.246">       * been cleared by this point.</a>
-<span class="sourceLineNo">247</span><a id="line.247">       */</a>
-<span class="sourceLineNo">248</span><a id="line.248">      reference.clear();</a>
-<span class="sourceLineNo">249</span><a id="line.249">      try {</a>
-<span class="sourceLineNo">250</span><a id="line.250">        ((FinalizableReference) reference).finalizeReferent();</a>
-<span class="sourceLineNo">251</span><a id="line.251">      } catch (Throwable t) {</a>
-<span class="sourceLineNo">252</span><a id="line.252">        logger.log(Level.SEVERE, "Error cleaning up after reference.", t);</a>
-<span class="sourceLineNo">253</span><a id="line.253">      }</a>
-<span class="sourceLineNo">254</span><a id="line.254">    }</a>
-<span class="sourceLineNo">255</span><a id="line.255">  }</a>
-<span class="sourceLineNo">256</span><a id="line.256"></a>
-<span class="sourceLineNo">257</span><a id="line.257">  /**</a>
-<span class="sourceLineNo">258</span><a id="line.258">   * Iterates through the given loaders until it finds one that can load Finalizer.</a>
-<span class="sourceLineNo">259</span><a id="line.259">   *</a>
-<span class="sourceLineNo">260</span><a id="line.260">   * @return Finalizer.class</a>
-<span class="sourceLineNo">261</span><a id="line.261">   */</a>
-<span class="sourceLineNo">262</span><a id="line.262">  private static Class&lt;?&gt; loadFinalizer(FinalizerLoader... loaders) {</a>
-<span class="sourceLineNo">263</span><a id="line.263">    for (FinalizerLoader loader : loaders) {</a>
-<span class="sourceLineNo">264</span><a id="line.264">      Class&lt;?&gt; finalizer = loader.loadFinalizer();</a>
-<span class="sourceLineNo">265</span><a id="line.265">      if (finalizer != null) {</a>
-<span class="sourceLineNo">266</span><a id="line.266">        return finalizer;</a>
-<span class="sourceLineNo">267</span><a id="line.267">      }</a>
-<span class="sourceLineNo">268</span><a id="line.268">    }</a>
-<span class="sourceLineNo">269</span><a id="line.269"></a>
-<span class="sourceLineNo">270</span><a id="line.270">    throw new AssertionError();</a>
-<span class="sourceLineNo">271</span><a id="line.271">  }</a>
-<span class="sourceLineNo">272</span><a id="line.272"></a>
-<span class="sourceLineNo">273</span><a id="line.273">  /** Loads Finalizer.class. */</a>
-<span class="sourceLineNo">274</span><a id="line.274">  interface FinalizerLoader {</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">    /**</a>
-<span class="sourceLineNo">277</span><a id="line.277">     * Returns Finalizer.class or null if this loader shouldn't or can't load it.</a>
-<span class="sourceLineNo">278</span><a id="line.278">     *</a>
-<span class="sourceLineNo">279</span><a id="line.279">     * @throws SecurityException if we don't have the appropriate privileges</a>
-<span class="sourceLineNo">280</span><a id="line.280">     */</a>
-<span class="sourceLineNo">281</span><a id="line.281">    @CheckForNull</a>
-<span class="sourceLineNo">282</span><a id="line.282">    Class&lt;?&gt; loadFinalizer();</a>
-<span class="sourceLineNo">283</span><a id="line.283">  }</a>
-<span class="sourceLineNo">284</span><a id="line.284"></a>
-<span class="sourceLineNo">285</span><a id="line.285">  /**</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * Tries to load Finalizer from the system class loader. If Finalizer is in the system class path,</a>
-<span class="sourceLineNo">287</span><a id="line.287">   * we needn't create a separate loader.</a>
-<span class="sourceLineNo">288</span><a id="line.288">   */</a>
-<span class="sourceLineNo">289</span><a id="line.289">  static class SystemLoader implements FinalizerLoader {</a>
-<span class="sourceLineNo">290</span><a id="line.290">    // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable</a>
-<span class="sourceLineNo">291</span><a id="line.291">    // finding Finalizer on the system class path even if it is there.</a>
-<span class="sourceLineNo">292</span><a id="line.292">    @VisibleForTesting static boolean disabled;</a>
-<span class="sourceLineNo">293</span><a id="line.293"></a>
-<span class="sourceLineNo">294</span><a id="line.294">    @Override</a>
-<span class="sourceLineNo">295</span><a id="line.295">    @CheckForNull</a>
-<span class="sourceLineNo">296</span><a id="line.296">    public Class&lt;?&gt; loadFinalizer() {</a>
-<span class="sourceLineNo">297</span><a id="line.297">      if (disabled) {</a>
-<span class="sourceLineNo">298</span><a id="line.298">        return null;</a>
-<span class="sourceLineNo">299</span><a id="line.299">      }</a>
-<span class="sourceLineNo">300</span><a id="line.300">      ClassLoader systemLoader;</a>
-<span class="sourceLineNo">301</span><a id="line.301">      try {</a>
-<span class="sourceLineNo">302</span><a id="line.302">        systemLoader = ClassLoader.getSystemClassLoader();</a>
-<span class="sourceLineNo">303</span><a id="line.303">      } catch (SecurityException e) {</a>
-<span class="sourceLineNo">304</span><a id="line.304">        logger.info("Not allowed to access system class loader.");</a>
-<span class="sourceLineNo">305</span><a id="line.305">        return null;</a>
-<span class="sourceLineNo">306</span><a id="line.306">      }</a>
-<span class="sourceLineNo">307</span><a id="line.307">      if (systemLoader != null) {</a>
-<span class="sourceLineNo">308</span><a id="line.308">        try {</a>
-<span class="sourceLineNo">309</span><a id="line.309">          return systemLoader.loadClass(FINALIZER_CLASS_NAME);</a>
-<span class="sourceLineNo">310</span><a id="line.310">        } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">311</span><a id="line.311">          // Ignore. Finalizer is simply in a child class loader.</a>
-<span class="sourceLineNo">312</span><a id="line.312">          return null;</a>
-<span class="sourceLineNo">313</span><a id="line.313">        }</a>
-<span class="sourceLineNo">314</span><a id="line.314">      } else {</a>
-<span class="sourceLineNo">315</span><a id="line.315">        return null;</a>
-<span class="sourceLineNo">316</span><a id="line.316">      }</a>
-<span class="sourceLineNo">317</span><a id="line.317">    }</a>
-<span class="sourceLineNo">318</span><a id="line.318">  }</a>
-<span class="sourceLineNo">319</span><a id="line.319"></a>
-<span class="sourceLineNo">320</span><a id="line.320">  /**</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * Try to load Finalizer in its own class loader. If Finalizer's thread had a direct reference to</a>
-<span class="sourceLineNo">322</span><a id="line.322">   * our class loader (which could be that of a dynamically loaded web application or OSGi bundle),</a>
-<span class="sourceLineNo">323</span><a id="line.323">   * it would prevent our class loader from getting garbage collected.</a>
-<span class="sourceLineNo">324</span><a id="line.324">   */</a>
-<span class="sourceLineNo">325</span><a id="line.325">  static class DecoupledLoader implements FinalizerLoader {</a>
-<span class="sourceLineNo">326</span><a id="line.326">    private static final String LOADING_ERROR =</a>
-<span class="sourceLineNo">327</span><a id="line.327">        "Could not load Finalizer in its own class loader. Loading Finalizer in the current class "</a>
-<span class="sourceLineNo">328</span><a id="line.328">            + "loader instead. As a result, you will not be able to garbage collect this class "</a>
-<span class="sourceLineNo">329</span><a id="line.329">            + "loader. To support reclaiming this class loader, either resolve the underlying "</a>
-<span class="sourceLineNo">330</span><a id="line.330">            + "issue, or move Guava to your system class path.";</a>
-<span class="sourceLineNo">331</span><a id="line.331"></a>
-<span class="sourceLineNo">332</span><a id="line.332">    @Override</a>
-<span class="sourceLineNo">333</span><a id="line.333">    @CheckForNull</a>
-<span class="sourceLineNo">334</span><a id="line.334">    public Class&lt;?&gt; loadFinalizer() {</a>
-<span class="sourceLineNo">335</span><a id="line.335">      /*</a>
-<span class="sourceLineNo">336</span><a id="line.336">       * We use URLClassLoader because it's the only concrete class loader implementation in the</a>
-<span class="sourceLineNo">337</span><a id="line.337">       * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this</a>
-<span class="sourceLineNo">338</span><a id="line.338">       * class loader:</a>
-<span class="sourceLineNo">339</span><a id="line.339">       *</a>
-<span class="sourceLineNo">340</span><a id="line.340">       * Finalizer.class -&gt; CustomClassLoader -&gt; CustomClassLoader.class -&gt; This class loader</a>
-<span class="sourceLineNo">341</span><a id="line.341">       *</a>
-<span class="sourceLineNo">342</span><a id="line.342">       * System class loader will (and must) be the parent.</a>
-<span class="sourceLineNo">343</span><a id="line.343">       */</a>
-<span class="sourceLineNo">344</span><a id="line.344">      try (URLClassLoader finalizerLoader = newLoader(getBaseUrl())) {</a>
-<span class="sourceLineNo">345</span><a id="line.345">        return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);</a>
-<span class="sourceLineNo">346</span><a id="line.346">      } catch (Exception e) {</a>
-<span class="sourceLineNo">347</span><a id="line.347">        logger.log(Level.WARNING, LOADING_ERROR, e);</a>
-<span class="sourceLineNo">348</span><a id="line.348">        return null;</a>
-<span class="sourceLineNo">349</span><a id="line.349">      }</a>
-<span class="sourceLineNo">350</span><a id="line.350">    }</a>
-<span class="sourceLineNo">351</span><a id="line.351"></a>
-<span class="sourceLineNo">352</span><a id="line.352">    /** Gets URL for base of path containing Finalizer.class. */</a>
-<span class="sourceLineNo">353</span><a id="line.353">    URL getBaseUrl() throws IOException {</a>
-<span class="sourceLineNo">354</span><a id="line.354">      // Find URL pointing to Finalizer.class file.</a>
-<span class="sourceLineNo">355</span><a id="line.355">      String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";</a>
-<span class="sourceLineNo">356</span><a id="line.356">      URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);</a>
-<span class="sourceLineNo">357</span><a id="line.357">      if (finalizerUrl == null) {</a>
-<span class="sourceLineNo">358</span><a id="line.358">        throw new FileNotFoundException(finalizerPath);</a>
-<span class="sourceLineNo">359</span><a id="line.359">      }</a>
-<span class="sourceLineNo">360</span><a id="line.360"></a>
-<span class="sourceLineNo">361</span><a id="line.361">      // Find URL pointing to base of class path.</a>
-<span class="sourceLineNo">362</span><a id="line.362">      String urlString = finalizerUrl.toString();</a>
-<span class="sourceLineNo">363</span><a id="line.363">      if (!urlString.endsWith(finalizerPath)) {</a>
-<span class="sourceLineNo">364</span><a id="line.364">        throw new IOException("Unsupported path style: " + urlString);</a>
-<span class="sourceLineNo">365</span><a id="line.365">      }</a>
-<span class="sourceLineNo">366</span><a id="line.366">      urlString = urlString.substring(0, urlString.length() - finalizerPath.length());</a>
-<span class="sourceLineNo">367</span><a id="line.367">      return new URL(finalizerUrl, urlString);</a>
-<span class="sourceLineNo">368</span><a id="line.368">    }</a>
-<span class="sourceLineNo">369</span><a id="line.369"></a>
-<span class="sourceLineNo">370</span><a id="line.370">    /** Creates a class loader with the given base URL as its classpath. */</a>
-<span class="sourceLineNo">371</span><a id="line.371">    URLClassLoader newLoader(URL base) {</a>
-<span class="sourceLineNo">372</span><a id="line.372">      // We use the bootstrap class loader as the parent because Finalizer by design uses</a>
-<span class="sourceLineNo">373</span><a id="line.373">      // only standard Java classes. That also means that FinalizableReferenceQueueTest</a>
-<span class="sourceLineNo">374</span><a id="line.374">      // doesn't pick up the wrong version of the Finalizer class.</a>
-<span class="sourceLineNo">375</span><a id="line.375">      return new URLClassLoader(new URL[] {base}, null);</a>
-<span class="sourceLineNo">376</span><a id="line.376">    }</a>
-<span class="sourceLineNo">377</span><a id="line.377">  }</a>
-<span class="sourceLineNo">378</span><a id="line.378"></a>
-<span class="sourceLineNo">379</span><a id="line.379">  /**</a>
-<span class="sourceLineNo">380</span><a id="line.380">   * Loads Finalizer directly using the current class loader. We won't be able to garbage collect</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * this class loader, but at least the world doesn't end.</a>
-<span class="sourceLineNo">382</span><a id="line.382">   */</a>
-<span class="sourceLineNo">383</span><a id="line.383">  static class DirectLoader implements FinalizerLoader {</a>
-<span class="sourceLineNo">384</span><a id="line.384">    @Override</a>
-<span class="sourceLineNo">385</span><a id="line.385">    public Class&lt;?&gt; loadFinalizer() {</a>
-<span class="sourceLineNo">386</span><a id="line.386">      try {</a>
-<span class="sourceLineNo">387</span><a id="line.387">        return Class.forName(FINALIZER_CLASS_NAME);</a>
-<span class="sourceLineNo">388</span><a id="line.388">      } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">389</span><a id="line.389">        throw new AssertionError(e);</a>
-<span class="sourceLineNo">390</span><a id="line.390">      }</a>
-<span class="sourceLineNo">391</span><a id="line.391">    }</a>
-<span class="sourceLineNo">392</span><a id="line.392">  }</a>
-<span class="sourceLineNo">393</span><a id="line.393"></a>
-<span class="sourceLineNo">394</span><a id="line.394">  /** Looks up Finalizer.startFinalizer(). */</a>
-<span class="sourceLineNo">395</span><a id="line.395">  static Method getStartFinalizer(Class&lt;?&gt; finalizer) {</a>
-<span class="sourceLineNo">396</span><a id="line.396">    try {</a>
-<span class="sourceLineNo">397</span><a id="line.397">      return finalizer.getMethod(</a>
-<span class="sourceLineNo">398</span><a id="line.398">          "startFinalizer", Class.class, ReferenceQueue.class, PhantomReference.class);</a>
-<span class="sourceLineNo">399</span><a id="line.399">    } catch (NoSuchMethodException e) {</a>
-<span class="sourceLineNo">400</span><a id="line.400">      throw new AssertionError(e);</a>
-<span class="sourceLineNo">401</span><a id="line.401">    }</a>
-<span class="sourceLineNo">402</span><a id="line.402">  }</a>
-<span class="sourceLineNo">403</span><a id="line.403">}</a>
+<span class="sourceLineNo">141</span><a id="line.141">public class FinalizableReferenceQueue implements Closeable {</a>
+<span class="sourceLineNo">142</span><a id="line.142">  /*</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * map built by MapMaker) no longer has a strong reference to this object, the garbage collector</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * will reclaim it and enqueue the phantom reference. The enqueued reference will trigger the</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * Finalizer to stop.</a>
+<span class="sourceLineNo">147</span><a id="line.147">   *</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * If this library is loaded in the system class loader, FinalizableReferenceQueue can load</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * Finalizer directly with no problems.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * If this library is loaded in an application class loader, it's important that Finalizer not</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * have a strong reference back to the class loader. Otherwise, you could have a graph like this:</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * Finalizer Thread runs instance of -&gt; Finalizer.class loaded by -&gt; Application class loader</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * which loaded -&gt; ReferenceMap.class which has a static -&gt; FinalizableReferenceQueue instance</a>
+<span class="sourceLineNo">156</span><a id="line.156">   *</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * Even if no other references to classes from the application class loader remain, the Finalizer</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * thread keeps an indirect strong reference to the queue in ReferenceMap, which keeps the</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * Finalizer running, and as a result, the application class loader can never be reclaimed.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * This means that dynamically loaded web applications and OSGi bundles can't be unloaded.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   *</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * If the library is loaded in an application class loader, we try to break the cycle by loading</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * Finalizer in its own independent class loader:</a>
+<span class="sourceLineNo">165</span><a id="line.165">   *</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * System class loader -&gt; Application class loader -&gt; ReferenceMap -&gt; FinalizableReferenceQueue -&gt;</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * etc. -&gt; Decoupled class loader -&gt; Finalizer</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * Now, Finalizer no longer keeps an indirect strong reference to the static</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * FinalizableReferenceQueue field in ReferenceMap. The application class loader can be reclaimed</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * at which point the Finalizer thread will stop and its decoupled class loader can also be</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * reclaimed.</a>
+<span class="sourceLineNo">173</span><a id="line.173">   *</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * If any of this fails along the way, we fall back to loading Finalizer directly in the</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * application class loader.</a>
+<span class="sourceLineNo">176</span><a id="line.176">   *</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * NOTE: The tests for this behavior (FinalizableReferenceQueueClassLoaderUnloadingTest) fail</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * strangely when run in JDK 9. We are considering this a known issue. Please see</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * https://github.com/google/guava/issues/3086 for more information.</a>
+<span class="sourceLineNo">180</span><a id="line.180">   */</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">  private static final Logger logger = Logger.getLogger(FinalizableReferenceQueue.class.getName());</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  private static final String FINALIZER_CLASS_NAME = "com.google.common.base.internal.Finalizer";</a>
+<span class="sourceLineNo">185</span><a id="line.185"></a>
+<span class="sourceLineNo">186</span><a id="line.186">  /** Reference to Finalizer.startFinalizer(). */</a>
+<span class="sourceLineNo">187</span><a id="line.187">  private static final Method startFinalizer;</a>
+<span class="sourceLineNo">188</span><a id="line.188"></a>
+<span class="sourceLineNo">189</span><a id="line.189">  static {</a>
+<span class="sourceLineNo">190</span><a id="line.190">    Class&lt;?&gt; finalizer =</a>
+<span class="sourceLineNo">191</span><a id="line.191">        loadFinalizer(new SystemLoader(), new DecoupledLoader(), new DirectLoader());</a>
+<span class="sourceLineNo">192</span><a id="line.192">    startFinalizer = getStartFinalizer(finalizer);</a>
+<span class="sourceLineNo">193</span><a id="line.193">  }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">  /** The actual reference queue that our background thread will poll. */</a>
+<span class="sourceLineNo">196</span><a id="line.196">  final ReferenceQueue&lt;Object&gt; queue;</a>
+<span class="sourceLineNo">197</span><a id="line.197"></a>
+<span class="sourceLineNo">198</span><a id="line.198">  final PhantomReference&lt;Object&gt; frqRef;</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">  /** Whether or not the background thread started successfully. */</a>
+<span class="sourceLineNo">201</span><a id="line.201">  final boolean threadStarted;</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">  /** Constructs a new queue. */</a>
+<span class="sourceLineNo">204</span><a id="line.204">  public FinalizableReferenceQueue() {</a>
+<span class="sourceLineNo">205</span><a id="line.205">    // We could start the finalizer lazily, but I'd rather it blow up early.</a>
+<span class="sourceLineNo">206</span><a id="line.206">    queue = new ReferenceQueue&lt;&gt;();</a>
+<span class="sourceLineNo">207</span><a id="line.207">    frqRef = new PhantomReference&lt;&gt;(this, queue);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    boolean threadStarted = false;</a>
+<span class="sourceLineNo">209</span><a id="line.209">    try {</a>
+<span class="sourceLineNo">210</span><a id="line.210">      startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);</a>
+<span class="sourceLineNo">211</span><a id="line.211">      threadStarted = true;</a>
+<span class="sourceLineNo">212</span><a id="line.212">    } catch (IllegalAccessException impossible) {</a>
+<span class="sourceLineNo">213</span><a id="line.213">      throw new AssertionError(impossible); // startFinalizer() is public</a>
+<span class="sourceLineNo">214</span><a id="line.214">    } catch (Throwable t) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">      logger.log(</a>
+<span class="sourceLineNo">216</span><a id="line.216">          Level.INFO,</a>
+<span class="sourceLineNo">217</span><a id="line.217">          "Failed to start reference finalizer thread."</a>
+<span class="sourceLineNo">218</span><a id="line.218">              + " Reference cleanup will only occur when new references are created.",</a>
+<span class="sourceLineNo">219</span><a id="line.219">          t);</a>
+<span class="sourceLineNo">220</span><a id="line.220">    }</a>
+<span class="sourceLineNo">221</span><a id="line.221"></a>
+<span class="sourceLineNo">222</span><a id="line.222">    this.threadStarted = threadStarted;</a>
+<span class="sourceLineNo">223</span><a id="line.223">  }</a>
+<span class="sourceLineNo">224</span><a id="line.224"></a>
+<span class="sourceLineNo">225</span><a id="line.225">  @Override</a>
+<span class="sourceLineNo">226</span><a id="line.226">  public void close() {</a>
+<span class="sourceLineNo">227</span><a id="line.227">    frqRef.enqueue();</a>
+<span class="sourceLineNo">228</span><a id="line.228">    cleanUp();</a>
+<span class="sourceLineNo">229</span><a id="line.229">  }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">  /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * Repeatedly dequeues references from the queue and invokes {@link</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a</a>
+<span class="sourceLineNo">234</span><a id="line.234">   * no-op if the background thread was created successfully.</a>
+<span class="sourceLineNo">235</span><a id="line.235">   */</a>
+<span class="sourceLineNo">236</span><a id="line.236">  void cleanUp() {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    if (threadStarted) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">      return;</a>
+<span class="sourceLineNo">239</span><a id="line.239">    }</a>
+<span class="sourceLineNo">240</span><a id="line.240"></a>
+<span class="sourceLineNo">241</span><a id="line.241">    Reference&lt;?&gt; reference;</a>
+<span class="sourceLineNo">242</span><a id="line.242">    while ((reference = queue.poll()) != null) {</a>
+<span class="sourceLineNo">243</span><a id="line.243">      /*</a>
+<span class="sourceLineNo">244</span><a id="line.244">       * This is for the benefit of phantom references. Weak and soft references will have already</a>
+<span class="sourceLineNo">245</span><a id="line.245">       * been cleared by this point.</a>
+<span class="sourceLineNo">246</span><a id="line.246">       */</a>
+<span class="sourceLineNo">247</span><a id="line.247">      reference.clear();</a>
+<span class="sourceLineNo">248</span><a id="line.248">      try {</a>
+<span class="sourceLineNo">249</span><a id="line.249">        ((FinalizableReference) reference).finalizeReferent();</a>
+<span class="sourceLineNo">250</span><a id="line.250">      } catch (Throwable t) {</a>
+<span class="sourceLineNo">251</span><a id="line.251">        logger.log(Level.SEVERE, "Error cleaning up after reference.", t);</a>
+<span class="sourceLineNo">252</span><a id="line.252">      }</a>
+<span class="sourceLineNo">253</span><a id="line.253">    }</a>
+<span class="sourceLineNo">254</span><a id="line.254">  }</a>
+<span class="sourceLineNo">255</span><a id="line.255"></a>
+<span class="sourceLineNo">256</span><a id="line.256">  /**</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * Iterates through the given loaders until it finds one that can load Finalizer.</a>
+<span class="sourceLineNo">258</span><a id="line.258">   *</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * @return Finalizer.class</a>
+<span class="sourceLineNo">260</span><a id="line.260">   */</a>
+<span class="sourceLineNo">261</span><a id="line.261">  private static Class&lt;?&gt; loadFinalizer(FinalizerLoader... loaders) {</a>
+<span class="sourceLineNo">262</span><a id="line.262">    for (FinalizerLoader loader : loaders) {</a>
+<span class="sourceLineNo">263</span><a id="line.263">      Class&lt;?&gt; finalizer = loader.loadFinalizer();</a>
+<span class="sourceLineNo">264</span><a id="line.264">      if (finalizer != null) {</a>
+<span class="sourceLineNo">265</span><a id="line.265">        return finalizer;</a>
+<span class="sourceLineNo">266</span><a id="line.266">      }</a>
+<span class="sourceLineNo">267</span><a id="line.267">    }</a>
+<span class="sourceLineNo">268</span><a id="line.268"></a>
+<span class="sourceLineNo">269</span><a id="line.269">    throw new AssertionError();</a>
+<span class="sourceLineNo">270</span><a id="line.270">  }</a>
+<span class="sourceLineNo">271</span><a id="line.271"></a>
+<span class="sourceLineNo">272</span><a id="line.272">  /** Loads Finalizer.class. */</a>
+<span class="sourceLineNo">273</span><a id="line.273">  interface FinalizerLoader {</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">    /**</a>
+<span class="sourceLineNo">276</span><a id="line.276">     * Returns Finalizer.class or null if this loader shouldn't or can't load it.</a>
+<span class="sourceLineNo">277</span><a id="line.277">     *</a>
+<span class="sourceLineNo">278</span><a id="line.278">     * @throws SecurityException if we don't have the appropriate privileges</a>
+<span class="sourceLineNo">279</span><a id="line.279">     */</a>
+<span class="sourceLineNo">280</span><a id="line.280">    @CheckForNull</a>
+<span class="sourceLineNo">281</span><a id="line.281">    Class&lt;?&gt; loadFinalizer();</a>
+<span class="sourceLineNo">282</span><a id="line.282">  }</a>
+<span class="sourceLineNo">283</span><a id="line.283"></a>
+<span class="sourceLineNo">284</span><a id="line.284">  /**</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * Tries to load Finalizer from the system class loader. If Finalizer is in the system class path,</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * we needn't create a separate loader.</a>
+<span class="sourceLineNo">287</span><a id="line.287">   */</a>
+<span class="sourceLineNo">288</span><a id="line.288">  static class SystemLoader implements FinalizerLoader {</a>
+<span class="sourceLineNo">289</span><a id="line.289">    // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable</a>
+<span class="sourceLineNo">290</span><a id="line.290">    // finding Finalizer on the system class path even if it is there.</a>
+<span class="sourceLineNo">291</span><a id="line.291">    @VisibleForTesting static boolean disabled;</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
+<span class="sourceLineNo">294</span><a id="line.294">    @CheckForNull</a>
+<span class="sourceLineNo">295</span><a id="line.295">    public Class&lt;?&gt; loadFinalizer() {</a>
+<span class="sourceLineNo">296</span><a id="line.296">      if (disabled) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">        return null;</a>
+<span class="sourceLineNo">298</span><a id="line.298">      }</a>
+<span class="sourceLineNo">299</span><a id="line.299">      ClassLoader systemLoader;</a>
+<span class="sourceLineNo">300</span><a id="line.300">      try {</a>
+<span class="sourceLineNo">301</span><a id="line.301">        systemLoader = ClassLoader.getSystemClassLoader();</a>
+<span class="sourceLineNo">302</span><a id="line.302">      } catch (SecurityException e) {</a>
+<span class="sourceLineNo">303</span><a id="line.303">        logger.info("Not allowed to access system class loader.");</a>
+<span class="sourceLineNo">304</span><a id="line.304">        return null;</a>
+<span class="sourceLineNo">305</span><a id="line.305">      }</a>
+<span class="sourceLineNo">306</span><a id="line.306">      if (systemLoader != null) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">        try {</a>
+<span class="sourceLineNo">308</span><a id="line.308">          return systemLoader.loadClass(FINALIZER_CLASS_NAME);</a>
+<span class="sourceLineNo">309</span><a id="line.309">        } catch (ClassNotFoundException e) {</a>
+<span class="sourceLineNo">310</span><a id="line.310">          // Ignore. Finalizer is simply in a child class loader.</a>
+<span class="sourceLineNo">311</span><a id="line.311">          return null;</a>
+<span class="sourceLineNo">312</span><a id="line.312">        }</a>
+<span class="sourceLineNo">313</span><a id="line.313">      } else {</a>
+<span class="sourceLineNo">314</span><a id="line.314">        return null;</a>
+<span class="sourceLineNo">315</span><a id="line.315">      }</a>
+<span class="sourceLineNo">316</span><a id="line.316">    }</a>
+<span class="sourceLineNo">317</span><a id="line.317">  }</a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">  /**</a>
+<span class="sourceLineNo">320</span><a id="line.320">   * Try to load Finalizer in its own class loader. If Finalizer's thread had a direct reference to</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * our class loader (which could be that of a dynamically loaded web application or OSGi bundle),</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * it would prevent our class loader from getting garbage collected.</a>
+<span class="sourceLineNo">323</span><a id="line.323">   */</a>
+<span class="sourceLineNo">324</span><a id="line.324">  static class DecoupledLoader implements FinalizerLoader {</a>
+<span class="sourceLineNo">325</span><a id="line.325">    private static final String LOADING_ERROR =</a>
+<span class="sourceLineNo">326</span><a id="line.326">        "Could not load Finalizer in its own class loader. Loading Finalizer in the current class "</a>
+<span class="sourceLineNo">327</span><a id="line.327">            + "loader instead. As a result, you will not be able to garbage collect this class "</a>
+<span class="sourceLineNo">328</span><a id="line.328">            + "loader. To support reclaiming this class loader, either resolve the underlying "</a>
+<span class="sourceLineNo">329</span><a id="line.329">            + "issue, or move Guava to your system class path.";</a>
+<span class="sourceLineNo">330</span><a id="line.330"></a>
+<span class="sourceLineNo">331</span><a id="line.331">    @Override</a>
+<span class="sourceLineNo">332</span><a id="line.332">    @CheckForNull</a>
+<span class="sourceLineNo">333</span><a id="line.333">    public Class&lt;?&gt; loadFinalizer() {</a>
+<span class="sourceLineNo">334</span><a id="line.334">      /*</a>
+<span class="sourceLineNo">335</span><a id="line.335">       * We use URLClassLoader because it's the only concrete class loader implementation in the</a>
+<span class="sourceLineNo">336</span><a id="line.336">       * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this</a>
+<span class="sourceLineNo">337</span><a id="line.337">       * class loader:</a>
+<span class="sourceLineNo">338</span><a id="line.338">       *</a>
+<span class="sourceLineNo">339</span><a id="line.339">       * Finalizer.class -&gt; CustomClassLoader -&gt; CustomClassLoader.class -&gt; This class loader</a>
+<span class="sourceLineNo">340</span><a id="line.340">       *</a>
+<span class="sourceLineNo">341</span><a id="line.341">       * System class loader will (and must) be the parent.</a>
+<span class="sourceLineNo">342</span><a id="line.342">       */</a>
+<span class="sourceLineNo">343</span><a id="line.343">      try (URLClassLoader finalizerLoader = newLoader(getBaseUrl())) {</a>
+<span class="sourceLineNo">344</span><a id="line.344">        return finalizerLoader.loadClass(FINALIZER_CLASS_NAME);</a>
+<span class="sourceLineNo">345</span><a id="line.345">      } catch (Exception e) {</a>
+<span class="sourceLineNo">346</span><a id="line.346">        logger.log(Level.WARNING, LOADING_ERROR, e);</a>
+<span class="sourceLineNo">347</span><a id="line.347">        return null;</a>
+<span class="sourceLineNo">348</span><a id="line.348">      }</a>
+<span class="sourceLineNo">349</span><a id="line.349">    }</a>
+<span class="sourceLineNo">350</span><a id="line.350"></a>
+<span class="sourceLineNo">351</span><a id="line.351">    /** Gets URL for base of path containing Finalizer.class. */</a>
+<span class="sourceLineNo">352</span><a id="line.352">    URL getBaseUrl() throws IOException {</a>
+<span class="sourceLineNo">353</span><a id="line.353">      // Find URL pointing to Finalizer.class file.</a>
+<span class="sourceLineNo">354</span><a id="line.354">      String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";</a>
+<span class="sourceLineNo">355</span><a id="line.355">      URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);</a>
+<span class="sourceLineNo">356</span><a id="line.356">      if (finalizerUrl == null) {</a>
+<span class="sourceLineNo">357</span><a id="line.357">        throw new FileNotFoundException(finalizerPath);</a>
+<span class="sourceLineNo">358</span><a id="line.358">      }</a>
+<span class="sourceLineNo">359</span><a id="line.359"></a>
+<span class="sourceLineNo">360</span><a id="line.360">      // Find URL pointing to base of class path.</a>
+<span class="sourceLineNo">361</span><a id="line.361">      String urlString = finalizerUrl.toString();</a>
+<span class="sourceLineNo">362</span><a id="line.362">      if (!urlString.endsWith(finalizerPath)) {</a>
+<span class="sourceLineNo">363</span><a id="line.363">        throw new IOException("Unsupported path style: " + urlString);</a>
+<span class="sourceLineNo">364</span><a id="line.364">      }</a>
+<span class="sourceLineNo">365</span><a id="line.365">      urlString = urlString.substring(0, urlString.length() - finalizerPath.length());</a>
+<span class="sourceLineNo">366</span><a id="line.366">      return new URL(finalizerUrl, urlString);</a>
+<span class="sourceLineNo">367</span><a id="line.367">    }</a>
+<span class="sourceLineNo">368</span><a id="line.368"></a>
+<span class="sourceLineNo">369</span><a id="line.369">    /** Creates a class loader with the given base URL as its classpath. */</a>
+<span class="sourceLineNo">370</span><a id="line.370">    URLClassLoader newLoader(URL base) {</a>
+<span class="sourceLineNo">371</span><a id="line.371">      // We use the bootstrap class loader as the parent because Finalizer by design uses</a>
+<span class="sourceLineNo">372</span><a id="line.372">      // only standard Java classes. That also means that FinalizableReferenceQueueTest</a>
+<span class="sourceLineNo">373</span><a id="line.373">      // doesn't pick up the wrong version of the Finalizer class.</a>
+<span class="sourceLineNo">374</span><a id="line.374">      return new URLClassLoader(new URL[] {base}, null);</a>
+<span class="sourceLineNo">375</span><a id="line.375">    }</a>
+<span class="sourceLineNo">376</span><a id="line.376">  }</a>
+<span class="sourceLineNo">377</span><a id="line.377"></a>
+<span class="sourceLineNo">378</span><a id="line.378">  /**</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * Loads Finalizer directly using the current class loader. We won't be able to garbage collect</a>
+<span class="sourceLineNo">380</span><a id="line.380">   * this class loader, but at least the world doesn't end.</a>
+<span class="sourceLineNo">381</span><a id="line.381">   */</a>
+<span class="sourceLineNo">382</span><a id="line.382">  static class DirectLoader implements FinalizerLoader {</a>
+<span class="sourceLineNo">383</span><a id="line.383">    @Override</a>
+<span class="sourceLineNo">384</span><a id="line.384">    public Class&lt;?&gt; loadFinalizer() {</a>
+<span class="sourceLineNo">385</span><a id="line.385">      try {</a>
+<span class="sourceLineNo">386</span><a id="line.386">        return Class.forName(FINALIZER_CLASS_NAME);</a>
+<span class="sourceLineNo">387</span><a id="line.387">      } catch (ClassNotFoundException e) {</a>
+<span class="sourceLineNo">388</span><a id="line.388">        throw new AssertionError(e);</a>
+<span class="sourceLineNo">389</span><a id="line.389">      }</a>
+<span class="sourceLineNo">390</span><a id="line.390">    }</a>
+<span class="sourceLineNo">391</span><a id="line.391">  }</a>
+<span class="sourceLineNo">392</span><a id="line.392"></a>
+<span class="sourceLineNo">393</span><a id="line.393">  /** Looks up Finalizer.startFinalizer(). */</a>
+<span class="sourceLineNo">394</span><a id="line.394">  static Method getStartFinalizer(Class&lt;?&gt; finalizer) {</a>
+<span class="sourceLineNo">395</span><a id="line.395">    try {</a>
+<span class="sourceLineNo">396</span><a id="line.396">      return finalizer.getMethod(</a>
+<span class="sourceLineNo">397</span><a id="line.397">          "startFinalizer", Class.class, ReferenceQueue.class, PhantomReference.class);</a>
+<span class="sourceLineNo">398</span><a id="line.398">    } catch (NoSuchMethodException e) {</a>
+<span class="sourceLineNo">399</span><a id="line.399">      throw new AssertionError(e);</a>
+<span class="sourceLineNo">400</span><a id="line.400">    }</a>
+<span class="sourceLineNo">401</span><a id="line.401">  }</a>
+<span class="sourceLineNo">402</span><a id="line.402">}</a>
 
 
 

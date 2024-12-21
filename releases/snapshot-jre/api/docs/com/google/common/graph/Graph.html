@@ -385,7 +385,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.113">nodes</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.112">nodes</a>()</pre>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
 </li>
 </ul>
@@ -395,7 +395,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.117">edges</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.116">edges</a>()</pre>
 <div class="block">Returns all edges in this graph.</div>
 </li>
 </ul>
@@ -405,7 +405,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.129">isDirected</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.128">isDirected</a>()</pre>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </li>
@@ -416,7 +416,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.137">allowsSelfLoops</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.136">allowsSelfLoops</a>()</pre>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
  to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a>.</div>
 </li>
@@ -427,7 +427,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.141">nodeOrder</a>()</pre>
+<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.140">nodeOrder</a>()</pre>
 <div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </li>
 </ul>
@@ -437,7 +437,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.151">incidentEdgeOrder</a>()</pre>
+<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.150">incidentEdgeOrder</a>()</pre>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="#edges()"><code>edges()</code></a>, <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>, <a href="#predecessors(N)"><code>predecessors(Object)</code></a>, <a href="#successors(N)"><code>successors(Object)</code></a> and <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
 <dl>
@@ -454,7 +454,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.178">adjacentNodes</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.177">adjacentNodes</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
  this graph.
 
@@ -485,7 +485,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.201">predecessors</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.200">predecessors</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
@@ -518,7 +518,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.227">successors</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.226">successors</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
@@ -554,7 +554,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.250">incidentEdges</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.249">incidentEdges</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.
 
  <p>This is equal to the union of incoming and outgoing edges.
@@ -586,7 +586,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.266">degree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.265">degree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -610,7 +610,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.277">inDegree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.276">inDegree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -629,7 +629,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.288">outDegree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.287">outDegree</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -648,7 +648,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.299">hasEdgeConnecting</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.298">hasEdgeConnecting</a>&#8203;(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
                           <a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -666,7 +666,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.315">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.314">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>
  edges().contains(endpoints)</code>.
@@ -688,7 +688,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.341">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.340">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
  same structural relationships as those in this graph.
@@ -719,7 +719,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.350">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.349">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of
  the set returned by <a href="#edges()"><code>edges()</code></a>.
 

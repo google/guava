@@ -155,7 +155,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture</a>&lt;<a href="ForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.55">ForwardingListenableFuture.SimpleForwardingListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.54">ForwardingListenableFuture.SimpleForwardingListenableFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture</a>&lt;V&gt;</pre>
 <div class="block">A simplified version of <a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture</code></a> where subclasses can pass in an
  already constructed <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> as the delegate.</div>
@@ -295,7 +295,7 @@ extends <a href="ForwardingListenableFuture.html" title="class in com.google.com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SimpleForwardingListenableFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html#line.59">SimpleForwardingListenableFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture.SimpleForwardingListenableFuture">V</a>&gt;&nbsp;delegate)</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html#line.58">SimpleForwardingListenableFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture.SimpleForwardingListenableFuture">V</a>&gt;&nbsp;delegate)</pre>
 </li>
 </ul>
 </li>
@@ -314,7 +314,7 @@ extends <a href="ForwardingListenableFuture.html" title="class in com.google.com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected final&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture.SimpleForwardingListenableFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html#line.63">delegate</a>()</pre>
+<pre class="methodSignature">protected final&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture.SimpleForwardingListenableFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html#line.62">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,

@@ -136,7 +136,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></dd>
 </dl>
 <hr>
-<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.244">Service.Listener</a>
+<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.243">Service.Listener</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A listener for the various state changes that a <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> goes through in its lifecycle.
 
@@ -256,7 +256,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Listener</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.246">Listener</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.245">Listener</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -276,7 +276,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>starting</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.253">starting</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.252">starting</a>()</pre>
 <div class="block">Called when the service transitions from <a href="Service.State.html#NEW">NEW</a> to <a href="Service.State.html#STARTING">STARTING</a>. This occurs when <a href="Service.html#startAsync()"><code>Service.startAsync()</code></a> is called the first
  time.</div>
 </li>
@@ -287,7 +287,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>running</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.259">running</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.258">running</a>()</pre>
 <div class="block">Called when the service transitions from <a href="Service.State.html#STARTING">STARTING</a> to <a href="Service.State.html#RUNNING">RUNNING</a>. This occurs when a service has successfully started.</div>
 </li>
 </ul>
@@ -297,7 +297,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>stopping</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.268">stopping</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.267">stopping</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#STOPPING">STOPPING</a> state. The
  only valid values for <code>from</code> are <a href="Service.State.html#STARTING">STARTING</a> or <a href="Service.State.html#RUNNING">RUNNING</a>. This occurs when <a href="Service.html#stopAsync()"><code>Service.stopAsync()</code></a> is called.</div>
 <dl>
@@ -312,7 +312,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>terminated</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.280">terminated</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.279">terminated</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#TERMINATED">TERMINATED</a> state.
  The <a href="Service.State.html#TERMINATED">TERMINATED</a> state is a terminal state in the transition
  diagram. Therefore, if this method is called, no other methods will be called on the <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a>.</div>
@@ -329,7 +329,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>failed</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.292">failed</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.291">failed</a>&#8203;(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;failure)</pre>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#FAILED">FAILED</a> state. The
  <a href="Service.State.html#FAILED">FAILED</a> state is a terminal state in the transition diagram.

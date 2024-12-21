@@ -41,24 +41,23 @@
 <span class="sourceLineNo">032</span><a id="line.32"> * @since 2.0</a>
 <span class="sourceLineNo">033</span><a id="line.33"> */</a>
 <span class="sourceLineNo">034</span><a id="line.34">@GwtCompatible</a>
-<span class="sourceLineNo">035</span><a id="line.35">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">036</span><a id="line.36">public abstract class UnmodifiableIterator&lt;E extends @Nullable Object&gt; implements Iterator&lt;E&gt; {</a>
-<span class="sourceLineNo">037</span><a id="line.37">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">038</span><a id="line.38">  protected UnmodifiableIterator() {}</a>
-<span class="sourceLineNo">039</span><a id="line.39"></a>
-<span class="sourceLineNo">040</span><a id="line.40">  /**</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * Guaranteed to throw an exception and leave the underlying data unmodified.</a>
-<span class="sourceLineNo">042</span><a id="line.42">   *</a>
-<span class="sourceLineNo">043</span><a id="line.43">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">044</span><a id="line.44">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">045</span><a id="line.45">   */</a>
-<span class="sourceLineNo">046</span><a id="line.46">  @Deprecated</a>
-<span class="sourceLineNo">047</span><a id="line.47">  @Override</a>
-<span class="sourceLineNo">048</span><a id="line.48">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">049</span><a id="line.49">  public final void remove() {</a>
-<span class="sourceLineNo">050</span><a id="line.50">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">051</span><a id="line.51">  }</a>
-<span class="sourceLineNo">052</span><a id="line.52">}</a>
+<span class="sourceLineNo">035</span><a id="line.35">public abstract class UnmodifiableIterator&lt;E extends @Nullable Object&gt; implements Iterator&lt;E&gt; {</a>
+<span class="sourceLineNo">036</span><a id="line.36">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">037</span><a id="line.37">  protected UnmodifiableIterator() {}</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">  /**</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * Guaranteed to throw an exception and leave the underlying data unmodified.</a>
+<span class="sourceLineNo">041</span><a id="line.41">   *</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">043</span><a id="line.43">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">044</span><a id="line.44">   */</a>
+<span class="sourceLineNo">045</span><a id="line.45">  @Deprecated</a>
+<span class="sourceLineNo">046</span><a id="line.46">  @Override</a>
+<span class="sourceLineNo">047</span><a id="line.47">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">048</span><a id="line.48">  public final void remove() {</a>
+<span class="sourceLineNo">049</span><a id="line.49">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">050</span><a id="line.50">  }</a>
+<span class="sourceLineNo">051</span><a id="line.51">}</a>
 
 
 

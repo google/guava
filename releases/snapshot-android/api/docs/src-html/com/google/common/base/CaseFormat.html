@@ -38,192 +38,191 @@
 <span class="sourceLineNo">029</span><a id="line.29"> * @since 1.0</a>
 <span class="sourceLineNo">030</span><a id="line.30"> */</a>
 <span class="sourceLineNo">031</span><a id="line.31">@GwtCompatible</a>
-<span class="sourceLineNo">032</span><a id="line.32">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">033</span><a id="line.33">public enum CaseFormat {</a>
-<span class="sourceLineNo">034</span><a id="line.34">  /** Hyphenated variable naming convention, e.g., "lower-hyphen". */</a>
-<span class="sourceLineNo">035</span><a id="line.35">  LOWER_HYPHEN(CharMatcher.is('-'), "-") {</a>
-<span class="sourceLineNo">036</span><a id="line.36">    @Override</a>
-<span class="sourceLineNo">037</span><a id="line.37">    String normalizeWord(String word) {</a>
-<span class="sourceLineNo">038</span><a id="line.38">      return Ascii.toLowerCase(word);</a>
-<span class="sourceLineNo">039</span><a id="line.39">    }</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">    @Override</a>
-<span class="sourceLineNo">042</span><a id="line.42">    String convert(CaseFormat format, String s) {</a>
-<span class="sourceLineNo">043</span><a id="line.43">      if (format == LOWER_UNDERSCORE) {</a>
-<span class="sourceLineNo">044</span><a id="line.44">        return s.replace('-', '_');</a>
-<span class="sourceLineNo">045</span><a id="line.45">      }</a>
-<span class="sourceLineNo">046</span><a id="line.46">      if (format == UPPER_UNDERSCORE) {</a>
-<span class="sourceLineNo">047</span><a id="line.47">        return Ascii.toUpperCase(s.replace('-', '_'));</a>
-<span class="sourceLineNo">048</span><a id="line.48">      }</a>
-<span class="sourceLineNo">049</span><a id="line.49">      return super.convert(format, s);</a>
-<span class="sourceLineNo">050</span><a id="line.50">    }</a>
-<span class="sourceLineNo">051</span><a id="line.51">  },</a>
-<span class="sourceLineNo">052</span><a id="line.52"></a>
-<span class="sourceLineNo">053</span><a id="line.53">  /** C++ variable naming convention, e.g., "lower_underscore". */</a>
-<span class="sourceLineNo">054</span><a id="line.54">  LOWER_UNDERSCORE(CharMatcher.is('_'), "_") {</a>
-<span class="sourceLineNo">055</span><a id="line.55">    @Override</a>
-<span class="sourceLineNo">056</span><a id="line.56">    String normalizeWord(String word) {</a>
-<span class="sourceLineNo">057</span><a id="line.57">      return Ascii.toLowerCase(word);</a>
-<span class="sourceLineNo">058</span><a id="line.58">    }</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">    @Override</a>
-<span class="sourceLineNo">061</span><a id="line.61">    String convert(CaseFormat format, String s) {</a>
-<span class="sourceLineNo">062</span><a id="line.62">      if (format == LOWER_HYPHEN) {</a>
-<span class="sourceLineNo">063</span><a id="line.63">        return s.replace('_', '-');</a>
-<span class="sourceLineNo">064</span><a id="line.64">      }</a>
-<span class="sourceLineNo">065</span><a id="line.65">      if (format == UPPER_UNDERSCORE) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">        return Ascii.toUpperCase(s);</a>
-<span class="sourceLineNo">067</span><a id="line.67">      }</a>
-<span class="sourceLineNo">068</span><a id="line.68">      return super.convert(format, s);</a>
-<span class="sourceLineNo">069</span><a id="line.69">    }</a>
-<span class="sourceLineNo">070</span><a id="line.70">  },</a>
-<span class="sourceLineNo">071</span><a id="line.71"></a>
-<span class="sourceLineNo">072</span><a id="line.72">  /** Java variable naming convention, e.g., "lowerCamel". */</a>
-<span class="sourceLineNo">073</span><a id="line.73">  LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {</a>
-<span class="sourceLineNo">074</span><a id="line.74">    @Override</a>
-<span class="sourceLineNo">075</span><a id="line.75">    String normalizeWord(String word) {</a>
-<span class="sourceLineNo">076</span><a id="line.76">      return firstCharOnlyToUpper(word);</a>
-<span class="sourceLineNo">077</span><a id="line.77">    }</a>
-<span class="sourceLineNo">078</span><a id="line.78"></a>
-<span class="sourceLineNo">079</span><a id="line.79">    @Override</a>
-<span class="sourceLineNo">080</span><a id="line.80">    String normalizeFirstWord(String word) {</a>
-<span class="sourceLineNo">081</span><a id="line.81">      return Ascii.toLowerCase(word);</a>
-<span class="sourceLineNo">082</span><a id="line.82">    }</a>
-<span class="sourceLineNo">083</span><a id="line.83">  },</a>
-<span class="sourceLineNo">084</span><a id="line.84"></a>
-<span class="sourceLineNo">085</span><a id="line.85">  /** Java and C++ class naming convention, e.g., "UpperCamel". */</a>
-<span class="sourceLineNo">086</span><a id="line.86">  UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {</a>
-<span class="sourceLineNo">087</span><a id="line.87">    @Override</a>
-<span class="sourceLineNo">088</span><a id="line.88">    String normalizeWord(String word) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">      return firstCharOnlyToUpper(word);</a>
-<span class="sourceLineNo">090</span><a id="line.90">    }</a>
-<span class="sourceLineNo">091</span><a id="line.91">  },</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">  /** Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE". */</a>
-<span class="sourceLineNo">094</span><a id="line.94">  UPPER_UNDERSCORE(CharMatcher.is('_'), "_") {</a>
-<span class="sourceLineNo">095</span><a id="line.95">    @Override</a>
-<span class="sourceLineNo">096</span><a id="line.96">    String normalizeWord(String word) {</a>
-<span class="sourceLineNo">097</span><a id="line.97">      return Ascii.toUpperCase(word);</a>
-<span class="sourceLineNo">098</span><a id="line.98">    }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">    @Override</a>
-<span class="sourceLineNo">101</span><a id="line.101">    String convert(CaseFormat format, String s) {</a>
-<span class="sourceLineNo">102</span><a id="line.102">      if (format == LOWER_HYPHEN) {</a>
-<span class="sourceLineNo">103</span><a id="line.103">        return Ascii.toLowerCase(s.replace('_', '-'));</a>
-<span class="sourceLineNo">104</span><a id="line.104">      }</a>
-<span class="sourceLineNo">105</span><a id="line.105">      if (format == LOWER_UNDERSCORE) {</a>
-<span class="sourceLineNo">106</span><a id="line.106">        return Ascii.toLowerCase(s);</a>
-<span class="sourceLineNo">107</span><a id="line.107">      }</a>
-<span class="sourceLineNo">108</span><a id="line.108">      return super.convert(format, s);</a>
-<span class="sourceLineNo">109</span><a id="line.109">    }</a>
-<span class="sourceLineNo">110</span><a id="line.110">  };</a>
-<span class="sourceLineNo">111</span><a id="line.111"></a>
-<span class="sourceLineNo">112</span><a id="line.112">  private final CharMatcher wordBoundary;</a>
-<span class="sourceLineNo">113</span><a id="line.113">  private final String wordSeparator;</a>
-<span class="sourceLineNo">114</span><a id="line.114"></a>
-<span class="sourceLineNo">115</span><a id="line.115">  CaseFormat(CharMatcher wordBoundary, String wordSeparator) {</a>
-<span class="sourceLineNo">116</span><a id="line.116">    this.wordBoundary = wordBoundary;</a>
-<span class="sourceLineNo">117</span><a id="line.117">    this.wordSeparator = wordSeparator;</a>
-<span class="sourceLineNo">118</span><a id="line.118">  }</a>
-<span class="sourceLineNo">119</span><a id="line.119"></a>
-<span class="sourceLineNo">120</span><a id="line.120">  /**</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * Converts the specified {@code String str} from this format to the specified {@code format}. A</a>
-<span class="sourceLineNo">122</span><a id="line.122">   * "best effort" approach is taken; if {@code str} does not conform to the assumed format, then</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * the behavior of this method is undefined but we make a reasonable effort at converting anyway.</a>
-<span class="sourceLineNo">124</span><a id="line.124">   */</a>
-<span class="sourceLineNo">125</span><a id="line.125">  public final String to(CaseFormat format, String str) {</a>
-<span class="sourceLineNo">126</span><a id="line.126">    checkNotNull(format);</a>
-<span class="sourceLineNo">127</span><a id="line.127">    checkNotNull(str);</a>
-<span class="sourceLineNo">128</span><a id="line.128">    return (format == this) ? str : convert(format, str);</a>
-<span class="sourceLineNo">129</span><a id="line.129">  }</a>
-<span class="sourceLineNo">130</span><a id="line.130"></a>
-<span class="sourceLineNo">131</span><a id="line.131">  /** Enum values can override for performance reasons. */</a>
-<span class="sourceLineNo">132</span><a id="line.132">  String convert(CaseFormat format, String s) {</a>
-<span class="sourceLineNo">133</span><a id="line.133">    // deal with camel conversion</a>
-<span class="sourceLineNo">134</span><a id="line.134">    StringBuilder out = null;</a>
-<span class="sourceLineNo">135</span><a id="line.135">    int i = 0;</a>
-<span class="sourceLineNo">136</span><a id="line.136">    int j = -1;</a>
-<span class="sourceLineNo">137</span><a id="line.137">    while ((j = wordBoundary.indexIn(s, ++j)) != -1) {</a>
-<span class="sourceLineNo">138</span><a id="line.138">      if (i == 0) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">        // include some extra space for separators</a>
-<span class="sourceLineNo">140</span><a id="line.140">        out = new StringBuilder(s.length() + 4 * format.wordSeparator.length());</a>
-<span class="sourceLineNo">141</span><a id="line.141">        out.append(format.normalizeFirstWord(s.substring(i, j)));</a>
-<span class="sourceLineNo">142</span><a id="line.142">      } else {</a>
-<span class="sourceLineNo">143</span><a id="line.143">        requireNonNull(out).append(format.normalizeWord(s.substring(i, j)));</a>
-<span class="sourceLineNo">144</span><a id="line.144">      }</a>
-<span class="sourceLineNo">145</span><a id="line.145">      out.append(format.wordSeparator);</a>
-<span class="sourceLineNo">146</span><a id="line.146">      i = j + wordSeparator.length();</a>
-<span class="sourceLineNo">147</span><a id="line.147">    }</a>
-<span class="sourceLineNo">148</span><a id="line.148">    return (i == 0)</a>
-<span class="sourceLineNo">149</span><a id="line.149">        ? format.normalizeFirstWord(s)</a>
-<span class="sourceLineNo">150</span><a id="line.150">        : requireNonNull(out).append(format.normalizeWord(s.substring(i))).toString();</a>
-<span class="sourceLineNo">151</span><a id="line.151">  }</a>
-<span class="sourceLineNo">152</span><a id="line.152"></a>
-<span class="sourceLineNo">153</span><a id="line.153">  /**</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * Returns a serializable {@code Converter} that converts strings from this format to {@code</a>
-<span class="sourceLineNo">155</span><a id="line.155">   * targetFormat}.</a>
-<span class="sourceLineNo">156</span><a id="line.156">   *</a>
-<span class="sourceLineNo">157</span><a id="line.157">   * @since 16.0</a>
-<span class="sourceLineNo">158</span><a id="line.158">   */</a>
-<span class="sourceLineNo">159</span><a id="line.159">  public Converter&lt;String, String&gt; converterTo(CaseFormat targetFormat) {</a>
-<span class="sourceLineNo">160</span><a id="line.160">    return new StringConverter(this, targetFormat);</a>
-<span class="sourceLineNo">161</span><a id="line.161">  }</a>
-<span class="sourceLineNo">162</span><a id="line.162"></a>
-<span class="sourceLineNo">163</span><a id="line.163">  private static final class StringConverter extends Converter&lt;String, String&gt;</a>
-<span class="sourceLineNo">164</span><a id="line.164">      implements Serializable {</a>
-<span class="sourceLineNo">165</span><a id="line.165"></a>
-<span class="sourceLineNo">166</span><a id="line.166">    private final CaseFormat sourceFormat;</a>
-<span class="sourceLineNo">167</span><a id="line.167">    private final CaseFormat targetFormat;</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">    StringConverter(CaseFormat sourceFormat, CaseFormat targetFormat) {</a>
-<span class="sourceLineNo">170</span><a id="line.170">      this.sourceFormat = checkNotNull(sourceFormat);</a>
-<span class="sourceLineNo">171</span><a id="line.171">      this.targetFormat = checkNotNull(targetFormat);</a>
-<span class="sourceLineNo">172</span><a id="line.172">    }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    @Override</a>
-<span class="sourceLineNo">175</span><a id="line.175">    protected String doForward(String s) {</a>
-<span class="sourceLineNo">176</span><a id="line.176">      return sourceFormat.to(targetFormat, s);</a>
-<span class="sourceLineNo">177</span><a id="line.177">    }</a>
-<span class="sourceLineNo">178</span><a id="line.178"></a>
-<span class="sourceLineNo">179</span><a id="line.179">    @Override</a>
-<span class="sourceLineNo">180</span><a id="line.180">    protected String doBackward(String s) {</a>
-<span class="sourceLineNo">181</span><a id="line.181">      return targetFormat.to(sourceFormat, s);</a>
-<span class="sourceLineNo">182</span><a id="line.182">    }</a>
-<span class="sourceLineNo">183</span><a id="line.183"></a>
-<span class="sourceLineNo">184</span><a id="line.184">    @Override</a>
-<span class="sourceLineNo">185</span><a id="line.185">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">      if (object instanceof StringConverter) {</a>
-<span class="sourceLineNo">187</span><a id="line.187">        StringConverter that = (StringConverter) object;</a>
-<span class="sourceLineNo">188</span><a id="line.188">        return sourceFormat.equals(that.sourceFormat) &amp;&amp; targetFormat.equals(that.targetFormat);</a>
-<span class="sourceLineNo">189</span><a id="line.189">      }</a>
-<span class="sourceLineNo">190</span><a id="line.190">      return false;</a>
-<span class="sourceLineNo">191</span><a id="line.191">    }</a>
-<span class="sourceLineNo">192</span><a id="line.192"></a>
-<span class="sourceLineNo">193</span><a id="line.193">    @Override</a>
-<span class="sourceLineNo">194</span><a id="line.194">    public int hashCode() {</a>
-<span class="sourceLineNo">195</span><a id="line.195">      return sourceFormat.hashCode() ^ targetFormat.hashCode();</a>
-<span class="sourceLineNo">196</span><a id="line.196">    }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">    @Override</a>
-<span class="sourceLineNo">199</span><a id="line.199">    public String toString() {</a>
-<span class="sourceLineNo">200</span><a id="line.200">      return sourceFormat + ".converterTo(" + targetFormat + ")";</a>
-<span class="sourceLineNo">201</span><a id="line.201">    }</a>
-<span class="sourceLineNo">202</span><a id="line.202"></a>
-<span class="sourceLineNo">203</span><a id="line.203">    private static final long serialVersionUID = 0L;</a>
-<span class="sourceLineNo">204</span><a id="line.204">  }</a>
-<span class="sourceLineNo">205</span><a id="line.205"></a>
-<span class="sourceLineNo">206</span><a id="line.206">  abstract String normalizeWord(String word);</a>
-<span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">  String normalizeFirstWord(String word) {</a>
-<span class="sourceLineNo">209</span><a id="line.209">    return normalizeWord(word);</a>
-<span class="sourceLineNo">210</span><a id="line.210">  }</a>
-<span class="sourceLineNo">211</span><a id="line.211"></a>
-<span class="sourceLineNo">212</span><a id="line.212">  private static String firstCharOnlyToUpper(String word) {</a>
-<span class="sourceLineNo">213</span><a id="line.213">    return word.isEmpty()</a>
-<span class="sourceLineNo">214</span><a id="line.214">        ? word</a>
-<span class="sourceLineNo">215</span><a id="line.215">        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));</a>
-<span class="sourceLineNo">216</span><a id="line.216">  }</a>
-<span class="sourceLineNo">217</span><a id="line.217">}</a>
+<span class="sourceLineNo">032</span><a id="line.32">public enum CaseFormat {</a>
+<span class="sourceLineNo">033</span><a id="line.33">  /** Hyphenated variable naming convention, e.g., "lower-hyphen". */</a>
+<span class="sourceLineNo">034</span><a id="line.34">  LOWER_HYPHEN(CharMatcher.is('-'), "-") {</a>
+<span class="sourceLineNo">035</span><a id="line.35">    @Override</a>
+<span class="sourceLineNo">036</span><a id="line.36">    String normalizeWord(String word) {</a>
+<span class="sourceLineNo">037</span><a id="line.37">      return Ascii.toLowerCase(word);</a>
+<span class="sourceLineNo">038</span><a id="line.38">    }</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    @Override</a>
+<span class="sourceLineNo">041</span><a id="line.41">    String convert(CaseFormat format, String s) {</a>
+<span class="sourceLineNo">042</span><a id="line.42">      if (format == LOWER_UNDERSCORE) {</a>
+<span class="sourceLineNo">043</span><a id="line.43">        return s.replace('-', '_');</a>
+<span class="sourceLineNo">044</span><a id="line.44">      }</a>
+<span class="sourceLineNo">045</span><a id="line.45">      if (format == UPPER_UNDERSCORE) {</a>
+<span class="sourceLineNo">046</span><a id="line.46">        return Ascii.toUpperCase(s.replace('-', '_'));</a>
+<span class="sourceLineNo">047</span><a id="line.47">      }</a>
+<span class="sourceLineNo">048</span><a id="line.48">      return super.convert(format, s);</a>
+<span class="sourceLineNo">049</span><a id="line.49">    }</a>
+<span class="sourceLineNo">050</span><a id="line.50">  },</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">  /** C++ variable naming convention, e.g., "lower_underscore". */</a>
+<span class="sourceLineNo">053</span><a id="line.53">  LOWER_UNDERSCORE(CharMatcher.is('_'), "_") {</a>
+<span class="sourceLineNo">054</span><a id="line.54">    @Override</a>
+<span class="sourceLineNo">055</span><a id="line.55">    String normalizeWord(String word) {</a>
+<span class="sourceLineNo">056</span><a id="line.56">      return Ascii.toLowerCase(word);</a>
+<span class="sourceLineNo">057</span><a id="line.57">    }</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">    @Override</a>
+<span class="sourceLineNo">060</span><a id="line.60">    String convert(CaseFormat format, String s) {</a>
+<span class="sourceLineNo">061</span><a id="line.61">      if (format == LOWER_HYPHEN) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        return s.replace('_', '-');</a>
+<span class="sourceLineNo">063</span><a id="line.63">      }</a>
+<span class="sourceLineNo">064</span><a id="line.64">      if (format == UPPER_UNDERSCORE) {</a>
+<span class="sourceLineNo">065</span><a id="line.65">        return Ascii.toUpperCase(s);</a>
+<span class="sourceLineNo">066</span><a id="line.66">      }</a>
+<span class="sourceLineNo">067</span><a id="line.67">      return super.convert(format, s);</a>
+<span class="sourceLineNo">068</span><a id="line.68">    }</a>
+<span class="sourceLineNo">069</span><a id="line.69">  },</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  /** Java variable naming convention, e.g., "lowerCamel". */</a>
+<span class="sourceLineNo">072</span><a id="line.72">  LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    @Override</a>
+<span class="sourceLineNo">074</span><a id="line.74">    String normalizeWord(String word) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">      return firstCharOnlyToUpper(word);</a>
+<span class="sourceLineNo">076</span><a id="line.76">    }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">    @Override</a>
+<span class="sourceLineNo">079</span><a id="line.79">    String normalizeFirstWord(String word) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">      return Ascii.toLowerCase(word);</a>
+<span class="sourceLineNo">081</span><a id="line.81">    }</a>
+<span class="sourceLineNo">082</span><a id="line.82">  },</a>
+<span class="sourceLineNo">083</span><a id="line.83"></a>
+<span class="sourceLineNo">084</span><a id="line.84">  /** Java and C++ class naming convention, e.g., "UpperCamel". */</a>
+<span class="sourceLineNo">085</span><a id="line.85">  UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {</a>
+<span class="sourceLineNo">086</span><a id="line.86">    @Override</a>
+<span class="sourceLineNo">087</span><a id="line.87">    String normalizeWord(String word) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">      return firstCharOnlyToUpper(word);</a>
+<span class="sourceLineNo">089</span><a id="line.89">    }</a>
+<span class="sourceLineNo">090</span><a id="line.90">  },</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  /** Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE". */</a>
+<span class="sourceLineNo">093</span><a id="line.93">  UPPER_UNDERSCORE(CharMatcher.is('_'), "_") {</a>
+<span class="sourceLineNo">094</span><a id="line.94">    @Override</a>
+<span class="sourceLineNo">095</span><a id="line.95">    String normalizeWord(String word) {</a>
+<span class="sourceLineNo">096</span><a id="line.96">      return Ascii.toUpperCase(word);</a>
+<span class="sourceLineNo">097</span><a id="line.97">    }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">    @Override</a>
+<span class="sourceLineNo">100</span><a id="line.100">    String convert(CaseFormat format, String s) {</a>
+<span class="sourceLineNo">101</span><a id="line.101">      if (format == LOWER_HYPHEN) {</a>
+<span class="sourceLineNo">102</span><a id="line.102">        return Ascii.toLowerCase(s.replace('_', '-'));</a>
+<span class="sourceLineNo">103</span><a id="line.103">      }</a>
+<span class="sourceLineNo">104</span><a id="line.104">      if (format == LOWER_UNDERSCORE) {</a>
+<span class="sourceLineNo">105</span><a id="line.105">        return Ascii.toLowerCase(s);</a>
+<span class="sourceLineNo">106</span><a id="line.106">      }</a>
+<span class="sourceLineNo">107</span><a id="line.107">      return super.convert(format, s);</a>
+<span class="sourceLineNo">108</span><a id="line.108">    }</a>
+<span class="sourceLineNo">109</span><a id="line.109">  };</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  private final CharMatcher wordBoundary;</a>
+<span class="sourceLineNo">112</span><a id="line.112">  private final String wordSeparator;</a>
+<span class="sourceLineNo">113</span><a id="line.113"></a>
+<span class="sourceLineNo">114</span><a id="line.114">  CaseFormat(CharMatcher wordBoundary, String wordSeparator) {</a>
+<span class="sourceLineNo">115</span><a id="line.115">    this.wordBoundary = wordBoundary;</a>
+<span class="sourceLineNo">116</span><a id="line.116">    this.wordSeparator = wordSeparator;</a>
+<span class="sourceLineNo">117</span><a id="line.117">  }</a>
+<span class="sourceLineNo">118</span><a id="line.118"></a>
+<span class="sourceLineNo">119</span><a id="line.119">  /**</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * Converts the specified {@code String str} from this format to the specified {@code format}. A</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * "best effort" approach is taken; if {@code str} does not conform to the assumed format, then</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * the behavior of this method is undefined but we make a reasonable effort at converting anyway.</a>
+<span class="sourceLineNo">123</span><a id="line.123">   */</a>
+<span class="sourceLineNo">124</span><a id="line.124">  public final String to(CaseFormat format, String str) {</a>
+<span class="sourceLineNo">125</span><a id="line.125">    checkNotNull(format);</a>
+<span class="sourceLineNo">126</span><a id="line.126">    checkNotNull(str);</a>
+<span class="sourceLineNo">127</span><a id="line.127">    return (format == this) ? str : convert(format, str);</a>
+<span class="sourceLineNo">128</span><a id="line.128">  }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">  /** Enum values can override for performance reasons. */</a>
+<span class="sourceLineNo">131</span><a id="line.131">  String convert(CaseFormat format, String s) {</a>
+<span class="sourceLineNo">132</span><a id="line.132">    // deal with camel conversion</a>
+<span class="sourceLineNo">133</span><a id="line.133">    StringBuilder out = null;</a>
+<span class="sourceLineNo">134</span><a id="line.134">    int i = 0;</a>
+<span class="sourceLineNo">135</span><a id="line.135">    int j = -1;</a>
+<span class="sourceLineNo">136</span><a id="line.136">    while ((j = wordBoundary.indexIn(s, ++j)) != -1) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">      if (i == 0) {</a>
+<span class="sourceLineNo">138</span><a id="line.138">        // include some extra space for separators</a>
+<span class="sourceLineNo">139</span><a id="line.139">        out = new StringBuilder(s.length() + 4 * format.wordSeparator.length());</a>
+<span class="sourceLineNo">140</span><a id="line.140">        out.append(format.normalizeFirstWord(s.substring(i, j)));</a>
+<span class="sourceLineNo">141</span><a id="line.141">      } else {</a>
+<span class="sourceLineNo">142</span><a id="line.142">        requireNonNull(out).append(format.normalizeWord(s.substring(i, j)));</a>
+<span class="sourceLineNo">143</span><a id="line.143">      }</a>
+<span class="sourceLineNo">144</span><a id="line.144">      out.append(format.wordSeparator);</a>
+<span class="sourceLineNo">145</span><a id="line.145">      i = j + wordSeparator.length();</a>
+<span class="sourceLineNo">146</span><a id="line.146">    }</a>
+<span class="sourceLineNo">147</span><a id="line.147">    return (i == 0)</a>
+<span class="sourceLineNo">148</span><a id="line.148">        ? format.normalizeFirstWord(s)</a>
+<span class="sourceLineNo">149</span><a id="line.149">        : requireNonNull(out).append(format.normalizeWord(s.substring(i))).toString();</a>
+<span class="sourceLineNo">150</span><a id="line.150">  }</a>
+<span class="sourceLineNo">151</span><a id="line.151"></a>
+<span class="sourceLineNo">152</span><a id="line.152">  /**</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * Returns a serializable {@code Converter} that converts strings from this format to {@code</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * targetFormat}.</a>
+<span class="sourceLineNo">155</span><a id="line.155">   *</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * @since 16.0</a>
+<span class="sourceLineNo">157</span><a id="line.157">   */</a>
+<span class="sourceLineNo">158</span><a id="line.158">  public Converter&lt;String, String&gt; converterTo(CaseFormat targetFormat) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">    return new StringConverter(this, targetFormat);</a>
+<span class="sourceLineNo">160</span><a id="line.160">  }</a>
+<span class="sourceLineNo">161</span><a id="line.161"></a>
+<span class="sourceLineNo">162</span><a id="line.162">  private static final class StringConverter extends Converter&lt;String, String&gt;</a>
+<span class="sourceLineNo">163</span><a id="line.163">      implements Serializable {</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">    private final CaseFormat sourceFormat;</a>
+<span class="sourceLineNo">166</span><a id="line.166">    private final CaseFormat targetFormat;</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">    StringConverter(CaseFormat sourceFormat, CaseFormat targetFormat) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">      this.sourceFormat = checkNotNull(sourceFormat);</a>
+<span class="sourceLineNo">170</span><a id="line.170">      this.targetFormat = checkNotNull(targetFormat);</a>
+<span class="sourceLineNo">171</span><a id="line.171">    }</a>
+<span class="sourceLineNo">172</span><a id="line.172"></a>
+<span class="sourceLineNo">173</span><a id="line.173">    @Override</a>
+<span class="sourceLineNo">174</span><a id="line.174">    protected String doForward(String s) {</a>
+<span class="sourceLineNo">175</span><a id="line.175">      return sourceFormat.to(targetFormat, s);</a>
+<span class="sourceLineNo">176</span><a id="line.176">    }</a>
+<span class="sourceLineNo">177</span><a id="line.177"></a>
+<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
+<span class="sourceLineNo">179</span><a id="line.179">    protected String doBackward(String s) {</a>
+<span class="sourceLineNo">180</span><a id="line.180">      return targetFormat.to(sourceFormat, s);</a>
+<span class="sourceLineNo">181</span><a id="line.181">    }</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
+<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">185</span><a id="line.185">      if (object instanceof StringConverter) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">        StringConverter that = (StringConverter) object;</a>
+<span class="sourceLineNo">187</span><a id="line.187">        return sourceFormat.equals(that.sourceFormat) &amp;&amp; targetFormat.equals(that.targetFormat);</a>
+<span class="sourceLineNo">188</span><a id="line.188">      }</a>
+<span class="sourceLineNo">189</span><a id="line.189">      return false;</a>
+<span class="sourceLineNo">190</span><a id="line.190">    }</a>
+<span class="sourceLineNo">191</span><a id="line.191"></a>
+<span class="sourceLineNo">192</span><a id="line.192">    @Override</a>
+<span class="sourceLineNo">193</span><a id="line.193">    public int hashCode() {</a>
+<span class="sourceLineNo">194</span><a id="line.194">      return sourceFormat.hashCode() ^ targetFormat.hashCode();</a>
+<span class="sourceLineNo">195</span><a id="line.195">    }</a>
+<span class="sourceLineNo">196</span><a id="line.196"></a>
+<span class="sourceLineNo">197</span><a id="line.197">    @Override</a>
+<span class="sourceLineNo">198</span><a id="line.198">    public String toString() {</a>
+<span class="sourceLineNo">199</span><a id="line.199">      return sourceFormat + ".converterTo(" + targetFormat + ")";</a>
+<span class="sourceLineNo">200</span><a id="line.200">    }</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">    private static final long serialVersionUID = 0L;</a>
+<span class="sourceLineNo">203</span><a id="line.203">  }</a>
+<span class="sourceLineNo">204</span><a id="line.204"></a>
+<span class="sourceLineNo">205</span><a id="line.205">  abstract String normalizeWord(String word);</a>
+<span class="sourceLineNo">206</span><a id="line.206"></a>
+<span class="sourceLineNo">207</span><a id="line.207">  String normalizeFirstWord(String word) {</a>
+<span class="sourceLineNo">208</span><a id="line.208">    return normalizeWord(word);</a>
+<span class="sourceLineNo">209</span><a id="line.209">  }</a>
+<span class="sourceLineNo">210</span><a id="line.210"></a>
+<span class="sourceLineNo">211</span><a id="line.211">  private static String firstCharOnlyToUpper(String word) {</a>
+<span class="sourceLineNo">212</span><a id="line.212">    return word.isEmpty()</a>
+<span class="sourceLineNo">213</span><a id="line.213">        ? word</a>
+<span class="sourceLineNo">214</span><a id="line.214">        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));</a>
+<span class="sourceLineNo">215</span><a id="line.215">  }</a>
+<span class="sourceLineNo">216</span><a id="line.216">}</a>
 
 
 

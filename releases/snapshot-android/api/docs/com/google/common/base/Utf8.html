@@ -223,7 +223,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>encodedLength</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.49">encodedLength</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.48">encodedLength</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the number of bytes in the UTF-8-encoded form of <code>sequence</code>. For a string, this
  method is equivalent to <code>string.getBytes(UTF_8).length</code>, but is more efficient in both
  time and space.</div>
@@ -240,7 +240,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.111">isWellFormed</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.110">isWellFormed</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns <code>true</code> if <code>bytes</code> is a <i>well-formed</i> UTF-8 byte sequence according to
  Unicode 6.0. Note that this is a stronger criterion than simply whether the bytes can be
  decoded. For example, some versions of the JDK decoder will accept "non-shortest form" byte
@@ -257,7 +257,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.124">isWellFormed</a>&#8203;(byte[]&nbsp;bytes,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.123">isWellFormed</a>&#8203;(byte[]&nbsp;bytes,
                                    int&nbsp;off,
                                    int&nbsp;len)</pre>
 <div class="block">Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by

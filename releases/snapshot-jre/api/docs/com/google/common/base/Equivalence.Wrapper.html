@@ -140,7 +140,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.195">Equivalence.Wrapper</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+<pre>public static final class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.194">Equivalence.Wrapper</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">Wraps an object so that <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> and <a href="#hashCode()"><code>hashCode()</code></a> delegate to an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.
@@ -244,7 +244,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.214">get</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.213">get</a>()</pre>
 <div class="block">Returns the (possibly null) reference wrapped by this instance.</div>
 </li>
 </ul>
@@ -254,7 +254,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.224">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.223">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block">Returns <code>true</code> if <a href="Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(Object, Object)</code></a> applied to the wrapped
  references is <code>true</code> and both wrappers use the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>same</code></a>
@@ -271,7 +271,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.246">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.245">hashCode</a>()</pre>
 <div class="block">Returns the result of <a href="Equivalence.html#hash(T)"><code>Equivalence.hash(Object)</code></a> applied to the wrapped reference.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -285,7 +285,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.255">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.254">toString</a>()</pre>
 <div class="block">Returns a string representation for this equivalence wrapper. The form of this string
  representation is not specified.</div>
 <dl>

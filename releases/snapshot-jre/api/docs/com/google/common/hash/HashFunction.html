@@ -350,7 +350,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>newHasher</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.133">newHasher</a>()</pre>
+<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.132">newHasher</a>()</pre>
 <div class="block">Begins a new hash code computation by returning an initialized, stateful <code>Hasher</code>
  instance that is ready to receive data. Example:
 
@@ -369,7 +369,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>newHasher</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.140">newHasher</a>&#8203;(int&nbsp;expectedInputSize)</pre>
+<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.139">newHasher</a>&#8203;(int&nbsp;expectedInputSize)</pre>
 <div class="block">Begins a new hash code computation as <a href="#newHasher()"><code>newHasher()</code></a>, but provides a hint of the expected
  size of the input (in bytes). This is only important for non-streaming hash functions (hash
  functions that need to buffer their whole input before processing any of it).</div>
@@ -381,7 +381,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashInt</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.149">hashInt</a>&#8203;(int&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.148">hashInt</a>&#8203;(int&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putInt(input).hash()</code>; returns the hash code for the given
  <code>int</code> value, interpreted in little-endian byte order. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
@@ -397,7 +397,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashLong</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.156">hashLong</a>&#8203;(long&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.155">hashLong</a>&#8203;(long&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
  <code>long</code> value, interpreted in little-endian byte order. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
@@ -409,7 +409,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.162">hashBytes</a>&#8203;(byte[]&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.161">hashBytes</a>&#8203;(byte[]&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
 </li>
@@ -420,7 +420,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.171">hashBytes</a>&#8203;(byte[]&nbsp;input,
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.170">hashBytes</a>&#8203;(byte[]&nbsp;input,
                    int&nbsp;off,
                    int&nbsp;len)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input, off, len).hash()</code>. The implementation
@@ -438,7 +438,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.179">hashBytes</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.178">hashBytes</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
 <dl>
@@ -453,7 +453,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashUnencodedChars</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.194">hashUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input)</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.193">hashUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse. Note
  that no character encoding is performed; the low byte and high byte of each <code>char</code> are
@@ -475,7 +475,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashString</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.206">hashString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input,
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.205">hashString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;input,
                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>. Characters are encoded using
  the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
@@ -495,7 +495,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashObject</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.214">hashObject</a>&#8203;(T&nbsp;instance,
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.213">hashObject</a>&#8203;(T&nbsp;instance,
                                                  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
@@ -511,7 +511,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>bits</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.221">bits</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.220">bits</a>()</pre>
 <div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this hash
  function has.</div>
 </li>

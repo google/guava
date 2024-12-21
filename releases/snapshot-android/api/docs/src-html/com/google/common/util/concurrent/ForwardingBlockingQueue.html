@@ -48,57 +48,56 @@
 <span class="sourceLineNo">039</span><a id="line.39"> */</a>
 <span class="sourceLineNo">040</span><a id="line.40">@J2ktIncompatible</a>
 <span class="sourceLineNo">041</span><a id="line.41">@GwtIncompatible</a>
-<span class="sourceLineNo">042</span><a id="line.42">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">043</span><a id="line.43">public abstract class ForwardingBlockingQueue&lt;E&gt; extends ForwardingQueue&lt;E&gt;</a>
-<span class="sourceLineNo">044</span><a id="line.44">    implements BlockingQueue&lt;E&gt; {</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">047</span><a id="line.47">  protected ForwardingBlockingQueue() {}</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">  @Override</a>
-<span class="sourceLineNo">050</span><a id="line.50">  protected abstract BlockingQueue&lt;E&gt; delegate();</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">053</span><a id="line.53">  @Override</a>
-<span class="sourceLineNo">054</span><a id="line.54">  public int drainTo(Collection&lt;? super E&gt; c, int maxElements) {</a>
-<span class="sourceLineNo">055</span><a id="line.55">    return delegate().drainTo(c, maxElements);</a>
-<span class="sourceLineNo">056</span><a id="line.56">  }</a>
-<span class="sourceLineNo">057</span><a id="line.57"></a>
-<span class="sourceLineNo">058</span><a id="line.58">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
-<span class="sourceLineNo">060</span><a id="line.60">  public int drainTo(Collection&lt;? super E&gt; c) {</a>
-<span class="sourceLineNo">061</span><a id="line.61">    return delegate().drainTo(c);</a>
-<span class="sourceLineNo">062</span><a id="line.62">  }</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">065</span><a id="line.65">  @Override</a>
-<span class="sourceLineNo">066</span><a id="line.66">  public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">067</span><a id="line.67">    return delegate().offer(e, timeout, unit);</a>
-<span class="sourceLineNo">068</span><a id="line.68">  }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @Override</a>
-<span class="sourceLineNo">072</span><a id="line.72">  @CheckForNull</a>
-<span class="sourceLineNo">073</span><a id="line.73">  public E poll(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">074</span><a id="line.74">    return delegate().poll(timeout, unit);</a>
-<span class="sourceLineNo">075</span><a id="line.75">  }</a>
-<span class="sourceLineNo">076</span><a id="line.76"></a>
-<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
-<span class="sourceLineNo">078</span><a id="line.78">  public void put(E e) throws InterruptedException {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    delegate().put(e);</a>
-<span class="sourceLineNo">080</span><a id="line.80">  }</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">  @Override</a>
-<span class="sourceLineNo">083</span><a id="line.83">  public int remainingCapacity() {</a>
-<span class="sourceLineNo">084</span><a id="line.84">    return delegate().remainingCapacity();</a>
-<span class="sourceLineNo">085</span><a id="line.85">  }</a>
-<span class="sourceLineNo">086</span><a id="line.86"></a>
-<span class="sourceLineNo">087</span><a id="line.87">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
-<span class="sourceLineNo">088</span><a id="line.88">  @Override</a>
-<span class="sourceLineNo">089</span><a id="line.89">  public E take() throws InterruptedException {</a>
-<span class="sourceLineNo">090</span><a id="line.90">    return delegate().take();</a>
-<span class="sourceLineNo">091</span><a id="line.91">  }</a>
-<span class="sourceLineNo">092</span><a id="line.92">}</a>
+<span class="sourceLineNo">042</span><a id="line.42">public abstract class ForwardingBlockingQueue&lt;E&gt; extends ForwardingQueue&lt;E&gt;</a>
+<span class="sourceLineNo">043</span><a id="line.43">    implements BlockingQueue&lt;E&gt; {</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">046</span><a id="line.46">  protected ForwardingBlockingQueue() {}</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  @Override</a>
+<span class="sourceLineNo">049</span><a id="line.49">  protected abstract BlockingQueue&lt;E&gt; delegate();</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
+<span class="sourceLineNo">053</span><a id="line.53">  public int drainTo(Collection&lt;? super E&gt; c, int maxElements) {</a>
+<span class="sourceLineNo">054</span><a id="line.54">    return delegate().drainTo(c, maxElements);</a>
+<span class="sourceLineNo">055</span><a id="line.55">  }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
+<span class="sourceLineNo">059</span><a id="line.59">  public int drainTo(Collection&lt;? super E&gt; c) {</a>
+<span class="sourceLineNo">060</span><a id="line.60">    return delegate().drainTo(c);</a>
+<span class="sourceLineNo">061</span><a id="line.61">  }</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
+<span class="sourceLineNo">065</span><a id="line.65">  public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">066</span><a id="line.66">    return delegate().offer(e, timeout, unit);</a>
+<span class="sourceLineNo">067</span><a id="line.67">  }</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
+<span class="sourceLineNo">071</span><a id="line.71">  @CheckForNull</a>
+<span class="sourceLineNo">072</span><a id="line.72">  public E poll(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    return delegate().poll(timeout, unit);</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public void put(E e) throws InterruptedException {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    delegate().put(e);</a>
+<span class="sourceLineNo">079</span><a id="line.79">  }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public int remainingCapacity() {</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return delegate().remainingCapacity();</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">087</span><a id="line.87">  @Override</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public E take() throws InterruptedException {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    return delegate().take();</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91">}</a>
 
 
 

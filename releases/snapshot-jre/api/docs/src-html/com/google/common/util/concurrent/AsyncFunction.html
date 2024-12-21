@@ -36,17 +36,16 @@
 <span class="sourceLineNo">027</span><a id="line.27"> */</a>
 <span class="sourceLineNo">028</span><a id="line.28">@GwtCompatible</a>
 <span class="sourceLineNo">029</span><a id="line.29">@FunctionalInterface</a>
-<span class="sourceLineNo">030</span><a id="line.30">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">031</span><a id="line.31">public interface AsyncFunction&lt;I extends @Nullable Object, O extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">032</span><a id="line.32">  /**</a>
-<span class="sourceLineNo">033</span><a id="line.33">   * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code</a>
-<span class="sourceLineNo">034</span><a id="line.34">   * Future} need not be {@linkplain Future#isDone done}, making {@code AsyncFunction} suitable for</a>
-<span class="sourceLineNo">035</span><a id="line.35">   * asynchronous derivations.</a>
-<span class="sourceLineNo">036</span><a id="line.36">   *</a>
-<span class="sourceLineNo">037</span><a id="line.37">   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@code Future}.</a>
-<span class="sourceLineNo">038</span><a id="line.38">   */</a>
-<span class="sourceLineNo">039</span><a id="line.39">  ListenableFuture&lt;O&gt; apply(@ParametricNullness I input) throws Exception;</a>
-<span class="sourceLineNo">040</span><a id="line.40">}</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface AsyncFunction&lt;I extends @Nullable Object, O extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">031</span><a id="line.31">  /**</a>
+<span class="sourceLineNo">032</span><a id="line.32">   * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code</a>
+<span class="sourceLineNo">033</span><a id="line.33">   * Future} need not be {@linkplain Future#isDone done}, making {@code AsyncFunction} suitable for</a>
+<span class="sourceLineNo">034</span><a id="line.34">   * asynchronous derivations.</a>
+<span class="sourceLineNo">035</span><a id="line.35">   *</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@code Future}.</a>
+<span class="sourceLineNo">037</span><a id="line.37">   */</a>
+<span class="sourceLineNo">038</span><a id="line.38">  ListenableFuture&lt;O&gt; apply(@ParametricNullness I input) throws Exception;</a>
+<span class="sourceLineNo">039</span><a id="line.39">}</a>
 
 
 

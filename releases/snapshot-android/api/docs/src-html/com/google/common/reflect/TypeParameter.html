@@ -42,46 +42,45 @@
 <span class="sourceLineNo">033</span><a id="line.33"> * @author Ben Yu</a>
 <span class="sourceLineNo">034</span><a id="line.34"> * @since 12.0</a>
 <span class="sourceLineNo">035</span><a id="line.35"> */</a>
-<span class="sourceLineNo">036</span><a id="line.36">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">037</span><a id="line.37">/*</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * bound. However, it would also let them create `new TypeParameter&lt;@Nullable T&gt;() {}`, which</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * wouldn't behave as users might expect. Additionally, it's not clear how the TypeToken API could</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * support even a "normal" `TypeParameter&lt;T&gt;` when `&lt;T&gt;` has a nullable bound. (See the discussion</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * on TypeToken.where.) So, in the interest of failing fast and encouraging the user to switch to a</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * non-null bound if possible, let's require a non-null bound here.</a>
-<span class="sourceLineNo">044</span><a id="line.44"> *</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * TODO(cpovirk): Elaborate on "wouldn't behave as users might expect."</a>
-<span class="sourceLineNo">046</span><a id="line.46"> */</a>
-<span class="sourceLineNo">047</span><a id="line.47">public abstract class TypeParameter&lt;T&gt; extends TypeCapture&lt;T&gt; {</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">  final TypeVariable&lt;?&gt; typeVariable;</a>
-<span class="sourceLineNo">050</span><a id="line.50"></a>
-<span class="sourceLineNo">051</span><a id="line.51">  protected TypeParameter() {</a>
-<span class="sourceLineNo">052</span><a id="line.52">    Type type = capture();</a>
-<span class="sourceLineNo">053</span><a id="line.53">    checkArgument(type instanceof TypeVariable, "%s should be a type variable.", type);</a>
-<span class="sourceLineNo">054</span><a id="line.54">    this.typeVariable = (TypeVariable&lt;?&gt;) type;</a>
-<span class="sourceLineNo">055</span><a id="line.55">  }</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">  @Override</a>
-<span class="sourceLineNo">058</span><a id="line.58">  public final int hashCode() {</a>
-<span class="sourceLineNo">059</span><a id="line.59">    return typeVariable.hashCode();</a>
-<span class="sourceLineNo">060</span><a id="line.60">  }</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62">  @Override</a>
-<span class="sourceLineNo">063</span><a id="line.63">  public final boolean equals(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">064</span><a id="line.64">    if (o instanceof TypeParameter) {</a>
-<span class="sourceLineNo">065</span><a id="line.65">      TypeParameter&lt;?&gt; that = (TypeParameter&lt;?&gt;) o;</a>
-<span class="sourceLineNo">066</span><a id="line.66">      return typeVariable.equals(that.typeVariable);</a>
-<span class="sourceLineNo">067</span><a id="line.67">    }</a>
-<span class="sourceLineNo">068</span><a id="line.68">    return false;</a>
-<span class="sourceLineNo">069</span><a id="line.69">  }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">  @Override</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public String toString() {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    return typeVariable.toString();</a>
-<span class="sourceLineNo">074</span><a id="line.74">  }</a>
-<span class="sourceLineNo">075</span><a id="line.75">}</a>
+<span class="sourceLineNo">036</span><a id="line.36">/*</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * bound. However, it would also let them create `new TypeParameter&lt;@Nullable T&gt;() {}`, which</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * wouldn't behave as users might expect. Additionally, it's not clear how the TypeToken API could</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * support even a "normal" `TypeParameter&lt;T&gt;` when `&lt;T&gt;` has a nullable bound. (See the discussion</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * on TypeToken.where.) So, in the interest of failing fast and encouraging the user to switch to a</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * non-null bound if possible, let's require a non-null bound here.</a>
+<span class="sourceLineNo">043</span><a id="line.43"> *</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * TODO(cpovirk): Elaborate on "wouldn't behave as users might expect."</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">public abstract class TypeParameter&lt;T&gt; extends TypeCapture&lt;T&gt; {</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  final TypeVariable&lt;?&gt; typeVariable;</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">  protected TypeParameter() {</a>
+<span class="sourceLineNo">051</span><a id="line.51">    Type type = capture();</a>
+<span class="sourceLineNo">052</span><a id="line.52">    checkArgument(type instanceof TypeVariable, "%s should be a type variable.", type);</a>
+<span class="sourceLineNo">053</span><a id="line.53">    this.typeVariable = (TypeVariable&lt;?&gt;) type;</a>
+<span class="sourceLineNo">054</span><a id="line.54">  }</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  @Override</a>
+<span class="sourceLineNo">057</span><a id="line.57">  public final int hashCode() {</a>
+<span class="sourceLineNo">058</span><a id="line.58">    return typeVariable.hashCode();</a>
+<span class="sourceLineNo">059</span><a id="line.59">  }</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">  @Override</a>
+<span class="sourceLineNo">062</span><a id="line.62">  public final boolean equals(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">063</span><a id="line.63">    if (o instanceof TypeParameter) {</a>
+<span class="sourceLineNo">064</span><a id="line.64">      TypeParameter&lt;?&gt; that = (TypeParameter&lt;?&gt;) o;</a>
+<span class="sourceLineNo">065</span><a id="line.65">      return typeVariable.equals(that.typeVariable);</a>
+<span class="sourceLineNo">066</span><a id="line.66">    }</a>
+<span class="sourceLineNo">067</span><a id="line.67">    return false;</a>
+<span class="sourceLineNo">068</span><a id="line.68">  }</a>
+<span class="sourceLineNo">069</span><a id="line.69"></a>
+<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
+<span class="sourceLineNo">071</span><a id="line.71">  public String toString() {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return typeVariable.toString();</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74">}</a>
 
 
 

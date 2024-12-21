@@ -40,22 +40,21 @@
 <span class="sourceLineNo">031</span><a id="line.31">@J2ktIncompatible</a>
 <span class="sourceLineNo">032</span><a id="line.32">@GwtIncompatible</a>
 <span class="sourceLineNo">033</span><a id="line.33">@J2ObjCIncompatible // java.nio.file</a>
-<span class="sourceLineNo">034</span><a id="line.34">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">035</span><a id="line.35">public enum RecursiveDeleteOption {</a>
-<span class="sourceLineNo">036</span><a id="line.36">  /**</a>
-<span class="sourceLineNo">037</span><a id="line.37">   * Specifies that the recursive delete should not throw an exception when it can't be guaranteed</a>
-<span class="sourceLineNo">038</span><a id="line.38">   * that it can be done securely, without vulnerability to race conditions (i.e. when the file</a>
-<span class="sourceLineNo">039</span><a id="line.39">   * system does not support {@link SecureDirectoryStream}).</a>
-<span class="sourceLineNo">040</span><a id="line.40">   *</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; On a file system that supports symbolic links, it is possible for an</a>
-<span class="sourceLineNo">042</span><a id="line.42">   * insecure recursive delete to delete files and directories that are &lt;i&gt;outside&lt;/i&gt; the directory</a>
-<span class="sourceLineNo">043</span><a id="line.43">   * being deleted. This can happen if, after checking that a file is a directory (and not a</a>
-<span class="sourceLineNo">044</span><a id="line.44">   * symbolic link), that directory is deleted and replaced by a symbolic link to an outside</a>
-<span class="sourceLineNo">045</span><a id="line.45">   * directory before the call that opens the directory to read its entries. File systems that</a>
-<span class="sourceLineNo">046</span><a id="line.46">   * support {@code SecureDirectoryStream} do not have this vulnerability.</a>
-<span class="sourceLineNo">047</span><a id="line.47">   */</a>
-<span class="sourceLineNo">048</span><a id="line.48">  ALLOW_INSECURE</a>
-<span class="sourceLineNo">049</span><a id="line.49">}</a>
+<span class="sourceLineNo">034</span><a id="line.34">public enum RecursiveDeleteOption {</a>
+<span class="sourceLineNo">035</span><a id="line.35">  /**</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * Specifies that the recursive delete should not throw an exception when it can't be guaranteed</a>
+<span class="sourceLineNo">037</span><a id="line.37">   * that it can be done securely, without vulnerability to race conditions (i.e. when the file</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * system does not support {@link SecureDirectoryStream}).</a>
+<span class="sourceLineNo">039</span><a id="line.39">   *</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; On a file system that supports symbolic links, it is possible for an</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * insecure recursive delete to delete files and directories that are &lt;i&gt;outside&lt;/i&gt; the directory</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * being deleted. This can happen if, after checking that a file is a directory (and not a</a>
+<span class="sourceLineNo">043</span><a id="line.43">   * symbolic link), that directory is deleted and replaced by a symbolic link to an outside</a>
+<span class="sourceLineNo">044</span><a id="line.44">   * directory before the call that opens the directory to read its entries. File systems that</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * support {@code SecureDirectoryStream} do not have this vulnerability.</a>
+<span class="sourceLineNo">046</span><a id="line.46">   */</a>
+<span class="sourceLineNo">047</span><a id="line.47">  ALLOW_INSECURE</a>
+<span class="sourceLineNo">048</span><a id="line.48">}</a>
 
 
 

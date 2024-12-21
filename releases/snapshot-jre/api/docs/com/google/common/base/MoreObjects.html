@@ -253,7 +253,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>firstNonNull</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.64">firstNonNull</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.63">firstNonNull</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  T&nbsp;first,
                                  <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                  T&nbsp;second)</pre>
@@ -286,7 +286,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.114">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;self)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.113">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;self)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a>.
 
  <p>This is helpful for implementing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Object.toString()</code></a>. Specification by example:
@@ -336,7 +336,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.128">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.127">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using the simple name of <code>clazz</code> instead of using an
  instance's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink"><code>Object.getClass()</code></a>.
 
@@ -355,7 +355,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.140">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;className)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.139">toStringHelper</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;className)</pre>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using <code>className</code> instead of using an instance's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink"><code>Object.getClass()</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>

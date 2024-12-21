@@ -475,7 +475,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSortedMultiset</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.51">ForwardingSortedMultiset</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.50">ForwardingSortedMultiset</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -495,7 +495,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.53">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.52">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -513,7 +513,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.56">elementSet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.55">elementSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
@@ -543,7 +543,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.81">comparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.80">comparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#comparator()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
  ordering of the elements is used.</div>
@@ -559,7 +559,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.86">descendingMultiset</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.85">descendingMultiset</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#descendingMultiset()">SortedMultiset</a></code></span></div>
 <div class="block">Returns a descending view of this multiset. Modifications made to either map will be reflected
  in the other.</div>
@@ -576,7 +576,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <li class="blockList">
 <h4>firstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.113">firstEntry</a>()</pre>
+public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.112">firstEntry</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#firstEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the entry of the first element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
@@ -593,7 +593,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>standardFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.125">standardFirstEntry</a>()</pre>
+protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.124">standardFirstEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#firstEntry()"><code>firstEntry()</code></a> in terms of <code>entrySet().iterator()</code>.
 
  <p>If you override <a href="ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>, you may wish to override <a href="#firstEntry()"><code>firstEntry()</code></a> to
@@ -607,7 +607,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <li class="blockList">
 <h4>lastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.135">lastEntry</a>()</pre>
+public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.134">lastEntry</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#lastEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the entry of the last element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
@@ -624,7 +624,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>standardLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.148">standardLastEntry</a>()</pre>
+protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.147">standardLastEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#lastEntry()"><code>lastEntry()</code></a> in terms of <code>
  descendingMultiset().entrySet().iterator()</code>.
 
@@ -639,7 +639,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <li class="blockList">
 <h4>pollFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.158">pollFirstEntry</a>()</pre>
+public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.157">pollFirstEntry</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#pollFirstEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns and removes the entry associated with the lowest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
@@ -656,7 +656,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>standardPollFirstEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.170">standardPollFirstEntry</a>()</pre>
+protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.169">standardPollFirstEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> in terms of <code>entrySet().iterator()</code>.
 
  <p>If you override <a href="ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>, you may wish to override <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> to
@@ -670,7 +670,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <li class="blockList">
 <h4>pollLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.182">pollLastEntry</a>()</pre>
+public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.181">pollLastEntry</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#pollLastEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns and removes the entry associated with the greatest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
@@ -687,7 +687,7 @@ public&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.
 <li class="blockList">
 <h4>standardPollLastEntry</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.195">standardPollLastEntry</a>()</pre>
+protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.194">standardPollLastEntry</a>()</pre>
 <div class="block">A sensible definition of <a href="#pollLastEntry()"><code>pollLastEntry()</code></a> in terms of <code>
  descendingMultiset().entrySet().iterator()</code>.
 
@@ -703,7 +703,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.207">headMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.206">headMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements less than <code>upperBound</code>,
@@ -727,7 +727,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>subMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.212">subMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.211">subMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
                                      <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
                                      <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
                                      <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</pre>
@@ -756,7 +756,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSubMultiset</h4>
-<pre class="methodSignature">protected&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.229">standardSubMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">protected&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.228">standardSubMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
                                                 <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
                                                 <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
                                                 <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</pre>
@@ -774,7 +774,7 @@ protected&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.comm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.237">tailMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line.236">tailMultiset</a>&#8203;(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements greater than <code>lowerBound</code>,

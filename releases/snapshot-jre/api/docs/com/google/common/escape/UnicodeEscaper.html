@@ -297,7 +297,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UnicodeEscaper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.59">UnicodeEscaper</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.58">UnicodeEscaper</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -318,7 +318,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <li class="blockList">
 <h4>escape</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.80">escape</a>&#8203;(int&nbsp;cp)</pre>
+protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.79">escape</a>&#8203;(int&nbsp;cp)</pre>
 <div class="block">Returns the escaped form of the given Unicode code point, or <code>null</code> if this code point
  does not need to be escaped. When called as part of an escaping operation, the given code point
  is guaranteed to be in the range <code>0 &lt;= cp &lt;= Character#MAX_CODE_POINT</code>.
@@ -347,7 +347,7 @@ protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.101">escape</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.100">escape</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
 <div class="block">Returns the escaped form of a given literal string.
 
  <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
@@ -377,7 +377,7 @@ protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>nextEscapeIndex</h4>
-<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.131">nextEscapeIndex</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;csq,
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.130">nextEscapeIndex</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;csq,
                               int&nbsp;start,
                               int&nbsp;end)</pre>
 <div class="block">Scans a sub-sequence of characters from a given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>CharSequence</code></a>, returning the index of
@@ -411,7 +411,7 @@ protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>escapeSlow</h4>
-<pre class="methodSignature">protected final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.158">escapeSlow</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s,
+<pre class="methodSignature">protected final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.157">escapeSlow</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s,
                                   int&nbsp;index)</pre>
 <div class="block">Returns the escaped form of a given literal string, starting at the given index. This method is
  called by the <a href="#escape(java.lang.String)"><code>escape(String)</code></a> method when it discovers that escaping is required. It is
@@ -437,7 +437,7 @@ protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>codePointAt</h4>
-<pre class="methodSignature">protected static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.246">codePointAt</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;seq,
+<pre class="methodSignature">protected static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.245">codePointAt</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;seq,
                                  int&nbsp;index,
                                  int&nbsp;end)</pre>
 <div class="block">Returns the Unicode code point of the character at the given index.

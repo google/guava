@@ -395,7 +395,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>ceilingPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.63">ceilingPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.62">ceilingPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
 <div class="block">Returns the smallest power of two greater than or equal to <code>x</code>. This is equivalent to
  <code>checkedPow(2, log2(x, CEILING))</code>.</div>
 <dl>
@@ -414,7 +414,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>floorPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.78">floorPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.77">floorPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
 <div class="block">Returns the largest power of two less than or equal to <code>x</code>. This is equivalent to <code>
  checkedPow(2, log2(x, FLOOR))</code>.</div>
 <dl>
@@ -431,7 +431,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>isPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.93">isPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.92">isPowerOfTwo</a>&#8203;(long&nbsp;x)</pre>
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.
 
  <p>This differs from <code>Long.bitCount(x) == 1</code>, because <code>
@@ -444,7 +444,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>log2</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.116">log2</a>&#8203;(long&nbsp;x,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.115">log2</a>&#8203;(long&nbsp;x,
                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
@@ -462,7 +462,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>log10</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.155">log10</a>&#8203;(long&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.154">log10</a>&#8203;(long&nbsp;x,
                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
@@ -480,7 +480,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>pow</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.262">pow</a>&#8203;(long&nbsp;b,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.261">pow</a>&#8203;(long&nbsp;b,
                        int&nbsp;k)</pre>
 <div class="block">Returns <code>b</code> to the <code>k</code>th power. Even if the result overflows, it will be equal to
  <code>BigInteger.valueOf(b).pow(k).longValue()</code>. This implementation runs in <code>O(log k)</code>
@@ -498,7 +498,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>sqrt</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.305">sqrt</a>&#8203;(long&nbsp;x,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.304">sqrt</a>&#8203;(long&nbsp;x,
                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 <dl>
@@ -516,7 +516,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>divide</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.375">divide</a>&#8203;(long&nbsp;p,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.374">divide</a>&#8203;(long&nbsp;p,
                           long&nbsp;q,
                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
@@ -535,7 +535,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>mod</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.448">mod</a>&#8203;(long&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.447">mod</a>&#8203;(long&nbsp;x,
                       int&nbsp;m)</pre>
 <div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from <code>x %
  m</code>, which might be negative.
@@ -565,7 +565,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>mod</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.472">mod</a>&#8203;(long&nbsp;x,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.471">mod</a>&#8203;(long&nbsp;x,
                        long&nbsp;m)</pre>
 <div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from <code>x %
  m</code>, which might be negative.
@@ -594,7 +594,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>gcd</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.487">gcd</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.486">gcd</a>&#8203;(long&nbsp;a,
                        long&nbsp;b)</pre>
 <div class="block">Returns the greatest common divisor of <code>a, b</code>. Returns <code>0</code> if <code>a == 0 &amp;&amp; b ==
  0</code>.</div>
@@ -610,7 +610,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedAdd</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.538">checkedAdd</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.537">checkedAdd</a>&#8203;(long&nbsp;a,
                               long&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -625,7 +625,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedSubtract</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.551">checkedSubtract</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.550">checkedSubtract</a>&#8203;(long&nbsp;a,
                                    long&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -640,7 +640,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedMultiply</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.564">checkedMultiply</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.563">checkedMultiply</a>&#8203;(long&nbsp;a,
                                    long&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
@@ -656,7 +656,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>checkedPow</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.598">checkedPow</a>&#8203;(long&nbsp;b,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.597">checkedPow</a>&#8203;(long&nbsp;b,
                               int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.</div>
 <dl>
@@ -672,7 +672,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedAdd</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.649">saturatedAdd</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.648">saturatedAdd</a>&#8203;(long&nbsp;a,
                                 long&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -688,7 +688,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedSubtract</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.668">saturatedSubtract</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.667">saturatedSubtract</a>&#8203;(long&nbsp;a,
                                      long&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -704,7 +704,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedMultiply</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.687">saturatedMultiply</a>&#8203;(long&nbsp;a,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.686">saturatedMultiply</a>&#8203;(long&nbsp;a,
                                      long&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
  case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -720,7 +720,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedPow</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.718">saturatedPow</a>&#8203;(long&nbsp;b,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.717">saturatedPow</a>&#8203;(long&nbsp;b,
                                 int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
  case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -737,7 +737,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>factorial</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.775">factorial</a>&#8203;(int&nbsp;n)</pre>
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.774">factorial</a>&#8203;(int&nbsp;n)</pre>
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
  <code>n == 0</code>, or <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
 <dl>
@@ -752,7 +752,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>binomial</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.811">binomial</a>&#8203;(int&nbsp;n,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.810">binomial</a>&#8203;(int&nbsp;n,
                             int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, or <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
@@ -768,7 +768,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.975">mean</a>&#8203;(long&nbsp;x,
+<pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.974">mean</a>&#8203;(long&nbsp;x,
                         long&nbsp;y)</pre>
 <div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded toward negative infinity. This
  method is resilient to overflow.</div>
@@ -785,7 +785,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>isPrime</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.1003">isPrime</a>&#8203;(long&nbsp;n)</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.1002">isPrime</a>&#8203;(long&nbsp;n)</pre>
 <div class="block">Returns <code>true</code> if <code>n</code> is a <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
  than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
  Returns <code>false</code> if <code>n</code> is zero, one, or a composite number (one which <i>can</i> be
@@ -807,7 +807,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>roundToDouble</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.1245">roundToDouble</a>&#8203;(long&nbsp;x,
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.1244">roundToDouble</a>&#8203;(long&nbsp;x,
                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode. If <code>x</code>
  is precisely representable as a <code>double</code>, its <code>double</code> value will be returned;

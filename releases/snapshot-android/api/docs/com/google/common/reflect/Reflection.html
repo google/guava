@@ -222,7 +222,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getPackageName</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.36">getPackageName</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.35">getPackageName</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
 <div class="block">Returns the package name of <code>clazz</code> according to the Java Language Specification (section
  6.7). Unlike <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true#getPackage()" title="class or interface in java.lang" class="externalLink"><code>Class.getPackage()</code></a>, this method only parses the class name, without
  attempting to define the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Package.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Package</code></a> and hence load files.</div>
@@ -234,7 +234,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getPackageName</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.45">getPackageName</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;classFullName)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.44">getPackageName</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;classFullName)</pre>
 <div class="block">Returns the package name of <code>classFullName</code> according to the Java Language Specification
  (section 6.7). Unlike <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true#getPackage()" title="class or interface in java.lang" class="externalLink"><code>Class.getPackage()</code></a>, this method only parses the class name, without
  attempting to define the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Package.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Package</code></a> and hence load files.</div>
@@ -246,7 +246,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>initialize</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.61">initialize</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;...&nbsp;classes)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.60">initialize</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;...&nbsp;classes)</pre>
 <div class="block">Ensures that the given classes are initialized, as described in <a href="http://java.sun.com/docs/books/jls/third_edition/html/execution.html#12.4.2">JLS Section
  12.4.2</a>.
 
@@ -265,7 +265,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>newProxy</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.80">newProxy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;interfaceType,
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/Reflection.html#line.79">newProxy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;interfaceType,
                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/reflect/InvocationHandler.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">InvocationHandler</a>&nbsp;handler)</pre>
 <div class="block">Returns a proxy instance that implements <code>interfaceType</code> by dispatching method
  invocations to <code>handler</code>. The class loader of <code>interfaceType</code> will be used to

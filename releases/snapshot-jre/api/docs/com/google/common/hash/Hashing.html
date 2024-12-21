@@ -465,7 +465,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>goodFastHash</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.71">goodFastHash</a>&#8203;(int&nbsp;minimumBits)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.70">goodFastHash</a>&#8203;(int&nbsp;minimumBits)</pre>
 <div class="block">Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
  the returned function implements is unspecified and subject to change without notice.
 
@@ -492,7 +492,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>murmur3_32</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.113">murmur3_32</a>&#8203;(int&nbsp;seed)</pre>
+public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.112">murmur3_32</a>&#8203;(int&nbsp;seed)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">This implementation produces incorrect hash values from the <a href="HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters. Use <a href="#murmur3_32_fixed(int)"><code>murmur3_32_fixed(int)</code></a> instead.</div>
 </div>
@@ -511,7 +511,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <li class="blockList">
 <h4>murmur3_32</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.131">murmur3_32</a>()</pre>
+public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.130">murmur3_32</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">This implementation produces incorrect hash values from the <a href="HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters. Use <a href="#murmur3_32_fixed()"><code>murmur3_32_fixed()</code></a> instead.</div>
 </div>
@@ -529,7 +529,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>murmur3_32_fixed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.148">murmur3_32_fixed</a>&#8203;(int&nbsp;seed)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.147">murmur3_32_fixed</a>&#8203;(int&nbsp;seed)</pre>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using the given seed value.
 
@@ -549,7 +549,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>murmur3_32_fixed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.164">murmur3_32_fixed</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.163">murmur3_32_fixed</a>()</pre>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
 
@@ -569,7 +569,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>murmur3_128</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.175">murmur3_128</a>&#8203;(int&nbsp;seed)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.174">murmur3_128</a>&#8203;(int&nbsp;seed)</pre>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
  algorithm, x64 variant</a> (little-endian variant), using the given seed value.
 
@@ -582,7 +582,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>murmur3_128</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.186">murmur3_128</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.185">murmur3_128</a>()</pre>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
  algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.
 
@@ -595,7 +595,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>sipHash24</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.196">sipHash24</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.195">sipHash24</a>()</pre>
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
  SipHash-2-4 algorithm</a> using a seed value of <code>k = 00 01 02 ...</code>.</div>
 <dl>
@@ -610,7 +610,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>sipHash24</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.206">sipHash24</a>&#8203;(long&nbsp;k0,
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.205">sipHash24</a>&#8203;(long&nbsp;k0,
                                      long&nbsp;k1)</pre>
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
  SipHash-2-4 algorithm</a> using the given seed.</div>
@@ -627,7 +627,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <li class="blockList">
 <h4>md5</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.222">md5</a>()</pre>
+public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.221">md5</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">If you must interoperate with a system that requires MD5, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid MD5, which is
@@ -648,7 +648,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <li class="blockList">
 <h4>sha1</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.243">sha1</a>()</pre>
+public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.242">sha1</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">If you must interoperate with a system that requires SHA-1, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
@@ -668,7 +668,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>sha256</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.253">sha256</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.252">sha256</a>()</pre>
 <div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits).</div>
 </li>
 </ul>
@@ -678,7 +678,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>sha384</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.267">sha384</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.266">sha384</a>()</pre>
 <div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits).</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -692,7 +692,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>sha512</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.277">sha512</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.276">sha512</a>()</pre>
 <div class="block">Returns a hash function implementing the SHA-512 algorithm (512 hash bits).</div>
 </li>
 </ul>
@@ -702,7 +702,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacMd5</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.298">hmacMd5</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.297">hmacMd5</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  MD5 (128 hash bits) hash function and the given secret key.
 
@@ -724,7 +724,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacMd5</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.314">hmacMd5</a>&#8203;(byte[]&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.313">hmacMd5</a>&#8203;(byte[]&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  MD5 (128 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/javax/crypto/spec/SecretKeySpec.html?is-external=true" title="class or interface in javax.crypto.spec" class="externalLink"><code>SecretKeySpec</code></a> created from the given byte array
  and the MD5 algorithm.
@@ -745,7 +745,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha1</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.326">hmacSha1</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.325">hmacSha1</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-1 (160 hash bits) hash function and the given secret key.</div>
 <dl>
@@ -764,7 +764,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha1</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.338">hmacSha1</a>&#8203;(byte[]&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.337">hmacSha1</a>&#8203;(byte[]&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-1 (160 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/javax/crypto/spec/SecretKeySpec.html?is-external=true" title="class or interface in javax.crypto.spec" class="externalLink"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-1 algorithm.</div>
@@ -782,7 +782,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha256</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.350">hmacSha256</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.349">hmacSha256</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-256 (256 hash bits) hash function and the given secret key.</div>
 <dl>
@@ -801,7 +801,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha256</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.362">hmacSha256</a>&#8203;(byte[]&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.361">hmacSha256</a>&#8203;(byte[]&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-256 (256 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/javax/crypto/spec/SecretKeySpec.html?is-external=true" title="class or interface in javax.crypto.spec" class="externalLink"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-256 algorithm.</div>
@@ -819,7 +819,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha512</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.374">hmacSha512</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.373">hmacSha512</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and the given secret key.</div>
 <dl>
@@ -838,7 +838,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>hmacSha512</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.386">hmacSha512</a>&#8203;(byte[]&nbsp;key)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.385">hmacSha512</a>&#8203;(byte[]&nbsp;key)</pre>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/javax/crypto/spec/SecretKeySpec.html?is-external=true" title="class or interface in javax.crypto.spec" class="externalLink"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-512 algorithm.</div>
@@ -856,7 +856,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>crc32c</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.410">crc32c</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.409">crc32c</a>()</pre>
 <div class="block">Returns a hash function implementing the CRC32C checksum algorithm (32 hash bits) as described
  by RFC 3720, Section 12.1.
 
@@ -873,7 +873,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>crc32</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.464">crc32</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.463">crc32</a>()</pre>
 <div class="block">Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits).
 
  <p>To get the <code>long</code> value equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/zip/Checksum.html?is-external=true#getValue()" title="class or interface in java.util.zip" class="externalLink"><code>Checksum.getValue()</code></a> for a <code>
@@ -892,7 +892,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>adler32</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.480">adler32</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.479">adler32</a>()</pre>
 <div class="block">Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits).
 
  <p>To get the <code>long</code> value equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/zip/Checksum.html?is-external=true#getValue()" title="class or interface in java.util.zip" class="externalLink"><code>Checksum.getValue()</code></a> for a <code>
@@ -911,7 +911,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>farmHashFingerprint64</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.577">farmHashFingerprint64</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.576">farmHashFingerprint64</a>()</pre>
 <div class="block">Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
 
  <p>This is designed for generating persistent fingerprints of strings. It isn't
@@ -936,7 +936,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>fingerprint2011</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.601">fingerprint2011</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.600">fingerprint2011</a>()</pre>
 <div class="block">Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).
 
  <p>This is designed for generating persistent fingerprints of strings. It isn't
@@ -964,7 +964,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.635">consistentHash</a>&#8203;(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.634">consistentHash</a>&#8203;(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>hashCode</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner
  that minimizes the need for remapping as <code>buckets</code> grows. That is, <code>
@@ -1002,7 +1002,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.669">consistentHash</a>&#8203;(long&nbsp;input,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.668">consistentHash</a>&#8203;(long&nbsp;input,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>input</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner that
  minimizes the need for remapping as <code>buckets</code> grows. That is, <code>consistentHash(h,
@@ -1040,7 +1040,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>combineOrdered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.695">combineOrdered</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.694">combineOrdered</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an ordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -1058,7 +1058,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>combineUnordered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.720">combineUnordered</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.719">combineUnordered</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an unordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -1076,7 +1076,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.751">concatenating</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.750">concatenating</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
                                          <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;second,
                                          <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>...&nbsp;rest)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
@@ -1097,7 +1097,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.771">concatenating</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.770">concatenating</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
  underlying hash functions together. This can be useful if you need to generate hash codes of a
  specific length.

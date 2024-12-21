@@ -38,19 +38,18 @@
 <span class="sourceLineNo">029</span><a id="line.29"> * @since 10.0</a>
 <span class="sourceLineNo">030</span><a id="line.30"> */</a>
 <span class="sourceLineNo">031</span><a id="line.31">@GwtCompatible</a>
-<span class="sourceLineNo">032</span><a id="line.32">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">033</span><a id="line.33">public interface FutureCallback&lt;V extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">034</span><a id="line.34">  /** Invoked with the result of the {@code Future} computation when it is successful. */</a>
-<span class="sourceLineNo">035</span><a id="line.35">  void onSuccess(@ParametricNullness V result);</a>
-<span class="sourceLineNo">036</span><a id="line.36"></a>
-<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
-<span class="sourceLineNo">038</span><a id="line.38">   * Invoked when a {@code Future} computation fails or is canceled.</a>
-<span class="sourceLineNo">039</span><a id="line.39">   *</a>
-<span class="sourceLineNo">040</span><a id="line.40">   * &lt;p&gt;If the future's {@link Future#get() get} method throws an {@link ExecutionException}, then</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * the cause is passed to this method. Any other thrown object is passed unaltered.</a>
-<span class="sourceLineNo">042</span><a id="line.42">   */</a>
-<span class="sourceLineNo">043</span><a id="line.43">  void onFailure(Throwable t);</a>
-<span class="sourceLineNo">044</span><a id="line.44">}</a>
+<span class="sourceLineNo">032</span><a id="line.32">public interface FutureCallback&lt;V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">033</span><a id="line.33">  /** Invoked with the result of the {@code Future} computation when it is successful. */</a>
+<span class="sourceLineNo">034</span><a id="line.34">  void onSuccess(@ParametricNullness V result);</a>
+<span class="sourceLineNo">035</span><a id="line.35"></a>
+<span class="sourceLineNo">036</span><a id="line.36">  /**</a>
+<span class="sourceLineNo">037</span><a id="line.37">   * Invoked when a {@code Future} computation fails or is canceled.</a>
+<span class="sourceLineNo">038</span><a id="line.38">   *</a>
+<span class="sourceLineNo">039</span><a id="line.39">   * &lt;p&gt;If the future's {@link Future#get() get} method throws an {@link ExecutionException}, then</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * the cause is passed to this method. Any other thrown object is passed unaltered.</a>
+<span class="sourceLineNo">041</span><a id="line.41">   */</a>
+<span class="sourceLineNo">042</span><a id="line.42">  void onFailure(Throwable t);</a>
+<span class="sourceLineNo">043</span><a id="line.43">}</a>
 
 
 

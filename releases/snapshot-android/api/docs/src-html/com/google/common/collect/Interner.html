@@ -43,22 +43,21 @@
 <span class="sourceLineNo">034</span><a id="line.34">@DoNotMock("Use Interners.new*Interner")</a>
 <span class="sourceLineNo">035</span><a id="line.35">@J2ktIncompatible</a>
 <span class="sourceLineNo">036</span><a id="line.36">@GwtIncompatible</a>
-<span class="sourceLineNo">037</span><a id="line.37">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">038</span><a id="line.38">public interface Interner&lt;E&gt; {</a>
-<span class="sourceLineNo">039</span><a id="line.39">  /**</a>
-<span class="sourceLineNo">040</span><a id="line.40">   * Chooses and returns the representative instance for any of a collection of instances that are</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * equal to each other. If two {@linkplain Object#equals equal} inputs are given to this method,</a>
-<span class="sourceLineNo">042</span><a id="line.42">   * both calls will return the same instance. That is, {@code intern(a).equals(a)} always holds,</a>
-<span class="sourceLineNo">043</span><a id="line.43">   * and {@code intern(a) == intern(b)} if and only if {@code a.equals(b)}. Note that {@code</a>
-<span class="sourceLineNo">044</span><a id="line.44">   * intern(a)} is permitted to return one instance now and a different instance later if the</a>
-<span class="sourceLineNo">045</span><a id="line.45">   * original interned instance was garbage-collected.</a>
-<span class="sourceLineNo">046</span><a id="line.46">   *</a>
-<span class="sourceLineNo">047</span><a id="line.47">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; do not use with mutable objects.</a>
-<span class="sourceLineNo">048</span><a id="line.48">   *</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * @throws NullPointerException if {@code sample} is null</a>
-<span class="sourceLineNo">050</span><a id="line.50">   */</a>
-<span class="sourceLineNo">051</span><a id="line.51">  E intern(E sample);</a>
-<span class="sourceLineNo">052</span><a id="line.52">}</a>
+<span class="sourceLineNo">037</span><a id="line.37">public interface Interner&lt;E&gt; {</a>
+<span class="sourceLineNo">038</span><a id="line.38">  /**</a>
+<span class="sourceLineNo">039</span><a id="line.39">   * Chooses and returns the representative instance for any of a collection of instances that are</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * equal to each other. If two {@linkplain Object#equals equal} inputs are given to this method,</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * both calls will return the same instance. That is, {@code intern(a).equals(a)} always holds,</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * and {@code intern(a) == intern(b)} if and only if {@code a.equals(b)}. Note that {@code</a>
+<span class="sourceLineNo">043</span><a id="line.43">   * intern(a)} is permitted to return one instance now and a different instance later if the</a>
+<span class="sourceLineNo">044</span><a id="line.44">   * original interned instance was garbage-collected.</a>
+<span class="sourceLineNo">045</span><a id="line.45">   *</a>
+<span class="sourceLineNo">046</span><a id="line.46">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; do not use with mutable objects.</a>
+<span class="sourceLineNo">047</span><a id="line.47">   *</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * @throws NullPointerException if {@code sample} is null</a>
+<span class="sourceLineNo">049</span><a id="line.49">   */</a>
+<span class="sourceLineNo">050</span><a id="line.50">  E intern(E sample);</a>
+<span class="sourceLineNo">051</span><a id="line.51">}</a>
 
 
 

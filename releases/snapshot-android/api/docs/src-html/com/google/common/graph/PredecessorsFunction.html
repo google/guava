@@ -89,30 +89,29 @@
 <span class="sourceLineNo">080</span><a id="line.80"> */</a>
 <span class="sourceLineNo">081</span><a id="line.81">@Beta</a>
 <span class="sourceLineNo">082</span><a id="line.82">@DoNotMock("Implement with a lambda, or use GraphBuilder to build a Graph with the desired edges")</a>
-<span class="sourceLineNo">083</span><a id="line.83">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">084</span><a id="line.84">public interface PredecessorsFunction&lt;N&gt; {</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">  /**</a>
-<span class="sourceLineNo">087</span><a id="line.87">   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing</a>
-<span class="sourceLineNo">088</span><a id="line.88">   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.</a>
-<span class="sourceLineNo">089</span><a id="line.89">   *</a>
-<span class="sourceLineNo">090</span><a id="line.90">   * &lt;p&gt;Some algorithms that operate on a {@code PredecessorsFunction} may produce undesired results</a>
-<span class="sourceLineNo">091</span><a id="line.91">   * if the returned {@link Iterable} contains duplicate elements. Implementations of such</a>
-<span class="sourceLineNo">092</span><a id="line.92">   * algorithms should document their behavior in the presence of duplicates.</a>
-<span class="sourceLineNo">093</span><a id="line.93">   *</a>
-<span class="sourceLineNo">094</span><a id="line.94">   * &lt;p&gt;The elements of the returned {@code Iterable} must each be:</a>
-<span class="sourceLineNo">095</span><a id="line.95">   *</a>
-<span class="sourceLineNo">096</span><a id="line.96">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">097</span><a id="line.97">   *   &lt;li&gt;Non-null</a>
-<span class="sourceLineNo">098</span><a id="line.98">   *   &lt;li&gt;Usable as {@code Map} keys (see the Guava User Guide's section on &lt;a</a>
-<span class="sourceLineNo">099</span><a id="line.99">   *       href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges"&gt;</a>
-<span class="sourceLineNo">100</span><a id="line.100">   *       graph elements&lt;/a&gt; for details)</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">102</span><a id="line.102">   *</a>
-<span class="sourceLineNo">103</span><a id="line.103">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
-<span class="sourceLineNo">104</span><a id="line.104">   */</a>
-<span class="sourceLineNo">105</span><a id="line.105">  Iterable&lt;? extends N&gt; predecessors(N node);</a>
-<span class="sourceLineNo">106</span><a id="line.106">}</a>
+<span class="sourceLineNo">083</span><a id="line.83">public interface PredecessorsFunction&lt;N&gt; {</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  /**</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.</a>
+<span class="sourceLineNo">088</span><a id="line.88">   *</a>
+<span class="sourceLineNo">089</span><a id="line.89">   * &lt;p&gt;Some algorithms that operate on a {@code PredecessorsFunction} may produce undesired results</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * if the returned {@link Iterable} contains duplicate elements. Implementations of such</a>
+<span class="sourceLineNo">091</span><a id="line.91">   * algorithms should document their behavior in the presence of duplicates.</a>
+<span class="sourceLineNo">092</span><a id="line.92">   *</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * &lt;p&gt;The elements of the returned {@code Iterable} must each be:</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">096</span><a id="line.96">   *   &lt;li&gt;Non-null</a>
+<span class="sourceLineNo">097</span><a id="line.97">   *   &lt;li&gt;Usable as {@code Map} keys (see the Guava User Guide's section on &lt;a</a>
+<span class="sourceLineNo">098</span><a id="line.98">   *       href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges"&gt;</a>
+<span class="sourceLineNo">099</span><a id="line.99">   *       graph elements&lt;/a&gt; for details)</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101">   *</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * @throws IllegalArgumentException if {@code node} is not an element of this graph</a>
+<span class="sourceLineNo">103</span><a id="line.103">   */</a>
+<span class="sourceLineNo">104</span><a id="line.104">  Iterable&lt;? extends N&gt; predecessors(N node);</a>
+<span class="sourceLineNo">105</span><a id="line.105">}</a>
 
 
 

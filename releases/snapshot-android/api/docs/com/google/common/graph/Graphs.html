@@ -287,7 +287,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>hasCycle</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.62">hasCycle</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.61">hasCycle</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns true if <code>graph</code> has at least one cycle. A cycle is defined as a non-empty subset
  of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
  and ending with the same node.
@@ -301,7 +301,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>hasCycle</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.88">hasCycle</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,&#8203;?&gt;&nbsp;network)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.87">hasCycle</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,&#8203;?&gt;&nbsp;network)</pre>
 <div class="block">Returns true if <code>network</code> has at least one cycle. A cycle is defined as a non-empty
  subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
  starting and ending with the same node.
@@ -315,7 +315,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>transitiveClosure</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.189">transitiveClosure</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.188">transitiveClosure</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns the transitive closure of <code>graph</code>. The transitive closure of a graph is another
  graph with an edge connecting node A to node B if node B is <a href="#reachableNodes(com.google.common.graph.Graph,N)"><code>reachable</code></a> from node A.
 
@@ -336,7 +336,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>reachableNodes</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.235">reachableNodes</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.234">reachableNodes</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
                                                  N&nbsp;node)</pre>
 <div class="block">Returns the set of nodes that are reachable from <code>node</code>. Node B is defined as reachable
  from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
@@ -359,7 +359,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.248">transpose</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.247">transpose</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </li>
@@ -370,7 +370,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.264">transpose</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.263">transpose</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </li>
@@ -381,7 +381,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.280">transpose</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.279">transpose</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network)</pre>
 <div class="block">Returns a view of <code>network</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>network</code> will be reflected in the view.</div>
 </li>
@@ -392,7 +392,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.503">inducedSubgraph</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.502">inducedSubgraph</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
                                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Graph.html#edges()"><code>edges</code></a>
@@ -409,7 +409,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.529">inducedSubgraph</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph,
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.528">inducedSubgraph</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph,
                                                                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Graph.html#edges()"><code>edges</code></a>
@@ -427,7 +427,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.560">inducedSubgraph</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network,
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.559">inducedSubgraph</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network,
                                                                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>network</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Network.html#edges()"><code>edges</code></a>
@@ -445,7 +445,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.581">copyOf</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.580">copyOf</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
 </li>
 </ul>
@@ -455,7 +455,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.593">copyOf</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.592">copyOf</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </li>
 </ul>
@@ -465,7 +465,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.610">copyOf</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.609">copyOf</a>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network)</pre>
 <div class="block">Creates a mutable copy of <code>network</code> with the same nodes and edges.</div>
 </li>
 </ul>

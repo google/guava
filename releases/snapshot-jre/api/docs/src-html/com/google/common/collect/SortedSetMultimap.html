@@ -58,75 +58,74 @@
 <span class="sourceLineNo">049</span><a id="line.49"> * @since 2.0</a>
 <span class="sourceLineNo">050</span><a id="line.50"> */</a>
 <span class="sourceLineNo">051</span><a id="line.51">@GwtCompatible</a>
-<span class="sourceLineNo">052</span><a id="line.52">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">053</span><a id="line.53">public interface SortedSetMultimap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">054</span><a id="line.54">    extends SetMultimap&lt;K, V&gt; {</a>
-<span class="sourceLineNo">055</span><a id="line.55">  // Following Javadoc copied from Multimap.</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">  /**</a>
-<span class="sourceLineNo">058</span><a id="line.58">   * Returns a collection view of all values associated with a key. If no mappings in the multimap</a>
-<span class="sourceLineNo">059</span><a id="line.59">   * have the provided key, an empty collection is returned.</a>
-<span class="sourceLineNo">060</span><a id="line.60">   *</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * &lt;p&gt;Changes to the returned collection will update the underlying multimap, and vice versa.</a>
-<span class="sourceLineNo">062</span><a id="line.62">   *</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
-<span class="sourceLineNo">064</span><a id="line.64">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
-<span class="sourceLineNo">065</span><a id="line.65">   * {@link Multimap} interface.</a>
-<span class="sourceLineNo">066</span><a id="line.66">   */</a>
-<span class="sourceLineNo">067</span><a id="line.67">  @Override</a>
-<span class="sourceLineNo">068</span><a id="line.68">  SortedSet&lt;V&gt; get(@ParametricNullness K key);</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  /**</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * Removes all values associated with a given key.</a>
-<span class="sourceLineNo">072</span><a id="line.72">   *</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * {@link Multimap} interface.</a>
-<span class="sourceLineNo">076</span><a id="line.76">   */</a>
-<span class="sourceLineNo">077</span><a id="line.77">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">078</span><a id="line.78">  @Override</a>
-<span class="sourceLineNo">079</span><a id="line.79">  SortedSet&lt;V&gt; removeAll(@CheckForNull Object key);</a>
-<span class="sourceLineNo">080</span><a id="line.80"></a>
-<span class="sourceLineNo">081</span><a id="line.81">  /**</a>
-<span class="sourceLineNo">082</span><a id="line.82">   * Stores a collection of values with the same key, replacing any existing values for that key.</a>
-<span class="sourceLineNo">083</span><a id="line.83">   *</a>
-<span class="sourceLineNo">084</span><a id="line.84">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
-<span class="sourceLineNo">085</span><a id="line.85">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
-<span class="sourceLineNo">086</span><a id="line.86">   * {@link Multimap} interface.</a>
-<span class="sourceLineNo">087</span><a id="line.87">   *</a>
-<span class="sourceLineNo">088</span><a id="line.88">   * &lt;p&gt;Any duplicates in {@code values} will be stored in the multimap once.</a>
-<span class="sourceLineNo">089</span><a id="line.89">   */</a>
-<span class="sourceLineNo">090</span><a id="line.90">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">091</span><a id="line.91">  @Override</a>
-<span class="sourceLineNo">092</span><a id="line.92">  SortedSet&lt;V&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V&gt; values);</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">  /**</a>
-<span class="sourceLineNo">095</span><a id="line.95">   * Returns a map view that associates each key with the corresponding values in the multimap.</a>
-<span class="sourceLineNo">096</span><a id="line.96">   * Changes to the returned map, such as element removal, will update the underlying multimap. The</a>
-<span class="sourceLineNo">097</span><a id="line.97">   * map does not support {@code setValue()} on its entries, {@code put}, or {@code putAll}.</a>
-<span class="sourceLineNo">098</span><a id="line.98">   *</a>
-<span class="sourceLineNo">099</span><a id="line.99">   * &lt;p&gt;When passed a key that is present in the map, {@code asMap().get(Object)} has the same</a>
-<span class="sourceLineNo">100</span><a id="line.100">   * behavior as {@link #get}, returning a live collection. When passed a key that is not present,</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * however, {@code asMap().get(Object)} returns {@code null} instead of an empty collection.</a>
-<span class="sourceLineNo">102</span><a id="line.102">   *</a>
-<span class="sourceLineNo">103</span><a id="line.103">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned map's values are guaranteed to be of type {@link SortedSet}. To</a>
-<span class="sourceLineNo">104</span><a id="line.104">   * obtain this map with the more specific generic type {@code Map&lt;K, SortedSet&lt;V&gt;&gt;}, call {@link</a>
-<span class="sourceLineNo">105</span><a id="line.105">   * Multimaps#asMap(SortedSetMultimap)} instead. &lt;b&gt;However&lt;/b&gt;, the returned map &lt;i&gt;itself&lt;/i&gt; is</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * not necessarily a {@link SortedMap}: A {@code SortedSetMultimap} must expose the &lt;i&gt;values&lt;/i&gt;</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * for a given key in sorted order, but it need not expose the &lt;i&gt;keys&lt;/i&gt; in sorted order.</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * Individual {@code SortedSetMultimap} implementations, like those built with {@link</a>
-<span class="sourceLineNo">109</span><a id="line.109">   * MultimapBuilder#treeKeys()}, may make additional guarantees.</a>
-<span class="sourceLineNo">110</span><a id="line.110">   */</a>
-<span class="sourceLineNo">111</span><a id="line.111">  @Override</a>
-<span class="sourceLineNo">112</span><a id="line.112">  Map&lt;K, Collection&lt;V&gt;&gt; asMap();</a>
-<span class="sourceLineNo">113</span><a id="line.113"></a>
-<span class="sourceLineNo">114</span><a id="line.114">  /**</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * Returns the comparator that orders the multimap values, with {@code null} indicating that</a>
-<span class="sourceLineNo">116</span><a id="line.116">   * natural ordering is used.</a>
-<span class="sourceLineNo">117</span><a id="line.117">   */</a>
-<span class="sourceLineNo">118</span><a id="line.118">  @CheckForNull</a>
-<span class="sourceLineNo">119</span><a id="line.119">  Comparator&lt;? super V&gt; valueComparator();</a>
-<span class="sourceLineNo">120</span><a id="line.120">}</a>
+<span class="sourceLineNo">052</span><a id="line.52">public interface SortedSetMultimap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">053</span><a id="line.53">    extends SetMultimap&lt;K, V&gt; {</a>
+<span class="sourceLineNo">054</span><a id="line.54">  // Following Javadoc copied from Multimap.</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  /**</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * Returns a collection view of all values associated with a key. If no mappings in the multimap</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * have the provided key, an empty collection is returned.</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * &lt;p&gt;Changes to the returned collection will update the underlying multimap, and vice versa.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * {@link Multimap} interface.</a>
+<span class="sourceLineNo">065</span><a id="line.65">   */</a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Override</a>
+<span class="sourceLineNo">067</span><a id="line.67">  SortedSet&lt;V&gt; get(@ParametricNullness K key);</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  /**</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * Removes all values associated with a given key.</a>
+<span class="sourceLineNo">071</span><a id="line.71">   *</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * {@link Multimap} interface.</a>
+<span class="sourceLineNo">075</span><a id="line.75">   */</a>
+<span class="sourceLineNo">076</span><a id="line.76">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
+<span class="sourceLineNo">078</span><a id="line.78">  SortedSet&lt;V&gt; removeAll(@CheckForNull Object key);</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">  /**</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * Stores a collection of values with the same key, replacing any existing values for that key.</a>
+<span class="sourceLineNo">082</span><a id="line.82">   *</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * {@link Multimap} interface.</a>
+<span class="sourceLineNo">086</span><a id="line.86">   *</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * &lt;p&gt;Any duplicates in {@code values} will be stored in the multimap once.</a>
+<span class="sourceLineNo">088</span><a id="line.88">   */</a>
+<span class="sourceLineNo">089</span><a id="line.89">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">090</span><a id="line.90">  @Override</a>
+<span class="sourceLineNo">091</span><a id="line.91">  SortedSet&lt;V&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V&gt; values);</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">  /**</a>
+<span class="sourceLineNo">094</span><a id="line.94">   * Returns a map view that associates each key with the corresponding values in the multimap.</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * Changes to the returned map, such as element removal, will update the underlying multimap. The</a>
+<span class="sourceLineNo">096</span><a id="line.96">   * map does not support {@code setValue()} on its entries, {@code put}, or {@code putAll}.</a>
+<span class="sourceLineNo">097</span><a id="line.97">   *</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * &lt;p&gt;When passed a key that is present in the map, {@code asMap().get(Object)} has the same</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * behavior as {@link #get}, returning a live collection. When passed a key that is not present,</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * however, {@code asMap().get(Object)} returns {@code null} instead of an empty collection.</a>
+<span class="sourceLineNo">101</span><a id="line.101">   *</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned map's values are guaranteed to be of type {@link SortedSet}. To</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * obtain this map with the more specific generic type {@code Map&lt;K, SortedSet&lt;V&gt;&gt;}, call {@link</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * Multimaps#asMap(SortedSetMultimap)} instead. &lt;b&gt;However&lt;/b&gt;, the returned map &lt;i&gt;itself&lt;/i&gt; is</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * not necessarily a {@link SortedMap}: A {@code SortedSetMultimap} must expose the &lt;i&gt;values&lt;/i&gt;</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * for a given key in sorted order, but it need not expose the &lt;i&gt;keys&lt;/i&gt; in sorted order.</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * Individual {@code SortedSetMultimap} implementations, like those built with {@link</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * MultimapBuilder#treeKeys()}, may make additional guarantees.</a>
+<span class="sourceLineNo">109</span><a id="line.109">   */</a>
+<span class="sourceLineNo">110</span><a id="line.110">  @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">  Map&lt;K, Collection&lt;V&gt;&gt; asMap();</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">  /**</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * Returns the comparator that orders the multimap values, with {@code null} indicating that</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * natural ordering is used.</a>
+<span class="sourceLineNo">116</span><a id="line.116">   */</a>
+<span class="sourceLineNo">117</span><a id="line.117">  @CheckForNull</a>
+<span class="sourceLineNo">118</span><a id="line.118">  Comparator&lt;? super V&gt; valueComparator();</a>
+<span class="sourceLineNo">119</span><a id="line.119">}</a>
 
 
 

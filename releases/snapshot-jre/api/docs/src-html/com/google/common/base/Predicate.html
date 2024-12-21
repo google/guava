@@ -51,43 +51,42 @@
 <span class="sourceLineNo">042</span><a id="line.42"> */</a>
 <span class="sourceLineNo">043</span><a id="line.43">@FunctionalInterface</a>
 <span class="sourceLineNo">044</span><a id="line.44">@GwtCompatible</a>
-<span class="sourceLineNo">045</span><a id="line.45">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">046</span><a id="line.46">public interface Predicate&lt;T extends @Nullable Object&gt; extends java.util.function.Predicate&lt;T&gt; {</a>
-<span class="sourceLineNo">047</span><a id="line.47">  /**</a>
-<span class="sourceLineNo">048</span><a id="line.48">   * Returns the result of applying this predicate to {@code input} (Java 8+ users, see notes in the</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * class documentation above). This method is &lt;i&gt;generally expected&lt;/i&gt;, but not absolutely</a>
-<span class="sourceLineNo">050</span><a id="line.50">   * required, to have the following properties:</a>
-<span class="sourceLineNo">051</span><a id="line.51">   *</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">053</span><a id="line.53">   *   &lt;li&gt;Its execution does not cause any observable side effects.</a>
-<span class="sourceLineNo">054</span><a id="line.54">   *   &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal</a>
-<span class="sourceLineNo">055</span><a id="line.55">   *       Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==</a>
-<span class="sourceLineNo">056</span><a id="line.56">   *       predicate.apply(b))}.</a>
-<span class="sourceLineNo">057</span><a id="line.57">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">058</span><a id="line.58">   *</a>
-<span class="sourceLineNo">059</span><a id="line.59">   * @throws NullPointerException if {@code input} is null and this predicate does not accept null</a>
-<span class="sourceLineNo">060</span><a id="line.60">   *     arguments</a>
-<span class="sourceLineNo">061</span><a id="line.61">   */</a>
-<span class="sourceLineNo">062</span><a id="line.62">  boolean apply(@ParametricNullness T input);</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">  /**</a>
-<span class="sourceLineNo">065</span><a id="line.65">   * Indicates whether another object is equal to this predicate.</a>
-<span class="sourceLineNo">066</span><a id="line.66">   *</a>
-<span class="sourceLineNo">067</span><a id="line.67">   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.</a>
-<span class="sourceLineNo">068</span><a id="line.68">   * However, an implementation may also choose to return {@code true} whenever {@code object} is a</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * {@link Predicate} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * &lt;i&gt;typically&lt;/i&gt; means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * {@code T}). Note that a {@code false} result from this method does not imply that the</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * predicates are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.</a>
-<span class="sourceLineNo">073</span><a id="line.73">   */</a>
-<span class="sourceLineNo">074</span><a id="line.74">  @Override</a>
-<span class="sourceLineNo">075</span><a id="line.75">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">076</span><a id="line.76"></a>
-<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
-<span class="sourceLineNo">078</span><a id="line.78">  default boolean test(@ParametricNullness T input) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    return apply(input);</a>
-<span class="sourceLineNo">080</span><a id="line.80">  }</a>
-<span class="sourceLineNo">081</span><a id="line.81">}</a>
+<span class="sourceLineNo">045</span><a id="line.45">public interface Predicate&lt;T extends @Nullable Object&gt; extends java.util.function.Predicate&lt;T&gt; {</a>
+<span class="sourceLineNo">046</span><a id="line.46">  /**</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * Returns the result of applying this predicate to {@code input} (Java 8+ users, see notes in the</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * class documentation above). This method is &lt;i&gt;generally expected&lt;/i&gt;, but not absolutely</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * required, to have the following properties:</a>
+<span class="sourceLineNo">050</span><a id="line.50">   *</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">052</span><a id="line.52">   *   &lt;li&gt;Its execution does not cause any observable side effects.</a>
+<span class="sourceLineNo">053</span><a id="line.53">   *   &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal</a>
+<span class="sourceLineNo">054</span><a id="line.54">   *       Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==</a>
+<span class="sourceLineNo">055</span><a id="line.55">   *       predicate.apply(b))}.</a>
+<span class="sourceLineNo">056</span><a id="line.56">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57">   *</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * @throws NullPointerException if {@code input} is null and this predicate does not accept null</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *     arguments</a>
+<span class="sourceLineNo">060</span><a id="line.60">   */</a>
+<span class="sourceLineNo">061</span><a id="line.61">  boolean apply(@ParametricNullness T input);</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  /**</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * Indicates whether another object is equal to this predicate.</a>
+<span class="sourceLineNo">065</span><a id="line.65">   *</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * &lt;p&gt;Most implementations will have no reason to override the behavior of {@link Object#equals}.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * However, an implementation may also choose to return {@code true} whenever {@code object} is a</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * {@link Predicate} that it considers &lt;i&gt;interchangeable&lt;/i&gt; with this one. "Interchangeable"</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * &lt;i&gt;typically&lt;/i&gt; means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * {@code T}). Note that a {@code false} result from this method does not imply that the</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * predicates are known &lt;i&gt;not&lt;/i&gt; to be interchangeable.</a>
+<span class="sourceLineNo">072</span><a id="line.72">   */</a>
+<span class="sourceLineNo">073</span><a id="line.73">  @Override</a>
+<span class="sourceLineNo">074</span><a id="line.74">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
+<span class="sourceLineNo">077</span><a id="line.77">  default boolean test(@ParametricNullness T input) {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return apply(input);</a>
+<span class="sourceLineNo">079</span><a id="line.79">  }</a>
+<span class="sourceLineNo">080</span><a id="line.80">}</a>
 
 
 

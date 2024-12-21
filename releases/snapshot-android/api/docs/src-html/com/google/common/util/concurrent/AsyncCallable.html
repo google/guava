@@ -37,17 +37,16 @@
 <span class="sourceLineNo">028</span><a id="line.28"> * @since 20.0</a>
 <span class="sourceLineNo">029</span><a id="line.29"> */</a>
 <span class="sourceLineNo">030</span><a id="line.30">@GwtCompatible</a>
-<span class="sourceLineNo">031</span><a id="line.31">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">032</span><a id="line.32">public interface AsyncCallable&lt;V extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">033</span><a id="line.33">  /**</a>
-<span class="sourceLineNo">034</span><a id="line.34">   * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain</a>
-<span class="sourceLineNo">035</span><a id="line.35">   * Future#isDone done}, making {@code AsyncCallable} suitable for asynchronous derivations.</a>
-<span class="sourceLineNo">036</span><a id="line.36">   *</a>
-<span class="sourceLineNo">037</span><a id="line.37">   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@link</a>
-<span class="sourceLineNo">038</span><a id="line.38">   * ListenableFuture}.</a>
-<span class="sourceLineNo">039</span><a id="line.39">   */</a>
-<span class="sourceLineNo">040</span><a id="line.40">  ListenableFuture&lt;V&gt; call() throws Exception;</a>
-<span class="sourceLineNo">041</span><a id="line.41">}</a>
+<span class="sourceLineNo">031</span><a id="line.31">public interface AsyncCallable&lt;V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">032</span><a id="line.32">  /**</a>
+<span class="sourceLineNo">033</span><a id="line.33">   * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain</a>
+<span class="sourceLineNo">034</span><a id="line.34">   * Future#isDone done}, making {@code AsyncCallable} suitable for asynchronous derivations.</a>
+<span class="sourceLineNo">035</span><a id="line.35">   *</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@link</a>
+<span class="sourceLineNo">037</span><a id="line.37">   * ListenableFuture}.</a>
+<span class="sourceLineNo">038</span><a id="line.38">   */</a>
+<span class="sourceLineNo">039</span><a id="line.39">  ListenableFuture&lt;V&gt; call() throws Exception;</a>
+<span class="sourceLineNo">040</span><a id="line.40">}</a>
 
 
 

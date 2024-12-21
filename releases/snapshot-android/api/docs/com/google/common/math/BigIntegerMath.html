@@ -278,7 +278,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>ceilingPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.57">ceilingPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.56">ceilingPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
 <div class="block">Returns the smallest power of two greater than or equal to <code>x</code>. This is equivalent to
  <code>BigInteger.valueOf(2).pow(log2(x, CEILING))</code>.</div>
 <dl>
@@ -295,7 +295,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>floorPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.68">floorPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.67">floorPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
 <div class="block">Returns the largest power of two less than or equal to <code>x</code>. This is equivalent to <code>
  BigInteger.valueOf(2).pow(log2(x, FLOOR))</code>.</div>
 <dl>
@@ -312,7 +312,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>isPowerOfTwo</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.73">isPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.72">isPowerOfTwo</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x)</pre>
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.</div>
 </li>
 </ul>
@@ -322,7 +322,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>log2</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.85">log2</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.84">log2</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
@@ -340,7 +340,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>log10</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.142">log10</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.141">log10</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
                         <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
@@ -358,7 +358,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>sqrt</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.219">sqrt</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.218">sqrt</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
                               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 <dl>
@@ -376,7 +376,7 @@ public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/j
 <li class="blockList">
 <h4>roundToDouble</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.324">roundToDouble</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.323">roundToDouble</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;x,
                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode. If <code>x</code>
  is precisely representable as a <code>double</code>, its <code>double</code> value will be returned;
@@ -409,7 +409,7 @@ public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/m
 <li class="blockList">
 <h4>divide</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.363">divide</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;p,
+public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.362">divide</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;p,
                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;q,
                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
@@ -427,7 +427,7 @@ public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/j
 <ul class="blockList">
 <li class="blockList">
 <h4>factorial</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.382">factorial</a>&#8203;(int&nbsp;n)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.381">factorial</a>&#8203;(int&nbsp;n)</pre>
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, or <code>1</code>
  if <code>n == 0</code>.
 
@@ -448,7 +448,7 @@ public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/j
 <ul class="blockListLast">
 <li class="blockList">
 <h4>binomial</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.466">binomial</a>&#8203;(int&nbsp;n,
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/BigIntegerMath.html#line.465">binomial</a>&#8203;(int&nbsp;n,
                                   int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, that is, <code>n! / (k! (n - k)!)</code>.

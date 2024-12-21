@@ -433,7 +433,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.117">nodes</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.116">nodes</a>()</pre>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
 </li>
 </ul>
@@ -443,7 +443,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.121">edges</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.120">edges</a>()</pre>
 <div class="block">Returns all edges in this graph.</div>
 </li>
 </ul>
@@ -453,7 +453,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>asGraph</h4>
-<pre class="methodSignature"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.128">asGraph</a>()</pre>
+<pre class="methodSignature"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.127">asGraph</a>()</pre>
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have an
  edge connecting node A to node B if this <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> has an edge connecting A to B.</div>
 </li>
@@ -464,7 +464,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.139">isDirected</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.138">isDirected</a>()</pre>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </li>
@@ -475,7 +475,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.147">allowsSelfLoops</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.146">allowsSelfLoops</a>()</pre>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
  to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a>.</div>
 </li>
@@ -486,7 +486,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.151">nodeOrder</a>()</pre>
+<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.150">nodeOrder</a>()</pre>
 <div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </li>
 </ul>
@@ -496,7 +496,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.161">incidentEdgeOrder</a>()</pre>
+<pre class="methodSignature"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.160">incidentEdgeOrder</a>()</pre>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="#edges()"><code>edges()</code></a>, <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>, <a href="#predecessors(N)"><code>predecessors(Object)</code></a>, <a href="#successors(N)"><code>successors(Object)</code></a> and <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
 <dl>
@@ -513,7 +513,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.188">adjacentNodes</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.187">adjacentNodes</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
  this graph.
 
@@ -544,7 +544,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.203">predecessors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.202">predecessors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
@@ -569,7 +569,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.229">successors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.228">successors</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
@@ -605,7 +605,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.252">incidentEdges</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.251">incidentEdges</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.
 
  <p>This is equal to the union of incoming and outgoing edges.
@@ -637,7 +637,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.268">degree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.267">degree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -661,7 +661,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.279">inDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.278">inDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -680,7 +680,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.290">outDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.289">outDegree</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -699,7 +699,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.301">hasEdgeConnecting</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.300">hasEdgeConnecting</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                           <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -717,7 +717,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.317">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.316">hasEdgeConnecting</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>
  edges().contains(endpoints)</code>.
@@ -741,7 +741,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValue</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.329">edgeValue</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.328">edgeValue</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                       <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code> (in the order, if
  any, specified by <code>endpoints</code>), if one is present; otherwise, returns <code>
@@ -761,7 +761,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValue</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.341">edgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.340">edgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>Optional.empty()</code>.
 
@@ -784,7 +784,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.353">edgeValueOrDefault</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.352">edgeValueOrDefault</a>&#8203;(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
@@ -809,7 +809,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.366">edgeValueOrDefault</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
+<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.365">edgeValueOrDefault</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                      <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
@@ -831,7 +831,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.393">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.392">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.
@@ -863,7 +863,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.403">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.402">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="#edges()"><code>edges</code></a> to the associated <code>edge
  value</code>.

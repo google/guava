@@ -309,7 +309,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>getHost</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.94">getHost</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.93">getHost</a>()</pre>
 <div class="block">Returns the portion of this <code>HostAndPort</code> instance that should represent the hostname or
  IPv4/IPv6 literal.
 
@@ -327,7 +327,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>hasPort</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.99">hasPort</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.98">hasPort</a>()</pre>
 <div class="block">Return true if this instance has a defined port.</div>
 </li>
 </ul>
@@ -337,7 +337,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>getPort</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.110">getPort</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.109">getPort</a>()</pre>
 <div class="block">Get the current port number, failing if no port is defined.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -354,7 +354,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>getPortOrDefault</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.116">getPortOrDefault</a>&#8203;(int&nbsp;defaultPort)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.115">getPortOrDefault</a>&#8203;(int&nbsp;defaultPort)</pre>
 <div class="block">Returns the current port number, with a default if no port is defined.</div>
 </li>
 </ul>
@@ -364,7 +364,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>fromParts</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.132">fromParts</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;host,
+<pre class="methodSignature">public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.131">fromParts</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;host,
                                     int&nbsp;port)</pre>
 <div class="block">Build a HostAndPort instance from separate host and port values.
 
@@ -388,7 +388,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>fromHost</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.150">fromHost</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;host)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.149">fromHost</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;host)</pre>
 <div class="block">Build a HostAndPort instance from a host only.
 
  <p>Note: Non-bracketed IPv6 literals are allowed. Use <a href="#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to
@@ -412,7 +412,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <li class="blockList">
 <h4>fromString</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.166">fromString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;hostPortString)</pre>
+public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.165">fromString</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;hostPortString)</pre>
 <div class="block">Split a freeform string into a host and port, without strict validation.
 
  <p>Note that the host-only formats will leave the port field undefined. You can use <a href="#withDefaultPort(int)"><code>withDefaultPort(int)</code></a> to patch in a default value.</div>
@@ -432,7 +432,7 @@ public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>withDefaultPort</h4>
-<pre class="methodSignature">public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.255">withDefaultPort</a>&#8203;(int&nbsp;defaultPort)</pre>
+<pre class="methodSignature">public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.254">withDefaultPort</a>&#8203;(int&nbsp;defaultPort)</pre>
 <div class="block">Provide a default port if the parsed string contained only a host.
 
  <p>You can chain this after <a href="#fromString(java.lang.String)"><code>fromString(String)</code></a> to include a port in case the port was
@@ -452,7 +452,7 @@ public static&nbsp;<a href="HostAndPort.html" title="class in com.google.common.
 <li class="blockList">
 <h4>requireBracketsForIPv6</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.277">requireBracketsForIPv6</a>()</pre>
+public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.276">requireBracketsForIPv6</a>()</pre>
 <div class="block">Generate an error if the host might be a non-bracketed IPv6 literal.
 
  <p>URI formatting requires that IPv6 literals be surrounded by brackets, like "[2001:db8::1]".
@@ -476,7 +476,7 @@ public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">Ho
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.283">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.282">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -490,7 +490,7 @@ public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">Ho
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.295">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.294">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -503,7 +503,7 @@ public&nbsp;<a href="HostAndPort.html" title="class in com.google.common.net">Ho
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.301">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.300">toString</a>()</pre>
 <div class="block">Rebuild the host:port string, including brackets if necessary.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

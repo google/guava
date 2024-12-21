@@ -48,142 +48,141 @@
 <span class="sourceLineNo">039</span><a id="line.39"> */</a>
 <span class="sourceLineNo">040</span><a id="line.40">@J2ktIncompatible</a>
 <span class="sourceLineNo">041</span><a id="line.41">@GwtIncompatible</a>
-<span class="sourceLineNo">042</span><a id="line.42">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">043</span><a id="line.43">public final class JdkFutureAdapters {</a>
-<span class="sourceLineNo">044</span><a id="line.44">  /**</a>
-<span class="sourceLineNo">045</span><a id="line.45">   * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.</a>
-<span class="sourceLineNo">046</span><a id="line.46">   *</a>
-<span class="sourceLineNo">047</span><a id="line.47">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If the input future does not already implement {@code ListenableFuture}, the</a>
-<span class="sourceLineNo">048</span><a id="line.48">   * returned future will emulate {@link ListenableFuture#addListener} by taking a thread from an</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * internal, unbounded pool at the first call to {@code addListener} and holding it until the</a>
-<span class="sourceLineNo">050</span><a id="line.50">   * future is {@linkplain Future#isDone() done}.</a>
-<span class="sourceLineNo">051</span><a id="line.51">   *</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * &lt;p&gt;Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link</a>
-<span class="sourceLineNo">053</span><a id="line.53">   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code</a>
-<span class="sourceLineNo">055</span><a id="line.55">   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.</a>
-<span class="sourceLineNo">056</span><a id="line.56">   */</a>
-<span class="sourceLineNo">057</span><a id="line.57">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; listenInPoolThread(</a>
-<span class="sourceLineNo">058</span><a id="line.58">      Future&lt;V&gt; future) {</a>
-<span class="sourceLineNo">059</span><a id="line.59">    if (future instanceof ListenableFuture) {</a>
-<span class="sourceLineNo">060</span><a id="line.60">      return (ListenableFuture&lt;V&gt;) future;</a>
-<span class="sourceLineNo">061</span><a id="line.61">    }</a>
-<span class="sourceLineNo">062</span><a id="line.62">    return new ListenableFutureAdapter&lt;&gt;(future);</a>
-<span class="sourceLineNo">063</span><a id="line.63">  }</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">  /**</a>
-<span class="sourceLineNo">066</span><a id="line.66">   * Submits a blocking task for the given {@link Future} to provide {@link ListenableFuture}</a>
-<span class="sourceLineNo">067</span><a id="line.67">   * functionality.</a>
-<span class="sourceLineNo">068</span><a id="line.68">   *</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If the input future does not already implement {@code ListenableFuture}, the</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * returned future will emulate {@link ListenableFuture#addListener} by submitting a task to the</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * given executor at the first call to {@code addListener}. The task must be started by the</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * executor promptly, or else the returned {@code ListenableFuture} may fail to work. The task's</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * execution consists of blocking until the input future is {@linkplain Future#isDone() done}, so</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * each call to this method may claim and hold a thread for an arbitrary length of time. Use of</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * bounded executors or other executors that may fail to execute a task promptly may result in</a>
-<span class="sourceLineNo">076</span><a id="line.76">   * deadlocks.</a>
-<span class="sourceLineNo">077</span><a id="line.77">   *</a>
-<span class="sourceLineNo">078</span><a id="line.78">   * &lt;p&gt;Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link</a>
-<span class="sourceLineNo">079</span><a id="line.79">   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code</a>
-<span class="sourceLineNo">081</span><a id="line.81">   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.</a>
-<span class="sourceLineNo">082</span><a id="line.82">   *</a>
-<span class="sourceLineNo">083</span><a id="line.83">   * @since 12.0</a>
-<span class="sourceLineNo">084</span><a id="line.84">   */</a>
-<span class="sourceLineNo">085</span><a id="line.85">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; listenInPoolThread(</a>
-<span class="sourceLineNo">086</span><a id="line.86">      Future&lt;V&gt; future, Executor executor) {</a>
-<span class="sourceLineNo">087</span><a id="line.87">    checkNotNull(executor);</a>
-<span class="sourceLineNo">088</span><a id="line.88">    if (future instanceof ListenableFuture) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">      return (ListenableFuture&lt;V&gt;) future;</a>
-<span class="sourceLineNo">090</span><a id="line.90">    }</a>
-<span class="sourceLineNo">091</span><a id="line.91">    return new ListenableFutureAdapter&lt;&gt;(future, executor);</a>
-<span class="sourceLineNo">092</span><a id="line.92">  }</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">  /**</a>
-<span class="sourceLineNo">095</span><a id="line.95">   * An adapter to turn a {@link Future} into a {@link ListenableFuture}. This will wait on the</a>
-<span class="sourceLineNo">096</span><a id="line.96">   * future to finish, and when it completes, run the listeners. This implementation will wait on</a>
-<span class="sourceLineNo">097</span><a id="line.97">   * the source future indefinitely, so if the source future never completes, the adapter will never</a>
-<span class="sourceLineNo">098</span><a id="line.98">   * complete either.</a>
-<span class="sourceLineNo">099</span><a id="line.99">   *</a>
-<span class="sourceLineNo">100</span><a id="line.100">   * &lt;p&gt;If the delegate future is interrupted or throws an unexpected unchecked exception, the</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * listeners will not be invoked.</a>
-<span class="sourceLineNo">102</span><a id="line.102">   */</a>
-<span class="sourceLineNo">103</span><a id="line.103">  private static class ListenableFutureAdapter&lt;V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">104</span><a id="line.104">      extends ForwardingFuture&lt;V&gt; implements ListenableFuture&lt;V&gt; {</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">    private static final ThreadFactory threadFactory =</a>
-<span class="sourceLineNo">107</span><a id="line.107">        new ThreadFactoryBuilder()</a>
-<span class="sourceLineNo">108</span><a id="line.108">            .setDaemon(true)</a>
-<span class="sourceLineNo">109</span><a id="line.109">            .setNameFormat("ListenableFutureAdapter-thread-%d")</a>
-<span class="sourceLineNo">110</span><a id="line.110">            .build();</a>
-<span class="sourceLineNo">111</span><a id="line.111">    private static final Executor defaultAdapterExecutor =</a>
-<span class="sourceLineNo">112</span><a id="line.112">        Executors.newCachedThreadPool(threadFactory);</a>
-<span class="sourceLineNo">113</span><a id="line.113"></a>
-<span class="sourceLineNo">114</span><a id="line.114">    private final Executor adapterExecutor;</a>
-<span class="sourceLineNo">115</span><a id="line.115"></a>
-<span class="sourceLineNo">116</span><a id="line.116">    // The execution list to hold our listeners.</a>
-<span class="sourceLineNo">117</span><a id="line.117">    private final ExecutionList executionList = new ExecutionList();</a>
-<span class="sourceLineNo">118</span><a id="line.118"></a>
-<span class="sourceLineNo">119</span><a id="line.119">    // This allows us to only start up a thread waiting on the delegate future when the first</a>
-<span class="sourceLineNo">120</span><a id="line.120">    // listener is added.</a>
-<span class="sourceLineNo">121</span><a id="line.121">    private final AtomicBoolean hasListeners = new AtomicBoolean(false);</a>
-<span class="sourceLineNo">122</span><a id="line.122"></a>
-<span class="sourceLineNo">123</span><a id="line.123">    // The delegate future.</a>
-<span class="sourceLineNo">124</span><a id="line.124">    private final Future&lt;V&gt; delegate;</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">    ListenableFutureAdapter(Future&lt;V&gt; delegate) {</a>
-<span class="sourceLineNo">127</span><a id="line.127">      this(delegate, defaultAdapterExecutor);</a>
-<span class="sourceLineNo">128</span><a id="line.128">    }</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">    ListenableFutureAdapter(Future&lt;V&gt; delegate, Executor adapterExecutor) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">132</span><a id="line.132">      this.adapterExecutor = checkNotNull(adapterExecutor);</a>
-<span class="sourceLineNo">133</span><a id="line.133">    }</a>
-<span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">    @Override</a>
-<span class="sourceLineNo">136</span><a id="line.136">    protected Future&lt;V&gt; delegate() {</a>
-<span class="sourceLineNo">137</span><a id="line.137">      return delegate;</a>
-<span class="sourceLineNo">138</span><a id="line.138">    }</a>
-<span class="sourceLineNo">139</span><a id="line.139"></a>
-<span class="sourceLineNo">140</span><a id="line.140">    @Override</a>
-<span class="sourceLineNo">141</span><a id="line.141">    public void addListener(Runnable listener, Executor exec) {</a>
-<span class="sourceLineNo">142</span><a id="line.142">      executionList.add(listener, exec);</a>
-<span class="sourceLineNo">143</span><a id="line.143"></a>
-<span class="sourceLineNo">144</span><a id="line.144">      // When a listener is first added, we run a task that will wait for the delegate to finish,</a>
-<span class="sourceLineNo">145</span><a id="line.145">      // and when it is done will run the listeners.</a>
-<span class="sourceLineNo">146</span><a id="line.146">      if (hasListeners.compareAndSet(false, true)) {</a>
-<span class="sourceLineNo">147</span><a id="line.147">        if (delegate.isDone()) {</a>
-<span class="sourceLineNo">148</span><a id="line.148">          // If the delegate is already done, run the execution list immediately on the current</a>
-<span class="sourceLineNo">149</span><a id="line.149">          // thread.</a>
-<span class="sourceLineNo">150</span><a id="line.150">          executionList.execute();</a>
-<span class="sourceLineNo">151</span><a id="line.151">          return;</a>
-<span class="sourceLineNo">152</span><a id="line.152">        }</a>
-<span class="sourceLineNo">153</span><a id="line.153"></a>
-<span class="sourceLineNo">154</span><a id="line.154">        // TODO(lukes): handle RejectedExecutionException</a>
-<span class="sourceLineNo">155</span><a id="line.155">        adapterExecutor.execute(</a>
-<span class="sourceLineNo">156</span><a id="line.156">            () -&gt; {</a>
-<span class="sourceLineNo">157</span><a id="line.157">              try {</a>
-<span class="sourceLineNo">158</span><a id="line.158">                /*</a>
-<span class="sourceLineNo">159</span><a id="line.159">                 * Threads from our private pool are never interrupted. Threads from a</a>
-<span class="sourceLineNo">160</span><a id="line.160">                 * user-supplied executor might be, but... what can we do? This is another reason</a>
-<span class="sourceLineNo">161</span><a id="line.161">                 * to return a proper ListenableFuture instead of using listenInPoolThread.</a>
-<span class="sourceLineNo">162</span><a id="line.162">                 */</a>
-<span class="sourceLineNo">163</span><a id="line.163">                getUninterruptibly(delegate);</a>
-<span class="sourceLineNo">164</span><a id="line.164">              } catch (Throwable t) {</a>
-<span class="sourceLineNo">165</span><a id="line.165">                // (including CancellationException and sneaky checked exception)</a>
-<span class="sourceLineNo">166</span><a id="line.166">                // The task is presumably done, run the listeners.</a>
-<span class="sourceLineNo">167</span><a id="line.167">                // TODO(cpovirk): Do *something* in case of Error (and maybe</a>
-<span class="sourceLineNo">168</span><a id="line.168">                // non-CancellationException, non-ExecutionException exceptions)?</a>
-<span class="sourceLineNo">169</span><a id="line.169">              }</a>
-<span class="sourceLineNo">170</span><a id="line.170">              executionList.execute();</a>
-<span class="sourceLineNo">171</span><a id="line.171">            });</a>
-<span class="sourceLineNo">172</span><a id="line.172">      }</a>
-<span class="sourceLineNo">173</span><a id="line.173">    }</a>
-<span class="sourceLineNo">174</span><a id="line.174">  }</a>
-<span class="sourceLineNo">175</span><a id="line.175"></a>
-<span class="sourceLineNo">176</span><a id="line.176">  private JdkFutureAdapters() {}</a>
-<span class="sourceLineNo">177</span><a id="line.177">}</a>
+<span class="sourceLineNo">042</span><a id="line.42">public final class JdkFutureAdapters {</a>
+<span class="sourceLineNo">043</span><a id="line.43">  /**</a>
+<span class="sourceLineNo">044</span><a id="line.44">   * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.</a>
+<span class="sourceLineNo">045</span><a id="line.45">   *</a>
+<span class="sourceLineNo">046</span><a id="line.46">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If the input future does not already implement {@code ListenableFuture}, the</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * returned future will emulate {@link ListenableFuture#addListener} by taking a thread from an</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * internal, unbounded pool at the first call to {@code addListener} and holding it until the</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * future is {@linkplain Future#isDone() done}.</a>
+<span class="sourceLineNo">050</span><a id="line.50">   *</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * &lt;p&gt;Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; listenInPoolThread(</a>
+<span class="sourceLineNo">057</span><a id="line.57">      Future&lt;V&gt; future) {</a>
+<span class="sourceLineNo">058</span><a id="line.58">    if (future instanceof ListenableFuture) {</a>
+<span class="sourceLineNo">059</span><a id="line.59">      return (ListenableFuture&lt;V&gt;) future;</a>
+<span class="sourceLineNo">060</span><a id="line.60">    }</a>
+<span class="sourceLineNo">061</span><a id="line.61">    return new ListenableFutureAdapter&lt;&gt;(future);</a>
+<span class="sourceLineNo">062</span><a id="line.62">  }</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">  /**</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * Submits a blocking task for the given {@link Future} to provide {@link ListenableFuture}</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * functionality.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   *</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If the input future does not already implement {@code ListenableFuture}, the</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * returned future will emulate {@link ListenableFuture#addListener} by submitting a task to the</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * given executor at the first call to {@code addListener}. The task must be started by the</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * executor promptly, or else the returned {@code ListenableFuture} may fail to work. The task's</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * execution consists of blocking until the input future is {@linkplain Future#isDone() done}, so</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * each call to this method may claim and hold a thread for an arbitrary length of time. Use of</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * bounded executors or other executors that may fail to execute a task promptly may result in</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * deadlocks.</a>
+<span class="sourceLineNo">076</span><a id="line.76">   *</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * &lt;p&gt;Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link</a>
+<span class="sourceLineNo">078</span><a id="line.78">   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.</a>
+<span class="sourceLineNo">081</span><a id="line.81">   *</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * @since 12.0</a>
+<span class="sourceLineNo">083</span><a id="line.83">   */</a>
+<span class="sourceLineNo">084</span><a id="line.84">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;V&gt; listenInPoolThread(</a>
+<span class="sourceLineNo">085</span><a id="line.85">      Future&lt;V&gt; future, Executor executor) {</a>
+<span class="sourceLineNo">086</span><a id="line.86">    checkNotNull(executor);</a>
+<span class="sourceLineNo">087</span><a id="line.87">    if (future instanceof ListenableFuture) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">      return (ListenableFuture&lt;V&gt;) future;</a>
+<span class="sourceLineNo">089</span><a id="line.89">    }</a>
+<span class="sourceLineNo">090</span><a id="line.90">    return new ListenableFutureAdapter&lt;&gt;(future, executor);</a>
+<span class="sourceLineNo">091</span><a id="line.91">  }</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">  /**</a>
+<span class="sourceLineNo">094</span><a id="line.94">   * An adapter to turn a {@link Future} into a {@link ListenableFuture}. This will wait on the</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * future to finish, and when it completes, run the listeners. This implementation will wait on</a>
+<span class="sourceLineNo">096</span><a id="line.96">   * the source future indefinitely, so if the source future never completes, the adapter will never</a>
+<span class="sourceLineNo">097</span><a id="line.97">   * complete either.</a>
+<span class="sourceLineNo">098</span><a id="line.98">   *</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * &lt;p&gt;If the delegate future is interrupted or throws an unexpected unchecked exception, the</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * listeners will not be invoked.</a>
+<span class="sourceLineNo">101</span><a id="line.101">   */</a>
+<span class="sourceLineNo">102</span><a id="line.102">  private static class ListenableFutureAdapter&lt;V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">103</span><a id="line.103">      extends ForwardingFuture&lt;V&gt; implements ListenableFuture&lt;V&gt; {</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">    private static final ThreadFactory threadFactory =</a>
+<span class="sourceLineNo">106</span><a id="line.106">        new ThreadFactoryBuilder()</a>
+<span class="sourceLineNo">107</span><a id="line.107">            .setDaemon(true)</a>
+<span class="sourceLineNo">108</span><a id="line.108">            .setNameFormat("ListenableFutureAdapter-thread-%d")</a>
+<span class="sourceLineNo">109</span><a id="line.109">            .build();</a>
+<span class="sourceLineNo">110</span><a id="line.110">    private static final Executor defaultAdapterExecutor =</a>
+<span class="sourceLineNo">111</span><a id="line.111">        Executors.newCachedThreadPool(threadFactory);</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">    private final Executor adapterExecutor;</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">    // The execution list to hold our listeners.</a>
+<span class="sourceLineNo">116</span><a id="line.116">    private final ExecutionList executionList = new ExecutionList();</a>
+<span class="sourceLineNo">117</span><a id="line.117"></a>
+<span class="sourceLineNo">118</span><a id="line.118">    // This allows us to only start up a thread waiting on the delegate future when the first</a>
+<span class="sourceLineNo">119</span><a id="line.119">    // listener is added.</a>
+<span class="sourceLineNo">120</span><a id="line.120">    private final AtomicBoolean hasListeners = new AtomicBoolean(false);</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">    // The delegate future.</a>
+<span class="sourceLineNo">123</span><a id="line.123">    private final Future&lt;V&gt; delegate;</a>
+<span class="sourceLineNo">124</span><a id="line.124"></a>
+<span class="sourceLineNo">125</span><a id="line.125">    ListenableFutureAdapter(Future&lt;V&gt; delegate) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">      this(delegate, defaultAdapterExecutor);</a>
+<span class="sourceLineNo">127</span><a id="line.127">    }</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">    ListenableFutureAdapter(Future&lt;V&gt; delegate, Executor adapterExecutor) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">131</span><a id="line.131">      this.adapterExecutor = checkNotNull(adapterExecutor);</a>
+<span class="sourceLineNo">132</span><a id="line.132">    }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">    @Override</a>
+<span class="sourceLineNo">135</span><a id="line.135">    protected Future&lt;V&gt; delegate() {</a>
+<span class="sourceLineNo">136</span><a id="line.136">      return delegate;</a>
+<span class="sourceLineNo">137</span><a id="line.137">    }</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">    @Override</a>
+<span class="sourceLineNo">140</span><a id="line.140">    public void addListener(Runnable listener, Executor exec) {</a>
+<span class="sourceLineNo">141</span><a id="line.141">      executionList.add(listener, exec);</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">      // When a listener is first added, we run a task that will wait for the delegate to finish,</a>
+<span class="sourceLineNo">144</span><a id="line.144">      // and when it is done will run the listeners.</a>
+<span class="sourceLineNo">145</span><a id="line.145">      if (hasListeners.compareAndSet(false, true)) {</a>
+<span class="sourceLineNo">146</span><a id="line.146">        if (delegate.isDone()) {</a>
+<span class="sourceLineNo">147</span><a id="line.147">          // If the delegate is already done, run the execution list immediately on the current</a>
+<span class="sourceLineNo">148</span><a id="line.148">          // thread.</a>
+<span class="sourceLineNo">149</span><a id="line.149">          executionList.execute();</a>
+<span class="sourceLineNo">150</span><a id="line.150">          return;</a>
+<span class="sourceLineNo">151</span><a id="line.151">        }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">        // TODO(lukes): handle RejectedExecutionException</a>
+<span class="sourceLineNo">154</span><a id="line.154">        adapterExecutor.execute(</a>
+<span class="sourceLineNo">155</span><a id="line.155">            () -&gt; {</a>
+<span class="sourceLineNo">156</span><a id="line.156">              try {</a>
+<span class="sourceLineNo">157</span><a id="line.157">                /*</a>
+<span class="sourceLineNo">158</span><a id="line.158">                 * Threads from our private pool are never interrupted. Threads from a</a>
+<span class="sourceLineNo">159</span><a id="line.159">                 * user-supplied executor might be, but... what can we do? This is another reason</a>
+<span class="sourceLineNo">160</span><a id="line.160">                 * to return a proper ListenableFuture instead of using listenInPoolThread.</a>
+<span class="sourceLineNo">161</span><a id="line.161">                 */</a>
+<span class="sourceLineNo">162</span><a id="line.162">                getUninterruptibly(delegate);</a>
+<span class="sourceLineNo">163</span><a id="line.163">              } catch (Throwable t) {</a>
+<span class="sourceLineNo">164</span><a id="line.164">                // (including CancellationException and sneaky checked exception)</a>
+<span class="sourceLineNo">165</span><a id="line.165">                // The task is presumably done, run the listeners.</a>
+<span class="sourceLineNo">166</span><a id="line.166">                // TODO(cpovirk): Do *something* in case of Error (and maybe</a>
+<span class="sourceLineNo">167</span><a id="line.167">                // non-CancellationException, non-ExecutionException exceptions)?</a>
+<span class="sourceLineNo">168</span><a id="line.168">              }</a>
+<span class="sourceLineNo">169</span><a id="line.169">              executionList.execute();</a>
+<span class="sourceLineNo">170</span><a id="line.170">            });</a>
+<span class="sourceLineNo">171</span><a id="line.171">      }</a>
+<span class="sourceLineNo">172</span><a id="line.172">    }</a>
+<span class="sourceLineNo">173</span><a id="line.173">  }</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">  private JdkFutureAdapters() {}</a>
+<span class="sourceLineNo">176</span><a id="line.176">}</a>
 
 
 

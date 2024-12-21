@@ -285,7 +285,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <h4>getIfPresent</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.54">getIfPresent</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
+<a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.53">getIfPresent</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -304,7 +304,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.104">get</a>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+<a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.103">get</a>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)
 throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>
@@ -360,7 +360,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllPresent</h4>
-<pre class="methodSignature"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.117">getAllPresent</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
+<pre class="methodSignature"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.116">getAllPresent</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.</div>
 <dl>
@@ -377,7 +377,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.128">put</a>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.127">put</a>&#8203;(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
          <a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;value)</pre>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
  value associated with <code>key</code>, the old value is replaced by <code>value</code>.
@@ -396,7 +396,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.138">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.137">putAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -413,7 +413,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidate</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.141">invalidate</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.140">invalidate</a>&#8203;(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CompatibleWith</a>("K")
                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </li>
@@ -424,7 +424,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.149">invalidateAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.148">invalidateAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;keys)</pre>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -438,7 +438,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.152">invalidateAll</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.151">invalidateAll</a>()</pre>
 <div class="block">Discards all entries in the cache.</div>
 </li>
 </ul>
@@ -448,7 +448,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">long&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.155">size</a>()</pre>
+<pre class="methodSignature">long&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.154">size</a>()</pre>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 </li>
 </ul>
@@ -458,7 +458,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>stats</h4>
-<pre class="methodSignature"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.168">stats</a>()</pre>
+<pre class="methodSignature"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.167">stats</a>()</pre>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
  lifetime of the cache.
@@ -475,7 +475,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.183">asMap</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,&#8203;<a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.182">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -495,7 +495,7 @@ throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/con
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.189">cleanUp</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.188">cleanUp</a>()</pre>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
 </li>

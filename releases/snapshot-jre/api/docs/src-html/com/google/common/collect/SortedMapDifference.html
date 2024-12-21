@@ -36,22 +36,21 @@
 <span class="sourceLineNo">027</span><a id="line.27"> * @since 8.0</a>
 <span class="sourceLineNo">028</span><a id="line.28"> */</a>
 <span class="sourceLineNo">029</span><a id="line.29">@GwtCompatible</a>
-<span class="sourceLineNo">030</span><a id="line.30">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">031</span><a id="line.31">public interface SortedMapDifference&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">032</span><a id="line.32">    extends MapDifference&lt;K, V&gt; {</a>
-<span class="sourceLineNo">033</span><a id="line.33"></a>
-<span class="sourceLineNo">034</span><a id="line.34">  @Override</a>
-<span class="sourceLineNo">035</span><a id="line.35">  SortedMap&lt;K, V&gt; entriesOnlyOnLeft();</a>
-<span class="sourceLineNo">036</span><a id="line.36"></a>
-<span class="sourceLineNo">037</span><a id="line.37">  @Override</a>
-<span class="sourceLineNo">038</span><a id="line.38">  SortedMap&lt;K, V&gt; entriesOnlyOnRight();</a>
-<span class="sourceLineNo">039</span><a id="line.39"></a>
-<span class="sourceLineNo">040</span><a id="line.40">  @Override</a>
-<span class="sourceLineNo">041</span><a id="line.41">  SortedMap&lt;K, V&gt; entriesInCommon();</a>
-<span class="sourceLineNo">042</span><a id="line.42"></a>
-<span class="sourceLineNo">043</span><a id="line.43">  @Override</a>
-<span class="sourceLineNo">044</span><a id="line.44">  SortedMap&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering();</a>
-<span class="sourceLineNo">045</span><a id="line.45">}</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface SortedMapDifference&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">031</span><a id="line.31">    extends MapDifference&lt;K, V&gt; {</a>
+<span class="sourceLineNo">032</span><a id="line.32"></a>
+<span class="sourceLineNo">033</span><a id="line.33">  @Override</a>
+<span class="sourceLineNo">034</span><a id="line.34">  SortedMap&lt;K, V&gt; entriesOnlyOnLeft();</a>
+<span class="sourceLineNo">035</span><a id="line.35"></a>
+<span class="sourceLineNo">036</span><a id="line.36">  @Override</a>
+<span class="sourceLineNo">037</span><a id="line.37">  SortedMap&lt;K, V&gt; entriesOnlyOnRight();</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">  @Override</a>
+<span class="sourceLineNo">040</span><a id="line.40">  SortedMap&lt;K, V&gt; entriesInCommon();</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">  @Override</a>
+<span class="sourceLineNo">043</span><a id="line.43">  SortedMap&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering();</a>
+<span class="sourceLineNo">044</span><a id="line.44">}</a>
 
 
 

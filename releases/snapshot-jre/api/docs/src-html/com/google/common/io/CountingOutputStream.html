@@ -39,45 +39,44 @@
 <span class="sourceLineNo">030</span><a id="line.30"> */</a>
 <span class="sourceLineNo">031</span><a id="line.31">@J2ktIncompatible</a>
 <span class="sourceLineNo">032</span><a id="line.32">@GwtIncompatible</a>
-<span class="sourceLineNo">033</span><a id="line.33">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">034</span><a id="line.34">public final class CountingOutputStream extends FilterOutputStream {</a>
-<span class="sourceLineNo">035</span><a id="line.35"></a>
-<span class="sourceLineNo">036</span><a id="line.36">  private long count;</a>
-<span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">  /**</a>
-<span class="sourceLineNo">039</span><a id="line.39">   * Wraps another output stream, counting the number of bytes written.</a>
-<span class="sourceLineNo">040</span><a id="line.40">   *</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * @param out the output stream to be wrapped</a>
-<span class="sourceLineNo">042</span><a id="line.42">   */</a>
-<span class="sourceLineNo">043</span><a id="line.43">  public CountingOutputStream(OutputStream out) {</a>
-<span class="sourceLineNo">044</span><a id="line.44">    super(checkNotNull(out));</a>
-<span class="sourceLineNo">045</span><a id="line.45">  }</a>
-<span class="sourceLineNo">046</span><a id="line.46"></a>
-<span class="sourceLineNo">047</span><a id="line.47">  /** Returns the number of bytes written. */</a>
-<span class="sourceLineNo">048</span><a id="line.48">  public long getCount() {</a>
-<span class="sourceLineNo">049</span><a id="line.49">    return count;</a>
-<span class="sourceLineNo">050</span><a id="line.50">  }</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
-<span class="sourceLineNo">053</span><a id="line.53">  public void write(byte[] b, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">054</span><a id="line.54">    out.write(b, off, len);</a>
-<span class="sourceLineNo">055</span><a id="line.55">    count += len;</a>
-<span class="sourceLineNo">056</span><a id="line.56">  }</a>
-<span class="sourceLineNo">057</span><a id="line.57"></a>
-<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
-<span class="sourceLineNo">059</span><a id="line.59">  public void write(int b) throws IOException {</a>
-<span class="sourceLineNo">060</span><a id="line.60">    out.write(b);</a>
-<span class="sourceLineNo">061</span><a id="line.61">    count++;</a>
-<span class="sourceLineNo">062</span><a id="line.62">  }</a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">  // Overriding close() because FilterOutputStream's close() method pre-JDK8 has bad behavior:</a>
-<span class="sourceLineNo">065</span><a id="line.65">  // it silently ignores any exception thrown by flush(). Instead, just close the delegate stream.</a>
-<span class="sourceLineNo">066</span><a id="line.66">  // It should flush itself if necessary.</a>
-<span class="sourceLineNo">067</span><a id="line.67">  @Override</a>
-<span class="sourceLineNo">068</span><a id="line.68">  public void close() throws IOException {</a>
-<span class="sourceLineNo">069</span><a id="line.69">    out.close();</a>
-<span class="sourceLineNo">070</span><a id="line.70">  }</a>
-<span class="sourceLineNo">071</span><a id="line.71">}</a>
+<span class="sourceLineNo">033</span><a id="line.33">public final class CountingOutputStream extends FilterOutputStream {</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">  private long count;</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * Wraps another output stream, counting the number of bytes written.</a>
+<span class="sourceLineNo">039</span><a id="line.39">   *</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * @param out the output stream to be wrapped</a>
+<span class="sourceLineNo">041</span><a id="line.41">   */</a>
+<span class="sourceLineNo">042</span><a id="line.42">  public CountingOutputStream(OutputStream out) {</a>
+<span class="sourceLineNo">043</span><a id="line.43">    super(checkNotNull(out));</a>
+<span class="sourceLineNo">044</span><a id="line.44">  }</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  /** Returns the number of bytes written. */</a>
+<span class="sourceLineNo">047</span><a id="line.47">  public long getCount() {</a>
+<span class="sourceLineNo">048</span><a id="line.48">    return count;</a>
+<span class="sourceLineNo">049</span><a id="line.49">  }</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  @Override</a>
+<span class="sourceLineNo">052</span><a id="line.52">  public void write(byte[] b, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">053</span><a id="line.53">    out.write(b, off, len);</a>
+<span class="sourceLineNo">054</span><a id="line.54">    count += len;</a>
+<span class="sourceLineNo">055</span><a id="line.55">  }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  @Override</a>
+<span class="sourceLineNo">058</span><a id="line.58">  public void write(int b) throws IOException {</a>
+<span class="sourceLineNo">059</span><a id="line.59">    out.write(b);</a>
+<span class="sourceLineNo">060</span><a id="line.60">    count++;</a>
+<span class="sourceLineNo">061</span><a id="line.61">  }</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  // Overriding close() because FilterOutputStream's close() method pre-JDK8 has bad behavior:</a>
+<span class="sourceLineNo">064</span><a id="line.64">  // it silently ignores any exception thrown by flush(). Instead, just close the delegate stream.</a>
+<span class="sourceLineNo">065</span><a id="line.65">  // It should flush itself if necessary.</a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Override</a>
+<span class="sourceLineNo">067</span><a id="line.67">  public void close() throws IOException {</a>
+<span class="sourceLineNo">068</span><a id="line.68">    out.close();</a>
+<span class="sourceLineNo">069</span><a id="line.69">  }</a>
+<span class="sourceLineNo">070</span><a id="line.70">}</a>
 
 
 

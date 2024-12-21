@@ -60,107 +60,106 @@
 <span class="sourceLineNo">051</span><a id="line.51"> * @since 2.0</a>
 <span class="sourceLineNo">052</span><a id="line.52"> */</a>
 <span class="sourceLineNo">053</span><a id="line.53">@GwtCompatible</a>
-<span class="sourceLineNo">054</span><a id="line.54">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">055</span><a id="line.55">public abstract class ForwardingSortedMap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56">    extends ForwardingMap&lt;K, V&gt; implements SortedMap&lt;K, V&gt; {</a>
-<span class="sourceLineNo">057</span><a id="line.57">  // TODO(lowasser): identify places where thread safety is actually lost</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">060</span><a id="line.60">  protected ForwardingSortedMap() {}</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62">  @Override</a>
-<span class="sourceLineNo">063</span><a id="line.63">  protected abstract SortedMap&lt;K, V&gt; delegate();</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">  @Override</a>
-<span class="sourceLineNo">066</span><a id="line.66">  @CheckForNull</a>
-<span class="sourceLineNo">067</span><a id="line.67">  public Comparator&lt;? super K&gt; comparator() {</a>
-<span class="sourceLineNo">068</span><a id="line.68">    return delegate().comparator();</a>
-<span class="sourceLineNo">069</span><a id="line.69">  }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">  @Override</a>
-<span class="sourceLineNo">072</span><a id="line.72">  @ParametricNullness</a>
-<span class="sourceLineNo">073</span><a id="line.73">  public K firstKey() {</a>
-<span class="sourceLineNo">074</span><a id="line.74">    return delegate().firstKey();</a>
-<span class="sourceLineNo">075</span><a id="line.75">  }</a>
-<span class="sourceLineNo">076</span><a id="line.76"></a>
-<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
-<span class="sourceLineNo">078</span><a id="line.78">  public SortedMap&lt;K, V&gt; headMap(@ParametricNullness K toKey) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    return delegate().headMap(toKey);</a>
-<span class="sourceLineNo">080</span><a id="line.80">  }</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">  @Override</a>
-<span class="sourceLineNo">083</span><a id="line.83">  @ParametricNullness</a>
-<span class="sourceLineNo">084</span><a id="line.84">  public K lastKey() {</a>
-<span class="sourceLineNo">085</span><a id="line.85">    return delegate().lastKey();</a>
-<span class="sourceLineNo">086</span><a id="line.86">  }</a>
-<span class="sourceLineNo">087</span><a id="line.87"></a>
-<span class="sourceLineNo">088</span><a id="line.88">  @Override</a>
-<span class="sourceLineNo">089</span><a id="line.89">  public SortedMap&lt;K, V&gt; subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {</a>
-<span class="sourceLineNo">090</span><a id="line.90">    return delegate().subMap(fromKey, toKey);</a>
-<span class="sourceLineNo">091</span><a id="line.91">  }</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">  @Override</a>
-<span class="sourceLineNo">094</span><a id="line.94">  public SortedMap&lt;K, V&gt; tailMap(@ParametricNullness K fromKey) {</a>
-<span class="sourceLineNo">095</span><a id="line.95">    return delegate().tailMap(fromKey);</a>
-<span class="sourceLineNo">096</span><a id="line.96">  }</a>
-<span class="sourceLineNo">097</span><a id="line.97"></a>
-<span class="sourceLineNo">098</span><a id="line.98">  /**</a>
-<span class="sourceLineNo">099</span><a id="line.99">   * A sensible implementation of {@link SortedMap#keySet} in terms of the methods of {@code</a>
-<span class="sourceLineNo">100</span><a id="line.100">   * ForwardingSortedMap}. In many cases, you may wish to override {@link</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * ForwardingSortedMap#keySet} to forward to this implementation or a subclass thereof.</a>
-<span class="sourceLineNo">102</span><a id="line.102">   *</a>
-<span class="sourceLineNo">103</span><a id="line.103">   * @since 15.0</a>
-<span class="sourceLineNo">104</span><a id="line.104">   */</a>
-<span class="sourceLineNo">105</span><a id="line.105">  protected class StandardKeySet extends Maps.SortedKeySet&lt;K, V&gt; {</a>
-<span class="sourceLineNo">106</span><a id="line.106">    /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">107</span><a id="line.107">    public StandardKeySet() {</a>
-<span class="sourceLineNo">108</span><a id="line.108">      super(ForwardingSortedMap.this);</a>
-<span class="sourceLineNo">109</span><a id="line.109">    }</a>
-<span class="sourceLineNo">110</span><a id="line.110">  }</a>
-<span class="sourceLineNo">111</span><a id="line.111"></a>
-<span class="sourceLineNo">112</span><a id="line.112">  // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting</a>
-<span class="sourceLineNo">113</span><a id="line.113">  @SuppressWarnings({"unchecked", "nullness"})</a>
-<span class="sourceLineNo">114</span><a id="line.114">  static int unsafeCompare(</a>
-<span class="sourceLineNo">115</span><a id="line.115">      @CheckForNull Comparator&lt;?&gt; comparator, @CheckForNull Object o1, @CheckForNull Object o2) {</a>
-<span class="sourceLineNo">116</span><a id="line.116">    if (comparator == null) {</a>
-<span class="sourceLineNo">117</span><a id="line.117">      return ((Comparable&lt;@Nullable Object&gt;) o1).compareTo(o2);</a>
-<span class="sourceLineNo">118</span><a id="line.118">    } else {</a>
-<span class="sourceLineNo">119</span><a id="line.119">      return ((Comparator&lt;@Nullable Object&gt;) comparator).compare(o1, o2);</a>
-<span class="sourceLineNo">120</span><a id="line.120">    }</a>
-<span class="sourceLineNo">121</span><a id="line.121">  }</a>
-<span class="sourceLineNo">122</span><a id="line.122"></a>
-<span class="sourceLineNo">123</span><a id="line.123">  /**</a>
-<span class="sourceLineNo">124</span><a id="line.124">   * A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of</a>
-<span class="sourceLineNo">125</span><a id="line.125">   * {@link #tailMap}. If you override {@link #tailMap}, you may wish to override {@link</a>
-<span class="sourceLineNo">126</span><a id="line.126">   * #containsKey} to forward to this implementation.</a>
-<span class="sourceLineNo">127</span><a id="line.127">   *</a>
-<span class="sourceLineNo">128</span><a id="line.128">   * @since 7.0</a>
-<span class="sourceLineNo">129</span><a id="line.129">   */</a>
-<span class="sourceLineNo">130</span><a id="line.130">  @Override</a>
-<span class="sourceLineNo">131</span><a id="line.131">  protected boolean standardContainsKey(@CheckForNull Object key) {</a>
-<span class="sourceLineNo">132</span><a id="line.132">    try {</a>
-<span class="sourceLineNo">133</span><a id="line.133">      // any CCE or NPE will be caught</a>
-<span class="sourceLineNo">134</span><a id="line.134">      @SuppressWarnings({"unchecked", "nullness"})</a>
-<span class="sourceLineNo">135</span><a id="line.135">      SortedMap&lt;@Nullable Object, V&gt; self = (SortedMap&lt;@Nullable Object, V&gt;) this;</a>
-<span class="sourceLineNo">136</span><a id="line.136">      Object ceilingKey = self.tailMap(key).firstKey();</a>
-<span class="sourceLineNo">137</span><a id="line.137">      return unsafeCompare(comparator(), ceilingKey, key) == 0;</a>
-<span class="sourceLineNo">138</span><a id="line.138">    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {</a>
-<span class="sourceLineNo">139</span><a id="line.139">      return false;</a>
-<span class="sourceLineNo">140</span><a id="line.140">    }</a>
-<span class="sourceLineNo">141</span><a id="line.141">  }</a>
-<span class="sourceLineNo">142</span><a id="line.142"></a>
-<span class="sourceLineNo">143</span><a id="line.143">  /**</a>
-<span class="sourceLineNo">144</span><a id="line.144">   * A sensible default implementation of {@link #subMap(Object, Object)} in terms of {@link</a>
-<span class="sourceLineNo">145</span><a id="line.145">   * #headMap(Object)} and {@link #tailMap(Object)}. In some situations, you may wish to override</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * {@link #subMap(Object, Object)} to forward to this implementation.</a>
-<span class="sourceLineNo">147</span><a id="line.147">   *</a>
-<span class="sourceLineNo">148</span><a id="line.148">   * @since 7.0</a>
-<span class="sourceLineNo">149</span><a id="line.149">   */</a>
-<span class="sourceLineNo">150</span><a id="line.150">  protected SortedMap&lt;K, V&gt; standardSubMap(K fromKey, K toKey) {</a>
-<span class="sourceLineNo">151</span><a id="line.151">    checkArgument(unsafeCompare(comparator(), fromKey, toKey) &lt;= 0, "fromKey must be &lt;= toKey");</a>
-<span class="sourceLineNo">152</span><a id="line.152">    return tailMap(fromKey).headMap(toKey);</a>
-<span class="sourceLineNo">153</span><a id="line.153">  }</a>
-<span class="sourceLineNo">154</span><a id="line.154">}</a>
+<span class="sourceLineNo">054</span><a id="line.54">public abstract class ForwardingSortedMap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">055</span><a id="line.55">    extends ForwardingMap&lt;K, V&gt; implements SortedMap&lt;K, V&gt; {</a>
+<span class="sourceLineNo">056</span><a id="line.56">  // TODO(lowasser): identify places where thread safety is actually lost</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">059</span><a id="line.59">  protected ForwardingSortedMap() {}</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">  @Override</a>
+<span class="sourceLineNo">062</span><a id="line.62">  protected abstract SortedMap&lt;K, V&gt; delegate();</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
+<span class="sourceLineNo">065</span><a id="line.65">  @CheckForNull</a>
+<span class="sourceLineNo">066</span><a id="line.66">  public Comparator&lt;? super K&gt; comparator() {</a>
+<span class="sourceLineNo">067</span><a id="line.67">    return delegate().comparator();</a>
+<span class="sourceLineNo">068</span><a id="line.68">  }</a>
+<span class="sourceLineNo">069</span><a id="line.69"></a>
+<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
+<span class="sourceLineNo">071</span><a id="line.71">  @ParametricNullness</a>
+<span class="sourceLineNo">072</span><a id="line.72">  public K firstKey() {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    return delegate().firstKey();</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public SortedMap&lt;K, V&gt; headMap(@ParametricNullness K toKey) {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return delegate().headMap(toKey);</a>
+<span class="sourceLineNo">079</span><a id="line.79">  }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">  @ParametricNullness</a>
+<span class="sourceLineNo">083</span><a id="line.83">  public K lastKey() {</a>
+<span class="sourceLineNo">084</span><a id="line.84">    return delegate().lastKey();</a>
+<span class="sourceLineNo">085</span><a id="line.85">  }</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">  @Override</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public SortedMap&lt;K, V&gt; subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    return delegate().subMap(fromKey, toKey);</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  @Override</a>
+<span class="sourceLineNo">093</span><a id="line.93">  public SortedMap&lt;K, V&gt; tailMap(@ParametricNullness K fromKey) {</a>
+<span class="sourceLineNo">094</span><a id="line.94">    return delegate().tailMap(fromKey);</a>
+<span class="sourceLineNo">095</span><a id="line.95">  }</a>
+<span class="sourceLineNo">096</span><a id="line.96"></a>
+<span class="sourceLineNo">097</span><a id="line.97">  /**</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * A sensible implementation of {@link SortedMap#keySet} in terms of the methods of {@code</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * ForwardingSortedMap}. In many cases, you may wish to override {@link</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * ForwardingSortedMap#keySet} to forward to this implementation or a subclass thereof.</a>
+<span class="sourceLineNo">101</span><a id="line.101">   *</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * @since 15.0</a>
+<span class="sourceLineNo">103</span><a id="line.103">   */</a>
+<span class="sourceLineNo">104</span><a id="line.104">  protected class StandardKeySet extends Maps.SortedKeySet&lt;K, V&gt; {</a>
+<span class="sourceLineNo">105</span><a id="line.105">    /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">106</span><a id="line.106">    public StandardKeySet() {</a>
+<span class="sourceLineNo">107</span><a id="line.107">      super(ForwardingSortedMap.this);</a>
+<span class="sourceLineNo">108</span><a id="line.108">    }</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting</a>
+<span class="sourceLineNo">112</span><a id="line.112">  @SuppressWarnings({"unchecked", "nullness"})</a>
+<span class="sourceLineNo">113</span><a id="line.113">  static int unsafeCompare(</a>
+<span class="sourceLineNo">114</span><a id="line.114">      @CheckForNull Comparator&lt;?&gt; comparator, @CheckForNull Object o1, @CheckForNull Object o2) {</a>
+<span class="sourceLineNo">115</span><a id="line.115">    if (comparator == null) {</a>
+<span class="sourceLineNo">116</span><a id="line.116">      return ((Comparable&lt;@Nullable Object&gt;) o1).compareTo(o2);</a>
+<span class="sourceLineNo">117</span><a id="line.117">    } else {</a>
+<span class="sourceLineNo">118</span><a id="line.118">      return ((Comparator&lt;@Nullable Object&gt;) comparator).compare(o1, o2);</a>
+<span class="sourceLineNo">119</span><a id="line.119">    }</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  /**</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * {@link #tailMap}. If you override {@link #tailMap}, you may wish to override {@link</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * #containsKey} to forward to this implementation.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * @since 7.0</a>
+<span class="sourceLineNo">128</span><a id="line.128">   */</a>
+<span class="sourceLineNo">129</span><a id="line.129">  @Override</a>
+<span class="sourceLineNo">130</span><a id="line.130">  protected boolean standardContainsKey(@CheckForNull Object key) {</a>
+<span class="sourceLineNo">131</span><a id="line.131">    try {</a>
+<span class="sourceLineNo">132</span><a id="line.132">      // any CCE or NPE will be caught</a>
+<span class="sourceLineNo">133</span><a id="line.133">      @SuppressWarnings({"unchecked", "nullness"})</a>
+<span class="sourceLineNo">134</span><a id="line.134">      SortedMap&lt;@Nullable Object, V&gt; self = (SortedMap&lt;@Nullable Object, V&gt;) this;</a>
+<span class="sourceLineNo">135</span><a id="line.135">      Object ceilingKey = self.tailMap(key).firstKey();</a>
+<span class="sourceLineNo">136</span><a id="line.136">      return unsafeCompare(comparator(), ceilingKey, key) == 0;</a>
+<span class="sourceLineNo">137</span><a id="line.137">    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {</a>
+<span class="sourceLineNo">138</span><a id="line.138">      return false;</a>
+<span class="sourceLineNo">139</span><a id="line.139">    }</a>
+<span class="sourceLineNo">140</span><a id="line.140">  }</a>
+<span class="sourceLineNo">141</span><a id="line.141"></a>
+<span class="sourceLineNo">142</span><a id="line.142">  /**</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * A sensible default implementation of {@link #subMap(Object, Object)} in terms of {@link</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * #headMap(Object)} and {@link #tailMap(Object)}. In some situations, you may wish to override</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * {@link #subMap(Object, Object)} to forward to this implementation.</a>
+<span class="sourceLineNo">146</span><a id="line.146">   *</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @since 7.0</a>
+<span class="sourceLineNo">148</span><a id="line.148">   */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  protected SortedMap&lt;K, V&gt; standardSubMap(K fromKey, K toKey) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">    checkArgument(unsafeCompare(comparator(), fromKey, toKey) &lt;= 0, "fromKey must be &lt;= toKey");</a>
+<span class="sourceLineNo">151</span><a id="line.151">    return tailMap(fromKey).headMap(toKey);</a>
+<span class="sourceLineNo">152</span><a id="line.152">  }</a>
+<span class="sourceLineNo">153</span><a id="line.153">}</a>
 
 
 

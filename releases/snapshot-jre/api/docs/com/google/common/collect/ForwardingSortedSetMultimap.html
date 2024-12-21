@@ -322,7 +322,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSortedSetMultimap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.44">ForwardingSortedSetMultimap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.43">ForwardingSortedSetMultimap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -342,7 +342,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>,&#8203;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.46">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>,&#8203;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.45">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -362,7 +362,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.49">get</a>&#8203;(<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.48">get</a>&#8203;(<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#get(K)">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.
  Note that when <code>containsKey(key)</code> is false, this returns an empty collection, not <code>
@@ -387,7 +387,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.54">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.53">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#removeAll(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
@@ -417,7 +417,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceValues</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.59">replaceValues</a>&#8203;(<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>&nbsp;key,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.58">replaceValues</a>&#8203;(<a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">K</a>&nbsp;key,
                                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#replaceValues(K,java.lang.Iterable)">Multimap</a></code></span></div>
 <div class="block">Stores a collection of values with the same key, replacing any existing values for that key.
@@ -446,7 +446,7 @@ implements <a href="SortedSetMultimap.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>valueComparator</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.64">valueComparator</a>()</pre>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSetMultimap.html" title="type parameter in ForwardingSortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSetMultimap.html#line.63">valueComparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedSetMultimap.html#valueComparator()">SortedSetMultimap</a></code></span></div>
 <div class="block">Returns the comparator that orders the multimap values, with <code>null</code> indicating that
  natural ordering is used.</div>

@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.300">ClassPath.ClassInfo</a>
+<pre>public static final class <a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.299">ClassPath.ClassInfo</a>
 extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a></pre>
 <div class="block">Represents a class that can be loaded through <a href="#load()"><code>load()</code></a>.</div>
 <dl>
@@ -246,7 +246,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>getPackageName</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.319">getPackageName</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.318">getPackageName</a>()</pre>
 <div class="block">Returns the package name of the class, without attempting to load the class.
 
  <p>Behaves similarly to <code>class.getPackage().</code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Package.html?is-external=true#getName()" title="class or interface in java.lang" class="externalLink"><code>getName()</code></a> but
@@ -264,7 +264,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>getSimpleName</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.332">getSimpleName</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.331">getSimpleName</a>()</pre>
 <div class="block">Returns the simple name of the underlying class as given in the source code.
 
  <p>Behaves similarly to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true#getSimpleName()" title="class or interface in java.lang" class="externalLink"><code>Class.getSimpleName()</code></a> but does not require the class to be
@@ -280,7 +280,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>getName</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.355">getName</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.354">getName</a>()</pre>
 <div class="block">Returns the fully qualified name of the class.
 
  <p>Behaves identically to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true#getName()" title="class or interface in java.lang" class="externalLink"><code>Class.getName()</code></a> but does not require the class to be
@@ -293,7 +293,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopLevel</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.367">isTopLevel</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.366">isTopLevel</a>()</pre>
 <div class="block">Returns true if the class name "looks to be" top level (not nested), that is, it includes no
  '$' in the name. This method may return false for a top-level class that's intentionally
  named with the '$' character. If this is a concern, you could use <a href="#load()"><code>load()</code></a> and then
@@ -310,7 +310,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.377">load</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.376">load</a>()</pre>
 <div class="block">Loads (but doesn't link or initialize) the class.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -325,7 +325,7 @@ extends <a href="ClassPath.ResourceInfo.html" title="class in com.google.common.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.386">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.385">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="ClassPath.ResourceInfo.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a></code></dd>

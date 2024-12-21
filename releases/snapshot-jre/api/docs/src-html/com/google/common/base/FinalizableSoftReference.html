@@ -39,20 +39,19 @@
 <span class="sourceLineNo">030</span><a id="line.30"> */</a>
 <span class="sourceLineNo">031</span><a id="line.31">@J2ktIncompatible</a>
 <span class="sourceLineNo">032</span><a id="line.32">@GwtIncompatible</a>
-<span class="sourceLineNo">033</span><a id="line.33">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">034</span><a id="line.34">public abstract class FinalizableSoftReference&lt;T&gt; extends SoftReference&lt;T&gt;</a>
-<span class="sourceLineNo">035</span><a id="line.35">    implements FinalizableReference {</a>
-<span class="sourceLineNo">036</span><a id="line.36">  /**</a>
-<span class="sourceLineNo">037</span><a id="line.37">   * Constructs a new finalizable soft reference.</a>
-<span class="sourceLineNo">038</span><a id="line.38">   *</a>
-<span class="sourceLineNo">039</span><a id="line.39">   * @param referent to softly reference</a>
-<span class="sourceLineNo">040</span><a id="line.40">   * @param queue that should finalize the referent</a>
-<span class="sourceLineNo">041</span><a id="line.41">   */</a>
-<span class="sourceLineNo">042</span><a id="line.42">  protected FinalizableSoftReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {</a>
-<span class="sourceLineNo">043</span><a id="line.43">    super(referent, queue.queue);</a>
-<span class="sourceLineNo">044</span><a id="line.44">    queue.cleanUp();</a>
-<span class="sourceLineNo">045</span><a id="line.45">  }</a>
-<span class="sourceLineNo">046</span><a id="line.46">}</a>
+<span class="sourceLineNo">033</span><a id="line.33">public abstract class FinalizableSoftReference&lt;T&gt; extends SoftReference&lt;T&gt;</a>
+<span class="sourceLineNo">034</span><a id="line.34">    implements FinalizableReference {</a>
+<span class="sourceLineNo">035</span><a id="line.35">  /**</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * Constructs a new finalizable soft reference.</a>
+<span class="sourceLineNo">037</span><a id="line.37">   *</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * @param referent to softly reference</a>
+<span class="sourceLineNo">039</span><a id="line.39">   * @param queue that should finalize the referent</a>
+<span class="sourceLineNo">040</span><a id="line.40">   */</a>
+<span class="sourceLineNo">041</span><a id="line.41">  protected FinalizableSoftReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {</a>
+<span class="sourceLineNo">042</span><a id="line.42">    super(referent, queue.queue);</a>
+<span class="sourceLineNo">043</span><a id="line.43">    queue.cleanUp();</a>
+<span class="sourceLineNo">044</span><a id="line.44">  }</a>
+<span class="sourceLineNo">045</span><a id="line.45">}</a>
 
 
 

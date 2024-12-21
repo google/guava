@@ -302,7 +302,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractIterator</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.71">AbstractIterator</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.70">AbstractIterator</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -323,7 +323,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <li class="blockList">
 <h4>computeNext</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected abstract&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.113">computeNext</a>()</pre>
+protected abstract&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.112">computeNext</a>()</pre>
 <div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="#endOfData()"><code>endOfData()</code></a> when
  there are no elements left in the iteration. Failure to do so could result in an infinite loop.
 
@@ -358,7 +358,7 @@ protected abstract&nbsp;<a href="AbstractIterator.html" title="type parameter in
 <h4>endOfData</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.123">endOfData</a>()</pre>
+protected final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.122">endOfData</a>()</pre>
 <div class="block">Implementations of <a href="#computeNext()"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
  elements left in the iteration.</div>
 <dl>
@@ -374,7 +374,7 @@ protected final&nbsp;<a href="AbstractIterator.html" title="type parameter in Ab
 <ul class="blockList">
 <li class="blockList">
 <h4>hasNext</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.130">hasNext</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.129">hasNext</a>()</pre>
 </li>
 </ul>
 <a id="next()">
@@ -384,7 +384,7 @@ protected final&nbsp;<a href="AbstractIterator.html" title="type parameter in Ab
 <li class="blockList">
 <h4>next</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.153">next</a>()</pre>
+public final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.152">next</a>()</pre>
 </li>
 </ul>
 <a id="peek()">
@@ -393,7 +393,7 @@ public final&nbsp;<a href="AbstractIterator.html" title="type parameter in Abstr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>peek</h4>
-<pre class="methodSignature">public final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.174">peek</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.173">peek</a>()</pre>
 <div class="block">Returns the next element in the iteration without advancing the iteration, according to the
  contract of <a href="PeekingIterator.html#peek()"><code>PeekingIterator.peek()</code></a>.
 

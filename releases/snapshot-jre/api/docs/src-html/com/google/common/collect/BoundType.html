@@ -33,23 +33,22 @@
 <span class="sourceLineNo">024</span><a id="line.24"> * @since 10.0</a>
 <span class="sourceLineNo">025</span><a id="line.25"> */</a>
 <span class="sourceLineNo">026</span><a id="line.26">@GwtCompatible</a>
-<span class="sourceLineNo">027</span><a id="line.27">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">028</span><a id="line.28">public enum BoundType {</a>
-<span class="sourceLineNo">029</span><a id="line.29">  /** The endpoint value &lt;i&gt;is not&lt;/i&gt; considered part of the set ("exclusive"). */</a>
-<span class="sourceLineNo">030</span><a id="line.30">  OPEN(false),</a>
-<span class="sourceLineNo">031</span><a id="line.31">  CLOSED(true);</a>
-<span class="sourceLineNo">032</span><a id="line.32"></a>
-<span class="sourceLineNo">033</span><a id="line.33">  final boolean inclusive;</a>
-<span class="sourceLineNo">034</span><a id="line.34"></a>
-<span class="sourceLineNo">035</span><a id="line.35">  BoundType(boolean inclusive) {</a>
-<span class="sourceLineNo">036</span><a id="line.36">    this.inclusive = inclusive;</a>
-<span class="sourceLineNo">037</span><a id="line.37">  }</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">  /** Returns the bound type corresponding to a boolean value for inclusivity. */</a>
-<span class="sourceLineNo">040</span><a id="line.40">  static BoundType forBoolean(boolean inclusive) {</a>
-<span class="sourceLineNo">041</span><a id="line.41">    return inclusive ? CLOSED : OPEN;</a>
-<span class="sourceLineNo">042</span><a id="line.42">  }</a>
-<span class="sourceLineNo">043</span><a id="line.43">}</a>
+<span class="sourceLineNo">027</span><a id="line.27">public enum BoundType {</a>
+<span class="sourceLineNo">028</span><a id="line.28">  /** The endpoint value &lt;i&gt;is not&lt;/i&gt; considered part of the set ("exclusive"). */</a>
+<span class="sourceLineNo">029</span><a id="line.29">  OPEN(false),</a>
+<span class="sourceLineNo">030</span><a id="line.30">  CLOSED(true);</a>
+<span class="sourceLineNo">031</span><a id="line.31"></a>
+<span class="sourceLineNo">032</span><a id="line.32">  final boolean inclusive;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">  BoundType(boolean inclusive) {</a>
+<span class="sourceLineNo">035</span><a id="line.35">    this.inclusive = inclusive;</a>
+<span class="sourceLineNo">036</span><a id="line.36">  }</a>
+<span class="sourceLineNo">037</span><a id="line.37"></a>
+<span class="sourceLineNo">038</span><a id="line.38">  /** Returns the bound type corresponding to a boolean value for inclusivity. */</a>
+<span class="sourceLineNo">039</span><a id="line.39">  static BoundType forBoolean(boolean inclusive) {</a>
+<span class="sourceLineNo">040</span><a id="line.40">    return inclusive ? CLOSED : OPEN;</a>
+<span class="sourceLineNo">041</span><a id="line.41">  }</a>
+<span class="sourceLineNo">042</span><a id="line.42">}</a>
 
 
 

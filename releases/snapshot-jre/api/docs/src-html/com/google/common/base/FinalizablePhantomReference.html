@@ -41,20 +41,19 @@
 <span class="sourceLineNo">032</span><a id="line.32"> */</a>
 <span class="sourceLineNo">033</span><a id="line.33">@J2ktIncompatible</a>
 <span class="sourceLineNo">034</span><a id="line.34">@GwtIncompatible</a>
-<span class="sourceLineNo">035</span><a id="line.35">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">036</span><a id="line.36">public abstract class FinalizablePhantomReference&lt;T&gt; extends PhantomReference&lt;T&gt;</a>
-<span class="sourceLineNo">037</span><a id="line.37">    implements FinalizableReference {</a>
-<span class="sourceLineNo">038</span><a id="line.38">  /**</a>
-<span class="sourceLineNo">039</span><a id="line.39">   * Constructs a new finalizable phantom reference.</a>
-<span class="sourceLineNo">040</span><a id="line.40">   *</a>
-<span class="sourceLineNo">041</span><a id="line.41">   * @param referent to phantom reference</a>
-<span class="sourceLineNo">042</span><a id="line.42">   * @param queue that should finalize the referent</a>
-<span class="sourceLineNo">043</span><a id="line.43">   */</a>
-<span class="sourceLineNo">044</span><a id="line.44">  protected FinalizablePhantomReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {</a>
-<span class="sourceLineNo">045</span><a id="line.45">    super(referent, queue.queue);</a>
-<span class="sourceLineNo">046</span><a id="line.46">    queue.cleanUp();</a>
-<span class="sourceLineNo">047</span><a id="line.47">  }</a>
-<span class="sourceLineNo">048</span><a id="line.48">}</a>
+<span class="sourceLineNo">035</span><a id="line.35">public abstract class FinalizablePhantomReference&lt;T&gt; extends PhantomReference&lt;T&gt;</a>
+<span class="sourceLineNo">036</span><a id="line.36">    implements FinalizableReference {</a>
+<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * Constructs a new finalizable phantom reference.</a>
+<span class="sourceLineNo">039</span><a id="line.39">   *</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * @param referent to phantom reference</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * @param queue that should finalize the referent</a>
+<span class="sourceLineNo">042</span><a id="line.42">   */</a>
+<span class="sourceLineNo">043</span><a id="line.43">  protected FinalizablePhantomReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {</a>
+<span class="sourceLineNo">044</span><a id="line.44">    super(referent, queue.queue);</a>
+<span class="sourceLineNo">045</span><a id="line.45">    queue.cleanUp();</a>
+<span class="sourceLineNo">046</span><a id="line.46">  }</a>
+<span class="sourceLineNo">047</span><a id="line.47">}</a>
 
 
 

@@ -64,657 +64,656 @@
 <span class="sourceLineNo">055</span><a id="line.55"> * @since 2.0</a>
 <span class="sourceLineNo">056</span><a id="line.56"> */</a>
 <span class="sourceLineNo">057</span><a id="line.57">@GwtCompatible</a>
-<span class="sourceLineNo">058</span><a id="line.58">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">059</span><a id="line.59">public final class Collections2 {</a>
-<span class="sourceLineNo">060</span><a id="line.60">  private Collections2() {}</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62">  /**</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * Returns the elements of {@code unfiltered} that satisfy a predicate. The returned collection is</a>
-<span class="sourceLineNo">064</span><a id="line.64">   * a live view of {@code unfiltered}; changes to one affect the other.</a>
-<span class="sourceLineNo">065</span><a id="line.65">   *</a>
-<span class="sourceLineNo">066</span><a id="line.66">   * &lt;p&gt;The resulting collection's iterator does not support {@code remove()}, but all other</a>
-<span class="sourceLineNo">067</span><a id="line.67">   * collection methods are supported. When given an element that doesn't satisfy the predicate, the</a>
-<span class="sourceLineNo">068</span><a id="line.68">   * collection's {@code add()} and {@code addAll()} methods throw an {@link</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * IllegalArgumentException}. When methods such as {@code removeAll()} and {@code clear()} are</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * called on the filtered collection, only elements that satisfy the filter will be removed from</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * the underlying collection.</a>
-<span class="sourceLineNo">072</span><a id="line.72">   *</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * &lt;p&gt;The returned collection isn't threadsafe or serializable, even if {@code unfiltered} is.</a>
-<span class="sourceLineNo">074</span><a id="line.74">   *</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * &lt;p&gt;Many of the filtered collection's methods, such as {@code size()}, iterate across every</a>
-<span class="sourceLineNo">076</span><a id="line.76">   * element in the underlying collection and determine which elements satisfy the filter. When a</a>
-<span class="sourceLineNo">077</span><a id="line.77">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered,</a>
-<span class="sourceLineNo">078</span><a id="line.78">   * predicate)} and use the copy.</a>
-<span class="sourceLineNo">079</span><a id="line.79">   *</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</a>
-<span class="sourceLineNo">081</span><a id="line.81">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</a>
-<span class="sourceLineNo">082</span><a id="line.82">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link</a>
-<span class="sourceLineNo">083</span><a id="line.83">   * Iterables#filter(Iterable, Class)} for related functionality.)</a>
-<span class="sourceLineNo">084</span><a id="line.84">   *</a>
-<span class="sourceLineNo">085</span><a id="line.85">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link java.util.stream.Stream#filter Stream.filter}.</a>
-<span class="sourceLineNo">086</span><a id="line.86">   */</a>
-<span class="sourceLineNo">087</span><a id="line.87">  // TODO(kevinb): how can we omit that Iterables link when building gwt</a>
-<span class="sourceLineNo">088</span><a id="line.88">  // javadoc?</a>
-<span class="sourceLineNo">089</span><a id="line.89">  public static &lt;E extends @Nullable Object&gt; Collection&lt;E&gt; filter(</a>
-<span class="sourceLineNo">090</span><a id="line.90">      Collection&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {</a>
-<span class="sourceLineNo">091</span><a id="line.91">    if (unfiltered instanceof FilteredCollection) {</a>
-<span class="sourceLineNo">092</span><a id="line.92">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
-<span class="sourceLineNo">093</span><a id="line.93">      // collection.</a>
-<span class="sourceLineNo">094</span><a id="line.94">      return ((FilteredCollection&lt;E&gt;) unfiltered).createCombined(predicate);</a>
-<span class="sourceLineNo">095</span><a id="line.95">    }</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">    return new FilteredCollection&lt;&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
-<span class="sourceLineNo">098</span><a id="line.98">  }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">  /**</a>
-<span class="sourceLineNo">101</span><a id="line.101">   * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method</a>
-<span class="sourceLineNo">102</span><a id="line.102">   * throws a {@code ClassCastException} or {@code NullPointerException}.</a>
-<span class="sourceLineNo">103</span><a id="line.103">   */</a>
-<span class="sourceLineNo">104</span><a id="line.104">  static boolean safeContains(Collection&lt;?&gt; collection, @CheckForNull Object object) {</a>
-<span class="sourceLineNo">105</span><a id="line.105">    checkNotNull(collection);</a>
-<span class="sourceLineNo">106</span><a id="line.106">    try {</a>
-<span class="sourceLineNo">107</span><a id="line.107">      return collection.contains(object);</a>
-<span class="sourceLineNo">108</span><a id="line.108">    } catch (ClassCastException | NullPointerException e) {</a>
-<span class="sourceLineNo">109</span><a id="line.109">      return false;</a>
-<span class="sourceLineNo">110</span><a id="line.110">    }</a>
-<span class="sourceLineNo">111</span><a id="line.111">  }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">  /**</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * throws a {@code ClassCastException} or {@code NullPointerException}.</a>
-<span class="sourceLineNo">116</span><a id="line.116">   */</a>
-<span class="sourceLineNo">117</span><a id="line.117">  static boolean safeRemove(Collection&lt;?&gt; collection, @CheckForNull Object object) {</a>
-<span class="sourceLineNo">118</span><a id="line.118">    checkNotNull(collection);</a>
-<span class="sourceLineNo">119</span><a id="line.119">    try {</a>
-<span class="sourceLineNo">120</span><a id="line.120">      return collection.remove(object);</a>
-<span class="sourceLineNo">121</span><a id="line.121">    } catch (ClassCastException | NullPointerException e) {</a>
-<span class="sourceLineNo">122</span><a id="line.122">      return false;</a>
-<span class="sourceLineNo">123</span><a id="line.123">    }</a>
-<span class="sourceLineNo">124</span><a id="line.124">  }</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">  static class FilteredCollection&lt;E extends @Nullable Object&gt; extends AbstractCollection&lt;E&gt; {</a>
-<span class="sourceLineNo">127</span><a id="line.127">    final Collection&lt;E&gt; unfiltered;</a>
-<span class="sourceLineNo">128</span><a id="line.128">    final Predicate&lt;? super E&gt; predicate;</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">    FilteredCollection(Collection&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">      this.unfiltered = unfiltered;</a>
-<span class="sourceLineNo">132</span><a id="line.132">      this.predicate = predicate;</a>
-<span class="sourceLineNo">133</span><a id="line.133">    }</a>
-<span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">    FilteredCollection&lt;E&gt; createCombined(Predicate&lt;? super E&gt; newPredicate) {</a>
-<span class="sourceLineNo">136</span><a id="line.136">      return new FilteredCollection&lt;&gt;(unfiltered, Predicates.and(predicate, newPredicate));</a>
-<span class="sourceLineNo">137</span><a id="line.137">    }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">    @Override</a>
-<span class="sourceLineNo">140</span><a id="line.140">    public boolean add(@ParametricNullness E element) {</a>
-<span class="sourceLineNo">141</span><a id="line.141">      checkArgument(predicate.apply(element));</a>
-<span class="sourceLineNo">142</span><a id="line.142">      return unfiltered.add(element);</a>
-<span class="sourceLineNo">143</span><a id="line.143">    }</a>
-<span class="sourceLineNo">144</span><a id="line.144"></a>
-<span class="sourceLineNo">145</span><a id="line.145">    @Override</a>
-<span class="sourceLineNo">146</span><a id="line.146">    public boolean addAll(Collection&lt;? extends E&gt; collection) {</a>
-<span class="sourceLineNo">147</span><a id="line.147">      for (E element : collection) {</a>
-<span class="sourceLineNo">148</span><a id="line.148">        checkArgument(predicate.apply(element));</a>
-<span class="sourceLineNo">149</span><a id="line.149">      }</a>
-<span class="sourceLineNo">150</span><a id="line.150">      return unfiltered.addAll(collection);</a>
-<span class="sourceLineNo">151</span><a id="line.151">    }</a>
-<span class="sourceLineNo">152</span><a id="line.152"></a>
-<span class="sourceLineNo">153</span><a id="line.153">    @Override</a>
-<span class="sourceLineNo">154</span><a id="line.154">    public void clear() {</a>
-<span class="sourceLineNo">155</span><a id="line.155">      Iterables.removeIf(unfiltered, predicate);</a>
-<span class="sourceLineNo">156</span><a id="line.156">    }</a>
-<span class="sourceLineNo">157</span><a id="line.157"></a>
-<span class="sourceLineNo">158</span><a id="line.158">    @Override</a>
-<span class="sourceLineNo">159</span><a id="line.159">    public boolean contains(@CheckForNull Object element) {</a>
-<span class="sourceLineNo">160</span><a id="line.160">      if (safeContains(unfiltered, element)) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E</a>
-<span class="sourceLineNo">162</span><a id="line.162">        E e = (E) element;</a>
-<span class="sourceLineNo">163</span><a id="line.163">        return predicate.apply(e);</a>
-<span class="sourceLineNo">164</span><a id="line.164">      }</a>
-<span class="sourceLineNo">165</span><a id="line.165">      return false;</a>
-<span class="sourceLineNo">166</span><a id="line.166">    }</a>
-<span class="sourceLineNo">167</span><a id="line.167"></a>
-<span class="sourceLineNo">168</span><a id="line.168">    @Override</a>
-<span class="sourceLineNo">169</span><a id="line.169">    public boolean containsAll(Collection&lt;?&gt; collection) {</a>
-<span class="sourceLineNo">170</span><a id="line.170">      return containsAllImpl(this, collection);</a>
-<span class="sourceLineNo">171</span><a id="line.171">    }</a>
-<span class="sourceLineNo">172</span><a id="line.172"></a>
-<span class="sourceLineNo">173</span><a id="line.173">    @Override</a>
-<span class="sourceLineNo">174</span><a id="line.174">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">175</span><a id="line.175">      return !Iterables.any(unfiltered, predicate);</a>
-<span class="sourceLineNo">176</span><a id="line.176">    }</a>
-<span class="sourceLineNo">177</span><a id="line.177"></a>
-<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
-<span class="sourceLineNo">179</span><a id="line.179">    public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">180</span><a id="line.180">      return Iterators.filter(unfiltered.iterator(), predicate);</a>
-<span class="sourceLineNo">181</span><a id="line.181">    }</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
-<span class="sourceLineNo">184</span><a id="line.184">    public Spliterator&lt;E&gt; spliterator() {</a>
-<span class="sourceLineNo">185</span><a id="line.185">      return CollectSpliterators.filter(unfiltered.spliterator(), predicate);</a>
-<span class="sourceLineNo">186</span><a id="line.186">    }</a>
-<span class="sourceLineNo">187</span><a id="line.187"></a>
-<span class="sourceLineNo">188</span><a id="line.188">    @Override</a>
-<span class="sourceLineNo">189</span><a id="line.189">    public void forEach(Consumer&lt;? super E&gt; action) {</a>
-<span class="sourceLineNo">190</span><a id="line.190">      checkNotNull(action);</a>
-<span class="sourceLineNo">191</span><a id="line.191">      unfiltered.forEach(</a>
-<span class="sourceLineNo">192</span><a id="line.192">          (E e) -&gt; {</a>
-<span class="sourceLineNo">193</span><a id="line.193">            if (predicate.test(e)) {</a>
-<span class="sourceLineNo">194</span><a id="line.194">              action.accept(e);</a>
-<span class="sourceLineNo">195</span><a id="line.195">            }</a>
-<span class="sourceLineNo">196</span><a id="line.196">          });</a>
-<span class="sourceLineNo">197</span><a id="line.197">    }</a>
-<span class="sourceLineNo">198</span><a id="line.198"></a>
-<span class="sourceLineNo">199</span><a id="line.199">    @Override</a>
-<span class="sourceLineNo">200</span><a id="line.200">    public boolean remove(@CheckForNull Object element) {</a>
-<span class="sourceLineNo">201</span><a id="line.201">      return contains(element) &amp;&amp; unfiltered.remove(element);</a>
-<span class="sourceLineNo">202</span><a id="line.202">    }</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">    @Override</a>
-<span class="sourceLineNo">205</span><a id="line.205">    public boolean removeAll(final Collection&lt;?&gt; collection) {</a>
-<span class="sourceLineNo">206</span><a id="line.206">      return removeIf(collection::contains);</a>
-<span class="sourceLineNo">207</span><a id="line.207">    }</a>
-<span class="sourceLineNo">208</span><a id="line.208"></a>
-<span class="sourceLineNo">209</span><a id="line.209">    @Override</a>
-<span class="sourceLineNo">210</span><a id="line.210">    public boolean retainAll(final Collection&lt;?&gt; collection) {</a>
-<span class="sourceLineNo">211</span><a id="line.211">      return removeIf(element -&gt; !collection.contains(element));</a>
-<span class="sourceLineNo">212</span><a id="line.212">    }</a>
-<span class="sourceLineNo">213</span><a id="line.213"></a>
-<span class="sourceLineNo">214</span><a id="line.214">    @Override</a>
-<span class="sourceLineNo">215</span><a id="line.215">    public boolean removeIf(java.util.function.Predicate&lt;? super E&gt; filter) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">      checkNotNull(filter);</a>
-<span class="sourceLineNo">217</span><a id="line.217">      return unfiltered.removeIf(element -&gt; predicate.apply(element) &amp;&amp; filter.test(element));</a>
-<span class="sourceLineNo">218</span><a id="line.218">    }</a>
-<span class="sourceLineNo">219</span><a id="line.219"></a>
-<span class="sourceLineNo">220</span><a id="line.220">    @Override</a>
-<span class="sourceLineNo">221</span><a id="line.221">    public int size() {</a>
-<span class="sourceLineNo">222</span><a id="line.222">      int size = 0;</a>
-<span class="sourceLineNo">223</span><a id="line.223">      for (E e : unfiltered) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">        if (predicate.apply(e)) {</a>
-<span class="sourceLineNo">225</span><a id="line.225">          size++;</a>
-<span class="sourceLineNo">226</span><a id="line.226">        }</a>
-<span class="sourceLineNo">227</span><a id="line.227">      }</a>
-<span class="sourceLineNo">228</span><a id="line.228">      return size;</a>
-<span class="sourceLineNo">229</span><a id="line.229">    }</a>
-<span class="sourceLineNo">230</span><a id="line.230"></a>
-<span class="sourceLineNo">231</span><a id="line.231">    @Override</a>
-<span class="sourceLineNo">232</span><a id="line.232">    public @Nullable Object[] toArray() {</a>
-<span class="sourceLineNo">233</span><a id="line.233">      // creating an ArrayList so filtering happens once</a>
-<span class="sourceLineNo">234</span><a id="line.234">      return Lists.newArrayList(iterator()).toArray();</a>
-<span class="sourceLineNo">235</span><a id="line.235">    }</a>
-<span class="sourceLineNo">236</span><a id="line.236"></a>
-<span class="sourceLineNo">237</span><a id="line.237">    @Override</a>
-<span class="sourceLineNo">238</span><a id="line.238">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
-<span class="sourceLineNo">239</span><a id="line.239">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
-<span class="sourceLineNo">240</span><a id="line.240">      return Lists.newArrayList(iterator()).toArray(array);</a>
-<span class="sourceLineNo">241</span><a id="line.241">    }</a>
-<span class="sourceLineNo">242</span><a id="line.242">  }</a>
-<span class="sourceLineNo">243</span><a id="line.243"></a>
-<span class="sourceLineNo">244</span><a id="line.244">  /**</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * Returns a collection that applies {@code function} to each element of {@code fromCollection}.</a>
-<span class="sourceLineNo">246</span><a id="line.246">   * The returned collection is a live view of {@code fromCollection}; changes to one affect the</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * other.</a>
-<span class="sourceLineNo">248</span><a id="line.248">   *</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;The returned collection's {@code add()} and {@code addAll()} methods throw an {@link</a>
-<span class="sourceLineNo">250</span><a id="line.250">   * UnsupportedOperationException}. All other collection methods are supported, as long as {@code</a>
-<span class="sourceLineNo">251</span><a id="line.251">   * fromCollection} supports them.</a>
-<span class="sourceLineNo">252</span><a id="line.252">   *</a>
-<span class="sourceLineNo">253</span><a id="line.253">   * &lt;p&gt;The returned collection isn't threadsafe or serializable, even if {@code fromCollection} is.</a>
-<span class="sourceLineNo">254</span><a id="line.254">   *</a>
-<span class="sourceLineNo">255</span><a id="line.255">   * &lt;p&gt;When a live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the transformed collection</a>
-<span class="sourceLineNo">256</span><a id="line.256">   * and use the copy.</a>
-<span class="sourceLineNo">257</span><a id="line.257">   *</a>
-<span class="sourceLineNo">258</span><a id="line.258">   * &lt;p&gt;If the input {@code Collection} is known to be a {@code List}, consider {@link</a>
-<span class="sourceLineNo">259</span><a id="line.259">   * Lists#transform}. If only an {@code Iterable} is available, use {@link Iterables#transform}.</a>
-<span class="sourceLineNo">260</span><a id="line.260">   *</a>
-<span class="sourceLineNo">261</span><a id="line.261">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link java.util.stream.Stream#map Stream.map}.</a>
-<span class="sourceLineNo">262</span><a id="line.262">   */</a>
-<span class="sourceLineNo">263</span><a id="line.263">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Collection&lt;T&gt; transform(</a>
-<span class="sourceLineNo">264</span><a id="line.264">      Collection&lt;F&gt; fromCollection, Function&lt;? super F, T&gt; function) {</a>
-<span class="sourceLineNo">265</span><a id="line.265">    return new TransformedCollection&lt;&gt;(fromCollection, function);</a>
-<span class="sourceLineNo">266</span><a id="line.266">  }</a>
-<span class="sourceLineNo">267</span><a id="line.267"></a>
-<span class="sourceLineNo">268</span><a id="line.268">  static class TransformedCollection&lt;F extends @Nullable Object, T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">269</span><a id="line.269">      extends AbstractCollection&lt;T&gt; {</a>
-<span class="sourceLineNo">270</span><a id="line.270">    final Collection&lt;F&gt; fromCollection;</a>
-<span class="sourceLineNo">271</span><a id="line.271">    final Function&lt;? super F, ? extends T&gt; function;</a>
-<span class="sourceLineNo">272</span><a id="line.272"></a>
-<span class="sourceLineNo">273</span><a id="line.273">    TransformedCollection(Collection&lt;F&gt; fromCollection, Function&lt;? super F, ? extends T&gt; function) {</a>
-<span class="sourceLineNo">274</span><a id="line.274">      this.fromCollection = checkNotNull(fromCollection);</a>
-<span class="sourceLineNo">275</span><a id="line.275">      this.function = checkNotNull(function);</a>
-<span class="sourceLineNo">276</span><a id="line.276">    }</a>
-<span class="sourceLineNo">277</span><a id="line.277"></a>
-<span class="sourceLineNo">278</span><a id="line.278">    @Override</a>
-<span class="sourceLineNo">279</span><a id="line.279">    public void clear() {</a>
-<span class="sourceLineNo">280</span><a id="line.280">      fromCollection.clear();</a>
-<span class="sourceLineNo">281</span><a id="line.281">    }</a>
-<span class="sourceLineNo">282</span><a id="line.282"></a>
-<span class="sourceLineNo">283</span><a id="line.283">    @Override</a>
-<span class="sourceLineNo">284</span><a id="line.284">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">285</span><a id="line.285">      return fromCollection.isEmpty();</a>
-<span class="sourceLineNo">286</span><a id="line.286">    }</a>
-<span class="sourceLineNo">287</span><a id="line.287"></a>
-<span class="sourceLineNo">288</span><a id="line.288">    @Override</a>
-<span class="sourceLineNo">289</span><a id="line.289">    public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">290</span><a id="line.290">      return Iterators.transform(fromCollection.iterator(), function);</a>
-<span class="sourceLineNo">291</span><a id="line.291">    }</a>
-<span class="sourceLineNo">292</span><a id="line.292"></a>
-<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
-<span class="sourceLineNo">294</span><a id="line.294">    public Spliterator&lt;T&gt; spliterator() {</a>
-<span class="sourceLineNo">295</span><a id="line.295">      return CollectSpliterators.map(fromCollection.spliterator(), function);</a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">    @Override</a>
-<span class="sourceLineNo">299</span><a id="line.299">    public void forEach(Consumer&lt;? super T&gt; action) {</a>
-<span class="sourceLineNo">300</span><a id="line.300">      checkNotNull(action);</a>
-<span class="sourceLineNo">301</span><a id="line.301">      fromCollection.forEach((F f) -&gt; action.accept(function.apply(f)));</a>
-<span class="sourceLineNo">302</span><a id="line.302">    }</a>
-<span class="sourceLineNo">303</span><a id="line.303"></a>
-<span class="sourceLineNo">304</span><a id="line.304">    @Override</a>
-<span class="sourceLineNo">305</span><a id="line.305">    public boolean removeIf(java.util.function.Predicate&lt;? super T&gt; filter) {</a>
-<span class="sourceLineNo">306</span><a id="line.306">      checkNotNull(filter);</a>
-<span class="sourceLineNo">307</span><a id="line.307">      return fromCollection.removeIf(element -&gt; filter.test(function.apply(element)));</a>
-<span class="sourceLineNo">308</span><a id="line.308">    }</a>
-<span class="sourceLineNo">309</span><a id="line.309"></a>
-<span class="sourceLineNo">310</span><a id="line.310">    @Override</a>
-<span class="sourceLineNo">311</span><a id="line.311">    public int size() {</a>
-<span class="sourceLineNo">312</span><a id="line.312">      return fromCollection.size();</a>
-<span class="sourceLineNo">313</span><a id="line.313">    }</a>
-<span class="sourceLineNo">314</span><a id="line.314">  }</a>
-<span class="sourceLineNo">315</span><a id="line.315"></a>
-<span class="sourceLineNo">316</span><a id="line.316">  /**</a>
-<span class="sourceLineNo">317</span><a id="line.317">   * Returns {@code true} if the collection {@code self} contains all of the elements in the</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * collection {@code c}.</a>
-<span class="sourceLineNo">319</span><a id="line.319">   *</a>
-<span class="sourceLineNo">320</span><a id="line.320">   * &lt;p&gt;This method iterates over the specified collection {@code c}, checking each element returned</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * by the iterator in turn to see if it is contained in the specified collection {@code self}. If</a>
-<span class="sourceLineNo">322</span><a id="line.322">   * all elements are so contained, {@code true} is returned, otherwise {@code false}.</a>
-<span class="sourceLineNo">323</span><a id="line.323">   *</a>
-<span class="sourceLineNo">324</span><a id="line.324">   * @param self a collection which might contain all elements in {@code c}</a>
-<span class="sourceLineNo">325</span><a id="line.325">   * @param c a collection whose elements might be contained by {@code self}</a>
-<span class="sourceLineNo">326</span><a id="line.326">   */</a>
-<span class="sourceLineNo">327</span><a id="line.327">  static boolean containsAllImpl(Collection&lt;?&gt; self, Collection&lt;?&gt; c) {</a>
-<span class="sourceLineNo">328</span><a id="line.328">    for (Object o : c) {</a>
-<span class="sourceLineNo">329</span><a id="line.329">      if (!self.contains(o)) {</a>
-<span class="sourceLineNo">330</span><a id="line.330">        return false;</a>
-<span class="sourceLineNo">331</span><a id="line.331">      }</a>
-<span class="sourceLineNo">332</span><a id="line.332">    }</a>
-<span class="sourceLineNo">333</span><a id="line.333">    return true;</a>
-<span class="sourceLineNo">334</span><a id="line.334">  }</a>
-<span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">  /** An implementation of {@link Collection#toString()}. */</a>
-<span class="sourceLineNo">337</span><a id="line.337">  static String toStringImpl(final Collection&lt;?&gt; collection) {</a>
-<span class="sourceLineNo">338</span><a id="line.338">    StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');</a>
-<span class="sourceLineNo">339</span><a id="line.339">    boolean first = true;</a>
-<span class="sourceLineNo">340</span><a id="line.340">    for (Object o : collection) {</a>
-<span class="sourceLineNo">341</span><a id="line.341">      if (!first) {</a>
-<span class="sourceLineNo">342</span><a id="line.342">        sb.append(", ");</a>
-<span class="sourceLineNo">343</span><a id="line.343">      }</a>
-<span class="sourceLineNo">344</span><a id="line.344">      first = false;</a>
-<span class="sourceLineNo">345</span><a id="line.345">      if (o == collection) {</a>
-<span class="sourceLineNo">346</span><a id="line.346">        sb.append("(this Collection)");</a>
-<span class="sourceLineNo">347</span><a id="line.347">      } else {</a>
-<span class="sourceLineNo">348</span><a id="line.348">        sb.append(o);</a>
-<span class="sourceLineNo">349</span><a id="line.349">      }</a>
-<span class="sourceLineNo">350</span><a id="line.350">    }</a>
-<span class="sourceLineNo">351</span><a id="line.351">    return sb.append(']').toString();</a>
-<span class="sourceLineNo">352</span><a id="line.352">  }</a>
-<span class="sourceLineNo">353</span><a id="line.353"></a>
-<span class="sourceLineNo">354</span><a id="line.354">  /** Returns best-effort-sized StringBuilder based on the given collection size. */</a>
-<span class="sourceLineNo">355</span><a id="line.355">  static StringBuilder newStringBuilderForCollection(int size) {</a>
-<span class="sourceLineNo">356</span><a id="line.356">    checkNonnegative(size, "size");</a>
-<span class="sourceLineNo">357</span><a id="line.357">    return new StringBuilder((int) min(size * 8L, Ints.MAX_POWER_OF_TWO));</a>
-<span class="sourceLineNo">358</span><a id="line.358">  }</a>
-<span class="sourceLineNo">359</span><a id="line.359"></a>
-<span class="sourceLineNo">360</span><a id="line.360">  /**</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * Returns a {@link Collection} of all the permutations of the specified {@link Iterable}.</a>
-<span class="sourceLineNo">362</span><a id="line.362">   *</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the algorithm for Lexicographical Permutations</a>
-<span class="sourceLineNo">364</span><a id="line.364">   * Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
-<span class="sourceLineNo">365</span><a id="line.365">   * Section 7.2.1.2. The iteration order follows the lexicographical order. This means that the</a>
-<span class="sourceLineNo">366</span><a id="line.366">   * first permutation will be in ascending order, and the last will be in descending order.</a>
-<span class="sourceLineNo">367</span><a id="line.367">   *</a>
-<span class="sourceLineNo">368</span><a id="line.368">   * &lt;p&gt;Duplicate elements are considered equal. For example, the list [1, 1] will have only one</a>
-<span class="sourceLineNo">369</span><a id="line.369">   * permutation, instead of two. This is why the elements have to implement {@link Comparable}.</a>
-<span class="sourceLineNo">370</span><a id="line.370">   *</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * &lt;p&gt;An empty iterable has only one permutation, which is an empty list.</a>
-<span class="sourceLineNo">372</span><a id="line.372">   *</a>
-<span class="sourceLineNo">373</span><a id="line.373">   * &lt;p&gt;This method is equivalent to {@code Collections2.orderedPermutations(list,</a>
-<span class="sourceLineNo">374</span><a id="line.374">   * Ordering.natural())}.</a>
-<span class="sourceLineNo">375</span><a id="line.375">   *</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * @param elements the original iterable whose elements have to be permuted.</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
-<span class="sourceLineNo">378</span><a id="line.378">   *     original iterable.</a>
-<span class="sourceLineNo">379</span><a id="line.379">   * @throws NullPointerException if the specified iterable is null or has any null elements.</a>
-<span class="sourceLineNo">380</span><a id="line.380">   * @since 12.0</a>
-<span class="sourceLineNo">381</span><a id="line.381">   */</a>
-<span class="sourceLineNo">382</span><a id="line.382">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; Collection&lt;List&lt;E&gt;&gt; orderedPermutations(</a>
-<span class="sourceLineNo">383</span><a id="line.383">      Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">384</span><a id="line.384">    return orderedPermutations(elements, Ordering.natural());</a>
-<span class="sourceLineNo">385</span><a id="line.385">  }</a>
-<span class="sourceLineNo">386</span><a id="line.386"></a>
-<span class="sourceLineNo">387</span><a id="line.387">  /**</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * Returns a {@link Collection} of all the permutations of the specified {@link Iterable} using</a>
-<span class="sourceLineNo">389</span><a id="line.389">   * the specified {@link Comparator} for establishing the lexicographical ordering.</a>
-<span class="sourceLineNo">390</span><a id="line.390">   *</a>
-<span class="sourceLineNo">391</span><a id="line.391">   * &lt;p&gt;Examples:</a>
-<span class="sourceLineNo">392</span><a id="line.392">   *</a>
-<span class="sourceLineNo">393</span><a id="line.393">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">394</span><a id="line.394">   * for (List&lt;String&gt; perm : orderedPermutations(asList("b", "c", "a"))) {</a>
-<span class="sourceLineNo">395</span><a id="line.395">   *   println(perm);</a>
-<span class="sourceLineNo">396</span><a id="line.396">   * }</a>
-<span class="sourceLineNo">397</span><a id="line.397">   * // -&gt; ["a", "b", "c"]</a>
-<span class="sourceLineNo">398</span><a id="line.398">   * // -&gt; ["a", "c", "b"]</a>
-<span class="sourceLineNo">399</span><a id="line.399">   * // -&gt; ["b", "a", "c"]</a>
-<span class="sourceLineNo">400</span><a id="line.400">   * // -&gt; ["b", "c", "a"]</a>
-<span class="sourceLineNo">401</span><a id="line.401">   * // -&gt; ["c", "a", "b"]</a>
-<span class="sourceLineNo">402</span><a id="line.402">   * // -&gt; ["c", "b", "a"]</a>
-<span class="sourceLineNo">403</span><a id="line.403">   *</a>
-<span class="sourceLineNo">404</span><a id="line.404">   * for (List&lt;Integer&gt; perm : orderedPermutations(asList(1, 2, 2, 1))) {</a>
-<span class="sourceLineNo">405</span><a id="line.405">   *   println(perm);</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * }</a>
-<span class="sourceLineNo">407</span><a id="line.407">   * // -&gt; [1, 1, 2, 2]</a>
-<span class="sourceLineNo">408</span><a id="line.408">   * // -&gt; [1, 2, 1, 2]</a>
-<span class="sourceLineNo">409</span><a id="line.409">   * // -&gt; [1, 2, 2, 1]</a>
-<span class="sourceLineNo">410</span><a id="line.410">   * // -&gt; [2, 1, 1, 2]</a>
-<span class="sourceLineNo">411</span><a id="line.411">   * // -&gt; [2, 1, 2, 1]</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * // -&gt; [2, 2, 1, 1]</a>
-<span class="sourceLineNo">413</span><a id="line.413">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">414</span><a id="line.414">   *</a>
-<span class="sourceLineNo">415</span><a id="line.415">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the algorithm for Lexicographical Permutations</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * Section 7.2.1.2. The iteration order follows the lexicographical order. This means that the</a>
-<span class="sourceLineNo">418</span><a id="line.418">   * first permutation will be in ascending order, and the last will be in descending order.</a>
-<span class="sourceLineNo">419</span><a id="line.419">   *</a>
-<span class="sourceLineNo">420</span><a id="line.420">   * &lt;p&gt;Elements that compare equal are considered equal and no new permutations are created by</a>
-<span class="sourceLineNo">421</span><a id="line.421">   * swapping them.</a>
-<span class="sourceLineNo">422</span><a id="line.422">   *</a>
-<span class="sourceLineNo">423</span><a id="line.423">   * &lt;p&gt;An empty iterable has only one permutation, which is an empty list.</a>
-<span class="sourceLineNo">424</span><a id="line.424">   *</a>
-<span class="sourceLineNo">425</span><a id="line.425">   * @param elements the original iterable whose elements have to be permuted.</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * @param comparator a comparator for the iterable's elements.</a>
-<span class="sourceLineNo">427</span><a id="line.427">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
-<span class="sourceLineNo">428</span><a id="line.428">   *     original iterable.</a>
-<span class="sourceLineNo">429</span><a id="line.429">   * @throws NullPointerException If the specified iterable is null, has any null elements, or if</a>
-<span class="sourceLineNo">430</span><a id="line.430">   *     the specified comparator is null.</a>
-<span class="sourceLineNo">431</span><a id="line.431">   * @since 12.0</a>
-<span class="sourceLineNo">432</span><a id="line.432">   */</a>
-<span class="sourceLineNo">433</span><a id="line.433">  public static &lt;E&gt; Collection&lt;List&lt;E&gt;&gt; orderedPermutations(</a>
-<span class="sourceLineNo">434</span><a id="line.434">      Iterable&lt;E&gt; elements, Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">435</span><a id="line.435">    return new OrderedPermutationCollection&lt;E&gt;(elements, comparator);</a>
-<span class="sourceLineNo">436</span><a id="line.436">  }</a>
-<span class="sourceLineNo">437</span><a id="line.437"></a>
-<span class="sourceLineNo">438</span><a id="line.438">  private static final class OrderedPermutationCollection&lt;E&gt; extends AbstractCollection&lt;List&lt;E&gt;&gt; {</a>
-<span class="sourceLineNo">439</span><a id="line.439">    final ImmutableList&lt;E&gt; inputList;</a>
-<span class="sourceLineNo">440</span><a id="line.440">    final Comparator&lt;? super E&gt; comparator;</a>
-<span class="sourceLineNo">441</span><a id="line.441">    final int size;</a>
-<span class="sourceLineNo">442</span><a id="line.442"></a>
-<span class="sourceLineNo">443</span><a id="line.443">    OrderedPermutationCollection(Iterable&lt;E&gt; input, Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">444</span><a id="line.444">      this.inputList = ImmutableList.sortedCopyOf(comparator, input);</a>
-<span class="sourceLineNo">445</span><a id="line.445">      this.comparator = comparator;</a>
-<span class="sourceLineNo">446</span><a id="line.446">      this.size = calculateSize(inputList, comparator);</a>
-<span class="sourceLineNo">447</span><a id="line.447">    }</a>
-<span class="sourceLineNo">448</span><a id="line.448"></a>
-<span class="sourceLineNo">449</span><a id="line.449">    /**</a>
-<span class="sourceLineNo">450</span><a id="line.450">     * The number of permutations with repeated elements is calculated as follows:</a>
-<span class="sourceLineNo">451</span><a id="line.451">     *</a>
-<span class="sourceLineNo">452</span><a id="line.452">     * &lt;ul&gt;</a>
-<span class="sourceLineNo">453</span><a id="line.453">     *   &lt;li&gt;For an empty list, it is 1 (base case).</a>
-<span class="sourceLineNo">454</span><a id="line.454">     *   &lt;li&gt;When r numbers are added to a list of n-r elements, the number of permutations is</a>
-<span class="sourceLineNo">455</span><a id="line.455">     *       increased by a factor of (n choose r).</a>
-<span class="sourceLineNo">456</span><a id="line.456">     * &lt;/ul&gt;</a>
-<span class="sourceLineNo">457</span><a id="line.457">     */</a>
-<span class="sourceLineNo">458</span><a id="line.458">    private static &lt;E&gt; int calculateSize(</a>
-<span class="sourceLineNo">459</span><a id="line.459">        List&lt;E&gt; sortedInputList, Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">460</span><a id="line.460">      int permutations = 1;</a>
-<span class="sourceLineNo">461</span><a id="line.461">      int n = 1;</a>
-<span class="sourceLineNo">462</span><a id="line.462">      int r = 1;</a>
-<span class="sourceLineNo">463</span><a id="line.463">      while (n &lt; sortedInputList.size()) {</a>
-<span class="sourceLineNo">464</span><a id="line.464">        int comparison = comparator.compare(sortedInputList.get(n - 1), sortedInputList.get(n));</a>
-<span class="sourceLineNo">465</span><a id="line.465">        if (comparison &lt; 0) {</a>
-<span class="sourceLineNo">466</span><a id="line.466">          // We move to the next non-repeated element.</a>
-<span class="sourceLineNo">467</span><a id="line.467">          permutations = IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));</a>
-<span class="sourceLineNo">468</span><a id="line.468">          r = 0;</a>
-<span class="sourceLineNo">469</span><a id="line.469">          if (permutations == Integer.MAX_VALUE) {</a>
-<span class="sourceLineNo">470</span><a id="line.470">            return Integer.MAX_VALUE;</a>
-<span class="sourceLineNo">471</span><a id="line.471">          }</a>
-<span class="sourceLineNo">472</span><a id="line.472">        }</a>
-<span class="sourceLineNo">473</span><a id="line.473">        n++;</a>
-<span class="sourceLineNo">474</span><a id="line.474">        r++;</a>
-<span class="sourceLineNo">475</span><a id="line.475">      }</a>
-<span class="sourceLineNo">476</span><a id="line.476">      return IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));</a>
-<span class="sourceLineNo">477</span><a id="line.477">    }</a>
-<span class="sourceLineNo">478</span><a id="line.478"></a>
-<span class="sourceLineNo">479</span><a id="line.479">    @Override</a>
-<span class="sourceLineNo">480</span><a id="line.480">    public int size() {</a>
-<span class="sourceLineNo">481</span><a id="line.481">      return size;</a>
-<span class="sourceLineNo">482</span><a id="line.482">    }</a>
-<span class="sourceLineNo">483</span><a id="line.483"></a>
-<span class="sourceLineNo">484</span><a id="line.484">    @Override</a>
-<span class="sourceLineNo">485</span><a id="line.485">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">486</span><a id="line.486">      return false;</a>
-<span class="sourceLineNo">487</span><a id="line.487">    }</a>
-<span class="sourceLineNo">488</span><a id="line.488"></a>
-<span class="sourceLineNo">489</span><a id="line.489">    @Override</a>
-<span class="sourceLineNo">490</span><a id="line.490">    public Iterator&lt;List&lt;E&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">491</span><a id="line.491">      return new OrderedPermutationIterator&lt;E&gt;(inputList, comparator);</a>
-<span class="sourceLineNo">492</span><a id="line.492">    }</a>
-<span class="sourceLineNo">493</span><a id="line.493"></a>
-<span class="sourceLineNo">494</span><a id="line.494">    @Override</a>
-<span class="sourceLineNo">495</span><a id="line.495">    public boolean contains(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">496</span><a id="line.496">      if (obj instanceof List) {</a>
-<span class="sourceLineNo">497</span><a id="line.497">        List&lt;?&gt; list = (List&lt;?&gt;) obj;</a>
-<span class="sourceLineNo">498</span><a id="line.498">        return isPermutation(inputList, list);</a>
-<span class="sourceLineNo">499</span><a id="line.499">      }</a>
-<span class="sourceLineNo">500</span><a id="line.500">      return false;</a>
-<span class="sourceLineNo">501</span><a id="line.501">    }</a>
-<span class="sourceLineNo">502</span><a id="line.502"></a>
-<span class="sourceLineNo">503</span><a id="line.503">    @Override</a>
-<span class="sourceLineNo">504</span><a id="line.504">    public String toString() {</a>
-<span class="sourceLineNo">505</span><a id="line.505">      return "orderedPermutationCollection(" + inputList + ")";</a>
-<span class="sourceLineNo">506</span><a id="line.506">    }</a>
-<span class="sourceLineNo">507</span><a id="line.507">  }</a>
-<span class="sourceLineNo">508</span><a id="line.508"></a>
-<span class="sourceLineNo">509</span><a id="line.509">  private static final class OrderedPermutationIterator&lt;E&gt; extends AbstractIterator&lt;List&lt;E&gt;&gt; {</a>
-<span class="sourceLineNo">510</span><a id="line.510">    @CheckForNull List&lt;E&gt; nextPermutation;</a>
-<span class="sourceLineNo">511</span><a id="line.511">    final Comparator&lt;? super E&gt; comparator;</a>
-<span class="sourceLineNo">512</span><a id="line.512"></a>
-<span class="sourceLineNo">513</span><a id="line.513">    OrderedPermutationIterator(List&lt;E&gt; list, Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">514</span><a id="line.514">      this.nextPermutation = Lists.newArrayList(list);</a>
-<span class="sourceLineNo">515</span><a id="line.515">      this.comparator = comparator;</a>
-<span class="sourceLineNo">516</span><a id="line.516">    }</a>
-<span class="sourceLineNo">517</span><a id="line.517"></a>
-<span class="sourceLineNo">518</span><a id="line.518">    @Override</a>
-<span class="sourceLineNo">519</span><a id="line.519">    @CheckForNull</a>
-<span class="sourceLineNo">520</span><a id="line.520">    protected List&lt;E&gt; computeNext() {</a>
-<span class="sourceLineNo">521</span><a id="line.521">      if (nextPermutation == null) {</a>
-<span class="sourceLineNo">522</span><a id="line.522">        return endOfData();</a>
-<span class="sourceLineNo">523</span><a id="line.523">      }</a>
-<span class="sourceLineNo">524</span><a id="line.524">      ImmutableList&lt;E&gt; next = ImmutableList.copyOf(nextPermutation);</a>
-<span class="sourceLineNo">525</span><a id="line.525">      calculateNextPermutation();</a>
-<span class="sourceLineNo">526</span><a id="line.526">      return next;</a>
-<span class="sourceLineNo">527</span><a id="line.527">    }</a>
-<span class="sourceLineNo">528</span><a id="line.528"></a>
-<span class="sourceLineNo">529</span><a id="line.529">    void calculateNextPermutation() {</a>
-<span class="sourceLineNo">530</span><a id="line.530">      int j = findNextJ();</a>
-<span class="sourceLineNo">531</span><a id="line.531">      if (j == -1) {</a>
-<span class="sourceLineNo">532</span><a id="line.532">        nextPermutation = null;</a>
-<span class="sourceLineNo">533</span><a id="line.533">        return;</a>
-<span class="sourceLineNo">534</span><a id="line.534">      }</a>
-<span class="sourceLineNo">535</span><a id="line.535">      /*</a>
-<span class="sourceLineNo">536</span><a id="line.536">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
-<span class="sourceLineNo">537</span><a id="line.537">       * method.</a>
-<span class="sourceLineNo">538</span><a id="line.538">       */</a>
-<span class="sourceLineNo">539</span><a id="line.539">      requireNonNull(nextPermutation);</a>
-<span class="sourceLineNo">540</span><a id="line.540"></a>
-<span class="sourceLineNo">541</span><a id="line.541">      int l = findNextL(j);</a>
-<span class="sourceLineNo">542</span><a id="line.542">      Collections.swap(nextPermutation, j, l);</a>
-<span class="sourceLineNo">543</span><a id="line.543">      int n = nextPermutation.size();</a>
-<span class="sourceLineNo">544</span><a id="line.544">      Collections.reverse(nextPermutation.subList(j + 1, n));</a>
-<span class="sourceLineNo">545</span><a id="line.545">    }</a>
-<span class="sourceLineNo">546</span><a id="line.546"></a>
-<span class="sourceLineNo">547</span><a id="line.547">    int findNextJ() {</a>
-<span class="sourceLineNo">548</span><a id="line.548">      /*</a>
-<span class="sourceLineNo">549</span><a id="line.549">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
-<span class="sourceLineNo">550</span><a id="line.550">       * method.</a>
-<span class="sourceLineNo">551</span><a id="line.551">       */</a>
-<span class="sourceLineNo">552</span><a id="line.552">      requireNonNull(nextPermutation);</a>
-<span class="sourceLineNo">553</span><a id="line.553">      for (int k = nextPermutation.size() - 2; k &gt;= 0; k--) {</a>
-<span class="sourceLineNo">554</span><a id="line.554">        if (comparator.compare(nextPermutation.get(k), nextPermutation.get(k + 1)) &lt; 0) {</a>
-<span class="sourceLineNo">555</span><a id="line.555">          return k;</a>
-<span class="sourceLineNo">556</span><a id="line.556">        }</a>
-<span class="sourceLineNo">557</span><a id="line.557">      }</a>
-<span class="sourceLineNo">558</span><a id="line.558">      return -1;</a>
-<span class="sourceLineNo">559</span><a id="line.559">    }</a>
-<span class="sourceLineNo">560</span><a id="line.560"></a>
-<span class="sourceLineNo">561</span><a id="line.561">    int findNextL(int j) {</a>
-<span class="sourceLineNo">562</span><a id="line.562">      /*</a>
-<span class="sourceLineNo">563</span><a id="line.563">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
-<span class="sourceLineNo">564</span><a id="line.564">       * method.</a>
-<span class="sourceLineNo">565</span><a id="line.565">       */</a>
-<span class="sourceLineNo">566</span><a id="line.566">      requireNonNull(nextPermutation);</a>
-<span class="sourceLineNo">567</span><a id="line.567">      E ak = nextPermutation.get(j);</a>
-<span class="sourceLineNo">568</span><a id="line.568">      for (int l = nextPermutation.size() - 1; l &gt; j; l--) {</a>
-<span class="sourceLineNo">569</span><a id="line.569">        if (comparator.compare(ak, nextPermutation.get(l)) &lt; 0) {</a>
-<span class="sourceLineNo">570</span><a id="line.570">          return l;</a>
-<span class="sourceLineNo">571</span><a id="line.571">        }</a>
-<span class="sourceLineNo">572</span><a id="line.572">      }</a>
-<span class="sourceLineNo">573</span><a id="line.573">      throw new AssertionError("this statement should be unreachable");</a>
-<span class="sourceLineNo">574</span><a id="line.574">    }</a>
-<span class="sourceLineNo">575</span><a id="line.575">  }</a>
-<span class="sourceLineNo">576</span><a id="line.576"></a>
-<span class="sourceLineNo">577</span><a id="line.577">  /**</a>
-<span class="sourceLineNo">578</span><a id="line.578">   * Returns a {@link Collection} of all the permutations of the specified {@link Collection}.</a>
-<span class="sourceLineNo">579</span><a id="line.579">   *</a>
-<span class="sourceLineNo">580</span><a id="line.580">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the Plain Changes algorithm for permutations</a>
-<span class="sourceLineNo">581</span><a id="line.581">   * generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
-<span class="sourceLineNo">582</span><a id="line.582">   * Section 7.2.1.2.</a>
-<span class="sourceLineNo">583</span><a id="line.583">   *</a>
-<span class="sourceLineNo">584</span><a id="line.584">   * &lt;p&gt;If the input list contains equal elements, some of the generated permutations will be equal.</a>
-<span class="sourceLineNo">585</span><a id="line.585">   *</a>
-<span class="sourceLineNo">586</span><a id="line.586">   * &lt;p&gt;An empty collection has only one permutation, which is an empty list.</a>
-<span class="sourceLineNo">587</span><a id="line.587">   *</a>
-<span class="sourceLineNo">588</span><a id="line.588">   * @param elements the original collection whose elements have to be permuted.</a>
-<span class="sourceLineNo">589</span><a id="line.589">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
-<span class="sourceLineNo">590</span><a id="line.590">   *     original collection.</a>
-<span class="sourceLineNo">591</span><a id="line.591">   * @throws NullPointerException if the specified collection is null or has any null elements.</a>
-<span class="sourceLineNo">592</span><a id="line.592">   * @since 12.0</a>
-<span class="sourceLineNo">593</span><a id="line.593">   */</a>
-<span class="sourceLineNo">594</span><a id="line.594">  public static &lt;E&gt; Collection&lt;List&lt;E&gt;&gt; permutations(Collection&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">595</span><a id="line.595">    return new PermutationCollection&lt;E&gt;(ImmutableList.copyOf(elements));</a>
-<span class="sourceLineNo">596</span><a id="line.596">  }</a>
-<span class="sourceLineNo">597</span><a id="line.597"></a>
-<span class="sourceLineNo">598</span><a id="line.598">  private static final class PermutationCollection&lt;E&gt; extends AbstractCollection&lt;List&lt;E&gt;&gt; {</a>
-<span class="sourceLineNo">599</span><a id="line.599">    final ImmutableList&lt;E&gt; inputList;</a>
-<span class="sourceLineNo">600</span><a id="line.600"></a>
-<span class="sourceLineNo">601</span><a id="line.601">    PermutationCollection(ImmutableList&lt;E&gt; input) {</a>
-<span class="sourceLineNo">602</span><a id="line.602">      this.inputList = input;</a>
-<span class="sourceLineNo">603</span><a id="line.603">    }</a>
-<span class="sourceLineNo">604</span><a id="line.604"></a>
-<span class="sourceLineNo">605</span><a id="line.605">    @Override</a>
-<span class="sourceLineNo">606</span><a id="line.606">    public int size() {</a>
-<span class="sourceLineNo">607</span><a id="line.607">      return IntMath.factorial(inputList.size());</a>
-<span class="sourceLineNo">608</span><a id="line.608">    }</a>
-<span class="sourceLineNo">609</span><a id="line.609"></a>
-<span class="sourceLineNo">610</span><a id="line.610">    @Override</a>
-<span class="sourceLineNo">611</span><a id="line.611">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">612</span><a id="line.612">      return false;</a>
-<span class="sourceLineNo">613</span><a id="line.613">    }</a>
-<span class="sourceLineNo">614</span><a id="line.614"></a>
-<span class="sourceLineNo">615</span><a id="line.615">    @Override</a>
-<span class="sourceLineNo">616</span><a id="line.616">    public Iterator&lt;List&lt;E&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">617</span><a id="line.617">      return new PermutationIterator&lt;E&gt;(inputList);</a>
-<span class="sourceLineNo">618</span><a id="line.618">    }</a>
-<span class="sourceLineNo">619</span><a id="line.619"></a>
-<span class="sourceLineNo">620</span><a id="line.620">    @Override</a>
-<span class="sourceLineNo">621</span><a id="line.621">    public boolean contains(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">622</span><a id="line.622">      if (obj instanceof List) {</a>
-<span class="sourceLineNo">623</span><a id="line.623">        List&lt;?&gt; list = (List&lt;?&gt;) obj;</a>
-<span class="sourceLineNo">624</span><a id="line.624">        return isPermutation(inputList, list);</a>
-<span class="sourceLineNo">625</span><a id="line.625">      }</a>
-<span class="sourceLineNo">626</span><a id="line.626">      return false;</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628"></a>
-<span class="sourceLineNo">629</span><a id="line.629">    @Override</a>
-<span class="sourceLineNo">630</span><a id="line.630">    public String toString() {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      return "permutations(" + inputList + ")";</a>
-<span class="sourceLineNo">632</span><a id="line.632">    }</a>
-<span class="sourceLineNo">633</span><a id="line.633">  }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">  private static class PermutationIterator&lt;E&gt; extends AbstractIterator&lt;List&lt;E&gt;&gt; {</a>
-<span class="sourceLineNo">636</span><a id="line.636">    final List&lt;E&gt; list;</a>
-<span class="sourceLineNo">637</span><a id="line.637">    final int[] c;</a>
-<span class="sourceLineNo">638</span><a id="line.638">    final int[] o;</a>
-<span class="sourceLineNo">639</span><a id="line.639">    int j;</a>
-<span class="sourceLineNo">640</span><a id="line.640"></a>
-<span class="sourceLineNo">641</span><a id="line.641">    PermutationIterator(List&lt;E&gt; list) {</a>
-<span class="sourceLineNo">642</span><a id="line.642">      this.list = new ArrayList&lt;&gt;(list);</a>
-<span class="sourceLineNo">643</span><a id="line.643">      int n = list.size();</a>
-<span class="sourceLineNo">644</span><a id="line.644">      c = new int[n];</a>
-<span class="sourceLineNo">645</span><a id="line.645">      o = new int[n];</a>
-<span class="sourceLineNo">646</span><a id="line.646">      Arrays.fill(c, 0);</a>
-<span class="sourceLineNo">647</span><a id="line.647">      Arrays.fill(o, 1);</a>
-<span class="sourceLineNo">648</span><a id="line.648">      j = Integer.MAX_VALUE;</a>
-<span class="sourceLineNo">649</span><a id="line.649">    }</a>
-<span class="sourceLineNo">650</span><a id="line.650"></a>
-<span class="sourceLineNo">651</span><a id="line.651">    @Override</a>
-<span class="sourceLineNo">652</span><a id="line.652">    @CheckForNull</a>
-<span class="sourceLineNo">653</span><a id="line.653">    protected List&lt;E&gt; computeNext() {</a>
-<span class="sourceLineNo">654</span><a id="line.654">      if (j &lt;= 0) {</a>
-<span class="sourceLineNo">655</span><a id="line.655">        return endOfData();</a>
-<span class="sourceLineNo">656</span><a id="line.656">      }</a>
-<span class="sourceLineNo">657</span><a id="line.657">      ImmutableList&lt;E&gt; next = ImmutableList.copyOf(list);</a>
-<span class="sourceLineNo">658</span><a id="line.658">      calculateNextPermutation();</a>
-<span class="sourceLineNo">659</span><a id="line.659">      return next;</a>
-<span class="sourceLineNo">660</span><a id="line.660">    }</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">    void calculateNextPermutation() {</a>
-<span class="sourceLineNo">663</span><a id="line.663">      j = list.size() - 1;</a>
-<span class="sourceLineNo">664</span><a id="line.664">      int s = 0;</a>
-<span class="sourceLineNo">665</span><a id="line.665"></a>
-<span class="sourceLineNo">666</span><a id="line.666">      // Handle the special case of an empty list. Skip the calculation of the</a>
-<span class="sourceLineNo">667</span><a id="line.667">      // next permutation.</a>
-<span class="sourceLineNo">668</span><a id="line.668">      if (j == -1) {</a>
-<span class="sourceLineNo">669</span><a id="line.669">        return;</a>
-<span class="sourceLineNo">670</span><a id="line.670">      }</a>
-<span class="sourceLineNo">671</span><a id="line.671"></a>
-<span class="sourceLineNo">672</span><a id="line.672">      while (true) {</a>
-<span class="sourceLineNo">673</span><a id="line.673">        int q = c[j] + o[j];</a>
-<span class="sourceLineNo">674</span><a id="line.674">        if (q &lt; 0) {</a>
-<span class="sourceLineNo">675</span><a id="line.675">          switchDirection();</a>
-<span class="sourceLineNo">676</span><a id="line.676">          continue;</a>
-<span class="sourceLineNo">677</span><a id="line.677">        }</a>
-<span class="sourceLineNo">678</span><a id="line.678">        if (q == j + 1) {</a>
-<span class="sourceLineNo">679</span><a id="line.679">          if (j == 0) {</a>
-<span class="sourceLineNo">680</span><a id="line.680">            break;</a>
-<span class="sourceLineNo">681</span><a id="line.681">          }</a>
-<span class="sourceLineNo">682</span><a id="line.682">          s++;</a>
-<span class="sourceLineNo">683</span><a id="line.683">          switchDirection();</a>
-<span class="sourceLineNo">684</span><a id="line.684">          continue;</a>
-<span class="sourceLineNo">685</span><a id="line.685">        }</a>
-<span class="sourceLineNo">686</span><a id="line.686"></a>
-<span class="sourceLineNo">687</span><a id="line.687">        Collections.swap(list, j - c[j] + s, j - q + s);</a>
-<span class="sourceLineNo">688</span><a id="line.688">        c[j] = q;</a>
-<span class="sourceLineNo">689</span><a id="line.689">        break;</a>
-<span class="sourceLineNo">690</span><a id="line.690">      }</a>
-<span class="sourceLineNo">691</span><a id="line.691">    }</a>
-<span class="sourceLineNo">692</span><a id="line.692"></a>
-<span class="sourceLineNo">693</span><a id="line.693">    void switchDirection() {</a>
-<span class="sourceLineNo">694</span><a id="line.694">      o[j] = -o[j];</a>
-<span class="sourceLineNo">695</span><a id="line.695">      j--;</a>
-<span class="sourceLineNo">696</span><a id="line.696">    }</a>
-<span class="sourceLineNo">697</span><a id="line.697">  }</a>
-<span class="sourceLineNo">698</span><a id="line.698"></a>
-<span class="sourceLineNo">699</span><a id="line.699">  /** Returns {@code true} if the second list is a permutation of the first. */</a>
-<span class="sourceLineNo">700</span><a id="line.700">  private static boolean isPermutation(List&lt;?&gt; first, List&lt;?&gt; second) {</a>
-<span class="sourceLineNo">701</span><a id="line.701">    if (first.size() != second.size()) {</a>
-<span class="sourceLineNo">702</span><a id="line.702">      return false;</a>
-<span class="sourceLineNo">703</span><a id="line.703">    }</a>
-<span class="sourceLineNo">704</span><a id="line.704">    Multiset&lt;?&gt; firstMultiset = HashMultiset.create(first);</a>
-<span class="sourceLineNo">705</span><a id="line.705">    Multiset&lt;?&gt; secondMultiset = HashMultiset.create(second);</a>
-<span class="sourceLineNo">706</span><a id="line.706">    return firstMultiset.equals(secondMultiset);</a>
-<span class="sourceLineNo">707</span><a id="line.707">  }</a>
-<span class="sourceLineNo">708</span><a id="line.708">}</a>
+<span class="sourceLineNo">058</span><a id="line.58">public final class Collections2 {</a>
+<span class="sourceLineNo">059</span><a id="line.59">  private Collections2() {}</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">  /**</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * Returns the elements of {@code unfiltered} that satisfy a predicate. The returned collection is</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * a live view of {@code unfiltered}; changes to one affect the other.</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * &lt;p&gt;The resulting collection's iterator does not support {@code remove()}, but all other</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * collection methods are supported. When given an element that doesn't satisfy the predicate, the</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * collection's {@code add()} and {@code addAll()} methods throw an {@link</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * IllegalArgumentException}. When methods such as {@code removeAll()} and {@code clear()} are</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * called on the filtered collection, only elements that satisfy the filter will be removed from</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * the underlying collection.</a>
+<span class="sourceLineNo">071</span><a id="line.71">   *</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;The returned collection isn't threadsafe or serializable, even if {@code unfiltered} is.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   *</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * &lt;p&gt;Many of the filtered collection's methods, such as {@code size()}, iterate across every</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * element in the underlying collection and determine which elements satisfy the filter. When a</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered,</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * predicate)} and use the copy.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * Iterables#filter(Iterable, Class)} for related functionality.)</a>
+<span class="sourceLineNo">083</span><a id="line.83">   *</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link java.util.stream.Stream#filter Stream.filter}.</a>
+<span class="sourceLineNo">085</span><a id="line.85">   */</a>
+<span class="sourceLineNo">086</span><a id="line.86">  // TODO(kevinb): how can we omit that Iterables link when building gwt</a>
+<span class="sourceLineNo">087</span><a id="line.87">  // javadoc?</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public static &lt;E extends @Nullable Object&gt; Collection&lt;E&gt; filter(</a>
+<span class="sourceLineNo">089</span><a id="line.89">      Collection&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">    if (unfiltered instanceof FilteredCollection) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">      // Support clear(), removeAll(), and retainAll() when filtering a filtered</a>
+<span class="sourceLineNo">092</span><a id="line.92">      // collection.</a>
+<span class="sourceLineNo">093</span><a id="line.93">      return ((FilteredCollection&lt;E&gt;) unfiltered).createCombined(predicate);</a>
+<span class="sourceLineNo">094</span><a id="line.94">    }</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">    return new FilteredCollection&lt;&gt;(checkNotNull(unfiltered), checkNotNull(predicate));</a>
+<span class="sourceLineNo">097</span><a id="line.97">  }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">  /**</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * throws a {@code ClassCastException} or {@code NullPointerException}.</a>
+<span class="sourceLineNo">102</span><a id="line.102">   */</a>
+<span class="sourceLineNo">103</span><a id="line.103">  static boolean safeContains(Collection&lt;?&gt; collection, @CheckForNull Object object) {</a>
+<span class="sourceLineNo">104</span><a id="line.104">    checkNotNull(collection);</a>
+<span class="sourceLineNo">105</span><a id="line.105">    try {</a>
+<span class="sourceLineNo">106</span><a id="line.106">      return collection.contains(object);</a>
+<span class="sourceLineNo">107</span><a id="line.107">    } catch (ClassCastException | NullPointerException e) {</a>
+<span class="sourceLineNo">108</span><a id="line.108">      return false;</a>
+<span class="sourceLineNo">109</span><a id="line.109">    }</a>
+<span class="sourceLineNo">110</span><a id="line.110">  }</a>
+<span class="sourceLineNo">111</span><a id="line.111"></a>
+<span class="sourceLineNo">112</span><a id="line.112">  /**</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * throws a {@code ClassCastException} or {@code NullPointerException}.</a>
+<span class="sourceLineNo">115</span><a id="line.115">   */</a>
+<span class="sourceLineNo">116</span><a id="line.116">  static boolean safeRemove(Collection&lt;?&gt; collection, @CheckForNull Object object) {</a>
+<span class="sourceLineNo">117</span><a id="line.117">    checkNotNull(collection);</a>
+<span class="sourceLineNo">118</span><a id="line.118">    try {</a>
+<span class="sourceLineNo">119</span><a id="line.119">      return collection.remove(object);</a>
+<span class="sourceLineNo">120</span><a id="line.120">    } catch (ClassCastException | NullPointerException e) {</a>
+<span class="sourceLineNo">121</span><a id="line.121">      return false;</a>
+<span class="sourceLineNo">122</span><a id="line.122">    }</a>
+<span class="sourceLineNo">123</span><a id="line.123">  }</a>
+<span class="sourceLineNo">124</span><a id="line.124"></a>
+<span class="sourceLineNo">125</span><a id="line.125">  static class FilteredCollection&lt;E extends @Nullable Object&gt; extends AbstractCollection&lt;E&gt; {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    final Collection&lt;E&gt; unfiltered;</a>
+<span class="sourceLineNo">127</span><a id="line.127">    final Predicate&lt;? super E&gt; predicate;</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">    FilteredCollection(Collection&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      this.unfiltered = unfiltered;</a>
+<span class="sourceLineNo">131</span><a id="line.131">      this.predicate = predicate;</a>
+<span class="sourceLineNo">132</span><a id="line.132">    }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">    FilteredCollection&lt;E&gt; createCombined(Predicate&lt;? super E&gt; newPredicate) {</a>
+<span class="sourceLineNo">135</span><a id="line.135">      return new FilteredCollection&lt;&gt;(unfiltered, Predicates.and(predicate, newPredicate));</a>
+<span class="sourceLineNo">136</span><a id="line.136">    }</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">    @Override</a>
+<span class="sourceLineNo">139</span><a id="line.139">    public boolean add(@ParametricNullness E element) {</a>
+<span class="sourceLineNo">140</span><a id="line.140">      checkArgument(predicate.apply(element));</a>
+<span class="sourceLineNo">141</span><a id="line.141">      return unfiltered.add(element);</a>
+<span class="sourceLineNo">142</span><a id="line.142">    }</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">    @Override</a>
+<span class="sourceLineNo">145</span><a id="line.145">    public boolean addAll(Collection&lt;? extends E&gt; collection) {</a>
+<span class="sourceLineNo">146</span><a id="line.146">      for (E element : collection) {</a>
+<span class="sourceLineNo">147</span><a id="line.147">        checkArgument(predicate.apply(element));</a>
+<span class="sourceLineNo">148</span><a id="line.148">      }</a>
+<span class="sourceLineNo">149</span><a id="line.149">      return unfiltered.addAll(collection);</a>
+<span class="sourceLineNo">150</span><a id="line.150">    }</a>
+<span class="sourceLineNo">151</span><a id="line.151"></a>
+<span class="sourceLineNo">152</span><a id="line.152">    @Override</a>
+<span class="sourceLineNo">153</span><a id="line.153">    public void clear() {</a>
+<span class="sourceLineNo">154</span><a id="line.154">      Iterables.removeIf(unfiltered, predicate);</a>
+<span class="sourceLineNo">155</span><a id="line.155">    }</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">    @Override</a>
+<span class="sourceLineNo">158</span><a id="line.158">    public boolean contains(@CheckForNull Object element) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">      if (safeContains(unfiltered, element)) {</a>
+<span class="sourceLineNo">160</span><a id="line.160">        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E</a>
+<span class="sourceLineNo">161</span><a id="line.161">        E e = (E) element;</a>
+<span class="sourceLineNo">162</span><a id="line.162">        return predicate.apply(e);</a>
+<span class="sourceLineNo">163</span><a id="line.163">      }</a>
+<span class="sourceLineNo">164</span><a id="line.164">      return false;</a>
+<span class="sourceLineNo">165</span><a id="line.165">    }</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">    @Override</a>
+<span class="sourceLineNo">168</span><a id="line.168">    public boolean containsAll(Collection&lt;?&gt; collection) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">      return containsAllImpl(this, collection);</a>
+<span class="sourceLineNo">170</span><a id="line.170">    }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">    @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">174</span><a id="line.174">      return !Iterables.any(unfiltered, predicate);</a>
+<span class="sourceLineNo">175</span><a id="line.175">    }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">    @Override</a>
+<span class="sourceLineNo">178</span><a id="line.178">    public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      return Iterators.filter(unfiltered.iterator(), predicate);</a>
+<span class="sourceLineNo">180</span><a id="line.180">    }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">    @Override</a>
+<span class="sourceLineNo">183</span><a id="line.183">    public Spliterator&lt;E&gt; spliterator() {</a>
+<span class="sourceLineNo">184</span><a id="line.184">      return CollectSpliterators.filter(unfiltered.spliterator(), predicate);</a>
+<span class="sourceLineNo">185</span><a id="line.185">    }</a>
+<span class="sourceLineNo">186</span><a id="line.186"></a>
+<span class="sourceLineNo">187</span><a id="line.187">    @Override</a>
+<span class="sourceLineNo">188</span><a id="line.188">    public void forEach(Consumer&lt;? super E&gt; action) {</a>
+<span class="sourceLineNo">189</span><a id="line.189">      checkNotNull(action);</a>
+<span class="sourceLineNo">190</span><a id="line.190">      unfiltered.forEach(</a>
+<span class="sourceLineNo">191</span><a id="line.191">          (E e) -&gt; {</a>
+<span class="sourceLineNo">192</span><a id="line.192">            if (predicate.test(e)) {</a>
+<span class="sourceLineNo">193</span><a id="line.193">              action.accept(e);</a>
+<span class="sourceLineNo">194</span><a id="line.194">            }</a>
+<span class="sourceLineNo">195</span><a id="line.195">          });</a>
+<span class="sourceLineNo">196</span><a id="line.196">    }</a>
+<span class="sourceLineNo">197</span><a id="line.197"></a>
+<span class="sourceLineNo">198</span><a id="line.198">    @Override</a>
+<span class="sourceLineNo">199</span><a id="line.199">    public boolean remove(@CheckForNull Object element) {</a>
+<span class="sourceLineNo">200</span><a id="line.200">      return contains(element) &amp;&amp; unfiltered.remove(element);</a>
+<span class="sourceLineNo">201</span><a id="line.201">    }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">    @Override</a>
+<span class="sourceLineNo">204</span><a id="line.204">    public boolean removeAll(final Collection&lt;?&gt; collection) {</a>
+<span class="sourceLineNo">205</span><a id="line.205">      return removeIf(collection::contains);</a>
+<span class="sourceLineNo">206</span><a id="line.206">    }</a>
+<span class="sourceLineNo">207</span><a id="line.207"></a>
+<span class="sourceLineNo">208</span><a id="line.208">    @Override</a>
+<span class="sourceLineNo">209</span><a id="line.209">    public boolean retainAll(final Collection&lt;?&gt; collection) {</a>
+<span class="sourceLineNo">210</span><a id="line.210">      return removeIf(element -&gt; !collection.contains(element));</a>
+<span class="sourceLineNo">211</span><a id="line.211">    }</a>
+<span class="sourceLineNo">212</span><a id="line.212"></a>
+<span class="sourceLineNo">213</span><a id="line.213">    @Override</a>
+<span class="sourceLineNo">214</span><a id="line.214">    public boolean removeIf(java.util.function.Predicate&lt;? super E&gt; filter) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">      checkNotNull(filter);</a>
+<span class="sourceLineNo">216</span><a id="line.216">      return unfiltered.removeIf(element -&gt; predicate.apply(element) &amp;&amp; filter.test(element));</a>
+<span class="sourceLineNo">217</span><a id="line.217">    }</a>
+<span class="sourceLineNo">218</span><a id="line.218"></a>
+<span class="sourceLineNo">219</span><a id="line.219">    @Override</a>
+<span class="sourceLineNo">220</span><a id="line.220">    public int size() {</a>
+<span class="sourceLineNo">221</span><a id="line.221">      int size = 0;</a>
+<span class="sourceLineNo">222</span><a id="line.222">      for (E e : unfiltered) {</a>
+<span class="sourceLineNo">223</span><a id="line.223">        if (predicate.apply(e)) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">          size++;</a>
+<span class="sourceLineNo">225</span><a id="line.225">        }</a>
+<span class="sourceLineNo">226</span><a id="line.226">      }</a>
+<span class="sourceLineNo">227</span><a id="line.227">      return size;</a>
+<span class="sourceLineNo">228</span><a id="line.228">    }</a>
+<span class="sourceLineNo">229</span><a id="line.229"></a>
+<span class="sourceLineNo">230</span><a id="line.230">    @Override</a>
+<span class="sourceLineNo">231</span><a id="line.231">    public @Nullable Object[] toArray() {</a>
+<span class="sourceLineNo">232</span><a id="line.232">      // creating an ArrayList so filtering happens once</a>
+<span class="sourceLineNo">233</span><a id="line.233">      return Lists.newArrayList(iterator()).toArray();</a>
+<span class="sourceLineNo">234</span><a id="line.234">    }</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">    @Override</a>
+<span class="sourceLineNo">237</span><a id="line.237">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</a>
+<span class="sourceLineNo">238</span><a id="line.238">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</a>
+<span class="sourceLineNo">239</span><a id="line.239">      return Lists.newArrayList(iterator()).toArray(array);</a>
+<span class="sourceLineNo">240</span><a id="line.240">    }</a>
+<span class="sourceLineNo">241</span><a id="line.241">  }</a>
+<span class="sourceLineNo">242</span><a id="line.242"></a>
+<span class="sourceLineNo">243</span><a id="line.243">  /**</a>
+<span class="sourceLineNo">244</span><a id="line.244">   * Returns a collection that applies {@code function} to each element of {@code fromCollection}.</a>
+<span class="sourceLineNo">245</span><a id="line.245">   * The returned collection is a live view of {@code fromCollection}; changes to one affect the</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * other.</a>
+<span class="sourceLineNo">247</span><a id="line.247">   *</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * &lt;p&gt;The returned collection's {@code add()} and {@code addAll()} methods throw an {@link</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * UnsupportedOperationException}. All other collection methods are supported, as long as {@code</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * fromCollection} supports them.</a>
+<span class="sourceLineNo">251</span><a id="line.251">   *</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * &lt;p&gt;The returned collection isn't threadsafe or serializable, even if {@code fromCollection} is.</a>
+<span class="sourceLineNo">253</span><a id="line.253">   *</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * &lt;p&gt;When a live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the transformed collection</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * and use the copy.</a>
+<span class="sourceLineNo">256</span><a id="line.256">   *</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * &lt;p&gt;If the input {@code Collection} is known to be a {@code List}, consider {@link</a>
+<span class="sourceLineNo">258</span><a id="line.258">   * Lists#transform}. If only an {@code Iterable} is available, use {@link Iterables#transform}.</a>
+<span class="sourceLineNo">259</span><a id="line.259">   *</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link java.util.stream.Stream#map Stream.map}.</a>
+<span class="sourceLineNo">261</span><a id="line.261">   */</a>
+<span class="sourceLineNo">262</span><a id="line.262">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Collection&lt;T&gt; transform(</a>
+<span class="sourceLineNo">263</span><a id="line.263">      Collection&lt;F&gt; fromCollection, Function&lt;? super F, T&gt; function) {</a>
+<span class="sourceLineNo">264</span><a id="line.264">    return new TransformedCollection&lt;&gt;(fromCollection, function);</a>
+<span class="sourceLineNo">265</span><a id="line.265">  }</a>
+<span class="sourceLineNo">266</span><a id="line.266"></a>
+<span class="sourceLineNo">267</span><a id="line.267">  static class TransformedCollection&lt;F extends @Nullable Object, T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">268</span><a id="line.268">      extends AbstractCollection&lt;T&gt; {</a>
+<span class="sourceLineNo">269</span><a id="line.269">    final Collection&lt;F&gt; fromCollection;</a>
+<span class="sourceLineNo">270</span><a id="line.270">    final Function&lt;? super F, ? extends T&gt; function;</a>
+<span class="sourceLineNo">271</span><a id="line.271"></a>
+<span class="sourceLineNo">272</span><a id="line.272">    TransformedCollection(Collection&lt;F&gt; fromCollection, Function&lt;? super F, ? extends T&gt; function) {</a>
+<span class="sourceLineNo">273</span><a id="line.273">      this.fromCollection = checkNotNull(fromCollection);</a>
+<span class="sourceLineNo">274</span><a id="line.274">      this.function = checkNotNull(function);</a>
+<span class="sourceLineNo">275</span><a id="line.275">    }</a>
+<span class="sourceLineNo">276</span><a id="line.276"></a>
+<span class="sourceLineNo">277</span><a id="line.277">    @Override</a>
+<span class="sourceLineNo">278</span><a id="line.278">    public void clear() {</a>
+<span class="sourceLineNo">279</span><a id="line.279">      fromCollection.clear();</a>
+<span class="sourceLineNo">280</span><a id="line.280">    }</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    @Override</a>
+<span class="sourceLineNo">283</span><a id="line.283">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">284</span><a id="line.284">      return fromCollection.isEmpty();</a>
+<span class="sourceLineNo">285</span><a id="line.285">    }</a>
+<span class="sourceLineNo">286</span><a id="line.286"></a>
+<span class="sourceLineNo">287</span><a id="line.287">    @Override</a>
+<span class="sourceLineNo">288</span><a id="line.288">    public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">289</span><a id="line.289">      return Iterators.transform(fromCollection.iterator(), function);</a>
+<span class="sourceLineNo">290</span><a id="line.290">    }</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">    @Override</a>
+<span class="sourceLineNo">293</span><a id="line.293">    public Spliterator&lt;T&gt; spliterator() {</a>
+<span class="sourceLineNo">294</span><a id="line.294">      return CollectSpliterators.map(fromCollection.spliterator(), function);</a>
+<span class="sourceLineNo">295</span><a id="line.295">    }</a>
+<span class="sourceLineNo">296</span><a id="line.296"></a>
+<span class="sourceLineNo">297</span><a id="line.297">    @Override</a>
+<span class="sourceLineNo">298</span><a id="line.298">    public void forEach(Consumer&lt;? super T&gt; action) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">      checkNotNull(action);</a>
+<span class="sourceLineNo">300</span><a id="line.300">      fromCollection.forEach((F f) -&gt; action.accept(function.apply(f)));</a>
+<span class="sourceLineNo">301</span><a id="line.301">    }</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">    @Override</a>
+<span class="sourceLineNo">304</span><a id="line.304">    public boolean removeIf(java.util.function.Predicate&lt;? super T&gt; filter) {</a>
+<span class="sourceLineNo">305</span><a id="line.305">      checkNotNull(filter);</a>
+<span class="sourceLineNo">306</span><a id="line.306">      return fromCollection.removeIf(element -&gt; filter.test(function.apply(element)));</a>
+<span class="sourceLineNo">307</span><a id="line.307">    }</a>
+<span class="sourceLineNo">308</span><a id="line.308"></a>
+<span class="sourceLineNo">309</span><a id="line.309">    @Override</a>
+<span class="sourceLineNo">310</span><a id="line.310">    public int size() {</a>
+<span class="sourceLineNo">311</span><a id="line.311">      return fromCollection.size();</a>
+<span class="sourceLineNo">312</span><a id="line.312">    }</a>
+<span class="sourceLineNo">313</span><a id="line.313">  }</a>
+<span class="sourceLineNo">314</span><a id="line.314"></a>
+<span class="sourceLineNo">315</span><a id="line.315">  /**</a>
+<span class="sourceLineNo">316</span><a id="line.316">   * Returns {@code true} if the collection {@code self} contains all of the elements in the</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * collection {@code c}.</a>
+<span class="sourceLineNo">318</span><a id="line.318">   *</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * &lt;p&gt;This method iterates over the specified collection {@code c}, checking each element returned</a>
+<span class="sourceLineNo">320</span><a id="line.320">   * by the iterator in turn to see if it is contained in the specified collection {@code self}. If</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * all elements are so contained, {@code true} is returned, otherwise {@code false}.</a>
+<span class="sourceLineNo">322</span><a id="line.322">   *</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * @param self a collection which might contain all elements in {@code c}</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * @param c a collection whose elements might be contained by {@code self}</a>
+<span class="sourceLineNo">325</span><a id="line.325">   */</a>
+<span class="sourceLineNo">326</span><a id="line.326">  static boolean containsAllImpl(Collection&lt;?&gt; self, Collection&lt;?&gt; c) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">    for (Object o : c) {</a>
+<span class="sourceLineNo">328</span><a id="line.328">      if (!self.contains(o)) {</a>
+<span class="sourceLineNo">329</span><a id="line.329">        return false;</a>
+<span class="sourceLineNo">330</span><a id="line.330">      }</a>
+<span class="sourceLineNo">331</span><a id="line.331">    }</a>
+<span class="sourceLineNo">332</span><a id="line.332">    return true;</a>
+<span class="sourceLineNo">333</span><a id="line.333">  }</a>
+<span class="sourceLineNo">334</span><a id="line.334"></a>
+<span class="sourceLineNo">335</span><a id="line.335">  /** An implementation of {@link Collection#toString()}. */</a>
+<span class="sourceLineNo">336</span><a id="line.336">  static String toStringImpl(final Collection&lt;?&gt; collection) {</a>
+<span class="sourceLineNo">337</span><a id="line.337">    StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');</a>
+<span class="sourceLineNo">338</span><a id="line.338">    boolean first = true;</a>
+<span class="sourceLineNo">339</span><a id="line.339">    for (Object o : collection) {</a>
+<span class="sourceLineNo">340</span><a id="line.340">      if (!first) {</a>
+<span class="sourceLineNo">341</span><a id="line.341">        sb.append(", ");</a>
+<span class="sourceLineNo">342</span><a id="line.342">      }</a>
+<span class="sourceLineNo">343</span><a id="line.343">      first = false;</a>
+<span class="sourceLineNo">344</span><a id="line.344">      if (o == collection) {</a>
+<span class="sourceLineNo">345</span><a id="line.345">        sb.append("(this Collection)");</a>
+<span class="sourceLineNo">346</span><a id="line.346">      } else {</a>
+<span class="sourceLineNo">347</span><a id="line.347">        sb.append(o);</a>
+<span class="sourceLineNo">348</span><a id="line.348">      }</a>
+<span class="sourceLineNo">349</span><a id="line.349">    }</a>
+<span class="sourceLineNo">350</span><a id="line.350">    return sb.append(']').toString();</a>
+<span class="sourceLineNo">351</span><a id="line.351">  }</a>
+<span class="sourceLineNo">352</span><a id="line.352"></a>
+<span class="sourceLineNo">353</span><a id="line.353">  /** Returns best-effort-sized StringBuilder based on the given collection size. */</a>
+<span class="sourceLineNo">354</span><a id="line.354">  static StringBuilder newStringBuilderForCollection(int size) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">    checkNonnegative(size, "size");</a>
+<span class="sourceLineNo">356</span><a id="line.356">    return new StringBuilder((int) min(size * 8L, Ints.MAX_POWER_OF_TWO));</a>
+<span class="sourceLineNo">357</span><a id="line.357">  }</a>
+<span class="sourceLineNo">358</span><a id="line.358"></a>
+<span class="sourceLineNo">359</span><a id="line.359">  /**</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * Returns a {@link Collection} of all the permutations of the specified {@link Iterable}.</a>
+<span class="sourceLineNo">361</span><a id="line.361">   *</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the algorithm for Lexicographical Permutations</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
+<span class="sourceLineNo">364</span><a id="line.364">   * Section 7.2.1.2. The iteration order follows the lexicographical order. This means that the</a>
+<span class="sourceLineNo">365</span><a id="line.365">   * first permutation will be in ascending order, and the last will be in descending order.</a>
+<span class="sourceLineNo">366</span><a id="line.366">   *</a>
+<span class="sourceLineNo">367</span><a id="line.367">   * &lt;p&gt;Duplicate elements are considered equal. For example, the list [1, 1] will have only one</a>
+<span class="sourceLineNo">368</span><a id="line.368">   * permutation, instead of two. This is why the elements have to implement {@link Comparable}.</a>
+<span class="sourceLineNo">369</span><a id="line.369">   *</a>
+<span class="sourceLineNo">370</span><a id="line.370">   * &lt;p&gt;An empty iterable has only one permutation, which is an empty list.</a>
+<span class="sourceLineNo">371</span><a id="line.371">   *</a>
+<span class="sourceLineNo">372</span><a id="line.372">   * &lt;p&gt;This method is equivalent to {@code Collections2.orderedPermutations(list,</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * Ordering.natural())}.</a>
+<span class="sourceLineNo">374</span><a id="line.374">   *</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * @param elements the original iterable whose elements have to be permuted.</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
+<span class="sourceLineNo">377</span><a id="line.377">   *     original iterable.</a>
+<span class="sourceLineNo">378</span><a id="line.378">   * @throws NullPointerException if the specified iterable is null or has any null elements.</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * @since 12.0</a>
+<span class="sourceLineNo">380</span><a id="line.380">   */</a>
+<span class="sourceLineNo">381</span><a id="line.381">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; Collection&lt;List&lt;E&gt;&gt; orderedPermutations(</a>
+<span class="sourceLineNo">382</span><a id="line.382">      Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">383</span><a id="line.383">    return orderedPermutations(elements, Ordering.natural());</a>
+<span class="sourceLineNo">384</span><a id="line.384">  }</a>
+<span class="sourceLineNo">385</span><a id="line.385"></a>
+<span class="sourceLineNo">386</span><a id="line.386">  /**</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * Returns a {@link Collection} of all the permutations of the specified {@link Iterable} using</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * the specified {@link Comparator} for establishing the lexicographical ordering.</a>
+<span class="sourceLineNo">389</span><a id="line.389">   *</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * &lt;p&gt;Examples:</a>
+<span class="sourceLineNo">391</span><a id="line.391">   *</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">393</span><a id="line.393">   * for (List&lt;String&gt; perm : orderedPermutations(asList("b", "c", "a"))) {</a>
+<span class="sourceLineNo">394</span><a id="line.394">   *   println(perm);</a>
+<span class="sourceLineNo">395</span><a id="line.395">   * }</a>
+<span class="sourceLineNo">396</span><a id="line.396">   * // -&gt; ["a", "b", "c"]</a>
+<span class="sourceLineNo">397</span><a id="line.397">   * // -&gt; ["a", "c", "b"]</a>
+<span class="sourceLineNo">398</span><a id="line.398">   * // -&gt; ["b", "a", "c"]</a>
+<span class="sourceLineNo">399</span><a id="line.399">   * // -&gt; ["b", "c", "a"]</a>
+<span class="sourceLineNo">400</span><a id="line.400">   * // -&gt; ["c", "a", "b"]</a>
+<span class="sourceLineNo">401</span><a id="line.401">   * // -&gt; ["c", "b", "a"]</a>
+<span class="sourceLineNo">402</span><a id="line.402">   *</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * for (List&lt;Integer&gt; perm : orderedPermutations(asList(1, 2, 2, 1))) {</a>
+<span class="sourceLineNo">404</span><a id="line.404">   *   println(perm);</a>
+<span class="sourceLineNo">405</span><a id="line.405">   * }</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * // -&gt; [1, 1, 2, 2]</a>
+<span class="sourceLineNo">407</span><a id="line.407">   * // -&gt; [1, 2, 1, 2]</a>
+<span class="sourceLineNo">408</span><a id="line.408">   * // -&gt; [1, 2, 2, 1]</a>
+<span class="sourceLineNo">409</span><a id="line.409">   * // -&gt; [2, 1, 1, 2]</a>
+<span class="sourceLineNo">410</span><a id="line.410">   * // -&gt; [2, 1, 2, 1]</a>
+<span class="sourceLineNo">411</span><a id="line.411">   * // -&gt; [2, 2, 1, 1]</a>
+<span class="sourceLineNo">412</span><a id="line.412">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">413</span><a id="line.413">   *</a>
+<span class="sourceLineNo">414</span><a id="line.414">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the algorithm for Lexicographical Permutations</a>
+<span class="sourceLineNo">415</span><a id="line.415">   * Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
+<span class="sourceLineNo">416</span><a id="line.416">   * Section 7.2.1.2. The iteration order follows the lexicographical order. This means that the</a>
+<span class="sourceLineNo">417</span><a id="line.417">   * first permutation will be in ascending order, and the last will be in descending order.</a>
+<span class="sourceLineNo">418</span><a id="line.418">   *</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * &lt;p&gt;Elements that compare equal are considered equal and no new permutations are created by</a>
+<span class="sourceLineNo">420</span><a id="line.420">   * swapping them.</a>
+<span class="sourceLineNo">421</span><a id="line.421">   *</a>
+<span class="sourceLineNo">422</span><a id="line.422">   * &lt;p&gt;An empty iterable has only one permutation, which is an empty list.</a>
+<span class="sourceLineNo">423</span><a id="line.423">   *</a>
+<span class="sourceLineNo">424</span><a id="line.424">   * @param elements the original iterable whose elements have to be permuted.</a>
+<span class="sourceLineNo">425</span><a id="line.425">   * @param comparator a comparator for the iterable's elements.</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
+<span class="sourceLineNo">427</span><a id="line.427">   *     original iterable.</a>
+<span class="sourceLineNo">428</span><a id="line.428">   * @throws NullPointerException If the specified iterable is null, has any null elements, or if</a>
+<span class="sourceLineNo">429</span><a id="line.429">   *     the specified comparator is null.</a>
+<span class="sourceLineNo">430</span><a id="line.430">   * @since 12.0</a>
+<span class="sourceLineNo">431</span><a id="line.431">   */</a>
+<span class="sourceLineNo">432</span><a id="line.432">  public static &lt;E&gt; Collection&lt;List&lt;E&gt;&gt; orderedPermutations(</a>
+<span class="sourceLineNo">433</span><a id="line.433">      Iterable&lt;E&gt; elements, Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">434</span><a id="line.434">    return new OrderedPermutationCollection&lt;E&gt;(elements, comparator);</a>
+<span class="sourceLineNo">435</span><a id="line.435">  }</a>
+<span class="sourceLineNo">436</span><a id="line.436"></a>
+<span class="sourceLineNo">437</span><a id="line.437">  private static final class OrderedPermutationCollection&lt;E&gt; extends AbstractCollection&lt;List&lt;E&gt;&gt; {</a>
+<span class="sourceLineNo">438</span><a id="line.438">    final ImmutableList&lt;E&gt; inputList;</a>
+<span class="sourceLineNo">439</span><a id="line.439">    final Comparator&lt;? super E&gt; comparator;</a>
+<span class="sourceLineNo">440</span><a id="line.440">    final int size;</a>
+<span class="sourceLineNo">441</span><a id="line.441"></a>
+<span class="sourceLineNo">442</span><a id="line.442">    OrderedPermutationCollection(Iterable&lt;E&gt; input, Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">443</span><a id="line.443">      this.inputList = ImmutableList.sortedCopyOf(comparator, input);</a>
+<span class="sourceLineNo">444</span><a id="line.444">      this.comparator = comparator;</a>
+<span class="sourceLineNo">445</span><a id="line.445">      this.size = calculateSize(inputList, comparator);</a>
+<span class="sourceLineNo">446</span><a id="line.446">    }</a>
+<span class="sourceLineNo">447</span><a id="line.447"></a>
+<span class="sourceLineNo">448</span><a id="line.448">    /**</a>
+<span class="sourceLineNo">449</span><a id="line.449">     * The number of permutations with repeated elements is calculated as follows:</a>
+<span class="sourceLineNo">450</span><a id="line.450">     *</a>
+<span class="sourceLineNo">451</span><a id="line.451">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">452</span><a id="line.452">     *   &lt;li&gt;For an empty list, it is 1 (base case).</a>
+<span class="sourceLineNo">453</span><a id="line.453">     *   &lt;li&gt;When r numbers are added to a list of n-r elements, the number of permutations is</a>
+<span class="sourceLineNo">454</span><a id="line.454">     *       increased by a factor of (n choose r).</a>
+<span class="sourceLineNo">455</span><a id="line.455">     * &lt;/ul&gt;</a>
+<span class="sourceLineNo">456</span><a id="line.456">     */</a>
+<span class="sourceLineNo">457</span><a id="line.457">    private static &lt;E&gt; int calculateSize(</a>
+<span class="sourceLineNo">458</span><a id="line.458">        List&lt;E&gt; sortedInputList, Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">459</span><a id="line.459">      int permutations = 1;</a>
+<span class="sourceLineNo">460</span><a id="line.460">      int n = 1;</a>
+<span class="sourceLineNo">461</span><a id="line.461">      int r = 1;</a>
+<span class="sourceLineNo">462</span><a id="line.462">      while (n &lt; sortedInputList.size()) {</a>
+<span class="sourceLineNo">463</span><a id="line.463">        int comparison = comparator.compare(sortedInputList.get(n - 1), sortedInputList.get(n));</a>
+<span class="sourceLineNo">464</span><a id="line.464">        if (comparison &lt; 0) {</a>
+<span class="sourceLineNo">465</span><a id="line.465">          // We move to the next non-repeated element.</a>
+<span class="sourceLineNo">466</span><a id="line.466">          permutations = IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));</a>
+<span class="sourceLineNo">467</span><a id="line.467">          r = 0;</a>
+<span class="sourceLineNo">468</span><a id="line.468">          if (permutations == Integer.MAX_VALUE) {</a>
+<span class="sourceLineNo">469</span><a id="line.469">            return Integer.MAX_VALUE;</a>
+<span class="sourceLineNo">470</span><a id="line.470">          }</a>
+<span class="sourceLineNo">471</span><a id="line.471">        }</a>
+<span class="sourceLineNo">472</span><a id="line.472">        n++;</a>
+<span class="sourceLineNo">473</span><a id="line.473">        r++;</a>
+<span class="sourceLineNo">474</span><a id="line.474">      }</a>
+<span class="sourceLineNo">475</span><a id="line.475">      return IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));</a>
+<span class="sourceLineNo">476</span><a id="line.476">    }</a>
+<span class="sourceLineNo">477</span><a id="line.477"></a>
+<span class="sourceLineNo">478</span><a id="line.478">    @Override</a>
+<span class="sourceLineNo">479</span><a id="line.479">    public int size() {</a>
+<span class="sourceLineNo">480</span><a id="line.480">      return size;</a>
+<span class="sourceLineNo">481</span><a id="line.481">    }</a>
+<span class="sourceLineNo">482</span><a id="line.482"></a>
+<span class="sourceLineNo">483</span><a id="line.483">    @Override</a>
+<span class="sourceLineNo">484</span><a id="line.484">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">485</span><a id="line.485">      return false;</a>
+<span class="sourceLineNo">486</span><a id="line.486">    }</a>
+<span class="sourceLineNo">487</span><a id="line.487"></a>
+<span class="sourceLineNo">488</span><a id="line.488">    @Override</a>
+<span class="sourceLineNo">489</span><a id="line.489">    public Iterator&lt;List&lt;E&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">490</span><a id="line.490">      return new OrderedPermutationIterator&lt;E&gt;(inputList, comparator);</a>
+<span class="sourceLineNo">491</span><a id="line.491">    }</a>
+<span class="sourceLineNo">492</span><a id="line.492"></a>
+<span class="sourceLineNo">493</span><a id="line.493">    @Override</a>
+<span class="sourceLineNo">494</span><a id="line.494">    public boolean contains(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">495</span><a id="line.495">      if (obj instanceof List) {</a>
+<span class="sourceLineNo">496</span><a id="line.496">        List&lt;?&gt; list = (List&lt;?&gt;) obj;</a>
+<span class="sourceLineNo">497</span><a id="line.497">        return isPermutation(inputList, list);</a>
+<span class="sourceLineNo">498</span><a id="line.498">      }</a>
+<span class="sourceLineNo">499</span><a id="line.499">      return false;</a>
+<span class="sourceLineNo">500</span><a id="line.500">    }</a>
+<span class="sourceLineNo">501</span><a id="line.501"></a>
+<span class="sourceLineNo">502</span><a id="line.502">    @Override</a>
+<span class="sourceLineNo">503</span><a id="line.503">    public String toString() {</a>
+<span class="sourceLineNo">504</span><a id="line.504">      return "orderedPermutationCollection(" + inputList + ")";</a>
+<span class="sourceLineNo">505</span><a id="line.505">    }</a>
+<span class="sourceLineNo">506</span><a id="line.506">  }</a>
+<span class="sourceLineNo">507</span><a id="line.507"></a>
+<span class="sourceLineNo">508</span><a id="line.508">  private static final class OrderedPermutationIterator&lt;E&gt; extends AbstractIterator&lt;List&lt;E&gt;&gt; {</a>
+<span class="sourceLineNo">509</span><a id="line.509">    @CheckForNull List&lt;E&gt; nextPermutation;</a>
+<span class="sourceLineNo">510</span><a id="line.510">    final Comparator&lt;? super E&gt; comparator;</a>
+<span class="sourceLineNo">511</span><a id="line.511"></a>
+<span class="sourceLineNo">512</span><a id="line.512">    OrderedPermutationIterator(List&lt;E&gt; list, Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">513</span><a id="line.513">      this.nextPermutation = Lists.newArrayList(list);</a>
+<span class="sourceLineNo">514</span><a id="line.514">      this.comparator = comparator;</a>
+<span class="sourceLineNo">515</span><a id="line.515">    }</a>
+<span class="sourceLineNo">516</span><a id="line.516"></a>
+<span class="sourceLineNo">517</span><a id="line.517">    @Override</a>
+<span class="sourceLineNo">518</span><a id="line.518">    @CheckForNull</a>
+<span class="sourceLineNo">519</span><a id="line.519">    protected List&lt;E&gt; computeNext() {</a>
+<span class="sourceLineNo">520</span><a id="line.520">      if (nextPermutation == null) {</a>
+<span class="sourceLineNo">521</span><a id="line.521">        return endOfData();</a>
+<span class="sourceLineNo">522</span><a id="line.522">      }</a>
+<span class="sourceLineNo">523</span><a id="line.523">      ImmutableList&lt;E&gt; next = ImmutableList.copyOf(nextPermutation);</a>
+<span class="sourceLineNo">524</span><a id="line.524">      calculateNextPermutation();</a>
+<span class="sourceLineNo">525</span><a id="line.525">      return next;</a>
+<span class="sourceLineNo">526</span><a id="line.526">    }</a>
+<span class="sourceLineNo">527</span><a id="line.527"></a>
+<span class="sourceLineNo">528</span><a id="line.528">    void calculateNextPermutation() {</a>
+<span class="sourceLineNo">529</span><a id="line.529">      int j = findNextJ();</a>
+<span class="sourceLineNo">530</span><a id="line.530">      if (j == -1) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">        nextPermutation = null;</a>
+<span class="sourceLineNo">532</span><a id="line.532">        return;</a>
+<span class="sourceLineNo">533</span><a id="line.533">      }</a>
+<span class="sourceLineNo">534</span><a id="line.534">      /*</a>
+<span class="sourceLineNo">535</span><a id="line.535">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
+<span class="sourceLineNo">536</span><a id="line.536">       * method.</a>
+<span class="sourceLineNo">537</span><a id="line.537">       */</a>
+<span class="sourceLineNo">538</span><a id="line.538">      requireNonNull(nextPermutation);</a>
+<span class="sourceLineNo">539</span><a id="line.539"></a>
+<span class="sourceLineNo">540</span><a id="line.540">      int l = findNextL(j);</a>
+<span class="sourceLineNo">541</span><a id="line.541">      Collections.swap(nextPermutation, j, l);</a>
+<span class="sourceLineNo">542</span><a id="line.542">      int n = nextPermutation.size();</a>
+<span class="sourceLineNo">543</span><a id="line.543">      Collections.reverse(nextPermutation.subList(j + 1, n));</a>
+<span class="sourceLineNo">544</span><a id="line.544">    }</a>
+<span class="sourceLineNo">545</span><a id="line.545"></a>
+<span class="sourceLineNo">546</span><a id="line.546">    int findNextJ() {</a>
+<span class="sourceLineNo">547</span><a id="line.547">      /*</a>
+<span class="sourceLineNo">548</span><a id="line.548">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
+<span class="sourceLineNo">549</span><a id="line.549">       * method.</a>
+<span class="sourceLineNo">550</span><a id="line.550">       */</a>
+<span class="sourceLineNo">551</span><a id="line.551">      requireNonNull(nextPermutation);</a>
+<span class="sourceLineNo">552</span><a id="line.552">      for (int k = nextPermutation.size() - 2; k &gt;= 0; k--) {</a>
+<span class="sourceLineNo">553</span><a id="line.553">        if (comparator.compare(nextPermutation.get(k), nextPermutation.get(k + 1)) &lt; 0) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">          return k;</a>
+<span class="sourceLineNo">555</span><a id="line.555">        }</a>
+<span class="sourceLineNo">556</span><a id="line.556">      }</a>
+<span class="sourceLineNo">557</span><a id="line.557">      return -1;</a>
+<span class="sourceLineNo">558</span><a id="line.558">    }</a>
+<span class="sourceLineNo">559</span><a id="line.559"></a>
+<span class="sourceLineNo">560</span><a id="line.560">    int findNextL(int j) {</a>
+<span class="sourceLineNo">561</span><a id="line.561">      /*</a>
+<span class="sourceLineNo">562</span><a id="line.562">       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this</a>
+<span class="sourceLineNo">563</span><a id="line.563">       * method.</a>
+<span class="sourceLineNo">564</span><a id="line.564">       */</a>
+<span class="sourceLineNo">565</span><a id="line.565">      requireNonNull(nextPermutation);</a>
+<span class="sourceLineNo">566</span><a id="line.566">      E ak = nextPermutation.get(j);</a>
+<span class="sourceLineNo">567</span><a id="line.567">      for (int l = nextPermutation.size() - 1; l &gt; j; l--) {</a>
+<span class="sourceLineNo">568</span><a id="line.568">        if (comparator.compare(ak, nextPermutation.get(l)) &lt; 0) {</a>
+<span class="sourceLineNo">569</span><a id="line.569">          return l;</a>
+<span class="sourceLineNo">570</span><a id="line.570">        }</a>
+<span class="sourceLineNo">571</span><a id="line.571">      }</a>
+<span class="sourceLineNo">572</span><a id="line.572">      throw new AssertionError("this statement should be unreachable");</a>
+<span class="sourceLineNo">573</span><a id="line.573">    }</a>
+<span class="sourceLineNo">574</span><a id="line.574">  }</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">  /**</a>
+<span class="sourceLineNo">577</span><a id="line.577">   * Returns a {@link Collection} of all the permutations of the specified {@link Collection}.</a>
+<span class="sourceLineNo">578</span><a id="line.578">   *</a>
+<span class="sourceLineNo">579</span><a id="line.579">   * &lt;p&gt;&lt;i&gt;Notes:&lt;/i&gt; This is an implementation of the Plain Changes algorithm for permutations</a>
+<span class="sourceLineNo">580</span><a id="line.580">   * generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,</a>
+<span class="sourceLineNo">581</span><a id="line.581">   * Section 7.2.1.2.</a>
+<span class="sourceLineNo">582</span><a id="line.582">   *</a>
+<span class="sourceLineNo">583</span><a id="line.583">   * &lt;p&gt;If the input list contains equal elements, some of the generated permutations will be equal.</a>
+<span class="sourceLineNo">584</span><a id="line.584">   *</a>
+<span class="sourceLineNo">585</span><a id="line.585">   * &lt;p&gt;An empty collection has only one permutation, which is an empty list.</a>
+<span class="sourceLineNo">586</span><a id="line.586">   *</a>
+<span class="sourceLineNo">587</span><a id="line.587">   * @param elements the original collection whose elements have to be permuted.</a>
+<span class="sourceLineNo">588</span><a id="line.588">   * @return an immutable {@link Collection} containing all the different permutations of the</a>
+<span class="sourceLineNo">589</span><a id="line.589">   *     original collection.</a>
+<span class="sourceLineNo">590</span><a id="line.590">   * @throws NullPointerException if the specified collection is null or has any null elements.</a>
+<span class="sourceLineNo">591</span><a id="line.591">   * @since 12.0</a>
+<span class="sourceLineNo">592</span><a id="line.592">   */</a>
+<span class="sourceLineNo">593</span><a id="line.593">  public static &lt;E&gt; Collection&lt;List&lt;E&gt;&gt; permutations(Collection&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">594</span><a id="line.594">    return new PermutationCollection&lt;E&gt;(ImmutableList.copyOf(elements));</a>
+<span class="sourceLineNo">595</span><a id="line.595">  }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">  private static final class PermutationCollection&lt;E&gt; extends AbstractCollection&lt;List&lt;E&gt;&gt; {</a>
+<span class="sourceLineNo">598</span><a id="line.598">    final ImmutableList&lt;E&gt; inputList;</a>
+<span class="sourceLineNo">599</span><a id="line.599"></a>
+<span class="sourceLineNo">600</span><a id="line.600">    PermutationCollection(ImmutableList&lt;E&gt; input) {</a>
+<span class="sourceLineNo">601</span><a id="line.601">      this.inputList = input;</a>
+<span class="sourceLineNo">602</span><a id="line.602">    }</a>
+<span class="sourceLineNo">603</span><a id="line.603"></a>
+<span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
+<span class="sourceLineNo">605</span><a id="line.605">    public int size() {</a>
+<span class="sourceLineNo">606</span><a id="line.606">      return IntMath.factorial(inputList.size());</a>
+<span class="sourceLineNo">607</span><a id="line.607">    }</a>
+<span class="sourceLineNo">608</span><a id="line.608"></a>
+<span class="sourceLineNo">609</span><a id="line.609">    @Override</a>
+<span class="sourceLineNo">610</span><a id="line.610">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">611</span><a id="line.611">      return false;</a>
+<span class="sourceLineNo">612</span><a id="line.612">    }</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
+<span class="sourceLineNo">615</span><a id="line.615">    public Iterator&lt;List&lt;E&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">616</span><a id="line.616">      return new PermutationIterator&lt;E&gt;(inputList);</a>
+<span class="sourceLineNo">617</span><a id="line.617">    }</a>
+<span class="sourceLineNo">618</span><a id="line.618"></a>
+<span class="sourceLineNo">619</span><a id="line.619">    @Override</a>
+<span class="sourceLineNo">620</span><a id="line.620">    public boolean contains(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">621</span><a id="line.621">      if (obj instanceof List) {</a>
+<span class="sourceLineNo">622</span><a id="line.622">        List&lt;?&gt; list = (List&lt;?&gt;) obj;</a>
+<span class="sourceLineNo">623</span><a id="line.623">        return isPermutation(inputList, list);</a>
+<span class="sourceLineNo">624</span><a id="line.624">      }</a>
+<span class="sourceLineNo">625</span><a id="line.625">      return false;</a>
+<span class="sourceLineNo">626</span><a id="line.626">    }</a>
+<span class="sourceLineNo">627</span><a id="line.627"></a>
+<span class="sourceLineNo">628</span><a id="line.628">    @Override</a>
+<span class="sourceLineNo">629</span><a id="line.629">    public String toString() {</a>
+<span class="sourceLineNo">630</span><a id="line.630">      return "permutations(" + inputList + ")";</a>
+<span class="sourceLineNo">631</span><a id="line.631">    }</a>
+<span class="sourceLineNo">632</span><a id="line.632">  }</a>
+<span class="sourceLineNo">633</span><a id="line.633"></a>
+<span class="sourceLineNo">634</span><a id="line.634">  private static class PermutationIterator&lt;E&gt; extends AbstractIterator&lt;List&lt;E&gt;&gt; {</a>
+<span class="sourceLineNo">635</span><a id="line.635">    final List&lt;E&gt; list;</a>
+<span class="sourceLineNo">636</span><a id="line.636">    final int[] c;</a>
+<span class="sourceLineNo">637</span><a id="line.637">    final int[] o;</a>
+<span class="sourceLineNo">638</span><a id="line.638">    int j;</a>
+<span class="sourceLineNo">639</span><a id="line.639"></a>
+<span class="sourceLineNo">640</span><a id="line.640">    PermutationIterator(List&lt;E&gt; list) {</a>
+<span class="sourceLineNo">641</span><a id="line.641">      this.list = new ArrayList&lt;&gt;(list);</a>
+<span class="sourceLineNo">642</span><a id="line.642">      int n = list.size();</a>
+<span class="sourceLineNo">643</span><a id="line.643">      c = new int[n];</a>
+<span class="sourceLineNo">644</span><a id="line.644">      o = new int[n];</a>
+<span class="sourceLineNo">645</span><a id="line.645">      Arrays.fill(c, 0);</a>
+<span class="sourceLineNo">646</span><a id="line.646">      Arrays.fill(o, 1);</a>
+<span class="sourceLineNo">647</span><a id="line.647">      j = Integer.MAX_VALUE;</a>
+<span class="sourceLineNo">648</span><a id="line.648">    }</a>
+<span class="sourceLineNo">649</span><a id="line.649"></a>
+<span class="sourceLineNo">650</span><a id="line.650">    @Override</a>
+<span class="sourceLineNo">651</span><a id="line.651">    @CheckForNull</a>
+<span class="sourceLineNo">652</span><a id="line.652">    protected List&lt;E&gt; computeNext() {</a>
+<span class="sourceLineNo">653</span><a id="line.653">      if (j &lt;= 0) {</a>
+<span class="sourceLineNo">654</span><a id="line.654">        return endOfData();</a>
+<span class="sourceLineNo">655</span><a id="line.655">      }</a>
+<span class="sourceLineNo">656</span><a id="line.656">      ImmutableList&lt;E&gt; next = ImmutableList.copyOf(list);</a>
+<span class="sourceLineNo">657</span><a id="line.657">      calculateNextPermutation();</a>
+<span class="sourceLineNo">658</span><a id="line.658">      return next;</a>
+<span class="sourceLineNo">659</span><a id="line.659">    }</a>
+<span class="sourceLineNo">660</span><a id="line.660"></a>
+<span class="sourceLineNo">661</span><a id="line.661">    void calculateNextPermutation() {</a>
+<span class="sourceLineNo">662</span><a id="line.662">      j = list.size() - 1;</a>
+<span class="sourceLineNo">663</span><a id="line.663">      int s = 0;</a>
+<span class="sourceLineNo">664</span><a id="line.664"></a>
+<span class="sourceLineNo">665</span><a id="line.665">      // Handle the special case of an empty list. Skip the calculation of the</a>
+<span class="sourceLineNo">666</span><a id="line.666">      // next permutation.</a>
+<span class="sourceLineNo">667</span><a id="line.667">      if (j == -1) {</a>
+<span class="sourceLineNo">668</span><a id="line.668">        return;</a>
+<span class="sourceLineNo">669</span><a id="line.669">      }</a>
+<span class="sourceLineNo">670</span><a id="line.670"></a>
+<span class="sourceLineNo">671</span><a id="line.671">      while (true) {</a>
+<span class="sourceLineNo">672</span><a id="line.672">        int q = c[j] + o[j];</a>
+<span class="sourceLineNo">673</span><a id="line.673">        if (q &lt; 0) {</a>
+<span class="sourceLineNo">674</span><a id="line.674">          switchDirection();</a>
+<span class="sourceLineNo">675</span><a id="line.675">          continue;</a>
+<span class="sourceLineNo">676</span><a id="line.676">        }</a>
+<span class="sourceLineNo">677</span><a id="line.677">        if (q == j + 1) {</a>
+<span class="sourceLineNo">678</span><a id="line.678">          if (j == 0) {</a>
+<span class="sourceLineNo">679</span><a id="line.679">            break;</a>
+<span class="sourceLineNo">680</span><a id="line.680">          }</a>
+<span class="sourceLineNo">681</span><a id="line.681">          s++;</a>
+<span class="sourceLineNo">682</span><a id="line.682">          switchDirection();</a>
+<span class="sourceLineNo">683</span><a id="line.683">          continue;</a>
+<span class="sourceLineNo">684</span><a id="line.684">        }</a>
+<span class="sourceLineNo">685</span><a id="line.685"></a>
+<span class="sourceLineNo">686</span><a id="line.686">        Collections.swap(list, j - c[j] + s, j - q + s);</a>
+<span class="sourceLineNo">687</span><a id="line.687">        c[j] = q;</a>
+<span class="sourceLineNo">688</span><a id="line.688">        break;</a>
+<span class="sourceLineNo">689</span><a id="line.689">      }</a>
+<span class="sourceLineNo">690</span><a id="line.690">    }</a>
+<span class="sourceLineNo">691</span><a id="line.691"></a>
+<span class="sourceLineNo">692</span><a id="line.692">    void switchDirection() {</a>
+<span class="sourceLineNo">693</span><a id="line.693">      o[j] = -o[j];</a>
+<span class="sourceLineNo">694</span><a id="line.694">      j--;</a>
+<span class="sourceLineNo">695</span><a id="line.695">    }</a>
+<span class="sourceLineNo">696</span><a id="line.696">  }</a>
+<span class="sourceLineNo">697</span><a id="line.697"></a>
+<span class="sourceLineNo">698</span><a id="line.698">  /** Returns {@code true} if the second list is a permutation of the first. */</a>
+<span class="sourceLineNo">699</span><a id="line.699">  private static boolean isPermutation(List&lt;?&gt; first, List&lt;?&gt; second) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">    if (first.size() != second.size()) {</a>
+<span class="sourceLineNo">701</span><a id="line.701">      return false;</a>
+<span class="sourceLineNo">702</span><a id="line.702">    }</a>
+<span class="sourceLineNo">703</span><a id="line.703">    Multiset&lt;?&gt; firstMultiset = HashMultiset.create(first);</a>
+<span class="sourceLineNo">704</span><a id="line.704">    Multiset&lt;?&gt; secondMultiset = HashMultiset.create(second);</a>
+<span class="sourceLineNo">705</span><a id="line.705">    return firstMultiset.equals(secondMultiset);</a>
+<span class="sourceLineNo">706</span><a id="line.706">  }</a>
+<span class="sourceLineNo">707</span><a id="line.707">}</a>
 
 
 

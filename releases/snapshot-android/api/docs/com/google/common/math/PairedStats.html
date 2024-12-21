@@ -279,7 +279,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.68">count</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.67">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -289,7 +289,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.73">xStats</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.72">xStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -299,7 +299,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.78">yStats</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.77">yStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -309,7 +309,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.96">populationCovariance</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.95">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
@@ -331,7 +331,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.114">sampleCovariance</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.113">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -352,7 +352,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.135">pearsonsCorrelationCoefficient</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.134">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
  the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e. <code>
@@ -376,7 +376,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.182">leastSquaresFit</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.181">leastSquaresFit</a>()</pre>
 <div class="block">Returns a linear transformation giving the best fit to the data according to <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
  either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e. <code>
@@ -413,7 +413,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.216">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.215">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block">
 
@@ -440,7 +440,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.236">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.235">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
@@ -457,7 +457,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.241">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.240">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -470,7 +470,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.290">toByteArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.289">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -483,7 +483,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre class="methodSignature">public static&nbsp;<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.305">fromByteArray</a>&#8203;(byte[]&nbsp;byteArray)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.304">fromByteArray</a>&#8203;(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a <a href="PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
  <a href="#toByteArray()"><code>toByteArray()</code></a>.
 

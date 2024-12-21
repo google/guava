@@ -298,7 +298,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.125">from</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassLoader</a>&nbsp;classloader)
+<pre class="methodSignature">public static&nbsp;<a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.124">from</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassLoader</a>&nbsp;classloader)
                       throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Returns a <code>ClassPath</code> representing all classes and resources loadable from <code>
  classloader</code> and its ancestor class loaders.
@@ -324,7 +324,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getResources</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.147">getResources</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.146">getResources</a>()</pre>
 <div class="block">Returns all resources loadable from the current class path, including the class files of all
  loadable classes but excluding the "META-INF/MANIFEST.MF" file.</div>
 </li>
@@ -335,7 +335,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllClasses</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.156">getAllClasses</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.155">getAllClasses</a>()</pre>
 <div class="block">Returns all classes loadable from the current class path.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -349,7 +349,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getTopLevelClasses</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.164">getTopLevelClasses</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.163">getTopLevelClasses</a>()</pre>
 <div class="block">Returns all top level classes loadable from the current class path. Note that "top-level-ness"
  is determined heuristically by class name (see <a href="ClassPath.ClassInfo.html#isTopLevel()"><code>ClassPath.ClassInfo.isTopLevel()</code></a>).</div>
 </li>
@@ -360,7 +360,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>getTopLevelClasses</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.172">getTopLevelClasses</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.171">getTopLevelClasses</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
 <div class="block">Returns all top level classes whose package name is <code>packageName</code>.</div>
 </li>
 </ul>
@@ -370,7 +370,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getTopLevelClassesRecursive</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.187">getTopLevelClassesRecursive</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.186">getTopLevelClassesRecursive</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
 <div class="block">Returns all top level classes whose package name is <code>packageName</code> or starts with <code>
  packageName</code> followed by a '.'.</div>
 </li>

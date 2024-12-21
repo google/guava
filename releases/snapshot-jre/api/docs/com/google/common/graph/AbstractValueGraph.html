@@ -367,7 +367,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractValueGraph</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.45">AbstractValueGraph</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.44">AbstractValueGraph</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -387,7 +387,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>asGraph</h4>
-<pre class="methodSignature">public&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.47">asGraph</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.46">asGraph</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#asGraph()">ValueGraph</a></code></span></div>
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have an
  edge connecting node A to node B if this <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> has an edge connecting A to B.</div>
@@ -405,7 +405,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.112">edgeValue</a>&#8203;(<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&nbsp;nodeU,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.111">edgeValue</a>&#8203;(<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&nbsp;nodeU,
                              <a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#edgeValue(N,N)">ValueGraph</a></code></span></div>
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code> (in the order, if
@@ -423,7 +423,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.117">edgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.116">edgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#edgeValue(com.google.common.graph.EndpointPair)">ValueGraph</a></code></span></div>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>Optional.empty()</code>.
@@ -441,7 +441,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.122">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.121">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#equals(java.lang.Object)">ValueGraph</a></code></span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
@@ -476,7 +476,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.137">hashCode</a>()</pre>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.136">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#hashCode()">ValueGraph</a></code></span></div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="ValueGraph.html#edges()"><code>edges</code></a> to the associated <code>edge
@@ -497,7 +497,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.143">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line.142">toString</a>()</pre>
 <div class="block">Returns a string representation of this graph.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

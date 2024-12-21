@@ -282,7 +282,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.42">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.41">create</a>()</pre>
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
 </li>
 </ul>
@@ -295,7 +295,7 @@ extends <a href="AbstractFuture.html" title="class in com.google.common.util.con
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.46">set</a>&#8203;(<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.45">set</a>&#8203;(<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#set(V)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this method returns,
@@ -324,7 +324,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>setException</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.52">setException</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.51">setException</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#setException(java.lang.Throwable)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
@@ -353,7 +353,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>setFuture</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.58">setFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.57">setFuture</a>&#8203;(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set

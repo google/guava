@@ -245,7 +245,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <li class="blockList">
 <h4>addNode</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.43">addNode</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.42">addNode</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Adds <code>node</code> if it is not already present.
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.</div>
@@ -265,7 +265,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueG
 <h4>putEdgeValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.63">putEdgeValue</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.62">putEdgeValue</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
                <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV,
                <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</pre>
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present, and sets
@@ -297,7 +297,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueG
 <h4>putEdgeValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.88">putEdgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
+<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.87">putEdgeValue</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
                <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</pre>
 <div class="block">Adds an edge connecting <code>endpoints</code> if one is not already present, and sets a value for
  that edge to <code>value</code> (overwriting the existing value, if any).
@@ -332,7 +332,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueG
 <li class="blockList">
 <h4>removeNode</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.97">removeNode</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.96">removeNode</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -350,7 +350,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueG
 <h4>removeEdge</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.106">removeEdge</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.105">removeEdge</a>&#8203;(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
              <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 <dl>
@@ -368,7 +368,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueG
 <h4>removeEdge</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.119">removeEdge</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
+<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line.118">removeEdge</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Removes the edge connecting <code>endpoints</code>, if it is present.
 
  <p>If this graph is directed, <code>endpoints</code> must be ordered.</div>

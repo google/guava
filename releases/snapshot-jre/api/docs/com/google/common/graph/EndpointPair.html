@@ -296,7 +296,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>ordered</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.53">ordered</a>&#8203;(N&nbsp;source,
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.52">ordered</a>&#8203;(N&nbsp;source,
                                           N&nbsp;target)</pre>
 <div class="block">Returns an <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> representing the endpoints of a directed edge.</div>
 </li>
@@ -309,7 +309,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>unordered</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.58">unordered</a>&#8203;(N&nbsp;nodeU,
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.57">unordered</a>&#8203;(N&nbsp;nodeU,
                                             N&nbsp;nodeV)</pre>
 <div class="block">Returns an <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> representing the endpoints of an undirected edge.</div>
 </li>
@@ -320,7 +320,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.78">source</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.77">source</a>()</pre>
 <div class="block">If this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="#isOrdered()"><code>isOrdered()</code></a>, returns the node which is the source.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -334,7 +334,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>target</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.85">target</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.84">target</a>()</pre>
 <div class="block">If this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="#isOrdered()"><code>isOrdered()</code></a>, returns the node which is the target.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -348,7 +348,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeU</h4>
-<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.91">nodeU</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.90">nodeU</a>()</pre>
 <div class="block">If this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="#isOrdered()"><code>isOrdered()</code></a> returns the <a href="#source()"><code>source()</code></a>; otherwise,
  returns an arbitrary (but consistent) endpoint of the origin edge.</div>
 </li>
@@ -359,7 +359,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeV</h4>
-<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.99">nodeV</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.98">nodeV</a>()</pre>
 <div class="block">Returns the node <a href="#adjacentNode(N)"><code>adjacent</code></a> to <a href="#nodeU()"><code>nodeU()</code></a> along the origin
  edge. If this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="#isOrdered()"><code>isOrdered()</code></a>, this is equal to <a href="#target()"><code>target()</code></a>.</div>
 </li>
@@ -372,7 +372,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNode</h4>
-<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.109">adjacentNode</a>&#8203;(<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.108">adjacentNode</a>&#8203;(<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;node)</pre>
 <div class="block">Returns the node that is adjacent to <code>node</code> along the origin edge.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -388,7 +388,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrdered</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.123">isOrdered</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.122">isOrdered</a>()</pre>
 <div class="block">Returns <code>true</code> if this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is an ordered pair (i.e. represents the
  endpoints of a directed edge).</div>
 </li>
@@ -399,7 +399,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.126">iterator</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.125">iterator</a>()</pre>
 <div class="block">Iterates in the order <a href="#nodeU()"><code>nodeU()</code></a>, <a href="#nodeV()"><code>nodeV()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -413,7 +413,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.136">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.135">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block">Two ordered <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a>s are equal if their <a href="#source()"><code>source()</code></a> and <a href="#target()"><code>target()</code></a>
  are equal. Two unordered <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a>s are equal if they contain the same nodes. An
@@ -430,7 +430,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.144">hashCode</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.143">hashCode</a>()</pre>
 <div class="block">The hashcode of an ordered <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is equal to <code>Objects.hashCode(source(),
  target())</code>. The hashcode of an unordered <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is equal to <code>
  nodeU().hashCode() + nodeV().hashCode()</code>.</div>

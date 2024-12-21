@@ -247,7 +247,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>newBuilder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.91">newBuilder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.90">newBuilder</a>()</pre>
 <div class="block">Returns a fresh <a href="Interners.InternerBuilder.html" title="class in com.google.common.collect"><code>Interners.InternerBuilder</code></a> instance.</div>
 </li>
 </ul>
@@ -257,7 +257,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>newStrongInterner</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.100">newStrongInterner</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.99">newStrongInterner</a>()</pre>
 <div class="block">Returns a new thread-safe interner which retains a strong reference to each instance it has
  interned, thus preventing these instances from being garbage-collected. If this retention is
  acceptable, this implementation may perform better than <a href="#newWeakInterner()"><code>newWeakInterner()</code></a>.</div>
@@ -270,7 +270,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>newWeakInterner</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>("java.lang.ref.WeakReference")
-public static&nbsp;&lt;E&gt;&nbsp;<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.110">newWeakInterner</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.109">newWeakInterner</a>()</pre>
 <div class="block">Returns a new thread-safe interner which retains a weak reference to each instance it has
  interned, and so does not prevent these instances from being garbage-collected. This most
  likely does not perform as well as <a href="#newStrongInterner()"><code>newStrongInterner()</code></a>, but is the best alternative when
@@ -283,7 +283,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="Interner.html" title="interface in co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asFunction</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.162">asFunction</a>&#8203;(<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;interner)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,&#8203;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Interners.html#line.161">asFunction</a>&#8203;(<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;interner)</pre>
 <div class="block">Returns a function that delegates to the <a href="Interner.html#intern(E)"><code>Interner.intern(E)</code></a> method of the given interner.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

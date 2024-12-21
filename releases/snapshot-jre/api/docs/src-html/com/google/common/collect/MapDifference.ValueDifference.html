@@ -39,88 +39,87 @@
 <span class="sourceLineNo">030</span><a id="line.30"> */</a>
 <span class="sourceLineNo">031</span><a id="line.31">@DoNotMock("Use Maps.difference")</a>
 <span class="sourceLineNo">032</span><a id="line.32">@GwtCompatible</a>
-<span class="sourceLineNo">033</span><a id="line.33">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">034</span><a id="line.34">public interface MapDifference&lt;K extends @Nullable Object, V extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">035</span><a id="line.35">  /**</a>
-<span class="sourceLineNo">036</span><a id="line.36">   * Returns {@code true} if there are no differences between the two maps; that is, if the maps are</a>
-<span class="sourceLineNo">037</span><a id="line.37">   * equal.</a>
-<span class="sourceLineNo">038</span><a id="line.38">   */</a>
-<span class="sourceLineNo">039</span><a id="line.39">  boolean areEqual();</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">  /**</a>
-<span class="sourceLineNo">042</span><a id="line.42">   * Returns an unmodifiable map containing the entries from the left map whose keys are not present</a>
-<span class="sourceLineNo">043</span><a id="line.43">   * in the right map.</a>
-<span class="sourceLineNo">044</span><a id="line.44">   */</a>
-<span class="sourceLineNo">045</span><a id="line.45">  Map&lt;K, V&gt; entriesOnlyOnLeft();</a>
-<span class="sourceLineNo">046</span><a id="line.46"></a>
-<span class="sourceLineNo">047</span><a id="line.47">  /**</a>
-<span class="sourceLineNo">048</span><a id="line.48">   * Returns an unmodifiable map containing the entries from the right map whose keys are not</a>
-<span class="sourceLineNo">049</span><a id="line.49">   * present in the left map.</a>
-<span class="sourceLineNo">050</span><a id="line.50">   */</a>
-<span class="sourceLineNo">051</span><a id="line.51">  Map&lt;K, V&gt; entriesOnlyOnRight();</a>
-<span class="sourceLineNo">052</span><a id="line.52"></a>
-<span class="sourceLineNo">053</span><a id="line.53">  /**</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * Returns an unmodifiable map containing the entries that appear in both maps; that is, the</a>
-<span class="sourceLineNo">055</span><a id="line.55">   * intersection of the two maps.</a>
-<span class="sourceLineNo">056</span><a id="line.56">   */</a>
-<span class="sourceLineNo">057</span><a id="line.57">  Map&lt;K, V&gt; entriesInCommon();</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
-<span class="sourceLineNo">060</span><a id="line.60">   * Returns an unmodifiable map describing keys that appear in both maps, but with different</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * values.</a>
-<span class="sourceLineNo">062</span><a id="line.62">   */</a>
-<span class="sourceLineNo">063</span><a id="line.63">  Map&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering();</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">  /**</a>
-<span class="sourceLineNo">066</span><a id="line.66">   * Compares the specified object with this instance for equality. Returns {@code true} if the</a>
-<span class="sourceLineNo">067</span><a id="line.67">   * given object is also a {@code MapDifference} and the values returned by the {@link</a>
-<span class="sourceLineNo">068</span><a id="line.68">   * #entriesOnlyOnLeft()}, {@link #entriesOnlyOnRight()}, {@link #entriesInCommon()} and {@link</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * #entriesDiffering()} of the two instances are equal.</a>
-<span class="sourceLineNo">070</span><a id="line.70">   */</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @Override</a>
-<span class="sourceLineNo">072</span><a id="line.72">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">073</span><a id="line.73"></a>
-<span class="sourceLineNo">074</span><a id="line.74">  /**</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * Returns the hash code for this instance. This is defined as the hash code of</a>
-<span class="sourceLineNo">076</span><a id="line.76">   *</a>
-<span class="sourceLineNo">077</span><a id="line.77">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">078</span><a id="line.78">   * Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),</a>
-<span class="sourceLineNo">079</span><a id="line.79">   *     entriesInCommon(), entriesDiffering())</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">081</span><a id="line.81">   */</a>
-<span class="sourceLineNo">082</span><a id="line.82">  @Override</a>
-<span class="sourceLineNo">083</span><a id="line.83">  int hashCode();</a>
-<span class="sourceLineNo">084</span><a id="line.84"></a>
-<span class="sourceLineNo">085</span><a id="line.85">  /**</a>
-<span class="sourceLineNo">086</span><a id="line.86">   * A difference between the mappings from two maps with the same key. The {@link #leftValue} and</a>
-<span class="sourceLineNo">087</span><a id="line.87">   * {@link #rightValue} are not equal, and one but not both of them may be null.</a>
-<span class="sourceLineNo">088</span><a id="line.88">   *</a>
-<span class="sourceLineNo">089</span><a id="line.89">   * @since 2.0</a>
-<span class="sourceLineNo">090</span><a id="line.90">   */</a>
-<span class="sourceLineNo">091</span><a id="line.91">  @DoNotMock("Use Maps.difference")</a>
-<span class="sourceLineNo">092</span><a id="line.92">  interface ValueDifference&lt;V extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">093</span><a id="line.93">    /** Returns the value from the left map (possibly null). */</a>
-<span class="sourceLineNo">094</span><a id="line.94">    @ParametricNullness</a>
-<span class="sourceLineNo">095</span><a id="line.95">    V leftValue();</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">    /** Returns the value from the right map (possibly null). */</a>
-<span class="sourceLineNo">098</span><a id="line.98">    @ParametricNullness</a>
-<span class="sourceLineNo">099</span><a id="line.99">    V rightValue();</a>
-<span class="sourceLineNo">100</span><a id="line.100"></a>
-<span class="sourceLineNo">101</span><a id="line.101">    /**</a>
-<span class="sourceLineNo">102</span><a id="line.102">     * Two instances are considered equal if their {@link #leftValue()} values are equal and their</a>
-<span class="sourceLineNo">103</span><a id="line.103">     * {@link #rightValue()} values are also equal.</a>
-<span class="sourceLineNo">104</span><a id="line.104">     */</a>
-<span class="sourceLineNo">105</span><a id="line.105">    @Override</a>
-<span class="sourceLineNo">106</span><a id="line.106">    boolean equals(@CheckForNull Object other);</a>
-<span class="sourceLineNo">107</span><a id="line.107"></a>
-<span class="sourceLineNo">108</span><a id="line.108">    /**</a>
-<span class="sourceLineNo">109</span><a id="line.109">     * The hash code equals the value {@code Arrays.asList(leftValue(), rightValue()).hashCode()}.</a>
-<span class="sourceLineNo">110</span><a id="line.110">     */</a>
-<span class="sourceLineNo">111</span><a id="line.111">    @Override</a>
-<span class="sourceLineNo">112</span><a id="line.112">    int hashCode();</a>
-<span class="sourceLineNo">113</span><a id="line.113">  }</a>
-<span class="sourceLineNo">114</span><a id="line.114">}</a>
+<span class="sourceLineNo">033</span><a id="line.33">public interface MapDifference&lt;K extends @Nullable Object, V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">034</span><a id="line.34">  /**</a>
+<span class="sourceLineNo">035</span><a id="line.35">   * Returns {@code true} if there are no differences between the two maps; that is, if the maps are</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * equal.</a>
+<span class="sourceLineNo">037</span><a id="line.37">   */</a>
+<span class="sourceLineNo">038</span><a id="line.38">  boolean areEqual();</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">  /**</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * Returns an unmodifiable map containing the entries from the left map whose keys are not present</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * in the right map.</a>
+<span class="sourceLineNo">043</span><a id="line.43">   */</a>
+<span class="sourceLineNo">044</span><a id="line.44">  Map&lt;K, V&gt; entriesOnlyOnLeft();</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  /**</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * Returns an unmodifiable map containing the entries from the right map whose keys are not</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * present in the left map.</a>
+<span class="sourceLineNo">049</span><a id="line.49">   */</a>
+<span class="sourceLineNo">050</span><a id="line.50">  Map&lt;K, V&gt; entriesOnlyOnRight();</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">  /**</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * Returns an unmodifiable map containing the entries that appear in both maps; that is, the</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * intersection of the two maps.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   */</a>
+<span class="sourceLineNo">056</span><a id="line.56">  Map&lt;K, V&gt; entriesInCommon();</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /**</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * Returns an unmodifiable map describing keys that appear in both maps, but with different</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * values.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   */</a>
+<span class="sourceLineNo">062</span><a id="line.62">  Map&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering();</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">  /**</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * Compares the specified object with this instance for equality. Returns {@code true} if the</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * given object is also a {@code MapDifference} and the values returned by the {@link</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * #entriesOnlyOnLeft()}, {@link #entriesOnlyOnRight()}, {@link #entriesInCommon()} and {@link</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * #entriesDiffering()} of the two instances are equal.</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
+<span class="sourceLineNo">071</span><a id="line.71">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">  /**</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * Returns the hash code for this instance. This is defined as the hash code of</a>
+<span class="sourceLineNo">075</span><a id="line.75">   *</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *     entriesInCommon(), entriesDiffering())</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">080</span><a id="line.80">   */</a>
+<span class="sourceLineNo">081</span><a id="line.81">  @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">  int hashCode();</a>
+<span class="sourceLineNo">083</span><a id="line.83"></a>
+<span class="sourceLineNo">084</span><a id="line.84">  /**</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * A difference between the mappings from two maps with the same key. The {@link #leftValue} and</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * {@link #rightValue} are not equal, and one but not both of them may be null.</a>
+<span class="sourceLineNo">087</span><a id="line.87">   *</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * @since 2.0</a>
+<span class="sourceLineNo">089</span><a id="line.89">   */</a>
+<span class="sourceLineNo">090</span><a id="line.90">  @DoNotMock("Use Maps.difference")</a>
+<span class="sourceLineNo">091</span><a id="line.91">  interface ValueDifference&lt;V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">092</span><a id="line.92">    /** Returns the value from the left map (possibly null). */</a>
+<span class="sourceLineNo">093</span><a id="line.93">    @ParametricNullness</a>
+<span class="sourceLineNo">094</span><a id="line.94">    V leftValue();</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">    /** Returns the value from the right map (possibly null). */</a>
+<span class="sourceLineNo">097</span><a id="line.97">    @ParametricNullness</a>
+<span class="sourceLineNo">098</span><a id="line.98">    V rightValue();</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">    /**</a>
+<span class="sourceLineNo">101</span><a id="line.101">     * Two instances are considered equal if their {@link #leftValue()} values are equal and their</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * {@link #rightValue()} values are also equal.</a>
+<span class="sourceLineNo">103</span><a id="line.103">     */</a>
+<span class="sourceLineNo">104</span><a id="line.104">    @Override</a>
+<span class="sourceLineNo">105</span><a id="line.105">    boolean equals(@CheckForNull Object other);</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">    /**</a>
+<span class="sourceLineNo">108</span><a id="line.108">     * The hash code equals the value {@code Arrays.asList(leftValue(), rightValue()).hashCode()}.</a>
+<span class="sourceLineNo">109</span><a id="line.109">     */</a>
+<span class="sourceLineNo">110</span><a id="line.110">    @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">    int hashCode();</a>
+<span class="sourceLineNo">112</span><a id="line.112">  }</a>
+<span class="sourceLineNo">113</span><a id="line.113">}</a>
 
 
 
