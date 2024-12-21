@@ -100,7 +100,7 @@ public final class MoreCollectors {
       extras = emptyList();
     }
 
-    IllegalArgumentException multiples(boolean overflow) {
+    void multiples(boolean overflow) {
       StringBuilder sb =
           new StringBuilder().append("expected one element but was: <").append(element);
       for (Object o : extras) {
@@ -124,7 +124,7 @@ public final class MoreCollectors {
       } else if (extras.size() < MAX_EXTRAS) {
         extras.add(o);
       } else {
-        throw multiples(true);
+        multiples(true);
       }
     }
 
@@ -142,7 +142,7 @@ public final class MoreCollectors {
         extras.addAll(other.extras);
         if (extras.size() > MAX_EXTRAS) {
           extras.subList(MAX_EXTRAS, extras.size()).clear();
-          throw multiples(true);
+          multiples(true);
         }
         return this;
       }
@@ -152,7 +152,7 @@ public final class MoreCollectors {
       if (extras.isEmpty()) {
         return Optional.ofNullable(element);
       } else {
-        throw multiples(false);
+        multiples(false);
       }
     }
 
@@ -162,7 +162,7 @@ public final class MoreCollectors {
       } else if (extras.isEmpty()) {
         return element;
       } else {
-        throw multiples(false);
+        multiples(false);
       }
     }
   }
