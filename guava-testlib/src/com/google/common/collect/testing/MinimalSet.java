@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -34,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Regina O'Dell
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E> implements Set<E> {
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]

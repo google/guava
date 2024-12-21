@@ -49,6 +49,7 @@ import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -57,7 +58,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Ward
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableSetMultimapTest extends TestCase {
   @J2ktIncompatible
   private static final class ImmutableSetMultimapGenerator extends TestStringSetMultimapGenerator {

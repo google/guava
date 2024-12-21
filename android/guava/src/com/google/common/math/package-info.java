@@ -23,7 +23,8 @@
  * href="https://github.com/google/guava/wiki/MathExplained">math utilities</a>.
  */
 @CheckReturnValue
-@ElementTypesAreNonnullByDefault
+@NullMarked
 package com.google.common.math;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import org.jspecify.annotations.NullMarked;

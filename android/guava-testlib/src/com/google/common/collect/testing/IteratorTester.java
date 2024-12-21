@@ -19,6 +19,7 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Iterator;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -85,7 +86,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class IteratorTester<E extends @Nullable Object>
     extends AbstractIteratorTester<E, Iterator<E>> {
   /**

@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@code ImmutableEnumMap}.
@@ -42,7 +43,7 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableEnumMapTest extends TestCase {
   @J2ktIncompatible
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {

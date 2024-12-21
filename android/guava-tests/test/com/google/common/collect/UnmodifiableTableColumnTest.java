@@ -21,9 +21,10 @@ import static com.google.common.collect.Tables.unmodifiableTable;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.TableCollectionTest.ColumnTests;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class UnmodifiableTableColumnTest extends ColumnTests {
   public UnmodifiableTableColumnTest() {
     super(false, false, false, false, false);

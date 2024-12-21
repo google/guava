@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -26,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface TestMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestContainerGenerator<Map<K, V>, Map.Entry<K, V>> {
   K[] createKeyArray(int length);

@@ -19,6 +19,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
 import java.lang.annotation.Target;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Disables Animal Sniffer's checking of compatibility with older versions of Java/Android.
@@ -26,5 +27,5 @@ import java.lang.annotation.Target;
  * <p>Each package's copy of this annotation needs to be listed in our {@code pom.xml}.
  */
 @Target({METHOD, CONSTRUCTOR, TYPE})
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @interface IgnoreJRERequirement {}

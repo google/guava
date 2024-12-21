@@ -50,6 +50,7 @@ import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -58,7 +59,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class OrderingTest extends TestCase {
   // TODO(cpovirk): some of these are inexplicably slow (20-30s) under GWT
 

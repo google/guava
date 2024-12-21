@@ -94,6 +94,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -101,7 +102,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Nishant Thakkar
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
   private static final Logger aggregateFutureLogger =

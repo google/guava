@@ -37,6 +37,7 @@ import java.util.Random;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link CharMatcher}.
@@ -44,7 +45,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class CharMatcherTest extends TestCase {
 
   @J2ktIncompatible

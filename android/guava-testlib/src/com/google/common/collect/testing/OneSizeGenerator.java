@@ -23,6 +23,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class OneSizeGenerator<T, E extends @Nullable Object>
     implements OneSizeTestContainerGenerator<T, E> {
   private final TestContainerGenerator<T, E> generator;

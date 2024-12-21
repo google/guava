@@ -28,6 +28,7 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.util.stream.Collector;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -36,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   @Override
   protected Table<String, Integer, Character> create(@Nullable Object... data) {

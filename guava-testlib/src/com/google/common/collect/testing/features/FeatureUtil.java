@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Utilities for collecting and validating tester requirements from annotations.
@@ -235,7 +236,12 @@ public final class FeatureUtil {
       if (annotations == null) {
         annotations = new ArrayList<>();
         for (Annotation a : classOrMethod.getDeclaredAnnotations()) {
-          if (a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
+          /*
+           * We avoid reflecting on NullMarked because its @Target(..., MODULE) causes problems
+           * under JDK 8.
+           */
+          if (!(a instanceof NullMarked)
+              && a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
             annotations.add(a);
           }
         }

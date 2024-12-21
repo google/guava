@@ -42,6 +42,7 @@ import java.util.Spliterator.OfPrimitive;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -50,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 33.4.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {

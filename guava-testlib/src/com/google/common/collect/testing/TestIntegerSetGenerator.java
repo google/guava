@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Ints;
 import java.util.List;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Create integer sets for collection tests.
@@ -27,7 +28,7 @@ import java.util.Set;
  * @author Gregory Kick
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestIntegerSetGenerator implements TestSetGenerator<Integer> {
   @Override
   public SampleElements<Integer> samples() {

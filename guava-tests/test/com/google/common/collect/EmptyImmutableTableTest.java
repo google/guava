@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.EqualsTester;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests {@link EmptyImmutableTable}
@@ -26,7 +27,7 @@ import com.google.common.testing.EqualsTester;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableTable<Character, Integer, String> INSTANCE = ImmutableTable.of();
 

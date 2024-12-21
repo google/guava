@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -37,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MultimapBuilderTest extends TestCase {
 
   @J2ktIncompatible

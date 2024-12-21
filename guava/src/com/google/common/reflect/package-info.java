@@ -17,7 +17,8 @@
  * href="https://github.com/google/guava">Guava</a> library.
  */
 @CheckReturnValue
-@ElementTypesAreNonnullByDefault
+@NullMarked
 package com.google.common.reflect;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import org.jspecify.annotations.NullMarked;

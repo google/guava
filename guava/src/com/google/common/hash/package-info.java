@@ -20,7 +20,8 @@
  * href="https://github.com/google/guava/wiki/HashingExplained">hashing</a>.
  */
 @CheckReturnValue
-@ElementTypesAreNonnullByDefault
+@NullMarked
 package com.google.common.hash;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import org.jspecify.annotations.NullMarked;

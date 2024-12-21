@@ -34,6 +34,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -45,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;

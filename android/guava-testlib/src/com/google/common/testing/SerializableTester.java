@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests serialization and deserialization of an object, optionally asserting that the resulting
@@ -33,7 +34,7 @@ import junit.framework.AssertionFailedError;
  * @since 10.0
  */
 @GwtCompatible // but no-op!
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class SerializableTester {
   private SerializableTester() {}
 

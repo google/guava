@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -37,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Isaac Shum
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, String> {
   public AbstractMapsTransformValuesTest() {
     super(false, true, false, true, true);

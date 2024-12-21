@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
@@ -53,7 +54,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class CollectionIteratorTester<E extends @Nullable Object>
     extends AbstractCollectionTester<E> {
   public void testIterator() {

@@ -28,11 +28,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class AbstractSequentialIteratorTest extends TestCase {
   @GwtIncompatible // Too slow
   public void testDoublerExhaustive() {

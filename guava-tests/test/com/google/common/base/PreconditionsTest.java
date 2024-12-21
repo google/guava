@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -47,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {

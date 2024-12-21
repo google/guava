@@ -28,6 +28,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
@@ -40,7 +41,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class AbstractMultimapTester<
         K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends AbstractContainerTester<M, Entry<K, V>> {

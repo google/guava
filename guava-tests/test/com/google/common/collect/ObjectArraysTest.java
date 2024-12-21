@@ -25,6 +25,7 @@ import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ObjectArraysTest extends TestCase {
 
   @J2ktIncompatible

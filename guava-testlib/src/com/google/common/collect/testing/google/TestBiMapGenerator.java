@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.TestContainerGenerator;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -28,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface TestBiMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
     extends TestContainerGenerator<BiMap<K, V>, Entry<K, V>> {
   K[] createKeyArray(int length);

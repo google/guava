@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @SuppressWarnings({"ComparableType", "rawtypes"}) // https://github.com/google/guava/issues/989
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 class LegacyComparable implements Comparable, Serializable {
   static final LegacyComparable X = new LegacyComparable("x");
   static final LegacyComparable Y = new LegacyComparable("y");

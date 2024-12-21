@@ -25,7 +25,8 @@
  * library.
  */
 @CheckReturnValue
-@ElementTypesAreNonnullByDefault
+@NullMarked
 package com.google.common.escape;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import org.jspecify.annotations.NullMarked;

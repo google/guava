@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.testing.RelationshipTester.ItemReporter;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tester for {@link Equivalence} relationships between groups of objects.
@@ -50,7 +51,7 @@ import java.util.List;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class EquivalenceTester<T> {
   private static final int REPETITIONS = 3;
 

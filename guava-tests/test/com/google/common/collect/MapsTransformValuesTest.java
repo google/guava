@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import java.util.Map;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link Maps#transformValues(Map, Function)}.
@@ -29,7 +30,7 @@ import java.util.Map;
  * @author Isaac Shum
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MapsTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected Map<String, String> makeEmptyMap() {

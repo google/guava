@@ -21,12 +21,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.escape.testing.EscaperAsserts;
 import java.io.IOException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * @author David Beaumont
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ArrayBasedCharEscaperTest extends TestCase {
   private static final ImmutableMap<Character, String> NO_REPLACEMENTS = ImmutableMap.of();
   private static final ImmutableMap<Character, String> SIMPLE_REPLACEMENTS =

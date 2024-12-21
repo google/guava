@@ -26,6 +26,7 @@ import com.google.common.testing.EquivalenceTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Jige Yu
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class EquivalenceTest extends TestCase {
   public void testPairwiseEquivalent() {

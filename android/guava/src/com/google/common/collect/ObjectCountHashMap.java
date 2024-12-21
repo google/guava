@@ -29,6 +29,7 @@ import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -39,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>In the absence of element deletions, this will iterate over elements in insertion order.
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 class ObjectCountHashMap<K extends @Nullable Object> {
 
   /** Creates an empty {@code ObjectCountHashMap} instance. */

@@ -31,11 +31,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * @author Julien Silland
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class SplitterTest extends TestCase {
 

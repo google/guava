@@ -29,6 +29,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
@@ -42,7 +43,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MultisetIteratorTester<E extends @Nullable Object> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})
   public void testRemovingIteratorKnownOrder() {

@@ -48,6 +48,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -58,7 +59,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Nick Kralevich
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible

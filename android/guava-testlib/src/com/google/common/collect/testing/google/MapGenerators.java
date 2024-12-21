@@ -40,6 +40,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Generators of different types of map and related collections, such as keys, entries and values.
@@ -47,7 +48,7 @@ import java.util.Map.Entry;
  * @author Hayward Chan
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MapGenerators {
   public static class ImmutableMapGenerator extends TestStringMapGenerator {
     @Override

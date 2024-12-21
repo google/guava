@@ -53,6 +53,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Generators of different types of sets and derived collections from sets.
@@ -62,7 +63,7 @@ import java.util.SortedSet;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class SetGenerators {
 
   public static class ImmutableSetCopyOfGenerator extends TestStringSetGenerator {

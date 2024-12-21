@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import java.util.Collection;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 
@@ -32,7 +33,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class AbstractListMultimapTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 

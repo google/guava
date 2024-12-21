@@ -22,6 +22,7 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestContainerGenerator;
 import java.util.Collection;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -30,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface TestMultimapGenerator<
         K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
     extends TestContainerGenerator<M, Entry<K, V>> {

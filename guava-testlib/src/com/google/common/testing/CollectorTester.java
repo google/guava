@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
+import org.jspecify.annotations.NullMarked;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -46,7 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class CollectorTester<
     T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
   /**
