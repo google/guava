@@ -45,7 +45,7 @@
 <span class="sourceLineNo">036</span><a id="line.36">import java.util.RandomAccess;</a>
 <span class="sourceLineNo">037</span><a id="line.37">import java.util.Spliterator;</a>
 <span class="sourceLineNo">038</span><a id="line.38">import java.util.Spliterators;</a>
-<span class="sourceLineNo">039</span><a id="line.39">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">040</span><a id="line.40"></a>
 <span class="sourceLineNo">041</span><a id="line.41">/**</a>
 <span class="sourceLineNo">042</span><a id="line.42"> * Static utility methods pertaining to {@code double} primitives, that are not already found in</a>
@@ -632,14 +632,14 @@
 <span class="sourceLineNo">623</span><a id="line.623">    }</a>
 <span class="sourceLineNo">624</span><a id="line.624"></a>
 <span class="sourceLineNo">625</span><a id="line.625">    @Override</a>
-<span class="sourceLineNo">626</span><a id="line.626">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">626</span><a id="line.626">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">627</span><a id="line.627">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">628</span><a id="line.628">      return (target instanceof Double)</a>
 <span class="sourceLineNo">629</span><a id="line.629">          &amp;&amp; Doubles.indexOf(array, (Double) target, start, end) != -1;</a>
 <span class="sourceLineNo">630</span><a id="line.630">    }</a>
 <span class="sourceLineNo">631</span><a id="line.631"></a>
 <span class="sourceLineNo">632</span><a id="line.632">    @Override</a>
-<span class="sourceLineNo">633</span><a id="line.633">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">634</span><a id="line.634">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">635</span><a id="line.635">      if (target instanceof Double) {</a>
 <span class="sourceLineNo">636</span><a id="line.636">        int i = Doubles.indexOf(array, (Double) target, start, end);</a>
@@ -651,7 +651,7 @@
 <span class="sourceLineNo">642</span><a id="line.642">    }</a>
 <span class="sourceLineNo">643</span><a id="line.643"></a>
 <span class="sourceLineNo">644</span><a id="line.644">    @Override</a>
-<span class="sourceLineNo">645</span><a id="line.645">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">646</span><a id="line.646">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">647</span><a id="line.647">      if (target instanceof Double) {</a>
 <span class="sourceLineNo">648</span><a id="line.648">        int i = Doubles.lastIndexOf(array, (Double) target, start, end);</a>
@@ -682,7 +682,7 @@
 <span class="sourceLineNo">673</span><a id="line.673">    }</a>
 <span class="sourceLineNo">674</span><a id="line.674"></a>
 <span class="sourceLineNo">675</span><a id="line.675">    @Override</a>
-<span class="sourceLineNo">676</span><a id="line.676">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">677</span><a id="line.677">      if (object == this) {</a>
 <span class="sourceLineNo">678</span><a id="line.678">        return true;</a>
 <span class="sourceLineNo">679</span><a id="line.679">      }</a>
@@ -780,21 +780,20 @@
 <span class="sourceLineNo">771</span><a id="line.771">   * @since 14.0</a>
 <span class="sourceLineNo">772</span><a id="line.772">   */</a>
 <span class="sourceLineNo">773</span><a id="line.773">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">774</span><a id="line.774">  @CheckForNull</a>
-<span class="sourceLineNo">775</span><a id="line.775">  public static Double tryParse(String string) {</a>
-<span class="sourceLineNo">776</span><a id="line.776">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
-<span class="sourceLineNo">777</span><a id="line.777">      // TODO(lowasser): could be potentially optimized, but only with</a>
-<span class="sourceLineNo">778</span><a id="line.778">      // extensive testing</a>
-<span class="sourceLineNo">779</span><a id="line.779">      try {</a>
-<span class="sourceLineNo">780</span><a id="line.780">        return Double.parseDouble(string);</a>
-<span class="sourceLineNo">781</span><a id="line.781">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">782</span><a id="line.782">        // Double.parseDouble has changed specs several times, so fall through</a>
-<span class="sourceLineNo">783</span><a id="line.783">        // gracefully</a>
-<span class="sourceLineNo">784</span><a id="line.784">      }</a>
-<span class="sourceLineNo">785</span><a id="line.785">    }</a>
-<span class="sourceLineNo">786</span><a id="line.786">    return null;</a>
-<span class="sourceLineNo">787</span><a id="line.787">  }</a>
-<span class="sourceLineNo">788</span><a id="line.788">}</a>
+<span class="sourceLineNo">774</span><a id="line.774">  public static @Nullable Double tryParse(String string) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
+<span class="sourceLineNo">776</span><a id="line.776">      // TODO(lowasser): could be potentially optimized, but only with</a>
+<span class="sourceLineNo">777</span><a id="line.777">      // extensive testing</a>
+<span class="sourceLineNo">778</span><a id="line.778">      try {</a>
+<span class="sourceLineNo">779</span><a id="line.779">        return Double.parseDouble(string);</a>
+<span class="sourceLineNo">780</span><a id="line.780">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">781</span><a id="line.781">        // Double.parseDouble has changed specs several times, so fall through</a>
+<span class="sourceLineNo">782</span><a id="line.782">        // gracefully</a>
+<span class="sourceLineNo">783</span><a id="line.783">      }</a>
+<span class="sourceLineNo">784</span><a id="line.784">    }</a>
+<span class="sourceLineNo">785</span><a id="line.785">    return null;</a>
+<span class="sourceLineNo">786</span><a id="line.786">  }</a>
+<span class="sourceLineNo">787</span><a id="line.787">}</a>
 
 
 

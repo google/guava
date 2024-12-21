@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.51">SortedSetMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.50">SortedSetMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A <code>SetMultimap</code> whose set of values for a given key are kept sorted; that is, they comprise
  a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedSet</code></a>. It cannot hold duplicate key-value pairs; adding a key-value pair that's
@@ -191,7 +191,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Object)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Object)">removeAll</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Removes all values associated with a given key.</div>
 </td>
@@ -205,7 +205,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#valueComparator()">valueComparator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the comparator that orders the multimap values, with <code>null</code> indicating that
@@ -251,7 +251,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.66">get</a>&#8203;(<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.65">get</a>&#8203;(<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a collection view of all values associated with a key. If no mappings in the multimap
  have the provided key, an empty collection is returned.
 
@@ -275,8 +275,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.76">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.75">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Removes all values associated with a given key.
 
  <p>Because a <code>SortedSetMultimap</code> has unique sorted values for a given key, this method
@@ -302,7 +301,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 <li class="blockList">
 <h4>replaceValues</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.89">replaceValues</a>&#8203;(<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>&nbsp;key,
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.88">replaceValues</a>&#8203;(<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>&nbsp;key,
                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key, replacing any existing values for that key.
 
@@ -329,7 +328,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.110">asMap</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.109">asMap</a>()</pre>
 <div class="block">Returns a map view that associates each key with the corresponding values in the multimap.
  Changes to the returned map, such as element removal, will update the underlying multimap. The
  map does not support <code>setValue()</code> on its entries, <code>put</code>, or <code>putAll</code>.
@@ -357,8 +356,7 @@ extends <a href="SetMultimap.html" title="interface in com.google.common.collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>valueComparator</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.117">valueComparator</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedSetMultimap.html" title="type parameter in SortedSetMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedSetMultimap.html#line.116">valueComparator</a>()</pre>
 <div class="block">Returns the comparator that orders the multimap values, with <code>null</code> indicating that
  natural ordering is used.</div>
 </li>

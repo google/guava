@@ -25,7 +25,7 @@
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtIncompatible;</a>
 <span class="sourceLineNo">018</span><a id="line.18">import com.google.common.annotations.J2ktIncompatible;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">020</span><a id="line.20"></a>
 <span class="sourceLineNo">021</span><a id="line.21">/**</a>
 <span class="sourceLineNo">022</span><a id="line.22"> * Represents a {@linkplain System#getProperties() standard system property}.</a>
@@ -163,17 +163,16 @@
 <span class="sourceLineNo">154</span><a id="line.154">   *   &lt;li&gt;{@code jdk.module.*} (added in Java 9, optional)</a>
 <span class="sourceLineNo">155</span><a id="line.155">   * &lt;/ul&gt;</a>
 <span class="sourceLineNo">156</span><a id="line.156">   */</a>
-<span class="sourceLineNo">157</span><a id="line.157">  @CheckForNull</a>
-<span class="sourceLineNo">158</span><a id="line.158">  public String value() {</a>
-<span class="sourceLineNo">159</span><a id="line.159">    return System.getProperty(key);</a>
-<span class="sourceLineNo">160</span><a id="line.160">  }</a>
-<span class="sourceLineNo">161</span><a id="line.161"></a>
-<span class="sourceLineNo">162</span><a id="line.162">  /** Returns a string representation of this system property. */</a>
-<span class="sourceLineNo">163</span><a id="line.163">  @Override</a>
-<span class="sourceLineNo">164</span><a id="line.164">  public String toString() {</a>
-<span class="sourceLineNo">165</span><a id="line.165">    return key() + "=" + value();</a>
-<span class="sourceLineNo">166</span><a id="line.166">  }</a>
-<span class="sourceLineNo">167</span><a id="line.167">}</a>
+<span class="sourceLineNo">157</span><a id="line.157">  public @Nullable String value() {</a>
+<span class="sourceLineNo">158</span><a id="line.158">    return System.getProperty(key);</a>
+<span class="sourceLineNo">159</span><a id="line.159">  }</a>
+<span class="sourceLineNo">160</span><a id="line.160"></a>
+<span class="sourceLineNo">161</span><a id="line.161">  /** Returns a string representation of this system property. */</a>
+<span class="sourceLineNo">162</span><a id="line.162">  @Override</a>
+<span class="sourceLineNo">163</span><a id="line.163">  public String toString() {</a>
+<span class="sourceLineNo">164</span><a id="line.164">    return key() + "=" + value();</a>
+<span class="sourceLineNo">165</span><a id="line.165">  }</a>
+<span class="sourceLineNo">166</span><a id="line.166">}</a>
 
 
 

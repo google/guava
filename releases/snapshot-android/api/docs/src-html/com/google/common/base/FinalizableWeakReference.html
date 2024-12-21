@@ -27,7 +27,7 @@
 <span class="sourceLineNo">018</span><a id="line.18">import com.google.common.annotations.J2ktIncompatible;</a>
 <span class="sourceLineNo">019</span><a id="line.19">import java.lang.ref.ReferenceQueue;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import java.lang.ref.WeakReference;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">022</span><a id="line.22"></a>
 <span class="sourceLineNo">023</span><a id="line.23">/**</a>
 <span class="sourceLineNo">024</span><a id="line.24"> * Weak reference with a {@code finalizeReferent()} method which a background thread invokes after</a>
@@ -47,7 +47,7 @@
 <span class="sourceLineNo">038</span><a id="line.38">   * @param referent to weakly reference</a>
 <span class="sourceLineNo">039</span><a id="line.39">   * @param queue that should finalize the referent</a>
 <span class="sourceLineNo">040</span><a id="line.40">   */</a>
-<span class="sourceLineNo">041</span><a id="line.41">  protected FinalizableWeakReference(@CheckForNull T referent, FinalizableReferenceQueue queue) {</a>
+<span class="sourceLineNo">041</span><a id="line.41">  protected FinalizableWeakReference(@Nullable T referent, FinalizableReferenceQueue queue) {</a>
 <span class="sourceLineNo">042</span><a id="line.42">    super(referent, queue.queue);</a>
 <span class="sourceLineNo">043</span><a id="line.43">    queue.cleanUp();</a>
 <span class="sourceLineNo">044</span><a id="line.44">  }</a>

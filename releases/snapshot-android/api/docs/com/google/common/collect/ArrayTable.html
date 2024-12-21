@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.92">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.91">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">Fixed-size <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> implementation backed by a two-dimensional array.
@@ -228,7 +228,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#at(int,int)">at</a></span>&#8203;(int&nbsp;rowIndex,
   int&nbsp;columnIndex)</code></th>
 <td class="colLast">
@@ -284,8 +284,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object,java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object,java.lang.Object)">contains</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the provided keys are among the keys provided when the table was
  constructed.</div>
@@ -293,7 +293,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsColumn(java.lang.Object)">containsColumn</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsColumn(java.lang.Object)">containsColumn</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the provided column key is among the column keys provided when the
  table was constructed.</div>
@@ -301,7 +301,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsRow(java.lang.Object)">containsRow</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsRow(java.lang.Object)">containsRow</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the provided row key is among the row keys provided when the table was
  constructed.</div>
@@ -309,7 +309,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 </td>
@@ -331,15 +331,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink">equals</span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
 <td class="colLast">
 <div class="block">Compares the specified object with this table for equality.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#erase(java.lang.Object,java.lang.Object)">erase</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#erase(java.lang.Object,java.lang.Object)">erase</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Associates the value <code>null</code> with the specified keys, assuming both keys are valid.</div>
 </td>
@@ -352,9 +352,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object,java.lang.Object)">get</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object,java.lang.Object)">get</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
  mapping exists.</div>
@@ -375,10 +375,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(R,C,V)">put</a></span>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey,
    <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey,
-   <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</code></th>
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Associates the specified value with the specified keys.</div>
 </td>
@@ -391,9 +391,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#erase(java.lang.Object,java.lang.Object)"><code>erase(java.lang.Object, java.lang.Object)</code></a></div>
@@ -432,10 +432,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code><a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(int,int,V)">set</a></span>&#8203;(int&nbsp;rowIndex,
    int&nbsp;columnIndex,
-   <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</code></th>
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Associates <code>value</code> with the specified row and column indices.</div>
 </td>
@@ -498,7 +498,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.105">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends R&gt;&nbsp;rowKeys,
+<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.104">create</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends R&gt;&nbsp;rowKeys,
                                                                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends C&gt;&nbsp;columnKeys)</pre>
 <div class="block">Creates an <code>ArrayTable</code> filled with <code>null</code>.</div>
 <dl>
@@ -518,7 +518,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.134">create</a>&#8203;(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&gt;&nbsp;table)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a>&lt;R,&#8203;C,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.133">create</a>&#8203;(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,&#8203;C,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&gt;&nbsp;table)</pre>
 <div class="block">Creates an <code>ArrayTable</code> with the mappings in the provided table.
 
  <p>If <code>table</code> includes a mapping with row key <code>r</code> and a separate mapping with
@@ -544,7 +544,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeyList</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.302">rowKeyList</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.298">rowKeyList</a>()</pre>
 <div class="block">Returns, as an immutable list, the row keys provided when the table was constructed, including
  those that are mapped to null values only.</div>
 </li>
@@ -555,7 +555,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>columnKeyList</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.310">columnKeyList</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.306">columnKeyList</a>()</pre>
 <div class="block">Returns, as an immutable list, the column keys provided when the table was constructed,
  including those that are mapped to null values only.</div>
 </li>
@@ -566,9 +566,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>at</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.326">at</a>&#8203;(int&nbsp;rowIndex,
-            int&nbsp;columnIndex)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.322">at</a>&#8203;(int&nbsp;rowIndex,
+                      int&nbsp;columnIndex)</pre>
 <div class="block">Returns the value corresponding to the specified row and column indices. The same value is
  returned by <code>get(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex))</code>, but this
  method runs more quickly.</div>
@@ -594,11 +593,9 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.347">set</a>&#8203;(int&nbsp;rowIndex,
-             int&nbsp;columnIndex,
-             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</pre>
+public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.342">set</a>&#8203;(int&nbsp;rowIndex,
+                       int&nbsp;columnIndex,
+                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</pre>
 <div class="block">Associates <code>value</code> with the specified row and column indices. The logic <code>
  put(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex), value)</code> has the same
  behavior, but this method runs more quickly.</div>
@@ -623,7 +620,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>[][]&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.367">toArray</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;valueClass)</pre>
+public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>[][]&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.361">toArray</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;valueClass)</pre>
 <div class="block">Returns a two-dimensional array with the table contents. The row and column indices correspond
  to the positions of the row and column in the iterables provided during table construction. If
  the table lacks a mapping for a given row and column, the corresponding array element is null.
@@ -642,7 +639,7 @@ public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/check
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.384">clear</a>()</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.378">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#eraseAll()"><code>eraseAll()</code></a></div>
 </div>
@@ -661,7 +658,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>eraseAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.392">eraseAll</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.386">eraseAll</a>()</pre>
 <div class="block">Associates the value <code>null</code> with every pair of allowed row and column keys.</div>
 </li>
 </ul>
@@ -671,10 +668,8 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.402">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-                        <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.396">contains</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+                        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block">Returns <code>true</code> if the provided keys are among the keys provided when the table was
  constructed.</div>
 <dl>
@@ -692,8 +687,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>containsColumn</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.411">containsColumn</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                              <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.405">containsColumn</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block">Returns <code>true</code> if the provided column key is among the column keys provided when the
  table was constructed.</div>
 <dl>
@@ -710,8 +704,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>containsRow</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.420">containsRow</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.414">containsRow</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey)</pre>
 <div class="block">Returns <code>true</code> if the provided row key is among the row keys provided when the table was
  constructed.</div>
 <dl>
@@ -728,8 +721,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.425">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.419">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#containsValue(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 <dl>
@@ -746,11 +738,8 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Ar
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.437">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.431">get</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#get(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
  mapping exists.</div>
@@ -769,7 +758,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.448">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.441">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if <code>rowKeyList().size == 0</code> or <code>columnKeyList().size() == 0</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -786,11 +775,9 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.459">put</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey,
-             <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey,
-             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-             <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</pre>
+public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.452">put</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey,
+                       <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey,
+                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</pre>
 <div class="block">Associates the specified value with the specified keys. If the table already contained a
  mapping for those keys, the old value is replaced with the specified value.</div>
 <dl>
@@ -815,7 +802,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.487">putAll</a>&#8203;(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;table)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.479">putAll</a>&#8203;(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;table)</pre>
 <div class="block">Copies all mappings from the specified table to this table. The effect is equivalent to calling
  <a href="Table.html#put(R,C,V)"><code>Table.put(R, C, V)</code></a> with each row key / column key / value mapping in <code>table</code>.
 
@@ -841,11 +828,8 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.498">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-                <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
+public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.490">remove</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+                          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#erase(java.lang.Object,java.lang.Object)"><code>erase(java.lang.Object, java.lang.Object)</code></a></div>
 </div>
@@ -870,11 +854,8 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <li class="blockList">
 <h4>erase</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.520">erase</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
-               <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
+public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.511">erase</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;rowKey,
+                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;columnKey)</pre>
 <div class="block">Associates the value <code>null</code> with the specified keys, assuming both keys are valid. If
  either key is null or isn't among the keys provided during construction, this method has no
  effect.
@@ -897,7 +878,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.533">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.523">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#size()">Table</a></code></span></div>
 <div class="block">Returns the number of row key / column key / value mappings in the table.</div>
 <dl>
@@ -912,7 +893,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>cellSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.549">cellSet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.539">cellSet</a>()</pre>
 <div class="block">Returns an unmodifiable set of all row key / column key / value triplets. Changes to the table
  will update the returned set.
 
@@ -936,7 +917,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>column</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.605">column</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.593">column</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey)</pre>
 <div class="block">Returns a view of all mappings that have the given column key. If the column key isn't in
  <a href="#columnKeySet()"><code>columnKeySet()</code></a>, an empty immutable map is returned.
 
@@ -959,7 +940,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>columnKeySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.648">columnKeySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.634">columnKeySet</a>()</pre>
 <div class="block">Returns an immutable set of the valid column keys, including those that are associated with
  null values only.</div>
 <dl>
@@ -976,7 +957,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>columnMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.655">columnMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.641">columnMap</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#columnMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each column key with the corresponding map from row keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -1001,7 +982,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>row</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.700">row</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.685">row</a>&#8203;(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey)</pre>
 <div class="block">Returns a view of all mappings that have the given row key. If the row key isn't in <a href="#rowKeySet()"><code>rowKeySet()</code></a>, an empty immutable map is returned.
 
  <p>Otherwise, for each column key in <a href="#columnKeySet()"><code>columnKeySet()</code></a>, the returned map associates the
@@ -1023,7 +1004,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.743">rowKeySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.726">rowKeySet</a>()</pre>
 <div class="block">Returns an immutable set of the valid row keys, including those that are associated with null
  values only.</div>
 <dl>
@@ -1040,7 +1021,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.750">rowMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.733">rowMap</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#rowMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each row key with the corresponding map from column keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -1063,7 +1044,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.793">values</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line.775">values</a>()</pre>
 <div class="block">Returns an unmodifiable collection of all values, which may contain duplicates. Changes to the
  table will update the returned collection.
 
@@ -1083,8 +1064,7 @@ public&nbsp;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Table.html#equals(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Compares the specified object with this table for equality. Two tables are equal when their
  cell views, as returned by <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a>, are equal.</div>

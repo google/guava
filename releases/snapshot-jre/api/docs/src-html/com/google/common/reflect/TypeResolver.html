@@ -43,7 +43,7 @@
 <span class="sourceLineNo">034</span><a id="line.34">import java.util.Map.Entry;</a>
 <span class="sourceLineNo">035</span><a id="line.35">import java.util.Set;</a>
 <span class="sourceLineNo">036</span><a id="line.36">import java.util.concurrent.atomic.AtomicInteger;</a>
-<span class="sourceLineNo">037</span><a id="line.37">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">038</span><a id="line.38"></a>
 <span class="sourceLineNo">039</span><a id="line.39">/**</a>
 <span class="sourceLineNo">040</span><a id="line.40"> * An object of this class encapsulates type mappings from type variables. Mappings are established</a>
@@ -534,83 +534,81 @@
 <span class="sourceLineNo">525</span><a id="line.525">      return new WildcardCapturer(id);</a>
 <span class="sourceLineNo">526</span><a id="line.526">    }</a>
 <span class="sourceLineNo">527</span><a id="line.527"></a>
-<span class="sourceLineNo">528</span><a id="line.528">    @CheckForNull</a>
-<span class="sourceLineNo">529</span><a id="line.529">    private Type captureNullable(@CheckForNull Type type) {</a>
-<span class="sourceLineNo">530</span><a id="line.530">      if (type == null) {</a>
-<span class="sourceLineNo">531</span><a id="line.531">        return null;</a>
-<span class="sourceLineNo">532</span><a id="line.532">      }</a>
-<span class="sourceLineNo">533</span><a id="line.533">      return capture(type);</a>
-<span class="sourceLineNo">534</span><a id="line.534">    }</a>
-<span class="sourceLineNo">535</span><a id="line.535">  }</a>
-<span class="sourceLineNo">536</span><a id="line.536"></a>
-<span class="sourceLineNo">537</span><a id="line.537">  /**</a>
-<span class="sourceLineNo">538</span><a id="line.538">   * Wraps around {@code TypeVariable&lt;?&gt;} to ensure that any two type variables are equal as long as</a>
-<span class="sourceLineNo">539</span><a id="line.539">   * they are declared by the same {@link java.lang.reflect.GenericDeclaration} and have the same</a>
-<span class="sourceLineNo">540</span><a id="line.540">   * name, even if their bounds differ.</a>
-<span class="sourceLineNo">541</span><a id="line.541">   *</a>
-<span class="sourceLineNo">542</span><a id="line.542">   * &lt;p&gt;While resolving a type variable from a {@code var -&gt; type} map, we don't care whether the</a>
-<span class="sourceLineNo">543</span><a id="line.543">   * type variable's bound has been partially resolved. As long as the type variable "identity"</a>
-<span class="sourceLineNo">544</span><a id="line.544">   * matches.</a>
-<span class="sourceLineNo">545</span><a id="line.545">   *</a>
-<span class="sourceLineNo">546</span><a id="line.546">   * &lt;p&gt;On the other hand, if for example we are resolving {@code List&lt;A extends B&gt;} to {@code</a>
-<span class="sourceLineNo">547</span><a id="line.547">   * List&lt;A extends String&gt;}, we need to compare that {@code &lt;A extends B&gt;} is unequal to {@code &lt;A</a>
-<span class="sourceLineNo">548</span><a id="line.548">   * extends String&gt;} in order to decide to use the transformed type instead of the original type.</a>
-<span class="sourceLineNo">549</span><a id="line.549">   */</a>
-<span class="sourceLineNo">550</span><a id="line.550">  static final class TypeVariableKey {</a>
-<span class="sourceLineNo">551</span><a id="line.551">    private final TypeVariable&lt;?&gt; var;</a>
-<span class="sourceLineNo">552</span><a id="line.552"></a>
-<span class="sourceLineNo">553</span><a id="line.553">    TypeVariableKey(TypeVariable&lt;?&gt; var) {</a>
-<span class="sourceLineNo">554</span><a id="line.554">      this.var = checkNotNull(var);</a>
-<span class="sourceLineNo">555</span><a id="line.555">    }</a>
-<span class="sourceLineNo">556</span><a id="line.556"></a>
-<span class="sourceLineNo">557</span><a id="line.557">    @Override</a>
-<span class="sourceLineNo">558</span><a id="line.558">    public int hashCode() {</a>
-<span class="sourceLineNo">559</span><a id="line.559">      return Objects.hashCode(var.getGenericDeclaration(), var.getName());</a>
-<span class="sourceLineNo">560</span><a id="line.560">    }</a>
-<span class="sourceLineNo">561</span><a id="line.561"></a>
-<span class="sourceLineNo">562</span><a id="line.562">    @Override</a>
-<span class="sourceLineNo">563</span><a id="line.563">    public boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">564</span><a id="line.564">      if (obj instanceof TypeVariableKey) {</a>
-<span class="sourceLineNo">565</span><a id="line.565">        TypeVariableKey that = (TypeVariableKey) obj;</a>
-<span class="sourceLineNo">566</span><a id="line.566">        return equalsTypeVariable(that.var);</a>
-<span class="sourceLineNo">567</span><a id="line.567">      } else {</a>
-<span class="sourceLineNo">568</span><a id="line.568">        return false;</a>
-<span class="sourceLineNo">569</span><a id="line.569">      }</a>
-<span class="sourceLineNo">570</span><a id="line.570">    }</a>
-<span class="sourceLineNo">571</span><a id="line.571"></a>
-<span class="sourceLineNo">572</span><a id="line.572">    @Override</a>
-<span class="sourceLineNo">573</span><a id="line.573">    public String toString() {</a>
-<span class="sourceLineNo">574</span><a id="line.574">      return var.toString();</a>
-<span class="sourceLineNo">575</span><a id="line.575">    }</a>
-<span class="sourceLineNo">576</span><a id="line.576"></a>
-<span class="sourceLineNo">577</span><a id="line.577">    /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */</a>
-<span class="sourceLineNo">578</span><a id="line.578">    @CheckForNull</a>
-<span class="sourceLineNo">579</span><a id="line.579">    static TypeVariableKey forLookup(Type t) {</a>
-<span class="sourceLineNo">580</span><a id="line.580">      if (t instanceof TypeVariable) {</a>
-<span class="sourceLineNo">581</span><a id="line.581">        return new TypeVariableKey((TypeVariable&lt;?&gt;) t);</a>
-<span class="sourceLineNo">582</span><a id="line.582">      } else {</a>
-<span class="sourceLineNo">583</span><a id="line.583">        return null;</a>
-<span class="sourceLineNo">584</span><a id="line.584">      }</a>
-<span class="sourceLineNo">585</span><a id="line.585">    }</a>
-<span class="sourceLineNo">586</span><a id="line.586"></a>
-<span class="sourceLineNo">587</span><a id="line.587">    /**</a>
-<span class="sourceLineNo">588</span><a id="line.588">     * Returns true if {@code type} is a {@code TypeVariable} with the same name and declared by the</a>
-<span class="sourceLineNo">589</span><a id="line.589">     * same {@code GenericDeclaration}.</a>
-<span class="sourceLineNo">590</span><a id="line.590">     */</a>
-<span class="sourceLineNo">591</span><a id="line.591">    boolean equalsType(Type type) {</a>
-<span class="sourceLineNo">592</span><a id="line.592">      if (type instanceof TypeVariable) {</a>
-<span class="sourceLineNo">593</span><a id="line.593">        return equalsTypeVariable((TypeVariable&lt;?&gt;) type);</a>
-<span class="sourceLineNo">594</span><a id="line.594">      } else {</a>
-<span class="sourceLineNo">595</span><a id="line.595">        return false;</a>
-<span class="sourceLineNo">596</span><a id="line.596">      }</a>
-<span class="sourceLineNo">597</span><a id="line.597">    }</a>
-<span class="sourceLineNo">598</span><a id="line.598"></a>
-<span class="sourceLineNo">599</span><a id="line.599">    private boolean equalsTypeVariable(TypeVariable&lt;?&gt; that) {</a>
-<span class="sourceLineNo">600</span><a id="line.600">      return var.getGenericDeclaration().equals(that.getGenericDeclaration())</a>
-<span class="sourceLineNo">601</span><a id="line.601">          &amp;&amp; var.getName().equals(that.getName());</a>
-<span class="sourceLineNo">602</span><a id="line.602">    }</a>
-<span class="sourceLineNo">603</span><a id="line.603">  }</a>
-<span class="sourceLineNo">604</span><a id="line.604">}</a>
+<span class="sourceLineNo">528</span><a id="line.528">    private @Nullable Type captureNullable(@Nullable Type type) {</a>
+<span class="sourceLineNo">529</span><a id="line.529">      if (type == null) {</a>
+<span class="sourceLineNo">530</span><a id="line.530">        return null;</a>
+<span class="sourceLineNo">531</span><a id="line.531">      }</a>
+<span class="sourceLineNo">532</span><a id="line.532">      return capture(type);</a>
+<span class="sourceLineNo">533</span><a id="line.533">    }</a>
+<span class="sourceLineNo">534</span><a id="line.534">  }</a>
+<span class="sourceLineNo">535</span><a id="line.535"></a>
+<span class="sourceLineNo">536</span><a id="line.536">  /**</a>
+<span class="sourceLineNo">537</span><a id="line.537">   * Wraps around {@code TypeVariable&lt;?&gt;} to ensure that any two type variables are equal as long as</a>
+<span class="sourceLineNo">538</span><a id="line.538">   * they are declared by the same {@link java.lang.reflect.GenericDeclaration} and have the same</a>
+<span class="sourceLineNo">539</span><a id="line.539">   * name, even if their bounds differ.</a>
+<span class="sourceLineNo">540</span><a id="line.540">   *</a>
+<span class="sourceLineNo">541</span><a id="line.541">   * &lt;p&gt;While resolving a type variable from a {@code var -&gt; type} map, we don't care whether the</a>
+<span class="sourceLineNo">542</span><a id="line.542">   * type variable's bound has been partially resolved. As long as the type variable "identity"</a>
+<span class="sourceLineNo">543</span><a id="line.543">   * matches.</a>
+<span class="sourceLineNo">544</span><a id="line.544">   *</a>
+<span class="sourceLineNo">545</span><a id="line.545">   * &lt;p&gt;On the other hand, if for example we are resolving {@code List&lt;A extends B&gt;} to {@code</a>
+<span class="sourceLineNo">546</span><a id="line.546">   * List&lt;A extends String&gt;}, we need to compare that {@code &lt;A extends B&gt;} is unequal to {@code &lt;A</a>
+<span class="sourceLineNo">547</span><a id="line.547">   * extends String&gt;} in order to decide to use the transformed type instead of the original type.</a>
+<span class="sourceLineNo">548</span><a id="line.548">   */</a>
+<span class="sourceLineNo">549</span><a id="line.549">  static final class TypeVariableKey {</a>
+<span class="sourceLineNo">550</span><a id="line.550">    private final TypeVariable&lt;?&gt; var;</a>
+<span class="sourceLineNo">551</span><a id="line.551"></a>
+<span class="sourceLineNo">552</span><a id="line.552">    TypeVariableKey(TypeVariable&lt;?&gt; var) {</a>
+<span class="sourceLineNo">553</span><a id="line.553">      this.var = checkNotNull(var);</a>
+<span class="sourceLineNo">554</span><a id="line.554">    }</a>
+<span class="sourceLineNo">555</span><a id="line.555"></a>
+<span class="sourceLineNo">556</span><a id="line.556">    @Override</a>
+<span class="sourceLineNo">557</span><a id="line.557">    public int hashCode() {</a>
+<span class="sourceLineNo">558</span><a id="line.558">      return Objects.hashCode(var.getGenericDeclaration(), var.getName());</a>
+<span class="sourceLineNo">559</span><a id="line.559">    }</a>
+<span class="sourceLineNo">560</span><a id="line.560"></a>
+<span class="sourceLineNo">561</span><a id="line.561">    @Override</a>
+<span class="sourceLineNo">562</span><a id="line.562">    public boolean equals(@Nullable Object obj) {</a>
+<span class="sourceLineNo">563</span><a id="line.563">      if (obj instanceof TypeVariableKey) {</a>
+<span class="sourceLineNo">564</span><a id="line.564">        TypeVariableKey that = (TypeVariableKey) obj;</a>
+<span class="sourceLineNo">565</span><a id="line.565">        return equalsTypeVariable(that.var);</a>
+<span class="sourceLineNo">566</span><a id="line.566">      } else {</a>
+<span class="sourceLineNo">567</span><a id="line.567">        return false;</a>
+<span class="sourceLineNo">568</span><a id="line.568">      }</a>
+<span class="sourceLineNo">569</span><a id="line.569">    }</a>
+<span class="sourceLineNo">570</span><a id="line.570"></a>
+<span class="sourceLineNo">571</span><a id="line.571">    @Override</a>
+<span class="sourceLineNo">572</span><a id="line.572">    public String toString() {</a>
+<span class="sourceLineNo">573</span><a id="line.573">      return var.toString();</a>
+<span class="sourceLineNo">574</span><a id="line.574">    }</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">    /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */</a>
+<span class="sourceLineNo">577</span><a id="line.577">    static @Nullable TypeVariableKey forLookup(Type t) {</a>
+<span class="sourceLineNo">578</span><a id="line.578">      if (t instanceof TypeVariable) {</a>
+<span class="sourceLineNo">579</span><a id="line.579">        return new TypeVariableKey((TypeVariable&lt;?&gt;) t);</a>
+<span class="sourceLineNo">580</span><a id="line.580">      } else {</a>
+<span class="sourceLineNo">581</span><a id="line.581">        return null;</a>
+<span class="sourceLineNo">582</span><a id="line.582">      }</a>
+<span class="sourceLineNo">583</span><a id="line.583">    }</a>
+<span class="sourceLineNo">584</span><a id="line.584"></a>
+<span class="sourceLineNo">585</span><a id="line.585">    /**</a>
+<span class="sourceLineNo">586</span><a id="line.586">     * Returns true if {@code type} is a {@code TypeVariable} with the same name and declared by the</a>
+<span class="sourceLineNo">587</span><a id="line.587">     * same {@code GenericDeclaration}.</a>
+<span class="sourceLineNo">588</span><a id="line.588">     */</a>
+<span class="sourceLineNo">589</span><a id="line.589">    boolean equalsType(Type type) {</a>
+<span class="sourceLineNo">590</span><a id="line.590">      if (type instanceof TypeVariable) {</a>
+<span class="sourceLineNo">591</span><a id="line.591">        return equalsTypeVariable((TypeVariable&lt;?&gt;) type);</a>
+<span class="sourceLineNo">592</span><a id="line.592">      } else {</a>
+<span class="sourceLineNo">593</span><a id="line.593">        return false;</a>
+<span class="sourceLineNo">594</span><a id="line.594">      }</a>
+<span class="sourceLineNo">595</span><a id="line.595">    }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">    private boolean equalsTypeVariable(TypeVariable&lt;?&gt; that) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">      return var.getGenericDeclaration().equals(that.getGenericDeclaration())</a>
+<span class="sourceLineNo">599</span><a id="line.599">          &amp;&amp; var.getName().equals(that.getName());</a>
+<span class="sourceLineNo">600</span><a id="line.600">    }</a>
+<span class="sourceLineNo">601</span><a id="line.601">  }</a>
+<span class="sourceLineNo">602</span><a id="line.602">}</a>
 
 
 

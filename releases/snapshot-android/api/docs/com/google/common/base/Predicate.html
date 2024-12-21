@@ -129,7 +129,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.47">Predicate</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.46">Predicate</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Determines a true or false value for a given input; a pre-Java-8 version of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Predicate</code></a>.
 
  <p>The <a href="Predicates.html" title="class in com.google.common.base"><code>Predicates</code></a> class provides common predicates and related utilities.
@@ -185,7 +185,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Predicate.
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Indicates whether another object is equal to this predicate.</div>
 </td>
@@ -215,7 +215,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Predicate.
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.64">apply</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.63">apply</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8+ users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:
@@ -238,8 +238,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Predicate.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.76">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.75">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this predicate.
 
  <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>.

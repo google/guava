@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.38">MoreCollectors</a>
+public final class <a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.37">MoreCollectors</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Collectors not present in <code>java.util.stream.Collectors</code> that are not otherwise associated
  with a <code>com.google.common</code> type.</div>
@@ -207,7 +207,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>toOptional</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.63">toOptional</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.62">toOptional</a>()</pre>
 <div class="block">A collector that converts a stream of zero or one elements to an <code>Optional</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -225,7 +225,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.86">onlyElement</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MoreCollectors.html#line.85">onlyElement</a>()</pre>
 <div class="block">A collector that takes a stream containing exactly one element and returns that element. The
  returned collector throws an <code>IllegalArgumentException</code> if the stream consists of two or
  more elements, and a <code>NoSuchElementException</code> if the stream is empty.</div>

@@ -128,7 +128,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.279">Multiset.Entry</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+<pre>public static interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.278">Multiset.Entry</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">An unmodifiable element-count pair for a multiset. The <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a> method returns
  a view of the multiset whose elements are of this class. A multiset implementation may return
  Entry instances that are either live "read-through" views to the Multiset, or immutable
@@ -159,7 +159,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
@@ -209,7 +209,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getElement</h4>
-<pre class="methodSignature"><a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.287">getElement</a>()</pre>
+<pre class="methodSignature"><a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.286">getElement</a>()</pre>
 <div class="block">Returns the multiset element corresponding to this entry. Multiple calls to this method
  always return the same instance.</div>
 <dl>
@@ -224,7 +224,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getCount</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.299">getCount</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.298">getCount</a>()</pre>
 <div class="block">Returns the count of the associated element in the underlying multiset. This count may either
  be an unchanging snapshot of the count at the time the entry was retrieved, or a live view of
  the current count of the element in the multiset, depending on the implementation. Note that
@@ -242,8 +242,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.313">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.312">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block">
 
  <p>Returns <code>true</code> if the given object is also a multiset entry and the two entries
@@ -266,7 +265,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.327">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.326">hashCode</a>()</pre>
 <div class="block">
 
  <p>The hash code of a multiset entry for element <code>element</code> and count <code>count</code> is
@@ -287,7 +286,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.336">toString</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.335">toString</a>()</pre>
 <div class="block">Returns the canonical string representation of this entry, defined as follows. If the count
  for this entry is one, this is simply the string representation of the corresponding element.
  Otherwise, it is the string representation of the element, followed by the three characters

@@ -29,7 +29,7 @@
 <span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">021</span><a id="line.21">import java.net.InetAddress;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.text.ParseException;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">024</span><a id="line.24"></a>
 <span class="sourceLineNo">025</span><a id="line.25">/**</a>
 <span class="sourceLineNo">026</span><a id="line.26"> * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP</a>
@@ -148,7 +148,7 @@
 <span class="sourceLineNo">139</span><a id="line.139">  }</a>
 <span class="sourceLineNo">140</span><a id="line.140"></a>
 <span class="sourceLineNo">141</span><a id="line.141">  @Override</a>
-<span class="sourceLineNo">142</span><a id="line.142">  public boolean equals(@CheckForNull Object other) {</a>
+<span class="sourceLineNo">142</span><a id="line.142">  public boolean equals(@Nullable Object other) {</a>
 <span class="sourceLineNo">143</span><a id="line.143">    if (this == other) {</a>
 <span class="sourceLineNo">144</span><a id="line.144">      return true;</a>
 <span class="sourceLineNo">145</span><a id="line.145">    }</a>

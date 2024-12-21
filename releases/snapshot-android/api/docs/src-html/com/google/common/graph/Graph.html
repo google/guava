@@ -29,7 +29,7 @@
 <span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.DoNotMock;</a>
 <span class="sourceLineNo">021</span><a id="line.21">import java.util.Collection;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.util.Set;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">024</span><a id="line.24"></a>
 <span class="sourceLineNo">025</span><a id="line.25">/**</a>
 <span class="sourceLineNo">026</span><a id="line.26"> * An interface for &lt;a</a>
@@ -347,7 +347,7 @@
 <span class="sourceLineNo">338</span><a id="line.338">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.</a>
 <span class="sourceLineNo">339</span><a id="line.339">   */</a>
 <span class="sourceLineNo">340</span><a id="line.340">  @Override</a>
-<span class="sourceLineNo">341</span><a id="line.341">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">341</span><a id="line.341">  boolean equals(@Nullable Object object);</a>
 <span class="sourceLineNo">342</span><a id="line.342"></a>
 <span class="sourceLineNo">343</span><a id="line.343">  /**</a>
 <span class="sourceLineNo">344</span><a id="line.344">   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of</a>

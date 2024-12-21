@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.36">CharEscaperBuilder</a>
+public final class <a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.35">CharEscaperBuilder</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Simple helper class to build a "sparse" array of objects based on the indexes that were added to
  it. The array will be from 0 to the maximum index given. All non-set indexes will contain null
@@ -250,7 +250,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharEscaperBuilder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.81">CharEscaperBuilder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.79">CharEscaperBuilder</a>()</pre>
 <div class="block">Construct a new sparse array builder.</div>
 </li>
 </ul>
@@ -271,7 +271,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>addEscape</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.86">addEscape</a>&#8203;(char&nbsp;c,
+public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.84">addEscape</a>&#8203;(char&nbsp;c,
                                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;r)</pre>
 <div class="block">Add a new mapping from an index to an object to the escaping.</div>
 </li>
@@ -283,7 +283,7 @@ public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.
 <li class="blockList">
 <h4>addEscapes</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.96">addEscapes</a>&#8203;(char[]&nbsp;cs,
+public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.94">addEscapes</a>&#8203;(char[]&nbsp;cs,
                                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;r)</pre>
 <div class="block">Add multiple mappings at once for a particular index.</div>
 </li>
@@ -294,7 +294,7 @@ public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> [][]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.112">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> [][]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.110">toArray</a>()</pre>
 <div class="block">Convert this builder into an array of char[]s where the maximum index is the value of the
  highest character that has been seen. The array will be sparse in the sense that any unseen
  index will default to null.</div>
@@ -310,7 +310,7 @@ public&nbsp;<a href="CharEscaperBuilder.html" title="class in com.google.common.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toEscaper</h4>
-<pre class="methodSignature">public&nbsp;<a href="Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.126">toEscaper</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaperBuilder.html#line.124">toEscaper</a>()</pre>
 <div class="block">Convert this builder into a char escaper which is just a decorator around the underlying array
  of replacement char[]s.</div>
 <dl>

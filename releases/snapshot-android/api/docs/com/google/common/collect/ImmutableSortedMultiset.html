@@ -152,7 +152,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.58">ImmutableSortedMultiset</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.57">ImmutableSortedMultiset</a>&lt;E&gt;
 extends <a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;
 implements <a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</pre>
 <div class="block">A <a href="SortedMultiset.html" title="interface in com.google.common.collect"><code>SortedMultiset</code></a> whose contents will never change, with many other important properties
@@ -410,7 +410,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollFirstEntry()">pollFirstEntry</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -419,7 +419,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollLastEntry()">pollLastEntry</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -572,7 +572,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableSortedMultiset</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.72">toImmutableSortedMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.71">toImmutableSortedMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
  ImmutableMultiset</code>. Elements are sorted by the specified comparator.
 
@@ -590,7 +590,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableSortedMultiset</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.90">toImmutableSortedMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.89">toImmutableSortedMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
                                                                                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends E&gt;&nbsp;elementFunction,
                                                                                                                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/ToIntFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">ToIntFunction</a>&lt;? super T&gt;&nbsp;countFunction)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableSortedMultiset</code>
@@ -612,7 +612,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.133">of</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.132">of</a>()</pre>
 <div class="block">Returns the empty immutable sorted multiset.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -626,7 +626,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.139">of</a>&#8203;(E&nbsp;e1)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.138">of</a>&#8203;(E&nbsp;e1)</pre>
 <div class="block">Returns an immutable sorted multiset containing a single element.</div>
 </li>
 </ul>
@@ -638,7 +638,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.152">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.151">of</a>&#8203;(E&nbsp;e1,
                                                                               E&nbsp;e2)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering.</div>
@@ -656,7 +656,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.162">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.161">of</a>&#8203;(E&nbsp;e1,
                                                                               E&nbsp;e2,
                                                                               E&nbsp;e3)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
@@ -675,7 +675,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.172">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.171">of</a>&#8203;(E&nbsp;e1,
                                                                               E&nbsp;e2,
                                                                               E&nbsp;e3,
                                                                               E&nbsp;e4)</pre>
@@ -695,7 +695,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.183">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.182">of</a>&#8203;(E&nbsp;e1,
                                                                               E&nbsp;e2,
                                                                               E&nbsp;e3,
                                                                               E&nbsp;e4,
@@ -716,7 +716,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.194">of</a>&#8203;(E&nbsp;e1,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.193">of</a>&#8203;(E&nbsp;e1,
                                                                               E&nbsp;e2,
                                                                               E&nbsp;e3,
                                                                               E&nbsp;e4,
@@ -739,7 +739,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.209">copyOf</a>&#8203;(E[]&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.208">copyOf</a>&#8203;(E[]&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering.</div>
 <dl>
@@ -754,7 +754,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.234">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.233">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering. To create a copy of a <code>SortedMultiset</code> that preserves the comparator, call
  <a href="#copyOfSorted(com.google.common.collect.SortedMultiset)"><code>copyOfSorted(com.google.common.collect.SortedMultiset&lt;E&gt;)</code></a> instead. This method iterates over <code>elements</code> at most once.
@@ -784,7 +784,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.252">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.251">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by their natural
  ordering.
 
@@ -803,7 +803,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.266">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.265">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
                                                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by the given <code>
  Comparator</code>.</div>
@@ -819,7 +819,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.282">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.281">copyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
                                                     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable sorted multiset containing the given elements sorted by the given <code>
  Comparator</code>. This method iterates over <code>elements</code> at most once.
@@ -839,7 +839,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOfSorted</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.312">copyOfSorted</a>&#8203;(<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.311">copyOfSorted</a>&#8203;(<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</pre>
 <div class="block">Returns an immutable sorted multiset containing the elements of a sorted multiset, sorted by
  the same <code>Comparator</code>. That behavior differs from <a href="#copyOf(java.lang.Iterable)"><code>copyOf(Iterable)</code></a>, which always
  uses the natural ordering of the elements.
@@ -862,7 +862,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.348">comparator</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.347">comparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#comparator()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
  ordering of the elements is used.</div>
@@ -878,7 +878,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.353">elementSet</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.352">elementSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
@@ -908,7 +908,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.358">descendingMultiset</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.357">descendingMultiset</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#descendingMultiset()">SortedMultiset</a></code></span></div>
 <div class="block">Returns a descending view of this multiset. Modifications made to either map will be reflected
  in the other.</div>
@@ -926,8 +926,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <h4>pollFirstEntry</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.378">pollFirstEntry</a>()</pre>
+public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.377">pollFirstEntry</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -951,8 +950,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <h4>pollLastEntry</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.395">pollLastEntry</a>()</pre>
+public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.393">pollLastEntry</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -976,7 +974,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.404">headMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
+<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.401">headMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
                                                         <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements less than <code>upperBound</code>,
@@ -1000,7 +998,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>subMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.407">subMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.404">subMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
                                               <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
                                               <a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
                                               <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</pre>
@@ -1029,7 +1027,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.418">tailMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.415">tailMultiset</a>&#8203;(<a href="ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
                                                         <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements greater than <code>lowerBound</code>,
@@ -1051,7 +1049,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedBy</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.429">orderedBy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;E&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.426">orderedBy</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a builder that creates immutable sorted multisets with an explicit comparator. If the
  comparator has a more general type than the set being generated, such as creating a <code>
  SortedMultiset&lt;Integer&gt;</code> with a <code>Comparator&lt;Number&gt;</code>, use the <a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect"><code>ImmutableSortedMultiset.Builder</code></a> constructor
@@ -1068,7 +1066,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>reverseOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.441">reverseOrder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.438">reverseOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by the
  reverse of their natural ordering.
 
@@ -1082,7 +1080,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>naturalOrder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.455">naturalOrder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.452">naturalOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by their
  natural ordering. The sorted multisets use <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> as the comparator. This
  method provides more type-safety than <a href="#builder()"><code>builder()</code></a>, as it can be called only for classes
@@ -1099,7 +1097,7 @@ public final&nbsp;<a href="Multiset.Entry.html" title="interface in com.google.c
 <li class="blockList">
 <h4>toImmutableMultiset</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.761">toImmutableMultiset</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.758">toImmutableMultiset</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#toImmutableSortedMultiset(java.util.Comparator)"><code>toImmutableSortedMultiset(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
 </div>
@@ -1121,7 +1119,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javas
 <li class="blockList">
 <h4>toImmutableMultiset</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.778">toImmutableMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends E&gt;&nbsp;elementFunction,
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.775">toImmutableMultiset</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends E&gt;&nbsp;elementFunction,
                                                                                                                        <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/ToIntFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">ToIntFunction</a>&lt;? super T&gt;&nbsp;countFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#toImmutableSortedMultiset(java.util.Comparator)"><code>toImmutableSortedMultiset(java.util.Comparator&lt;? super E&gt;)</code></a>.</div>
@@ -1144,7 +1142,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>builder</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.797">builder</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.794">builder</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#naturalOrder()"><code>naturalOrder()</code></a>, which offers better type-safety.</div>
 </div>
@@ -1166,7 +1164,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.Builder.html"
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.812">of</a>&#8203;(E&nbsp;e1)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.809">of</a>&#8203;(E&nbsp;e1)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass a parameter of type <code>Comparable</code> to use <a href="#of(E)"><code>of(Comparable)</code></a>.</b></div>
 </div>
@@ -1188,7 +1186,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.827">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.824">of</a>&#8203;(E&nbsp;e1,
                                                 E&nbsp;e2)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass the parameters of type <code>Comparable</code> to use <a href="#of(E,E)"><code>of(Comparable, Comparable)</code></a>.</b></div>
@@ -1211,7 +1209,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.842">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.839">of</a>&#8203;(E&nbsp;e1,
                                                 E&nbsp;e2,
                                                 E&nbsp;e3)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1235,7 +1233,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.857">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.854">of</a>&#8203;(E&nbsp;e1,
                                                 E&nbsp;e2,
                                                 E&nbsp;e3,
                                                 E&nbsp;e4)</pre>
@@ -1260,7 +1258,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.873">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.870">of</a>&#8203;(E&nbsp;e1,
                                                 E&nbsp;e2,
                                                 E&nbsp;e3,
                                                 E&nbsp;e4,
@@ -1287,7 +1285,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.889">of</a>&#8203;(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.886">of</a>&#8203;(E&nbsp;e1,
                                                 E&nbsp;e2,
                                                 E&nbsp;e3,
                                                 E&nbsp;e4,
@@ -1316,7 +1314,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;Z&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;Z&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.905">copyOf</a>&#8203;(Z[]&nbsp;elements)</pre>
+public static&nbsp;&lt;Z&gt;&nbsp;<a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;Z&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.902">copyOf</a>&#8203;(Z[]&nbsp;elements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment"><b>Pass parameters of type <code>Comparable</code> to use <a href="#copyOf(E%5B%5D)"><code>copyOf(Comparable[])</code></a>.</b></div>
 </div>

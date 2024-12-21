@@ -38,7 +38,7 @@
 <span class="sourceLineNo">029</span><a id="line.29">import com.google.common.annotations.GwtIncompatible;</a>
 <span class="sourceLineNo">030</span><a id="line.30">import com.google.common.annotations.J2ktIncompatible;</a>
 <span class="sourceLineNo">031</span><a id="line.31">import com.google.common.util.concurrent.Monitor.Guard;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import com.google.common.util.concurrent.Service.State; // javadoc needs this</a>
+<span class="sourceLineNo">032</span><a id="line.32">import com.google.common.util.concurrent.Service.State;</a>
 <span class="sourceLineNo">033</span><a id="line.33">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">034</span><a id="line.34">import com.google.errorprone.annotations.ForOverride;</a>
 <span class="sourceLineNo">035</span><a id="line.35">import com.google.errorprone.annotations.concurrent.GuardedBy;</a>
@@ -46,7 +46,7 @@
 <span class="sourceLineNo">037</span><a id="line.37">import java.util.concurrent.Executor;</a>
 <span class="sourceLineNo">038</span><a id="line.38">import java.util.concurrent.TimeUnit;</a>
 <span class="sourceLineNo">039</span><a id="line.39">import java.util.concurrent.TimeoutException;</a>
-<span class="sourceLineNo">040</span><a id="line.40">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">041</span><a id="line.41"></a>
 <span class="sourceLineNo">042</span><a id="line.42">/**</a>
 <span class="sourceLineNo">043</span><a id="line.43"> * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}</a>
@@ -588,14 +588,14 @@
 <span class="sourceLineNo">579</span><a id="line.579">     * The exception that caused this service to fail. This will be {@code null} unless the service</a>
 <span class="sourceLineNo">580</span><a id="line.580">     * has failed.</a>
 <span class="sourceLineNo">581</span><a id="line.581">     */</a>
-<span class="sourceLineNo">582</span><a id="line.582">    @CheckForNull final Throwable failure;</a>
+<span class="sourceLineNo">582</span><a id="line.582">    final @Nullable Throwable failure;</a>
 <span class="sourceLineNo">583</span><a id="line.583"></a>
 <span class="sourceLineNo">584</span><a id="line.584">    StateSnapshot(State internalState) {</a>
 <span class="sourceLineNo">585</span><a id="line.585">      this(internalState, false, null);</a>
 <span class="sourceLineNo">586</span><a id="line.586">    }</a>
 <span class="sourceLineNo">587</span><a id="line.587"></a>
 <span class="sourceLineNo">588</span><a id="line.588">    StateSnapshot(</a>
-<span class="sourceLineNo">589</span><a id="line.589">        State internalState, boolean shutdownWhenStartupFinishes, @CheckForNull Throwable failure) {</a>
+<span class="sourceLineNo">589</span><a id="line.589">        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {</a>
 <span class="sourceLineNo">590</span><a id="line.590">      checkArgument(</a>
 <span class="sourceLineNo">591</span><a id="line.591">          !shutdownWhenStartupFinishes || internalState == STARTING,</a>
 <span class="sourceLineNo">592</span><a id="line.592">          "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",</a>

@@ -52,7 +52,7 @@
 <span class="sourceLineNo">043</span><a id="line.43">import java.nio.charset.UnsupportedCharsetException;</a>
 <span class="sourceLineNo">044</span><a id="line.44">import java.util.Map;</a>
 <span class="sourceLineNo">045</span><a id="line.45">import java.util.Map.Entry;</a>
-<span class="sourceLineNo">046</span><a id="line.46">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">046</span><a id="line.46">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">047</span><a id="line.47"></a>
 <span class="sourceLineNo">048</span><a id="line.48">/**</a>
 <span class="sourceLineNo">049</span><a id="line.49"> * Represents an &lt;a href="http://en.wikipedia.org/wiki/Internet_media_type"&gt;Internet Media Type&lt;/a&gt;</a>
@@ -812,11 +812,11 @@
 <span class="sourceLineNo">803</span><a id="line.803">  private final String subtype;</a>
 <span class="sourceLineNo">804</span><a id="line.804">  private final ImmutableListMultimap&lt;String, String&gt; parameters;</a>
 <span class="sourceLineNo">805</span><a id="line.805"></a>
-<span class="sourceLineNo">806</span><a id="line.806">  @LazyInit @CheckForNull private String toString;</a>
+<span class="sourceLineNo">806</span><a id="line.806">  @LazyInit private @Nullable String toString;</a>
 <span class="sourceLineNo">807</span><a id="line.807"></a>
 <span class="sourceLineNo">808</span><a id="line.808">  @LazyInit private int hashCode;</a>
 <span class="sourceLineNo">809</span><a id="line.809"></a>
-<span class="sourceLineNo">810</span><a id="line.810">  @LazyInit @CheckForNull private Optional&lt;Charset&gt; parsedCharset;</a>
+<span class="sourceLineNo">810</span><a id="line.810">  @LazyInit private @Nullable Optional&lt;Charset&gt; parsedCharset;</a>
 <span class="sourceLineNo">811</span><a id="line.811"></a>
 <span class="sourceLineNo">812</span><a id="line.812">  private MediaType(String type, String subtype, ImmutableListMultimap&lt;String, String&gt; parameters) {</a>
 <span class="sourceLineNo">813</span><a id="line.813">    this.type = type;</a>
@@ -1184,7 +1184,7 @@
 <span class="sourceLineNo">1175</span><a id="line.1175">  }</a>
 <span class="sourceLineNo">1176</span><a id="line.1176"></a>
 <span class="sourceLineNo">1177</span><a id="line.1177">  @Override</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">  public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">1179</span><a id="line.1179">    if (obj == this) {</a>
 <span class="sourceLineNo">1180</span><a id="line.1180">      return true;</a>
 <span class="sourceLineNo">1181</span><a id="line.1181">    } else if (obj instanceof MediaType) {</a>

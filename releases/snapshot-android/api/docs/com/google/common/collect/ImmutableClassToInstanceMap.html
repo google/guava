@@ -242,7 +242,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance(java.lang.Class)">getInstance</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
@@ -265,7 +265,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putInstance(java.lang.Class,T)">putInstance</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
            T&nbsp;value)</code></th>
 <td class="colLast">
@@ -406,8 +406,7 @@ implements <a href="ClassToInstanceMap.html" title="interface in com.google.comm
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.182">getInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.182">getInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ClassToInstanceMap.html#getInstance(java.lang.Class)">ClassToInstanceMap</a></code></span></div>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
@@ -428,9 +427,8 @@ public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.195">putInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
-                                   T&nbsp;value)</pre>
+public&nbsp;&lt;T extends <a href="ImmutableClassToInstanceMap.html" title="type parameter in ImmutableClassToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableClassToInstanceMap.html#line.194">putInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+                                             T&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>

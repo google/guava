@@ -42,7 +42,7 @@
 <span class="sourceLineNo">033</span><a id="line.33">import java.util.Iterator;</a>
 <span class="sourceLineNo">034</span><a id="line.34">import java.util.NoSuchElementException;</a>
 <span class="sourceLineNo">035</span><a id="line.35">import java.util.function.ObjIntConsumer;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">037</span><a id="line.37"></a>
 <span class="sourceLineNo">038</span><a id="line.38">/**</a>
 <span class="sourceLineNo">039</span><a id="line.39"> * Multiset implementation specialized for enum elements, supporting all single-element operations</a>
@@ -105,7 +105,7 @@
 <span class="sourceLineNo">096</span><a id="line.96">    this.counts = new int[enumConstants.length];</a>
 <span class="sourceLineNo">097</span><a id="line.97">  }</a>
 <span class="sourceLineNo">098</span><a id="line.98"></a>
-<span class="sourceLineNo">099</span><a id="line.99">  private boolean isActuallyE(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">  private boolean isActuallyE(@Nullable Object o) {</a>
 <span class="sourceLineNo">100</span><a id="line.100">    if (o instanceof Enum) {</a>
 <span class="sourceLineNo">101</span><a id="line.101">      Enum&lt;?&gt; e = (Enum&lt;?&gt;) o;</a>
 <span class="sourceLineNo">102</span><a id="line.102">      int index = e.ordinal();</a>
@@ -136,7 +136,7 @@
 <span class="sourceLineNo">127</span><a id="line.127">  }</a>
 <span class="sourceLineNo">128</span><a id="line.128"></a>
 <span class="sourceLineNo">129</span><a id="line.129">  @Override</a>
-<span class="sourceLineNo">130</span><a id="line.130">  public int count(@CheckForNull Object element) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">  public int count(@Nullable Object element) {</a>
 <span class="sourceLineNo">131</span><a id="line.131">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
 <span class="sourceLineNo">132</span><a id="line.132">    if (element == null || !isActuallyE(element)) {</a>
 <span class="sourceLineNo">133</span><a id="line.133">      return 0;</a>
@@ -169,7 +169,7 @@
 <span class="sourceLineNo">160</span><a id="line.160">  // Modification Operations</a>
 <span class="sourceLineNo">161</span><a id="line.161">  @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">162</span><a id="line.162">  @Override</a>
-<span class="sourceLineNo">163</span><a id="line.163">  public int remove(@CheckForNull Object element, int occurrences) {</a>
+<span class="sourceLineNo">163</span><a id="line.163">  public int remove(@Nullable Object element, int occurrences) {</a>
 <span class="sourceLineNo">164</span><a id="line.164">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
 <span class="sourceLineNo">165</span><a id="line.165">    if (element == null || !isActuallyE(element)) {</a>
 <span class="sourceLineNo">166</span><a id="line.166">      return 0;</a>

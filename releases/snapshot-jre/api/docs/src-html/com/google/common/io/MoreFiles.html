@@ -63,7 +63,7 @@
 <span class="sourceLineNo">054</span><a id="line.54">import java.util.Arrays;</a>
 <span class="sourceLineNo">055</span><a id="line.55">import java.util.Collection;</a>
 <span class="sourceLineNo">056</span><a id="line.56">import java.util.stream.Stream;</a>
-<span class="sourceLineNo">057</span><a id="line.57">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">057</span><a id="line.57">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">058</span><a id="line.58"></a>
 <span class="sourceLineNo">059</span><a id="line.59">/**</a>
 <span class="sourceLineNo">060</span><a id="line.60"> * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.</a>
@@ -624,250 +624,243 @@
 <span class="sourceLineNo">615</span><a id="line.615">   * Secure recursive delete using {@code SecureDirectoryStream}. Returns a collection of exceptions</a>
 <span class="sourceLineNo">616</span><a id="line.616">   * that occurred or null if no exceptions were thrown.</a>
 <span class="sourceLineNo">617</span><a id="line.617">   */</a>
-<span class="sourceLineNo">618</span><a id="line.618">  @CheckForNull</a>
-<span class="sourceLineNo">619</span><a id="line.619">  private static Collection&lt;IOException&gt; deleteRecursivelySecure(</a>
-<span class="sourceLineNo">620</span><a id="line.620">      SecureDirectoryStream&lt;Path&gt; dir, Path path) {</a>
-<span class="sourceLineNo">621</span><a id="line.621">    Collection&lt;IOException&gt; exceptions = null;</a>
-<span class="sourceLineNo">622</span><a id="line.622">    try {</a>
-<span class="sourceLineNo">623</span><a id="line.623">      if (isDirectory(dir, path, NOFOLLOW_LINKS)) {</a>
-<span class="sourceLineNo">624</span><a id="line.624">        try (SecureDirectoryStream&lt;Path&gt; childDir = dir.newDirectoryStream(path, NOFOLLOW_LINKS)) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">          exceptions = deleteDirectoryContentsSecure(childDir);</a>
-<span class="sourceLineNo">626</span><a id="line.626">        }</a>
-<span class="sourceLineNo">627</span><a id="line.627"></a>
-<span class="sourceLineNo">628</span><a id="line.628">        // If exceptions is not null, something went wrong trying to delete the contents of the</a>
-<span class="sourceLineNo">629</span><a id="line.629">        // directory, so we shouldn't try to delete the directory as it will probably fail.</a>
-<span class="sourceLineNo">630</span><a id="line.630">        if (exceptions == null) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">          dir.deleteDirectory(path);</a>
-<span class="sourceLineNo">632</span><a id="line.632">        }</a>
-<span class="sourceLineNo">633</span><a id="line.633">      } else {</a>
-<span class="sourceLineNo">634</span><a id="line.634">        dir.deleteFile(path);</a>
-<span class="sourceLineNo">635</span><a id="line.635">      }</a>
-<span class="sourceLineNo">636</span><a id="line.636"></a>
-<span class="sourceLineNo">637</span><a id="line.637">      return exceptions;</a>
-<span class="sourceLineNo">638</span><a id="line.638">    } catch (IOException e) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">      return addException(exceptions, e);</a>
-<span class="sourceLineNo">640</span><a id="line.640">    }</a>
-<span class="sourceLineNo">641</span><a id="line.641">  }</a>
-<span class="sourceLineNo">642</span><a id="line.642"></a>
-<span class="sourceLineNo">643</span><a id="line.643">  /**</a>
-<span class="sourceLineNo">644</span><a id="line.644">   * Secure method for deleting the contents of a directory using {@code SecureDirectoryStream}.</a>
-<span class="sourceLineNo">645</span><a id="line.645">   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.</a>
-<span class="sourceLineNo">646</span><a id="line.646">   */</a>
-<span class="sourceLineNo">647</span><a id="line.647">  @CheckForNull</a>
-<span class="sourceLineNo">648</span><a id="line.648">  private static Collection&lt;IOException&gt; deleteDirectoryContentsSecure(</a>
-<span class="sourceLineNo">649</span><a id="line.649">      SecureDirectoryStream&lt;Path&gt; dir) {</a>
-<span class="sourceLineNo">650</span><a id="line.650">    Collection&lt;IOException&gt; exceptions = null;</a>
-<span class="sourceLineNo">651</span><a id="line.651">    try {</a>
-<span class="sourceLineNo">652</span><a id="line.652">      for (Path path : dir) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">        exceptions = concat(exceptions, deleteRecursivelySecure(dir, path.getFileName()));</a>
-<span class="sourceLineNo">654</span><a id="line.654">      }</a>
-<span class="sourceLineNo">655</span><a id="line.655"></a>
-<span class="sourceLineNo">656</span><a id="line.656">      return exceptions;</a>
-<span class="sourceLineNo">657</span><a id="line.657">    } catch (DirectoryIteratorException e) {</a>
-<span class="sourceLineNo">658</span><a id="line.658">      return addException(exceptions, e.getCause());</a>
-<span class="sourceLineNo">659</span><a id="line.659">    }</a>
-<span class="sourceLineNo">660</span><a id="line.660">  }</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">  /**</a>
-<span class="sourceLineNo">663</span><a id="line.663">   * Insecure recursive delete for file systems that don't support {@code SecureDirectoryStream}.</a>
-<span class="sourceLineNo">664</span><a id="line.664">   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.</a>
-<span class="sourceLineNo">665</span><a id="line.665">   */</a>
-<span class="sourceLineNo">666</span><a id="line.666">  @CheckForNull</a>
-<span class="sourceLineNo">667</span><a id="line.667">  private static Collection&lt;IOException&gt; deleteRecursivelyInsecure(Path path) {</a>
-<span class="sourceLineNo">668</span><a id="line.668">    Collection&lt;IOException&gt; exceptions = null;</a>
-<span class="sourceLineNo">669</span><a id="line.669">    try {</a>
-<span class="sourceLineNo">670</span><a id="line.670">      if (Files.isDirectory(path, NOFOLLOW_LINKS)) {</a>
-<span class="sourceLineNo">671</span><a id="line.671">        try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(path)) {</a>
-<span class="sourceLineNo">672</span><a id="line.672">          exceptions = deleteDirectoryContentsInsecure(stream);</a>
-<span class="sourceLineNo">673</span><a id="line.673">        }</a>
-<span class="sourceLineNo">674</span><a id="line.674">      }</a>
-<span class="sourceLineNo">675</span><a id="line.675"></a>
-<span class="sourceLineNo">676</span><a id="line.676">      // If exceptions is not null, something went wrong trying to delete the contents of the</a>
-<span class="sourceLineNo">677</span><a id="line.677">      // directory, so we shouldn't try to delete the directory as it will probably fail.</a>
-<span class="sourceLineNo">678</span><a id="line.678">      if (exceptions == null) {</a>
-<span class="sourceLineNo">679</span><a id="line.679">        Files.delete(path);</a>
-<span class="sourceLineNo">680</span><a id="line.680">      }</a>
-<span class="sourceLineNo">681</span><a id="line.681"></a>
-<span class="sourceLineNo">682</span><a id="line.682">      return exceptions;</a>
-<span class="sourceLineNo">683</span><a id="line.683">    } catch (IOException e) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">      return addException(exceptions, e);</a>
-<span class="sourceLineNo">685</span><a id="line.685">    }</a>
-<span class="sourceLineNo">686</span><a id="line.686">  }</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">  /**</a>
-<span class="sourceLineNo">689</span><a id="line.689">   * Simple, insecure method for deleting the contents of a directory for file systems that don't</a>
-<span class="sourceLineNo">690</span><a id="line.690">   * support {@code SecureDirectoryStream}. Returns a collection of exceptions that occurred or null</a>
-<span class="sourceLineNo">691</span><a id="line.691">   * if no exceptions were thrown.</a>
-<span class="sourceLineNo">692</span><a id="line.692">   */</a>
-<span class="sourceLineNo">693</span><a id="line.693">  @CheckForNull</a>
-<span class="sourceLineNo">694</span><a id="line.694">  private static Collection&lt;IOException&gt; deleteDirectoryContentsInsecure(</a>
-<span class="sourceLineNo">695</span><a id="line.695">      DirectoryStream&lt;Path&gt; dir) {</a>
-<span class="sourceLineNo">696</span><a id="line.696">    Collection&lt;IOException&gt; exceptions = null;</a>
-<span class="sourceLineNo">697</span><a id="line.697">    try {</a>
-<span class="sourceLineNo">698</span><a id="line.698">      for (Path entry : dir) {</a>
-<span class="sourceLineNo">699</span><a id="line.699">        exceptions = concat(exceptions, deleteRecursivelyInsecure(entry));</a>
-<span class="sourceLineNo">700</span><a id="line.700">      }</a>
-<span class="sourceLineNo">701</span><a id="line.701"></a>
-<span class="sourceLineNo">702</span><a id="line.702">      return exceptions;</a>
-<span class="sourceLineNo">703</span><a id="line.703">    } catch (DirectoryIteratorException e) {</a>
-<span class="sourceLineNo">704</span><a id="line.704">      return addException(exceptions, e.getCause());</a>
-<span class="sourceLineNo">705</span><a id="line.705">    }</a>
-<span class="sourceLineNo">706</span><a id="line.706">  }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">  /**</a>
-<span class="sourceLineNo">709</span><a id="line.709">   * Returns a path to the parent directory of the given path. If the path actually has a parent</a>
-<span class="sourceLineNo">710</span><a id="line.710">   * path, this is simple. Otherwise, we need to do some trickier things. Returns null if the path</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * is a root or is the empty path.</a>
-<span class="sourceLineNo">712</span><a id="line.712">   */</a>
-<span class="sourceLineNo">713</span><a id="line.713">  @CheckForNull</a>
-<span class="sourceLineNo">714</span><a id="line.714">  private static Path getParentPath(Path path) {</a>
-<span class="sourceLineNo">715</span><a id="line.715">    Path parent = path.getParent();</a>
-<span class="sourceLineNo">716</span><a id="line.716"></a>
-<span class="sourceLineNo">717</span><a id="line.717">    // Paths that have a parent:</a>
-<span class="sourceLineNo">718</span><a id="line.718">    if (parent != null) {</a>
-<span class="sourceLineNo">719</span><a id="line.719">      // "/foo" ("/")</a>
-<span class="sourceLineNo">720</span><a id="line.720">      // "foo/bar" ("foo")</a>
-<span class="sourceLineNo">721</span><a id="line.721">      // "C:\foo" ("C:\")</a>
-<span class="sourceLineNo">722</span><a id="line.722">      // "\foo" ("\" - current drive for process on Windows)</a>
-<span class="sourceLineNo">723</span><a id="line.723">      // "C:foo" ("C:" - working dir of drive C on Windows)</a>
-<span class="sourceLineNo">724</span><a id="line.724">      return parent;</a>
-<span class="sourceLineNo">725</span><a id="line.725">    }</a>
-<span class="sourceLineNo">726</span><a id="line.726"></a>
-<span class="sourceLineNo">727</span><a id="line.727">    // Paths that don't have a parent:</a>
-<span class="sourceLineNo">728</span><a id="line.728">    if (path.getNameCount() == 0) {</a>
-<span class="sourceLineNo">729</span><a id="line.729">      // "/", "C:\", "\" (no parent)</a>
-<span class="sourceLineNo">730</span><a id="line.730">      // "" (undefined, though typically parent of working dir)</a>
-<span class="sourceLineNo">731</span><a id="line.731">      // "C:" (parent of working dir of drive C on Windows)</a>
-<span class="sourceLineNo">732</span><a id="line.732">      //</a>
-<span class="sourceLineNo">733</span><a id="line.733">      // For working dir paths ("" and "C:"), return null because:</a>
-<span class="sourceLineNo">734</span><a id="line.734">      //   A) it's not specified that "" is the path to the working directory.</a>
-<span class="sourceLineNo">735</span><a id="line.735">      //   B) if we're getting this path for recursive delete, it's typically not possible to</a>
-<span class="sourceLineNo">736</span><a id="line.736">      //      delete the working dir with a relative path anyway, so it's ok to fail.</a>
-<span class="sourceLineNo">737</span><a id="line.737">      //   C) if we're getting it for opening a new SecureDirectoryStream, there's no need to get</a>
-<span class="sourceLineNo">738</span><a id="line.738">      //      the parent path anyway since we can safely open a DirectoryStream to the path without</a>
-<span class="sourceLineNo">739</span><a id="line.739">      //      worrying about a symlink.</a>
-<span class="sourceLineNo">740</span><a id="line.740">      return null;</a>
-<span class="sourceLineNo">741</span><a id="line.741">    } else {</a>
-<span class="sourceLineNo">742</span><a id="line.742">      // "foo" (working dir)</a>
-<span class="sourceLineNo">743</span><a id="line.743">      return path.getFileSystem().getPath(".");</a>
-<span class="sourceLineNo">744</span><a id="line.744">    }</a>
-<span class="sourceLineNo">745</span><a id="line.745">  }</a>
-<span class="sourceLineNo">746</span><a id="line.746"></a>
-<span class="sourceLineNo">747</span><a id="line.747">  /** Checks that the given options allow an insecure delete, throwing an exception if not. */</a>
-<span class="sourceLineNo">748</span><a id="line.748">  private static void checkAllowsInsecure(Path path, RecursiveDeleteOption[] options)</a>
-<span class="sourceLineNo">749</span><a id="line.749">      throws InsecureRecursiveDeleteException {</a>
-<span class="sourceLineNo">750</span><a id="line.750">    if (!Arrays.asList(options).contains(RecursiveDeleteOption.ALLOW_INSECURE)) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">      throw new InsecureRecursiveDeleteException(path.toString());</a>
-<span class="sourceLineNo">752</span><a id="line.752">    }</a>
-<span class="sourceLineNo">753</span><a id="line.753">  }</a>
-<span class="sourceLineNo">754</span><a id="line.754"></a>
-<span class="sourceLineNo">755</span><a id="line.755">  /**</a>
-<span class="sourceLineNo">756</span><a id="line.756">   * Adds the given exception to the given collection, creating the collection if it's null. Returns</a>
-<span class="sourceLineNo">757</span><a id="line.757">   * the collection.</a>
-<span class="sourceLineNo">758</span><a id="line.758">   */</a>
-<span class="sourceLineNo">759</span><a id="line.759">  private static Collection&lt;IOException&gt; addException(</a>
-<span class="sourceLineNo">760</span><a id="line.760">      @CheckForNull Collection&lt;IOException&gt; exceptions, IOException e) {</a>
-<span class="sourceLineNo">761</span><a id="line.761">    if (exceptions == null) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">      exceptions = new ArrayList&lt;&gt;(); // don't need Set semantics</a>
-<span class="sourceLineNo">763</span><a id="line.763">    }</a>
-<span class="sourceLineNo">764</span><a id="line.764">    exceptions.add(e);</a>
-<span class="sourceLineNo">765</span><a id="line.765">    return exceptions;</a>
-<span class="sourceLineNo">766</span><a id="line.766">  }</a>
-<span class="sourceLineNo">767</span><a id="line.767"></a>
-<span class="sourceLineNo">768</span><a id="line.768">  /**</a>
-<span class="sourceLineNo">769</span><a id="line.769">   * Concatenates the contents of the two given collections of exceptions. If either collection is</a>
-<span class="sourceLineNo">770</span><a id="line.770">   * null, the other collection is returned. Otherwise, the elements of {@code other} are added to</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * {@code exceptions} and {@code exceptions} is returned.</a>
-<span class="sourceLineNo">772</span><a id="line.772">   */</a>
-<span class="sourceLineNo">773</span><a id="line.773">  @CheckForNull</a>
-<span class="sourceLineNo">774</span><a id="line.774">  private static Collection&lt;IOException&gt; concat(</a>
-<span class="sourceLineNo">775</span><a id="line.775">      @CheckForNull Collection&lt;IOException&gt; exceptions,</a>
-<span class="sourceLineNo">776</span><a id="line.776">      @CheckForNull Collection&lt;IOException&gt; other) {</a>
-<span class="sourceLineNo">777</span><a id="line.777">    if (exceptions == null) {</a>
-<span class="sourceLineNo">778</span><a id="line.778">      return other;</a>
-<span class="sourceLineNo">779</span><a id="line.779">    } else if (other != null) {</a>
-<span class="sourceLineNo">780</span><a id="line.780">      exceptions.addAll(other);</a>
-<span class="sourceLineNo">781</span><a id="line.781">    }</a>
-<span class="sourceLineNo">782</span><a id="line.782">    return exceptions;</a>
-<span class="sourceLineNo">783</span><a id="line.783">  }</a>
-<span class="sourceLineNo">784</span><a id="line.784"></a>
-<span class="sourceLineNo">785</span><a id="line.785">  /**</a>
-<span class="sourceLineNo">786</span><a id="line.786">   * Throws an exception indicating that one or more files couldn't be deleted when deleting {@code</a>
-<span class="sourceLineNo">787</span><a id="line.787">   * path} or its contents.</a>
-<span class="sourceLineNo">788</span><a id="line.788">   *</a>
-<span class="sourceLineNo">789</span><a id="line.789">   * &lt;p&gt;If there is only one exception in the collection, and it is a {@link NoSuchFileException}</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * thrown because {@code path} itself didn't exist, then throws that exception. Otherwise, the</a>
-<span class="sourceLineNo">791</span><a id="line.791">   * thrown exception contains all the exceptions in the given collection as suppressed exceptions.</a>
-<span class="sourceLineNo">792</span><a id="line.792">   */</a>
-<span class="sourceLineNo">793</span><a id="line.793">  private static void throwDeleteFailed(Path path, Collection&lt;IOException&gt; exceptions)</a>
-<span class="sourceLineNo">794</span><a id="line.794">      throws FileSystemException {</a>
-<span class="sourceLineNo">795</span><a id="line.795">    NoSuchFileException pathNotFound = pathNotFound(path, exceptions);</a>
-<span class="sourceLineNo">796</span><a id="line.796">    if (pathNotFound != null) {</a>
-<span class="sourceLineNo">797</span><a id="line.797">      throw pathNotFound;</a>
-<span class="sourceLineNo">798</span><a id="line.798">    }</a>
-<span class="sourceLineNo">799</span><a id="line.799">    // TODO(cgdecker): Should there be a custom exception type for this?</a>
-<span class="sourceLineNo">800</span><a id="line.800">    // Also, should we try to include the Path of each file we may have failed to delete rather</a>
-<span class="sourceLineNo">801</span><a id="line.801">    // than just the exceptions that occurred?</a>
-<span class="sourceLineNo">802</span><a id="line.802">    FileSystemException deleteFailed =</a>
-<span class="sourceLineNo">803</span><a id="line.803">        new FileSystemException(</a>
-<span class="sourceLineNo">804</span><a id="line.804">            path.toString(),</a>
-<span class="sourceLineNo">805</span><a id="line.805">            null,</a>
-<span class="sourceLineNo">806</span><a id="line.806">            "failed to delete one or more files; see suppressed exceptions for details");</a>
-<span class="sourceLineNo">807</span><a id="line.807">    for (IOException e : exceptions) {</a>
-<span class="sourceLineNo">808</span><a id="line.808">      deleteFailed.addSuppressed(e);</a>
-<span class="sourceLineNo">809</span><a id="line.809">    }</a>
-<span class="sourceLineNo">810</span><a id="line.810">    throw deleteFailed;</a>
-<span class="sourceLineNo">811</span><a id="line.811">  }</a>
-<span class="sourceLineNo">812</span><a id="line.812"></a>
-<span class="sourceLineNo">813</span><a id="line.813">  @CheckForNull</a>
-<span class="sourceLineNo">814</span><a id="line.814">  private static NoSuchFileException pathNotFound(Path path, Collection&lt;IOException&gt; exceptions) {</a>
-<span class="sourceLineNo">815</span><a id="line.815">    if (exceptions.size() != 1) {</a>
-<span class="sourceLineNo">816</span><a id="line.816">      return null;</a>
-<span class="sourceLineNo">817</span><a id="line.817">    }</a>
-<span class="sourceLineNo">818</span><a id="line.818">    IOException exception = getOnlyElement(exceptions);</a>
-<span class="sourceLineNo">819</span><a id="line.819">    if (!(exception instanceof NoSuchFileException)) {</a>
-<span class="sourceLineNo">820</span><a id="line.820">      return null;</a>
-<span class="sourceLineNo">821</span><a id="line.821">    }</a>
-<span class="sourceLineNo">822</span><a id="line.822">    NoSuchFileException noSuchFileException = (NoSuchFileException) exception;</a>
-<span class="sourceLineNo">823</span><a id="line.823">    String exceptionFile = noSuchFileException.getFile();</a>
-<span class="sourceLineNo">824</span><a id="line.824">    if (exceptionFile == null) {</a>
-<span class="sourceLineNo">825</span><a id="line.825">      /*</a>
-<span class="sourceLineNo">826</span><a id="line.826">       * It's not clear whether this happens in practice, especially with the filesystem</a>
-<span class="sourceLineNo">827</span><a id="line.827">       * implementations that are built into java.nio.</a>
-<span class="sourceLineNo">828</span><a id="line.828">       */</a>
-<span class="sourceLineNo">829</span><a id="line.829">      return null;</a>
-<span class="sourceLineNo">830</span><a id="line.830">    }</a>
-<span class="sourceLineNo">831</span><a id="line.831">    Path parentPath = getParentPath(path);</a>
-<span class="sourceLineNo">832</span><a id="line.832">    if (parentPath == null) {</a>
-<span class="sourceLineNo">833</span><a id="line.833">      /*</a>
-<span class="sourceLineNo">834</span><a id="line.834">       * This is probably impossible:</a>
-<span class="sourceLineNo">835</span><a id="line.835">       *</a>
-<span class="sourceLineNo">836</span><a id="line.836">       * - In deleteRecursively, we require the path argument to have a parent.</a>
-<span class="sourceLineNo">837</span><a id="line.837">       *</a>
-<span class="sourceLineNo">838</span><a id="line.838">       * - In deleteDirectoryContents, the path argument may have no parent. Fortunately, all the</a>
-<span class="sourceLineNo">839</span><a id="line.839">       *   *other* paths we process will be descendants of that. That leaves only the original path</a>
-<span class="sourceLineNo">840</span><a id="line.840">       *   argument for us to consider. And the only place we call pathNotFound is from</a>
-<span class="sourceLineNo">841</span><a id="line.841">       *   throwDeleteFailed, and the other place that we call throwDeleteFailed inside</a>
-<span class="sourceLineNo">842</span><a id="line.842">       *   deleteDirectoryContents is when an exception is thrown during the recursive steps. Any</a>
-<span class="sourceLineNo">843</span><a id="line.843">       *   failure during the initial lookup of the path argument itself is rethrown directly. So</a>
-<span class="sourceLineNo">844</span><a id="line.844">       *   any exception that we're seeing here is from a descendant, which naturally has a parent.</a>
-<span class="sourceLineNo">845</span><a id="line.845">       *   I think.</a>
-<span class="sourceLineNo">846</span><a id="line.846">       *</a>
-<span class="sourceLineNo">847</span><a id="line.847">       * Still, if this can happen somehow (a weird filesystem implementation that lets callers</a>
-<span class="sourceLineNo">848</span><a id="line.848">       * change its working directly concurrently with a call to deleteDirectoryContents?), it makes</a>
-<span class="sourceLineNo">849</span><a id="line.849">       * more sense for us to fall back to a generic FileSystemException (by returning null here)</a>
-<span class="sourceLineNo">850</span><a id="line.850">       * than to dereference parentPath and end up producing NullPointerException.</a>
-<span class="sourceLineNo">851</span><a id="line.851">       */</a>
-<span class="sourceLineNo">852</span><a id="line.852">      return null;</a>
-<span class="sourceLineNo">853</span><a id="line.853">    }</a>
-<span class="sourceLineNo">854</span><a id="line.854">    // requireNonNull is safe because paths have file names when they have parents.</a>
-<span class="sourceLineNo">855</span><a id="line.855">    Path pathResolvedFromParent = parentPath.resolve(requireNonNull(path.getFileName()));</a>
-<span class="sourceLineNo">856</span><a id="line.856">    if (exceptionFile.equals(pathResolvedFromParent.toString())) {</a>
-<span class="sourceLineNo">857</span><a id="line.857">      return noSuchFileException;</a>
-<span class="sourceLineNo">858</span><a id="line.858">    }</a>
-<span class="sourceLineNo">859</span><a id="line.859">    return null;</a>
-<span class="sourceLineNo">860</span><a id="line.860">  }</a>
-<span class="sourceLineNo">861</span><a id="line.861">}</a>
+<span class="sourceLineNo">618</span><a id="line.618">  private static @Nullable Collection&lt;IOException&gt; deleteRecursivelySecure(</a>
+<span class="sourceLineNo">619</span><a id="line.619">      SecureDirectoryStream&lt;Path&gt; dir, Path path) {</a>
+<span class="sourceLineNo">620</span><a id="line.620">    Collection&lt;IOException&gt; exceptions = null;</a>
+<span class="sourceLineNo">621</span><a id="line.621">    try {</a>
+<span class="sourceLineNo">622</span><a id="line.622">      if (isDirectory(dir, path, NOFOLLOW_LINKS)) {</a>
+<span class="sourceLineNo">623</span><a id="line.623">        try (SecureDirectoryStream&lt;Path&gt; childDir = dir.newDirectoryStream(path, NOFOLLOW_LINKS)) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">          exceptions = deleteDirectoryContentsSecure(childDir);</a>
+<span class="sourceLineNo">625</span><a id="line.625">        }</a>
+<span class="sourceLineNo">626</span><a id="line.626"></a>
+<span class="sourceLineNo">627</span><a id="line.627">        // If exceptions is not null, something went wrong trying to delete the contents of the</a>
+<span class="sourceLineNo">628</span><a id="line.628">        // directory, so we shouldn't try to delete the directory as it will probably fail.</a>
+<span class="sourceLineNo">629</span><a id="line.629">        if (exceptions == null) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">          dir.deleteDirectory(path);</a>
+<span class="sourceLineNo">631</span><a id="line.631">        }</a>
+<span class="sourceLineNo">632</span><a id="line.632">      } else {</a>
+<span class="sourceLineNo">633</span><a id="line.633">        dir.deleteFile(path);</a>
+<span class="sourceLineNo">634</span><a id="line.634">      }</a>
+<span class="sourceLineNo">635</span><a id="line.635"></a>
+<span class="sourceLineNo">636</span><a id="line.636">      return exceptions;</a>
+<span class="sourceLineNo">637</span><a id="line.637">    } catch (IOException e) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">      return addException(exceptions, e);</a>
+<span class="sourceLineNo">639</span><a id="line.639">    }</a>
+<span class="sourceLineNo">640</span><a id="line.640">  }</a>
+<span class="sourceLineNo">641</span><a id="line.641"></a>
+<span class="sourceLineNo">642</span><a id="line.642">  /**</a>
+<span class="sourceLineNo">643</span><a id="line.643">   * Secure method for deleting the contents of a directory using {@code SecureDirectoryStream}.</a>
+<span class="sourceLineNo">644</span><a id="line.644">   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.</a>
+<span class="sourceLineNo">645</span><a id="line.645">   */</a>
+<span class="sourceLineNo">646</span><a id="line.646">  private static @Nullable Collection&lt;IOException&gt; deleteDirectoryContentsSecure(</a>
+<span class="sourceLineNo">647</span><a id="line.647">      SecureDirectoryStream&lt;Path&gt; dir) {</a>
+<span class="sourceLineNo">648</span><a id="line.648">    Collection&lt;IOException&gt; exceptions = null;</a>
+<span class="sourceLineNo">649</span><a id="line.649">    try {</a>
+<span class="sourceLineNo">650</span><a id="line.650">      for (Path path : dir) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">        exceptions = concat(exceptions, deleteRecursivelySecure(dir, path.getFileName()));</a>
+<span class="sourceLineNo">652</span><a id="line.652">      }</a>
+<span class="sourceLineNo">653</span><a id="line.653"></a>
+<span class="sourceLineNo">654</span><a id="line.654">      return exceptions;</a>
+<span class="sourceLineNo">655</span><a id="line.655">    } catch (DirectoryIteratorException e) {</a>
+<span class="sourceLineNo">656</span><a id="line.656">      return addException(exceptions, e.getCause());</a>
+<span class="sourceLineNo">657</span><a id="line.657">    }</a>
+<span class="sourceLineNo">658</span><a id="line.658">  }</a>
+<span class="sourceLineNo">659</span><a id="line.659"></a>
+<span class="sourceLineNo">660</span><a id="line.660">  /**</a>
+<span class="sourceLineNo">661</span><a id="line.661">   * Insecure recursive delete for file systems that don't support {@code SecureDirectoryStream}.</a>
+<span class="sourceLineNo">662</span><a id="line.662">   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.</a>
+<span class="sourceLineNo">663</span><a id="line.663">   */</a>
+<span class="sourceLineNo">664</span><a id="line.664">  private static @Nullable Collection&lt;IOException&gt; deleteRecursivelyInsecure(Path path) {</a>
+<span class="sourceLineNo">665</span><a id="line.665">    Collection&lt;IOException&gt; exceptions = null;</a>
+<span class="sourceLineNo">666</span><a id="line.666">    try {</a>
+<span class="sourceLineNo">667</span><a id="line.667">      if (Files.isDirectory(path, NOFOLLOW_LINKS)) {</a>
+<span class="sourceLineNo">668</span><a id="line.668">        try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(path)) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">          exceptions = deleteDirectoryContentsInsecure(stream);</a>
+<span class="sourceLineNo">670</span><a id="line.670">        }</a>
+<span class="sourceLineNo">671</span><a id="line.671">      }</a>
+<span class="sourceLineNo">672</span><a id="line.672"></a>
+<span class="sourceLineNo">673</span><a id="line.673">      // If exceptions is not null, something went wrong trying to delete the contents of the</a>
+<span class="sourceLineNo">674</span><a id="line.674">      // directory, so we shouldn't try to delete the directory as it will probably fail.</a>
+<span class="sourceLineNo">675</span><a id="line.675">      if (exceptions == null) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">        Files.delete(path);</a>
+<span class="sourceLineNo">677</span><a id="line.677">      }</a>
+<span class="sourceLineNo">678</span><a id="line.678"></a>
+<span class="sourceLineNo">679</span><a id="line.679">      return exceptions;</a>
+<span class="sourceLineNo">680</span><a id="line.680">    } catch (IOException e) {</a>
+<span class="sourceLineNo">681</span><a id="line.681">      return addException(exceptions, e);</a>
+<span class="sourceLineNo">682</span><a id="line.682">    }</a>
+<span class="sourceLineNo">683</span><a id="line.683">  }</a>
+<span class="sourceLineNo">684</span><a id="line.684"></a>
+<span class="sourceLineNo">685</span><a id="line.685">  /**</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * Simple, insecure method for deleting the contents of a directory for file systems that don't</a>
+<span class="sourceLineNo">687</span><a id="line.687">   * support {@code SecureDirectoryStream}. Returns a collection of exceptions that occurred or null</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * if no exceptions were thrown.</a>
+<span class="sourceLineNo">689</span><a id="line.689">   */</a>
+<span class="sourceLineNo">690</span><a id="line.690">  private static @Nullable Collection&lt;IOException&gt; deleteDirectoryContentsInsecure(</a>
+<span class="sourceLineNo">691</span><a id="line.691">      DirectoryStream&lt;Path&gt; dir) {</a>
+<span class="sourceLineNo">692</span><a id="line.692">    Collection&lt;IOException&gt; exceptions = null;</a>
+<span class="sourceLineNo">693</span><a id="line.693">    try {</a>
+<span class="sourceLineNo">694</span><a id="line.694">      for (Path entry : dir) {</a>
+<span class="sourceLineNo">695</span><a id="line.695">        exceptions = concat(exceptions, deleteRecursivelyInsecure(entry));</a>
+<span class="sourceLineNo">696</span><a id="line.696">      }</a>
+<span class="sourceLineNo">697</span><a id="line.697"></a>
+<span class="sourceLineNo">698</span><a id="line.698">      return exceptions;</a>
+<span class="sourceLineNo">699</span><a id="line.699">    } catch (DirectoryIteratorException e) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">      return addException(exceptions, e.getCause());</a>
+<span class="sourceLineNo">701</span><a id="line.701">    }</a>
+<span class="sourceLineNo">702</span><a id="line.702">  }</a>
+<span class="sourceLineNo">703</span><a id="line.703"></a>
+<span class="sourceLineNo">704</span><a id="line.704">  /**</a>
+<span class="sourceLineNo">705</span><a id="line.705">   * Returns a path to the parent directory of the given path. If the path actually has a parent</a>
+<span class="sourceLineNo">706</span><a id="line.706">   * path, this is simple. Otherwise, we need to do some trickier things. Returns null if the path</a>
+<span class="sourceLineNo">707</span><a id="line.707">   * is a root or is the empty path.</a>
+<span class="sourceLineNo">708</span><a id="line.708">   */</a>
+<span class="sourceLineNo">709</span><a id="line.709">  private static @Nullable Path getParentPath(Path path) {</a>
+<span class="sourceLineNo">710</span><a id="line.710">    Path parent = path.getParent();</a>
+<span class="sourceLineNo">711</span><a id="line.711"></a>
+<span class="sourceLineNo">712</span><a id="line.712">    // Paths that have a parent:</a>
+<span class="sourceLineNo">713</span><a id="line.713">    if (parent != null) {</a>
+<span class="sourceLineNo">714</span><a id="line.714">      // "/foo" ("/")</a>
+<span class="sourceLineNo">715</span><a id="line.715">      // "foo/bar" ("foo")</a>
+<span class="sourceLineNo">716</span><a id="line.716">      // "C:\foo" ("C:\")</a>
+<span class="sourceLineNo">717</span><a id="line.717">      // "\foo" ("\" - current drive for process on Windows)</a>
+<span class="sourceLineNo">718</span><a id="line.718">      // "C:foo" ("C:" - working dir of drive C on Windows)</a>
+<span class="sourceLineNo">719</span><a id="line.719">      return parent;</a>
+<span class="sourceLineNo">720</span><a id="line.720">    }</a>
+<span class="sourceLineNo">721</span><a id="line.721"></a>
+<span class="sourceLineNo">722</span><a id="line.722">    // Paths that don't have a parent:</a>
+<span class="sourceLineNo">723</span><a id="line.723">    if (path.getNameCount() == 0) {</a>
+<span class="sourceLineNo">724</span><a id="line.724">      // "/", "C:\", "\" (no parent)</a>
+<span class="sourceLineNo">725</span><a id="line.725">      // "" (undefined, though typically parent of working dir)</a>
+<span class="sourceLineNo">726</span><a id="line.726">      // "C:" (parent of working dir of drive C on Windows)</a>
+<span class="sourceLineNo">727</span><a id="line.727">      //</a>
+<span class="sourceLineNo">728</span><a id="line.728">      // For working dir paths ("" and "C:"), return null because:</a>
+<span class="sourceLineNo">729</span><a id="line.729">      //   A) it's not specified that "" is the path to the working directory.</a>
+<span class="sourceLineNo">730</span><a id="line.730">      //   B) if we're getting this path for recursive delete, it's typically not possible to</a>
+<span class="sourceLineNo">731</span><a id="line.731">      //      delete the working dir with a relative path anyway, so it's ok to fail.</a>
+<span class="sourceLineNo">732</span><a id="line.732">      //   C) if we're getting it for opening a new SecureDirectoryStream, there's no need to get</a>
+<span class="sourceLineNo">733</span><a id="line.733">      //      the parent path anyway since we can safely open a DirectoryStream to the path without</a>
+<span class="sourceLineNo">734</span><a id="line.734">      //      worrying about a symlink.</a>
+<span class="sourceLineNo">735</span><a id="line.735">      return null;</a>
+<span class="sourceLineNo">736</span><a id="line.736">    } else {</a>
+<span class="sourceLineNo">737</span><a id="line.737">      // "foo" (working dir)</a>
+<span class="sourceLineNo">738</span><a id="line.738">      return path.getFileSystem().getPath(".");</a>
+<span class="sourceLineNo">739</span><a id="line.739">    }</a>
+<span class="sourceLineNo">740</span><a id="line.740">  }</a>
+<span class="sourceLineNo">741</span><a id="line.741"></a>
+<span class="sourceLineNo">742</span><a id="line.742">  /** Checks that the given options allow an insecure delete, throwing an exception if not. */</a>
+<span class="sourceLineNo">743</span><a id="line.743">  private static void checkAllowsInsecure(Path path, RecursiveDeleteOption[] options)</a>
+<span class="sourceLineNo">744</span><a id="line.744">      throws InsecureRecursiveDeleteException {</a>
+<span class="sourceLineNo">745</span><a id="line.745">    if (!Arrays.asList(options).contains(RecursiveDeleteOption.ALLOW_INSECURE)) {</a>
+<span class="sourceLineNo">746</span><a id="line.746">      throw new InsecureRecursiveDeleteException(path.toString());</a>
+<span class="sourceLineNo">747</span><a id="line.747">    }</a>
+<span class="sourceLineNo">748</span><a id="line.748">  }</a>
+<span class="sourceLineNo">749</span><a id="line.749"></a>
+<span class="sourceLineNo">750</span><a id="line.750">  /**</a>
+<span class="sourceLineNo">751</span><a id="line.751">   * Adds the given exception to the given collection, creating the collection if it's null. Returns</a>
+<span class="sourceLineNo">752</span><a id="line.752">   * the collection.</a>
+<span class="sourceLineNo">753</span><a id="line.753">   */</a>
+<span class="sourceLineNo">754</span><a id="line.754">  private static Collection&lt;IOException&gt; addException(</a>
+<span class="sourceLineNo">755</span><a id="line.755">      @Nullable Collection&lt;IOException&gt; exceptions, IOException e) {</a>
+<span class="sourceLineNo">756</span><a id="line.756">    if (exceptions == null) {</a>
+<span class="sourceLineNo">757</span><a id="line.757">      exceptions = new ArrayList&lt;&gt;(); // don't need Set semantics</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759">    exceptions.add(e);</a>
+<span class="sourceLineNo">760</span><a id="line.760">    return exceptions;</a>
+<span class="sourceLineNo">761</span><a id="line.761">  }</a>
+<span class="sourceLineNo">762</span><a id="line.762"></a>
+<span class="sourceLineNo">763</span><a id="line.763">  /**</a>
+<span class="sourceLineNo">764</span><a id="line.764">   * Concatenates the contents of the two given collections of exceptions. If either collection is</a>
+<span class="sourceLineNo">765</span><a id="line.765">   * null, the other collection is returned. Otherwise, the elements of {@code other} are added to</a>
+<span class="sourceLineNo">766</span><a id="line.766">   * {@code exceptions} and {@code exceptions} is returned.</a>
+<span class="sourceLineNo">767</span><a id="line.767">   */</a>
+<span class="sourceLineNo">768</span><a id="line.768">  private static @Nullable Collection&lt;IOException&gt; concat(</a>
+<span class="sourceLineNo">769</span><a id="line.769">      @Nullable Collection&lt;IOException&gt; exceptions, @Nullable Collection&lt;IOException&gt; other) {</a>
+<span class="sourceLineNo">770</span><a id="line.770">    if (exceptions == null) {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      return other;</a>
+<span class="sourceLineNo">772</span><a id="line.772">    } else if (other != null) {</a>
+<span class="sourceLineNo">773</span><a id="line.773">      exceptions.addAll(other);</a>
+<span class="sourceLineNo">774</span><a id="line.774">    }</a>
+<span class="sourceLineNo">775</span><a id="line.775">    return exceptions;</a>
+<span class="sourceLineNo">776</span><a id="line.776">  }</a>
+<span class="sourceLineNo">777</span><a id="line.777"></a>
+<span class="sourceLineNo">778</span><a id="line.778">  /**</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * Throws an exception indicating that one or more files couldn't be deleted when deleting {@code</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * path} or its contents.</a>
+<span class="sourceLineNo">781</span><a id="line.781">   *</a>
+<span class="sourceLineNo">782</span><a id="line.782">   * &lt;p&gt;If there is only one exception in the collection, and it is a {@link NoSuchFileException}</a>
+<span class="sourceLineNo">783</span><a id="line.783">   * thrown because {@code path} itself didn't exist, then throws that exception. Otherwise, the</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * thrown exception contains all the exceptions in the given collection as suppressed exceptions.</a>
+<span class="sourceLineNo">785</span><a id="line.785">   */</a>
+<span class="sourceLineNo">786</span><a id="line.786">  private static void throwDeleteFailed(Path path, Collection&lt;IOException&gt; exceptions)</a>
+<span class="sourceLineNo">787</span><a id="line.787">      throws FileSystemException {</a>
+<span class="sourceLineNo">788</span><a id="line.788">    NoSuchFileException pathNotFound = pathNotFound(path, exceptions);</a>
+<span class="sourceLineNo">789</span><a id="line.789">    if (pathNotFound != null) {</a>
+<span class="sourceLineNo">790</span><a id="line.790">      throw pathNotFound;</a>
+<span class="sourceLineNo">791</span><a id="line.791">    }</a>
+<span class="sourceLineNo">792</span><a id="line.792">    // TODO(cgdecker): Should there be a custom exception type for this?</a>
+<span class="sourceLineNo">793</span><a id="line.793">    // Also, should we try to include the Path of each file we may have failed to delete rather</a>
+<span class="sourceLineNo">794</span><a id="line.794">    // than just the exceptions that occurred?</a>
+<span class="sourceLineNo">795</span><a id="line.795">    FileSystemException deleteFailed =</a>
+<span class="sourceLineNo">796</span><a id="line.796">        new FileSystemException(</a>
+<span class="sourceLineNo">797</span><a id="line.797">            path.toString(),</a>
+<span class="sourceLineNo">798</span><a id="line.798">            null,</a>
+<span class="sourceLineNo">799</span><a id="line.799">            "failed to delete one or more files; see suppressed exceptions for details");</a>
+<span class="sourceLineNo">800</span><a id="line.800">    for (IOException e : exceptions) {</a>
+<span class="sourceLineNo">801</span><a id="line.801">      deleteFailed.addSuppressed(e);</a>
+<span class="sourceLineNo">802</span><a id="line.802">    }</a>
+<span class="sourceLineNo">803</span><a id="line.803">    throw deleteFailed;</a>
+<span class="sourceLineNo">804</span><a id="line.804">  }</a>
+<span class="sourceLineNo">805</span><a id="line.805"></a>
+<span class="sourceLineNo">806</span><a id="line.806">  private static @Nullable NoSuchFileException pathNotFound(</a>
+<span class="sourceLineNo">807</span><a id="line.807">      Path path, Collection&lt;IOException&gt; exceptions) {</a>
+<span class="sourceLineNo">808</span><a id="line.808">    if (exceptions.size() != 1) {</a>
+<span class="sourceLineNo">809</span><a id="line.809">      return null;</a>
+<span class="sourceLineNo">810</span><a id="line.810">    }</a>
+<span class="sourceLineNo">811</span><a id="line.811">    IOException exception = getOnlyElement(exceptions);</a>
+<span class="sourceLineNo">812</span><a id="line.812">    if (!(exception instanceof NoSuchFileException)) {</a>
+<span class="sourceLineNo">813</span><a id="line.813">      return null;</a>
+<span class="sourceLineNo">814</span><a id="line.814">    }</a>
+<span class="sourceLineNo">815</span><a id="line.815">    NoSuchFileException noSuchFileException = (NoSuchFileException) exception;</a>
+<span class="sourceLineNo">816</span><a id="line.816">    String exceptionFile = noSuchFileException.getFile();</a>
+<span class="sourceLineNo">817</span><a id="line.817">    if (exceptionFile == null) {</a>
+<span class="sourceLineNo">818</span><a id="line.818">      /*</a>
+<span class="sourceLineNo">819</span><a id="line.819">       * It's not clear whether this happens in practice, especially with the filesystem</a>
+<span class="sourceLineNo">820</span><a id="line.820">       * implementations that are built into java.nio.</a>
+<span class="sourceLineNo">821</span><a id="line.821">       */</a>
+<span class="sourceLineNo">822</span><a id="line.822">      return null;</a>
+<span class="sourceLineNo">823</span><a id="line.823">    }</a>
+<span class="sourceLineNo">824</span><a id="line.824">    Path parentPath = getParentPath(path);</a>
+<span class="sourceLineNo">825</span><a id="line.825">    if (parentPath == null) {</a>
+<span class="sourceLineNo">826</span><a id="line.826">      /*</a>
+<span class="sourceLineNo">827</span><a id="line.827">       * This is probably impossible:</a>
+<span class="sourceLineNo">828</span><a id="line.828">       *</a>
+<span class="sourceLineNo">829</span><a id="line.829">       * - In deleteRecursively, we require the path argument to have a parent.</a>
+<span class="sourceLineNo">830</span><a id="line.830">       *</a>
+<span class="sourceLineNo">831</span><a id="line.831">       * - In deleteDirectoryContents, the path argument may have no parent. Fortunately, all the</a>
+<span class="sourceLineNo">832</span><a id="line.832">       *   *other* paths we process will be descendants of that. That leaves only the original path</a>
+<span class="sourceLineNo">833</span><a id="line.833">       *   argument for us to consider. And the only place we call pathNotFound is from</a>
+<span class="sourceLineNo">834</span><a id="line.834">       *   throwDeleteFailed, and the other place that we call throwDeleteFailed inside</a>
+<span class="sourceLineNo">835</span><a id="line.835">       *   deleteDirectoryContents is when an exception is thrown during the recursive steps. Any</a>
+<span class="sourceLineNo">836</span><a id="line.836">       *   failure during the initial lookup of the path argument itself is rethrown directly. So</a>
+<span class="sourceLineNo">837</span><a id="line.837">       *   any exception that we're seeing here is from a descendant, which naturally has a parent.</a>
+<span class="sourceLineNo">838</span><a id="line.838">       *   I think.</a>
+<span class="sourceLineNo">839</span><a id="line.839">       *</a>
+<span class="sourceLineNo">840</span><a id="line.840">       * Still, if this can happen somehow (a weird filesystem implementation that lets callers</a>
+<span class="sourceLineNo">841</span><a id="line.841">       * change its working directly concurrently with a call to deleteDirectoryContents?), it makes</a>
+<span class="sourceLineNo">842</span><a id="line.842">       * more sense for us to fall back to a generic FileSystemException (by returning null here)</a>
+<span class="sourceLineNo">843</span><a id="line.843">       * than to dereference parentPath and end up producing NullPointerException.</a>
+<span class="sourceLineNo">844</span><a id="line.844">       */</a>
+<span class="sourceLineNo">845</span><a id="line.845">      return null;</a>
+<span class="sourceLineNo">846</span><a id="line.846">    }</a>
+<span class="sourceLineNo">847</span><a id="line.847">    // requireNonNull is safe because paths have file names when they have parents.</a>
+<span class="sourceLineNo">848</span><a id="line.848">    Path pathResolvedFromParent = parentPath.resolve(requireNonNull(path.getFileName()));</a>
+<span class="sourceLineNo">849</span><a id="line.849">    if (exceptionFile.equals(pathResolvedFromParent.toString())) {</a>
+<span class="sourceLineNo">850</span><a id="line.850">      return noSuchFileException;</a>
+<span class="sourceLineNo">851</span><a id="line.851">    }</a>
+<span class="sourceLineNo">852</span><a id="line.852">    return null;</a>
+<span class="sourceLineNo">853</span><a id="line.853">  }</a>
+<span class="sourceLineNo">854</span><a id="line.854">}</a>
 
 
 

@@ -224,7 +224,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>protected char[]</code></td>
+<td class="colFirst"><code>protected char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#escape(char)">escape</a></span>&#8203;(char&nbsp;c)</code></th>
 <td class="colLast">
 <div class="block">Escapes a single character using the replacement array and safe range values.</div>
@@ -238,7 +238,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>protected abstract char[]</code></td>
+<td class="colFirst"><code>protected abstract char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#escapeUnsafe(char)">escapeUnsafe</a></span>&#8203;(char&nbsp;c)</code></th>
 <td class="colLast">
 <div class="block">Escapes a <code>char</code> value that has no direct explicit value in the replacement array and
@@ -364,8 +364,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected final&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.122">escape</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">protected final&nbsp;char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.122">escape</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Escapes a single character using the replacement array and safe range values. If the given
  character does not have an explicit replacement and lies outside the safe range then <a href="#escapeUnsafe(char)"><code>escapeUnsafe(char)</code></a> is called.</div>
 <dl>
@@ -384,8 +383,7 @@ protected final&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>escapeUnsafe</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.150">escapeUnsafe</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">protected abstract&nbsp;char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.149">escapeUnsafe</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Escapes a <code>char</code> value that has no direct explicit value in the replacement array and
  lies outside the stated safe range. Subclasses should override this method to provide
  generalized escaping for characters.

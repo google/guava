@@ -30,7 +30,7 @@
 <span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.GwtIncompatible;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.J2ktIncompatible;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.concurrent.LazyInit;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">025</span><a id="line.25"></a>
 <span class="sourceLineNo">026</span><a id="line.26">/**</a>
 <span class="sourceLineNo">027</span><a id="line.27"> * The representation of a linear transformation between real numbers {@code x} and {@code y}.</a>
@@ -178,7 +178,7 @@
 <span class="sourceLineNo">169</span><a id="line.169">    final double slope;</a>
 <span class="sourceLineNo">170</span><a id="line.170">    final double yIntercept;</a>
 <span class="sourceLineNo">171</span><a id="line.171"></a>
-<span class="sourceLineNo">172</span><a id="line.172">    @CheckForNull @LazyInit LinearTransformation inverse;</a>
+<span class="sourceLineNo">172</span><a id="line.172">    @LazyInit @Nullable LinearTransformation inverse;</a>
 <span class="sourceLineNo">173</span><a id="line.173"></a>
 <span class="sourceLineNo">174</span><a id="line.174">    RegularLinearTransformation(double slope, double yIntercept) {</a>
 <span class="sourceLineNo">175</span><a id="line.175">      this.slope = slope;</a>
@@ -236,7 +236,7 @@
 <span class="sourceLineNo">227</span><a id="line.227"></a>
 <span class="sourceLineNo">228</span><a id="line.228">    final double x;</a>
 <span class="sourceLineNo">229</span><a id="line.229"></a>
-<span class="sourceLineNo">230</span><a id="line.230">    @CheckForNull @LazyInit LinearTransformation inverse;</a>
+<span class="sourceLineNo">230</span><a id="line.230">    @LazyInit @Nullable LinearTransformation inverse;</a>
 <span class="sourceLineNo">231</span><a id="line.231"></a>
 <span class="sourceLineNo">232</span><a id="line.232">    VerticalLinearTransformation(double x) {</a>
 <span class="sourceLineNo">233</span><a id="line.233">      this.x = x;</a>

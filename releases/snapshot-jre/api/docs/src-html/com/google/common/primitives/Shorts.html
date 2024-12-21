@@ -40,7 +40,7 @@
 <span class="sourceLineNo">031</span><a id="line.31">import java.util.Comparator;</a>
 <span class="sourceLineNo">032</span><a id="line.32">import java.util.List;</a>
 <span class="sourceLineNo">033</span><a id="line.33">import java.util.RandomAccess;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">035</span><a id="line.35"></a>
 <span class="sourceLineNo">036</span><a id="line.36">/**</a>
 <span class="sourceLineNo">037</span><a id="line.37"> * Static utility methods pertaining to {@code short} primitives, that are not already found in</a>
@@ -662,13 +662,13 @@
 <span class="sourceLineNo">653</span><a id="line.653">    }</a>
 <span class="sourceLineNo">654</span><a id="line.654"></a>
 <span class="sourceLineNo">655</span><a id="line.655">    @Override</a>
-<span class="sourceLineNo">656</span><a id="line.656">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">656</span><a id="line.656">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">657</span><a id="line.657">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">658</span><a id="line.658">      return (target instanceof Short) &amp;&amp; Shorts.indexOf(array, (Short) target, start, end) != -1;</a>
 <span class="sourceLineNo">659</span><a id="line.659">    }</a>
 <span class="sourceLineNo">660</span><a id="line.660"></a>
 <span class="sourceLineNo">661</span><a id="line.661">    @Override</a>
-<span class="sourceLineNo">662</span><a id="line.662">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">662</span><a id="line.662">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">663</span><a id="line.663">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">664</span><a id="line.664">      if (target instanceof Short) {</a>
 <span class="sourceLineNo">665</span><a id="line.665">        int i = Shorts.indexOf(array, (Short) target, start, end);</a>
@@ -680,7 +680,7 @@
 <span class="sourceLineNo">671</span><a id="line.671">    }</a>
 <span class="sourceLineNo">672</span><a id="line.672"></a>
 <span class="sourceLineNo">673</span><a id="line.673">    @Override</a>
-<span class="sourceLineNo">674</span><a id="line.674">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">674</span><a id="line.674">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">675</span><a id="line.675">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">676</span><a id="line.676">      if (target instanceof Short) {</a>
 <span class="sourceLineNo">677</span><a id="line.677">        int i = Shorts.lastIndexOf(array, (Short) target, start, end);</a>
@@ -711,7 +711,7 @@
 <span class="sourceLineNo">702</span><a id="line.702">    }</a>
 <span class="sourceLineNo">703</span><a id="line.703"></a>
 <span class="sourceLineNo">704</span><a id="line.704">    @Override</a>
-<span class="sourceLineNo">705</span><a id="line.705">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">705</span><a id="line.705">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">706</span><a id="line.706">      if (object == this) {</a>
 <span class="sourceLineNo">707</span><a id="line.707">        return true;</a>
 <span class="sourceLineNo">708</span><a id="line.708">      }</a>

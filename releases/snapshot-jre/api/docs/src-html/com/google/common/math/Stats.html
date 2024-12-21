@@ -45,7 +45,7 @@
 <span class="sourceLineNo">036</span><a id="line.36">import java.util.stream.DoubleStream;</a>
 <span class="sourceLineNo">037</span><a id="line.37">import java.util.stream.IntStream;</a>
 <span class="sourceLineNo">038</span><a id="line.38">import java.util.stream.LongStream;</a>
-<span class="sourceLineNo">039</span><a id="line.39">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">040</span><a id="line.40"></a>
 <span class="sourceLineNo">041</span><a id="line.41">/**</a>
 <span class="sourceLineNo">042</span><a id="line.42"> * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several</a>
@@ -425,7 +425,7 @@
 <span class="sourceLineNo">416</span><a id="line.416">   * {@code strictfp}-like semantics.)</a>
 <span class="sourceLineNo">417</span><a id="line.417">   */</a>
 <span class="sourceLineNo">418</span><a id="line.418">  @Override</a>
-<span class="sourceLineNo">419</span><a id="line.419">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">419</span><a id="line.419">  public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">420</span><a id="line.420">    if (obj == null) {</a>
 <span class="sourceLineNo">421</span><a id="line.421">      return false;</a>
 <span class="sourceLineNo">422</span><a id="line.422">    }</a>

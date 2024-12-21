@@ -30,7 +30,7 @@
 <span class="sourceLineNo">021</span><a id="line.21">import java.util.Collection;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.util.concurrent.BlockingDeque;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import java.util.concurrent.TimeUnit;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">025</span><a id="line.25"></a>
 <span class="sourceLineNo">026</span><a id="line.26">/**</a>
 <span class="sourceLineNo">027</span><a id="line.27"> * A {@link BlockingDeque} which forwards all its method calls to another {@code BlockingDeque}.</a>
@@ -103,48 +103,45 @@
 <span class="sourceLineNo">094</span><a id="line.94">  }</a>
 <span class="sourceLineNo">095</span><a id="line.95"></a>
 <span class="sourceLineNo">096</span><a id="line.96">  @Override</a>
-<span class="sourceLineNo">097</span><a id="line.97">  @CheckForNull</a>
-<span class="sourceLineNo">098</span><a id="line.98">  public E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">099</span><a id="line.99">    return delegate().pollFirst(timeout, unit);</a>
-<span class="sourceLineNo">100</span><a id="line.100">  }</a>
-<span class="sourceLineNo">101</span><a id="line.101"></a>
-<span class="sourceLineNo">102</span><a id="line.102">  @Override</a>
-<span class="sourceLineNo">103</span><a id="line.103">  @CheckForNull</a>
-<span class="sourceLineNo">104</span><a id="line.104">  public E pollLast(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">105</span><a id="line.105">    return delegate().pollLast(timeout, unit);</a>
-<span class="sourceLineNo">106</span><a id="line.106">  }</a>
-<span class="sourceLineNo">107</span><a id="line.107"></a>
-<span class="sourceLineNo">108</span><a id="line.108">  @Override</a>
-<span class="sourceLineNo">109</span><a id="line.109">  public void put(E e) throws InterruptedException {</a>
-<span class="sourceLineNo">110</span><a id="line.110">    delegate().put(e);</a>
-<span class="sourceLineNo">111</span><a id="line.111">  }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">  @Override</a>
-<span class="sourceLineNo">114</span><a id="line.114">  public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">115</span><a id="line.115">    return delegate().offer(e, timeout, unit);</a>
-<span class="sourceLineNo">116</span><a id="line.116">  }</a>
-<span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">  @Override</a>
-<span class="sourceLineNo">119</span><a id="line.119">  public E take() throws InterruptedException {</a>
-<span class="sourceLineNo">120</span><a id="line.120">    return delegate().take();</a>
-<span class="sourceLineNo">121</span><a id="line.121">  }</a>
-<span class="sourceLineNo">122</span><a id="line.122"></a>
-<span class="sourceLineNo">123</span><a id="line.123">  @Override</a>
-<span class="sourceLineNo">124</span><a id="line.124">  @CheckForNull</a>
-<span class="sourceLineNo">125</span><a id="line.125">  public E poll(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">126</span><a id="line.126">    return delegate().poll(timeout, unit);</a>
-<span class="sourceLineNo">127</span><a id="line.127">  }</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">  @Override</a>
-<span class="sourceLineNo">130</span><a id="line.130">  public int drainTo(Collection&lt;? super E&gt; c) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">    return delegate().drainTo(c);</a>
-<span class="sourceLineNo">132</span><a id="line.132">  }</a>
-<span class="sourceLineNo">133</span><a id="line.133"></a>
-<span class="sourceLineNo">134</span><a id="line.134">  @Override</a>
-<span class="sourceLineNo">135</span><a id="line.135">  public int drainTo(Collection&lt;? super E&gt; c, int maxElements) {</a>
-<span class="sourceLineNo">136</span><a id="line.136">    return delegate().drainTo(c, maxElements);</a>
-<span class="sourceLineNo">137</span><a id="line.137">  }</a>
-<span class="sourceLineNo">138</span><a id="line.138">}</a>
+<span class="sourceLineNo">097</span><a id="line.97">  public @Nullable E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">098</span><a id="line.98">    return delegate().pollFirst(timeout, unit);</a>
+<span class="sourceLineNo">099</span><a id="line.99">  }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">  @Override</a>
+<span class="sourceLineNo">102</span><a id="line.102">  public @Nullable E pollLast(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">103</span><a id="line.103">    return delegate().pollLast(timeout, unit);</a>
+<span class="sourceLineNo">104</span><a id="line.104">  }</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  @Override</a>
+<span class="sourceLineNo">107</span><a id="line.107">  public void put(E e) throws InterruptedException {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    delegate().put(e);</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  @Override</a>
+<span class="sourceLineNo">112</span><a id="line.112">  public boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">113</span><a id="line.113">    return delegate().offer(e, timeout, unit);</a>
+<span class="sourceLineNo">114</span><a id="line.114">  }</a>
+<span class="sourceLineNo">115</span><a id="line.115"></a>
+<span class="sourceLineNo">116</span><a id="line.116">  @Override</a>
+<span class="sourceLineNo">117</span><a id="line.117">  public E take() throws InterruptedException {</a>
+<span class="sourceLineNo">118</span><a id="line.118">    return delegate().take();</a>
+<span class="sourceLineNo">119</span><a id="line.119">  }</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">  @Override</a>
+<span class="sourceLineNo">122</span><a id="line.122">  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">123</span><a id="line.123">    return delegate().poll(timeout, unit);</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  @Override</a>
+<span class="sourceLineNo">127</span><a id="line.127">  public int drainTo(Collection&lt;? super E&gt; c) {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    return delegate().drainTo(c);</a>
+<span class="sourceLineNo">129</span><a id="line.129">  }</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">  @Override</a>
+<span class="sourceLineNo">132</span><a id="line.132">  public int drainTo(Collection&lt;? super E&gt; c, int maxElements) {</a>
+<span class="sourceLineNo">133</span><a id="line.133">    return delegate().drainTo(c, maxElements);</a>
+<span class="sourceLineNo">134</span><a id="line.134">  }</a>
+<span class="sourceLineNo">135</span><a id="line.135">}</a>
 
 
 

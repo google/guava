@@ -420,14 +420,14 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </td>
 </tr>
 <tr id="i27" class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a></code></td>
+<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryParse(java.lang.String)">tryParse</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</code></th>
 <td class="colLast">
 <div class="block">Parses the specified string as a signed decimal integer value.</div>
 </td>
 </tr>
 <tr id="i28" class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a></code></td>
+<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryParse(java.lang.String,int)">tryParse</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
         int&nbsp;radix)</code></th>
 <td class="colLast">
@@ -1050,8 +1050,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>tryParse</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.815">tryParse</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.815">tryParse</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII character <code>'-'</code>
  (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 
@@ -1079,9 +1078,8 @@ public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/j
 <ul class="blockListLast">
 <li class="blockList">
 <h4>tryParse</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.840">tryParse</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
-                               int&nbsp;radix)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.839">tryParse</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
+                                         int&nbsp;radix)</pre>
 <div class="block">Parses the specified string as a signed integer value using the specified radix. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 

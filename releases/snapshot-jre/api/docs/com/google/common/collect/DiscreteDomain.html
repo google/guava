@@ -240,7 +240,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>abstract <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
+<td class="colFirst"><code>abstract <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#next(C)">next</a></span>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns the unique least value of type <code>C</code> that is greater than <code>value</code>, or <code>
@@ -248,7 +248,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>abstract <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
+<td class="colFirst"><code>abstract <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#previous(C)">previous</a></span>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns the unique greatest value of type <code>C</code> that is less than <code>value</code>, or <code>
@@ -285,7 +285,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DiscreteDomain</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.252">DiscreteDomain</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.248">DiscreteDomain</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -322,7 +322,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>longs</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.124">longs</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.122">longs</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>Long</code>.
 
  <p>This method always returns the same object. That object is serializable; deserializing it
@@ -339,7 +339,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>bigIntegers</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.201">bigIntegers</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.197">bigIntegers</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>BigInteger</code>.
 
  <p>This method always returns the same object. That object is serializable; deserializing it
@@ -358,8 +358,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.286">next</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.282">next</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
 <div class="block">Returns the unique least value of type <code>C</code> that is greater than <code>value</code>, or <code>
  null</code> if none exists. Inverse operation to <a href="#previous(C)"><code>previous(C)</code></a>.</div>
 <dl>
@@ -379,8 +378,7 @@ public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in Disc
 <ul class="blockList">
 <li class="blockList">
 <h4>previous</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.297">previous</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.292">previous</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
 <div class="block">Returns the unique greatest value of type <code>C</code> that is less than <code>value</code>, or <code>
  null</code> if none exists. Inverse operation to <a href="#next(C)"><code>next(C)</code></a>.</div>
 <dl>
@@ -400,7 +398,7 @@ public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in Disc
 <ul class="blockList">
 <li class="blockList">
 <h4>distance</h4>
-<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.311">distance</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;start,
+<pre class="methodSignature">public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.305">distance</a>&#8203;(<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;start,
                               <a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;end)</pre>
 <div class="block">Returns a signed value indicating how many nested invocations of <a href="#next(C)"><code>next(C)</code></a> (if positive) or
  <a href="#previous(C)"><code>previous(C)</code></a> (if negative) are needed to reach <code>end</code> starting from <code>start</code>.
@@ -422,7 +420,7 @@ public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in Disc
 <li class="blockList">
 <h4>minValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.324">minValue</a>()</pre>
+public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.318">minValue</a>()</pre>
 <div class="block">Returns the minimum value of type <code>C</code>, if it has one. The minimum value is the unique
  value for which <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(Object)</code></a> never returns a positive value for any
  input of type <code>C</code>.
@@ -444,7 +442,7 @@ public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomai
 <li class="blockList">
 <h4>maxValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.340">maxValue</a>()</pre>
+public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.334">maxValue</a>()</pre>
 <div class="block">Returns the maximum value of type <code>C</code>, if it has one. The maximum value is the unique
  value for which <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(Object)</code></a> never returns a negative value for any
  input of type <code>C</code>.

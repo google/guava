@@ -32,7 +32,7 @@
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.common.base.MoreObjects;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import com.google.common.base.Objects;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import java.util.concurrent.Callable;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">027</span><a id="line.27"></a>
 <span class="sourceLineNo">028</span><a id="line.28">/**</a>
 <span class="sourceLineNo">029</span><a id="line.29"> * Statistics about the performance of a {@link Cache}. Instances of this class are immutable.</a>
@@ -286,7 +286,7 @@
 <span class="sourceLineNo">277</span><a id="line.277">  }</a>
 <span class="sourceLineNo">278</span><a id="line.278"></a>
 <span class="sourceLineNo">279</span><a id="line.279">  @Override</a>
-<span class="sourceLineNo">280</span><a id="line.280">  public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">280</span><a id="line.280">  public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">281</span><a id="line.281">    if (object instanceof CacheStats) {</a>
 <span class="sourceLineNo">282</span><a id="line.282">      CacheStats other = (CacheStats) object;</a>
 <span class="sourceLineNo">283</span><a id="line.283">      return hitCount == other.hitCount</a>

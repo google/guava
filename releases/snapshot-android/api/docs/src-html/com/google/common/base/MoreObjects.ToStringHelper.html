@@ -31,7 +31,7 @@
 <span class="sourceLineNo">022</span><a id="line.22">import java.util.Arrays;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import java.util.Collection;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import java.util.Map;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">026</span><a id="line.26"></a>
 <span class="sourceLineNo">027</span><a id="line.27">/**</a>
 <span class="sourceLineNo">028</span><a id="line.28"> * Helper functions that operate on any {@code Object}, and are not already provided in {@link</a>
@@ -66,7 +66,7 @@
 <span class="sourceLineNo">057</span><a id="line.57">   * @throws NullPointerException if both {@code first} and {@code second} are null</a>
 <span class="sourceLineNo">058</span><a id="line.58">   * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).</a>
 <span class="sourceLineNo">059</span><a id="line.59">   */</a>
-<span class="sourceLineNo">060</span><a id="line.60">  public static &lt;T&gt; T firstNonNull(@CheckForNull T first, @CheckForNull T second) {</a>
+<span class="sourceLineNo">060</span><a id="line.60">  public static &lt;T&gt; T firstNonNull(@Nullable T first, @Nullable T second) {</a>
 <span class="sourceLineNo">061</span><a id="line.61">    if (first != null) {</a>
 <span class="sourceLineNo">062</span><a id="line.62">      return first;</a>
 <span class="sourceLineNo">063</span><a id="line.63">    }</a>
@@ -201,7 +201,7 @@
 <span class="sourceLineNo">192</span><a id="line.192">     * called, in which case this name/value pair will not be added.</a>
 <span class="sourceLineNo">193</span><a id="line.193">     */</a>
 <span class="sourceLineNo">194</span><a id="line.194">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">195</span><a id="line.195">    public ToStringHelper add(String name, @CheckForNull Object value) {</a>
+<span class="sourceLineNo">195</span><a id="line.195">    public ToStringHelper add(String name, @Nullable Object value) {</a>
 <span class="sourceLineNo">196</span><a id="line.196">      return addHolder(name, value);</a>
 <span class="sourceLineNo">197</span><a id="line.197">    }</a>
 <span class="sourceLineNo">198</span><a id="line.198"></a>
@@ -272,7 +272,7 @@
 <span class="sourceLineNo">263</span><a id="line.263">     * readable name.</a>
 <span class="sourceLineNo">264</span><a id="line.264">     */</a>
 <span class="sourceLineNo">265</span><a id="line.265">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">266</span><a id="line.266">    public ToStringHelper addValue(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">266</span><a id="line.266">    public ToStringHelper addValue(@Nullable Object value) {</a>
 <span class="sourceLineNo">267</span><a id="line.267">      return addHolder(value);</a>
 <span class="sourceLineNo">268</span><a id="line.268">    }</a>
 <span class="sourceLineNo">269</span><a id="line.269"></a>
@@ -418,14 +418,14 @@
 <span class="sourceLineNo">409</span><a id="line.409">    }</a>
 <span class="sourceLineNo">410</span><a id="line.410"></a>
 <span class="sourceLineNo">411</span><a id="line.411">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">412</span><a id="line.412">    private ToStringHelper addHolder(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">412</span><a id="line.412">    private ToStringHelper addHolder(@Nullable Object value) {</a>
 <span class="sourceLineNo">413</span><a id="line.413">      ValueHolder valueHolder = addHolder();</a>
 <span class="sourceLineNo">414</span><a id="line.414">      valueHolder.value = value;</a>
 <span class="sourceLineNo">415</span><a id="line.415">      return this;</a>
 <span class="sourceLineNo">416</span><a id="line.416">    }</a>
 <span class="sourceLineNo">417</span><a id="line.417"></a>
 <span class="sourceLineNo">418</span><a id="line.418">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">419</span><a id="line.419">    private ToStringHelper addHolder(String name, @CheckForNull Object value) {</a>
+<span class="sourceLineNo">419</span><a id="line.419">    private ToStringHelper addHolder(String name, @Nullable Object value) {</a>
 <span class="sourceLineNo">420</span><a id="line.420">      ValueHolder valueHolder = addHolder();</a>
 <span class="sourceLineNo">421</span><a id="line.421">      valueHolder.value = value;</a>
 <span class="sourceLineNo">422</span><a id="line.422">      valueHolder.name = checkNotNull(name);</a>
@@ -455,9 +455,9 @@
 <span class="sourceLineNo">446</span><a id="line.446"></a>
 <span class="sourceLineNo">447</span><a id="line.447">    // Holder object for values that might be null and/or empty.</a>
 <span class="sourceLineNo">448</span><a id="line.448">    static class ValueHolder {</a>
-<span class="sourceLineNo">449</span><a id="line.449">      @CheckForNull String name;</a>
-<span class="sourceLineNo">450</span><a id="line.450">      @CheckForNull Object value;</a>
-<span class="sourceLineNo">451</span><a id="line.451">      @CheckForNull ValueHolder next;</a>
+<span class="sourceLineNo">449</span><a id="line.449">      @Nullable String name;</a>
+<span class="sourceLineNo">450</span><a id="line.450">      @Nullable Object value;</a>
+<span class="sourceLineNo">451</span><a id="line.451">      @Nullable ValueHolder next;</a>
 <span class="sourceLineNo">452</span><a id="line.452">    }</a>
 <span class="sourceLineNo">453</span><a id="line.453"></a>
 <span class="sourceLineNo">454</span><a id="line.454">    /**</a>

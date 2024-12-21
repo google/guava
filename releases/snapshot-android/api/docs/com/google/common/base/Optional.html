@@ -239,15 +239,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>abstract boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equal</a> to each other or both are absent.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromJavaUtil(java.util.Optional)">fromJavaUtil</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromJavaUtil(java.util.Optional)">fromJavaUtil</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></th>
 <td class="colLast">
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -255,7 +255,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromNullable(T)">fromNullable</a></span>&#8203;(T&nbsp;nullableReference)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromNullable(T)">fromNullable</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;nullableReference)</code></th>
 <td class="colLast">
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.</div>
@@ -311,7 +311,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>abstract <a href="Optional.html" title="type parameter in Optional">T</a></code></td>
+<td class="colFirst"><code>abstract <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orNull()">orNull</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise.</div>
@@ -333,8 +333,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toJavaUtil(com.google.common.base.Optional)">toJavaUtil</a></span>&#8203;(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toJavaUtil(com.google.common.base.Optional)">toJavaUtil</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></th>
 <td class="colLast">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -419,8 +419,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>fromNullable</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.117">fromNullable</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                           T&nbsp;nullableReference)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.117">fromNullable</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;nullableReference)</pre>
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.
 
@@ -434,9 +433,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/S
 <ul class="blockList">
 <li class="blockList">
 <h4>fromJavaUtil</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.127">fromJavaUtil</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.127">fromJavaUtil</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</pre>
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 <dl>
@@ -451,9 +448,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.go
 <ul class="blockList">
 <li class="blockList">
 <h4>toJavaUtil</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.147">toJavaUtil</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                         <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.147">toJavaUtil</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</pre>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.
 
@@ -602,8 +597,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javas
 <ul class="blockList">
 <li class="blockList">
 <h4>orNull</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.266">orNull</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.266">orNull</a>()</pre>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="#get()"><code>get()</code></a> instead.
 
@@ -617,7 +611,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.292">asSet</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.291">asSet</a>()</pre>
 <div class="block">Returns an immutable singleton <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> whose only element is the contained instance if it
  is present; an empty immutable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> otherwise.
 
@@ -649,7 +643,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.305">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.304">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
 <div class="block">If the instance is present, it is transformed with the given <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="#absent()"><code>absent()</code></a> is returned.
 
@@ -670,8 +664,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.314">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.313">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equal</a> to each other or both are absent.
  Note that <code>Optional</code> instances of differing parameterized types can be equal.
@@ -689,7 +682,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.323">hashCode</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.322">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
@@ -706,7 +699,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.332">toString</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.331">toString</a>()</pre>
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
@@ -723,7 +716,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockListLast">
 <li class="blockList">
 <h4>presentInstances</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.348">presentInstances</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.347">presentInstances</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="#absent()"><code>absent()</code></a>. Iterators are unmodifiable and are
  evaluated lazily.

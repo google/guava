@@ -58,7 +58,7 @@
 <span class="sourceLineNo">049</span><a id="line.49">import java.util.jar.JarFile;</a>
 <span class="sourceLineNo">050</span><a id="line.50">import java.util.jar.Manifest;</a>
 <span class="sourceLineNo">051</span><a id="line.51">import java.util.logging.Logger;</a>
-<span class="sourceLineNo">052</span><a id="line.52">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">052</span><a id="line.52">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">053</span><a id="line.53"></a>
 <span class="sourceLineNo">054</span><a id="line.54">/**</a>
 <span class="sourceLineNo">055</span><a id="line.55"> * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.</a>
@@ -285,7 +285,7 @@
 <span class="sourceLineNo">276</span><a id="line.276">    }</a>
 <span class="sourceLineNo">277</span><a id="line.277"></a>
 <span class="sourceLineNo">278</span><a id="line.278">    @Override</a>
-<span class="sourceLineNo">279</span><a id="line.279">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">279</span><a id="line.279">    public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">280</span><a id="line.280">      if (obj instanceof ResourceInfo) {</a>
 <span class="sourceLineNo">281</span><a id="line.281">        ResourceInfo that = (ResourceInfo) obj;</a>
 <span class="sourceLineNo">282</span><a id="line.282">        return resourceName.equals(that.resourceName) &amp;&amp; loader == that.loader;</a>
@@ -558,7 +558,7 @@
 <span class="sourceLineNo">549</span><a id="line.549">    }</a>
 <span class="sourceLineNo">550</span><a id="line.550"></a>
 <span class="sourceLineNo">551</span><a id="line.551">    @Override</a>
-<span class="sourceLineNo">552</span><a id="line.552">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">552</span><a id="line.552">    public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">553</span><a id="line.553">      if (obj instanceof LocationInfo) {</a>
 <span class="sourceLineNo">554</span><a id="line.554">        LocationInfo that = (LocationInfo) obj;</a>
 <span class="sourceLineNo">555</span><a id="line.555">        return home.equals(that.home) &amp;&amp; classloader.equals(that.classloader);</a>
@@ -585,110 +585,109 @@
 <span class="sourceLineNo">576</span><a id="line.576">   * an empty set will be returned.</a>
 <span class="sourceLineNo">577</span><a id="line.577">   */</a>
 <span class="sourceLineNo">578</span><a id="line.578">  @VisibleForTesting</a>
-<span class="sourceLineNo">579</span><a id="line.579">  static ImmutableSet&lt;File&gt; getClassPathFromManifest(</a>
-<span class="sourceLineNo">580</span><a id="line.580">      File jarFile, @CheckForNull Manifest manifest) {</a>
-<span class="sourceLineNo">581</span><a id="line.581">    if (manifest == null) {</a>
-<span class="sourceLineNo">582</span><a id="line.582">      return ImmutableSet.of();</a>
-<span class="sourceLineNo">583</span><a id="line.583">    }</a>
-<span class="sourceLineNo">584</span><a id="line.584">    ImmutableSet.Builder&lt;File&gt; builder = ImmutableSet.builder();</a>
-<span class="sourceLineNo">585</span><a id="line.585">    String classpathAttribute =</a>
-<span class="sourceLineNo">586</span><a id="line.586">        manifest.getMainAttributes().getValue(Attributes.Name.CLASS_PATH.toString());</a>
-<span class="sourceLineNo">587</span><a id="line.587">    if (classpathAttribute != null) {</a>
-<span class="sourceLineNo">588</span><a id="line.588">      for (String path : CLASS_PATH_ATTRIBUTE_SEPARATOR.split(classpathAttribute)) {</a>
-<span class="sourceLineNo">589</span><a id="line.589">        URL url;</a>
-<span class="sourceLineNo">590</span><a id="line.590">        try {</a>
-<span class="sourceLineNo">591</span><a id="line.591">          url = getClassPathEntry(jarFile, path);</a>
-<span class="sourceLineNo">592</span><a id="line.592">        } catch (MalformedURLException e) {</a>
-<span class="sourceLineNo">593</span><a id="line.593">          // Ignore bad entry</a>
-<span class="sourceLineNo">594</span><a id="line.594">          logger.warning("Invalid Class-Path entry: " + path);</a>
-<span class="sourceLineNo">595</span><a id="line.595">          continue;</a>
-<span class="sourceLineNo">596</span><a id="line.596">        }</a>
-<span class="sourceLineNo">597</span><a id="line.597">        if (url.getProtocol().equals("file")) {</a>
-<span class="sourceLineNo">598</span><a id="line.598">          builder.add(toFile(url));</a>
-<span class="sourceLineNo">599</span><a id="line.599">        }</a>
-<span class="sourceLineNo">600</span><a id="line.600">      }</a>
-<span class="sourceLineNo">601</span><a id="line.601">    }</a>
-<span class="sourceLineNo">602</span><a id="line.602">    return builder.build();</a>
-<span class="sourceLineNo">603</span><a id="line.603">  }</a>
-<span class="sourceLineNo">604</span><a id="line.604"></a>
-<span class="sourceLineNo">605</span><a id="line.605">  @VisibleForTesting</a>
-<span class="sourceLineNo">606</span><a id="line.606">  static ImmutableMap&lt;File, ClassLoader&gt; getClassPathEntries(ClassLoader classloader) {</a>
-<span class="sourceLineNo">607</span><a id="line.607">    LinkedHashMap&lt;File, ClassLoader&gt; entries = Maps.newLinkedHashMap();</a>
-<span class="sourceLineNo">608</span><a id="line.608">    // Search parent first, since it's the order ClassLoader#loadClass() uses.</a>
-<span class="sourceLineNo">609</span><a id="line.609">    ClassLoader parent = classloader.getParent();</a>
-<span class="sourceLineNo">610</span><a id="line.610">    if (parent != null) {</a>
-<span class="sourceLineNo">611</span><a id="line.611">      entries.putAll(getClassPathEntries(parent));</a>
-<span class="sourceLineNo">612</span><a id="line.612">    }</a>
-<span class="sourceLineNo">613</span><a id="line.613">    for (URL url : getClassLoaderUrls(classloader)) {</a>
-<span class="sourceLineNo">614</span><a id="line.614">      if (url.getProtocol().equals("file")) {</a>
-<span class="sourceLineNo">615</span><a id="line.615">        File file = toFile(url);</a>
-<span class="sourceLineNo">616</span><a id="line.616">        if (!entries.containsKey(file)) {</a>
-<span class="sourceLineNo">617</span><a id="line.617">          entries.put(file, classloader);</a>
-<span class="sourceLineNo">618</span><a id="line.618">        }</a>
-<span class="sourceLineNo">619</span><a id="line.619">      }</a>
-<span class="sourceLineNo">620</span><a id="line.620">    }</a>
-<span class="sourceLineNo">621</span><a id="line.621">    return ImmutableMap.copyOf(entries);</a>
-<span class="sourceLineNo">622</span><a id="line.622">  }</a>
-<span class="sourceLineNo">623</span><a id="line.623"></a>
-<span class="sourceLineNo">624</span><a id="line.624">  private static ImmutableList&lt;URL&gt; getClassLoaderUrls(ClassLoader classloader) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">    if (classloader instanceof URLClassLoader) {</a>
-<span class="sourceLineNo">626</span><a id="line.626">      return ImmutableList.copyOf(((URLClassLoader) classloader).getURLs());</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628">    if (classloader.equals(ClassLoader.getSystemClassLoader())) {</a>
-<span class="sourceLineNo">629</span><a id="line.629">      return parseJavaClassPath();</a>
-<span class="sourceLineNo">630</span><a id="line.630">    }</a>
-<span class="sourceLineNo">631</span><a id="line.631">    return ImmutableList.of();</a>
-<span class="sourceLineNo">632</span><a id="line.632">  }</a>
-<span class="sourceLineNo">633</span><a id="line.633"></a>
-<span class="sourceLineNo">634</span><a id="line.634">  /**</a>
-<span class="sourceLineNo">635</span><a id="line.635">   * Returns the URLs in the class path specified by the {@code java.class.path} {@linkplain</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * System#getProperty system property}.</a>
-<span class="sourceLineNo">637</span><a id="line.637">   */</a>
-<span class="sourceLineNo">638</span><a id="line.638">  @VisibleForTesting // TODO(b/65488446): Make this a public API.</a>
-<span class="sourceLineNo">639</span><a id="line.639">  static ImmutableList&lt;URL&gt; parseJavaClassPath() {</a>
-<span class="sourceLineNo">640</span><a id="line.640">    ImmutableList.Builder&lt;URL&gt; urls = ImmutableList.builder();</a>
-<span class="sourceLineNo">641</span><a id="line.641">    for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {</a>
-<span class="sourceLineNo">642</span><a id="line.642">      try {</a>
-<span class="sourceLineNo">643</span><a id="line.643">        try {</a>
-<span class="sourceLineNo">644</span><a id="line.644">          urls.add(new File(entry).toURI().toURL());</a>
-<span class="sourceLineNo">645</span><a id="line.645">        } catch (SecurityException e) { // File.toURI checks to see if the file is a directory</a>
-<span class="sourceLineNo">646</span><a id="line.646">          urls.add(new URL("file", null, new File(entry).getAbsolutePath()));</a>
-<span class="sourceLineNo">647</span><a id="line.647">        }</a>
-<span class="sourceLineNo">648</span><a id="line.648">      } catch (MalformedURLException e) {</a>
-<span class="sourceLineNo">649</span><a id="line.649">        logger.log(WARNING, "malformed classpath entry: " + entry, e);</a>
-<span class="sourceLineNo">650</span><a id="line.650">      }</a>
-<span class="sourceLineNo">651</span><a id="line.651">    }</a>
-<span class="sourceLineNo">652</span><a id="line.652">    return urls.build();</a>
-<span class="sourceLineNo">653</span><a id="line.653">  }</a>
-<span class="sourceLineNo">654</span><a id="line.654"></a>
-<span class="sourceLineNo">655</span><a id="line.655">  /**</a>
-<span class="sourceLineNo">656</span><a id="line.656">   * Returns the absolute uri of the Class-Path entry value as specified in &lt;a</a>
-<span class="sourceLineNo">657</span><a id="line.657">   * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;JAR</a>
-<span class="sourceLineNo">658</span><a id="line.658">   * File Specification&lt;/a&gt;. Even though the specification only talks about relative urls, absolute</a>
-<span class="sourceLineNo">659</span><a id="line.659">   * urls are actually supported too (for example, in Maven surefire plugin).</a>
-<span class="sourceLineNo">660</span><a id="line.660">   */</a>
-<span class="sourceLineNo">661</span><a id="line.661">  @VisibleForTesting</a>
-<span class="sourceLineNo">662</span><a id="line.662">  static URL getClassPathEntry(File jarFile, String path) throws MalformedURLException {</a>
-<span class="sourceLineNo">663</span><a id="line.663">    return new URL(jarFile.toURI().toURL(), path);</a>
-<span class="sourceLineNo">664</span><a id="line.664">  }</a>
-<span class="sourceLineNo">665</span><a id="line.665"></a>
-<span class="sourceLineNo">666</span><a id="line.666">  @VisibleForTesting</a>
-<span class="sourceLineNo">667</span><a id="line.667">  static String getClassName(String filename) {</a>
-<span class="sourceLineNo">668</span><a id="line.668">    int classNameEnd = filename.length() - CLASS_FILE_NAME_EXTENSION.length();</a>
-<span class="sourceLineNo">669</span><a id="line.669">    return filename.substring(0, classNameEnd).replace('/', '.');</a>
-<span class="sourceLineNo">670</span><a id="line.670">  }</a>
-<span class="sourceLineNo">671</span><a id="line.671"></a>
-<span class="sourceLineNo">672</span><a id="line.672">  // TODO(benyu): Try java.nio.file.Paths#get() when Guava drops JDK 6 support.</a>
-<span class="sourceLineNo">673</span><a id="line.673">  @VisibleForTesting</a>
-<span class="sourceLineNo">674</span><a id="line.674">  static File toFile(URL url) {</a>
-<span class="sourceLineNo">675</span><a id="line.675">    checkArgument(url.getProtocol().equals("file"));</a>
-<span class="sourceLineNo">676</span><a id="line.676">    try {</a>
-<span class="sourceLineNo">677</span><a id="line.677">      return new File(url.toURI()); // Accepts escaped characters like %20.</a>
-<span class="sourceLineNo">678</span><a id="line.678">    } catch (URISyntaxException e) { // URL.toURI() doesn't escape chars.</a>
-<span class="sourceLineNo">679</span><a id="line.679">      return new File(url.getPath()); // Accepts non-escaped chars like space.</a>
-<span class="sourceLineNo">680</span><a id="line.680">    }</a>
-<span class="sourceLineNo">681</span><a id="line.681">  }</a>
-<span class="sourceLineNo">682</span><a id="line.682">}</a>
+<span class="sourceLineNo">579</span><a id="line.579">  static ImmutableSet&lt;File&gt; getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {</a>
+<span class="sourceLineNo">580</span><a id="line.580">    if (manifest == null) {</a>
+<span class="sourceLineNo">581</span><a id="line.581">      return ImmutableSet.of();</a>
+<span class="sourceLineNo">582</span><a id="line.582">    }</a>
+<span class="sourceLineNo">583</span><a id="line.583">    ImmutableSet.Builder&lt;File&gt; builder = ImmutableSet.builder();</a>
+<span class="sourceLineNo">584</span><a id="line.584">    String classpathAttribute =</a>
+<span class="sourceLineNo">585</span><a id="line.585">        manifest.getMainAttributes().getValue(Attributes.Name.CLASS_PATH.toString());</a>
+<span class="sourceLineNo">586</span><a id="line.586">    if (classpathAttribute != null) {</a>
+<span class="sourceLineNo">587</span><a id="line.587">      for (String path : CLASS_PATH_ATTRIBUTE_SEPARATOR.split(classpathAttribute)) {</a>
+<span class="sourceLineNo">588</span><a id="line.588">        URL url;</a>
+<span class="sourceLineNo">589</span><a id="line.589">        try {</a>
+<span class="sourceLineNo">590</span><a id="line.590">          url = getClassPathEntry(jarFile, path);</a>
+<span class="sourceLineNo">591</span><a id="line.591">        } catch (MalformedURLException e) {</a>
+<span class="sourceLineNo">592</span><a id="line.592">          // Ignore bad entry</a>
+<span class="sourceLineNo">593</span><a id="line.593">          logger.warning("Invalid Class-Path entry: " + path);</a>
+<span class="sourceLineNo">594</span><a id="line.594">          continue;</a>
+<span class="sourceLineNo">595</span><a id="line.595">        }</a>
+<span class="sourceLineNo">596</span><a id="line.596">        if (url.getProtocol().equals("file")) {</a>
+<span class="sourceLineNo">597</span><a id="line.597">          builder.add(toFile(url));</a>
+<span class="sourceLineNo">598</span><a id="line.598">        }</a>
+<span class="sourceLineNo">599</span><a id="line.599">      }</a>
+<span class="sourceLineNo">600</span><a id="line.600">    }</a>
+<span class="sourceLineNo">601</span><a id="line.601">    return builder.build();</a>
+<span class="sourceLineNo">602</span><a id="line.602">  }</a>
+<span class="sourceLineNo">603</span><a id="line.603"></a>
+<span class="sourceLineNo">604</span><a id="line.604">  @VisibleForTesting</a>
+<span class="sourceLineNo">605</span><a id="line.605">  static ImmutableMap&lt;File, ClassLoader&gt; getClassPathEntries(ClassLoader classloader) {</a>
+<span class="sourceLineNo">606</span><a id="line.606">    LinkedHashMap&lt;File, ClassLoader&gt; entries = Maps.newLinkedHashMap();</a>
+<span class="sourceLineNo">607</span><a id="line.607">    // Search parent first, since it's the order ClassLoader#loadClass() uses.</a>
+<span class="sourceLineNo">608</span><a id="line.608">    ClassLoader parent = classloader.getParent();</a>
+<span class="sourceLineNo">609</span><a id="line.609">    if (parent != null) {</a>
+<span class="sourceLineNo">610</span><a id="line.610">      entries.putAll(getClassPathEntries(parent));</a>
+<span class="sourceLineNo">611</span><a id="line.611">    }</a>
+<span class="sourceLineNo">612</span><a id="line.612">    for (URL url : getClassLoaderUrls(classloader)) {</a>
+<span class="sourceLineNo">613</span><a id="line.613">      if (url.getProtocol().equals("file")) {</a>
+<span class="sourceLineNo">614</span><a id="line.614">        File file = toFile(url);</a>
+<span class="sourceLineNo">615</span><a id="line.615">        if (!entries.containsKey(file)) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">          entries.put(file, classloader);</a>
+<span class="sourceLineNo">617</span><a id="line.617">        }</a>
+<span class="sourceLineNo">618</span><a id="line.618">      }</a>
+<span class="sourceLineNo">619</span><a id="line.619">    }</a>
+<span class="sourceLineNo">620</span><a id="line.620">    return ImmutableMap.copyOf(entries);</a>
+<span class="sourceLineNo">621</span><a id="line.621">  }</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">  private static ImmutableList&lt;URL&gt; getClassLoaderUrls(ClassLoader classloader) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">    if (classloader instanceof URLClassLoader) {</a>
+<span class="sourceLineNo">625</span><a id="line.625">      return ImmutableList.copyOf(((URLClassLoader) classloader).getURLs());</a>
+<span class="sourceLineNo">626</span><a id="line.626">    }</a>
+<span class="sourceLineNo">627</span><a id="line.627">    if (classloader.equals(ClassLoader.getSystemClassLoader())) {</a>
+<span class="sourceLineNo">628</span><a id="line.628">      return parseJavaClassPath();</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630">    return ImmutableList.of();</a>
+<span class="sourceLineNo">631</span><a id="line.631">  }</a>
+<span class="sourceLineNo">632</span><a id="line.632"></a>
+<span class="sourceLineNo">633</span><a id="line.633">  /**</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * Returns the URLs in the class path specified by the {@code java.class.path} {@linkplain</a>
+<span class="sourceLineNo">635</span><a id="line.635">   * System#getProperty system property}.</a>
+<span class="sourceLineNo">636</span><a id="line.636">   */</a>
+<span class="sourceLineNo">637</span><a id="line.637">  @VisibleForTesting // TODO(b/65488446): Make this a public API.</a>
+<span class="sourceLineNo">638</span><a id="line.638">  static ImmutableList&lt;URL&gt; parseJavaClassPath() {</a>
+<span class="sourceLineNo">639</span><a id="line.639">    ImmutableList.Builder&lt;URL&gt; urls = ImmutableList.builder();</a>
+<span class="sourceLineNo">640</span><a id="line.640">    for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {</a>
+<span class="sourceLineNo">641</span><a id="line.641">      try {</a>
+<span class="sourceLineNo">642</span><a id="line.642">        try {</a>
+<span class="sourceLineNo">643</span><a id="line.643">          urls.add(new File(entry).toURI().toURL());</a>
+<span class="sourceLineNo">644</span><a id="line.644">        } catch (SecurityException e) { // File.toURI checks to see if the file is a directory</a>
+<span class="sourceLineNo">645</span><a id="line.645">          urls.add(new URL("file", null, new File(entry).getAbsolutePath()));</a>
+<span class="sourceLineNo">646</span><a id="line.646">        }</a>
+<span class="sourceLineNo">647</span><a id="line.647">      } catch (MalformedURLException e) {</a>
+<span class="sourceLineNo">648</span><a id="line.648">        logger.log(WARNING, "malformed classpath entry: " + entry, e);</a>
+<span class="sourceLineNo">649</span><a id="line.649">      }</a>
+<span class="sourceLineNo">650</span><a id="line.650">    }</a>
+<span class="sourceLineNo">651</span><a id="line.651">    return urls.build();</a>
+<span class="sourceLineNo">652</span><a id="line.652">  }</a>
+<span class="sourceLineNo">653</span><a id="line.653"></a>
+<span class="sourceLineNo">654</span><a id="line.654">  /**</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * Returns the absolute uri of the Class-Path entry value as specified in &lt;a</a>
+<span class="sourceLineNo">656</span><a id="line.656">   * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;JAR</a>
+<span class="sourceLineNo">657</span><a id="line.657">   * File Specification&lt;/a&gt;. Even though the specification only talks about relative urls, absolute</a>
+<span class="sourceLineNo">658</span><a id="line.658">   * urls are actually supported too (for example, in Maven surefire plugin).</a>
+<span class="sourceLineNo">659</span><a id="line.659">   */</a>
+<span class="sourceLineNo">660</span><a id="line.660">  @VisibleForTesting</a>
+<span class="sourceLineNo">661</span><a id="line.661">  static URL getClassPathEntry(File jarFile, String path) throws MalformedURLException {</a>
+<span class="sourceLineNo">662</span><a id="line.662">    return new URL(jarFile.toURI().toURL(), path);</a>
+<span class="sourceLineNo">663</span><a id="line.663">  }</a>
+<span class="sourceLineNo">664</span><a id="line.664"></a>
+<span class="sourceLineNo">665</span><a id="line.665">  @VisibleForTesting</a>
+<span class="sourceLineNo">666</span><a id="line.666">  static String getClassName(String filename) {</a>
+<span class="sourceLineNo">667</span><a id="line.667">    int classNameEnd = filename.length() - CLASS_FILE_NAME_EXTENSION.length();</a>
+<span class="sourceLineNo">668</span><a id="line.668">    return filename.substring(0, classNameEnd).replace('/', '.');</a>
+<span class="sourceLineNo">669</span><a id="line.669">  }</a>
+<span class="sourceLineNo">670</span><a id="line.670"></a>
+<span class="sourceLineNo">671</span><a id="line.671">  // TODO(benyu): Try java.nio.file.Paths#get() when Guava drops JDK 6 support.</a>
+<span class="sourceLineNo">672</span><a id="line.672">  @VisibleForTesting</a>
+<span class="sourceLineNo">673</span><a id="line.673">  static File toFile(URL url) {</a>
+<span class="sourceLineNo">674</span><a id="line.674">    checkArgument(url.getProtocol().equals("file"));</a>
+<span class="sourceLineNo">675</span><a id="line.675">    try {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      return new File(url.toURI()); // Accepts escaped characters like %20.</a>
+<span class="sourceLineNo">677</span><a id="line.677">    } catch (URISyntaxException e) { // URL.toURI() doesn't escape chars.</a>
+<span class="sourceLineNo">678</span><a id="line.678">      return new File(url.getPath()); // Accepts non-escaped chars like space.</a>
+<span class="sourceLineNo">679</span><a id="line.679">    }</a>
+<span class="sourceLineNo">680</span><a id="line.680">  }</a>
+<span class="sourceLineNo">681</span><a id="line.681">}</a>
 
 
 

@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.50">ForwardingMapEntry</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.49">ForwardingMapEntry</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A map entry which forwards all its method calls to another map entry. Subclasses should override
@@ -221,7 +221,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -246,7 +246,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardEquals(java.lang.Object)">standardEquals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardEquals(java.lang.Object)">standardEquals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> in terms of <a href="#getKey()"><code>getKey()</code></a> and <a href="#getValue()"><code>getValue()</code></a>.</div>
 </td>
@@ -302,7 +302,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMapEntry</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.56">ForwardingMapEntry</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.55">ForwardingMapEntry</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -322,7 +322,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.58">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.57">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -340,7 +340,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>getKey</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.61">getKey</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.60">getKey</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true#getKey()" title="class or interface in java.util" class="externalLink">getKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
@@ -353,7 +353,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>getValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.67">getValue</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.66">getValue</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true#getValue()" title="class or interface in java.util" class="externalLink">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
@@ -369,7 +369,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <li class="blockList">
 <h4>setValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.73">setValue</a>&#8203;(<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;value)</pre>
+public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.72">setValue</a>&#8203;(<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util" class="externalLink">setValue</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
@@ -382,8 +382,7 @@ public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in Forwardin
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.80">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.79">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
@@ -398,7 +397,7 @@ public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in Forwardin
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.85">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.84">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
@@ -413,8 +412,7 @@ public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in Forwardin
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.97">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.96">standardEquals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> in terms of <a href="#getKey()"><code>getKey()</code></a> and <a href="#getValue()"><code>getValue()</code></a>. If you override either of these methods, you may wish to override <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -428,7 +426,7 @@ public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in Forwardin
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.113">standardHashCode</a>()</pre>
+<pre class="methodSignature">protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.112">standardHashCode</a>()</pre>
 <div class="block">A sensible definition of <a href="#hashCode()"><code>hashCode()</code></a> in terms of <a href="#getKey()"><code>getKey()</code></a> and <a href="#getValue()"><code>getValue()</code></a>. If you override either of these methods, you may wish to override <a href="#hashCode()"><code>hashCode()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -442,7 +440,7 @@ public&nbsp;<a href="ForwardingMapEntry.html" title="type parameter in Forwardin
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.126">standardToString</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.125">standardToString</a>()</pre>
 <div class="block">A sensible definition of <a href="ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="#getKey()"><code>getKey()</code></a> and <a href="#getValue()"><code>getValue()</code></a>.
  If you override either of these methods, you may wish to override <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> to forward to
  this implementation.</div>

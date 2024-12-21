@@ -35,7 +35,7 @@
 <span class="sourceLineNo">026</span><a id="line.26">import java.util.concurrent.Executors;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import java.util.concurrent.ThreadFactory;</a>
 <span class="sourceLineNo">028</span><a id="line.28">import java.util.concurrent.atomic.AtomicLong;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">030</span><a id="line.30"></a>
 <span class="sourceLineNo">031</span><a id="line.31">/**</a>
 <span class="sourceLineNo">032</span><a id="line.32"> * A ThreadFactory builder, providing any combination of these features:</a>
@@ -61,11 +61,11 @@
 <span class="sourceLineNo">052</span><a id="line.52">@J2ktIncompatible</a>
 <span class="sourceLineNo">053</span><a id="line.53">@GwtIncompatible</a>
 <span class="sourceLineNo">054</span><a id="line.54">public final class ThreadFactoryBuilder {</a>
-<span class="sourceLineNo">055</span><a id="line.55">  @CheckForNull private String nameFormat = null;</a>
-<span class="sourceLineNo">056</span><a id="line.56">  @CheckForNull private Boolean daemon = null;</a>
-<span class="sourceLineNo">057</span><a id="line.57">  @CheckForNull private Integer priority = null;</a>
-<span class="sourceLineNo">058</span><a id="line.58">  @CheckForNull private UncaughtExceptionHandler uncaughtExceptionHandler = null;</a>
-<span class="sourceLineNo">059</span><a id="line.59">  @CheckForNull private ThreadFactory backingThreadFactory = null;</a>
+<span class="sourceLineNo">055</span><a id="line.55">  private @Nullable String nameFormat = null;</a>
+<span class="sourceLineNo">056</span><a id="line.56">  private @Nullable Boolean daemon = null;</a>
+<span class="sourceLineNo">057</span><a id="line.57">  private @Nullable Integer priority = null;</a>
+<span class="sourceLineNo">058</span><a id="line.58">  private @Nullable UncaughtExceptionHandler uncaughtExceptionHandler = null;</a>
+<span class="sourceLineNo">059</span><a id="line.59">  private @Nullable ThreadFactory backingThreadFactory = null;</a>
 <span class="sourceLineNo">060</span><a id="line.60"></a>
 <span class="sourceLineNo">061</span><a id="line.61">  /** Creates a new {@link ThreadFactory} builder. */</a>
 <span class="sourceLineNo">062</span><a id="line.62">  public ThreadFactoryBuilder() {}</a>

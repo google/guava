@@ -31,7 +31,7 @@ com.google.common.base
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV PACKAGE</B>&nbsp;
-&nbsp;<B>NEXT PACKAGE</B>&nbsp;
+&nbsp;<A HREF="pkg_com.google.common.cache.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.base.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -49,9 +49,32 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 </H2>
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Converter"></A>
+  <nobr><A HREF="com.google.common.base.Converter.html">Converter</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
+ to {@code A}; used for converting back and forth between <i>different representations of the same
+ information</i>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Equivalence.Wrapper"></A>
+  <nobr><A HREF="com.google.common.base.Equivalence.Wrapper.html">Equivalence.Wrapper</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Wraps an object so that <A HREF="../../docs/com/google/common/base/Equivalence/Wrapper/.html#equals(Object)"><TT>.equals(Object)</TT></A> and <A HREF="../../docs/com/google/common/base/Equivalence/Wrapper/.html#hashCode()"><TT>.hashCode()</TT></A> delegate to an <A HREF="../../docs/com/google/common/base/Equivalence/Wrapper/Equivalence.html"><TT>Equivalence</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Function"></A>
+  <nobr><A HREF="com.google.common.base.Function.html"><I>Function</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Determines an output value based on an input value; a pre-Java-8 version of <A HREF="../../docs/com/google/common/base/Function/java/util/function/Function.html"><TT>java.util.function.Function</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -69,6 +92,81 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
  }</pre>
 
  </TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="MoreObjects.ToStringHelper"></A>
+  <nobr><A HREF="com.google.common.base.MoreObjects.ToStringHelper.html">MoreObjects.ToStringHelper</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Support class for <A HREF="../../docs/com/google/common/base/MoreObjects/ToStringHelper/MoreObjects.html#toStringHelper"><TT>MoreObjects.toStringHelper</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Objects"></A>
+  <nobr><A HREF="com.google.common.base.Objects.html">Objects</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Helper functions that can operate on any {@code Object}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Optional"></A>
+  <nobr><A HREF="com.google.common.base.Optional.html">Optional</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An immutable object that may contain a non-null reference to another object.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Preconditions"></A>
+  <nobr><A HREF="com.google.common.base.Preconditions.html">Preconditions</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static convenience methods that help a method or constructor check whether it was invoked
+ correctly (that is, whether its <i>preconditions</i> were met).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Predicate"></A>
+  <nobr><A HREF="com.google.common.base.Predicate.html"><I>Predicate</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Determines a true or false value for a given input; a pre-Java-8 version of <A HREF="../../docs/com/google/common/base/Predicate/java/util/function/Predicate.html"><TT>java.util.function.Predicate</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="StandardSystemProperty"></A>
+  <nobr><A HREF="com.google.common.base.StandardSystemProperty.html">StandardSystemProperty</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Represents a <A HREF="../../docs/com/google/common/base/StandardSystemProperty/lain.html"><TT>System#getProperties() standard system property</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Strings"></A>
+  <nobr><A HREF="com.google.common.base.Strings.html">Strings</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to {@code String} or {@code CharSequence} instances.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Throwables"></A>
+  <nobr><A HREF="com.google.common.base.Throwables.html">Throwables</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to instances of <A HREF="../../docs/com/google/common/base/Throwables/Throwable.html"><TT>Throwable</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Verify"></A>
+  <nobr><A HREF="com.google.common.base.Verify.html">Verify</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static convenience methods that serve the same purpose as Java language <a
+ href="https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html">assertions</a>,
+ except that they are always enabled.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="VerifyException"></A>
+  <nobr><A HREF="com.google.common.base.VerifyException.html">VerifyException</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Exception thrown upon the failure of a <a
+ href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">verification check</a>,
+ including those performed by the convenience methods of the <A HREF="../../docs/com/google/common/base/VerifyException/Verify.html"><TT>Verify</TT></A> class.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -92,7 +190,7 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV PACKAGE</B>&nbsp;
-&nbsp;<B>NEXT PACKAGE</B>&nbsp;
+&nbsp;<A HREF="pkg_com.google.common.cache.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.base.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

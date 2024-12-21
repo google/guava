@@ -146,7 +146,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.40">ForwardingMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.39">ForwardingMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">A multimap which forwards all its method calls to another multimap. Subclasses should override
@@ -223,8 +223,8 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsEntry(java.lang.Object,java.lang.Object)">containsEntry</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
-             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsEntry(java.lang.Object,java.lang.Object)">containsEntry</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
  key</code> and the value <code>value</code>.</div>
@@ -232,7 +232,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
  key</code>.</div>
@@ -240,7 +240,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the value
  <code>value</code>.</div>
@@ -263,7 +263,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Compares the specified object with this multimap for equality.</div>
 </td>
@@ -331,8 +331,8 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
-      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Removes a single key-value pair with the key <code>key</code> and the value <code>value</code> from this
  multimap, if such exists.</div>
@@ -340,7 +340,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Object)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Object)">removeAll</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Removes all values associated with the key <code>key</code>.</div>
 </td>
@@ -405,7 +405,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMultimap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.45">ForwardingMultimap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.44">ForwardingMultimap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -425,7 +425,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.47">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.46">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -443,7 +443,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.50">asMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.49">asMap</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#asMap()">Multimap</a></code></span></div>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key to the nonempty
  collection of that key's associated values. Note that <code>this.asMap().get(k)</code> is equivalent
@@ -465,7 +465,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.55">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.54">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#clear()">Multimap</a></code></span></div>
 <div class="block">Removes all key-value pairs from the multimap, leaving it <a href="Multimap.html#isEmpty()">empty</a>.</div>
 <dl>
@@ -480,10 +480,8 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsEntry</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.60">containsEntry</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
-                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.59">containsEntry</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#containsEntry(java.lang.Object,java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
  key</code> and the value <code>value</code>.</div>
@@ -499,8 +497,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.65">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.64">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#containsKey(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
  key</code>.</div>
@@ -516,8 +513,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.70">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.69">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#containsValue(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the value
  <code>value</code>.</div>
@@ -533,7 +529,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.75">entries</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.74">entries</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#entries()">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of all key-value pairs contained in this multimap, as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map.Entry</code></a>
  instances.
@@ -554,7 +550,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.80">get</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.79">get</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#get(K)">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.
  Note that when <code>containsKey(key)</code> is false, this returns an empty collection, not <code>
@@ -573,7 +569,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.85">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.84">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#isEmpty()">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains no key-value pairs. Equivalent to <code>size()
  == 0</code>, but can in some cases be more efficient.</div>
@@ -589,7 +585,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>keys</h4>
-<pre class="methodSignature">public&nbsp;<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.90">keys</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.89">keys</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#keys()">Multimap</a></code></span></div>
 <div class="block">Returns a view collection containing the key from each key-value pair in this multimap,
  <i>without</i> collapsing duplicates. This collection has the same size as this multimap, and
@@ -609,7 +605,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.95">keySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.94">keySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#keySet()">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the
  key set contains a key if and only if this multimap maps that key to at least one value.
@@ -631,7 +627,7 @@ implements <a href="Multimap.html" title="interface in com.google.common.collect
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.100">put</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.99">put</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
                    <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#put(K,V)">Multimap</a></code></span></div>
 <div class="block">Stores a key-value pair in this multimap.
@@ -657,7 +653,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.106">putAll</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.105">putAll</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
                       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#putAll(K,java.lang.Iterable)">Multimap</a></code></span></div>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all using the same key,
@@ -685,7 +681,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.112">putAll</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;multimap)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.111">putAll</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,&#8203;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;multimap)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#putAll(com.google.common.collect.Multimap)">Multimap</a></code></span></div>
 <div class="block">Stores all key-value pairs of <code>multimap</code> in this multimap, in the order returned by
  <code>multimap.entries()</code>.</div>
@@ -704,10 +700,8 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.118">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
-                      <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.117">remove</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#remove(java.lang.Object,java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Removes a single key-value pair with the key <code>key</code> and the value <code>value</code> from this
  multimap, if such exists. If multiple key-value pairs in the multimap fit this description,
@@ -727,8 +721,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.124">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.123">removeAll</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#removeAll(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
 
@@ -752,7 +745,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <li class="blockList">
 <h4>replaceValues</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.130">replaceValues</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.129">replaceValues</a>&#8203;(<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
                                    <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#replaceValues(K,java.lang.Iterable)">Multimap</a></code></span></div>
 <div class="block">Stores a collection of values with the same key, replacing any existing values for that key.
@@ -774,7 +767,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.136">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.135">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#size()">Multimap</a></code></span></div>
 <div class="block">Returns the number of key-value pairs in this multimap.
 
@@ -793,7 +786,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.141">values</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.140">values</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#values()">Multimap</a></code></span></div>
 <div class="block">Returns a view collection containing the <i>value</i> from each key-value pair contained in
  this multimap, without collapsing duplicates (so <code>values().size() == size()</code>).
@@ -812,8 +805,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.146">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.145">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#equals(java.lang.Object)">Multimap</a></code></span></div>
 <div class="block">Compares the specified object with this multimap for equality. Two multimaps are equal when
  their map views, as returned by <a href="Multimap.html#asMap()"><code>Multimap.asMap()</code></a>, are also equal.
@@ -840,7 +832,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.151">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.150">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multimap.html#hashCode()">Multimap</a></code></span></div>
 <div class="block">Returns the hash code for this multimap.
 

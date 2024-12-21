@@ -30,140 +30,135 @@
 <span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import java.util.Deque;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import java.util.Iterator;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">/**</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * A deque which forwards all its method calls to another deque. Subclasses should override one or</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * more methods to modify the behavior of the backing deque as desired per the &lt;a</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
-<span class="sourceLineNo">031</span><a id="line.31"> *</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingDeque} forward &lt;b&gt;indiscriminately&lt;/b&gt; to the</a>
-<span class="sourceLineNo">033</span><a id="line.33"> * methods of the delegate. For example, overriding {@link #add} alone &lt;b&gt;will not&lt;/b&gt; change the</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * behavior of {@link #offer} which can lead to unexpected behavior. In this case, you should</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * override {@code offer} as well.</a>
-<span class="sourceLineNo">036</span><a id="line.36"> *</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * default} methods. Instead, it inherits their default implementations. When those implementations</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * invoke methods, they invoke methods on the {@code ForwardingDeque}.</a>
-<span class="sourceLineNo">040</span><a id="line.40"> *</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * @author Kurt Alfred Kluever</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * @since 12.0</a>
-<span class="sourceLineNo">043</span><a id="line.43"> */</a>
-<span class="sourceLineNo">044</span><a id="line.44">@J2ktIncompatible</a>
-<span class="sourceLineNo">045</span><a id="line.45">@GwtIncompatible</a>
-<span class="sourceLineNo">046</span><a id="line.46">public abstract class ForwardingDeque&lt;E extends @Nullable Object&gt; extends ForwardingQueue&lt;E&gt;</a>
-<span class="sourceLineNo">047</span><a id="line.47">    implements Deque&lt;E&gt; {</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">  /** Constructor for use by subclasses. */</a>
-<span class="sourceLineNo">050</span><a id="line.50">  protected ForwardingDeque() {}</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
-<span class="sourceLineNo">053</span><a id="line.53">  protected abstract Deque&lt;E&gt; delegate();</a>
-<span class="sourceLineNo">054</span><a id="line.54"></a>
-<span class="sourceLineNo">055</span><a id="line.55">  @Override</a>
-<span class="sourceLineNo">056</span><a id="line.56">  public void addFirst(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">057</span><a id="line.57">    delegate().addFirst(e);</a>
-<span class="sourceLineNo">058</span><a id="line.58">  }</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">  @Override</a>
-<span class="sourceLineNo">061</span><a id="line.61">  public void addLast(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">062</span><a id="line.62">    delegate().addLast(e);</a>
-<span class="sourceLineNo">063</span><a id="line.63">  }</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">  @Override</a>
-<span class="sourceLineNo">066</span><a id="line.66">  public Iterator&lt;E&gt; descendingIterator() {</a>
-<span class="sourceLineNo">067</span><a id="line.67">    return delegate().descendingIterator();</a>
-<span class="sourceLineNo">068</span><a id="line.68">  }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @ParametricNullness</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public E getFirst() {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    return delegate().getFirst();</a>
-<span class="sourceLineNo">074</span><a id="line.74">  }</a>
-<span class="sourceLineNo">075</span><a id="line.75"></a>
-<span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
-<span class="sourceLineNo">077</span><a id="line.77">  @ParametricNullness</a>
-<span class="sourceLineNo">078</span><a id="line.78">  public E getLast() {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    return delegate().getLast();</a>
-<span class="sourceLineNo">080</span><a id="line.80">  }</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
-<span class="sourceLineNo">083</span><a id="line.83">  @Override</a>
-<span class="sourceLineNo">084</span><a id="line.84">  public boolean offerFirst(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">085</span><a id="line.85">    return delegate().offerFirst(e);</a>
-<span class="sourceLineNo">086</span><a id="line.86">  }</a>
-<span class="sourceLineNo">087</span><a id="line.87"></a>
-<span class="sourceLineNo">088</span><a id="line.88">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
-<span class="sourceLineNo">089</span><a id="line.89">  @Override</a>
-<span class="sourceLineNo">090</span><a id="line.90">  public boolean offerLast(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">091</span><a id="line.91">    return delegate().offerLast(e);</a>
-<span class="sourceLineNo">092</span><a id="line.92">  }</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">  @Override</a>
-<span class="sourceLineNo">095</span><a id="line.95">  @CheckForNull</a>
-<span class="sourceLineNo">096</span><a id="line.96">  public E peekFirst() {</a>
-<span class="sourceLineNo">097</span><a id="line.97">    return delegate().peekFirst();</a>
-<span class="sourceLineNo">098</span><a id="line.98">  }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">  @Override</a>
-<span class="sourceLineNo">101</span><a id="line.101">  @CheckForNull</a>
-<span class="sourceLineNo">102</span><a id="line.102">  public E peekLast() {</a>
-<span class="sourceLineNo">103</span><a id="line.103">    return delegate().peekLast();</a>
-<span class="sourceLineNo">104</span><a id="line.104">  }</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
-<span class="sourceLineNo">107</span><a id="line.107">  @Override</a>
-<span class="sourceLineNo">108</span><a id="line.108">  @CheckForNull</a>
-<span class="sourceLineNo">109</span><a id="line.109">  public E pollFirst() {</a>
-<span class="sourceLineNo">110</span><a id="line.110">    return delegate().pollFirst();</a>
-<span class="sourceLineNo">111</span><a id="line.111">  }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
-<span class="sourceLineNo">114</span><a id="line.114">  @Override</a>
-<span class="sourceLineNo">115</span><a id="line.115">  @CheckForNull</a>
-<span class="sourceLineNo">116</span><a id="line.116">  public E pollLast() {</a>
-<span class="sourceLineNo">117</span><a id="line.117">    return delegate().pollLast();</a>
-<span class="sourceLineNo">118</span><a id="line.118">  }</a>
-<span class="sourceLineNo">119</span><a id="line.119"></a>
-<span class="sourceLineNo">120</span><a id="line.120">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">121</span><a id="line.121">  @Override</a>
-<span class="sourceLineNo">122</span><a id="line.122">  @ParametricNullness</a>
-<span class="sourceLineNo">123</span><a id="line.123">  public E pop() {</a>
-<span class="sourceLineNo">124</span><a id="line.124">    return delegate().pop();</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A deque which forwards all its method calls to another deque. Subclasses should override one or</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * more methods to modify the behavior of the backing deque as desired per the &lt;a</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingDeque} forward &lt;b&gt;indiscriminately&lt;/b&gt; to the</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * methods of the delegate. For example, overriding {@link #add} alone &lt;b&gt;will not&lt;/b&gt; change the</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * behavior of {@link #offer} which can lead to unexpected behavior. In this case, you should</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * override {@code offer} as well.</a>
+<span class="sourceLineNo">035</span><a id="line.35"> *</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * default} methods. Instead, it inherits their default implementations. When those implementations</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * invoke methods, they invoke methods on the {@code ForwardingDeque}.</a>
+<span class="sourceLineNo">039</span><a id="line.39"> *</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @author Kurt Alfred Kluever</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @since 12.0</a>
+<span class="sourceLineNo">042</span><a id="line.42"> */</a>
+<span class="sourceLineNo">043</span><a id="line.43">@J2ktIncompatible</a>
+<span class="sourceLineNo">044</span><a id="line.44">@GwtIncompatible</a>
+<span class="sourceLineNo">045</span><a id="line.45">public abstract class ForwardingDeque&lt;E extends @Nullable Object&gt; extends ForwardingQueue&lt;E&gt;</a>
+<span class="sourceLineNo">046</span><a id="line.46">    implements Deque&lt;E&gt; {</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">049</span><a id="line.49">  protected ForwardingDeque() {}</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  @Override</a>
+<span class="sourceLineNo">052</span><a id="line.52">  protected abstract Deque&lt;E&gt; delegate();</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">  @Override</a>
+<span class="sourceLineNo">055</span><a id="line.55">  public void addFirst(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">056</span><a id="line.56">    delegate().addFirst(e);</a>
+<span class="sourceLineNo">057</span><a id="line.57">  }</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
+<span class="sourceLineNo">060</span><a id="line.60">  public void addLast(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">061</span><a id="line.61">    delegate().addLast(e);</a>
+<span class="sourceLineNo">062</span><a id="line.62">  }</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
+<span class="sourceLineNo">065</span><a id="line.65">  public Iterator&lt;E&gt; descendingIterator() {</a>
+<span class="sourceLineNo">066</span><a id="line.66">    return delegate().descendingIterator();</a>
+<span class="sourceLineNo">067</span><a id="line.67">  }</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  @Override</a>
+<span class="sourceLineNo">070</span><a id="line.70">  @ParametricNullness</a>
+<span class="sourceLineNo">071</span><a id="line.71">  public E getFirst() {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return delegate().getFirst();</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  @Override</a>
+<span class="sourceLineNo">076</span><a id="line.76">  @ParametricNullness</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public E getLast() {</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return delegate().getLast();</a>
+<span class="sourceLineNo">079</span><a id="line.79">  }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
+<span class="sourceLineNo">082</span><a id="line.82">  @Override</a>
+<span class="sourceLineNo">083</span><a id="line.83">  public boolean offerFirst(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">    return delegate().offerFirst(e);</a>
+<span class="sourceLineNo">085</span><a id="line.85">  }</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
+<span class="sourceLineNo">088</span><a id="line.88">  @Override</a>
+<span class="sourceLineNo">089</span><a id="line.89">  public boolean offerLast(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">    return delegate().offerLast(e);</a>
+<span class="sourceLineNo">091</span><a id="line.91">  }</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">  @Override</a>
+<span class="sourceLineNo">094</span><a id="line.94">  public @Nullable E peekFirst() {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return delegate().peekFirst();</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  @Override</a>
+<span class="sourceLineNo">099</span><a id="line.99">  public @Nullable E peekLast() {</a>
+<span class="sourceLineNo">100</span><a id="line.100">    return delegate().peekLast();</a>
+<span class="sourceLineNo">101</span><a id="line.101">  }</a>
+<span class="sourceLineNo">102</span><a id="line.102"></a>
+<span class="sourceLineNo">103</span><a id="line.103">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
+<span class="sourceLineNo">104</span><a id="line.104">  @Override</a>
+<span class="sourceLineNo">105</span><a id="line.105">  public @Nullable E pollFirst() {</a>
+<span class="sourceLineNo">106</span><a id="line.106">    return delegate().pollFirst();</a>
+<span class="sourceLineNo">107</span><a id="line.107">  }</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?</a>
+<span class="sourceLineNo">110</span><a id="line.110">  @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">  public @Nullable E pollLast() {</a>
+<span class="sourceLineNo">112</span><a id="line.112">    return delegate().pollLast();</a>
+<span class="sourceLineNo">113</span><a id="line.113">  }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">116</span><a id="line.116">  @Override</a>
+<span class="sourceLineNo">117</span><a id="line.117">  @ParametricNullness</a>
+<span class="sourceLineNo">118</span><a id="line.118">  public E pop() {</a>
+<span class="sourceLineNo">119</span><a id="line.119">    return delegate().pop();</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  @Override</a>
+<span class="sourceLineNo">123</span><a id="line.123">  public void push(@ParametricNullness E e) {</a>
+<span class="sourceLineNo">124</span><a id="line.124">    delegate().push(e);</a>
 <span class="sourceLineNo">125</span><a id="line.125">  }</a>
 <span class="sourceLineNo">126</span><a id="line.126"></a>
-<span class="sourceLineNo">127</span><a id="line.127">  @Override</a>
-<span class="sourceLineNo">128</span><a id="line.128">  public void push(@ParametricNullness E e) {</a>
-<span class="sourceLineNo">129</span><a id="line.129">    delegate().push(e);</a>
-<span class="sourceLineNo">130</span><a id="line.130">  }</a>
-<span class="sourceLineNo">131</span><a id="line.131"></a>
-<span class="sourceLineNo">132</span><a id="line.132">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">133</span><a id="line.133">  @Override</a>
-<span class="sourceLineNo">134</span><a id="line.134">  @ParametricNullness</a>
-<span class="sourceLineNo">135</span><a id="line.135">  public E removeFirst() {</a>
-<span class="sourceLineNo">136</span><a id="line.136">    return delegate().removeFirst();</a>
-<span class="sourceLineNo">137</span><a id="line.137">  }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">140</span><a id="line.140">  @Override</a>
-<span class="sourceLineNo">141</span><a id="line.141">  @ParametricNullness</a>
-<span class="sourceLineNo">142</span><a id="line.142">  public E removeLast() {</a>
-<span class="sourceLineNo">143</span><a id="line.143">    return delegate().removeLast();</a>
-<span class="sourceLineNo">144</span><a id="line.144">  }</a>
-<span class="sourceLineNo">145</span><a id="line.145"></a>
-<span class="sourceLineNo">146</span><a id="line.146">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">147</span><a id="line.147">  @Override</a>
-<span class="sourceLineNo">148</span><a id="line.148">  public boolean removeFirstOccurrence(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">149</span><a id="line.149">    return delegate().removeFirstOccurrence(o);</a>
-<span class="sourceLineNo">150</span><a id="line.150">  }</a>
-<span class="sourceLineNo">151</span><a id="line.151"></a>
-<span class="sourceLineNo">152</span><a id="line.152">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">153</span><a id="line.153">  @Override</a>
-<span class="sourceLineNo">154</span><a id="line.154">  public boolean removeLastOccurrence(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">155</span><a id="line.155">    return delegate().removeLastOccurrence(o);</a>
-<span class="sourceLineNo">156</span><a id="line.156">  }</a>
-<span class="sourceLineNo">157</span><a id="line.157">}</a>
+<span class="sourceLineNo">127</span><a id="line.127">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">128</span><a id="line.128">  @Override</a>
+<span class="sourceLineNo">129</span><a id="line.129">  @ParametricNullness</a>
+<span class="sourceLineNo">130</span><a id="line.130">  public E removeFirst() {</a>
+<span class="sourceLineNo">131</span><a id="line.131">    return delegate().removeFirst();</a>
+<span class="sourceLineNo">132</span><a id="line.132">  }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">135</span><a id="line.135">  @Override</a>
+<span class="sourceLineNo">136</span><a id="line.136">  @ParametricNullness</a>
+<span class="sourceLineNo">137</span><a id="line.137">  public E removeLast() {</a>
+<span class="sourceLineNo">138</span><a id="line.138">    return delegate().removeLast();</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">142</span><a id="line.142">  @Override</a>
+<span class="sourceLineNo">143</span><a id="line.143">  public boolean removeFirstOccurrence(@Nullable Object o) {</a>
+<span class="sourceLineNo">144</span><a id="line.144">    return delegate().removeFirstOccurrence(o);</a>
+<span class="sourceLineNo">145</span><a id="line.145">  }</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">148</span><a id="line.148">  @Override</a>
+<span class="sourceLineNo">149</span><a id="line.149">  public boolean removeLastOccurrence(@Nullable Object o) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">    return delegate().removeLastOccurrence(o);</a>
+<span class="sourceLineNo">151</span><a id="line.151">  }</a>
+<span class="sourceLineNo">152</span><a id="line.152">}</a>
 
 
 

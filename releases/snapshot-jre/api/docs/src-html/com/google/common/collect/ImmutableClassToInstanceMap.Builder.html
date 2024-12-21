@@ -34,8 +34,8 @@
 <span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.Immutable;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import java.io.Serializable;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import java.util.Map;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">030</span><a id="line.30"></a>
 <span class="sourceLineNo">031</span><a id="line.31">/**</a>
 <span class="sourceLineNo">032</span><a id="line.32"> * A {@link ClassToInstanceMap} whose contents will never change, with many other important</a>
@@ -190,30 +190,28 @@
 <span class="sourceLineNo">181</span><a id="line.181"></a>
 <span class="sourceLineNo">182</span><a id="line.182">  @Override</a>
 <span class="sourceLineNo">183</span><a id="line.183">  @SuppressWarnings("unchecked") // value could not get in if not a T</a>
-<span class="sourceLineNo">184</span><a id="line.184">  @CheckForNull</a>
-<span class="sourceLineNo">185</span><a id="line.185">  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">    return (T) delegate.get(checkNotNull(type));</a>
-<span class="sourceLineNo">187</span><a id="line.187">  }</a>
-<span class="sourceLineNo">188</span><a id="line.188"></a>
-<span class="sourceLineNo">189</span><a id="line.189">  /**</a>
-<span class="sourceLineNo">190</span><a id="line.190">   * Guaranteed to throw an exception and leave the map unmodified.</a>
-<span class="sourceLineNo">191</span><a id="line.191">   *</a>
-<span class="sourceLineNo">192</span><a id="line.192">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">193</span><a id="line.193">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">194</span><a id="line.194">   */</a>
-<span class="sourceLineNo">195</span><a id="line.195">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">196</span><a id="line.196">  @Deprecated</a>
-<span class="sourceLineNo">197</span><a id="line.197">  @Override</a>
-<span class="sourceLineNo">198</span><a id="line.198">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">199</span><a id="line.199">  @CheckForNull</a>
-<span class="sourceLineNo">200</span><a id="line.200">  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {</a>
-<span class="sourceLineNo">201</span><a id="line.201">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">202</span><a id="line.202">  }</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">  Object readResolve() {</a>
-<span class="sourceLineNo">205</span><a id="line.205">    return isEmpty() ? of() : this;</a>
-<span class="sourceLineNo">206</span><a id="line.206">  }</a>
-<span class="sourceLineNo">207</span><a id="line.207">}</a>
+<span class="sourceLineNo">184</span><a id="line.184">  public &lt;T extends B&gt; @Nullable T getInstance(Class&lt;T&gt; type) {</a>
+<span class="sourceLineNo">185</span><a id="line.185">    return (T) delegate.get(checkNotNull(type));</a>
+<span class="sourceLineNo">186</span><a id="line.186">  }</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">  /**</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * Guaranteed to throw an exception and leave the map unmodified.</a>
+<span class="sourceLineNo">190</span><a id="line.190">   *</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">192</span><a id="line.192">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">193</span><a id="line.193">   */</a>
+<span class="sourceLineNo">194</span><a id="line.194">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">195</span><a id="line.195">  @Deprecated</a>
+<span class="sourceLineNo">196</span><a id="line.196">  @Override</a>
+<span class="sourceLineNo">197</span><a id="line.197">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">198</span><a id="line.198">  public &lt;T extends B&gt; @Nullable T putInstance(Class&lt;T&gt; type, T value) {</a>
+<span class="sourceLineNo">199</span><a id="line.199">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">200</span><a id="line.200">  }</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">  Object readResolve() {</a>
+<span class="sourceLineNo">203</span><a id="line.203">    return isEmpty() ? of() : this;</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205">}</a>
 
 
 

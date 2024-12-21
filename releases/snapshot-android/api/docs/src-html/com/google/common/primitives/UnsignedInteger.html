@@ -33,7 +33,7 @@
 <span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.GwtIncompatible;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import com.google.common.annotations.J2ktIncompatible;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import java.math.BigInteger;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">028</span><a id="line.28"></a>
 <span class="sourceLineNo">029</span><a id="line.29">/**</a>
 <span class="sourceLineNo">030</span><a id="line.30"> * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.</a>
@@ -237,7 +237,7 @@
 <span class="sourceLineNo">228</span><a id="line.228">  }</a>
 <span class="sourceLineNo">229</span><a id="line.229"></a>
 <span class="sourceLineNo">230</span><a id="line.230">  @Override</a>
-<span class="sourceLineNo">231</span><a id="line.231">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">  public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">232</span><a id="line.232">    if (obj instanceof UnsignedInteger) {</a>
 <span class="sourceLineNo">233</span><a id="line.233">      UnsignedInteger other = (UnsignedInteger) obj;</a>
 <span class="sourceLineNo">234</span><a id="line.234">      return value == other.value;</a>

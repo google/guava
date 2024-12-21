@@ -28,7 +28,7 @@
 <span class="sourceLineNo">019</span><a id="line.19"></a>
 <span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.GwtCompatible;</a>
 <span class="sourceLineNo">021</span><a id="line.21">import java.io.Serializable;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">023</span><a id="line.23"></a>
 <span class="sourceLineNo">024</span><a id="line.24">/**</a>
 <span class="sourceLineNo">025</span><a id="line.25"> * Utility class for converting between various ASCII case formats. Behavior is undefined for</a>
@@ -190,7 +190,7 @@
 <span class="sourceLineNo">181</span><a id="line.181">    }</a>
 <span class="sourceLineNo">182</span><a id="line.182"></a>
 <span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
-<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">185</span><a id="line.185">      if (object instanceof StringConverter) {</a>
 <span class="sourceLineNo">186</span><a id="line.186">        StringConverter that = (StringConverter) object;</a>
 <span class="sourceLineNo">187</span><a id="line.187">        return sourceFormat.equals(that.sourceFormat) &amp;&amp; targetFormat.equals(that.targetFormat);</a>

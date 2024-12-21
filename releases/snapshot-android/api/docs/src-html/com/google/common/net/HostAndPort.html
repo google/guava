@@ -34,7 +34,7 @@
 <span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.Immutable;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import java.io.Serializable;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">029</span><a id="line.29"></a>
 <span class="sourceLineNo">030</span><a id="line.30">/**</a>
 <span class="sourceLineNo">031</span><a id="line.31"> * An immutable representation of a host and port.</a>
@@ -289,7 +289,7 @@
 <span class="sourceLineNo">280</span><a id="line.280">  }</a>
 <span class="sourceLineNo">281</span><a id="line.281"></a>
 <span class="sourceLineNo">282</span><a id="line.282">  @Override</a>
-<span class="sourceLineNo">283</span><a id="line.283">  public boolean equals(@CheckForNull Object other) {</a>
+<span class="sourceLineNo">283</span><a id="line.283">  public boolean equals(@Nullable Object other) {</a>
 <span class="sourceLineNo">284</span><a id="line.284">    if (this == other) {</a>
 <span class="sourceLineNo">285</span><a id="line.285">      return true;</a>
 <span class="sourceLineNo">286</span><a id="line.286">    }</a>

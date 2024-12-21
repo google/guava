@@ -32,7 +32,7 @@
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.common.primitives.UnsignedInts;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import java.io.Serializable;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">027</span><a id="line.27"></a>
 <span class="sourceLineNo">028</span><a id="line.28">/**</a>
 <span class="sourceLineNo">029</span><a id="line.29"> * An immutable hash code of arbitrary bit length.</a>
@@ -376,7 +376,7 @@
 <span class="sourceLineNo">367</span><a id="line.367">   * to protect against &lt;a href="http://en.wikipedia.org/wiki/Timing_attack"&gt;timing attacks&lt;/a&gt;.</a>
 <span class="sourceLineNo">368</span><a id="line.368">   */</a>
 <span class="sourceLineNo">369</span><a id="line.369">  @Override</a>
-<span class="sourceLineNo">370</span><a id="line.370">  public final boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">370</span><a id="line.370">  public final boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">371</span><a id="line.371">    if (object instanceof HashCode) {</a>
 <span class="sourceLineNo">372</span><a id="line.372">      HashCode that = (HashCode) object;</a>
 <span class="sourceLineNo">373</span><a id="line.373">      return bits() == that.bits() &amp;&amp; equalsSameBits(that);</a>

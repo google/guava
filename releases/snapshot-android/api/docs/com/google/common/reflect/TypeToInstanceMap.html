@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableTypeToInstanceMap or MutableTypeToInstanceMap")
-public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.43">TypeToInstanceMap</a>&lt;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.42">TypeToInstanceMap</a>&lt;B extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> B&gt;,&#8203;B&gt;</pre>
 <div class="block">A map, each entry of which maps a <a href="TypeToken.html" title="class in com.google.common.reflect"><code>TypeToken</code></a> to an instance of that type. In addition to
  implementing <code>Map</code>, the additional type-safe operations <a href="#putInstance(java.lang.Class,T)"><code>putInstance(java.lang.Class&lt;T&gt;, T)</code></a> and <a href="#getInstance(java.lang.Class)"><code>getInstance(java.lang.Class&lt;T&gt;)</code></a> are available.
@@ -195,7 +195,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance(com.google.common.reflect.TypeToken)">getInstance</a></span>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
@@ -203,7 +203,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance(java.lang.Class)">getInstance</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
@@ -211,7 +211,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putInstance(com.google.common.reflect.TypeToken,T)">putInstance</a></span>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
            T&nbsp;value)</code></th>
 <td class="colLast">
@@ -219,7 +219,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br>T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putInstance(java.lang.Class,T)">putInstance</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
            T&nbsp;value)</code></th>
 <td class="colLast">
@@ -256,8 +256,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.55">getInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.54">getInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.
@@ -272,8 +271,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.63">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.61">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
  present. This will only return a value that was bound to this specific type, not a value that
  may have been bound to a subtype.</div>
@@ -288,9 +286,8 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 <li class="blockList">
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.76">putInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
-                            T&nbsp;value)</pre>
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.73">putInstance</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
+                                      T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.
 
@@ -312,9 +309,8 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ma
 <li class="blockList">
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.87">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
-                            T&nbsp;value)</pre>
+&lt;T extends <a href="TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.83">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&gt;&nbsp;type,
+                                      T&nbsp;value)</pre>
 <div class="block">Maps the specified type to the specified value. Does <i>not</i> associate this value with any
  of the type's supertypes.</div>
 <dl>

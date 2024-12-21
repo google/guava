@@ -46,7 +46,7 @@
 <span class="sourceLineNo">037</span><a id="line.37">import java.util.Map;</a>
 <span class="sourceLineNo">038</span><a id="line.38">import java.util.Optional;</a>
 <span class="sourceLineNo">039</span><a id="line.39">import java.util.Set;</a>
-<span class="sourceLineNo">040</span><a id="line.40">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">041</span><a id="line.41"></a>
 <span class="sourceLineNo">042</span><a id="line.42">/**</a>
 <span class="sourceLineNo">043</span><a id="line.43"> * This class provides a skeletal implementation of {@link Network}. It is recommended to extend</a>
@@ -97,7 +97,7 @@
 <span class="sourceLineNo">088</span><a id="line.88">          // Network&lt;LinkedList&gt;.</a>
 <span class="sourceLineNo">089</span><a id="line.89">          @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">090</span><a id="line.90">          @Override</a>
-<span class="sourceLineNo">091</span><a id="line.91">          public boolean contains(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">          public boolean contains(@Nullable Object obj) {</a>
 <span class="sourceLineNo">092</span><a id="line.92">            if (!(obj instanceof EndpointPair)) {</a>
 <span class="sourceLineNo">093</span><a id="line.93">              return false;</a>
 <span class="sourceLineNo">094</span><a id="line.94">            }</a>
@@ -217,129 +217,127 @@
 <span class="sourceLineNo">208</span><a id="line.208">  }</a>
 <span class="sourceLineNo">209</span><a id="line.209"></a>
 <span class="sourceLineNo">210</span><a id="line.210">  @Override</a>
-<span class="sourceLineNo">211</span><a id="line.211">  @CheckForNull</a>
-<span class="sourceLineNo">212</span><a id="line.212">  public E edgeConnectingOrNull(N nodeU, N nodeV) {</a>
-<span class="sourceLineNo">213</span><a id="line.213">    Set&lt;E&gt; edgesConnecting = edgesConnecting(nodeU, nodeV);</a>
-<span class="sourceLineNo">214</span><a id="line.214">    switch (edgesConnecting.size()) {</a>
-<span class="sourceLineNo">215</span><a id="line.215">      case 0:</a>
-<span class="sourceLineNo">216</span><a id="line.216">        return null;</a>
-<span class="sourceLineNo">217</span><a id="line.217">      case 1:</a>
-<span class="sourceLineNo">218</span><a id="line.218">        return edgesConnecting.iterator().next();</a>
-<span class="sourceLineNo">219</span><a id="line.219">      default:</a>
-<span class="sourceLineNo">220</span><a id="line.220">        throw new IllegalArgumentException(String.format(MULTIPLE_EDGES_CONNECTING, nodeU, nodeV));</a>
-<span class="sourceLineNo">221</span><a id="line.221">    }</a>
-<span class="sourceLineNo">222</span><a id="line.222">  }</a>
-<span class="sourceLineNo">223</span><a id="line.223"></a>
-<span class="sourceLineNo">224</span><a id="line.224">  @Override</a>
-<span class="sourceLineNo">225</span><a id="line.225">  @CheckForNull</a>
-<span class="sourceLineNo">226</span><a id="line.226">  public E edgeConnectingOrNull(EndpointPair&lt;N&gt; endpoints) {</a>
-<span class="sourceLineNo">227</span><a id="line.227">    validateEndpoints(endpoints);</a>
-<span class="sourceLineNo">228</span><a id="line.228">    return edgeConnectingOrNull(endpoints.nodeU(), endpoints.nodeV());</a>
-<span class="sourceLineNo">229</span><a id="line.229">  }</a>
-<span class="sourceLineNo">230</span><a id="line.230"></a>
-<span class="sourceLineNo">231</span><a id="line.231">  @Override</a>
-<span class="sourceLineNo">232</span><a id="line.232">  public boolean hasEdgeConnecting(N nodeU, N nodeV) {</a>
-<span class="sourceLineNo">233</span><a id="line.233">    checkNotNull(nodeU);</a>
-<span class="sourceLineNo">234</span><a id="line.234">    checkNotNull(nodeV);</a>
-<span class="sourceLineNo">235</span><a id="line.235">    return nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV);</a>
-<span class="sourceLineNo">236</span><a id="line.236">  }</a>
-<span class="sourceLineNo">237</span><a id="line.237"></a>
-<span class="sourceLineNo">238</span><a id="line.238">  @Override</a>
-<span class="sourceLineNo">239</span><a id="line.239">  public boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints) {</a>
-<span class="sourceLineNo">240</span><a id="line.240">    checkNotNull(endpoints);</a>
-<span class="sourceLineNo">241</span><a id="line.241">    if (!isOrderingCompatible(endpoints)) {</a>
-<span class="sourceLineNo">242</span><a id="line.242">      return false;</a>
-<span class="sourceLineNo">243</span><a id="line.243">    }</a>
-<span class="sourceLineNo">244</span><a id="line.244">    return hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV());</a>
-<span class="sourceLineNo">245</span><a id="line.245">  }</a>
-<span class="sourceLineNo">246</span><a id="line.246"></a>
-<span class="sourceLineNo">247</span><a id="line.247">  /**</a>
-<span class="sourceLineNo">248</span><a id="line.248">   * Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible with</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * the directionality of this graph.</a>
-<span class="sourceLineNo">250</span><a id="line.250">   */</a>
-<span class="sourceLineNo">251</span><a id="line.251">  protected final void validateEndpoints(EndpointPair&lt;?&gt; endpoints) {</a>
-<span class="sourceLineNo">252</span><a id="line.252">    checkNotNull(endpoints);</a>
-<span class="sourceLineNo">253</span><a id="line.253">    checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);</a>
-<span class="sourceLineNo">254</span><a id="line.254">  }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">  protected final boolean isOrderingCompatible(EndpointPair&lt;?&gt; endpoints) {</a>
-<span class="sourceLineNo">257</span><a id="line.257">    return endpoints.isOrdered() == this.isDirected();</a>
-<span class="sourceLineNo">258</span><a id="line.258">  }</a>
-<span class="sourceLineNo">259</span><a id="line.259"></a>
-<span class="sourceLineNo">260</span><a id="line.260">  @Override</a>
-<span class="sourceLineNo">261</span><a id="line.261">  public final boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">262</span><a id="line.262">    if (obj == this) {</a>
-<span class="sourceLineNo">263</span><a id="line.263">      return true;</a>
-<span class="sourceLineNo">264</span><a id="line.264">    }</a>
-<span class="sourceLineNo">265</span><a id="line.265">    if (!(obj instanceof Network)) {</a>
-<span class="sourceLineNo">266</span><a id="line.266">      return false;</a>
-<span class="sourceLineNo">267</span><a id="line.267">    }</a>
-<span class="sourceLineNo">268</span><a id="line.268">    Network&lt;?, ?&gt; other = (Network&lt;?, ?&gt;) obj;</a>
-<span class="sourceLineNo">269</span><a id="line.269"></a>
-<span class="sourceLineNo">270</span><a id="line.270">    return isDirected() == other.isDirected()</a>
-<span class="sourceLineNo">271</span><a id="line.271">        &amp;&amp; nodes().equals(other.nodes())</a>
-<span class="sourceLineNo">272</span><a id="line.272">        &amp;&amp; edgeIncidentNodesMap(this).equals(edgeIncidentNodesMap(other));</a>
-<span class="sourceLineNo">273</span><a id="line.273">  }</a>
-<span class="sourceLineNo">274</span><a id="line.274"></a>
-<span class="sourceLineNo">275</span><a id="line.275">  @Override</a>
-<span class="sourceLineNo">276</span><a id="line.276">  public final int hashCode() {</a>
-<span class="sourceLineNo">277</span><a id="line.277">    return edgeIncidentNodesMap(this).hashCode();</a>
-<span class="sourceLineNo">278</span><a id="line.278">  }</a>
-<span class="sourceLineNo">279</span><a id="line.279"></a>
-<span class="sourceLineNo">280</span><a id="line.280">  /** Returns a string representation of this network. */</a>
-<span class="sourceLineNo">281</span><a id="line.281">  @Override</a>
-<span class="sourceLineNo">282</span><a id="line.282">  public String toString() {</a>
-<span class="sourceLineNo">283</span><a id="line.283">    return "isDirected: "</a>
-<span class="sourceLineNo">284</span><a id="line.284">        + isDirected()</a>
-<span class="sourceLineNo">285</span><a id="line.285">        + ", allowsParallelEdges: "</a>
-<span class="sourceLineNo">286</span><a id="line.286">        + allowsParallelEdges()</a>
-<span class="sourceLineNo">287</span><a id="line.287">        + ", allowsSelfLoops: "</a>
-<span class="sourceLineNo">288</span><a id="line.288">        + allowsSelfLoops()</a>
-<span class="sourceLineNo">289</span><a id="line.289">        + ", nodes: "</a>
-<span class="sourceLineNo">290</span><a id="line.290">        + nodes()</a>
-<span class="sourceLineNo">291</span><a id="line.291">        + ", edges: "</a>
-<span class="sourceLineNo">292</span><a id="line.292">        + edgeIncidentNodesMap(this);</a>
-<span class="sourceLineNo">293</span><a id="line.293">  }</a>
-<span class="sourceLineNo">294</span><a id="line.294"></a>
-<span class="sourceLineNo">295</span><a id="line.295">  /**</a>
-<span class="sourceLineNo">296</span><a id="line.296">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is</a>
-<span class="sourceLineNo">297</span><a id="line.297">   * not present in this network.</a>
-<span class="sourceLineNo">298</span><a id="line.298">   *</a>
-<span class="sourceLineNo">299</span><a id="line.299">   * @since 33.1.0</a>
-<span class="sourceLineNo">300</span><a id="line.300">   */</a>
-<span class="sourceLineNo">301</span><a id="line.301">  protected final &lt;T&gt; Set&lt;T&gt; edgeInvalidatableSet(Set&lt;T&gt; set, E edge) {</a>
-<span class="sourceLineNo">302</span><a id="line.302">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">303</span><a id="line.303">        set, () -&gt; edges().contains(edge), () -&gt; String.format(EDGE_REMOVED_FROM_GRAPH, edge));</a>
-<span class="sourceLineNo">304</span><a id="line.304">  }</a>
-<span class="sourceLineNo">305</span><a id="line.305"></a>
-<span class="sourceLineNo">306</span><a id="line.306">  /**</a>
-<span class="sourceLineNo">307</span><a id="line.307">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is</a>
-<span class="sourceLineNo">308</span><a id="line.308">   * not present in this network.</a>
-<span class="sourceLineNo">309</span><a id="line.309">   *</a>
-<span class="sourceLineNo">310</span><a id="line.310">   * @since 33.1.0</a>
-<span class="sourceLineNo">311</span><a id="line.311">   */</a>
-<span class="sourceLineNo">312</span><a id="line.312">  protected final &lt;T&gt; Set&lt;T&gt; nodeInvalidatableSet(Set&lt;T&gt; set, N node) {</a>
-<span class="sourceLineNo">313</span><a id="line.313">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">314</span><a id="line.314">        set, () -&gt; nodes().contains(node), () -&gt; String.format(NODE_REMOVED_FROM_GRAPH, node));</a>
-<span class="sourceLineNo">315</span><a id="line.315">  }</a>
-<span class="sourceLineNo">316</span><a id="line.316"></a>
-<span class="sourceLineNo">317</span><a id="line.317">  /**</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * given nodes is not present in this network.</a>
-<span class="sourceLineNo">320</span><a id="line.320">   *</a>
-<span class="sourceLineNo">321</span><a id="line.321">   * @since 33.1.0</a>
-<span class="sourceLineNo">322</span><a id="line.322">   */</a>
-<span class="sourceLineNo">323</span><a id="line.323">  protected final &lt;T&gt; Set&lt;T&gt; nodePairInvalidatableSet(Set&lt;T&gt; set, N nodeU, N nodeV) {</a>
-<span class="sourceLineNo">324</span><a id="line.324">    return InvalidatableSet.of(</a>
-<span class="sourceLineNo">325</span><a id="line.325">        set,</a>
-<span class="sourceLineNo">326</span><a id="line.326">        () -&gt; nodes().contains(nodeU) &amp;&amp; nodes().contains(nodeV),</a>
-<span class="sourceLineNo">327</span><a id="line.327">        () -&gt; String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));</a>
-<span class="sourceLineNo">328</span><a id="line.328">  }</a>
-<span class="sourceLineNo">329</span><a id="line.329"></a>
-<span class="sourceLineNo">330</span><a id="line.330">  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {</a>
-<span class="sourceLineNo">331</span><a id="line.331">    return Maps.asMap(network.edges(), network::incidentNodes);</a>
-<span class="sourceLineNo">332</span><a id="line.332">  }</a>
-<span class="sourceLineNo">333</span><a id="line.333">}</a>
+<span class="sourceLineNo">211</span><a id="line.211">  public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {</a>
+<span class="sourceLineNo">212</span><a id="line.212">    Set&lt;E&gt; edgesConnecting = edgesConnecting(nodeU, nodeV);</a>
+<span class="sourceLineNo">213</span><a id="line.213">    switch (edgesConnecting.size()) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">      case 0:</a>
+<span class="sourceLineNo">215</span><a id="line.215">        return null;</a>
+<span class="sourceLineNo">216</span><a id="line.216">      case 1:</a>
+<span class="sourceLineNo">217</span><a id="line.217">        return edgesConnecting.iterator().next();</a>
+<span class="sourceLineNo">218</span><a id="line.218">      default:</a>
+<span class="sourceLineNo">219</span><a id="line.219">        throw new IllegalArgumentException(String.format(MULTIPLE_EDGES_CONNECTING, nodeU, nodeV));</a>
+<span class="sourceLineNo">220</span><a id="line.220">    }</a>
+<span class="sourceLineNo">221</span><a id="line.221">  }</a>
+<span class="sourceLineNo">222</span><a id="line.222"></a>
+<span class="sourceLineNo">223</span><a id="line.223">  @Override</a>
+<span class="sourceLineNo">224</span><a id="line.224">  public @Nullable E edgeConnectingOrNull(EndpointPair&lt;N&gt; endpoints) {</a>
+<span class="sourceLineNo">225</span><a id="line.225">    validateEndpoints(endpoints);</a>
+<span class="sourceLineNo">226</span><a id="line.226">    return edgeConnectingOrNull(endpoints.nodeU(), endpoints.nodeV());</a>
+<span class="sourceLineNo">227</span><a id="line.227">  }</a>
+<span class="sourceLineNo">228</span><a id="line.228"></a>
+<span class="sourceLineNo">229</span><a id="line.229">  @Override</a>
+<span class="sourceLineNo">230</span><a id="line.230">  public boolean hasEdgeConnecting(N nodeU, N nodeV) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">    checkNotNull(nodeU);</a>
+<span class="sourceLineNo">232</span><a id="line.232">    checkNotNull(nodeV);</a>
+<span class="sourceLineNo">233</span><a id="line.233">    return nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV);</a>
+<span class="sourceLineNo">234</span><a id="line.234">  }</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">  @Override</a>
+<span class="sourceLineNo">237</span><a id="line.237">  public boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">    checkNotNull(endpoints);</a>
+<span class="sourceLineNo">239</span><a id="line.239">    if (!isOrderingCompatible(endpoints)) {</a>
+<span class="sourceLineNo">240</span><a id="line.240">      return false;</a>
+<span class="sourceLineNo">241</span><a id="line.241">    }</a>
+<span class="sourceLineNo">242</span><a id="line.242">    return hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV());</a>
+<span class="sourceLineNo">243</span><a id="line.243">  }</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">  /**</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible with</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * the directionality of this graph.</a>
+<span class="sourceLineNo">248</span><a id="line.248">   */</a>
+<span class="sourceLineNo">249</span><a id="line.249">  protected final void validateEndpoints(EndpointPair&lt;?&gt; endpoints) {</a>
+<span class="sourceLineNo">250</span><a id="line.250">    checkNotNull(endpoints);</a>
+<span class="sourceLineNo">251</span><a id="line.251">    checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);</a>
+<span class="sourceLineNo">252</span><a id="line.252">  }</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">  protected final boolean isOrderingCompatible(EndpointPair&lt;?&gt; endpoints) {</a>
+<span class="sourceLineNo">255</span><a id="line.255">    return endpoints.isOrdered() == this.isDirected();</a>
+<span class="sourceLineNo">256</span><a id="line.256">  }</a>
+<span class="sourceLineNo">257</span><a id="line.257"></a>
+<span class="sourceLineNo">258</span><a id="line.258">  @Override</a>
+<span class="sourceLineNo">259</span><a id="line.259">  public final boolean equals(@Nullable Object obj) {</a>
+<span class="sourceLineNo">260</span><a id="line.260">    if (obj == this) {</a>
+<span class="sourceLineNo">261</span><a id="line.261">      return true;</a>
+<span class="sourceLineNo">262</span><a id="line.262">    }</a>
+<span class="sourceLineNo">263</span><a id="line.263">    if (!(obj instanceof Network)) {</a>
+<span class="sourceLineNo">264</span><a id="line.264">      return false;</a>
+<span class="sourceLineNo">265</span><a id="line.265">    }</a>
+<span class="sourceLineNo">266</span><a id="line.266">    Network&lt;?, ?&gt; other = (Network&lt;?, ?&gt;) obj;</a>
+<span class="sourceLineNo">267</span><a id="line.267"></a>
+<span class="sourceLineNo">268</span><a id="line.268">    return isDirected() == other.isDirected()</a>
+<span class="sourceLineNo">269</span><a id="line.269">        &amp;&amp; nodes().equals(other.nodes())</a>
+<span class="sourceLineNo">270</span><a id="line.270">        &amp;&amp; edgeIncidentNodesMap(this).equals(edgeIncidentNodesMap(other));</a>
+<span class="sourceLineNo">271</span><a id="line.271">  }</a>
+<span class="sourceLineNo">272</span><a id="line.272"></a>
+<span class="sourceLineNo">273</span><a id="line.273">  @Override</a>
+<span class="sourceLineNo">274</span><a id="line.274">  public final int hashCode() {</a>
+<span class="sourceLineNo">275</span><a id="line.275">    return edgeIncidentNodesMap(this).hashCode();</a>
+<span class="sourceLineNo">276</span><a id="line.276">  }</a>
+<span class="sourceLineNo">277</span><a id="line.277"></a>
+<span class="sourceLineNo">278</span><a id="line.278">  /** Returns a string representation of this network. */</a>
+<span class="sourceLineNo">279</span><a id="line.279">  @Override</a>
+<span class="sourceLineNo">280</span><a id="line.280">  public String toString() {</a>
+<span class="sourceLineNo">281</span><a id="line.281">    return "isDirected: "</a>
+<span class="sourceLineNo">282</span><a id="line.282">        + isDirected()</a>
+<span class="sourceLineNo">283</span><a id="line.283">        + ", allowsParallelEdges: "</a>
+<span class="sourceLineNo">284</span><a id="line.284">        + allowsParallelEdges()</a>
+<span class="sourceLineNo">285</span><a id="line.285">        + ", allowsSelfLoops: "</a>
+<span class="sourceLineNo">286</span><a id="line.286">        + allowsSelfLoops()</a>
+<span class="sourceLineNo">287</span><a id="line.287">        + ", nodes: "</a>
+<span class="sourceLineNo">288</span><a id="line.288">        + nodes()</a>
+<span class="sourceLineNo">289</span><a id="line.289">        + ", edges: "</a>
+<span class="sourceLineNo">290</span><a id="line.290">        + edgeIncidentNodesMap(this);</a>
+<span class="sourceLineNo">291</span><a id="line.291">  }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">  /**</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given edge is</a>
+<span class="sourceLineNo">295</span><a id="line.295">   * not present in this network.</a>
+<span class="sourceLineNo">296</span><a id="line.296">   *</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * @since 33.1.0</a>
+<span class="sourceLineNo">298</span><a id="line.298">   */</a>
+<span class="sourceLineNo">299</span><a id="line.299">  protected final &lt;T&gt; Set&lt;T&gt; edgeInvalidatableSet(Set&lt;T&gt; set, E edge) {</a>
+<span class="sourceLineNo">300</span><a id="line.300">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">301</span><a id="line.301">        set, () -&gt; edges().contains(edge), () -&gt; String.format(EDGE_REMOVED_FROM_GRAPH, edge));</a>
+<span class="sourceLineNo">302</span><a id="line.302">  }</a>
+<span class="sourceLineNo">303</span><a id="line.303"></a>
+<span class="sourceLineNo">304</span><a id="line.304">  /**</a>
+<span class="sourceLineNo">305</span><a id="line.305">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when the given node is</a>
+<span class="sourceLineNo">306</span><a id="line.306">   * not present in this network.</a>
+<span class="sourceLineNo">307</span><a id="line.307">   *</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * @since 33.1.0</a>
+<span class="sourceLineNo">309</span><a id="line.309">   */</a>
+<span class="sourceLineNo">310</span><a id="line.310">  protected final &lt;T&gt; Set&lt;T&gt; nodeInvalidatableSet(Set&lt;T&gt; set, N node) {</a>
+<span class="sourceLineNo">311</span><a id="line.311">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">312</span><a id="line.312">        set, () -&gt; nodes().contains(node), () -&gt; String.format(NODE_REMOVED_FROM_GRAPH, node));</a>
+<span class="sourceLineNo">313</span><a id="line.313">  }</a>
+<span class="sourceLineNo">314</span><a id="line.314"></a>
+<span class="sourceLineNo">315</span><a id="line.315">  /**</a>
+<span class="sourceLineNo">316</span><a id="line.316">   * Returns a {@link Set} whose methods throw {@link IllegalStateException} when either of the</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * given nodes is not present in this network.</a>
+<span class="sourceLineNo">318</span><a id="line.318">   *</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * @since 33.1.0</a>
+<span class="sourceLineNo">320</span><a id="line.320">   */</a>
+<span class="sourceLineNo">321</span><a id="line.321">  protected final &lt;T&gt; Set&lt;T&gt; nodePairInvalidatableSet(Set&lt;T&gt; set, N nodeU, N nodeV) {</a>
+<span class="sourceLineNo">322</span><a id="line.322">    return InvalidatableSet.of(</a>
+<span class="sourceLineNo">323</span><a id="line.323">        set,</a>
+<span class="sourceLineNo">324</span><a id="line.324">        () -&gt; nodes().contains(nodeU) &amp;&amp; nodes().contains(nodeV),</a>
+<span class="sourceLineNo">325</span><a id="line.325">        () -&gt; String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));</a>
+<span class="sourceLineNo">326</span><a id="line.326">  }</a>
+<span class="sourceLineNo">327</span><a id="line.327"></a>
+<span class="sourceLineNo">328</span><a id="line.328">  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">329</span><a id="line.329">    return Maps.asMap(network.edges(), network::incidentNodes);</a>
+<span class="sourceLineNo">330</span><a id="line.330">  }</a>
+<span class="sourceLineNo">331</span><a id="line.331">}</a>
 
 
 

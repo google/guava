@@ -150,7 +150,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Sets.html" title="class in com.google.common.collect">Sets</a></dd>
 </dl>
 <hr>
-<pre>public abstract static class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.591">Sets.SetView</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+<pre>public abstract static class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.590">Sets.SetView</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/AbstractSet.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractSet</a>&lt;E&gt;</pre>
 <div class="block">An unmodifiable view of a set which may be backed by other sets; this view will change as the
  backing sets do. Contains methods to copy the data into a new set which will then remain
@@ -231,7 +231,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ab
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -330,7 +330,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ab
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableCopy</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.602">immutableCopy</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.601">immutableCopy</a>()</pre>
 <div class="block">Returns an immutable copy of the current contents of this set view. Does not support null
  elements.
 
@@ -348,7 +348,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Ab
 <li class="blockList">
 <h4>copyInto</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;S extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&gt;&nbsp;S&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.625">copyInto</a>&#8203;(S&nbsp;set)</pre>
+public&nbsp;&lt;S extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&gt;&nbsp;S&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.624">copyInto</a>&#8203;(S&nbsp;set)</pre>
 <div class="block">Copies the current contents of this set view into an existing set. This method has equivalent
  behavior to <code>set.addAll(this)</code>, assuming that all the sets involved are based on the
  same notion of equivalence.</div>
@@ -368,7 +368,7 @@ public&nbsp;&lt;S extends <a href="https://docs.oracle.com/en/java/javase/21/doc
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.637">add</a>&#8203;(<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&nbsp;e)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.636">add</a>&#8203;(<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&nbsp;e)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -393,8 +393,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.651">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.650">remove</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -419,7 +418,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.665">addAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;newElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.664">addAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;newElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -444,7 +443,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.679">removeAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.678">removeAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -469,7 +468,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>removeIf</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.693">removeIf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;? super <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;filter)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.692">removeIf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;? super <a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;filter)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -488,7 +487,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.707">retainAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.706">retainAll</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -512,7 +511,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>clear</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.721">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.720">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -535,7 +534,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.733">iterator</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.732">iterator</a>()</pre>
 <div class="block">Scope the return type to <a href="UnmodifiableIterator.html" title="class in com.google.common.collect"><code>UnmodifiableIterator</code></a> to ensure this is an unmodifiable view.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

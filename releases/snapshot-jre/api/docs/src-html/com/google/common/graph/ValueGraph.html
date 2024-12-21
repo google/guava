@@ -28,7 +28,7 @@
 <span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.Beta;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import java.util.Optional;</a>
 <span class="sourceLineNo">021</span><a id="line.21">import java.util.Set;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">023</span><a id="line.23"></a>
 <span class="sourceLineNo">024</span><a id="line.24">/**</a>
 <span class="sourceLineNo">025</span><a id="line.25"> * An interface for &lt;a</a>
@@ -358,59 +358,57 @@
 <span class="sourceLineNo">349</span><a id="line.349">   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this</a>
 <span class="sourceLineNo">350</span><a id="line.350">   *     graph</a>
 <span class="sourceLineNo">351</span><a id="line.351">   */</a>
-<span class="sourceLineNo">352</span><a id="line.352">  @CheckForNull</a>
-<span class="sourceLineNo">353</span><a id="line.353">  V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue);</a>
-<span class="sourceLineNo">354</span><a id="line.354"></a>
-<span class="sourceLineNo">355</span><a id="line.355">  /**</a>
-<span class="sourceLineNo">356</span><a id="line.356">   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified</a>
-<span class="sourceLineNo">357</span><a id="line.357">   * by {@code endpoints}), if one is present; otherwise, returns {@code defaultValue}.</a>
-<span class="sourceLineNo">358</span><a id="line.358">   *</a>
-<span class="sourceLineNo">359</span><a id="line.359">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
-<span class="sourceLineNo">360</span><a id="line.360">   *</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * @throws IllegalArgumentException if either endpoint is not an element of this graph</a>
-<span class="sourceLineNo">362</span><a id="line.362">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * @since 27.1</a>
-<span class="sourceLineNo">364</span><a id="line.364">   */</a>
-<span class="sourceLineNo">365</span><a id="line.365">  @CheckForNull</a>
-<span class="sourceLineNo">366</span><a id="line.366">  V edgeValueOrDefault(EndpointPair&lt;N&gt; endpoints, @CheckForNull V defaultValue);</a>
-<span class="sourceLineNo">367</span><a id="line.367"></a>
+<span class="sourceLineNo">352</span><a id="line.352">  @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);</a>
+<span class="sourceLineNo">353</span><a id="line.353"></a>
+<span class="sourceLineNo">354</span><a id="line.354">  /**</a>
+<span class="sourceLineNo">355</span><a id="line.355">   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified</a>
+<span class="sourceLineNo">356</span><a id="line.356">   * by {@code endpoints}), if one is present; otherwise, returns {@code defaultValue}.</a>
+<span class="sourceLineNo">357</span><a id="line.357">   *</a>
+<span class="sourceLineNo">358</span><a id="line.358">   * &lt;p&gt;If this graph is directed, the endpoints must be ordered.</a>
+<span class="sourceLineNo">359</span><a id="line.359">   *</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * @throws IllegalArgumentException if either endpoint is not an element of this graph</a>
+<span class="sourceLineNo">361</span><a id="line.361">   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * @since 27.1</a>
+<span class="sourceLineNo">363</span><a id="line.363">   */</a>
+<span class="sourceLineNo">364</span><a id="line.364">  @Nullable V edgeValueOrDefault(EndpointPair&lt;N&gt; endpoints, @Nullable V defaultValue);</a>
+<span class="sourceLineNo">365</span><a id="line.365"></a>
+<span class="sourceLineNo">366</span><a id="line.366">  //</a>
+<span class="sourceLineNo">367</span><a id="line.367">  // ValueGraph identity</a>
 <span class="sourceLineNo">368</span><a id="line.368">  //</a>
-<span class="sourceLineNo">369</span><a id="line.369">  // ValueGraph identity</a>
-<span class="sourceLineNo">370</span><a id="line.370">  //</a>
-<span class="sourceLineNo">371</span><a id="line.371"></a>
-<span class="sourceLineNo">372</span><a id="line.372">  /**</a>
-<span class="sourceLineNo">373</span><a id="line.373">   * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and</a>
-<span class="sourceLineNo">374</span><a id="line.374">   * the same structural relationships as those in this graph.</a>
+<span class="sourceLineNo">369</span><a id="line.369"></a>
+<span class="sourceLineNo">370</span><a id="line.370">  /**</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and</a>
+<span class="sourceLineNo">372</span><a id="line.372">   * the same structural relationships as those in this graph.</a>
+<span class="sourceLineNo">373</span><a id="line.373">   *</a>
+<span class="sourceLineNo">374</span><a id="line.374">   * &lt;p&gt;Thus, two value graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
 <span class="sourceLineNo">375</span><a id="line.375">   *</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * &lt;p&gt;Thus, two value graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:</a>
-<span class="sourceLineNo">377</span><a id="line.377">   *</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">379</span><a id="line.379">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
-<span class="sourceLineNo">380</span><a id="line.380">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
-<span class="sourceLineNo">381</span><a id="line.381">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
-<span class="sourceLineNo">382</span><a id="line.382">   *   &lt;li&gt;The {@link #edgeValue(N, N) value} of a given edge is the same in both A and B.</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">384</span><a id="line.384">   *</a>
-<span class="sourceLineNo">385</span><a id="line.385">   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
-<span class="sourceLineNo">386</span><a id="line.386">   * For example, two graphs may be considered equal even if one allows self-loops and the other</a>
-<span class="sourceLineNo">387</span><a id="line.387">   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * in which they are iterated over, are irrelevant.</a>
-<span class="sourceLineNo">389</span><a id="line.389">   *</a>
-<span class="sourceLineNo">390</span><a id="line.390">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.</a>
-<span class="sourceLineNo">391</span><a id="line.391">   */</a>
-<span class="sourceLineNo">392</span><a id="line.392">  @Override</a>
-<span class="sourceLineNo">393</span><a id="line.393">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">394</span><a id="line.394"></a>
-<span class="sourceLineNo">395</span><a id="line.395">  /**</a>
-<span class="sourceLineNo">396</span><a id="line.396">   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a</a>
-<span class="sourceLineNo">397</span><a id="line.397">   * map from each of its {@link #edges() edges} to the associated {@link #edgeValue(N, N) edge</a>
-<span class="sourceLineNo">398</span><a id="line.398">   * value}.</a>
-<span class="sourceLineNo">399</span><a id="line.399">   *</a>
-<span class="sourceLineNo">400</span><a id="line.400">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.</a>
-<span class="sourceLineNo">401</span><a id="line.401">   */</a>
-<span class="sourceLineNo">402</span><a id="line.402">  @Override</a>
-<span class="sourceLineNo">403</span><a id="line.403">  int hashCode();</a>
-<span class="sourceLineNo">404</span><a id="line.404">}</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">377</span><a id="line.377">   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.</a>
+<span class="sourceLineNo">378</span><a id="line.378">   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.</a>
+<span class="sourceLineNo">379</span><a id="line.379">   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.</a>
+<span class="sourceLineNo">380</span><a id="line.380">   *   &lt;li&gt;The {@link #edgeValue(N, N) value} of a given edge is the same in both A and B.</a>
+<span class="sourceLineNo">381</span><a id="line.381">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">382</span><a id="line.382">   *</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * For example, two graphs may be considered equal even if one allows self-loops and the other</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * in which they are iterated over, are irrelevant.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   *</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.</a>
+<span class="sourceLineNo">389</span><a id="line.389">   */</a>
+<span class="sourceLineNo">390</span><a id="line.390">  @Override</a>
+<span class="sourceLineNo">391</span><a id="line.391">  boolean equals(@Nullable Object object);</a>
+<span class="sourceLineNo">392</span><a id="line.392"></a>
+<span class="sourceLineNo">393</span><a id="line.393">  /**</a>
+<span class="sourceLineNo">394</span><a id="line.394">   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a</a>
+<span class="sourceLineNo">395</span><a id="line.395">   * map from each of its {@link #edges() edges} to the associated {@link #edgeValue(N, N) edge</a>
+<span class="sourceLineNo">396</span><a id="line.396">   * value}.</a>
+<span class="sourceLineNo">397</span><a id="line.397">   *</a>
+<span class="sourceLineNo">398</span><a id="line.398">   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.</a>
+<span class="sourceLineNo">399</span><a id="line.399">   */</a>
+<span class="sourceLineNo">400</span><a id="line.400">  @Override</a>
+<span class="sourceLineNo">401</span><a id="line.401">  int hashCode();</a>
+<span class="sourceLineNo">402</span><a id="line.402">}</a>
 
 
 

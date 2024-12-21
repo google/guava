@@ -130,7 +130,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use Maps.difference")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.31">MapDifference</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.30">MapDifference</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">An object representing the differences between two maps.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -225,7 +225,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Compares the specified object with this instance for equality.</div>
 </td>
@@ -260,7 +260,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>areEqual</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.38">areEqual</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.37">areEqual</a>()</pre>
 <div class="block">Returns <code>true</code> if there are no differences between the two maps; that is, if the maps are
  equal.</div>
 </li>
@@ -271,7 +271,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>entriesOnlyOnLeft</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.44">entriesOnlyOnLeft</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.43">entriesOnlyOnLeft</a>()</pre>
 <div class="block">Returns an unmodifiable map containing the entries from the left map whose keys are not present
  in the right map.</div>
 </li>
@@ -282,7 +282,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>entriesOnlyOnRight</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.50">entriesOnlyOnRight</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.49">entriesOnlyOnRight</a>()</pre>
 <div class="block">Returns an unmodifiable map containing the entries from the right map whose keys are not
  present in the left map.</div>
 </li>
@@ -293,7 +293,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>entriesInCommon</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.56">entriesInCommon</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.55">entriesInCommon</a>()</pre>
 <div class="block">Returns an unmodifiable map containing the entries that appear in both maps; that is, the
  intersection of the two maps.</div>
 </li>
@@ -304,7 +304,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>entriesDiffering</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.ValueDifference.html" title="interface in com.google.common.collect">MapDifference.ValueDifference</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.62">entriesDiffering</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">K</a>,&#8203;<a href="MapDifference.ValueDifference.html" title="interface in com.google.common.collect">MapDifference.ValueDifference</a>&lt;<a href="MapDifference.html" title="type parameter in MapDifference">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.61">entriesDiffering</a>()</pre>
 <div class="block">Returns an unmodifiable map describing keys that appear in both maps, but with different
  values.</div>
 </li>
@@ -315,8 +315,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.70">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.69">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Compares the specified object with this instance for equality. Returns <code>true</code> if the
  given object is also a <code>MapDifference</code> and the values returned by the <a href="#entriesOnlyOnLeft()"><code>entriesOnlyOnLeft()</code></a>, <a href="#entriesOnlyOnRight()"><code>entriesOnlyOnRight()</code></a>, <a href="#entriesInCommon()"><code>entriesInCommon()</code></a> and <a href="#entriesDiffering()"><code>entriesDiffering()</code></a> of the two instances are equal.</div>
 <dl>
@@ -331,7 +330,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/MapDiff
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.81">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.80">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this instance. This is defined as the hash code of
 
  <pre><code>

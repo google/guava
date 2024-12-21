@@ -34,7 +34,7 @@
 <span class="sourceLineNo">025</span><a id="line.25">import java.util.HashMap;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import java.util.Map;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import java.util.WeakHashMap;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">029</span><a id="line.29"></a>
 <span class="sourceLineNo">030</span><a id="line.30">/**</a>
 <span class="sourceLineNo">031</span><a id="line.31"> * Utility methods for working with {@link Enum} instances.</a>
@@ -141,7 +141,7 @@
 <span class="sourceLineNo">132</span><a id="line.132">    }</a>
 <span class="sourceLineNo">133</span><a id="line.133"></a>
 <span class="sourceLineNo">134</span><a id="line.134">    @Override</a>
-<span class="sourceLineNo">135</span><a id="line.135">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">135</span><a id="line.135">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">136</span><a id="line.136">      if (object instanceof StringConverter) {</a>
 <span class="sourceLineNo">137</span><a id="line.137">        StringConverter&lt;?&gt; that = (StringConverter&lt;?&gt;) object;</a>
 <span class="sourceLineNo">138</span><a id="line.138">        return this.enumClass.equals(that.enumClass);</a>

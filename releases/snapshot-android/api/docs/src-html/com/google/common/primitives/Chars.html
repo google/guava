@@ -39,7 +39,7 @@
 <span class="sourceLineNo">030</span><a id="line.30">import java.util.Comparator;</a>
 <span class="sourceLineNo">031</span><a id="line.31">import java.util.List;</a>
 <span class="sourceLineNo">032</span><a id="line.32">import java.util.RandomAccess;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">034</span><a id="line.34"></a>
 <span class="sourceLineNo">035</span><a id="line.35">/**</a>
 <span class="sourceLineNo">036</span><a id="line.36"> * Static utility methods pertaining to {@code char} primitives, that are not already found in</a>
@@ -611,14 +611,14 @@
 <span class="sourceLineNo">602</span><a id="line.602">    }</a>
 <span class="sourceLineNo">603</span><a id="line.603"></a>
 <span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
-<span class="sourceLineNo">605</span><a id="line.605">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">605</span><a id="line.605">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">606</span><a id="line.606">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">607</span><a id="line.607">      return (target instanceof Character)</a>
 <span class="sourceLineNo">608</span><a id="line.608">          &amp;&amp; Chars.indexOf(array, (Character) target, start, end) != -1;</a>
 <span class="sourceLineNo">609</span><a id="line.609">    }</a>
 <span class="sourceLineNo">610</span><a id="line.610"></a>
 <span class="sourceLineNo">611</span><a id="line.611">    @Override</a>
-<span class="sourceLineNo">612</span><a id="line.612">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">612</span><a id="line.612">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">613</span><a id="line.613">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">614</span><a id="line.614">      if (target instanceof Character) {</a>
 <span class="sourceLineNo">615</span><a id="line.615">        int i = Chars.indexOf(array, (Character) target, start, end);</a>
@@ -630,7 +630,7 @@
 <span class="sourceLineNo">621</span><a id="line.621">    }</a>
 <span class="sourceLineNo">622</span><a id="line.622"></a>
 <span class="sourceLineNo">623</span><a id="line.623">    @Override</a>
-<span class="sourceLineNo">624</span><a id="line.624">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">625</span><a id="line.625">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">626</span><a id="line.626">      if (target instanceof Character) {</a>
 <span class="sourceLineNo">627</span><a id="line.627">        int i = Chars.lastIndexOf(array, (Character) target, start, end);</a>
@@ -661,7 +661,7 @@
 <span class="sourceLineNo">652</span><a id="line.652">    }</a>
 <span class="sourceLineNo">653</span><a id="line.653"></a>
 <span class="sourceLineNo">654</span><a id="line.654">    @Override</a>
-<span class="sourceLineNo">655</span><a id="line.655">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">655</span><a id="line.655">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">656</span><a id="line.656">      if (object == this) {</a>
 <span class="sourceLineNo">657</span><a id="line.657">        return true;</a>
 <span class="sourceLineNo">658</span><a id="line.658">      }</a>

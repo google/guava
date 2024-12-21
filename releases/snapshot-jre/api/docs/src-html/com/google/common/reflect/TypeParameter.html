@@ -27,7 +27,7 @@
 <span class="sourceLineNo">018</span><a id="line.18"></a>
 <span class="sourceLineNo">019</span><a id="line.19">import java.lang.reflect.Type;</a>
 <span class="sourceLineNo">020</span><a id="line.20">import java.lang.reflect.TypeVariable;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">022</span><a id="line.22"></a>
 <span class="sourceLineNo">023</span><a id="line.23">/**</a>
 <span class="sourceLineNo">024</span><a id="line.24"> * Captures a free type variable that can be used in {@link TypeToken#where}. For example:</a>
@@ -68,7 +68,7 @@
 <span class="sourceLineNo">059</span><a id="line.59">  }</a>
 <span class="sourceLineNo">060</span><a id="line.60"></a>
 <span class="sourceLineNo">061</span><a id="line.61">  @Override</a>
-<span class="sourceLineNo">062</span><a id="line.62">  public final boolean equals(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">  public final boolean equals(@Nullable Object o) {</a>
 <span class="sourceLineNo">063</span><a id="line.63">    if (o instanceof TypeParameter) {</a>
 <span class="sourceLineNo">064</span><a id="line.64">      TypeParameter&lt;?&gt; that = (TypeParameter&lt;?&gt;) o;</a>
 <span class="sourceLineNo">065</span><a id="line.65">      return typeVariable.equals(that.typeVariable);</a>

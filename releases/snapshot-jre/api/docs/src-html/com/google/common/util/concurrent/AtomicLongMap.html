@@ -40,7 +40,7 @@
 <span class="sourceLineNo">031</span><a id="line.31">import java.util.concurrent.atomic.AtomicLong;</a>
 <span class="sourceLineNo">032</span><a id="line.32">import java.util.function.LongBinaryOperator;</a>
 <span class="sourceLineNo">033</span><a id="line.33">import java.util.function.LongUnaryOperator;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">035</span><a id="line.35"></a>
 <span class="sourceLineNo">036</span><a id="line.36">/**</a>
 <span class="sourceLineNo">037</span><a id="line.37"> * A map containing {@code long} values that can be atomically updated. While writes to a</a>
@@ -278,7 +278,7 @@
 <span class="sourceLineNo">269</span><a id="line.269">    return map.values().stream().mapToLong(Long::longValue).sum();</a>
 <span class="sourceLineNo">270</span><a id="line.270">  }</a>
 <span class="sourceLineNo">271</span><a id="line.271"></a>
-<span class="sourceLineNo">272</span><a id="line.272">  @LazyInit @CheckForNull private transient Map&lt;K, Long&gt; asMap;</a>
+<span class="sourceLineNo">272</span><a id="line.272">  @LazyInit private transient @Nullable Map&lt;K, Long&gt; asMap;</a>
 <span class="sourceLineNo">273</span><a id="line.273"></a>
 <span class="sourceLineNo">274</span><a id="line.274">  /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */</a>
 <span class="sourceLineNo">275</span><a id="line.275">  public Map&lt;K, Long&gt; asMap() {</a>

@@ -42,7 +42,7 @@
 <span class="sourceLineNo">033</span><a id="line.33">import java.util.RandomAccess;</a>
 <span class="sourceLineNo">034</span><a id="line.34">import java.util.Spliterator;</a>
 <span class="sourceLineNo">035</span><a id="line.35">import java.util.Spliterators;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">037</span><a id="line.37"></a>
 <span class="sourceLineNo">038</span><a id="line.38">/**</a>
 <span class="sourceLineNo">039</span><a id="line.39"> * Static utility methods pertaining to {@code int} primitives, that are not already found in either</a>
@@ -703,13 +703,13 @@
 <span class="sourceLineNo">694</span><a id="line.694">    }</a>
 <span class="sourceLineNo">695</span><a id="line.695"></a>
 <span class="sourceLineNo">696</span><a id="line.696">    @Override</a>
-<span class="sourceLineNo">697</span><a id="line.697">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">697</span><a id="line.697">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">698</span><a id="line.698">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">699</span><a id="line.699">      return (target instanceof Integer) &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;</a>
 <span class="sourceLineNo">700</span><a id="line.700">    }</a>
 <span class="sourceLineNo">701</span><a id="line.701"></a>
 <span class="sourceLineNo">702</span><a id="line.702">    @Override</a>
-<span class="sourceLineNo">703</span><a id="line.703">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">704</span><a id="line.704">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">705</span><a id="line.705">      if (target instanceof Integer) {</a>
 <span class="sourceLineNo">706</span><a id="line.706">        int i = Ints.indexOf(array, (Integer) target, start, end);</a>
@@ -721,7 +721,7 @@
 <span class="sourceLineNo">712</span><a id="line.712">    }</a>
 <span class="sourceLineNo">713</span><a id="line.713"></a>
 <span class="sourceLineNo">714</span><a id="line.714">    @Override</a>
-<span class="sourceLineNo">715</span><a id="line.715">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">715</span><a id="line.715">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">716</span><a id="line.716">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">717</span><a id="line.717">      if (target instanceof Integer) {</a>
 <span class="sourceLineNo">718</span><a id="line.718">        int i = Ints.lastIndexOf(array, (Integer) target, start, end);</a>
@@ -752,7 +752,7 @@
 <span class="sourceLineNo">743</span><a id="line.743">    }</a>
 <span class="sourceLineNo">744</span><a id="line.744"></a>
 <span class="sourceLineNo">745</span><a id="line.745">    @Override</a>
-<span class="sourceLineNo">746</span><a id="line.746">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">746</span><a id="line.746">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">747</span><a id="line.747">      if (object == this) {</a>
 <span class="sourceLineNo">748</span><a id="line.748">        return true;</a>
 <span class="sourceLineNo">749</span><a id="line.749">      }</a>
@@ -815,41 +815,39 @@
 <span class="sourceLineNo">806</span><a id="line.806">   * @throws NullPointerException if {@code string} is {@code null}</a>
 <span class="sourceLineNo">807</span><a id="line.807">   * @since 11.0</a>
 <span class="sourceLineNo">808</span><a id="line.808">   */</a>
-<span class="sourceLineNo">809</span><a id="line.809">  @CheckForNull</a>
-<span class="sourceLineNo">810</span><a id="line.810">  public static Integer tryParse(String string) {</a>
-<span class="sourceLineNo">811</span><a id="line.811">    return tryParse(string, 10);</a>
-<span class="sourceLineNo">812</span><a id="line.812">  }</a>
-<span class="sourceLineNo">813</span><a id="line.813"></a>
-<span class="sourceLineNo">814</span><a id="line.814">  /**</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
-<span class="sourceLineNo">816</span><a id="line.816">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
-<span class="sourceLineNo">817</span><a id="line.817">   *</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
-<span class="sourceLineNo">819</span><a id="line.819">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
-<span class="sourceLineNo">820</span><a id="line.820">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
-<span class="sourceLineNo">821</span><a id="line.821">   *</a>
-<span class="sourceLineNo">822</span><a id="line.822">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
-<span class="sourceLineNo">823</span><a id="line.823">   * Integer#parseInt(String)} accepts them.</a>
-<span class="sourceLineNo">824</span><a id="line.824">   *</a>
-<span class="sourceLineNo">825</span><a id="line.825">   * @param string the string representation of an integer value</a>
-<span class="sourceLineNo">826</span><a id="line.826">   * @param radix the radix to use when parsing</a>
-<span class="sourceLineNo">827</span><a id="line.827">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
-<span class="sourceLineNo">828</span><a id="line.828">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
-<span class="sourceLineNo">829</span><a id="line.829">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
-<span class="sourceLineNo">830</span><a id="line.830">   *     Character.MAX_RADIX}</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * @throws NullPointerException if {@code string} is {@code null}</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * @since 19.0</a>
-<span class="sourceLineNo">833</span><a id="line.833">   */</a>
-<span class="sourceLineNo">834</span><a id="line.834">  @CheckForNull</a>
-<span class="sourceLineNo">835</span><a id="line.835">  public static Integer tryParse(String string, int radix) {</a>
-<span class="sourceLineNo">836</span><a id="line.836">    Long result = Longs.tryParse(string, radix);</a>
-<span class="sourceLineNo">837</span><a id="line.837">    if (result == null || result.longValue() != result.intValue()) {</a>
-<span class="sourceLineNo">838</span><a id="line.838">      return null;</a>
-<span class="sourceLineNo">839</span><a id="line.839">    } else {</a>
-<span class="sourceLineNo">840</span><a id="line.840">      return result.intValue();</a>
-<span class="sourceLineNo">841</span><a id="line.841">    }</a>
-<span class="sourceLineNo">842</span><a id="line.842">  }</a>
-<span class="sourceLineNo">843</span><a id="line.843">}</a>
+<span class="sourceLineNo">809</span><a id="line.809">  public static @Nullable Integer tryParse(String string) {</a>
+<span class="sourceLineNo">810</span><a id="line.810">    return tryParse(string, 10);</a>
+<span class="sourceLineNo">811</span><a id="line.811">  }</a>
+<span class="sourceLineNo">812</span><a id="line.812"></a>
+<span class="sourceLineNo">813</span><a id="line.813">  /**</a>
+<span class="sourceLineNo">814</span><a id="line.814">   * Parses the specified string as a signed integer value using the specified radix. The ASCII</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.</a>
+<span class="sourceLineNo">816</span><a id="line.816">   *</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * &lt;p&gt;Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of</a>
+<span class="sourceLineNo">818</span><a id="line.818">   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,</a>
+<span class="sourceLineNo">819</span><a id="line.819">   * and returns {@code null} if non-ASCII digits are present in the string.</a>
+<span class="sourceLineNo">820</span><a id="line.820">   *</a>
+<span class="sourceLineNo">821</span><a id="line.821">   * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even though {@link</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * Integer#parseInt(String)} accepts them.</a>
+<span class="sourceLineNo">823</span><a id="line.823">   *</a>
+<span class="sourceLineNo">824</span><a id="line.824">   * @param string the string representation of an integer value</a>
+<span class="sourceLineNo">825</span><a id="line.825">   * @param radix the radix to use when parsing</a>
+<span class="sourceLineNo">826</span><a id="line.826">   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if</a>
+<span class="sourceLineNo">827</span><a id="line.827">   *     {@code string} has a length of zero or cannot be parsed as an integer value</a>
+<span class="sourceLineNo">828</span><a id="line.828">   * @throws IllegalArgumentException if {@code radix &lt; Character.MIN_RADIX} or {@code radix &gt;</a>
+<span class="sourceLineNo">829</span><a id="line.829">   *     Character.MAX_RADIX}</a>
+<span class="sourceLineNo">830</span><a id="line.830">   * @throws NullPointerException if {@code string} is {@code null}</a>
+<span class="sourceLineNo">831</span><a id="line.831">   * @since 19.0</a>
+<span class="sourceLineNo">832</span><a id="line.832">   */</a>
+<span class="sourceLineNo">833</span><a id="line.833">  public static @Nullable Integer tryParse(String string, int radix) {</a>
+<span class="sourceLineNo">834</span><a id="line.834">    Long result = Longs.tryParse(string, radix);</a>
+<span class="sourceLineNo">835</span><a id="line.835">    if (result == null || result.longValue() != result.intValue()) {</a>
+<span class="sourceLineNo">836</span><a id="line.836">      return null;</a>
+<span class="sourceLineNo">837</span><a id="line.837">    } else {</a>
+<span class="sourceLineNo">838</span><a id="line.838">      return result.intValue();</a>
+<span class="sourceLineNo">839</span><a id="line.839">    }</a>
+<span class="sourceLineNo">840</span><a id="line.840">  }</a>
+<span class="sourceLineNo">841</span><a id="line.841">}</a>
 
 
 

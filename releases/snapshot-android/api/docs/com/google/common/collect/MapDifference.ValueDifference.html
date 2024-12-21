@@ -129,7 +129,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use Maps.difference")
-public static interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.90">MapDifference.ValueDifference</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+public static interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.89">MapDifference.ValueDifference</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">A difference between the mappings from two maps with the same key. The <a href="#leftValue()"><code>leftValue()</code></a> and
  <a href="#rightValue()"><code>rightValue()</code></a> are not equal, and one but not both of them may be null.</div>
 <dl>
@@ -158,7 +158,7 @@ public static interface <a href="../../../../src-html/com/google/common/collect/
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</code></th>
 <td class="colLast">
 <div class="block">Two instances are considered equal if their <a href="#leftValue()"><code>leftValue()</code></a> values are equal and their
  <a href="#rightValue()"><code>rightValue()</code></a> values are also equal.</div>
@@ -208,7 +208,7 @@ public static interface <a href="../../../../src-html/com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>leftValue</h4>
-<pre class="methodSignature"><a href="MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.93">leftValue</a>()</pre>
+<pre class="methodSignature"><a href="MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.92">leftValue</a>()</pre>
 <div class="block">Returns the value from the left map (possibly null).</div>
 </li>
 </ul>
@@ -218,7 +218,7 @@ public static interface <a href="../../../../src-html/com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>rightValue</h4>
-<pre class="methodSignature"><a href="MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.97">rightValue</a>()</pre>
+<pre class="methodSignature"><a href="MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.96">rightValue</a>()</pre>
 <div class="block">Returns the value from the right map (possibly null).</div>
 </li>
 </ul>
@@ -228,8 +228,7 @@ public static interface <a href="../../../../src-html/com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.104">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.103">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
 <div class="block">Two instances are considered equal if their <a href="#leftValue()"><code>leftValue()</code></a> values are equal and their
  <a href="#rightValue()"><code>rightValue()</code></a> values are also equal.</div>
 <dl>
@@ -244,7 +243,7 @@ public static interface <a href="../../../../src-html/com/google/common/collect/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.110">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.109">hashCode</a>()</pre>
 <div class="block">The hash code equals the value <code>Arrays.asList(leftValue(), rightValue()).hashCode()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

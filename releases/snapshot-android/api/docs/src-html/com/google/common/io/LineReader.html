@@ -34,7 +34,7 @@
 <span class="sourceLineNo">025</span><a id="line.25">import java.nio.CharBuffer;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import java.util.ArrayDeque;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import java.util.Queue;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">029</span><a id="line.29"></a>
 <span class="sourceLineNo">030</span><a id="line.30">/**</a>
 <span class="sourceLineNo">031</span><a id="line.31"> * A class for reading lines of text. Provides the same functionality as {@link</a>
@@ -48,7 +48,7 @@
 <span class="sourceLineNo">039</span><a id="line.39">@GwtIncompatible</a>
 <span class="sourceLineNo">040</span><a id="line.40">public final class LineReader {</a>
 <span class="sourceLineNo">041</span><a id="line.41">  private final Readable readable;</a>
-<span class="sourceLineNo">042</span><a id="line.42">  @CheckForNull private final Reader reader;</a>
+<span class="sourceLineNo">042</span><a id="line.42">  private final @Nullable Reader reader;</a>
 <span class="sourceLineNo">043</span><a id="line.43">  private final CharBuffer cbuf = createBuffer();</a>
 <span class="sourceLineNo">044</span><a id="line.44">  private final char[] buf = cbuf.array();</a>
 <span class="sourceLineNo">045</span><a id="line.45"></a>
@@ -77,22 +77,21 @@
 <span class="sourceLineNo">068</span><a id="line.68">   * @throws IOException if an I/O error occurs</a>
 <span class="sourceLineNo">069</span><a id="line.69">   */</a>
 <span class="sourceLineNo">070</span><a id="line.70">  @CanIgnoreReturnValue // to skip a line</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @CheckForNull</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public String readLine() throws IOException {</a>
-<span class="sourceLineNo">073</span><a id="line.73">    while (lines.peek() == null) {</a>
-<span class="sourceLineNo">074</span><a id="line.74">      Java8Compatibility.clear(cbuf);</a>
-<span class="sourceLineNo">075</span><a id="line.75">      // The default implementation of Reader#read(CharBuffer) allocates a</a>
-<span class="sourceLineNo">076</span><a id="line.76">      // temporary char[], so we call Reader#read(char[], int, int) instead.</a>
-<span class="sourceLineNo">077</span><a id="line.77">      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);</a>
-<span class="sourceLineNo">078</span><a id="line.78">      if (read == -1) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">        lineBuf.finish();</a>
-<span class="sourceLineNo">080</span><a id="line.80">        break;</a>
-<span class="sourceLineNo">081</span><a id="line.81">      }</a>
-<span class="sourceLineNo">082</span><a id="line.82">      lineBuf.add(buf, 0, read);</a>
-<span class="sourceLineNo">083</span><a id="line.83">    }</a>
-<span class="sourceLineNo">084</span><a id="line.84">    return lines.poll();</a>
-<span class="sourceLineNo">085</span><a id="line.85">  }</a>
-<span class="sourceLineNo">086</span><a id="line.86">}</a>
+<span class="sourceLineNo">071</span><a id="line.71">  public @Nullable String readLine() throws IOException {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    while (lines.peek() == null) {</a>
+<span class="sourceLineNo">073</span><a id="line.73">      Java8Compatibility.clear(cbuf);</a>
+<span class="sourceLineNo">074</span><a id="line.74">      // The default implementation of Reader#read(CharBuffer) allocates a</a>
+<span class="sourceLineNo">075</span><a id="line.75">      // temporary char[], so we call Reader#read(char[], int, int) instead.</a>
+<span class="sourceLineNo">076</span><a id="line.76">      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);</a>
+<span class="sourceLineNo">077</span><a id="line.77">      if (read == -1) {</a>
+<span class="sourceLineNo">078</span><a id="line.78">        lineBuf.finish();</a>
+<span class="sourceLineNo">079</span><a id="line.79">        break;</a>
+<span class="sourceLineNo">080</span><a id="line.80">      }</a>
+<span class="sourceLineNo">081</span><a id="line.81">      lineBuf.add(buf, 0, read);</a>
+<span class="sourceLineNo">082</span><a id="line.82">    }</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return lines.poll();</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85">}</a>
 
 
 

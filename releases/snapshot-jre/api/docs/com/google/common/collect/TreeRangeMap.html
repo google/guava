@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.55">TreeRangeMap</a>&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.54">TreeRangeMap</a>&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;V&gt;</pre>
 <div class="block">An implementation of <code>RangeMap</code> based on a <code>TreeMap</code>, supporting all optional
@@ -207,20 +207,20 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a></code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(K)">get</a></span>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEntry(K)">getEntry</a></span>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
@@ -237,7 +237,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">merge</a></span>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
-     <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
+     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block">Merges a value into a part of the map by applying a remapping function.</div>
@@ -326,7 +326,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;&nbsp;<a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.62">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;&nbsp;<a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.61">create</a>()</pre>
 <div class="block">Returns a new, empty <a href="TreeRangeMap.html" title="class in com.google.common.collect"><code>TreeRangeMap</code></a>.</div>
 </li>
 </ul>
@@ -336,7 +336,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.71">copyOf</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;rangeMap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;,&#8203;V&gt;&nbsp;<a href="TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.70">copyOf</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;rangeMap)</pre>
 <div class="block">Returns a new <a href="TreeRangeMap.html" title="class in com.google.common.collect"><code>TreeRangeMap</code></a> containing the same ranges as the given <code>RangeMap</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -352,8 +352,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.133">get</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.132">get</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#get(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
@@ -373,8 +372,7 @@ public&nbsp;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V
 <ul class="blockList">
 <li class="blockList">
 <h4>getEntry</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.140">getEntry</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.138">getEntry</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#getEntry(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
@@ -392,7 +390,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.152">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.149">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
                 <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#put(com.google.common.collect.Range,V)">RangeMap</a></code></span></div>
 <div class="block">Maps a range to a specified value (optional operation).
@@ -415,7 +413,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>putCoalescing</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.161">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.158">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
                           <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#putCoalescing(com.google.common.collect.Range,V)">RangeMap</a></code></span></div>
 <div class="block">Maps a range to a specified value, coalescing this range with any existing ranges with the same
@@ -444,7 +442,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.198">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>,&#8203;? extends <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.195">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>,&#8203;? extends <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#putAll(com.google.common.collect.RangeMap)">RangeMap</a></code></span></div>
 <div class="block">Puts all the associations from <code>rangeMap</code> into this range map (optional operation).</div>
 <dl>
@@ -459,7 +457,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.205">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.202">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#clear()">RangeMap</a></code></span></div>
 <div class="block">Removes all associations from this range map (optional operation).</div>
 <dl>
@@ -474,7 +472,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.210">span</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.207">span</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#span()">RangeMap</a></code></span></div>
 <div class="block">Returns the minimal range <a href="Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges in this
  <code>RangeMap</code>.</div>
@@ -490,7 +488,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.226">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;rangeToRemove)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.223">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;rangeToRemove)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#remove(com.google.common.collect.Range)">RangeMap</a></code></span></div>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).
 
@@ -511,9 +509,8 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>merge</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.298">merge</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
-                  <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                  <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.295">merge</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
+                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
                   <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">RangeMap</a></code></span></div>
 <div class="block">Merges a value into a part of the map by applying a remapping function.
@@ -544,7 +541,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>asMapOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.353">asMapOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.350">asMapOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#asMapOfRanges()">RangeMap</a></code></span></div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
@@ -565,7 +562,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingMapOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.358">asDescendingMapOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.355">asDescendingMapOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#asDescendingMapOfRanges()">RangeMap</a></code></span></div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
@@ -586,7 +583,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.401">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;subRange)</pre>
+<pre class="methodSignature">public&nbsp;<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.397">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;subRange)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#subRangeMap(com.google.common.collect.Range)">RangeMap</a></code></span></div>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
@@ -611,8 +608,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.837">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.825">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#equals(java.lang.Object)">RangeMap</a></code></span></div>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
 <dl>
@@ -629,7 +625,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.846">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.834">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#hashCode()">RangeMap</a></code></span></div>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl>
@@ -646,7 +642,7 @@ public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/uti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.851">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.839">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#toString()">RangeMap</a></code></span></div>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl>

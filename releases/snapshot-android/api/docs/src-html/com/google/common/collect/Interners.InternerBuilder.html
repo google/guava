@@ -32,7 +32,7 @@
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.common.base.Function;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import com.google.common.collect.MapMaker.Dummy;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import com.google.common.collect.MapMakerInternalMap.InternalEntry;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">027</span><a id="line.27"></a>
 <span class="sourceLineNo">028</span><a id="line.28">/**</a>
 <span class="sourceLineNo">029</span><a id="line.29"> * Contains static methods pertaining to instances of {@link Interner}.</a>
@@ -190,7 +190,7 @@
 <span class="sourceLineNo">181</span><a id="line.181">    }</a>
 <span class="sourceLineNo">182</span><a id="line.182"></a>
 <span class="sourceLineNo">183</span><a id="line.183">    @Override</a>
-<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@CheckForNull Object other) {</a>
+<span class="sourceLineNo">184</span><a id="line.184">    public boolean equals(@Nullable Object other) {</a>
 <span class="sourceLineNo">185</span><a id="line.185">      if (other instanceof InternerFunction) {</a>
 <span class="sourceLineNo">186</span><a id="line.186">        InternerFunction&lt;?&gt; that = (InternerFunction&lt;?&gt;) other;</a>
 <span class="sourceLineNo">187</span><a id="line.187">        return interner.equals(that.interner);</a>

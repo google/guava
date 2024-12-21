@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.46">Function</a>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.45">Function</a>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Determines an output value based on an input value; a pre-Java-8 version of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Function</code></a>.
 
  <p>The <a href="Functions.html" title="class in com.google.common.base"><code>Functions</code></a> class provides common functions and related utilities.
@@ -187,7 +187,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Function</code> that behaves identically
  to this function.</div>
@@ -218,7 +218,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature"><a href="Function.html" title="type parameter in Function">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.62">apply</a>&#8203;(<a href="Function.html" title="type parameter in Function">F</a>&nbsp;input)</pre>
+<pre class="methodSignature"><a href="Function.html" title="type parameter in Function">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.61">apply</a>&#8203;(<a href="Function.html" title="type parameter in Function">F</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this function to <code>input</code>. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:
 
@@ -240,8 +240,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.76">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-               <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.75">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Function</code> that behaves identically
  to this function.
 

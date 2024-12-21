@@ -43,7 +43,7 @@
 <span class="sourceLineNo">034</span><a id="line.34">import java.util.Comparator;</a>
 <span class="sourceLineNo">035</span><a id="line.35">import java.util.List;</a>
 <span class="sourceLineNo">036</span><a id="line.36">import java.util.RandomAccess;</a>
-<span class="sourceLineNo">037</span><a id="line.37">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">038</span><a id="line.38"></a>
 <span class="sourceLineNo">039</span><a id="line.39">/**</a>
 <span class="sourceLineNo">040</span><a id="line.40"> * Static utility methods pertaining to {@code float} primitives, that are not already found in</a>
@@ -619,13 +619,13 @@
 <span class="sourceLineNo">610</span><a id="line.610">    }</a>
 <span class="sourceLineNo">611</span><a id="line.611"></a>
 <span class="sourceLineNo">612</span><a id="line.612">    @Override</a>
-<span class="sourceLineNo">613</span><a id="line.613">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">613</span><a id="line.613">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">614</span><a id="line.614">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">615</span><a id="line.615">      return (target instanceof Float) &amp;&amp; Floats.indexOf(array, (Float) target, start, end) != -1;</a>
 <span class="sourceLineNo">616</span><a id="line.616">    }</a>
 <span class="sourceLineNo">617</span><a id="line.617"></a>
 <span class="sourceLineNo">618</span><a id="line.618">    @Override</a>
-<span class="sourceLineNo">619</span><a id="line.619">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">619</span><a id="line.619">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">620</span><a id="line.620">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">621</span><a id="line.621">      if (target instanceof Float) {</a>
 <span class="sourceLineNo">622</span><a id="line.622">        int i = Floats.indexOf(array, (Float) target, start, end);</a>
@@ -637,7 +637,7 @@
 <span class="sourceLineNo">628</span><a id="line.628">    }</a>
 <span class="sourceLineNo">629</span><a id="line.629"></a>
 <span class="sourceLineNo">630</span><a id="line.630">    @Override</a>
-<span class="sourceLineNo">631</span><a id="line.631">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">631</span><a id="line.631">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">632</span><a id="line.632">      // Overridden to prevent a ton of boxing</a>
 <span class="sourceLineNo">633</span><a id="line.633">      if (target instanceof Float) {</a>
 <span class="sourceLineNo">634</span><a id="line.634">        int i = Floats.lastIndexOf(array, (Float) target, start, end);</a>
@@ -668,7 +668,7 @@
 <span class="sourceLineNo">659</span><a id="line.659">    }</a>
 <span class="sourceLineNo">660</span><a id="line.660"></a>
 <span class="sourceLineNo">661</span><a id="line.661">    @Override</a>
-<span class="sourceLineNo">662</span><a id="line.662">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">662</span><a id="line.662">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">663</span><a id="line.663">      if (object == this) {</a>
 <span class="sourceLineNo">664</span><a id="line.664">        return true;</a>
 <span class="sourceLineNo">665</span><a id="line.665">      }</a>
@@ -732,21 +732,20 @@
 <span class="sourceLineNo">723</span><a id="line.723">   * @since 14.0</a>
 <span class="sourceLineNo">724</span><a id="line.724">   */</a>
 <span class="sourceLineNo">725</span><a id="line.725">  @GwtIncompatible // regular expressions</a>
-<span class="sourceLineNo">726</span><a id="line.726">  @CheckForNull</a>
-<span class="sourceLineNo">727</span><a id="line.727">  public static Float tryParse(String string) {</a>
-<span class="sourceLineNo">728</span><a id="line.728">    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
-<span class="sourceLineNo">729</span><a id="line.729">      // TODO(lowasser): could be potentially optimized, but only with</a>
-<span class="sourceLineNo">730</span><a id="line.730">      // extensive testing</a>
-<span class="sourceLineNo">731</span><a id="line.731">      try {</a>
-<span class="sourceLineNo">732</span><a id="line.732">        return Float.parseFloat(string);</a>
-<span class="sourceLineNo">733</span><a id="line.733">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">734</span><a id="line.734">        // Float.parseFloat has changed specs several times, so fall through</a>
-<span class="sourceLineNo">735</span><a id="line.735">        // gracefully</a>
-<span class="sourceLineNo">736</span><a id="line.736">      }</a>
-<span class="sourceLineNo">737</span><a id="line.737">    }</a>
-<span class="sourceLineNo">738</span><a id="line.738">    return null;</a>
-<span class="sourceLineNo">739</span><a id="line.739">  }</a>
-<span class="sourceLineNo">740</span><a id="line.740">}</a>
+<span class="sourceLineNo">726</span><a id="line.726">  public static @Nullable Float tryParse(String string) {</a>
+<span class="sourceLineNo">727</span><a id="line.727">    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {</a>
+<span class="sourceLineNo">728</span><a id="line.728">      // TODO(lowasser): could be potentially optimized, but only with</a>
+<span class="sourceLineNo">729</span><a id="line.729">      // extensive testing</a>
+<span class="sourceLineNo">730</span><a id="line.730">      try {</a>
+<span class="sourceLineNo">731</span><a id="line.731">        return Float.parseFloat(string);</a>
+<span class="sourceLineNo">732</span><a id="line.732">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">733</span><a id="line.733">        // Float.parseFloat has changed specs several times, so fall through</a>
+<span class="sourceLineNo">734</span><a id="line.734">        // gracefully</a>
+<span class="sourceLineNo">735</span><a id="line.735">      }</a>
+<span class="sourceLineNo">736</span><a id="line.736">    }</a>
+<span class="sourceLineNo">737</span><a id="line.737">    return null;</a>
+<span class="sourceLineNo">738</span><a id="line.738">  }</a>
+<span class="sourceLineNo">739</span><a id="line.739">}</a>
 
 
 

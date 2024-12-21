@@ -37,7 +37,7 @@
 <span class="sourceLineNo">028</span><a id="line.28">import java.util.regex.Pattern;</a>
 <span class="sourceLineNo">029</span><a id="line.29">import java.util.stream.Stream;</a>
 <span class="sourceLineNo">030</span><a id="line.30">import java.util.stream.StreamSupport;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">032</span><a id="line.32"></a>
 <span class="sourceLineNo">033</span><a id="line.33">/**</a>
 <span class="sourceLineNo">034</span><a id="line.34"> * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of</a>
@@ -569,74 +569,73 @@
 <span class="sourceLineNo">560</span><a id="line.560">      this.toSplit = toSplit;</a>
 <span class="sourceLineNo">561</span><a id="line.561">    }</a>
 <span class="sourceLineNo">562</span><a id="line.562"></a>
-<span class="sourceLineNo">563</span><a id="line.563">    @CheckForNull</a>
-<span class="sourceLineNo">564</span><a id="line.564">    @Override</a>
-<span class="sourceLineNo">565</span><a id="line.565">    protected String computeNext() {</a>
-<span class="sourceLineNo">566</span><a id="line.566">      /*</a>
-<span class="sourceLineNo">567</span><a id="line.567">       * The returned string will be from the end of the last match to the beginning of the next</a>
-<span class="sourceLineNo">568</span><a id="line.568">       * one. nextStart is the start position of the returned substring, while offset is the place</a>
-<span class="sourceLineNo">569</span><a id="line.569">       * to start looking for a separator.</a>
-<span class="sourceLineNo">570</span><a id="line.570">       */</a>
-<span class="sourceLineNo">571</span><a id="line.571">      int nextStart = offset;</a>
-<span class="sourceLineNo">572</span><a id="line.572">      while (offset != -1) {</a>
-<span class="sourceLineNo">573</span><a id="line.573">        int start = nextStart;</a>
-<span class="sourceLineNo">574</span><a id="line.574">        int end;</a>
-<span class="sourceLineNo">575</span><a id="line.575"></a>
-<span class="sourceLineNo">576</span><a id="line.576">        int separatorPosition = separatorStart(offset);</a>
-<span class="sourceLineNo">577</span><a id="line.577">        if (separatorPosition == -1) {</a>
-<span class="sourceLineNo">578</span><a id="line.578">          end = toSplit.length();</a>
-<span class="sourceLineNo">579</span><a id="line.579">          offset = -1;</a>
-<span class="sourceLineNo">580</span><a id="line.580">        } else {</a>
-<span class="sourceLineNo">581</span><a id="line.581">          end = separatorPosition;</a>
-<span class="sourceLineNo">582</span><a id="line.582">          offset = separatorEnd(separatorPosition);</a>
-<span class="sourceLineNo">583</span><a id="line.583">        }</a>
-<span class="sourceLineNo">584</span><a id="line.584">        if (offset == nextStart) {</a>
-<span class="sourceLineNo">585</span><a id="line.585">          /*</a>
-<span class="sourceLineNo">586</span><a id="line.586">           * This occurs when some pattern has an empty match, even if it doesn't match the empty</a>
-<span class="sourceLineNo">587</span><a id="line.587">           * string -- for example, if it requires lookahead or the like. The offset must be</a>
-<span class="sourceLineNo">588</span><a id="line.588">           * increased to look for separators beyond this point, without changing the start position</a>
-<span class="sourceLineNo">589</span><a id="line.589">           * of the next returned substring -- so nextStart stays the same.</a>
-<span class="sourceLineNo">590</span><a id="line.590">           */</a>
-<span class="sourceLineNo">591</span><a id="line.591">          offset++;</a>
-<span class="sourceLineNo">592</span><a id="line.592">          if (offset &gt; toSplit.length()) {</a>
-<span class="sourceLineNo">593</span><a id="line.593">            offset = -1;</a>
-<span class="sourceLineNo">594</span><a id="line.594">          }</a>
-<span class="sourceLineNo">595</span><a id="line.595">          continue;</a>
-<span class="sourceLineNo">596</span><a id="line.596">        }</a>
-<span class="sourceLineNo">597</span><a id="line.597"></a>
-<span class="sourceLineNo">598</span><a id="line.598">        while (start &lt; end &amp;&amp; trimmer.matches(toSplit.charAt(start))) {</a>
-<span class="sourceLineNo">599</span><a id="line.599">          start++;</a>
-<span class="sourceLineNo">600</span><a id="line.600">        }</a>
-<span class="sourceLineNo">601</span><a id="line.601">        while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {</a>
-<span class="sourceLineNo">602</span><a id="line.602">          end--;</a>
-<span class="sourceLineNo">603</span><a id="line.603">        }</a>
-<span class="sourceLineNo">604</span><a id="line.604"></a>
-<span class="sourceLineNo">605</span><a id="line.605">        if (omitEmptyStrings &amp;&amp; start == end) {</a>
-<span class="sourceLineNo">606</span><a id="line.606">          // Don't include the (unused) separator in next split string.</a>
-<span class="sourceLineNo">607</span><a id="line.607">          nextStart = offset;</a>
-<span class="sourceLineNo">608</span><a id="line.608">          continue;</a>
-<span class="sourceLineNo">609</span><a id="line.609">        }</a>
-<span class="sourceLineNo">610</span><a id="line.610"></a>
-<span class="sourceLineNo">611</span><a id="line.611">        if (limit == 1) {</a>
-<span class="sourceLineNo">612</span><a id="line.612">          // The limit has been reached, return the rest of the string as the</a>
-<span class="sourceLineNo">613</span><a id="line.613">          // final item. This is tested after empty string removal so that</a>
-<span class="sourceLineNo">614</span><a id="line.614">          // empty strings do not count towards the limit.</a>
-<span class="sourceLineNo">615</span><a id="line.615">          end = toSplit.length();</a>
-<span class="sourceLineNo">616</span><a id="line.616">          offset = -1;</a>
-<span class="sourceLineNo">617</span><a id="line.617">          // Since we may have changed the end, we need to trim it again.</a>
-<span class="sourceLineNo">618</span><a id="line.618">          while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {</a>
-<span class="sourceLineNo">619</span><a id="line.619">            end--;</a>
-<span class="sourceLineNo">620</span><a id="line.620">          }</a>
-<span class="sourceLineNo">621</span><a id="line.621">        } else {</a>
-<span class="sourceLineNo">622</span><a id="line.622">          limit--;</a>
-<span class="sourceLineNo">623</span><a id="line.623">        }</a>
-<span class="sourceLineNo">624</span><a id="line.624"></a>
-<span class="sourceLineNo">625</span><a id="line.625">        return toSplit.subSequence(start, end).toString();</a>
-<span class="sourceLineNo">626</span><a id="line.626">      }</a>
-<span class="sourceLineNo">627</span><a id="line.627">      return endOfData();</a>
-<span class="sourceLineNo">628</span><a id="line.628">    }</a>
-<span class="sourceLineNo">629</span><a id="line.629">  }</a>
-<span class="sourceLineNo">630</span><a id="line.630">}</a>
+<span class="sourceLineNo">563</span><a id="line.563">    @Override</a>
+<span class="sourceLineNo">564</span><a id="line.564">    protected @Nullable String computeNext() {</a>
+<span class="sourceLineNo">565</span><a id="line.565">      /*</a>
+<span class="sourceLineNo">566</span><a id="line.566">       * The returned string will be from the end of the last match to the beginning of the next</a>
+<span class="sourceLineNo">567</span><a id="line.567">       * one. nextStart is the start position of the returned substring, while offset is the place</a>
+<span class="sourceLineNo">568</span><a id="line.568">       * to start looking for a separator.</a>
+<span class="sourceLineNo">569</span><a id="line.569">       */</a>
+<span class="sourceLineNo">570</span><a id="line.570">      int nextStart = offset;</a>
+<span class="sourceLineNo">571</span><a id="line.571">      while (offset != -1) {</a>
+<span class="sourceLineNo">572</span><a id="line.572">        int start = nextStart;</a>
+<span class="sourceLineNo">573</span><a id="line.573">        int end;</a>
+<span class="sourceLineNo">574</span><a id="line.574"></a>
+<span class="sourceLineNo">575</span><a id="line.575">        int separatorPosition = separatorStart(offset);</a>
+<span class="sourceLineNo">576</span><a id="line.576">        if (separatorPosition == -1) {</a>
+<span class="sourceLineNo">577</span><a id="line.577">          end = toSplit.length();</a>
+<span class="sourceLineNo">578</span><a id="line.578">          offset = -1;</a>
+<span class="sourceLineNo">579</span><a id="line.579">        } else {</a>
+<span class="sourceLineNo">580</span><a id="line.580">          end = separatorPosition;</a>
+<span class="sourceLineNo">581</span><a id="line.581">          offset = separatorEnd(separatorPosition);</a>
+<span class="sourceLineNo">582</span><a id="line.582">        }</a>
+<span class="sourceLineNo">583</span><a id="line.583">        if (offset == nextStart) {</a>
+<span class="sourceLineNo">584</span><a id="line.584">          /*</a>
+<span class="sourceLineNo">585</span><a id="line.585">           * This occurs when some pattern has an empty match, even if it doesn't match the empty</a>
+<span class="sourceLineNo">586</span><a id="line.586">           * string -- for example, if it requires lookahead or the like. The offset must be</a>
+<span class="sourceLineNo">587</span><a id="line.587">           * increased to look for separators beyond this point, without changing the start position</a>
+<span class="sourceLineNo">588</span><a id="line.588">           * of the next returned substring -- so nextStart stays the same.</a>
+<span class="sourceLineNo">589</span><a id="line.589">           */</a>
+<span class="sourceLineNo">590</span><a id="line.590">          offset++;</a>
+<span class="sourceLineNo">591</span><a id="line.591">          if (offset &gt; toSplit.length()) {</a>
+<span class="sourceLineNo">592</span><a id="line.592">            offset = -1;</a>
+<span class="sourceLineNo">593</span><a id="line.593">          }</a>
+<span class="sourceLineNo">594</span><a id="line.594">          continue;</a>
+<span class="sourceLineNo">595</span><a id="line.595">        }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">        while (start &lt; end &amp;&amp; trimmer.matches(toSplit.charAt(start))) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">          start++;</a>
+<span class="sourceLineNo">599</span><a id="line.599">        }</a>
+<span class="sourceLineNo">600</span><a id="line.600">        while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {</a>
+<span class="sourceLineNo">601</span><a id="line.601">          end--;</a>
+<span class="sourceLineNo">602</span><a id="line.602">        }</a>
+<span class="sourceLineNo">603</span><a id="line.603"></a>
+<span class="sourceLineNo">604</span><a id="line.604">        if (omitEmptyStrings &amp;&amp; start == end) {</a>
+<span class="sourceLineNo">605</span><a id="line.605">          // Don't include the (unused) separator in next split string.</a>
+<span class="sourceLineNo">606</span><a id="line.606">          nextStart = offset;</a>
+<span class="sourceLineNo">607</span><a id="line.607">          continue;</a>
+<span class="sourceLineNo">608</span><a id="line.608">        }</a>
+<span class="sourceLineNo">609</span><a id="line.609"></a>
+<span class="sourceLineNo">610</span><a id="line.610">        if (limit == 1) {</a>
+<span class="sourceLineNo">611</span><a id="line.611">          // The limit has been reached, return the rest of the string as the</a>
+<span class="sourceLineNo">612</span><a id="line.612">          // final item. This is tested after empty string removal so that</a>
+<span class="sourceLineNo">613</span><a id="line.613">          // empty strings do not count towards the limit.</a>
+<span class="sourceLineNo">614</span><a id="line.614">          end = toSplit.length();</a>
+<span class="sourceLineNo">615</span><a id="line.615">          offset = -1;</a>
+<span class="sourceLineNo">616</span><a id="line.616">          // Since we may have changed the end, we need to trim it again.</a>
+<span class="sourceLineNo">617</span><a id="line.617">          while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {</a>
+<span class="sourceLineNo">618</span><a id="line.618">            end--;</a>
+<span class="sourceLineNo">619</span><a id="line.619">          }</a>
+<span class="sourceLineNo">620</span><a id="line.620">        } else {</a>
+<span class="sourceLineNo">621</span><a id="line.621">          limit--;</a>
+<span class="sourceLineNo">622</span><a id="line.622">        }</a>
+<span class="sourceLineNo">623</span><a id="line.623"></a>
+<span class="sourceLineNo">624</span><a id="line.624">        return toSplit.subSequence(start, end).toString();</a>
+<span class="sourceLineNo">625</span><a id="line.625">      }</a>
+<span class="sourceLineNo">626</span><a id="line.626">      return endOfData();</a>
+<span class="sourceLineNo">627</span><a id="line.627">    }</a>
+<span class="sourceLineNo">628</span><a id="line.628">  }</a>
+<span class="sourceLineNo">629</span><a id="line.629">}</a>
 
 
 

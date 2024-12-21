@@ -267,19 +267,19 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>V</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">edgeValueOrDefault</span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints,
-                  V&nbsp;defaultValue)</code></th>
+                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>V</code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink">edgeValueOrDefault</span>&#8203;(N&nbsp;nodeU,
                   N&nbsp;nodeV,
-                  V&nbsp;defaultValue)</code></th>
+                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
  otherwise, returns <code>defaultValue</code>.</div>
@@ -696,11 +696,9 @@ public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;V&nbsp;edgeValueOrDefault&#8203;(N&nbsp;nodeU,
-                            N&nbsp;nodeV,
-                            <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            V&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;edgeValueOrDefault&#8203;(N&nbsp;nodeU,
+                                      N&nbsp;nodeV,
+                                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;defaultValue)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#edgeValueOrDefault(N,N,V)">ValueGraph</a></code></span></div>
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
  otherwise, returns <code>defaultValue</code>.
@@ -717,10 +715,8 @@ public&nbsp;V&nbsp;edgeValueOrDefault&#8203;(N&nbsp;nodeU,
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;V&nbsp;edgeValueOrDefault&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints,
-                            <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            V&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;edgeValueOrDefault&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints,
+                                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;defaultValue)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#edgeValueOrDefault(com.google.common.graph.EndpointPair,V)">ValueGraph</a></code></span></div>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.

@@ -33,7 +33,7 @@
 <span class="sourceLineNo">024</span><a id="line.24">import com.google.common.collect.Iterators;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import com.google.common.collect.UnmodifiableIterator;</a>
 <span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.Immutable;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">028</span><a id="line.28"></a>
 <span class="sourceLineNo">029</span><a id="line.29">/**</a>
 <span class="sourceLineNo">030</span><a id="line.30"> * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}</a>
@@ -142,7 +142,7 @@
 <span class="sourceLineNo">133</span><a id="line.133">   * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.</a>
 <span class="sourceLineNo">134</span><a id="line.134">   */</a>
 <span class="sourceLineNo">135</span><a id="line.135">  @Override</a>
-<span class="sourceLineNo">136</span><a id="line.136">  public abstract boolean equals(@CheckForNull Object obj);</a>
+<span class="sourceLineNo">136</span><a id="line.136">  public abstract boolean equals(@Nullable Object obj);</a>
 <span class="sourceLineNo">137</span><a id="line.137"></a>
 <span class="sourceLineNo">138</span><a id="line.138">  /**</a>
 <span class="sourceLineNo">139</span><a id="line.139">   * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),</a>
@@ -173,7 +173,7 @@
 <span class="sourceLineNo">164</span><a id="line.164">    }</a>
 <span class="sourceLineNo">165</span><a id="line.165"></a>
 <span class="sourceLineNo">166</span><a id="line.166">    @Override</a>
-<span class="sourceLineNo">167</span><a id="line.167">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">167</span><a id="line.167">    public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">168</span><a id="line.168">      if (obj == this) {</a>
 <span class="sourceLineNo">169</span><a id="line.169">        return true;</a>
 <span class="sourceLineNo">170</span><a id="line.170">      }</a>
@@ -221,7 +221,7 @@
 <span class="sourceLineNo">212</span><a id="line.212">    }</a>
 <span class="sourceLineNo">213</span><a id="line.213"></a>
 <span class="sourceLineNo">214</span><a id="line.214">    @Override</a>
-<span class="sourceLineNo">215</span><a id="line.215">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">    public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">216</span><a id="line.216">      if (obj == this) {</a>
 <span class="sourceLineNo">217</span><a id="line.217">        return true;</a>
 <span class="sourceLineNo">218</span><a id="line.218">      }</a>

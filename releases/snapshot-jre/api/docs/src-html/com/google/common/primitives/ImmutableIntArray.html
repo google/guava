@@ -40,7 +40,7 @@
 <span class="sourceLineNo">031</span><a id="line.31">import java.util.Spliterators;</a>
 <span class="sourceLineNo">032</span><a id="line.32">import java.util.function.IntConsumer;</a>
 <span class="sourceLineNo">033</span><a id="line.33">import java.util.stream.IntStream;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import org.checkerframework.checker.nullness.qual.Nullable;</a>
 <span class="sourceLineNo">035</span><a id="line.35"></a>
 <span class="sourceLineNo">036</span><a id="line.36">/**</a>
 <span class="sourceLineNo">037</span><a id="line.37"> * An immutable array of {@code int} values, with an API resembling {@link List}.</a>
@@ -506,17 +506,17 @@
 <span class="sourceLineNo">497</span><a id="line.497">    }</a>
 <span class="sourceLineNo">498</span><a id="line.498"></a>
 <span class="sourceLineNo">499</span><a id="line.499">    @Override</a>
-<span class="sourceLineNo">500</span><a id="line.500">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">500</span><a id="line.500">    public boolean contains(@Nullable Object target) {</a>
 <span class="sourceLineNo">501</span><a id="line.501">      return indexOf(target) &gt;= 0;</a>
 <span class="sourceLineNo">502</span><a id="line.502">    }</a>
 <span class="sourceLineNo">503</span><a id="line.503"></a>
 <span class="sourceLineNo">504</span><a id="line.504">    @Override</a>
-<span class="sourceLineNo">505</span><a id="line.505">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">505</span><a id="line.505">    public int indexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">506</span><a id="line.506">      return target instanceof Integer ? parent.indexOf((Integer) target) : -1;</a>
 <span class="sourceLineNo">507</span><a id="line.507">    }</a>
 <span class="sourceLineNo">508</span><a id="line.508"></a>
 <span class="sourceLineNo">509</span><a id="line.509">    @Override</a>
-<span class="sourceLineNo">510</span><a id="line.510">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">510</span><a id="line.510">    public int lastIndexOf(@Nullable Object target) {</a>
 <span class="sourceLineNo">511</span><a id="line.511">      return target instanceof Integer ? parent.lastIndexOf((Integer) target) : -1;</a>
 <span class="sourceLineNo">512</span><a id="line.512">    }</a>
 <span class="sourceLineNo">513</span><a id="line.513"></a>
@@ -532,7 +532,7 @@
 <span class="sourceLineNo">523</span><a id="line.523">    }</a>
 <span class="sourceLineNo">524</span><a id="line.524"></a>
 <span class="sourceLineNo">525</span><a id="line.525">    @Override</a>
-<span class="sourceLineNo">526</span><a id="line.526">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">526</span><a id="line.526">    public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">527</span><a id="line.527">      if (object instanceof AsList) {</a>
 <span class="sourceLineNo">528</span><a id="line.528">        AsList that = (AsList) object;</a>
 <span class="sourceLineNo">529</span><a id="line.529">        return this.parent.equals(that.parent);</a>
@@ -572,7 +572,7 @@
 <span class="sourceLineNo">563</span><a id="line.563">   * values as this one, in the same order.</a>
 <span class="sourceLineNo">564</span><a id="line.564">   */</a>
 <span class="sourceLineNo">565</span><a id="line.565">  @Override</a>
-<span class="sourceLineNo">566</span><a id="line.566">  public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">566</span><a id="line.566">  public boolean equals(@Nullable Object object) {</a>
 <span class="sourceLineNo">567</span><a id="line.567">    if (object == this) {</a>
 <span class="sourceLineNo">568</span><a id="line.568">      return true;</a>
 <span class="sourceLineNo">569</span><a id="line.569">    }</a>
