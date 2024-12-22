@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class AbstractIterator" class="title">Class AbstractIterator&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
+<h2 title="Class AbstractIterator" class="title">Class AbstractIterator&lt;T extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.64">AbstractIterator</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.64">AbstractIterator</a>&lt;T extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</pre>
 <div class="block">This class provides a skeletal implementation of the <code>Iterator</code> interface, to make this
  interface easier to implement for certain types of data sources.
@@ -226,14 +226,14 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>protected abstract <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
+<td class="colFirst"><code>protected abstract @Nullable <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#computeNext()">computeNext</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the next element.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
+<td class="colFirst"><code>protected @Nullable <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#endOfData()">endOfData</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Implementations of <a href="#computeNext()"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
@@ -322,7 +322,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>computeNext</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.111">computeNext</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;@Nullable <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.111">computeNext</a>()</pre>
 <div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="#endOfData()"><code>endOfData()</code></a> when
  there are no elements left in the iteration. Failure to do so could result in an infinite loop.
 
@@ -356,7 +356,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <li class="blockList">
 <h4>endOfData</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.120">endOfData</a>()</pre>
+protected final&nbsp;@Nullable <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.120">endOfData</a>()</pre>
 <div class="block">Implementations of <a href="#computeNext()"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
  elements left in the iteration.</div>
 <dl>

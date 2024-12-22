@@ -284,8 +284,8 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Converter.html" title="type parameter in Converter">B</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#convert(A)">convert</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</code></th>
+<td class="colFirst"><code>@Nullable <a href="Converter.html" title="type parameter in Converter">B</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#convert(A)">convert</a></span>&#8203;(@Nullable <a href="Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</code></th>
 <td class="colLast">
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>.</div>
 </td>
@@ -313,7 +313,7 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Indicates whether another object is equal to this converter.</div>
 </td>
@@ -438,7 +438,7 @@ protected abstract&nbsp;<a href="Converter.html" title="type parameter in Conver
 <ul class="blockList">
 <li class="blockList">
 <h4>convert</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.192">convert</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
+<pre class="methodSignature">public final&nbsp;@Nullable <a href="Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.192">convert</a>&#8203;(@Nullable <a href="Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -526,7 +526,7 @@ public final&nbsp;<a href="Converter.html" title="type parameter in Converter">B
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.483">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.483">equals</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this converter.
 
  <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>.

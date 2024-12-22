@@ -164,7 +164,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#close(java.io.Closeable,boolean)">close</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&nbsp;closeable,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#close(java.io.Closeable,boolean)">close</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&nbsp;closeable,
      boolean&nbsp;swallowIOException)</code></th>
 <td class="colLast">
 <div class="block">Closes a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a>, with control over whether an <code>IOException</code> may be thrown.</div>
@@ -172,7 +172,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closeQuietly(java.io.InputStream)">closeQuietly</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;inputStream)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closeQuietly(java.io.InputStream)">closeQuietly</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;inputStream)</code></th>
 <td class="colLast">
 <div class="block">Closes the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>InputStream</code></a>, logging any <code>IOException</code> that's thrown rather than
  propagating it.</div>
@@ -180,7 +180,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closeQuietly(java.io.Reader)">closeQuietly</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closeQuietly(java.io.Reader)">closeQuietly</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</code></th>
 <td class="colLast">
 <div class="block">Closes the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Reader</code></a>, logging any <code>IOException</code> that's thrown rather than
  propagating it.</div>
@@ -216,7 +216,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.72">close</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&nbsp;closeable,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.72">close</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&nbsp;closeable,
                          boolean&nbsp;swallowIOException)
                   throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Closes a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a>, with control over whether an <code>IOException</code> may be thrown.
@@ -259,7 +259,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockList">
 <li class="blockList">
 <h4>closeQuietly</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.102">closeQuietly</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;inputStream)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.102">closeQuietly</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;inputStream)</pre>
 <div class="block">Closes the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>InputStream</code></a>, logging any <code>IOException</code> that's thrown rather than
  propagating it.
 
@@ -283,7 +283,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <ul class="blockListLast">
 <li class="blockList">
 <h4>closeQuietly</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.123">closeQuietly</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closeables.html#line.123">closeQuietly</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</pre>
 <div class="block">Closes the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Reader</code></a>, logging any <code>IOException</code> that's thrown rather than
  propagating it.
 

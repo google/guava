@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingSortedSet" class="title">Class ForwardingSortedSet&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
+<h2 title="Class ForwardingSortedSet" class="title">Class ForwardingSortedSet&lt;E extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
@@ -156,7 +156,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.55">ForwardingSortedSet</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.55">ForwardingSortedSet</a>&lt;E extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingSet.html" title="class in com.google.common.collect">ForwardingSet</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;</pre>
 <div class="block">A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -232,7 +232,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;</code></td>
+<td class="colFirst"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comparator()">comparator</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -260,14 +260,14 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContains(java.lang.Object)">standardContains</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContains(java.lang.Object)">standardContains</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of the <code>first()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardRemove(java.lang.Object)">standardRemove</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> in terms of the <code>iterator()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>.</div>
 </td>
@@ -398,7 +398,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingSet.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingSet.html" title="class in com.google.common.collect">ForwardingSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingSet.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingSet.html" title="class in com.google.common.collect">ForwardingSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -408,10 +408,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.65">comparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.65">comparator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#comparator()" title="class or interface in java.util" class="externalLink">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#comparator()" title="class or interface in java.util" class="externalLink">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -424,7 +424,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.70">first</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#first()" title="class or interface in java.util" class="externalLink">first</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#first()" title="class or interface in java.util" class="externalLink">first</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -439,7 +439,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.76">headSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#headSet(E)" title="class or interface in java.util" class="externalLink">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#headSet(E)" title="class or interface in java.util" class="externalLink">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -452,7 +452,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.81">last</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#last()" title="class or interface in java.util" class="externalLink">last</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#last()" title="class or interface in java.util" class="externalLink">last</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -468,7 +468,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
                            <a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#subSet(E,E)" title="class or interface in java.util" class="externalLink">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#subSet(E,E)" title="class or interface in java.util" class="externalLink">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -483,7 +483,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.92">tailSet</a>&#8203;(<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#tailSet(E)" title="class or interface in java.util" class="externalLink">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true#tailSet(E)" title="class or interface in java.util" class="externalLink">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -493,12 +493,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContains</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.104">standardContains</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.104">standardContains</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of the <code>first()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>. If you override <a href="#tailSet(E)"><code>tailSet(E)</code></a>, you may wish to override <a href="ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> to
  forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingCollection.html#standardContains(java.lang.Object)">standardContains</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingCollection.html#standardContains(java.lang.Object)">standardContains</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
 </dl>
@@ -510,12 +510,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemove</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.124">standardRemove</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedSet.html#line.124">standardRemove</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> in terms of the <code>iterator()</code> method of <a href="#tailSet(E)"><code>tailSet(E)</code></a>. If you override <a href="#tailSet(E)"><code>tailSet(E)</code></a>, you may wish to override <a href="ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> to
  forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingCollection.html#standardRemove(java.lang.Object)">standardRemove</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingCollection.html#standardRemove(java.lang.Object)">standardRemove</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a> extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
 </dl>

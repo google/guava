@@ -157,8 +157,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#fromJavaUtil(java.util.Optional)">fromJavaUtil</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;@Nullable <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#fromJavaUtil(java.util.Optional)">fromJavaUtil</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></th>
 <td class="colLast">
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -166,7 +166,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#fromNullable(T)">fromNullable</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;nullableReference)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#fromNullable(T)">fromNullable</a></span>&#8203;(@Nullable T&nbsp;nullableReference)</code></th>
 <td class="colLast">
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="../Optional.html#absent()"><code>absent()</code></a>.</div>
@@ -220,8 +220,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#toJavaUtil(com.google.common.base.Optional)">toJavaUtil</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#toJavaUtil(com.google.common.base.Optional)">toJavaUtil</a></span>&#8203;(@Nullable <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></th>
 <td class="colLast">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -263,14 +263,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#first()">first</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#firstMatch(com.google.common.base.Predicate)">firstMatch</a></span>&#8203;(<a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable that satisfies
@@ -278,7 +278,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">FluentIterable.</span><code><span class="memberNameLink"><a href="../../collect/FluentIterable.html#last()">last</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable.</div>

@@ -274,7 +274,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
+<td class="colFirst"><code>&lt;T extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putObject(T,com.google.common.hash.Funnel)">putObject</a></span>&#8203;(T&nbsp;instance,
          <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></th>
 <td class="colLast">
@@ -571,7 +571,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>putObject</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.135">putObject</a>&#8203;(T&nbsp;instance,
+&lt;T extends @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.135">putObject</a>&#8203;(T&nbsp;instance,
                                               <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">A simple convenience for <code>funnel.funnel(object, this)</code>.</div>
 </li>

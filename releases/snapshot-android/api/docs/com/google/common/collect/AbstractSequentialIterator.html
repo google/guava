@@ -186,7 +186,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(T)">AbstractSequentialIterator</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;firstOrNull)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(T)">AbstractSequentialIterator</a></span>&#8203;(@Nullable <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;firstOrNull)</code></th>
 <td class="colLast">
 <div class="block">Creates a new iterator with the given first element, or, if <code>firstOrNull</code> is null,
  creates a new empty iterator.</div>
@@ -211,7 +211,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>protected abstract <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a></code></td>
+<td class="colFirst"><code>protected abstract @Nullable <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#computeNext(T)">computeNext</a></span>&#8203;(<a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;previous)</code></th>
 <td class="colLast">
 <div class="block">Returns the element that follows <code>previous</code>, or returns <code>null</code> if no elements
@@ -274,7 +274,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractSequentialIterator</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.50">AbstractSequentialIterator</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;firstOrNull)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.50">AbstractSequentialIterator</a>&#8203;(@Nullable <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;firstOrNull)</pre>
 <div class="block">Creates a new iterator with the given first element, or, if <code>firstOrNull</code> is null,
  creates a new empty iterator.</div>
 </li>
@@ -297,7 +297,7 @@ extends <a href="UnmodifiableIterator.html" title="class in com.google.common.co
 <ul class="blockList">
 <li class="blockList">
 <h4>computeNext</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.59">computeNext</a>&#8203;(<a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;previous)</pre>
+<pre class="methodSignature">protected abstract&nbsp;@Nullable <a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.59">computeNext</a>&#8203;(<a href="AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;previous)</pre>
 <div class="block">Returns the element that follows <code>previous</code>, or returns <code>null</code> if no elements
  remain. This method is invoked during each call to <a href="#next()"><code>next()</code></a> in order to compute the
  result of a <i>future</i> call to <code>next()</code>.</div>

@@ -207,20 +207,20 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a></code></td>
+<td class="colFirst"><code>@Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(K)">get</a></span>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEntry(K)">getEntry</a></span>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
@@ -237,8 +237,8 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">merge</a></span>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
-     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
-     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+     @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
+     <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block">Merges a value into a part of the map by applying a remapping function.</div>
 </td>
@@ -352,7 +352,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.132">get</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;@Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.132">get</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#get(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
@@ -372,7 +372,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>getEntry</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.138">getEntry</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature">public&nbsp;@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;,&#8203;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.138">getEntry</a>&#8203;(<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#getEntry(K)">RangeMap</a></code></span></div>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
@@ -510,8 +510,8 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <li class="blockList">
 <h4>merge</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.295">merge</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
-                  <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
-                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+                  @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value,
+                  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? super @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>,&#8203;? extends @Nullable <a href="TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">RangeMap</a></code></span></div>
 <div class="block">Merges a value into a part of the map by applying a remapping function.
 
@@ -608,7 +608,7 @@ implements <a href="RangeMap.html" title="interface in com.google.common.collect
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.825">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeMap.html#line.825">equals</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeMap.html#equals(java.lang.Object)">RangeMap</a></code></span></div>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
 <dl>

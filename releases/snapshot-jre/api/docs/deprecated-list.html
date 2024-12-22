@@ -1278,7 +1278,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E()">com.google.common.util.concurrent.ExecutionError()</a></th>
 <td class="colLast">
-<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(@org.checkerframework.checker.nullness.qual.Nullable java.lang.Error)</a> a constructor that accepts a cause: Users
+<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(@org.jspecify.annotations.Nullable java.lang.Error)</a> a constructor that accepts a cause: Users
      of this class typically expect for instances to have a non-null cause. At the moment, you
      can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
      however, that passing an explicit <code>null</code> cause prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Throwable.html?is-external=true#initCause(java.lang.Throwable)" title="class or interface in java.lang" class="externalLink"><code>Throwable.initCause(java.lang.Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits the
@@ -1288,7 +1288,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E()">com.google.common.util.concurrent.UncheckedExecutionException()</a></th>
 <td class="colLast">
-<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(@org.checkerframework.checker.nullness.qual.Nullable java.lang.Throwable)</a> a constructor that
+<div class="deprecationComment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(@org.jspecify.annotations.Nullable java.lang.Throwable)</a> a constructor that
      accepts a cause: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
      <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents

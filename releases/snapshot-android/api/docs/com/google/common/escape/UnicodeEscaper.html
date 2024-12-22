@@ -228,7 +228,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>protected abstract char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []</code></td>
+<td class="colFirst"><code>protected abstract char @Nullable []</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#escape(int)">escape</a></span>&#8203;(int&nbsp;cp)</code></th>
 <td class="colLast">
 <div class="block">Returns the escaped form of the given Unicode code point, or <code>null</code> if this code point
@@ -317,7 +317,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre class="methodSignature">protected abstract&nbsp;char <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.79">escape</a>&#8203;(int&nbsp;cp)</pre>
+<pre class="methodSignature">protected abstract&nbsp;char @Nullable []&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.79">escape</a>&#8203;(int&nbsp;cp)</pre>
 <div class="block">Returns the escaped form of the given Unicode code point, or <code>null</code> if this code point
  does not need to be escaped. When called as part of an escaping operation, the given code point
  is guaranteed to be in the range <code>0 &lt;= cp &lt;= Character#MAX_CODE_POINT</code>.

@@ -208,7 +208,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -226,7 +226,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> A</code></td>
+<td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;<br>@Nullable A</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAnnotation(java.lang.Class)">getAnnotation</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationClass)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -296,9 +296,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">R</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invoke(T,java.lang.Object...)">invoke</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
-      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)</code></th>
+<td class="colFirst"><code>@Nullable <a href="Invokable.html" title="type parameter in Invokable">R</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invoke(T,java.lang.Object...)">invoke</a></span>&#8203;(@Nullable <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
+      @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)</code></th>
 <td class="colLast">
 <div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
  returns the return value; or calls the underlying constructor with <code>args</code> and returns the
@@ -502,7 +502,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotation</h4>
-<pre class="methodSignature">public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.88">getAnnotation</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationClass)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;@Nullable A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.88">getAnnotation</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationClass)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotation(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">getAnnotation</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedElement</a></code></dd>
@@ -714,7 +714,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.209">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.209">equals</a>&#8203;(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -777,8 +777,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang
 <li class="blockList">
 <h4>invoke</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.251">invoke</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
-                                <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)
+public final&nbsp;@Nullable <a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.251">invoke</a>&#8203;(@Nullable <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
+                                @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)
                          throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">InvocationTargetException</a>,
                                 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalAccessException</a></pre>
 <div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
