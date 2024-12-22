@@ -48,13 +48,6 @@
           }
         },
         {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
-          }
-        },
-        {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
@@ -118,13 +111,6 @@
           "module": "jspecify",
           "version": {
             "requires": "${jspecify.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
           }
         },
         {
@@ -194,13 +180,6 @@
           }
         },
         {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
-          }
-        },
-        {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
@@ -264,13 +243,6 @@
           "module": "jspecify",
           "version": {
             "requires": "${jspecify.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
           }
         },
         {
