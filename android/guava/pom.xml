@@ -33,10 +33,6 @@
       <artifactId>jspecify</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
     </dependency>
@@ -161,11 +157,6 @@
           <detectJavaApiLink>false</detectJavaApiLink>
           <offlineLinks>
             <!-- We need local copies of some of these for 2 reasons: a User-Agent problem (https://stackoverflow.com/a/47891403/28465) and an SSL problem (https://issues.apache.org/jira/browse/MJAVADOC-507). If we choose to work around the User-Agent problem, we can go back to <links>, sidestepping the SSL problem. -->
-            <!-- Even after we stop using JSR305 annotations in our own code, we'll want this link so that NullPointerTester's docs can link to @CheckForNull and friends... at least once we start using this config for guava-testlib. -->
-            <offlineLink>
-              <url>https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</url>
-              <location>${project.basedir}/javadoc-link/jsr305</location>
-            </offlineLink>
             <offlineLink>
               <url>https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/</url>
               <location>${project.basedir}/javadoc-link/j2objc-annotations</location>
