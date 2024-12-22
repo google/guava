@@ -49,7 +49,7 @@ import java.util.SortedSet;
 import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link NullPointerTester}.

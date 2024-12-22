@@ -30,7 +30,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeoutException;
 import junit.framework.AssertionFailedError;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated in a

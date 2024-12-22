@@ -19,7 +19,7 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates collections, containing sample elements, to be tested.

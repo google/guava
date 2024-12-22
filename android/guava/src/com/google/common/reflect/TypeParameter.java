@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:

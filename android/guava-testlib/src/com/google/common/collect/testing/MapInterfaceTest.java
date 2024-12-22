@@ -34,7 +34,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests representing the contract of {@link Map}. Concrete subclasses of this base class test

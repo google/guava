@@ -23,7 +23,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Collection;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect

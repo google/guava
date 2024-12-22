@@ -18,7 +18,7 @@ import static java.lang.Math.min;
 
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.locks.LockSupport;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Works around an android bug, where parking for more than INT_MAX seconds can produce an abort

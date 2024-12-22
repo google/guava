@@ -33,7 +33,7 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Sets#synchronizedNavigableSet(NavigableSet)}.

@@ -22,7 +22,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this

@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}

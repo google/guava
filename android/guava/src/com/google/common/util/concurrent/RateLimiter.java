@@ -32,7 +32,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each

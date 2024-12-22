@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** A {@code RegularImmutableTable} optimized for dense data. */
 @GwtCompatible

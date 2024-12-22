@@ -22,7 +22,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * List returned by {@link ImmutableCollection#asList} that delegates {@code contains} checks to the

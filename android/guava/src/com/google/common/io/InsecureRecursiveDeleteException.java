@@ -21,7 +21,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.FileSystemException;
 import java.nio.file.SecureDirectoryStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Exception indicating that a recursive delete can't be performed because the file system does not

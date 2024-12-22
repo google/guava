@@ -32,7 +32,7 @@ import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A future whose value is derived from a collection of input futures.

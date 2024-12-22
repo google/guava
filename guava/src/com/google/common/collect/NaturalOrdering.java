@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)

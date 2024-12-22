@@ -53,7 +53,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods acting on or generating a {@code Multimap}.

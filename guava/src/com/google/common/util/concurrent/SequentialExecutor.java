@@ -32,7 +32,7 @@ import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided

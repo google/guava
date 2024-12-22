@@ -25,7 +25,7 @@ import java.io.Reader;
 import java.nio.CharBuffer;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link

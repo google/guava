@@ -31,7 +31,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.

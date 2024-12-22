@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code

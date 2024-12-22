@@ -21,7 +21,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.cache.LocalCache.Segment;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Benchmark for {@code LocalCache.Segment.removeEntryFromChain}.

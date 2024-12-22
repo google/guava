@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Emulation of AggregateFutureState. */
 abstract class AggregateFutureState<OutputT extends @Nullable Object>

@@ -36,7 +36,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible

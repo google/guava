@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongUnaryOperator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a

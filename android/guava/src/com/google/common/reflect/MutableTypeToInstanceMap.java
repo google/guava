@@ -26,8 +26,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.

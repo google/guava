@@ -67,7 +67,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code Maps}.

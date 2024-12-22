@@ -33,7 +33,7 @@ import java.util.function.IntFunction;
 import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible

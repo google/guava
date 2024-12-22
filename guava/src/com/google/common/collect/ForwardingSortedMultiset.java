@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses

@@ -25,7 +25,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Reader} that reads the characters in a {@link CharSequence}. Like {@code StringReader},

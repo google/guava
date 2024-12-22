@@ -20,7 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.net.InetAddress;
 import java.text.ParseException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP

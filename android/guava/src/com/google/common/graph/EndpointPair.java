@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.Immutable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}

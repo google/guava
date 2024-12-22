@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import javax.lang.model.element.Modifier;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester of subtyping relationships between two types.

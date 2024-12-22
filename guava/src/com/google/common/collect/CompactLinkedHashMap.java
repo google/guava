@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,

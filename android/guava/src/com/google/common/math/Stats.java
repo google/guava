@@ -36,7 +36,7 @@ import java.util.stream.Collector;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several

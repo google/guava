@@ -37,7 +37,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ListMultimap} whose contents will never change, with many other important properties

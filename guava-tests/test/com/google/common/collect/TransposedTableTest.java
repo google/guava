@@ -20,7 +20,7 @@ import static com.google.common.collect.Tables.transpose;
 
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Tables#transpose}.

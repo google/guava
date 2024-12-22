@@ -31,7 +31,7 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.

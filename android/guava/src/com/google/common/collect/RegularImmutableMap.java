@@ -28,7 +28,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A hash-based implementation of {@link ImmutableMap}.

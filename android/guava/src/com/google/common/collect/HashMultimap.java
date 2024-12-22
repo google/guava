@@ -27,7 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimap} using hash tables.

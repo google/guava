@@ -22,7 +22,7 @@ import static java.util.Collections.shuffle;
 import java.util.List;
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Package up sample data for common collections benchmarking.

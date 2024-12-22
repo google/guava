@@ -30,7 +30,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeleton {@code Multimap} implementation, not necessarily in terms of a {@code Map}.

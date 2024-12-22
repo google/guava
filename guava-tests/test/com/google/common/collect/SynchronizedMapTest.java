@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code Synchronized#map}.

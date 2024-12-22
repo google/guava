@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.Assert;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A test utility that verifies that your methods and constructors throw {@link

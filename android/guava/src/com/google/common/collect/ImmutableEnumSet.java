@@ -26,7 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.EnumSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.

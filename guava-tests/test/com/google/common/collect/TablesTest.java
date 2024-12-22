@@ -25,7 +25,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Tables}.

@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import java.util.Collection;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableList}. TODO(cpovirk): more doc

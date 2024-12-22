@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of

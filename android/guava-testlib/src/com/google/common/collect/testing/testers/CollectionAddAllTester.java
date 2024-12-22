@@ -36,7 +36,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**

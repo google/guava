@@ -51,7 +51,7 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@link List} instances. Also see this class's counterparts

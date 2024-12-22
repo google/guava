@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,

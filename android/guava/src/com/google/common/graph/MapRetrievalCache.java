@@ -19,7 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by

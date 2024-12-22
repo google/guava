@@ -19,7 +19,7 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Classes and futures used in {@link FuturesGetCheckedTest} and {@link FuturesGetUncheckedTest}.

@@ -46,7 +46,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents a multimap as a map

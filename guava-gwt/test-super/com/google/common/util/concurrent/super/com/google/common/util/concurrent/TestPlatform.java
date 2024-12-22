@@ -24,7 +24,7 @@ import static junit.framework.Assert.fail;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 final class TestPlatform {

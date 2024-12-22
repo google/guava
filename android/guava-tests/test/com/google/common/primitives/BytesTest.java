@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Bytes}.

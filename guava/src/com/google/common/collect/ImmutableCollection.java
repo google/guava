@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Collection} whose contents will never change, and which offers a few additional

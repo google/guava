@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A wrapper around {@code TreeSet} that aggressively checks to see if elements are mutually

@@ -23,7 +23,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.util.Comparator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable sorted multiset with one or more distinct elements.

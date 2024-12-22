@@ -20,7 +20,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents a method or constructor parameter.

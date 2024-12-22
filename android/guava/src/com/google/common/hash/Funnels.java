@@ -21,7 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Funnels for common types. All implementations are serializable.

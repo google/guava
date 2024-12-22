@@ -24,7 +24,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should

@@ -31,7 +31,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 import sun.security.jca.ProviderList;
 import sun.security.jca.Providers;
 

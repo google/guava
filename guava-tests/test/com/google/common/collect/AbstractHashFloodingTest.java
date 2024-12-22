@@ -32,7 +32,7 @@ import java.util.function.IntToDoubleFunction;
 import java.util.function.Supplier;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract superclass for tests that hash flooding a collection has controlled worst-case

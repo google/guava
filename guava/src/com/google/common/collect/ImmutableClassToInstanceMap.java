@@ -25,8 +25,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important

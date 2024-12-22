@@ -21,7 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Luiz-Otavio "Z" Zorzella

@@ -38,7 +38,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Bimap with zero or more mappings.

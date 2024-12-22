@@ -44,7 +44,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactHashSet is an implementation of a Set. All optional operations (adding and removing) are

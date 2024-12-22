@@ -24,7 +24,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)

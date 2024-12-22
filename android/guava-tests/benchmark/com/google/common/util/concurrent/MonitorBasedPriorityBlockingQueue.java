@@ -31,7 +31,7 @@ import java.util.SortedSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An unbounded {@linkplain BlockingQueue blocking queue} that uses the same ordering rules as class

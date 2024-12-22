@@ -31,7 +31,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.

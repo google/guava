@@ -25,8 +25,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to object arrays.

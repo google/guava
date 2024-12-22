@@ -21,7 +21,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.TestContainerGenerator;
 import java.util.Map.Entry;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates bimaps, containing sample entries, to be tested.

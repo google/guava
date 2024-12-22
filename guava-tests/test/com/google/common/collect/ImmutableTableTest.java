@@ -29,7 +29,7 @@ import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.util.stream.Collector;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests common methods in {@link ImmutableTable}

@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate

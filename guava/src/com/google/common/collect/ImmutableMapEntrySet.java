@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.

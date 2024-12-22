@@ -38,7 +38,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Tests for {@link ExecutionSequencer} */
 @NullUnmarked

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests may use this to intercept messages that are logged by the code under test. Example:

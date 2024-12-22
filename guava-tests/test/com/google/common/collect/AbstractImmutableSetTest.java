@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for {@link ImmutableSet} and {@link ImmutableSortedSet} tests.

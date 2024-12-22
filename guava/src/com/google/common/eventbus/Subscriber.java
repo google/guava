@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A subscriber method on a specific object, plus the executor that should be used for dispatching

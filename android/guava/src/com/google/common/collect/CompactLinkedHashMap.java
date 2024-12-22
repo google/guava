@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,

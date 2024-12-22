@@ -28,7 +28,7 @@ import com.google.common.collect.Ordering;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to represent the order of elements in a data structure that supports different options for

@@ -31,7 +31,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped

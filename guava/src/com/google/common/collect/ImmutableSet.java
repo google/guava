@@ -46,7 +46,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Set} whose contents will never change, with many other important properties detailed at

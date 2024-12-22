@@ -23,7 +23,7 @@ import com.google.common.collect.testing.TestContainerGenerator;
 import java.util.Collection;
 import java.util.Map.Entry;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates multimaps, containing sample elements, to be tested.

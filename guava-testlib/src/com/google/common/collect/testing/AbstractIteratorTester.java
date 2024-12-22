@@ -36,7 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Most of the logic for {@link IteratorTester} and {@link ListIteratorTester}.

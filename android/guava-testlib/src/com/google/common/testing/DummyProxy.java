@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Generates a dummy interface proxy that simply returns a dummy value for each method.

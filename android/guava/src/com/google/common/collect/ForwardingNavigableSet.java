@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should

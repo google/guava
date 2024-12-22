@@ -27,7 +27,7 @@ import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible

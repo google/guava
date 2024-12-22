@@ -22,7 +22,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Synchronized#deque} and {@link Queues#synchronizedDeque}.

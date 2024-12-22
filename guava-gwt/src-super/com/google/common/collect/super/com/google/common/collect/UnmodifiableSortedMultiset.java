@@ -20,7 +20,7 @@ import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)} for GWT.

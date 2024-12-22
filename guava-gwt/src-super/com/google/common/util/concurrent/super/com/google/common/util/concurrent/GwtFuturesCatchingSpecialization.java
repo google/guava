@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.base.Function;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of

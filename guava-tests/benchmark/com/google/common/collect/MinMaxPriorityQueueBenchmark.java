@@ -26,7 +26,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Benchmarks to compare performance of MinMaxPriorityQueue and PriorityQueue.

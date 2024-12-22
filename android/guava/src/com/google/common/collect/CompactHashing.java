@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper classes and static methods for implementing compact hash-based collections.

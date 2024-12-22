@@ -37,7 +37,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester to ensure forwarding wrapper works by delegating calls to the corresponding method with

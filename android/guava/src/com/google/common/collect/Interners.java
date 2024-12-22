@@ -23,7 +23,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Contains static methods pertaining to instances of {@link Interner}.

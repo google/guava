@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code Map<E, Count>}.

@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests the object generated

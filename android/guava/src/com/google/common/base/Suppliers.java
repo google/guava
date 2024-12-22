@@ -28,7 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Useful suppliers.

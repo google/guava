@@ -27,7 +27,7 @@ import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@link EqualsTester}.

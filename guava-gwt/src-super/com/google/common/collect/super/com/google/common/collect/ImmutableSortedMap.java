@@ -32,7 +32,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper

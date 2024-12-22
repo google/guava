@@ -29,7 +29,7 @@ import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code ObjectCountHashMap} uses arrays to store key objects and count values. Comparing to using

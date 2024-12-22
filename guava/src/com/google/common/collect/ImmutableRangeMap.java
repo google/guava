@@ -37,7 +37,7 @@ import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties

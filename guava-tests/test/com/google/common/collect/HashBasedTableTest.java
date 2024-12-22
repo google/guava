@@ -25,7 +25,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link HashBasedTable}.

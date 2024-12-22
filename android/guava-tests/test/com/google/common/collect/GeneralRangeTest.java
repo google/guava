@@ -27,7 +27,7 @@ import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code GeneralRange}.

@@ -29,7 +29,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code BiMap} backed by an {@code EnumMap} instance for keys-to-values, and a {@code HashMap}

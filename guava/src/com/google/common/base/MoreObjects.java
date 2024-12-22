@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in {@link

@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, {@linkplain

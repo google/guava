@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class that implements {@code Comparable} without generics, such as those found in libraries

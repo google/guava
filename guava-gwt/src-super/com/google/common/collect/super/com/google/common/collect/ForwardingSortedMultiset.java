@@ -17,7 +17,7 @@ package com.google.common.collect;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses

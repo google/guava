@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import java.util.Comparator;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulation of {@link RegularImmutableSortedSet}.

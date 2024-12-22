@@ -20,7 +20,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link RegularImmutableList}.

@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.

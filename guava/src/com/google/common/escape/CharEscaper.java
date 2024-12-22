@@ -17,7 +17,7 @@ package com.google.common.escape;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context

@@ -31,7 +31,7 @@ import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for directed networks.

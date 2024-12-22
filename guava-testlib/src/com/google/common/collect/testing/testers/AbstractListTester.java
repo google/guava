@@ -23,7 +23,7 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import java.util.Collection;
 import java.util.List;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**

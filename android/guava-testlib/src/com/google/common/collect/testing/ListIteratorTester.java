@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A utility similar to {@link IteratorTester} for testing a {@link ListIterator} against a known

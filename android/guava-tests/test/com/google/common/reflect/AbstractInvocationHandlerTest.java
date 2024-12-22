@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link AbstractInvocationHandler}.

@@ -33,7 +33,7 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)

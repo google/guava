@@ -24,7 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.

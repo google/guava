@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @NullUnmarked
 public class SynchronizedTableTest extends AbstractTableTest<Character> {

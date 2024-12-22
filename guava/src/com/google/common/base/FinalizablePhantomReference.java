@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Phantom reference with a {@code finalizeReferent()} method which a background thread invokes

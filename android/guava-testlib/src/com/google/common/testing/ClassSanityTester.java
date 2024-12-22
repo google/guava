@@ -53,7 +53,7 @@ import java.util.Set;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester that runs automated sanity tests for any given class. A typical use case is to test static

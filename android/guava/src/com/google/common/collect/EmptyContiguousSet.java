@@ -23,7 +23,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An empty contiguous set.

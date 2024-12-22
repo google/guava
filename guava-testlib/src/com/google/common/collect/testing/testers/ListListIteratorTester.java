@@ -40,7 +40,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**

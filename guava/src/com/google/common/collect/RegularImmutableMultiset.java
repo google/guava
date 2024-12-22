@@ -26,7 +26,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Arrays;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.

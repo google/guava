@@ -26,7 +26,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees

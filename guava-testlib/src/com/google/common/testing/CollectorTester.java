@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester for {@code Collector} implementations.

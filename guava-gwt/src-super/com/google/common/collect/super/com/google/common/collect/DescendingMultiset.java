@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and

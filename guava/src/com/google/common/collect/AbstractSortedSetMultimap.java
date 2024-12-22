@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link

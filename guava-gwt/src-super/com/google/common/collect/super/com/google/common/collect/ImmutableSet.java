@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
 import jsinterop.annotations.JsMethod;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,

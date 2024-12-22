@@ -19,7 +19,7 @@ import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code UnicodeEscaper} that escapes some set of Java characters using a UTF-8 based percent

@@ -19,7 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash

@@ -17,7 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @GwtCompatible(serializable = true)
 final class PairwiseEquivalence<E, T extends @Nullable E> extends Equivalence<Iterable<T>>

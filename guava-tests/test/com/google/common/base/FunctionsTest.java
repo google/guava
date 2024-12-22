@@ -31,7 +31,7 @@ import java.io.Serializable;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Functions}.

@@ -23,7 +23,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link HostAndPort}

@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Emulation of Uninterruptibles in GWT. */
 public final class Uninterruptibles {

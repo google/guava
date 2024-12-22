@@ -24,7 +24,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility {@link CacheLoader} implementations intended for use in testing.

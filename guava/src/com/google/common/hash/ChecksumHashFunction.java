@@ -27,7 +27,7 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.ByteBuffer;
 import java.util.zip.Checksum;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.

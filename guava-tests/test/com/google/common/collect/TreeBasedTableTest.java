@@ -38,7 +38,7 @@ import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link TreeBasedTable}.

@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either

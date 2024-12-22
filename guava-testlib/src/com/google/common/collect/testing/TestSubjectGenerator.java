@@ -18,7 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * To be implemented by test generators that can produce test subjects without requiring any

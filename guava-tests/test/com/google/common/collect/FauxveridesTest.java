@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests that all {@code public static} methods "inherited" from superclasses are "overridden" in

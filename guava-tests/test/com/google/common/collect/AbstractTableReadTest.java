@@ -27,7 +27,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Table} read operations.

@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @GwtCompatible(emulated = true)
 @NullMarked

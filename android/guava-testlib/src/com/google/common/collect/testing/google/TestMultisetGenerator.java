@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates multisets, containing sample elements, to be tested.

@@ -54,7 +54,7 @@ import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactHashMap is an implementation of a Map. All optional operations (put and remove) are

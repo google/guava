@@ -34,7 +34,7 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Maps#synchronizedNavigableMap(NavigableMap)}.

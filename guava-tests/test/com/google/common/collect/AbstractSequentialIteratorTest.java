@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)

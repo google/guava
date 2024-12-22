@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Iterator;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A utility for testing an Iterator implementation by comparing its behavior to that of a "known

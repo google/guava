@@ -43,7 +43,7 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.

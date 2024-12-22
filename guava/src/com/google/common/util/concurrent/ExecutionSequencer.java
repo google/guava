@@ -30,7 +30,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Serializes execution of tasks, somewhat like an "asynchronous {@code synchronized} block." Each

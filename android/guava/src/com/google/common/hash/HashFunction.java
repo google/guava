@@ -18,7 +18,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A hash function is a collision-averse pure function that maps an arbitrary block of data to a

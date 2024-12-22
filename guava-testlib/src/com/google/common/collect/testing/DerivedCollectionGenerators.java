@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Derived suite generators, split out of the suite builders so that they are available to GWT.

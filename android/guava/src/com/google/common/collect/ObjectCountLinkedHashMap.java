@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code ObjectCountLinkedHashMap} is a subclass of {@code ObjectCountHashMap} with insertion

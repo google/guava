@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A discouraged (but not deprecated) precursor to Java's superior {@link Stream} library.

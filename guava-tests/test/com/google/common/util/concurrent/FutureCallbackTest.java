@@ -27,7 +27,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test for {@link FutureCallback}.

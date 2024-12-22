@@ -23,7 +23,7 @@ import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Comparator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}, split out into

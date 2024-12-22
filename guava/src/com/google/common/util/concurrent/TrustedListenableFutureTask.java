@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.

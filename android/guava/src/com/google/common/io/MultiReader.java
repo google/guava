@@ -22,7 +22,7 @@ import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Reader} that concatenates multiple readers.

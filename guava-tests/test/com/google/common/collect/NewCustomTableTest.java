@@ -24,7 +24,7 @@ import com.google.common.base.Supplier;
 import java.util.Map;
 import java.util.TreeMap;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Tables#newCustomTable}.

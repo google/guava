@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableCollection}.

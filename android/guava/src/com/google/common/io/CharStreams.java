@@ -28,7 +28,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with character streams.

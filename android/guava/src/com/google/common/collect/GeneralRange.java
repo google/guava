@@ -25,7 +25,7 @@ import com.google.common.base.Objects;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Comparator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A generalized interval on any ordering, for internal use. Supports {@code null}. Unlike {@link

@@ -32,7 +32,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.

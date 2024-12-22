@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.Queue;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Synchronized#queue} and {@link Queues#synchronizedQueue}.

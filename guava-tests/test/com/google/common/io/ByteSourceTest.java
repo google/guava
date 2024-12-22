@@ -43,7 +43,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullUnmarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for the default implementations of {@code ByteSource} methods.

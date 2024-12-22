@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to allow {@link Network} implementations to be backed by a provided delegate. This is not

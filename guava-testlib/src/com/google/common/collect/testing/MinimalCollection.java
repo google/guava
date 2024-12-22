@@ -23,9 +23,9 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A simplistic collection which implements only the bare minimum allowed by the spec, and throws

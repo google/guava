@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates sorted maps, containing sample elements, to be tested.

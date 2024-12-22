@@ -22,7 +22,7 @@ import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLongArray;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collections of strategies of generating the k * log(M) bits required for an element to be mapped

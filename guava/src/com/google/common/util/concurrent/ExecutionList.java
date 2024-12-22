@@ -21,7 +21,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An

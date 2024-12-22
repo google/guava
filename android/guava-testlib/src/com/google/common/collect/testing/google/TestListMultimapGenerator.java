@@ -19,7 +19,7 @@ package com.google.common.collect.testing.google;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import org.jspecify.annotations.NullMarked;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A generator for {@code ListMultimap} implementations based on test data.

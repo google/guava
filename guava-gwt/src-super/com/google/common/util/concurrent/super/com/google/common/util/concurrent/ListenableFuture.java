@@ -21,7 +21,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOptional;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Java super source for ListenableFuture, implementing a structural thenable via a default method.

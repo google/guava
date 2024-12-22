@@ -14,7 +14,7 @@
 
 package com.google.common.base;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Holder for extra methods of {@code Objects} only in web. */
 public abstract class ExtraObjectsMethodsForWeb {
