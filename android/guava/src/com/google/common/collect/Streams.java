@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.SneakyThrows.sneakyThrow;
 import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
@@ -177,17 +178,6 @@ public final class Streams {
       // But theoretically we could see sneaky checked exception
       sneakyThrow(exception);
     }
-  }
-
-  /** Throws an undeclared checked exception. */
-  private static void sneakyThrow(Throwable t) {
-    class SneakyThrower<T extends Throwable> {
-      @SuppressWarnings("unchecked") // not really safe, but that's the point
-      void throwIt(Throwable t) throws T {
-        throw (T) t;
-      }
-    }
-    new SneakyThrower<Error>().throwIt(t);
   }
 
   /**

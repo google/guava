@@ -16,14 +16,13 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.hash.SneakyThrows.sneakyThrow;
 import static java.lang.invoke.MethodType.methodType;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -519,9 +518,8 @@ public final class Hashing {
       try {
         return (Checksum) CONSTRUCTOR.invokeExact();
       } catch (Throwable e) {
-        throwIfUnchecked(e);
-        // This should be impossible, since the constructor has no `throws` clause.
-        throw new UndeclaredThrowableException(e);
+        // The constructor has no `throws` clause.
+        throw sneakyThrow(e);
       }
     }
 

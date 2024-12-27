@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.base.SneakyThrows.sneakyThrow;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -91,8 +92,7 @@ public class AbstractIteratorTest extends TestCase {
               throw new AssertionError("Should not have been called again");
             } else {
               haveBeenCalled = true;
-              sneakyThrow(new SomeCheckedException());
-              throw new AssertionError(); // unreachable
+              throw sneakyThrow(new SomeCheckedException());
             }
           }
         };
@@ -181,15 +181,4 @@ public class AbstractIteratorTest extends TestCase {
   // Technically we should test other reentrant scenarios (4 combinations of
   // hasNext/next), but we'll cop out for now, knowing that
   // next() both start by invoking hasNext() anyway.
-
-  /** Throws an undeclared checked exception. */
-  private static void sneakyThrow(Throwable t) {
-    class SneakyThrower<T extends Throwable> {
-      @SuppressWarnings("unchecked") // intentionally unsafe for test
-      void throwIt(Throwable t) throws T {
-        throw (T) t;
-      }
-    }
-    new SneakyThrower<Error>().throwIt(t);
-  }
 }

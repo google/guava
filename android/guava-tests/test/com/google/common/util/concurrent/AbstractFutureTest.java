@@ -24,6 +24,7 @@ import static com.google.common.util.concurrent.Futures.immediateCancelledFuture
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -1069,17 +1070,6 @@ public class AbstractFutureTest extends TestCase {
   }
 
   private static final class SomeCheckedException extends Exception {}
-
-  /** Throws an undeclared checked exception. */
-  private static void sneakyThrow(Throwable t) {
-    class SneakyThrower<T extends Throwable> {
-      @SuppressWarnings("unchecked") // intentionally unsafe for test
-      void throwIt(Throwable t) throws T {
-        throw (T) t;
-      }
-    }
-    new SneakyThrower<Error>().throwIt(t);
-  }
 
   public void testTrustedGetFailure_completed() {
     SettableFuture<String> future = SettableFuture.create();

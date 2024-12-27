@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -30,7 +30,6 @@ import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
@@ -816,9 +815,8 @@ public final class MoreExecutors {
     } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throwIfUnchecked(e.getCause());
-      // This should be impossible: `currentRequestThreadFactory` has no `throws` clause.
-      throw new UndeclaredThrowableException(e.getCause());
+      // `currentRequestThreadFactory` has no `throws` clause.
+      throw sneakyThrow(e.getCause());
     }
   }
 
