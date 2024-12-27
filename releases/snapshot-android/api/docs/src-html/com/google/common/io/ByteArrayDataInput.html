@@ -46,10 +46,10 @@
 <span class="sourceLineNo">037</span><a id="line.37">@GwtIncompatible</a>
 <span class="sourceLineNo">038</span><a id="line.38">public interface ByteArrayDataInput extends DataInput {</a>
 <span class="sourceLineNo">039</span><a id="line.39">  @Override</a>
-<span class="sourceLineNo">040</span><a id="line.40">  void readFully(byte b[]);</a>
+<span class="sourceLineNo">040</span><a id="line.40">  void readFully(byte[] b);</a>
 <span class="sourceLineNo">041</span><a id="line.41"></a>
 <span class="sourceLineNo">042</span><a id="line.42">  @Override</a>
-<span class="sourceLineNo">043</span><a id="line.43">  void readFully(byte b[], int off, int len);</a>
+<span class="sourceLineNo">043</span><a id="line.43">  void readFully(byte[] b, int off, int len);</a>
 <span class="sourceLineNo">044</span><a id="line.44"></a>
 <span class="sourceLineNo">045</span><a id="line.45">  // not guaranteed to skip n bytes so result should NOT be ignored</a>
 <span class="sourceLineNo">046</span><a id="line.46">  // use ByteStreams.skipFully or one of the read methods instead</a>
