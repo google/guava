@@ -92,6 +92,8 @@ public class CharsTest extends TestCase {
     }
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {

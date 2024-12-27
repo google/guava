@@ -141,7 +141,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
       builder.put(cell);
     }
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**

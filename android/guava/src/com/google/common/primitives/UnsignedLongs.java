@@ -74,6 +74,7 @@ public final class UnsignedLongs {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @SuppressWarnings("InlineMeInliner") // Integer.compare unavailable under GWT+J2CL
   public static int compare(long a, long b) {
     return Longs.compare(flip(a), flip(b));
   }

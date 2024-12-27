@@ -37,6 +37,7 @@ public class StringsRepeatBenchmark {
   private String originalString;
 
   @BeforeExperiment
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   void setUp() {
     originalString = Strings.repeat("x", length);
   }

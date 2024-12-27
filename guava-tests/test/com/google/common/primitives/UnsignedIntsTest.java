@@ -94,7 +94,7 @@ public class UnsignedIntsTest extends TestCase {
   public void testCompare() {
     for (long a : UNSIGNED_INTS) {
       for (long b : UNSIGNED_INTS) {
-        int cmpAsLongs = Longs.compare(a, b);
+        int cmpAsLongs = Long.compare(a, b);
         int cmpAsUInt = UnsignedInts.compare((int) a, (int) b);
         assertThat(Integer.signum(cmpAsUInt)).isEqualTo(Integer.signum(cmpAsLongs));
       }

@@ -60,6 +60,7 @@ public class Fingerprint2011Test extends TestCase {
   private static final HashFunction HASH_FN = Hashing.fingerprint2011();
 
   // If this test fails, all bets are off
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   public void testReallySimpleFingerprints() {
     assertEquals(8473225671271759044L, fingerprint("test".getBytes(UTF_8)));
     // 32 characters long

@@ -46,6 +46,7 @@ public class JoinerBenchmark {
   private Iterable<String> components;
 
   @BeforeExperiment
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   void setUp() {
     String component = Strings.repeat("a", componentLength);
     String[] raw = new String[count];

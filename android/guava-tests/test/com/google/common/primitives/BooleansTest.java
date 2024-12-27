@@ -70,6 +70,8 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.falseFirst().compare(true, false)).isGreaterThan(0);
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {

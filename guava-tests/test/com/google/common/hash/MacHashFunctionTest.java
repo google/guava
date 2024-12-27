@@ -61,7 +61,7 @@ public class MacHashFunctionTest extends TestCase {
           .put("HmacSHA1", SHA1_KEY, Hashing.hmacSha1(SHA1_KEY))
           .put("HmacSHA256", SHA256_KEY, Hashing.hmacSha256(SHA256_KEY))
           .put("HmacSHA512", SHA512_KEY, Hashing.hmacSha512(SHA512_KEY))
-          .build();
+          .buildOrThrow();
 
   public void testNulls() {
     NullPointerTester tester =

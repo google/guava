@@ -596,6 +596,8 @@ public class ImmutableListTest extends TestCase {
     }
   }
 
+  // We need to test that asList() really does return the original list.
+  @SuppressWarnings("InlineMeInliner")
   public void testAsList() {
     ImmutableList<String> list = ImmutableList.of("a", "b");
     assertSame(list, list.asList());

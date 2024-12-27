@@ -90,6 +90,8 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (float x : VALUES) {
       for (float y : VALUES) {

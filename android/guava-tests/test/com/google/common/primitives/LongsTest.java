@@ -65,6 +65,8 @@ public class LongsTest extends TestCase {
     }
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (long x : VALUES) {
       for (long y : VALUES) {

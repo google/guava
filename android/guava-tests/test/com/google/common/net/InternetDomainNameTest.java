@@ -47,10 +47,13 @@ public final class InternetDomainNameTest extends TestCase {
   private static final String DELTA = "\u0394";
 
   /** A domain part which is valid under lenient validation, but invalid under strict validation. */
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   static final String LOTS_OF_DELTAS = Strings.repeat(DELTA, 62);
 
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   private static final String ALMOST_TOO_MANY_LEVELS = Strings.repeat("a.", 127);
 
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   private static final String ALMOST_TOO_LONG = Strings.repeat("aaaaa.", 40) + "1234567890.c";
 
   private static final ImmutableSet<String> VALID_NAME =

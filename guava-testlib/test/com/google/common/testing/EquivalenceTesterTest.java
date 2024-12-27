@@ -238,7 +238,7 @@ public class EquivalenceTesterTest extends TestCase {
 
     void replay() {
       checkRecording();
-      equivalentExpectations = equivalentExpectationsBuilder.build();
+      equivalentExpectations = equivalentExpectationsBuilder.buildOrThrow();
       hashExpectations = hashExpectationsBuilder.buildOrThrow();
     }
 

@@ -103,6 +103,8 @@ public class ConverterTest extends TestCase {
     assertEquals(converter, converter.reverse().reverse());
   }
 
+  // We need to test that apply() does in fact behave like convert().
+  @SuppressWarnings("InlineMeInliner")
   public void testApply() {
     assertEquals(LONG_VAL, STR_TO_LONG.apply(STR_VAL));
   }

@@ -50,7 +50,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 2)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3));
@@ -112,7 +112,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 6)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3),
@@ -182,7 +182,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 2)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3));
@@ -252,7 +252,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 6)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3),

@@ -42,6 +42,7 @@ public class SplitterBenchmark {
   private static final Splitter STRING_SPLITTER = Splitter.on("X");
 
   @BeforeExperiment
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   void setUp() {
     input = Strings.repeat(text, length);
   }

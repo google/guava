@@ -226,6 +226,7 @@ public class CharStreamsTest extends IoTestCase {
    * is permanently reduced, but with certain Reader implementations it could also cause the buffer
    * size to reach 0, causing an infinite loop.
    */
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   public void testCopyWithReaderThatDoesNotFillBuffer() throws IOException {
     // need a long enough string for the buffer to hit 0 remaining before the copy completes
     String string = Strings.repeat("0123456789", 100);

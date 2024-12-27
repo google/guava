@@ -45,7 +45,7 @@ final class TableCollectors {
         (builder, t) ->
             builder.put(rowFunction.apply(t), columnFunction.apply(t), valueFunction.apply(t)),
         ImmutableTable.Builder::combine,
-        ImmutableTable.Builder::build);
+        ImmutableTable.Builder::buildOrThrow);
   }
 
   static <T extends @Nullable Object, R, C, V>
