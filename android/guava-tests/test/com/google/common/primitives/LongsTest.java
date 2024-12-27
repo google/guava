@@ -648,6 +648,9 @@ public class LongsTest extends TestCase {
     assertThat(Longs.tryParse("-")).isNull();
     assertThat(Longs.tryParse("+1")).isNull();
     assertThat(Longs.tryParse("999999999999999999999999")).isNull();
+    assertThat(Longs.tryParse(" ")).isNull();
+    assertThat(Longs.tryParse("1 ")).isNull();
+    assertThat(Longs.tryParse(" 1")).isNull();
     assertWithMessage("Max long + 1")
         .that(Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()))
         .isNull();
