@@ -33,10 +33,10 @@ public interface ByteArrayDataOutput extends DataOutput {
   void write(int b);
 
   @Override
-  void write(byte b[]);
+  void write(byte[] b);
 
   @Override
-  void write(byte b[], int off, int len);
+  void write(byte[] b, int off, int len);
 
   @Override
   void writeBoolean(boolean v);

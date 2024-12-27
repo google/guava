@@ -336,7 +336,7 @@ public final class ByteStreams {
     }
 
     @Override
-    public void readFully(byte b[]) {
+    public void readFully(byte[] b) {
       try {
         input.readFully(b);
       } catch (IOException e) {
@@ -345,7 +345,7 @@ public final class ByteStreams {
     }
 
     @Override
-    public void readFully(byte b[], int off, int len) {
+    public void readFully(byte[] b, int off, int len) {
       try {
         input.readFully(b, off, len);
       } catch (IOException e) {

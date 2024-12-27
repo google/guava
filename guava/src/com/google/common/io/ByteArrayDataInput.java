@@ -37,10 +37,10 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 public interface ByteArrayDataInput extends DataInput {
   @Override
-  void readFully(byte b[]);
+  void readFully(byte[] b);
 
   @Override
-  void readFully(byte b[], int off, int len);
+  void readFully(byte[] b, int off, int len);
 
   // not guaranteed to skip n bytes so result should NOT be ignored
   // use ByteStreams.skipFully or one of the read methods instead
