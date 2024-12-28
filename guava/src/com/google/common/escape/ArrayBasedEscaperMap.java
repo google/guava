@@ -78,5 +78,6 @@ public final class ArrayBasedEscaperMap {
   }
 
   // Immutable empty array for when there are no replacements.
+  @SuppressWarnings("ConstantCaseForConstants") // An empty array is a constant.
   private static final char[][] EMPTY_REPLACEMENT_ARRAY = new char[0][0];
 }

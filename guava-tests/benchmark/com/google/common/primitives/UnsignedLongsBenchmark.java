@@ -30,7 +30,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class UnsignedLongsBenchmark {
   private static final int ARRAY_SIZE = 0x10000;
   private static final int ARRAY_MASK = 0x0ffff;
-  private static final Random RANDOM_SOURCE = new Random(314159265358979L);
+  private static final Random randomSource = new Random(314159265358979L);
   private static final long[] longs = new long[ARRAY_SIZE];
   private static final long[] divisors = new long[ARRAY_SIZE];
   private static final String[] decimalStrings = new String[ARRAY_SIZE];
@@ -122,7 +122,7 @@ public class UnsignedLongsBenchmark {
   }
 
   private static long random() {
-    return RANDOM_SOURCE.nextLong();
+    return randomSource.nextLong();
   }
 
   // A random value that cannot be 0 and that is unsigned-less-than or equal
@@ -131,7 +131,7 @@ public class UnsignedLongsBenchmark {
   // Using remainder here does not give us a uniform distribution but it should
   // not have a big impact on the measurement.
   private static long randomDivisor(long dividend) {
-    long r = RANDOM_SOURCE.nextLong();
+    long r = randomSource.nextLong();
     if (dividend == -1) {
       return r;
     } else {

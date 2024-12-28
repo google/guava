@@ -154,30 +154,28 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  private static final String[] STATIC_ONE_ARG_METHODS_SHOULD_PASS = {
-    "staticOneArgCorrectlyThrowsNpe",
-    "staticOneArgCheckForNullCorrectlyDoesNotThrowNPE",
-    "staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE",
-    "staticOneArgCheckForNullThrowsNPE",
-    "staticOneArgNullableCorrectlyDoesNotThrowNPE",
-    "staticOneArgNullableCorrectlyThrowsOtherThanNPE",
-    "staticOneArgNullableThrowsNPE",
-  };
-  private static final String[] STATIC_ONE_ARG_METHODS_SHOULD_FAIL = {
-    "staticOneArgThrowsOtherThanNpe", "staticOneArgShouldThrowNpeButDoesnt",
-  };
-  private static final String[] NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS = {
-    "oneArgCorrectlyThrowsNpe",
-    "oneArgCheckForNullCorrectlyDoesNotThrowNPE",
-    "oneArgCheckForNullCorrectlyThrowsOtherThanNPE",
-    "oneArgCheckForNullThrowsNPE",
-    "oneArgNullableCorrectlyDoesNotThrowNPE",
-    "oneArgNullableCorrectlyThrowsOtherThanNPE",
-    "oneArgNullableThrowsNPE",
-  };
-  private static final String[] NONSTATIC_ONE_ARG_METHODS_SHOULD_FAIL = {
-    "oneArgThrowsOtherThanNpe", "oneArgShouldThrowNpeButDoesnt",
-  };
+  private static final ImmutableSet<String> STATIC_ONE_ARG_METHODS_SHOULD_PASS =
+      ImmutableSet.of(
+          "staticOneArgCorrectlyThrowsNpe",
+          "staticOneArgCheckForNullCorrectlyDoesNotThrowNPE",
+          "staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+          "staticOneArgCheckForNullThrowsNPE",
+          "staticOneArgNullableCorrectlyDoesNotThrowNPE",
+          "staticOneArgNullableCorrectlyThrowsOtherThanNPE",
+          "staticOneArgNullableThrowsNPE");
+  private static final ImmutableSet<String> STATIC_ONE_ARG_METHODS_SHOULD_FAIL =
+      ImmutableSet.of("staticOneArgThrowsOtherThanNpe", "staticOneArgShouldThrowNpeButDoesnt");
+  private static final ImmutableSet<String> NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS =
+      ImmutableSet.of(
+          "oneArgCorrectlyThrowsNpe",
+          "oneArgCheckForNullCorrectlyDoesNotThrowNPE",
+          "oneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+          "oneArgCheckForNullThrowsNPE",
+          "oneArgNullableCorrectlyDoesNotThrowNPE",
+          "oneArgNullableCorrectlyThrowsOtherThanNPE",
+          "oneArgNullableThrowsNPE");
+  private static final ImmutableSet<String> NONSTATIC_ONE_ARG_METHODS_SHOULD_FAIL =
+      ImmutableSet.of("oneArgThrowsOtherThanNpe", "oneArgShouldThrowNpeButDoesnt");
 
   private static class ThrowsIae {
     public static void christenPoodle(String name) {

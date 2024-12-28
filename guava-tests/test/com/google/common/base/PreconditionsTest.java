@@ -392,7 +392,7 @@ public class PreconditionsTest extends TestCase {
     return params;
   }
 
-  private static final ImmutableList<Class<?>> possibleParamTypes =
+  private static final ImmutableList<Class<?>> POSSIBLE_PARAM_TYPES =
       ImmutableList.of(char.class, int.class, long.class, Object.class);
 
   /**
@@ -410,7 +410,7 @@ public class PreconditionsTest extends TestCase {
 
     List<List<Class<?>>> typesLists = new ArrayList<>();
     for (int i = 0; i < 2; i++) {
-      typesLists.add(possibleParamTypes);
+      typesLists.add(POSSIBLE_PARAM_TYPES);
       for (List<Class<?>> curr : Lists.cartesianProduct(typesLists)) {
         allOverloads.add(
             ImmutableList.<Class<?>>builder()

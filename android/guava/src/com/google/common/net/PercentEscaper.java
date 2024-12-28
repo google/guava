@@ -54,10 +54,10 @@ import org.jspecify.annotations.Nullable;
 public final class PercentEscaper extends UnicodeEscaper {
 
   // In some escapers spaces are escaped to '+'
-  private static final char[] PLUS_SIGN = {'+'};
+  private static final char[] plusSign = {'+'};
 
   // Percent escapers output upper case hex digits (uri escapers require this).
-  private static final char[] UPPER_HEX_DIGITS = "0123456789ABCDEF".toCharArray();
+  private static final char[] upperHexDigits = "0123456789ABCDEF".toCharArray();
 
   /** If true we should convert space to the {@code +} character. */
   private final boolean plusForSpace;
@@ -161,14 +161,14 @@ public final class PercentEscaper extends UnicodeEscaper {
     if (cp < safeOctets.length && safeOctets[cp]) {
       return null;
     } else if (cp == ' ' && plusForSpace) {
-      return PLUS_SIGN;
+      return plusSign;
     } else if (cp <= 0x7F) {
       // Single byte UTF-8 characters
       // Start with "%--" and fill in the blanks
       char[] dest = new char[3];
       dest[0] = '%';
-      dest[2] = UPPER_HEX_DIGITS[cp & 0xF];
-      dest[1] = UPPER_HEX_DIGITS[cp >>> 4];
+      dest[2] = upperHexDigits[cp & 0xF];
+      dest[1] = upperHexDigits[cp >>> 4];
       return dest;
     } else if (cp <= 0x7ff) {
       // Two byte UTF-8 characters [cp >= 0x80 && cp <= 0x7ff]
@@ -176,13 +176,13 @@ public final class PercentEscaper extends UnicodeEscaper {
       char[] dest = new char[6];
       dest[0] = '%';
       dest[3] = '%';
-      dest[5] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[5] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[4] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[2] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[2] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[1] = UPPER_HEX_DIGITS[0xC | cp];
+      dest[1] = upperHexDigits[0xC | cp];
       return dest;
     } else if (cp <= 0xffff) {
       // Three byte UTF-8 characters [cp >= 0x800 && cp <= 0xffff]
@@ -192,15 +192,15 @@ public final class PercentEscaper extends UnicodeEscaper {
       dest[1] = 'E';
       dest[3] = '%';
       dest[6] = '%';
-      dest[8] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[8] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[7] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[7] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[5] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[5] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[4] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[2] = UPPER_HEX_DIGITS[cp];
+      dest[2] = upperHexDigits[cp];
       return dest;
     } else if (cp <= 0x10ffff) {
       char[] dest = new char[12];
@@ -211,19 +211,19 @@ public final class PercentEscaper extends UnicodeEscaper {
       dest[3] = '%';
       dest[6] = '%';
       dest[9] = '%';
-      dest[11] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[11] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[10] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[10] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[8] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[8] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[7] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[7] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[5] = UPPER_HEX_DIGITS[cp & 0xF];
+      dest[5] = upperHexDigits[cp & 0xF];
       cp >>>= 4;
-      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp & 0x3)];
+      dest[4] = upperHexDigits[0x8 | (cp & 0x3)];
       cp >>>= 2;
-      dest[2] = UPPER_HEX_DIGITS[cp & 0x7];
+      dest[2] = upperHexDigits[cp & 0x7];
       return dest;
     } else {
       // If this ever happens it is due to bug in UnicodeEscaper, not bad input.

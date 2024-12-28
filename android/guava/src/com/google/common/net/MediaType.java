@@ -102,7 +102,7 @@ public final class MediaType {
 
   private static final String WILDCARD = "*";
 
-  private static final Map<MediaType, MediaType> KNOWN_TYPES = Maps.newHashMap();
+  private static final Map<MediaType, MediaType> knownTypes = Maps.newHashMap();
 
   private static MediaType createConstant(String type, String subtype) {
     MediaType mediaType =
@@ -118,7 +118,7 @@ public final class MediaType {
   }
 
   private static MediaType addKnownType(MediaType mediaType) {
-    KNOWN_TYPES.put(mediaType, mediaType);
+    knownTypes.put(mediaType, mediaType);
     return mediaType;
   }
 
@@ -906,7 +906,7 @@ public final class MediaType {
       mediaType.parsedCharset = this.parsedCharset;
     }
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
   }
 
   /**
@@ -1007,7 +1007,7 @@ public final class MediaType {
     }
     MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
   }
 
   /**

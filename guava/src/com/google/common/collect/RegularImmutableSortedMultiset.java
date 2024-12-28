@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @GwtIncompatible
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
-  private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
+  private static final long[] zeroCumulativeCounts = {0};
 
   static final ImmutableSortedMultiset<?> NATURAL_EMPTY_MULTISET =
       new RegularImmutableSortedMultiset<>(Ordering.natural());
@@ -46,7 +46,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   RegularImmutableSortedMultiset(Comparator<? super E> comparator) {
     this.elementSet = ImmutableSortedSet.emptySet(comparator);
-    this.cumulativeCounts = ZERO_CUMULATIVE_COUNTS;
+    this.cumulativeCounts = zeroCumulativeCounts;
     this.offset = 0;
     this.length = 0;
   }

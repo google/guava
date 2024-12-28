@@ -51,7 +51,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -512,17 +511,20 @@ public class DoubleMathTest extends TestCase {
       ImmutableList.of(-0.0, 0.0, 1.0, 100.0, 10000.0, Double.MAX_VALUE);
 
   private static final Iterable<Double> TOLERANCE_CANDIDATES =
-      Iterables.concat(FINITE_TOLERANCE_CANDIDATES, ImmutableList.of(Double.POSITIVE_INFINITY));
+      ImmutableList.copyOf(
+          Iterables.concat(
+              FINITE_TOLERANCE_CANDIDATES, ImmutableList.of(Double.POSITIVE_INFINITY)));
 
-  private static final List<Double> BAD_TOLERANCE_CANDIDATES =
-      Doubles.asList(
-          -Double.MIN_VALUE,
-          -Double.MIN_NORMAL,
-          -1,
-          -20,
-          Double.NaN,
-          Double.NEGATIVE_INFINITY,
-          -0.001);
+  private static final ImmutableList<Double> BAD_TOLERANCE_CANDIDATES =
+      ImmutableList.copyOf(
+          Doubles.asList(
+              -Double.MIN_VALUE,
+              -Double.MIN_NORMAL,
+              -1,
+              -20,
+              Double.NaN,
+              Double.NEGATIVE_INFINITY,
+              -0.001));
 
   public void testFuzzyEqualsFinite() {
     for (double a : FINITE_DOUBLE_CANDIDATES) {

@@ -49,8 +49,8 @@ final class Crc32cHashFunction extends AbstractHashFunction {
      * CRC(x ^ y) == CRC(x) ^ CRC(y).  The approach we take is to break the message as follows,
      * with each letter representing a 4-byte word: ABCDABCDABCDABCD... and to calculate
      * CRC(A000A000A000...), CRC(0B000B000B...), CRC(00C000C000C...), CRC(000D000D000D...)
-     * and then to XOR them together.  The STRIDE_TABLE enables us to hash an int followed by 12
-     * zero bytes (3 ints), while the BYTE_TABLE is for advancing one byte at a time.
+     * and then to XOR them together.  The strideTable enables us to hash an int followed by 12
+     * zero bytes (3 ints), while the byteTable is for advancing one byte at a time.
      * This algorithm is due to the paper "Everything we know about CRC but [are] afraid to forget"
      * by Kadatch and Jenkins, 2010.
      */
@@ -106,7 +106,7 @@ final class Crc32cHashFunction extends AbstractHashFunction {
       crc0 = combine(crc0, crc2);
       crc0 = combine(crc0, crc3);
       while (bb.hasRemaining()) {
-        crc0 = (crc0 >>> 8) ^ BYTE_TABLE[(bb.get() ^ crc0) & 0xFF];
+        crc0 = (crc0 >>> 8) ^ byteTable[(bb.get() ^ crc0) & 0xFF];
       }
       finished = true;
     }
@@ -121,7 +121,7 @@ final class Crc32cHashFunction extends AbstractHashFunction {
       return HashCode.fromInt(~crc0);
     }
 
-    static final int[] BYTE_TABLE = {
+    static final int[] byteTable = {
       0x00000000, 0xf26b8303, 0xe13b70f7, 0x1350f3f4, 0xc79a971f, 0x35f1141c,
       0x26a1e7e8, 0xd4ca64eb, 0x8ad958cf, 0x78b2dbcc, 0x6be22838, 0x9989ab3b,
       0x4d43cfd0, 0xbf284cd3, 0xac78bf27, 0x5e133c24, 0x105ec76f, 0xe235446c,
@@ -167,7 +167,7 @@ final class Crc32cHashFunction extends AbstractHashFunction {
       0xbe2da0a5, 0x4c4623a6, 0x5f16d052, 0xad7d5351
     };
 
-    static final int[][] STRIDE_TABLE = {
+    static final int[][] strideTable = {
       {
         0x00000000, 0x30d23865, 0x61a470ca, 0x517648af, 0xc348e194, 0xf39ad9f1,
         0xa2ec915e, 0x923ea93b, 0x837db5d9, 0xb3af8dbc, 0xe2d9c513, 0xd20bfd76,
@@ -354,16 +354,16 @@ final class Crc32cHashFunction extends AbstractHashFunction {
     static final int INVERSE_COMPUTE_FOR_WORD_OF_ALL_1S = 0xeee3ddcd;
 
     static int computeForWord(int word) {
-      return STRIDE_TABLE[3][word & 0xFF]
-          ^ STRIDE_TABLE[2][(word >>> 8) & 0xFF]
-          ^ STRIDE_TABLE[1][(word >>> 16) & 0xFF]
-          ^ STRIDE_TABLE[0][word >>> 24];
+      return strideTable[3][word & 0xFF]
+          ^ strideTable[2][(word >>> 8) & 0xFF]
+          ^ strideTable[1][(word >>> 16) & 0xFF]
+          ^ strideTable[0][word >>> 24];
     }
 
     static int combine(int csum, int crc) {
       csum ^= crc;
       for (int i = 0; i < 4; i++) {
-        csum = (csum >>> 8) ^ BYTE_TABLE[csum & 0xFF];
+        csum = (csum >>> 8) ^ byteTable[csum & 0xFF];
       }
       return csum;
     }

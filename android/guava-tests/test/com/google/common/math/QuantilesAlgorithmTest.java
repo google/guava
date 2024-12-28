@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -34,13 +33,15 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class QuantilesAlgorithmTest extends TestCase {
 
-  private static final Random RNG = new Random(82674067L);
+  private static final Random rng = new Random(82674067L);
   private static final int DATASET_SIZE = 1000;
   private static final double ALLOWED_ERROR = 1.0e-10;
   private static final QuantilesAlgorithm REFERENCE_ALGORITHM = QuantilesAlgorithm.SORTING;
-  private static final Set<QuantilesAlgorithm> NON_REFERENCE_ALGORITHMS =
+  private static final ImmutableSet<QuantilesAlgorithm> NON_REFERENCE_ALGORITHMS =
       Sets.difference(
-          ImmutableSet.copyOf(QuantilesAlgorithm.values()), ImmutableSet.of(REFERENCE_ALGORITHM));
+              ImmutableSet.copyOf(QuantilesAlgorithm.values()),
+              ImmutableSet.of(REFERENCE_ALGORITHM))
+          .immutableCopy();
 
   private double[] dataset;
 
@@ -48,7 +49,7 @@ public class QuantilesAlgorithmTest extends TestCase {
   protected void setUp() {
     dataset = new double[DATASET_SIZE];
     for (int i = 0; i < DATASET_SIZE; i++) {
-      dataset[i] = RNG.nextDouble();
+      dataset[i] = rng.nextDouble();
     }
   }
 

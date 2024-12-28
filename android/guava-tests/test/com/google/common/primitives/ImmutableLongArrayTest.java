@@ -169,7 +169,7 @@ public class ImmutableLongArrayTest extends TestCase {
    */
   public void testBuilder_bruteForce() {
     for (int i = 0; i < reduceIterationsIfGwt(100); i++) {
-      ImmutableLongArray.Builder builder = ImmutableLongArray.builder(RANDOM.nextInt(20));
+      ImmutableLongArray.Builder builder = ImmutableLongArray.builder(random.nextInt(20));
       AtomicLong counter = new AtomicLong(0);
       while (counter.get() < 1000) {
         BuilderOp op = BuilderOp.randomOp();
@@ -192,7 +192,7 @@ public class ImmutableLongArrayTest extends TestCase {
     ADD_ARRAY {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
-        long[] array = new long[RANDOM.nextInt(10)];
+        long[] array = new long[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -203,7 +203,7 @@ public class ImmutableLongArrayTest extends TestCase {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
         List<Long> list = new ArrayList<>();
-        long num = RANDOM.nextInt(10);
+        long num = random.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add(counter.getAndIncrement());
         }
@@ -214,7 +214,7 @@ public class ImmutableLongArrayTest extends TestCase {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
         List<Long> list = new ArrayList<>();
-        long num = RANDOM.nextInt(10);
+        long num = random.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add(counter.getAndIncrement());
         }
@@ -224,7 +224,7 @@ public class ImmutableLongArrayTest extends TestCase {
     ADD_STREAM {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
-        long[] array = new long[RANDOM.nextInt(10)];
+        long[] array = new long[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -234,7 +234,7 @@ public class ImmutableLongArrayTest extends TestCase {
     ADD_IIA {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
-        long[] array = new long[RANDOM.nextInt(10)];
+        long[] array = new long[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -244,7 +244,7 @@ public class ImmutableLongArrayTest extends TestCase {
     ADD_LARGER_ARRAY {
       @Override
       void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
-        long[] array = new long[RANDOM.nextInt(200) + 200];
+        long[] array = new long[random.nextInt(200) + 200];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -256,13 +256,13 @@ public class ImmutableLongArrayTest extends TestCase {
     static final BuilderOp[] values = values();
 
     static BuilderOp randomOp() {
-      return values[RANDOM.nextInt(values.length)];
+      return values[random.nextInt(values.length)];
     }
 
     abstract void doIt(ImmutableLongArray.Builder builder, AtomicLong counter);
   }
 
-  private static final Random RANDOM = new Random(42);
+  private static final Random random = new Random(42);
 
   public void testLength() {
     assertThat(ImmutableLongArray.of().length()).isEqualTo(0);

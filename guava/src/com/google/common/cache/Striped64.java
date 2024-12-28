@@ -108,18 +108,18 @@ abstract class Striped64 extends Number {
     }
 
     final boolean cas(long cmp, long val) {
-      return UNSAFE.compareAndSwapLong(this, valueOffset, cmp, val);
+      return UNSAFE.compareAndSwapLong(this, VALUE_OFFSET, cmp, val);
     }
 
     // Unsafe mechanics
     private static final Unsafe UNSAFE;
-    private static final long valueOffset;
+    private static final long VALUE_OFFSET;
 
     static {
       try {
         UNSAFE = getUnsafe();
         Class<?> ak = Cell.class;
-        valueOffset = UNSAFE.objectFieldOffset(ak.getDeclaredField("value"));
+        VALUE_OFFSET = UNSAFE.objectFieldOffset(ak.getDeclaredField("value"));
       } catch (Exception e) {
         throw new Error(e);
       }
@@ -156,12 +156,12 @@ abstract class Striped64 extends Number {
 
   /** CASes the base field. */
   final boolean casBase(long cmp, long val) {
-    return UNSAFE.compareAndSwapLong(this, baseOffset, cmp, val);
+    return UNSAFE.compareAndSwapLong(this, BASE_OFFSET, cmp, val);
   }
 
   /** CASes the busy field from 0 to 1 to acquire lock. */
   final boolean casBusy() {
-    return UNSAFE.compareAndSwapInt(this, busyOffset, 0, 1);
+    return UNSAFE.compareAndSwapInt(this, BUSY_OFFSET, 0, 1);
   }
 
   /**
@@ -271,15 +271,15 @@ abstract class Striped64 extends Number {
 
   // Unsafe mechanics
   private static final Unsafe UNSAFE;
-  private static final long baseOffset;
-  private static final long busyOffset;
+  private static final long BASE_OFFSET;
+  private static final long BUSY_OFFSET;
 
   static {
     try {
       UNSAFE = getUnsafe();
       Class<?> sk = Striped64.class;
-      baseOffset = UNSAFE.objectFieldOffset(sk.getDeclaredField("base"));
-      busyOffset = UNSAFE.objectFieldOffset(sk.getDeclaredField("busy"));
+      BASE_OFFSET = UNSAFE.objectFieldOffset(sk.getDeclaredField("base"));
+      BUSY_OFFSET = UNSAFE.objectFieldOffset(sk.getDeclaredField("busy"));
     } catch (Exception e) {
       throw new Error(e);
     }
