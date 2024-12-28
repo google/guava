@@ -78,65 +78,75 @@
 <span class="sourceLineNo">069</span><a id="line.69">   * @throws IOException if {@code swallowIOException} is false and {@code close} throws an {@code</a>
 <span class="sourceLineNo">070</span><a id="line.70">   *     IOException}.</a>
 <span class="sourceLineNo">071</span><a id="line.71">   */</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public static void close(@Nullable Closeable closeable, boolean swallowIOException)</a>
-<span class="sourceLineNo">073</span><a id="line.73">      throws IOException {</a>
-<span class="sourceLineNo">074</span><a id="line.74">    if (closeable == null) {</a>
-<span class="sourceLineNo">075</span><a id="line.75">      return;</a>
-<span class="sourceLineNo">076</span><a id="line.76">    }</a>
-<span class="sourceLineNo">077</span><a id="line.77">    try {</a>
-<span class="sourceLineNo">078</span><a id="line.78">      closeable.close();</a>
-<span class="sourceLineNo">079</span><a id="line.79">    } catch (IOException e) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">      if (swallowIOException) {</a>
-<span class="sourceLineNo">081</span><a id="line.81">        logger.log(Level.WARNING, "IOException thrown while closing Closeable.", e);</a>
-<span class="sourceLineNo">082</span><a id="line.82">      } else {</a>
-<span class="sourceLineNo">083</span><a id="line.83">        throw e;</a>
-<span class="sourceLineNo">084</span><a id="line.84">      }</a>
-<span class="sourceLineNo">085</span><a id="line.85">    }</a>
-<span class="sourceLineNo">086</span><a id="line.86">  }</a>
-<span class="sourceLineNo">087</span><a id="line.87"></a>
-<span class="sourceLineNo">088</span><a id="line.88">  /**</a>
-<span class="sourceLineNo">089</span><a id="line.89">   * Closes the given {@link InputStream}, logging any {@code IOException} that's thrown rather than</a>
-<span class="sourceLineNo">090</span><a id="line.90">   * propagating it.</a>
-<span class="sourceLineNo">091</span><a id="line.91">   *</a>
-<span class="sourceLineNo">092</span><a id="line.92">   * &lt;p&gt;While it's not safe in the general case to ignore exceptions that are thrown when closing an</a>
-<span class="sourceLineNo">093</span><a id="line.93">   * I/O resource, it should generally be safe in the case of a resource that's being used only for</a>
-<span class="sourceLineNo">094</span><a id="line.94">   * reading, such as an {@code InputStream}. Unlike with writable resources, there's no chance that</a>
-<span class="sourceLineNo">095</span><a id="line.95">   * a failure that occurs when closing the stream indicates a meaningful problem such as a failure</a>
-<span class="sourceLineNo">096</span><a id="line.96">   * to flush all bytes to the underlying resource.</a>
-<span class="sourceLineNo">097</span><a id="line.97">   *</a>
-<span class="sourceLineNo">098</span><a id="line.98">   * @param inputStream the input stream to be closed, or {@code null} in which case this method</a>
-<span class="sourceLineNo">099</span><a id="line.99">   *     does nothing</a>
-<span class="sourceLineNo">100</span><a id="line.100">   * @since 17.0</a>
-<span class="sourceLineNo">101</span><a id="line.101">   */</a>
-<span class="sourceLineNo">102</span><a id="line.102">  public static void closeQuietly(@Nullable InputStream inputStream) {</a>
-<span class="sourceLineNo">103</span><a id="line.103">    try {</a>
-<span class="sourceLineNo">104</span><a id="line.104">      close(inputStream, true);</a>
-<span class="sourceLineNo">105</span><a id="line.105">    } catch (IOException impossible) {</a>
-<span class="sourceLineNo">106</span><a id="line.106">      throw new AssertionError(impossible);</a>
-<span class="sourceLineNo">107</span><a id="line.107">    }</a>
-<span class="sourceLineNo">108</span><a id="line.108">  }</a>
-<span class="sourceLineNo">109</span><a id="line.109"></a>
-<span class="sourceLineNo">110</span><a id="line.110">  /**</a>
-<span class="sourceLineNo">111</span><a id="line.111">   * Closes the given {@link Reader}, logging any {@code IOException} that's thrown rather than</a>
-<span class="sourceLineNo">112</span><a id="line.112">   * propagating it.</a>
-<span class="sourceLineNo">113</span><a id="line.113">   *</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * &lt;p&gt;While it's not safe in the general case to ignore exceptions that are thrown when closing an</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * I/O resource, it should generally be safe in the case of a resource that's being used only for</a>
-<span class="sourceLineNo">116</span><a id="line.116">   * reading, such as a {@code Reader}. Unlike with writable resources, there's no chance that a</a>
-<span class="sourceLineNo">117</span><a id="line.117">   * failure that occurs when closing the reader indicates a meaningful problem such as a failure to</a>
-<span class="sourceLineNo">118</span><a id="line.118">   * flush all bytes to the underlying resource.</a>
-<span class="sourceLineNo">119</span><a id="line.119">   *</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * @param reader the reader to be closed, or {@code null} in which case this method does nothing</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * @since 17.0</a>
-<span class="sourceLineNo">122</span><a id="line.122">   */</a>
-<span class="sourceLineNo">123</span><a id="line.123">  public static void closeQuietly(@Nullable Reader reader) {</a>
-<span class="sourceLineNo">124</span><a id="line.124">    try {</a>
-<span class="sourceLineNo">125</span><a id="line.125">      close(reader, true);</a>
-<span class="sourceLineNo">126</span><a id="line.126">    } catch (IOException impossible) {</a>
-<span class="sourceLineNo">127</span><a id="line.127">      throw new AssertionError(impossible);</a>
-<span class="sourceLineNo">128</span><a id="line.128">    }</a>
-<span class="sourceLineNo">129</span><a id="line.129">  }</a>
-<span class="sourceLineNo">130</span><a id="line.130">}</a>
+<span class="sourceLineNo">072</span><a id="line.72">  /*</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * The proper capitalization would be "swallowIoException." However:</a>
+<span class="sourceLineNo">074</span><a id="line.74">   *</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * - It might be preferable to be consistent with the JDK precedent (which they stuck with even</a>
+<span class="sourceLineNo">076</span><a id="line.76">   *   for "UncheckedIOException").</a>
+<span class="sourceLineNo">077</span><a id="line.77">   *</a>
+<span class="sourceLineNo">078</span><a id="line.78">   * - If we change the name, some of our callers break because our Android Lint ParameterName check</a>
+<span class="sourceLineNo">079</span><a id="line.79">   *   doesn't make the exception for com.google.common that internal Error Prone does: b/386402967.</a>
+<span class="sourceLineNo">080</span><a id="line.80">   */</a>
+<span class="sourceLineNo">081</span><a id="line.81">  @SuppressWarnings("IdentifierName")</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public static void close(@Nullable Closeable closeable, boolean swallowIOException)</a>
+<span class="sourceLineNo">083</span><a id="line.83">      throws IOException {</a>
+<span class="sourceLineNo">084</span><a id="line.84">    if (closeable == null) {</a>
+<span class="sourceLineNo">085</span><a id="line.85">      return;</a>
+<span class="sourceLineNo">086</span><a id="line.86">    }</a>
+<span class="sourceLineNo">087</span><a id="line.87">    try {</a>
+<span class="sourceLineNo">088</span><a id="line.88">      closeable.close();</a>
+<span class="sourceLineNo">089</span><a id="line.89">    } catch (IOException e) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">      if (swallowIOException) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">        logger.log(Level.WARNING, "IOException thrown while closing Closeable.", e);</a>
+<span class="sourceLineNo">092</span><a id="line.92">      } else {</a>
+<span class="sourceLineNo">093</span><a id="line.93">        throw e;</a>
+<span class="sourceLineNo">094</span><a id="line.94">      }</a>
+<span class="sourceLineNo">095</span><a id="line.95">    }</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  /**</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * Closes the given {@link InputStream}, logging any {@code IOException} that's thrown rather than</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * propagating it.</a>
+<span class="sourceLineNo">101</span><a id="line.101">   *</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * &lt;p&gt;While it's not safe in the general case to ignore exceptions that are thrown when closing an</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * I/O resource, it should generally be safe in the case of a resource that's being used only for</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * reading, such as an {@code InputStream}. Unlike with writable resources, there's no chance that</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * a failure that occurs when closing the stream indicates a meaningful problem such as a failure</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * to flush all bytes to the underlying resource.</a>
+<span class="sourceLineNo">107</span><a id="line.107">   *</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * @param inputStream the input stream to be closed, or {@code null} in which case this method</a>
+<span class="sourceLineNo">109</span><a id="line.109">   *     does nothing</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * @since 17.0</a>
+<span class="sourceLineNo">111</span><a id="line.111">   */</a>
+<span class="sourceLineNo">112</span><a id="line.112">  public static void closeQuietly(@Nullable InputStream inputStream) {</a>
+<span class="sourceLineNo">113</span><a id="line.113">    try {</a>
+<span class="sourceLineNo">114</span><a id="line.114">      close(inputStream, true);</a>
+<span class="sourceLineNo">115</span><a id="line.115">    } catch (IOException impossible) {</a>
+<span class="sourceLineNo">116</span><a id="line.116">      throw new AssertionError(impossible);</a>
+<span class="sourceLineNo">117</span><a id="line.117">    }</a>
+<span class="sourceLineNo">118</span><a id="line.118">  }</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">  /**</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * Closes the given {@link Reader}, logging any {@code IOException} that's thrown rather than</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * propagating it.</a>
+<span class="sourceLineNo">123</span><a id="line.123">   *</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * &lt;p&gt;While it's not safe in the general case to ignore exceptions that are thrown when closing an</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * I/O resource, it should generally be safe in the case of a resource that's being used only for</a>
+<span class="sourceLineNo">126</span><a id="line.126">   * reading, such as a {@code Reader}. Unlike with writable resources, there's no chance that a</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * failure that occurs when closing the reader indicates a meaningful problem such as a failure to</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * flush all bytes to the underlying resource.</a>
+<span class="sourceLineNo">129</span><a id="line.129">   *</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * @param reader the reader to be closed, or {@code null} in which case this method does nothing</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * @since 17.0</a>
+<span class="sourceLineNo">132</span><a id="line.132">   */</a>
+<span class="sourceLineNo">133</span><a id="line.133">  public static void closeQuietly(@Nullable Reader reader) {</a>
+<span class="sourceLineNo">134</span><a id="line.134">    try {</a>
+<span class="sourceLineNo">135</span><a id="line.135">      close(reader, true);</a>
+<span class="sourceLineNo">136</span><a id="line.136">    } catch (IOException impossible) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">      throw new AssertionError(impossible);</a>
+<span class="sourceLineNo">138</span><a id="line.138">    }</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140">}</a>
 
 
 

@@ -196,31 +196,31 @@
 <span class="sourceLineNo">187</span><a id="line.187">    Cut&lt;C&gt; lbToAdd = rangeToAdd.lowerBound;</a>
 <span class="sourceLineNo">188</span><a id="line.188">    Cut&lt;C&gt; ubToAdd = rangeToAdd.upperBound;</a>
 <span class="sourceLineNo">189</span><a id="line.189"></a>
-<span class="sourceLineNo">190</span><a id="line.190">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLB = rangesByLowerBound.lowerEntry(lbToAdd);</a>
-<span class="sourceLineNo">191</span><a id="line.191">    if (entryBelowLB != null) {</a>
+<span class="sourceLineNo">190</span><a id="line.190">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLb = rangesByLowerBound.lowerEntry(lbToAdd);</a>
+<span class="sourceLineNo">191</span><a id="line.191">    if (entryBelowLb != null) {</a>
 <span class="sourceLineNo">192</span><a id="line.192">      // { &lt;</a>
-<span class="sourceLineNo">193</span><a id="line.193">      Range&lt;C&gt; rangeBelowLB = entryBelowLB.getValue();</a>
-<span class="sourceLineNo">194</span><a id="line.194">      if (rangeBelowLB.upperBound.compareTo(lbToAdd) &gt;= 0) {</a>
+<span class="sourceLineNo">193</span><a id="line.193">      Range&lt;C&gt; rangeBelowLb = entryBelowLb.getValue();</a>
+<span class="sourceLineNo">194</span><a id="line.194">      if (rangeBelowLb.upperBound.compareTo(lbToAdd) &gt;= 0) {</a>
 <span class="sourceLineNo">195</span><a id="line.195">        // { &lt; }, and we will need to coalesce</a>
-<span class="sourceLineNo">196</span><a id="line.196">        if (rangeBelowLB.upperBound.compareTo(ubToAdd) &gt;= 0) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">        if (rangeBelowLb.upperBound.compareTo(ubToAdd) &gt;= 0) {</a>
 <span class="sourceLineNo">197</span><a id="line.197">          // { &lt; &gt; }</a>
-<span class="sourceLineNo">198</span><a id="line.198">          ubToAdd = rangeBelowLB.upperBound;</a>
+<span class="sourceLineNo">198</span><a id="line.198">          ubToAdd = rangeBelowLb.upperBound;</a>
 <span class="sourceLineNo">199</span><a id="line.199">          /*</a>
 <span class="sourceLineNo">200</span><a id="line.200">           * TODO(cpovirk): can we just "return;" here? Or, can we remove this if() entirely? If</a>
 <span class="sourceLineNo">201</span><a id="line.201">           * not, add tests to demonstrate the problem with each approach</a>
 <span class="sourceLineNo">202</span><a id="line.202">           */</a>
 <span class="sourceLineNo">203</span><a id="line.203">        }</a>
-<span class="sourceLineNo">204</span><a id="line.204">        lbToAdd = rangeBelowLB.lowerBound;</a>
+<span class="sourceLineNo">204</span><a id="line.204">        lbToAdd = rangeBelowLb.lowerBound;</a>
 <span class="sourceLineNo">205</span><a id="line.205">      }</a>
 <span class="sourceLineNo">206</span><a id="line.206">    }</a>
 <span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUB = rangesByLowerBound.floorEntry(ubToAdd);</a>
-<span class="sourceLineNo">209</span><a id="line.209">    if (entryBelowUB != null) {</a>
+<span class="sourceLineNo">208</span><a id="line.208">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUb = rangesByLowerBound.floorEntry(ubToAdd);</a>
+<span class="sourceLineNo">209</span><a id="line.209">    if (entryBelowUb != null) {</a>
 <span class="sourceLineNo">210</span><a id="line.210">      // { &gt;</a>
-<span class="sourceLineNo">211</span><a id="line.211">      Range&lt;C&gt; rangeBelowUB = entryBelowUB.getValue();</a>
-<span class="sourceLineNo">212</span><a id="line.212">      if (rangeBelowUB.upperBound.compareTo(ubToAdd) &gt;= 0) {</a>
+<span class="sourceLineNo">211</span><a id="line.211">      Range&lt;C&gt; rangeBelowUb = entryBelowUb.getValue();</a>
+<span class="sourceLineNo">212</span><a id="line.212">      if (rangeBelowUb.upperBound.compareTo(ubToAdd) &gt;= 0) {</a>
 <span class="sourceLineNo">213</span><a id="line.213">        // { &gt; }, and we need to coalesce</a>
-<span class="sourceLineNo">214</span><a id="line.214">        ubToAdd = rangeBelowUB.upperBound;</a>
+<span class="sourceLineNo">214</span><a id="line.214">        ubToAdd = rangeBelowUb.upperBound;</a>
 <span class="sourceLineNo">215</span><a id="line.215">      }</a>
 <span class="sourceLineNo">216</span><a id="line.216">    }</a>
 <span class="sourceLineNo">217</span><a id="line.217"></a>
@@ -241,32 +241,32 @@
 <span class="sourceLineNo">232</span><a id="line.232">    // We will use { } to illustrate ranges currently in the range set, and &lt; &gt;</a>
 <span class="sourceLineNo">233</span><a id="line.233">    // to illustrate rangeToRemove.</a>
 <span class="sourceLineNo">234</span><a id="line.234"></a>
-<span class="sourceLineNo">235</span><a id="line.235">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLB = rangesByLowerBound.lowerEntry(rangeToRemove.lowerBound);</a>
-<span class="sourceLineNo">236</span><a id="line.236">    if (entryBelowLB != null) {</a>
+<span class="sourceLineNo">235</span><a id="line.235">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLb = rangesByLowerBound.lowerEntry(rangeToRemove.lowerBound);</a>
+<span class="sourceLineNo">236</span><a id="line.236">    if (entryBelowLb != null) {</a>
 <span class="sourceLineNo">237</span><a id="line.237">      // { &lt;</a>
-<span class="sourceLineNo">238</span><a id="line.238">      Range&lt;C&gt; rangeBelowLB = entryBelowLB.getValue();</a>
-<span class="sourceLineNo">239</span><a id="line.239">      if (rangeBelowLB.upperBound.compareTo(rangeToRemove.lowerBound) &gt;= 0) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">      Range&lt;C&gt; rangeBelowLb = entryBelowLb.getValue();</a>
+<span class="sourceLineNo">239</span><a id="line.239">      if (rangeBelowLb.upperBound.compareTo(rangeToRemove.lowerBound) &gt;= 0) {</a>
 <span class="sourceLineNo">240</span><a id="line.240">        // { &lt; }, and we will need to subdivide</a>
 <span class="sourceLineNo">241</span><a id="line.241">        if (rangeToRemove.hasUpperBound()</a>
-<span class="sourceLineNo">242</span><a id="line.242">            &amp;&amp; rangeBelowLB.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {</a>
+<span class="sourceLineNo">242</span><a id="line.242">            &amp;&amp; rangeBelowLb.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {</a>
 <span class="sourceLineNo">243</span><a id="line.243">          // { &lt; &gt; }</a>
 <span class="sourceLineNo">244</span><a id="line.244">          replaceRangeWithSameLowerBound(</a>
-<span class="sourceLineNo">245</span><a id="line.245">              Range.create(rangeToRemove.upperBound, rangeBelowLB.upperBound));</a>
+<span class="sourceLineNo">245</span><a id="line.245">              Range.create(rangeToRemove.upperBound, rangeBelowLb.upperBound));</a>
 <span class="sourceLineNo">246</span><a id="line.246">        }</a>
 <span class="sourceLineNo">247</span><a id="line.247">        replaceRangeWithSameLowerBound(</a>
-<span class="sourceLineNo">248</span><a id="line.248">            Range.create(rangeBelowLB.lowerBound, rangeToRemove.lowerBound));</a>
+<span class="sourceLineNo">248</span><a id="line.248">            Range.create(rangeBelowLb.lowerBound, rangeToRemove.lowerBound));</a>
 <span class="sourceLineNo">249</span><a id="line.249">      }</a>
 <span class="sourceLineNo">250</span><a id="line.250">    }</a>
 <span class="sourceLineNo">251</span><a id="line.251"></a>
-<span class="sourceLineNo">252</span><a id="line.252">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUB = rangesByLowerBound.floorEntry(rangeToRemove.upperBound);</a>
-<span class="sourceLineNo">253</span><a id="line.253">    if (entryBelowUB != null) {</a>
+<span class="sourceLineNo">252</span><a id="line.252">    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUb = rangesByLowerBound.floorEntry(rangeToRemove.upperBound);</a>
+<span class="sourceLineNo">253</span><a id="line.253">    if (entryBelowUb != null) {</a>
 <span class="sourceLineNo">254</span><a id="line.254">      // { &gt;</a>
-<span class="sourceLineNo">255</span><a id="line.255">      Range&lt;C&gt; rangeBelowUB = entryBelowUB.getValue();</a>
+<span class="sourceLineNo">255</span><a id="line.255">      Range&lt;C&gt; rangeBelowUb = entryBelowUb.getValue();</a>
 <span class="sourceLineNo">256</span><a id="line.256">      if (rangeToRemove.hasUpperBound()</a>
-<span class="sourceLineNo">257</span><a id="line.257">          &amp;&amp; rangeBelowUB.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">          &amp;&amp; rangeBelowUb.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {</a>
 <span class="sourceLineNo">258</span><a id="line.258">        // { &gt; }</a>
 <span class="sourceLineNo">259</span><a id="line.259">        replaceRangeWithSameLowerBound(</a>
-<span class="sourceLineNo">260</span><a id="line.260">            Range.create(rangeToRemove.upperBound, rangeBelowUB.upperBound));</a>
+<span class="sourceLineNo">260</span><a id="line.260">            Range.create(rangeToRemove.upperBound, rangeBelowUb.upperBound));</a>
 <span class="sourceLineNo">261</span><a id="line.261">      }</a>
 <span class="sourceLineNo">262</span><a id="line.262">    }</a>
 <span class="sourceLineNo">263</span><a id="line.263"></a>

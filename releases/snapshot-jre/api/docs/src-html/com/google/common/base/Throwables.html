@@ -463,7 +463,7 @@
 <span class="sourceLineNo">454</span><a id="line.454"></a>
 <span class="sourceLineNo">455</span><a id="line.455">  /** Access to some fancy internal JVM internals. */</a>
 <span class="sourceLineNo">456</span><a id="line.456">  @J2ktIncompatible @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">457</span><a id="line.457">  private static final @Nullable Object jla = getJLA();</a>
+<span class="sourceLineNo">457</span><a id="line.457">  private static final @Nullable Object jla = getJla();</a>
 <span class="sourceLineNo">458</span><a id="line.458"></a>
 <span class="sourceLineNo">459</span><a id="line.459">  /**</a>
 <span class="sourceLineNo">460</span><a id="line.460">   * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to</a>
@@ -488,7 +488,7 @@
 <span class="sourceLineNo">479</span><a id="line.479">  @SuppressWarnings("removal") // b/318391980</a>
 <span class="sourceLineNo">480</span><a id="line.480">  @J2ktIncompatible</a>
 <span class="sourceLineNo">481</span><a id="line.481">  @GwtIncompatible // java.lang.reflect</a>
-<span class="sourceLineNo">482</span><a id="line.482">  private static @Nullable Object getJLA() {</a>
+<span class="sourceLineNo">482</span><a id="line.482">  private static @Nullable Object getJla() {</a>
 <span class="sourceLineNo">483</span><a id="line.483">    try {</a>
 <span class="sourceLineNo">484</span><a id="line.484">      /*</a>
 <span class="sourceLineNo">485</span><a id="line.485">       * We load sun.misc.* classes using reflection since Android doesn't support these classes and</a>
