@@ -454,7 +454,7 @@ public final class Throwables {
 
   /** Access to some fancy internal JVM internals. */
   @J2ktIncompatible @GwtIncompatible // java.lang.reflect
-  private static final @Nullable Object jla = getJLA();
+  private static final @Nullable Object jla = getJla();
 
   /**
    * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to
@@ -479,7 +479,7 @@ public final class Throwables {
   @SuppressWarnings("removal") // b/318391980
   @J2ktIncompatible
   @GwtIncompatible // java.lang.reflect
-  private static @Nullable Object getJLA() {
+  private static @Nullable Object getJla() {
     try {
       /*
        * We load sun.misc.* classes using reflection since Android doesn't support these classes and

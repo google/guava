@@ -51,6 +51,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kurt Alfred Kluever
  */
 @Immutable
+@SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
 final class Murmur3_32HashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction MURMUR3_32 =
       new Murmur3_32HashFunction(0, /* supplementaryPlaneFix= */ false);

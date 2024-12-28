@@ -84,10 +84,10 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewParameterizedType_staticLocalClass() {
-    doTestNewParameterizedType_staticLocalClass();
+    doTestNewParameterizedTypeStaticLocalClass();
   }
 
-  private static void doTestNewParameterizedType_staticLocalClass() {
+  private static void doTestNewParameterizedTypeStaticLocalClass() {
     class LocalClass<T> {}
     Type jvmType = new LocalClass<String>() {}.getClass().getGenericSuperclass();
     Type ourType = Types.newParameterizedType(LocalClass.class, String.class);

@@ -584,9 +584,9 @@ public class TypeTokenTest extends TestCase {
 
   private abstract static class Fourth<T, D> extends Third<D, T> {}
 
-  private static class ConcreteIS extends Fourth<Integer, String> {}
+  private static class ConcreteIntegerString extends Fourth<Integer, String> {}
 
-  private static class ConcreteSI extends Fourth<String, Integer> {}
+  private static class ConcreteStringInteger extends Fourth<String, Integer> {}
 
   public void testAssignableClassToClass() {
     @SuppressWarnings("rawtypes") // To test TypeToken<List>
@@ -759,8 +759,8 @@ public class TypeTokenTest extends TestCase {
     assertFalse(tokenL.isSupertypeOf(List.class));
 
     TypeToken<First<String>> tokenF = new TypeToken<First<String>>() {};
-    assertTrue(tokenF.isSupertypeOf(ConcreteIS.class));
-    assertFalse(tokenF.isSupertypeOf(ConcreteSI.class));
+    assertTrue(tokenF.isSupertypeOf(ConcreteIntegerString.class));
+    assertFalse(tokenF.isSupertypeOf(ConcreteStringInteger.class));
   }
 
   public void testAssignableClassToArrayType() {
@@ -775,8 +775,8 @@ public class TypeTokenTest extends TestCase {
     assertFalse(tokenL.isSupertypeOf(IntegerList.class.getGenericInterfaces()[0]));
 
     TypeToken<First<String>> tokenF = new TypeToken<First<String>>() {};
-    assertTrue(tokenF.isSupertypeOf(ConcreteIS.class.getGenericSuperclass()));
-    assertFalse(tokenF.isSupertypeOf(ConcreteSI.class.getGenericSuperclass()));
+    assertTrue(tokenF.isSupertypeOf(ConcreteIntegerString.class.getGenericSuperclass()));
+    assertFalse(tokenF.isSupertypeOf(ConcreteStringInteger.class.getGenericSuperclass()));
   }
 
   public void testGenericArrayTypeToArrayType() {
@@ -798,8 +798,8 @@ public class TypeTokenTest extends TestCase {
     assertFalse(tokenF.isSupertypeOf(new TypeToken<Third<Integer, String>>() {}));
     assertTrue(tokenF.isSupertypeOf(new TypeToken<Fourth<Integer, String>>() {}));
     assertFalse(tokenF.isSupertypeOf(new TypeToken<Fourth<String, Integer>>() {}));
-    assertTrue(tokenF.isSupertypeOf(new TypeToken<ConcreteIS>() {}));
-    assertFalse(tokenF.isSupertypeOf(new TypeToken<ConcreteSI>() {}));
+    assertTrue(tokenF.isSupertypeOf(new TypeToken<ConcreteIntegerString>() {}));
+    assertFalse(tokenF.isSupertypeOf(new TypeToken<ConcreteStringInteger>() {}));
   }
 
   public void testAssignableWithWildcards() {

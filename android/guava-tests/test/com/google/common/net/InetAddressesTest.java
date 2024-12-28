@@ -735,6 +735,7 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isMaximum(address));
   }
 
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public void testIncrementIPv4() throws UnknownHostException {
     InetAddress address_66_0 = InetAddress.getByName("172.24.66.0");
     InetAddress address_66_255 = InetAddress.getByName("172.24.66.255");
@@ -753,6 +754,7 @@ public class InetAddressesTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> InetAddresses.increment(address_ffffff));
   }
 
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public void testIncrementIPv6() throws UnknownHostException {
     InetAddress addressV6_66_0 = InetAddress.getByName("2001:db8::6600");
     InetAddress addressV6_66_ff = InetAddress.getByName("2001:db8::66ff");

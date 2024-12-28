@@ -3337,7 +3337,7 @@ public class FuturesTest extends TestCase {
     Logger exceptionLogger = Logger.getLogger(AbstractFuture.class.getName());
     exceptionLogger.addHandler(listenerLoggerHandler);
     try {
-      doTestSuccessfulAsList_resultCancelledRacingInputDone();
+      doTestSuccessfulAsListResultCancelledRacingInputDone();
 
       assertWithMessage("Nothing should be logged")
           .that(listenerLoggerHandler.getStoredLogRecords())
@@ -3347,7 +3347,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
+  private static void doTestSuccessfulAsListResultCancelledRacingInputDone() throws Exception {
     // Simple (combined.cancel -> input.cancel -> setOneValue):
     successfulAsList(ImmutableList.of(SettableFuture.create())).cancel(true);
 

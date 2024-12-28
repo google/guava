@@ -104,6 +104,7 @@ public final class Hashing {
    *     #murmur3_32_fixed(int)} instead.
    */
   @Deprecated
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_32(int seed) {
     return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ false);
   }
@@ -122,6 +123,7 @@ public final class Hashing {
    *     #murmur3_32_fixed()} instead.
    */
   @Deprecated
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_32() {
     return Murmur3_32HashFunction.MURMUR3_32;
   }
@@ -138,6 +140,7 @@ public final class Hashing {
    *
    * @since 31.0
    */
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_32_fixed(int seed) {
     return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
   }
@@ -154,6 +157,7 @@ public final class Hashing {
    *
    * @since 31.0
    */
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_32_fixed() {
     return Murmur3_32HashFunction.MURMUR3_32_FIXED;
   }
@@ -165,6 +169,7 @@ public final class Hashing {
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_128(int seed) {
     return new Murmur3_128HashFunction(seed);
   }
@@ -176,6 +181,7 @@ public final class Hashing {
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
+  @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
   public static HashFunction murmur3_128() {
     return Murmur3_128HashFunction.MURMUR3_128;
   }

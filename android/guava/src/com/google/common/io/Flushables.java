@@ -48,6 +48,7 @@ public final class Flushables {
    *     an {@code IOException}.
    * @see Closeables#close
    */
+  @SuppressWarnings("IdentifierName") // See Closeables.close
   public static void flush(Flushable flushable, boolean swallowIOException) throws IOException {
     try {
       flushable.flush();

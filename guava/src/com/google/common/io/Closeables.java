@@ -69,6 +69,16 @@ public final class Closeables {
    * @throws IOException if {@code swallowIOException} is false and {@code close} throws an {@code
    *     IOException}.
    */
+  /*
+   * The proper capitalization would be "swallowIoException." However:
+   *
+   * - It might be preferable to be consistent with the JDK precedent (which they stuck with even
+   *   for "UncheckedIOException").
+   *
+   * - If we change the name, some of our callers break because our Android Lint ParameterName check
+   *   doesn't make the exception for com.google.common that internal Error Prone does: b/386402967.
+   */
+  @SuppressWarnings("IdentifierName")
   public static void close(@Nullable Closeable closeable, boolean swallowIOException)
       throws IOException {
     if (closeable == null) {

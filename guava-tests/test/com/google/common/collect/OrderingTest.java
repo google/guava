@@ -358,7 +358,7 @@ public class OrderingTest extends TestCase {
   }
 
   private enum StringLengthFunction implements Function<String, Integer> {
-    StringLength;
+    STRING_LENGTH;
 
     @Override
     public Integer apply(String string) {
@@ -370,35 +370,35 @@ public class OrderingTest extends TestCase {
 
   public void testOnResultOf_natural() {
     Comparator<String> comparator =
-        Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength);
+        Ordering.<Integer>natural().onResultOf(StringLengthFunction.STRING_LENGTH);
     assertTrue(comparator.compare("to", "be") == 0);
     assertTrue(comparator.compare("or", "not") < 0);
     assertTrue(comparator.compare("that", "to") > 0);
 
     new EqualsTester()
         .addEqualityGroup(
-            comparator, Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength))
+            comparator, Ordering.<Integer>natural().onResultOf(StringLengthFunction.STRING_LENGTH))
         .addEqualityGroup(DECREASING_INTEGER)
         .testEquals();
     reserializeAndAssert(comparator);
-    assertEquals("Ordering.natural().onResultOf(StringLength)", comparator.toString());
+    assertEquals("Ordering.natural().onResultOf(STRING_LENGTH)", comparator.toString());
   }
 
   public void testOnResultOf_chained() {
     Comparator<String> comparator =
-        DECREASING_INTEGER.onResultOf(StringLengthFunction.StringLength);
+        DECREASING_INTEGER.onResultOf(StringLengthFunction.STRING_LENGTH);
     assertTrue(comparator.compare("to", "be") == 0);
     assertTrue(comparator.compare("not", "or") < 0);
     assertTrue(comparator.compare("to", "that") > 0);
 
     new EqualsTester()
         .addEqualityGroup(
-            comparator, DECREASING_INTEGER.onResultOf(StringLengthFunction.StringLength))
+            comparator, DECREASING_INTEGER.onResultOf(StringLengthFunction.STRING_LENGTH))
         .addEqualityGroup(DECREASING_INTEGER.onResultOf(Functions.constant(1)))
         .addEqualityGroup(Ordering.natural())
         .testEquals();
     reserializeAndAssert(comparator);
-    assertEquals("Ordering.natural().reverse().onResultOf(StringLength)", comparator.toString());
+    assertEquals("Ordering.natural().reverse().onResultOf(STRING_LENGTH)", comparator.toString());
   }
 
   public void testLexicographical() {

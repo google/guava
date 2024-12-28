@@ -100,12 +100,15 @@ import org.jspecify.annotations.NullUnmarked;
  *       tests.
  * </ul>
  */
-// We call threadUnexpectedException, which does the right thing for errors.
-@SuppressWarnings("AssertionFailureIgnored")
+@SuppressWarnings({
+  // We call threadUnexpectedException, which does the right thing for errors.
+  "AssertionFailureIgnored",
+  // We're following the upstream naming to reduce diffs.
+  "IdentifierName",
+  "ConstantCaseForConstants",
+})
 @NullUnmarked
 abstract class JSR166TestCase extends TestCase {
-  private static final boolean useSecurityManager = Boolean.getBoolean("jsr166.useSecurityManager");
-
   protected static final boolean expensiveTests = Boolean.getBoolean("jsr166.expensiveTests");
 
   /**

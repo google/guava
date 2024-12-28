@@ -327,15 +327,15 @@ public class StreamsTest extends TestCase {
   }
 
   public void testMapWithIndex_closeIsPropagated_sizedSource() {
-    testMapWithIndex_closeIsPropagated(Stream.of("a", "b", "c"));
+    checkMapWithIndexCloseIsPropagated(Stream.of("a", "b", "c"));
   }
 
   public void testMapWithIndex_closeIsPropagated_unsizedSource() {
-    testMapWithIndex_closeIsPropagated(
+    checkMapWithIndexCloseIsPropagated(
         Stream.<@Nullable Object>of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
   }
 
-  private void testMapWithIndex_closeIsPropagated(Stream<String> source) {
+  private void checkMapWithIndexCloseIsPropagated(Stream<String> source) {
     AtomicInteger stringsCloseCount = new AtomicInteger();
     Stream<String> strings = source.onClose(stringsCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(strings, (str, i) -> str + ":" + i);
@@ -352,15 +352,15 @@ public class StreamsTest extends TestCase {
   }
 
   public void testMapWithIndex_intStream_closeIsPropagated_sized() {
-    testMapWithIndex_intStream_closeIsPropagated(IntStream.of(1, 2, 3));
+    checkMapWithIndexIntStreamCloseIsPropagated(IntStream.of(1, 2, 3));
   }
 
   public void testMapWithIndex_intStream_closeIsPropagated_unsized() {
-    testMapWithIndex_intStream_closeIsPropagated(
+    checkMapWithIndexIntStreamCloseIsPropagated(
         IntStream.of(0).flatMap(unused -> IntStream.of(1, 2, 3)));
   }
 
-  private void testMapWithIndex_intStream_closeIsPropagated(IntStream source) {
+  private void checkMapWithIndexIntStreamCloseIsPropagated(IntStream source) {
     AtomicInteger intStreamCloseCount = new AtomicInteger();
     IntStream intStream = source.onClose(intStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(intStream, (str, i) -> str + ":" + i);
@@ -377,15 +377,15 @@ public class StreamsTest extends TestCase {
   }
 
   public void testMapWithIndex_longStream_closeIsPropagated_sized() {
-    testMapWithIndex_longStream_closeIsPropagated(LongStream.of(1, 2, 3));
+    checkMapWithIndexLongStreamCloseIsPropagated(LongStream.of(1, 2, 3));
   }
 
   public void testMapWithIndex_longStream_closeIsPropagated_unsized() {
-    testMapWithIndex_longStream_closeIsPropagated(
+    checkMapWithIndexLongStreamCloseIsPropagated(
         LongStream.of(0).flatMap(unused -> LongStream.of(1, 2, 3)));
   }
 
-  private void testMapWithIndex_longStream_closeIsPropagated(LongStream source) {
+  private void checkMapWithIndexLongStreamCloseIsPropagated(LongStream source) {
     AtomicInteger longStreamCloseCount = new AtomicInteger();
     LongStream longStream = source.onClose(longStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(longStream, (str, i) -> str + ":" + i);
@@ -404,15 +404,15 @@ public class StreamsTest extends TestCase {
   }
 
   public void testMapWithIndex_doubleStream_closeIsPropagated_sized() {
-    testMapWithIndex_doubleStream_closeIsPropagated(DoubleStream.of(1, 2, 3));
+    checkMapWithIndexDoubleStreamCloseIsPropagated(DoubleStream.of(1, 2, 3));
   }
 
   public void testMapWithIndex_doubleStream_closeIsPropagated_unsized() {
-    testMapWithIndex_doubleStream_closeIsPropagated(
+    checkMapWithIndexDoubleStreamCloseIsPropagated(
         DoubleStream.of(0).flatMap(unused -> DoubleStream.of(1, 2, 3)));
   }
 
-  private void testMapWithIndex_doubleStream_closeIsPropagated(DoubleStream source) {
+  private void checkMapWithIndexDoubleStreamCloseIsPropagated(DoubleStream source) {
     AtomicInteger doubleStreamCloseCount = new AtomicInteger();
     DoubleStream doubleStream = source.onClose(doubleStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(doubleStream, (str, i) -> str + ":" + i);

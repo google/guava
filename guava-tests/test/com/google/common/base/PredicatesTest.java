@@ -717,7 +717,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testIn_handlesNullPointerException() {
-    class CollectionThatThrowsNPE<T> extends ArrayList<T> {
+    class CollectionThatThrowsNullPointerException<T> extends ArrayList<T> {
       @J2ktIncompatible // Kotlin doesn't support companions for inner classes
       private static final long serialVersionUID = 1L;
 
@@ -727,13 +727,13 @@ public class PredicatesTest extends TestCase {
         return super.contains(element);
       }
     }
-    Collection<Integer> nums = new CollectionThatThrowsNPE<>();
+    Collection<Integer> nums = new CollectionThatThrowsNullPointerException<>();
     Predicate<@Nullable Integer> isFalse = Predicates.in(nums);
     assertFalse(isFalse.apply(null));
   }
 
   public void testIn_handlesClassCastException() {
-    class CollectionThatThrowsCCE<T> extends ArrayList<T> {
+    class CollectionThatThrowsClassCastException<T> extends ArrayList<T> {
       @J2ktIncompatible // Kotlin doesn't support companions for inner classes
       private static final long serialVersionUID = 1L;
 
@@ -742,7 +742,7 @@ public class PredicatesTest extends TestCase {
         throw new ClassCastException("");
       }
     }
-    Collection<Integer> nums = new CollectionThatThrowsCCE<>();
+    Collection<Integer> nums = new CollectionThatThrowsClassCastException<>();
     nums.add(3);
     Predicate<Integer> isThree = Predicates.in(nums);
     assertFalse(isThree.apply(3));

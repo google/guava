@@ -110,6 +110,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   static class Foo {}
 
+  @SuppressWarnings("IdentifierName") // We're testing that we ignore classes with underscores.
   static class Foo_Bar {}
 
   public static class PublicFoo {}

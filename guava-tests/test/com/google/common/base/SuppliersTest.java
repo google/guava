@@ -107,11 +107,11 @@ public class SuppliersTest extends TestCase {
   }
 
   public void testMemoize_redudantly() {
-    memoize_redudantlyTest(new CountingSupplier());
-    memoize_redudantlyTest(new SerializableCountingSupplier());
+    memoizeRedudantlyTest(new CountingSupplier());
+    memoizeRedudantlyTest(new SerializableCountingSupplier());
   }
 
-  private void memoize_redudantlyTest(CountingSupplier countingSupplier) {
+  private void memoizeRedudantlyTest(CountingSupplier countingSupplier) {
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
   }

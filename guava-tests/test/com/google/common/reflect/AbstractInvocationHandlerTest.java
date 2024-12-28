@@ -55,10 +55,6 @@ public class AbstractInvocationHandlerTest extends TestCase {
   interface B {}
 
   public void testEquals() {
-    class AB implements A, B {}
-    class BA implements B, A {}
-    AB ab = new AB();
-    BA ba = new BA();
     new EqualsTester()
         .addEqualityGroup(newDelegatingList(LIST1))
         // Actually, this violates List#equals contract.
