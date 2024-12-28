@@ -63,10 +63,10 @@
 <span class="sourceLineNo">054</span><a id="line.54">public final class PercentEscaper extends UnicodeEscaper {</a>
 <span class="sourceLineNo">055</span><a id="line.55"></a>
 <span class="sourceLineNo">056</span><a id="line.56">  // In some escapers spaces are escaped to '+'</a>
-<span class="sourceLineNo">057</span><a id="line.57">  private static final char[] PLUS_SIGN = {'+'};</a>
+<span class="sourceLineNo">057</span><a id="line.57">  private static final char[] plusSign = {'+'};</a>
 <span class="sourceLineNo">058</span><a id="line.58"></a>
 <span class="sourceLineNo">059</span><a id="line.59">  // Percent escapers output upper case hex digits (uri escapers require this).</a>
-<span class="sourceLineNo">060</span><a id="line.60">  private static final char[] UPPER_HEX_DIGITS = "0123456789ABCDEF".toCharArray();</a>
+<span class="sourceLineNo">060</span><a id="line.60">  private static final char[] upperHexDigits = "0123456789ABCDEF".toCharArray();</a>
 <span class="sourceLineNo">061</span><a id="line.61"></a>
 <span class="sourceLineNo">062</span><a id="line.62">  /** If true we should convert space to the {@code +} character. */</a>
 <span class="sourceLineNo">063</span><a id="line.63">  private final boolean plusForSpace;</a>
@@ -170,14 +170,14 @@
 <span class="sourceLineNo">161</span><a id="line.161">    if (cp &lt; safeOctets.length &amp;&amp; safeOctets[cp]) {</a>
 <span class="sourceLineNo">162</span><a id="line.162">      return null;</a>
 <span class="sourceLineNo">163</span><a id="line.163">    } else if (cp == ' ' &amp;&amp; plusForSpace) {</a>
-<span class="sourceLineNo">164</span><a id="line.164">      return PLUS_SIGN;</a>
+<span class="sourceLineNo">164</span><a id="line.164">      return plusSign;</a>
 <span class="sourceLineNo">165</span><a id="line.165">    } else if (cp &lt;= 0x7F) {</a>
 <span class="sourceLineNo">166</span><a id="line.166">      // Single byte UTF-8 characters</a>
 <span class="sourceLineNo">167</span><a id="line.167">      // Start with "%--" and fill in the blanks</a>
 <span class="sourceLineNo">168</span><a id="line.168">      char[] dest = new char[3];</a>
 <span class="sourceLineNo">169</span><a id="line.169">      dest[0] = '%';</a>
-<span class="sourceLineNo">170</span><a id="line.170">      dest[2] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
-<span class="sourceLineNo">171</span><a id="line.171">      dest[1] = UPPER_HEX_DIGITS[cp &gt;&gt;&gt; 4];</a>
+<span class="sourceLineNo">170</span><a id="line.170">      dest[2] = upperHexDigits[cp &amp; 0xF];</a>
+<span class="sourceLineNo">171</span><a id="line.171">      dest[1] = upperHexDigits[cp &gt;&gt;&gt; 4];</a>
 <span class="sourceLineNo">172</span><a id="line.172">      return dest;</a>
 <span class="sourceLineNo">173</span><a id="line.173">    } else if (cp &lt;= 0x7ff) {</a>
 <span class="sourceLineNo">174</span><a id="line.174">      // Two byte UTF-8 characters [cp &gt;= 0x80 &amp;&amp; cp &lt;= 0x7ff]</a>
@@ -185,13 +185,13 @@
 <span class="sourceLineNo">176</span><a id="line.176">      char[] dest = new char[6];</a>
 <span class="sourceLineNo">177</span><a id="line.177">      dest[0] = '%';</a>
 <span class="sourceLineNo">178</span><a id="line.178">      dest[3] = '%';</a>
-<span class="sourceLineNo">179</span><a id="line.179">      dest[5] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">179</span><a id="line.179">      dest[5] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">180</span><a id="line.180">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">181</span><a id="line.181">      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">181</span><a id="line.181">      dest[4] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">182</span><a id="line.182">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">183</span><a id="line.183">      dest[2] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">183</span><a id="line.183">      dest[2] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">184</span><a id="line.184">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">185</span><a id="line.185">      dest[1] = UPPER_HEX_DIGITS[0xC | cp];</a>
+<span class="sourceLineNo">185</span><a id="line.185">      dest[1] = upperHexDigits[0xC | cp];</a>
 <span class="sourceLineNo">186</span><a id="line.186">      return dest;</a>
 <span class="sourceLineNo">187</span><a id="line.187">    } else if (cp &lt;= 0xffff) {</a>
 <span class="sourceLineNo">188</span><a id="line.188">      // Three byte UTF-8 characters [cp &gt;= 0x800 &amp;&amp; cp &lt;= 0xffff]</a>
@@ -201,15 +201,15 @@
 <span class="sourceLineNo">192</span><a id="line.192">      dest[1] = 'E';</a>
 <span class="sourceLineNo">193</span><a id="line.193">      dest[3] = '%';</a>
 <span class="sourceLineNo">194</span><a id="line.194">      dest[6] = '%';</a>
-<span class="sourceLineNo">195</span><a id="line.195">      dest[8] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">195</span><a id="line.195">      dest[8] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">196</span><a id="line.196">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">197</span><a id="line.197">      dest[7] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">197</span><a id="line.197">      dest[7] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">198</span><a id="line.198">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">199</span><a id="line.199">      dest[5] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">199</span><a id="line.199">      dest[5] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">200</span><a id="line.200">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">201</span><a id="line.201">      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">201</span><a id="line.201">      dest[4] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">202</span><a id="line.202">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">203</span><a id="line.203">      dest[2] = UPPER_HEX_DIGITS[cp];</a>
+<span class="sourceLineNo">203</span><a id="line.203">      dest[2] = upperHexDigits[cp];</a>
 <span class="sourceLineNo">204</span><a id="line.204">      return dest;</a>
 <span class="sourceLineNo">205</span><a id="line.205">    } else if (cp &lt;= 0x10ffff) {</a>
 <span class="sourceLineNo">206</span><a id="line.206">      char[] dest = new char[12];</a>
@@ -220,19 +220,19 @@
 <span class="sourceLineNo">211</span><a id="line.211">      dest[3] = '%';</a>
 <span class="sourceLineNo">212</span><a id="line.212">      dest[6] = '%';</a>
 <span class="sourceLineNo">213</span><a id="line.213">      dest[9] = '%';</a>
-<span class="sourceLineNo">214</span><a id="line.214">      dest[11] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">214</span><a id="line.214">      dest[11] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">215</span><a id="line.215">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">216</span><a id="line.216">      dest[10] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">216</span><a id="line.216">      dest[10] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">217</span><a id="line.217">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">218</span><a id="line.218">      dest[8] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">218</span><a id="line.218">      dest[8] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">219</span><a id="line.219">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">220</span><a id="line.220">      dest[7] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">220</span><a id="line.220">      dest[7] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">221</span><a id="line.221">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">222</span><a id="line.222">      dest[5] = UPPER_HEX_DIGITS[cp &amp; 0xF];</a>
+<span class="sourceLineNo">222</span><a id="line.222">      dest[5] = upperHexDigits[cp &amp; 0xF];</a>
 <span class="sourceLineNo">223</span><a id="line.223">      cp &gt;&gt;&gt;= 4;</a>
-<span class="sourceLineNo">224</span><a id="line.224">      dest[4] = UPPER_HEX_DIGITS[0x8 | (cp &amp; 0x3)];</a>
+<span class="sourceLineNo">224</span><a id="line.224">      dest[4] = upperHexDigits[0x8 | (cp &amp; 0x3)];</a>
 <span class="sourceLineNo">225</span><a id="line.225">      cp &gt;&gt;&gt;= 2;</a>
-<span class="sourceLineNo">226</span><a id="line.226">      dest[2] = UPPER_HEX_DIGITS[cp &amp; 0x7];</a>
+<span class="sourceLineNo">226</span><a id="line.226">      dest[2] = upperHexDigits[cp &amp; 0x7];</a>
 <span class="sourceLineNo">227</span><a id="line.227">      return dest;</a>
 <span class="sourceLineNo">228</span><a id="line.228">    } else {</a>
 <span class="sourceLineNo">229</span><a id="line.229">      // If this ever happens it is due to bug in UnicodeEscaper, not bad input.</a>

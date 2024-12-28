@@ -111,7 +111,7 @@
 <span class="sourceLineNo">102</span><a id="line.102"></a>
 <span class="sourceLineNo">103</span><a id="line.103">  private static final String WILDCARD = "*";</a>
 <span class="sourceLineNo">104</span><a id="line.104"></a>
-<span class="sourceLineNo">105</span><a id="line.105">  private static final Map&lt;MediaType, MediaType&gt; KNOWN_TYPES = Maps.newHashMap();</a>
+<span class="sourceLineNo">105</span><a id="line.105">  private static final Map&lt;MediaType, MediaType&gt; knownTypes = Maps.newHashMap();</a>
 <span class="sourceLineNo">106</span><a id="line.106"></a>
 <span class="sourceLineNo">107</span><a id="line.107">  private static MediaType createConstant(String type, String subtype) {</a>
 <span class="sourceLineNo">108</span><a id="line.108">    MediaType mediaType =</a>
@@ -127,7 +127,7 @@
 <span class="sourceLineNo">118</span><a id="line.118">  }</a>
 <span class="sourceLineNo">119</span><a id="line.119"></a>
 <span class="sourceLineNo">120</span><a id="line.120">  private static MediaType addKnownType(MediaType mediaType) {</a>
-<span class="sourceLineNo">121</span><a id="line.121">    KNOWN_TYPES.put(mediaType, mediaType);</a>
+<span class="sourceLineNo">121</span><a id="line.121">    knownTypes.put(mediaType, mediaType);</a>
 <span class="sourceLineNo">122</span><a id="line.122">    return mediaType;</a>
 <span class="sourceLineNo">123</span><a id="line.123">  }</a>
 <span class="sourceLineNo">124</span><a id="line.124"></a>
@@ -915,7 +915,7 @@
 <span class="sourceLineNo">906</span><a id="line.906">      mediaType.parsedCharset = this.parsedCharset;</a>
 <span class="sourceLineNo">907</span><a id="line.907">    }</a>
 <span class="sourceLineNo">908</span><a id="line.908">    // Return one of the constants if the media type is a known type.</a>
-<span class="sourceLineNo">909</span><a id="line.909">    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);</a>
+<span class="sourceLineNo">909</span><a id="line.909">    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);</a>
 <span class="sourceLineNo">910</span><a id="line.910">  }</a>
 <span class="sourceLineNo">911</span><a id="line.911"></a>
 <span class="sourceLineNo">912</span><a id="line.912">  /**</a>
@@ -1016,7 +1016,7 @@
 <span class="sourceLineNo">1007</span><a id="line.1007">    }</a>
 <span class="sourceLineNo">1008</span><a id="line.1008">    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());</a>
 <span class="sourceLineNo">1009</span><a id="line.1009">    // Return one of the constants if the media type is a known type.</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);</a>
 <span class="sourceLineNo">1011</span><a id="line.1011">  }</a>
 <span class="sourceLineNo">1012</span><a id="line.1012"></a>
 <span class="sourceLineNo">1013</span><a id="line.1013">  /**</a>

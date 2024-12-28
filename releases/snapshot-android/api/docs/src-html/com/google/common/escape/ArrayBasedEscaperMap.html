@@ -87,8 +87,9 @@
 <span class="sourceLineNo">078</span><a id="line.78">  }</a>
 <span class="sourceLineNo">079</span><a id="line.79"></a>
 <span class="sourceLineNo">080</span><a id="line.80">  // Immutable empty array for when there are no replacements.</a>
-<span class="sourceLineNo">081</span><a id="line.81">  private static final char[][] EMPTY_REPLACEMENT_ARRAY = new char[0][0];</a>
-<span class="sourceLineNo">082</span><a id="line.82">}</a>
+<span class="sourceLineNo">081</span><a id="line.81">  @SuppressWarnings("ConstantCaseForConstants") // An empty array is a constant.</a>
+<span class="sourceLineNo">082</span><a id="line.82">  private static final char[][] EMPTY_REPLACEMENT_ARRAY = new char[0][0];</a>
+<span class="sourceLineNo">083</span><a id="line.83">}</a>
 
 
 
