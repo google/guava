@@ -191,9 +191,9 @@ public class FinalizableReferenceQueueTest {
             public void finalizeReferent() {
               references.remove(this);
               if (!serverSocket.isClosed()) {
-                finalizeReferentRan.set(true);
                 try {
                   serverSocket.close();
+                  finalizeReferentRan.set(true);
                 } catch (IOException e) {
                   throw new UncheckedIOException(e);
                 }
@@ -232,9 +232,9 @@ public class FinalizableReferenceQueueTest {
     private static Runnable closeServerSocketRunnable(
         ServerSocket serverSocket, AtomicBoolean cleanerRan) {
       return () -> {
-        cleanerRan.set(true);
         try {
           serverSocket.close();
+          cleanerRan.set(true);
         } catch (IOException e) {
           throw new UncheckedIOException(e);
         }
