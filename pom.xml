@@ -13,9 +13,8 @@
   <url>https://github.com/google/guava</url>
   <properties>
     <!--
-    We could override this to change which version we run tests under.
-    However, I think that our -Djava.security.manager=allow profile is based on the *Maven* JDK.
-    If we want to use overrides here, we should change that profile to also be based on surefire.toolchain.version.
+    When building Guava, you can pass (e.g.) `-Dsurefire.toolchain.version=21` to change which version to run tests under.
+    You may find that you need to use Java 11+ to *build* Guava, but it continues to work under Java 8, and you can run tests to verify that, as we do.
     -->
     <surefire.toolchain.version>${java.specification.version}</surefire.toolchain.version>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
@@ -28,7 +27,19 @@
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <test.add.opens></test.add.opens>
+    <!--
+    Some tests need reflective access to the internals of these packages. It is only the
+    tests themselves and not the code being tested that needs that access, though there's no
+    obvious way to ensure that.
+
+    We could consider arranging things so that only the tests we know need this would get
+    the add-opens. Right now that doesn't seem worth the effort, though.
+    -->
+    <test.add.opens>
+      --add-opens java.base/java.lang=ALL-UNNAMED
+      --add-opens java.base/java.util=ALL-UNNAMED
+      --add-opens java.base/sun.security.jca=ALL-UNNAMED
+    </test.add.opens>
     <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
@@ -316,7 +327,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.1</version>
           <configuration>
-            <!-- TODO: b/286965322 - Use a newer version (probably the default toolchain we set up?) if it doesn't break Javadoc (including causing trouble for our later run of JDiff, which we do outside Maven, during snapshots/releases). -->
+            <!-- TODO: b/286965322 - Use a newer version (probably the default javac toolchain we set up?) if it doesn't break Javadoc (including causing trouble for our later run of JDiff, which we do outside Maven, during snapshots/releases). At that point, we'll likely want to remove the no-module-directories additionalJOption, as documented below. -->
             <jdkToolchain>
               <version>11</version>
               <vendor>zulu</vendor>
@@ -332,7 +343,14 @@
             </additionalOptions>
             <linksource>true</linksource>
             <source>8</source>
-            <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
+            <!--
+                Required to make symbol search work correctly in the generated pages under JDK 11-12.
+
+                This flag does not exist on 9-10 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
+
+                Consider removing it once our Javadoc generation is migrated to a recent JDK.
+             -->
+            <additionalJOption>--no-module-directories</additionalJOption>
           </configuration>
           <executions>
             <execution>
@@ -443,76 +461,113 @@
   </dependencyManagement>
   <profiles>
     <profile>
-        <id>sonatype-oss-release</id>
-        <build>
-          <plugins>
-            <plugin>
-              <artifactId>maven-gpg-plugin</artifactId>
-              <version>3.0.1</version>
-              <executions>
-                <execution>
-                  <id>sign-artifacts</id>
-                  <phase>verify</phase>
-                  <goals>
-                    <goal>sign</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
-          </plugins>
+      <id>sonatype-oss-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
       </build>
     </profile>
     <profile>
-      <!--
-          Passes JDK 11-12-specific `no-module-directories` flag to Javadoc tool,
-          which is required to make symbol search work correctly in the generated
-          pages.
-
-          This flag does not exist on 9-10 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
-
-          Consider removing it once our release and test scripts are migrated to a recent JDK (17+).
-       -->
-      <id>javadocs-jdk11-12</id>
+      <id>suppress-open-jre-modules-for-toolchain-1.8</id>
       <activation>
-        <jdk>[11,13)</jdk>
+        <property>
+          <name>surefire.toolchain.version</name>
+          <!-- the value provided by java.specification.version -->
+          <value>1.8</value>
+        </property>
       </activation>
       <properties>
-        <maven-javadoc-plugin.additionalJOptions>--no-module-directories</maven-javadoc-plugin.additionalJOptions>
+        <test.add.opens></test.add.opens>
       </properties>
     </profile>
     <profile>
-      <id>open-jre-modules</id>
+      <id>suppress-open-jre-modules-for-toolchain-8</id>
       <activation>
-        <jdk>[9,]</jdk>
+        <property>
+          <name>surefire.toolchain.version</name>
+          <!-- the value provided by GitHub CI (which maybe we could even change, but supporting "8" seems nice for any users who try pass that value manually) -->
+          <value>8</value>
+        </property>
       </activation>
       <properties>
-        <!--
-            Some tests need reflective access to the internals of these packages. It is only the
-            tests themselves and not the code being tested that needs that access, though there's no
-            obvious way to ensure that.
-
-            We could consider arranging things so that only the tests we know need this would get
-            the add-opens. Right now that doesn't seem worth the effort, though.
-        -->
-        <test.add.opens>
-          --add-opens java.base/java.lang=ALL-UNNAMED
-          --add-opens java.base/java.util=ALL-UNNAMED
-          --add-opens java.base/sun.security.jca=ALL-UNNAMED
-        </test.add.opens>
+        <test.add.opens></test.add.opens>
       </properties>
     </profile>
+    <!-- The Gradle integration tests need to set JAVA_HOME to the location of Java 11. The following profile extracts that location. -->
     <profile>
-      <id>javac-for-jvm18plus</id>
-      <activation>
-        <!--
-            In order to build and run the tests against JDK 18+, we need to pass java.security.manager=allow, to make
-            the deprecated 'java.lang.SecurityManager' available for use.
-         -->
-        <jdk>[18,]</jdk>
-      </activation>
-      <properties>
-        <test.add.args>-Djava.security.manager=allow</test.add.args>
-      </properties>
+      <id>print-java-11-home</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>select-java-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <version>11</version>
+                  <vendor>zulu</vendor>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>com.diamondq.maven</groupId>
+            <artifactId>javahome-resolver-maven-plugin</artifactId>
+            <version>1.0.2</version>
+            <executions>
+              <execution>
+                <id>resolve-java-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.5.0</version>
+            <executions>
+              <execution>
+                <id>print-java-11-home</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>echo</executable>
+                  <arguments>
+                    <argument>${javaHome}</argument>
+                  </arguments>
+                  <outputFile>${project.build.directory}/java_11_home</outputFile>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

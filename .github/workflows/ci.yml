@@ -37,11 +37,18 @@ jobs:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: 'Set up JDK ${{ matrix.java }}'
+      # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
+      # Our Maven configuration then specifies different JDKs to use for some of the steps:
+      # - 11 for building Javadoc
+      # - 23 for running javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
+      # (Note that we also use Java 11 for running our Gradle integration tests. But we run those only when we are already going to run tests under Java 11.)
+      - name: 'Set up JDKs'
         uses: actions/setup-java@8df1039502a15bceb9433410b1a100fbe190c53b # v4.5.0
-
         with:
-          java-version: ${{ matrix.java }}
+          java-version: |
+            ${{ matrix.java }}
+            11
+            23
           distribution: 'zulu'
           cache: 'maven'
       - name: 'Install'
@@ -49,7 +56,7 @@ jobs:
         run: ./mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
       - name: 'Test'
         shell: bash
-        run: ./mvnw -B -P!standard-with-extra-repos verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
+        run: ./mvnw -B -P!standard-with-extra-repos verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
       - name: 'Print Surefire reports'
         # Note: Normally a step won't run if the job has failed, but this causes it to
         if: ${{ failure() }}
