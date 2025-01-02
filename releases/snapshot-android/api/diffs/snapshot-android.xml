@@ -37205,7 +37205,7 @@
     </method>
     <method name="rowComparator" return="java.util.Comparator&lt;? super R&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Use {@code table.rowKeySet().comparator()} instead.">
       <doc>
       <![CDATA[Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}

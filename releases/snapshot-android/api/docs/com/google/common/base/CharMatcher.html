@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.63">CharMatcher</a>
+public abstract class <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.65">CharMatcher</a>
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt;</pre>
 <div class="block">Determines a true or false value for any Java <code>char</code> value, just as <a href="Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> does
@@ -604,7 +604,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharMatcher</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.360">CharMatcher</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.362">CharMatcher</a>()</pre>
 <div class="block">Constructor for use by subclasses. When subclassing, you may want to override <code>
  toString()</code> to provide a useful description.</div>
 </li>
@@ -625,7 +625,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockList">
 <li class="blockList">
 <h4>any</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.117">any</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.119">any</a>()</pre>
 <div class="block">Matches any character.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -639,7 +639,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockList">
 <li class="blockList">
 <h4>none</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.126">none</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.128">none</a>()</pre>
 <div class="block">Matches no characters.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -653,7 +653,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockList">
 <li class="blockList">
 <h4>whitespace</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.145">whitespace</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.147">whitespace</a>()</pre>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
  illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
  This is not the same definition used by other Java APIs. (See a <a href="https://docs.google.com/spreadsheets/d/1kq4ECwPjHX9B8QUCTPclgsDCXYaj7T-FlT4tB5q3ahk/edit">comparison
@@ -675,7 +675,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockList">
 <li class="blockList">
 <h4>breakingWhitespace</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.156">breakingWhitespace</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.158">breakingWhitespace</a>()</pre>
 <div class="block">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
  interpreted as a break between words for formatting purposes). See <a href="#whitespace()"><code>whitespace()</code></a> for a
  discussion of that term.</div>
@@ -691,7 +691,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <ul class="blockList">
 <li class="blockList">
 <h4>ascii</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.165">ascii</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.167">ascii</a>()</pre>
 <div class="block">Determines whether a character is ASCII, meaning that its code point is less than 128.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -706,7 +706,7 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <li class="blockList">
 <h4>digit</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.177">digit</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.179">digit</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Many digits are supplementary characters; see the class documentation.</div>
 </div>
@@ -725,7 +725,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>javaDigit</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.190">javaDigit</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.192">javaDigit</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Many digits are supplementary characters; see the class documentation.</div>
 </div>
@@ -744,7 +744,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>javaLetter</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.203">javaLetter</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.205">javaLetter</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Most letters are supplementary characters; see the class documentation.</div>
 </div>
@@ -763,7 +763,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>javaLetterOrDigit</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.215">javaLetterOrDigit</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.217">javaLetterOrDigit</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Most letters and digits are supplementary characters; see the class documentation.</div>
 </div>
@@ -781,7 +781,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>javaUpperCase</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.228">javaUpperCase</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.230">javaUpperCase</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Some uppercase characters are supplementary characters; see the class
      documentation.</div>
@@ -800,7 +800,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>javaLowerCase</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.241">javaLowerCase</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.243">javaLowerCase</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Some lowercase characters are supplementary characters; see the class
      documentation.</div>
@@ -818,7 +818,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>javaIsoControl</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.254">javaIsoControl</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.256">javaIsoControl</a>()</pre>
 <div class="block">Determines whether a character is an ISO control character as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang" class="externalLink"><code>Character.isISOControl(char)</code></a>.
 
  <p>All ISO control codes are on the BMP and thus supported by this API.</div>
@@ -835,7 +835,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>invisible</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.269">invisible</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.271">invisible</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Most invisible characters are supplementary characters; see the class
      documentation.</div>
@@ -858,7 +858,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <li class="blockList">
 <h4>singleWidth</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.287">singleWidth</a>()</pre>
+public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.289">singleWidth</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Many such characters are supplementary characters; see the class documentation.</div>
 </div>
@@ -882,7 +882,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>is</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.295">is</a>&#8203;(char&nbsp;match)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.297">is</a>&#8203;(char&nbsp;match)</pre>
 <div class="block">Returns a <code>char</code> matcher that matches only one specified BMP character.</div>
 </li>
 </ul>
@@ -892,7 +892,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>isNot</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.304">isNot</a>&#8203;(char&nbsp;match)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.306">isNot</a>&#8203;(char&nbsp;match)</pre>
 <div class="block">Returns a <code>char</code> matcher that matches any character except the BMP character specified.
 
  <p>To negate another <code>CharMatcher</code>, use <a href="#negate()"><code>negate()</code></a>.</div>
@@ -904,7 +904,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>anyOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.312">anyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.314">anyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a <code>char</code> matcher that matches any BMP character present in the given character
  sequence. Returns a bogus matcher if the sequence contains supplementary characters.</div>
 </li>
@@ -915,7 +915,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>noneOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.331">noneOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.333">noneOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a <code>char</code> matcher that matches any BMP character not present in the given
  character sequence. Returns a bogus matcher if the sequence contains supplementary characters.</div>
 </li>
@@ -926,7 +926,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>inRange</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.342">inRange</a>&#8203;(char&nbsp;startInclusive,
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.344">inRange</a>&#8203;(char&nbsp;startInclusive,
                                   char&nbsp;endInclusive)</pre>
 <div class="block">Returns a <code>char</code> matcher that matches any character in a given BMP range (both endpoints
  are inclusive). For example, to match any lowercase letter of the English alphabet, use <code>
@@ -943,7 +943,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>forPredicate</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.350">forPredicate</a>&#8203;(<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.352">forPredicate</a>&#8203;(<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns a matcher with identical behavior to the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Character</code></a>-based predicate, but
  which operates on primitive <code>char</code> instances instead.</div>
 </li>
@@ -954,7 +954,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>matches</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.365">matches</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.367">matches</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Determines a true or false value for the given character.</div>
 </li>
 </ul>
@@ -964,7 +964,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>negate</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.371">negate</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.373">negate</a>()</pre>
 <div class="block">Returns a matcher that matches any character not matched by this matcher.</div>
 </li>
 </ul>
@@ -974,7 +974,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>and</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.379">and</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.381">and</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
 <div class="block">Returns a matcher that matches any character matched by both this matcher and <code>other</code>.</div>
 </li>
 </ul>
@@ -984,7 +984,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.386">or</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.388">or</a>&#8203;(<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
 <div class="block">Returns a matcher that matches any character matched by either this matcher or <code>other</code>.</div>
 </li>
 </ul>
@@ -994,7 +994,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>precomputed</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.399">precomputed</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.401">precomputed</a>()</pre>
 <div class="block">Returns a <code>char</code> matcher functionally equivalent to this one, but which may be faster to
  query than the original; your mileage may vary. Precomputation takes time and is likely to be
  worthwhile only if the precomputed matcher is queried many thousands of times.
@@ -1010,7 +1010,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesAnyOf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.494">matchesAnyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.496">matchesAnyOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains at least one matching BMP character.
  Equivalent to <code>!matchesNoneOf(sequence)</code>.
 
@@ -1032,7 +1032,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesAllOf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.508">matchesAllOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.510">matchesAllOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains only matching BMP characters.
 
  <p>The default implementation iterates over the sequence, invoking <a href="#matches(char)"><code>matches(char)</code></a> for each
@@ -1052,7 +1052,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesNoneOf</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.528">matchesNoneOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.530">matchesNoneOf</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains no matching BMP characters. Equivalent to
  <code>!matchesAnyOf(sequence)</code>.
 
@@ -1073,7 +1073,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>indexIn</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.542">indexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.544">indexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the index of the first matching BMP character in a character sequence, or <code>-1</code> if
  no matching character is present.
 
@@ -1092,7 +1092,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>indexIn</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.561">indexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.563">indexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
                    int&nbsp;start)</pre>
 <div class="block">Returns the index of the first matching BMP character in a character sequence, starting from a
  given position, or <code>-1</code> if no character matches after that position.
@@ -1119,7 +1119,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexIn</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.582">lastIndexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.584">lastIndexIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the index of the last matching BMP character in a character sequence, or <code>-1</code> if
  no matching character is present.
 
@@ -1138,7 +1138,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>countIn</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.596">countIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.598">countIn</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the number of matching <code>char</code>s found in a character sequence.
 
  <p>Counts 2 per supplementary character, such as for <a href="#whitespace()"><code>whitespace()</code></a>().<a href="#negate()"><code>negate()</code></a>().</div>
@@ -1150,7 +1150,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>removeFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.616">removeFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.618">removeFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a string containing all non-matching characters of a character sequence, in order. For
  example:
 
@@ -1167,7 +1167,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>retainFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.655">retainFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.657">retainFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a string containing all matching BMP characters of a character sequence, in order. For
  example:
 
@@ -1184,7 +1184,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.678">replaceFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.680">replaceFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
                           char&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement character. For example:
@@ -1214,7 +1214,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.712">replaceFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.714">replaceFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
                           <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement sequence. For example:
@@ -1243,7 +1243,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>trimFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.760">trimFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.762">trimFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning and from the end of the string. For example:
 
@@ -1268,7 +1268,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>trimLeadingFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.789">trimLeadingFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.791">trimLeadingFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning of the string. For example:
 
@@ -1285,7 +1285,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>trimTrailingFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.809">trimTrailingFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.811">trimTrailingFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the end of the string. For example:
 
@@ -1302,7 +1302,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>collapseFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.838">collapseFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.840">collapseFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
                            char&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each group of consecutive matching
  BMP characters replaced by a single replacement character. For example:
@@ -1332,7 +1332,7 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>trimAndCollapseFrom</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.862">trimAndCollapseFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.864">trimAndCollapseFrom</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence,
                                   char&nbsp;replacement)</pre>
 <div class="block">Collapses groups of matching characters exactly as <a href="#collapseFrom(java.lang.CharSequence,char)"><code>collapseFrom(java.lang.CharSequence, char)</code></a> does, except that
  groups of matching BMP characters at the start or end of the sequence are removed without
@@ -1345,8 +1345,9 @@ public static&nbsp;<a href="CharMatcher.html" title="class in com.google.common.
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.908">apply</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&nbsp;character)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="this.matches(character)")
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.910">apply</a>&#8203;(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&nbsp;character)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided only to satisfy the <a href="Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="#matches(char)"><code>matches(char)</code></a>
      instead.</div>
@@ -1373,7 +1374,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ch
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.918">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.928">toString</a>()</pre>
 <div class="block">Returns a string representation of this <code>CharMatcher</code>, such as <code>
  CharMatcher.or(WHITESPACE, JAVA_DIGIT)</code>.</div>
 <dl>

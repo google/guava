@@ -71,29 +71,30 @@
 <span class="sourceLineNo">062</span><a id="line.62">   *     calling {@link #initCause} later, so it is not quite equivalent to using a constructor that</a>
 <span class="sourceLineNo">063</span><a id="line.63">   *     omits the cause.</a>
 <span class="sourceLineNo">064</span><a id="line.64">   */</a>
-<span class="sourceLineNo">065</span><a id="line.65">  @Deprecated</a>
-<span class="sourceLineNo">066</span><a id="line.66">  protected ExecutionError(@Nullable String message) {</a>
-<span class="sourceLineNo">067</span><a id="line.67">    super(message);</a>
-<span class="sourceLineNo">068</span><a id="line.68">  }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  /**</a>
-<span class="sourceLineNo">071</span><a id="line.71">   * Creates a new instance with the given detail message and cause. Prefer to provide a</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * non-nullable {@code cause}, as many users expect to find one.</a>
-<span class="sourceLineNo">073</span><a id="line.73">   */</a>
-<span class="sourceLineNo">074</span><a id="line.74">  public ExecutionError(@Nullable String message, @Nullable Error cause) {</a>
-<span class="sourceLineNo">075</span><a id="line.75">    super(message, cause);</a>
-<span class="sourceLineNo">076</span><a id="line.76">  }</a>
-<span class="sourceLineNo">077</span><a id="line.77"></a>
-<span class="sourceLineNo">078</span><a id="line.78">  /**</a>
-<span class="sourceLineNo">079</span><a id="line.79">   * Creates a new instance with {@code null} as its detail message and the given cause. Prefer to</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * provide a non-nullable {@code cause}, as many users expect to find one.</a>
-<span class="sourceLineNo">081</span><a id="line.81">   */</a>
-<span class="sourceLineNo">082</span><a id="line.82">  public ExecutionError(@Nullable Error cause) {</a>
-<span class="sourceLineNo">083</span><a id="line.83">    super(cause);</a>
-<span class="sourceLineNo">084</span><a id="line.84">  }</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">087</span><a id="line.87">}</a>
+<span class="sourceLineNo">065</span><a id="line.65">  @SuppressWarnings("InlineMeSuggester") // b/387265535</a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Deprecated</a>
+<span class="sourceLineNo">067</span><a id="line.67">  protected ExecutionError(@Nullable String message) {</a>
+<span class="sourceLineNo">068</span><a id="line.68">    super(message);</a>
+<span class="sourceLineNo">069</span><a id="line.69">  }</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  /**</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * Creates a new instance with the given detail message and cause. Prefer to provide a</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * non-nullable {@code cause}, as many users expect to find one.</a>
+<span class="sourceLineNo">074</span><a id="line.74">   */</a>
+<span class="sourceLineNo">075</span><a id="line.75">  public ExecutionError(@Nullable String message, @Nullable Error cause) {</a>
+<span class="sourceLineNo">076</span><a id="line.76">    super(message, cause);</a>
+<span class="sourceLineNo">077</span><a id="line.77">  }</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  /**</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * Creates a new instance with {@code null} as its detail message and the given cause. Prefer to</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * provide a non-nullable {@code cause}, as many users expect to find one.</a>
+<span class="sourceLineNo">082</span><a id="line.82">   */</a>
+<span class="sourceLineNo">083</span><a id="line.83">  public ExecutionError(@Nullable Error cause) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">    super(cause);</a>
+<span class="sourceLineNo">085</span><a id="line.85">  }</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">088</span><a id="line.88">}</a>
 
 
 

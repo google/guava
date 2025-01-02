@@ -136,7 +136,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static class <a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.128">ImmutableGraph.Builder</a>&lt;N&gt;
+<pre>public static class <a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.132">ImmutableGraph.Builder</a>&lt;N&gt;
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for creating <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> instances, especially <code>static final</code>
  graphs. Example:
@@ -242,7 +242,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Ob
 <li class="blockList">
 <h4>addNode</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.145">addNode</a>&#8203;(<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&nbsp;node)</pre>
+public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.149">addNode</a>&#8203;(<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&nbsp;node)</pre>
 <div class="block">Adds <code>node</code> if it is not already present.
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.</div>
@@ -261,7 +261,7 @@ public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.com
 <li class="blockList">
 <h4>putEdge</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.164">putEdge</a>&#8203;(<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&nbsp;nodeU,
+public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.168">putEdge</a>&#8203;(<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&nbsp;nodeU,
                                          <a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&nbsp;nodeV)</pre>
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present.
 
@@ -285,7 +285,7 @@ public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.com
 <li class="blockList">
 <h4>putEdge</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.187">putEdge</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;endpoints)</pre>
+public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.191">putEdge</a>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Adds an edge connecting <code>endpoints</code> (in the order, if any, specified by <code>
  endpoints</code>) if one is not already present.
 
@@ -311,7 +311,7 @@ public&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.196">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.Builder.html#line.200">build</a>()</pre>
 <div class="block">Returns a newly-created <code>ImmutableGraph</code> based on the contents of this <code>Builder</code>.</div>
 </li>
 </ul>

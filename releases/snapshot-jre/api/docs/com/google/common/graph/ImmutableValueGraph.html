@@ -148,7 +148,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true#containerOf()" title="class or interface in com.google.errorprone.annotations" class="externalLink">containerOf</a>={"N","V"})
-public final class <a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.44">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;
+public final class <a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.45">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;
 extends <a href="AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a>&lt;N,&#8203;V&gt;</pre>
 <div class="block">A <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> whose elements and structural relationships will never change. Instances of
  this class may be obtained with <a href="#copyOf(com.google.common.graph.ValueGraph)"><code>copyOf(ValueGraph)</code></a>.
@@ -436,7 +436,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.54">copyOf</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.55">copyOf</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </li>
 </ul>
@@ -446,8 +446,10 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.65">copyOf</a>&#8203;(<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="checkNotNull(graph)",
+          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#staticImports()" title="class or interface in com.google.errorprone.annotations" class="externalLink">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.66">copyOf</a>&#8203;(<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -460,7 +462,7 @@ public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre class="methodSignature">public&nbsp;<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.70">incidentEdgeOrder</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.74">incidentEdgeOrder</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#incidentEdgeOrder()">ValueGraph</a></code></span></div>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="ValueGraph.html#edges()"><code>ValueGraph.edges()</code></a>, <a href="ValueGraph.html#adjacentNodes(N)"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="ValueGraph.html#predecessors(N)"><code>ValueGraph.predecessors(Object)</code></a>, <a href="ValueGraph.html#successors(N)"><code>ValueGraph.successors(Object)</code></a> and <a href="ValueGraph.html#incidentEdges(N)"><code>ValueGraph.incidentEdges(Object)</code></a>.</div>
@@ -476,7 +478,7 @@ public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>asGraph</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.75">asGraph</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableValueGraph.html#line.79">asGraph</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#asGraph()">ValueGraph</a></code></span></div>
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have an
  edge connecting node A to node B if this <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> has an edge connecting A to B.</div>
