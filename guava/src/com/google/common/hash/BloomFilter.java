@@ -28,6 +28,7 @@ import com.google.common.math.LongMath;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -159,6 +160,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}
    *     instead.
    */
+  @InlineMe(replacement = "this.mightContain(input)")
   @Deprecated
   @Override
   public boolean apply(@ParametricNullness T input) {

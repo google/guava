@@ -26,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import com.google.errorprone.annotations.InlineMe;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -67,6 +68,9 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    *
    * @deprecated no need to use this
    */
+  @InlineMe(
+      replacement = "checkNotNull(graph)",
+      staticImports = "com.google.common.base.Preconditions.checkNotNull")
   @Deprecated
   public static <N> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
     return checkNotNull(graph);

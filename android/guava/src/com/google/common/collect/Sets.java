@@ -31,6 +31,7 @@ import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.AbstractSet;
@@ -572,6 +573,7 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code map} is not empty
    * @deprecated Use {@link Collections#newSetFromMap} instead.
    */
+  @InlineMe(replacement = "Collections.newSetFromMap(map)", imports = "java.util.Collections")
   @Deprecated
   public static <E extends @Nullable Object> Set<E> newSetFromMap(
       Map<E, Boolean> map) {

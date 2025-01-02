@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
 import org.jspecify.annotations.NonNull;
@@ -75,6 +76,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    *     instead.
    * @since 21.0
    */
+  @InlineMe(replacement = "this.equivalent(t, u)")
   @Deprecated
   @Override
   public final boolean test(@Nullable T t, @Nullable T u) {

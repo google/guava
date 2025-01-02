@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.Comparator;
 import org.jspecify.annotations.Nullable;
 
@@ -230,6 +231,7 @@ public abstract class ComparisonChain {
    *     negated or reversed, undo the negation or reversal and use {@link #compareTrueFirst}.
    * @since 19.0
    */
+  @InlineMe(replacement = "this.compareFalseFirst(left, right)")
   @Deprecated
   public final ComparisonChain compare(Boolean left, Boolean right) {
     return compareFalseFirst(left, right);

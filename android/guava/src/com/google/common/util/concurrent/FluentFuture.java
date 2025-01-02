@@ -23,6 +23,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
+import com.google.errorprone.annotations.InlineMe;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -141,6 +142,9 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @deprecated no need to use this
    * @since 28.0
    */
+  @InlineMe(
+      replacement = "checkNotNull(future)",
+      staticImports = "com.google.common.base.Preconditions.checkNotNull")
   @Deprecated
   public static <V extends @Nullable Object> FluentFuture<V> from(FluentFuture<V> future) {
     return checkNotNull(future);

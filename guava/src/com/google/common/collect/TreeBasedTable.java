@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -136,8 +137,11 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    *
    * @deprecated Use {@code table.rowKeySet().comparator()} instead.
    */
+  @InlineMe(
+      replacement = "requireNonNull(this.rowKeySet().comparator())",
+      staticImports = "java.util.Objects.requireNonNull")
   @Deprecated
-  public Comparator<? super R> rowComparator() {
+  public final Comparator<? super R> rowComparator() {
     /*
      * requireNonNull is safe because the factories require non-null Comparators, which they pass on
      * to the backing collections.

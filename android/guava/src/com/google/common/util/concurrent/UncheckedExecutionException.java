@@ -67,6 +67,7 @@ public class UncheckedExecutionException extends RuntimeException {
    *     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
    *     constructor that omits the cause.
    */
+  @SuppressWarnings("InlineMeSuggester") // b/387265535
   @Deprecated
   protected UncheckedExecutionException(@Nullable String message) {
     super(message);

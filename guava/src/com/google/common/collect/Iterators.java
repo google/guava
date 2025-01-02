@@ -35,6 +35,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
@@ -153,6 +154,9 @@ public final class Iterators {
    * @deprecated no need to use this
    * @since 10.0
    */
+  @InlineMe(
+      replacement = "checkNotNull(iterator)",
+      staticImports = "com.google.common.base.Preconditions.checkNotNull")
   @Deprecated
   public static <T extends @Nullable Object> UnmodifiableIterator<T> unmodifiableIterator(
       UnmodifiableIterator<T> iterator) {
@@ -1272,6 +1276,9 @@ public final class Iterators {
    * @deprecated no need to use this
    * @since 10.0
    */
+  @InlineMe(
+      replacement = "checkNotNull(iterator)",
+      staticImports = "com.google.common.base.Preconditions.checkNotNull")
   @Deprecated
   public static <T extends @Nullable Object> PeekingIterator<T> peekingIterator(
       PeekingIterator<T> iterator) {

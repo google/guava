@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.InlineMe;
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.util.Arrays;
 import java.util.BitSet;
 
@@ -905,8 +907,16 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #matches}
    *     instead.
    */
+  @InlineMe(replacement = "this.matches(character)")
   @Deprecated
   @Override
+  /*
+   * We can't compatibly make this `final` now (even after devising a way for `ForPredicate`, which
+   * currently overrides it, to keep the null check that it inserts).
+   */
+  @InlineMeValidationDisabled(
+      "While apply() is not final, the inlining is still safe because all known overrides of"
+          + " apply() call matches().")
   public boolean apply(Character character) {
     return matches(character);
   }

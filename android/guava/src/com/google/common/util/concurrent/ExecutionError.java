@@ -62,6 +62,7 @@ public class ExecutionError extends Error {
    *     calling {@link #initCause} later, so it is not quite equivalent to using a constructor that
    *     omits the cause.
    */
+  @SuppressWarnings("InlineMeSuggester") // b/387265535
   @Deprecated
   protected ExecutionError(@Nullable String message) {
     super(message);
