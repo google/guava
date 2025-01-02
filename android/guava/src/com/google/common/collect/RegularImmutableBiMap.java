@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Bimap with zero or more mappings.
@@ -30,11 +29,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();
 
-  @CheckForNull private final transient Object keyHashTable;
+  private final transient @Nullable Object keyHashTable;
   @VisibleForTesting final transient @Nullable Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
@@ -66,7 +64,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   /** V-to-K constructor. */
   private RegularImmutableBiMap(
-      @CheckForNull Object valueHashTable,
+      @Nullable Object valueHashTable,
       @Nullable Object[] alternatingKeysAndValues,
       int size,
       RegularImmutableBiMap<V, K> inverse) {
@@ -89,8 +87,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     Object result =
         RegularImmutableMap.get(keyHashTable, alternatingKeysAndValues, size, keyOffset, key);
     /*

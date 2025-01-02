@@ -31,9 +31,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An expanded {@code Iterable} API, providing functionality similar to Java 8's powerful <a href=
@@ -112,7 +111,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public abstract class FluentIterable<E extends @Nullable Object> implements Iterable<E> {
   // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
   // checks on the _original_ iterable when FluentIterable.from is used.
@@ -357,7 +355,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
-  public final boolean contains(@CheckForNull Object target) {
+  public final boolean contains(@Nullable Object target) {
     return Iterables.contains(getDelegate(), target);
   }
 

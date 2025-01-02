@@ -19,12 +19,14 @@ package com.google.common.eventbus;
 import com.google.common.collect.Lists;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Validate that {@link EventBus} behaves carefully when listeners publish their own events.
  *
  * @author Jesse Wilson
  */
+@NullUnmarked
 public class ReentrantEventsTest extends TestCase {
 
   static final String FIRST = "one";

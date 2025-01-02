@@ -43,9 +43,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -151,7 +150,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class Ordering<T extends @Nullable Object> implements Comparator<T> {
   // Natural order
 
@@ -356,7 +354,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     }
 
     @Override
-    public int compare(@CheckForNull Object left, @CheckForNull Object right) {
+    public int compare(@Nullable Object left, @Nullable Object right) {
       if (left == right) {
         return 0;
       } else if (left == null) {

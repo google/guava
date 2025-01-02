@@ -22,12 +22,14 @@ import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link AppendableWriter}.
  *
  * @author Alan Green
  */
+@NullUnmarked
 public class AppendableWriterTest extends IoTestCase {
 
   /** Helper class for testing behavior with Flushable and Closeable targets. */

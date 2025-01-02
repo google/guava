@@ -24,8 +24,10 @@ import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmarks some algorithms providing the same functionality as {@link Quantiles}. */
+@NullUnmarked
 public class QuantilesBenchmark {
 
   private static final ContiguousSet<Integer> ALL_DECILE_INDEXES =

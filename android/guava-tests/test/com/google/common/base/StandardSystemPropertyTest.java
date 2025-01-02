@@ -22,6 +22,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link StandardSystemProperty}.
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  */
 @GwtIncompatible
+@NullUnmarked
 public class StandardSystemPropertyTest extends TestCase {
 
   public void testGetKeyMatchesString() {

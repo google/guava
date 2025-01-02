@@ -22,6 +22,7 @@ import com.google.caliper.Param;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for comparing {@link MessageDigest}s and {@link com.google.common.hash.HashFunction}s
@@ -37,6 +38,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class MessageDigestAlgorithmBenchmark {
   @Param({"10", "1000", "100000", "1000000"})
   int size;

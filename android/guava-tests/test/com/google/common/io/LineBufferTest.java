@@ -20,6 +20,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
 import java.io.FilterReader;
@@ -29,6 +30,7 @@ import java.io.StringReader;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link LineBuffer} and {@link LineReader}.
@@ -36,6 +38,7 @@ import java.util.List;
  * @author Chris Nokleberg
  */
 @AndroidIncompatible // occasionally very slow
+@NullUnmarked
 public class LineBufferTest extends IoTestCase {
 
   public void testProcess() throws IOException {
@@ -56,7 +59,8 @@ public class LineBufferTest extends IoTestCase {
     bufferHelper("mixed\nline\rendings\r\n", "mixed\n", "line\r", "endings\r\n");
   }
 
-  private static final int[] CHUNK_SIZES = {1, 2, 3, Integer.MAX_VALUE};
+  private static final ImmutableSet<Integer> CHUNK_SIZES =
+      ImmutableSet.of(1, 2, 3, Integer.MAX_VALUE);
 
   private static void bufferHelper(String input, String... expect) throws IOException {
 

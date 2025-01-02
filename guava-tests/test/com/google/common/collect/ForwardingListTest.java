@@ -31,7 +31,8 @@ import java.util.ListIterator;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code ForwardingList}.
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Robert Konigsberg
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingListTest extends TestCase {
   static final class StandardImplForwardingList<T> extends ForwardingList<T> {
     private final List<T> backingList;

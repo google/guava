@@ -55,12 +55,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests relating to cache loading: concurrent loading, exceptions during loading, etc.
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 public class CacheLoadingTest extends TestCase {
   TestLogHandler logHandler;
 

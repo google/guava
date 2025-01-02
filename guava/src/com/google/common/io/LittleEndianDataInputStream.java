@@ -41,7 +41,6 @@ import java.io.InputStream;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {
 
   /**

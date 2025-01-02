@@ -47,7 +47,6 @@ import java.util.Map;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final int expectedSize;

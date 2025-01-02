@@ -39,7 +39,8 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Preconditions}.
@@ -47,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
 @GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
@@ -391,7 +392,7 @@ public class PreconditionsTest extends TestCase {
     return params;
   }
 
-  private static final ImmutableList<Class<?>> possibleParamTypes =
+  private static final ImmutableList<Class<?>> POSSIBLE_PARAM_TYPES =
       ImmutableList.of(char.class, int.class, long.class, Object.class);
 
   /**
@@ -409,7 +410,7 @@ public class PreconditionsTest extends TestCase {
 
     List<List<Class<?>>> typesLists = new ArrayList<>();
     for (int i = 0; i < 2; i++) {
-      typesLists.add(possibleParamTypes);
+      typesLists.add(POSSIBLE_PARAM_TYPES);
       for (List<Class<?>> curr : Lists.cartesianProduct(typesLists)) {
         allOverloads.add(
             ImmutableList.<Class<?>>builder()

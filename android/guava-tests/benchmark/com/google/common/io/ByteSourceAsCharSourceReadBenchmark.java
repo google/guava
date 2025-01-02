@@ -23,12 +23,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for various potential implementations of {@code ByteSource.asCharSource(...).read()}.
  */
 // These benchmarks allocate a lot of data so use a large heap
 @VmOptions({"-Xms12g", "-Xmx12g", "-d64"})
+@NullUnmarked
 public class ByteSourceAsCharSourceReadBenchmark {
   enum ReadStrategy {
     TO_BYTE_ARRAY_NEW_STRING {

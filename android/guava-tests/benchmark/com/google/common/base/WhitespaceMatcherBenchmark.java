@@ -21,8 +21,10 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.BitSet;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmark for the {@link CharMatcher#whitespace} implementation. */
+@NullUnmarked
 public class WhitespaceMatcherBenchmark {
   private static final int STRING_LENGTH = 10000;
 

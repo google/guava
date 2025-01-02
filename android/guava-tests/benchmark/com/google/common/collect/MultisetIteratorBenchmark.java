@@ -23,12 +23,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.base.Preconditions;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests the speed of iteration of different iteration methods for collections.
  *
  * @author David Richter
  */
+@NullUnmarked
 public class MultisetIteratorBenchmark {
   @Param({"0", "1", "16", "256", "4096", "65536"})
   int size;

@@ -15,8 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Determines an output value based on an input value; a pre-Java-8 version of {@link
@@ -44,7 +43,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Function<F extends @Nullable Object, T extends @Nullable Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
@@ -75,5 +73,5 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * disappear. It is best not to depend on it.
    */
   @Override
-  boolean equals(@CheckForNull Object object);
+  boolean equals(@Nullable Object object);
 }

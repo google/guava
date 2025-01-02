@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -53,7 +54,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ListListIteratorTester<E extends @Nullable Object> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @ListFeature.Require(absent = {SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})
@@ -109,7 +110,7 @@ public class ListListIteratorTester<E extends @Nullable Object> extends Abstract
    * Returns the {@link Method} instance for {@link #testListIterator_fullyModifiable()} so that
    * tests of {@link CopyOnWriteArraySet} can suppress it with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-6570575">JDK-6570575</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

@@ -36,8 +36,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -56,7 +55,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
 
@@ -228,7 +226,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     final Iterator<Entry<E>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<E>() {
       int remaining;
-      @CheckForNull E element;
+      @Nullable E element;
 
       @Override
       public boolean hasNext() {
@@ -252,7 +250,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     };
   }
 
-  @LazyInit @CheckForNull private transient ImmutableList<E> asList;
+  @LazyInit private transient @Nullable ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -261,7 +259,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     return count(object) > 0;
   }
 
@@ -289,7 +287,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final int remove(@CheckForNull Object element, int occurrences) {
+  public final int remove(@Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -332,7 +330,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -350,7 +348,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @Override
   public abstract ImmutableSet<E> elementSet();
 
-  @LazyInit @CheckForNull private transient ImmutableSet<Entry<E>> entrySet;
+  @LazyInit private transient @Nullable ImmutableSet<Entry<E>> entrySet;
 
   @Override
   public ImmutableSet<Entry<E>> entrySet() {
@@ -382,7 +380,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -473,7 +471,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
      * subclass overrides all the methods that access it here. Thus, all the methods here can safely
      * assume that this field is non-null.
      */
-    @CheckForNull ObjectCountHashMap<E> contents;
+    @Nullable ObjectCountHashMap<E> contents;
 
     /**
      * If build() has been called on the current contents multiset, we need to copy it on any future
@@ -602,7 +600,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     public Builder<E> addAll(Iterable<? extends E> elements) {
       requireNonNull(contents); // see the comment on the field
       if (elements instanceof Multiset) {
-        Multiset<? extends E> multiset = Multisets.cast(elements);
+        Multiset<? extends E> multiset = (Multiset<? extends E>) elements;
         ObjectCountHashMap<? extends E> backingMap = tryGetMap(multiset);
         if (backingMap != null) {
           contents.ensureCapacity(Math.max(contents.size(), backingMap.size()));
@@ -641,8 +639,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
      * efficient to iterate over it by index rather than an entry iterator, which will need to
      * allocate an object for each entry, so we check for that.
      */
-    @CheckForNull
-    static <T> ObjectCountHashMap<T> tryGetMap(Iterable<T> multiset) {
+    static <T> @Nullable ObjectCountHashMap<T> tryGetMap(Iterable<T> multiset) {
       if (multiset instanceof RegularImmutableMultiset) {
         return ((RegularImmutableMultiset<T>) multiset).contents;
       } else if (multiset instanceof AbstractMapBasedMultiset) {

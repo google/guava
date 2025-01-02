@@ -20,6 +20,7 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for comparing the various {@link HashFunction functions} that we provide.
@@ -33,6 +34,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class HashFunctionBenchmark {
 
   // Use a statically configured random instance for all of the benchmarks

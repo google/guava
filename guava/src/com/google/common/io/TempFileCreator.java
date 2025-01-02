@@ -51,7 +51,6 @@ import java.util.Set;
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class TempFileCreator {
   static final TempFileCreator INSTANCE = pickSecureCreator();
 

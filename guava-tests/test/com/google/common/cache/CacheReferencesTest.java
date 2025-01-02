@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import java.lang.ref.WeakReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests of basic {@link LoadingCache} operations with all possible combinations of key & value
@@ -33,6 +34,7 @@ import junit.framework.TestCase;
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 public class CacheReferencesTest extends TestCase {
 
   private static final CacheLoader<Key, String> KEY_TO_STRING_LOADER =

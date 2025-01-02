@@ -45,7 +45,6 @@ import java.util.Comparator;
  * @since 11.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class UnsignedInts {
   static final long INT_MASK = 0xffffffffL;
 
@@ -67,6 +66,7 @@ public final class UnsignedInts {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *     greater than {@code b}; or zero if they are equal
    */
+  @SuppressWarnings("InlineMeInliner") // Integer.compare unavailable under GWT+J2CL
   public static int compare(int a, int b) {
     return Ints.compare(flip(a), flip(b));
   }

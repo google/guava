@@ -22,8 +22,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -63,7 +62,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
@@ -84,7 +82,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
     FAILED,
   }
 
-  @CheckForNull private T next;
+  private @Nullable T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when
@@ -110,8 +108,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    *     this method. Any further attempts to use the iterator will result in an {@link
    *     IllegalStateException}.
    */
-  @CheckForNull
-  protected abstract T computeNext();
+  protected abstract @Nullable T computeNext();
 
   /**
    * Implementations of {@link #computeNext} <b>must</b> invoke this method when there are no
@@ -121,8 +118,7 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    *     simple statement {@code return endOfData();}
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  protected final T endOfData() {
+  protected final @Nullable T endOfData() {
     state = State.DONE;
     return null;
   }

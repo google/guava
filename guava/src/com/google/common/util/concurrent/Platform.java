@@ -18,14 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Thread.currentThread;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class Platform {
   static boolean isInstanceOfThrowableClass(
-      @CheckForNull Throwable t, Class<? extends Throwable> expectedClass) {
+      @Nullable Throwable t, Class<? extends Throwable> expectedClass) {
     return expectedClass.isInstance(t);
   }
 

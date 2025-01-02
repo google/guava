@@ -18,8 +18,10 @@ import static java.lang.Math.log;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class CompactLinkedHashMapFloodingTest
     extends AbstractHashFloodingTest<Map<Object, Object>> {
   public CompactLinkedHashMapFloodingTest() {

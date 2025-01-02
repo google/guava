@@ -23,8 +23,10 @@ import com.google.common.hash.HashTestUtils.HashFn;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link Murmur3_128HashFunction}. */
+@NullUnmarked
 public class Murmur3Hash128Test extends TestCase {
   public void testKnownValues() {
     assertHash(0, 0x629942693e10f867L, 0x92db0b82baeb5347L, "hell");

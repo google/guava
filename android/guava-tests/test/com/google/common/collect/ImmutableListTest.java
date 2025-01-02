@@ -52,7 +52,8 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link ImmutableList}.
@@ -62,7 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableListTest extends TestCase {
 
   @J2ktIncompatible
@@ -241,8 +242,7 @@ public class ImmutableListTest extends TestCase {
   }
 
   public void testCopyOf_collection_empty() {
-    // "<String>" is required to work around a javac 1.5 bug.
-    Collection<String> c = MinimalCollection.<String>of();
+    Collection<String> c = MinimalCollection.of();
     List<String> list = ImmutableList.copyOf(c);
     assertEquals(emptyList(), list);
   }
@@ -598,6 +598,8 @@ public class ImmutableListTest extends TestCase {
     }
   }
 
+  // We need to test that asList() really does return the original list.
+  @SuppressWarnings("InlineMeInliner")
   public void testAsList() {
     ImmutableList<String> list = ImmutableList.of("a", "b");
     assertSame(list, list.asList());

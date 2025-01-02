@@ -29,6 +29,7 @@ import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests relating to cache eviction: what does and doesn't count toward maximumSize, what happens
@@ -36,6 +37,7 @@ import junit.framework.TestCase;
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 public class CacheEvictionTest extends TestCase {
   static final int MAX_SIZE = 100;
 

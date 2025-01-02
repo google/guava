@@ -17,7 +17,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ListenableFuture} which forwards all its method calls to another future. Subclasses
@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 4.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListenableFuture<V extends @Nullable Object>
     extends ForwardingFuture<V> implements ListenableFuture<V> {
 

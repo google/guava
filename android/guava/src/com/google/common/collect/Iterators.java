@@ -47,9 +47,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class contains static utility methods that operate on or return objects of type {@link
@@ -69,7 +68,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Iterators {
   private Iterators() {}
 
@@ -175,7 +173,7 @@ public final class Iterators {
   }
 
   /** Returns {@code true} if {@code iterator} contains {@code element}. */
-  public static boolean contains(Iterator<?> iterator, @CheckForNull Object element) {
+  public static boolean contains(Iterator<?> iterator, @Nullable Object element) {
     if (element == null) {
       while (iterator.hasNext()) {
         if (iterator.next() == null) {
@@ -376,7 +374,7 @@ public final class Iterators {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterator<?> iterator, @CheckForNull Object element) {
+  public static int frequency(Iterator<?> iterator, @Nullable Object element) {
     int count = 0;
     while (contains(iterator, element)) {
       // Since it lives in the same class, we know contains gets to the element and then stops,
@@ -667,8 +665,7 @@ public final class Iterators {
     checkNotNull(retainIfTrue);
     return new AbstractIterator<T>() {
       @Override
-      @CheckForNull
-      protected T computeNext() {
+      protected @Nullable T computeNext() {
         while (unfiltered.hasNext()) {
           T element = unfiltered.next();
           if (retainIfTrue.apply(element)) {
@@ -747,11 +744,8 @@ public final class Iterators {
    * @since 7.0
    */
   // For discussion of this signature, see the corresponding overload of *Iterables*.find.
-  @CheckForNull
-  public static <T extends @Nullable Object> T find(
-      Iterator<? extends T> iterator,
-      Predicate<? super T> predicate,
-      @CheckForNull T defaultValue) {
+  public static <T extends @Nullable Object> @Nullable T find(
+      Iterator<? extends T> iterator, Predicate<? super T> predicate, @Nullable T defaultValue) {
     checkNotNull(iterator);
     checkNotNull(predicate);
     while (iterator.hasNext()) {
@@ -1023,8 +1017,7 @@ public final class Iterators {
    * Deletes and returns the next value from the iterator, or returns {@code null} if there is no
    * such value.
    */
-  @CheckForNull
-  static <T extends @Nullable Object> T pollNext(Iterator<T> iterator) {
+  static <T extends @Nullable Object> @Nullable T pollNext(Iterator<T> iterator) {
     if (iterator.hasNext()) {
       T result = iterator.next();
       iterator.remove();
@@ -1183,7 +1176,7 @@ public final class Iterators {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    @CheckForNull private E peekedElement;
+    private @Nullable E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);
@@ -1353,7 +1346,7 @@ public final class Iterators {
 
   private static class ConcatenatedIterator<T extends @Nullable Object> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
-    @CheckForNull private Iterator<? extends T> toRemove;
+    private @Nullable Iterator<? extends T> toRemove;
 
     /* The iterator currently returning elements. */
     private Iterator<? extends T> iterator;
@@ -1365,10 +1358,10 @@ public final class Iterators {
      * operation O(1).
      */
 
-    @CheckForNull private Iterator<? extends Iterator<? extends T>> topMetaIterator;
+    private @Nullable Iterator<? extends Iterator<? extends T>> topMetaIterator;
 
     // Only becomes nonnull if we encounter nested concatenations.
-    @CheckForNull private Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
+    private @Nullable Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
 
     ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> metaIterator) {
       iterator = emptyIterator();
@@ -1376,8 +1369,7 @@ public final class Iterators {
     }
 
     // Returns a nonempty meta-iterator or, if all meta-iterators are empty, null.
-    @CheckForNull
-    private Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
+    private @Nullable Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
       while (topMetaIterator == null || !topMetaIterator.hasNext()) {
         if (metaIterators != null && !metaIterators.isEmpty()) {
           topMetaIterator = metaIterators.removeFirst();

@@ -29,7 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Maps#transformValues} when the backing map's views have iterators that don't
@@ -38,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTest<String, String> {
   // TODO(jlevy): Move shared code of this class and MapsTransformValuesTest
   // to a superclass.

@@ -34,7 +34,8 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ForwardingMultiset}.
@@ -42,6 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ForwardingMultisetTest extends TestCase {
 
   static final class StandardImplForwardingMultiset<T> extends ForwardingMultiset<T> {

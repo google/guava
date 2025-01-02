@@ -26,8 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object which joins pieces of text (specified as an array, {@link Iterable}, varargs or even a
@@ -65,7 +64,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class Joiner {
   /** Returns a joiner which automatically places {@code separator} between consecutive elements. */
   public static Joiner on(String separator) {
@@ -87,19 +85,12 @@ public class Joiner {
     this.separator = prototype.separator;
   }
 
-  /*
-   * In this file, we use <? extends @Nullable Object> instead of <?> to work around a Kotlin bug
-   * (see b/189937072 until we file a bug against Kotlin itself). (The two should be equivalent, so
-   * we normally prefer the shorter one.)
-   */
-
   /**
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @Nullable Object> parts)
-      throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts) throws IOException {
     return appendTo(appendable, parts.iterator());
   }
 
@@ -110,8 +101,7 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterator<? extends @Nullable Object> parts)
-      throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
     checkNotNull(appendable);
     if (parts.hasNext()) {
       appendable.append(toString(parts.next()));
@@ -138,10 +128,7 @@ public class Joiner {
   /** Appends to {@code appendable} the string representation of each of the remaining arguments. */
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(
-      A appendable,
-      @CheckForNull Object first,
-      @CheckForNull Object second,
-      @Nullable Object... rest)
+      A appendable, @Nullable Object first, @Nullable Object second, @Nullable Object... rest)
       throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
@@ -152,8 +139,7 @@ public class Joiner {
    * Iterable)}, except that it does not throw {@link IOException}.
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(
-      StringBuilder builder, Iterable<? extends @Nullable Object> parts) {
+  public final StringBuilder appendTo(StringBuilder builder, Iterable<?> parts) {
     return appendTo(builder, parts.iterator());
   }
 
@@ -165,8 +151,7 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(
-      StringBuilder builder, Iterator<? extends @Nullable Object> parts) {
+  public final StringBuilder appendTo(StringBuilder builder, Iterator<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -195,8 +180,8 @@ public class Joiner {
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
       StringBuilder builder,
-      @CheckForNull Object first,
-      @CheckForNull Object second,
+      @Nullable Object first,
+      @Nullable Object second,
       @Nullable Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
@@ -205,7 +190,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
-  public String join(Iterable<? extends @Nullable Object> parts) {
+  public String join(Iterable<?> parts) {
     /*
      * If we can quickly determine how many elements there are likely to be, then we can use the
      * fastest possible implementation, which delegates to the array overload of String.join.
@@ -265,7 +250,7 @@ public class Joiner {
    *
    * @since 11.0
    */
-  public final String join(Iterator<? extends @Nullable Object> parts) {
+  public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
@@ -284,7 +269,7 @@ public class Joiner {
    * configured separator between each.
    */
   public final String join(
-      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object... rest) {
+      @Nullable Object first, @Nullable Object second, @Nullable Object... rest) {
     return join(iterable(first, second, rest));
   }
 
@@ -296,7 +281,7 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(@CheckForNull Object part) {
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
@@ -325,8 +310,7 @@ public class Joiner {
       }
 
       @Override
-      public <A extends Appendable> A appendTo(
-          A appendable, Iterator<? extends @Nullable Object> parts) throws IOException {
+      public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
@@ -527,7 +511,7 @@ public class Joiner {
   }
 
   // TODO(cpovirk): Rename to "toCharSequence."
-  CharSequence toString(@CheckForNull Object part) {
+  CharSequence toString(@Nullable Object part) {
     /*
      * requireNonNull is not safe: Joiner.on(...).join(somethingThatContainsNull) will indeed throw.
      * However, Joiner.on(...).useForNull(...).join(somethingThatContainsNull) *is* safe -- because
@@ -550,7 +534,7 @@ public class Joiner {
   }
 
   private static Iterable<@Nullable Object> iterable(
-      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object[] rest) {
+      @Nullable Object first, @Nullable Object second, @Nullable Object[] rest) {
     checkNotNull(rest);
     return new AbstractList<@Nullable Object>() {
       @Override
@@ -559,8 +543,7 @@ public class Joiner {
       }
 
       @Override
-      @CheckForNull
-      public Object get(int index) {
+      public @Nullable Object get(int index) {
         switch (index) {
           case 0:
             return first;

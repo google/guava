@@ -32,7 +32,7 @@ import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
@@ -50,7 +50,6 @@ import javax.annotation.CheckForNull;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
   private static final LazyLogger log = new LazyLogger(SequentialExecutor.class);
 
@@ -176,7 +175,7 @@ final class SequentialExecutor implements Executor {
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
   private final class QueueWorker implements Runnable {
-    @CheckForNull Runnable task;
+    @Nullable Runnable task;
 
     @Override
     public void run() {

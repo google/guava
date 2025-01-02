@@ -42,8 +42,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link NavigableSet} whose contents will never change, with many other important properties
@@ -65,7 +64,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E>
     implements NavigableSet<E>, SortedIterable<E> {
   static final int SPLITERATOR_CHARACTERISTICS =
@@ -598,11 +596,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     }
   }
 
-  int unsafeCompare(Object a, @CheckForNull Object b) {
+  int unsafeCompare(Object a, @Nullable Object b) {
     return unsafeCompare(comparator, a, b);
   }
 
-  static int unsafeCompare(Comparator<?> comparator, Object a, @CheckForNull Object b) {
+  static int unsafeCompare(Comparator<?> comparator, Object a, @Nullable Object b) {
     // Pretend the comparator can compare anything. If it turns out it can't
     // compare a and b, we should get a CCE or NPE on the subsequent line. Only methods
     // that are spec'd to throw CCE and NPE should call this.
@@ -711,33 +709,37 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @GwtIncompatible // NavigableSet
   @Override
-  @CheckForNull
-  public E lower(E e) {
+  public @Nullable E lower(E e) {
     return Iterators.<@Nullable E>getNext(headSet(e, false).descendingIterator(), null);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @Override
-  @CheckForNull
-  public E floor(E e) {
+  public @Nullable E floor(E e) {
     return Iterators.<@Nullable E>getNext(headSet(e, true).descendingIterator(), null);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @Override
-  @CheckForNull
-  public E ceiling(E e) {
+  public @Nullable E ceiling(E e) {
     return Iterables.<@Nullable E>getFirst(tailSet(e, true), null);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @GwtIncompatible // NavigableSet
   @Override
-  @CheckForNull
-  public E higher(E e) {
+  public @Nullable E higher(E e) {
     return Iterables.<@Nullable E>getFirst(tailSet(e, false), null);
   }
 
@@ -763,8 +765,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   @GwtIncompatible // NavigableSet
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final E pollFirst() {
+  public final @Nullable E pollFirst() {
     throw new UnsupportedOperationException();
   }
 
@@ -780,15 +781,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   @GwtIncompatible // NavigableSet
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final E pollLast() {
+  public final @Nullable E pollLast() {
     throw new UnsupportedOperationException();
   }
 
   @GwtIncompatible // NavigableSet
   @LazyInit
-  @CheckForNull
-  transient ImmutableSortedSet<E> descendingSet;
+  transient @Nullable ImmutableSortedSet<E> descendingSet;
 
   /** @since 12.0 */
   @GwtIncompatible // NavigableSet
@@ -838,7 +837,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   public abstract UnmodifiableIterator<E> descendingIterator();
 
   /** Returns the position of an element within the set, or -1 if not present. */
-  abstract int indexOf(@CheckForNull Object target);
+  abstract int indexOf(@Nullable Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

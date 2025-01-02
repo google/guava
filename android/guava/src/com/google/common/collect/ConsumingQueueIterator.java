@@ -18,15 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An Iterator implementation which draws elements from a queue, removing them from the queue as it
  * iterates. This class is not thread safe.
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
   private final Queue<T> queue;
 
@@ -35,8 +33,7 @@ final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractI
   }
 
   @Override
-  @CheckForNull
-  protected T computeNext() {
+  protected @Nullable T computeNext() {
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
     if (queue.isEmpty()) {
       return endOfData();

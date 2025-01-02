@@ -37,7 +37,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link TreeBasedTable}.
@@ -46,7 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TreeBasedTableTest extends AbstractTableTest<Character> {
   @J2ktIncompatible
   @GwtIncompatible // suite

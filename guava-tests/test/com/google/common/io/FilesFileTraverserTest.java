@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.File;
 import java.io.IOException;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Files#fileTraverser()}.
@@ -29,6 +30,7 @@ import java.io.IOException;
  * @author Jens Nyman
  */
 
+@NullUnmarked
 public class FilesFileTraverserTest extends IoTestCase {
 
   private File rootDir;

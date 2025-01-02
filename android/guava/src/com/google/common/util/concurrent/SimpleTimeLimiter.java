@@ -35,8 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
@@ -48,7 +47,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 // TODO: b/227335009 - Maybe change interruption behavior, but it requires thought.
 @SuppressWarnings("Interruption")
 public final class SimpleTimeLimiter implements TimeLimiter {
@@ -88,9 +86,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     InvocationHandler handler =
         new InvocationHandler() {
           @Override
-          @CheckForNull
-          public Object invoke(Object obj, Method method, @CheckForNull @Nullable Object[] args)
-              throws Throwable {
+          public @Nullable Object invoke(
+              Object obj, Method method, @Nullable Object @Nullable [] args) throws Throwable {
             Callable<@Nullable Object> callable =
                 () -> {
                   try {

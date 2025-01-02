@@ -23,7 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 import java.util.Map;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Tables#newCustomTable}.
@@ -31,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class NewCustomTableTest extends AbstractTableTest<Character> {
 
   @Override

@@ -57,8 +57,8 @@
  * Defaults}), as well as a number of classes that have been superseded by additions to the JDK.
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
+@NullMarked
 package com.google.common.base;
 
 import com.google.errorprone.annotations.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullMarked;

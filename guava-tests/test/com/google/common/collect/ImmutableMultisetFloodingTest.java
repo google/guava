@@ -22,8 +22,10 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class ImmutableMultisetFloodingTest extends AbstractHashFloodingTest<Multiset<Object>> {
   public ImmutableMultisetFloodingTest() {
     super(

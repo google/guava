@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * To be implemented by test generators of things that can contain elements. Such things include
@@ -30,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface TestContainerGenerator<T, E extends @Nullable Object> {
   /** Returns the sample elements that this generate populates its container with. */
   SampleElements<E> samples();

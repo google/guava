@@ -18,7 +18,8 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates queues, containing sample elements, to be tested.
@@ -26,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface TestQueueGenerator<E extends @Nullable Object> extends TestCollectionGenerator<E> {
   @Override
   Queue<E> create(Object... elements);

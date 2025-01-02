@@ -30,7 +30,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 import sun.security.jca.ProviderList;
 import sun.security.jca.Providers;
 
@@ -39,6 +40,7 @@ import sun.security.jca.Providers;
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class MacHashFunctionTest extends TestCase {
 
   private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");
@@ -59,7 +61,7 @@ public class MacHashFunctionTest extends TestCase {
           .put("HmacSHA1", SHA1_KEY, Hashing.hmacSha1(SHA1_KEY))
           .put("HmacSHA256", SHA256_KEY, Hashing.hmacSha256(SHA256_KEY))
           .put("HmacSHA512", SHA512_KEY, Hashing.hmacSha512(SHA512_KEY))
-          .build();
+          .buildOrThrow();
 
   public void testNulls() {
     NullPointerTester tester =

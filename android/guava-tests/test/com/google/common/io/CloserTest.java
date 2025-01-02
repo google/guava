@@ -29,13 +29,15 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Closer}.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class CloserTest extends TestCase {
 
   private TestSuppressor suppressor;

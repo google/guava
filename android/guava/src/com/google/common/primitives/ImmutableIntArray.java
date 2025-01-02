@@ -31,7 +31,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -85,7 +85,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible
 @Immutable
-@ElementTypesAreNonnullByDefault
 public final class ImmutableIntArray implements Serializable {
   private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);
 
@@ -169,7 +168,7 @@ public final class ImmutableIntArray implements Serializable {
   /**
    * Returns an immutable array containing all the values from {@code stream}, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -274,7 +273,7 @@ public final class ImmutableIntArray implements Serializable {
      * Appends all values from {@code stream}, in order, to the end of the values the built {@link
      * ImmutableIntArray} will contain.
      *
-     * @since NEXT (but since 22.0 in the JRE flavor)
+     * @since 33.4.0 (but since 22.0 in the JRE flavor)
      */
     @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using streams.
@@ -421,7 +420,7 @@ public final class ImmutableIntArray implements Serializable {
   /**
    * Invokes {@code consumer} for each value contained in this array, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // We rely on users not to call this without library desugaring.
@@ -435,7 +434,7 @@ public final class ImmutableIntArray implements Serializable {
   /**
    * Returns a stream over the values in this array, in order.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent stream calls
@@ -509,17 +508,17 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object target) {
+    public boolean contains(@Nullable Object target) {
       return indexOf(target) >= 0;
     }
 
     @Override
-    public int indexOf(@CheckForNull Object target) {
+    public int indexOf(@Nullable Object target) {
       return target instanceof Integer ? parent.indexOf((Integer) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(@CheckForNull Object target) {
+    public int lastIndexOf(@Nullable Object target) {
       return target instanceof Integer ? parent.lastIndexOf((Integer) target) : -1;
     }
 
@@ -541,7 +540,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -581,7 +580,7 @@ public final class ImmutableIntArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

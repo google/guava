@@ -35,7 +35,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A series of tests that support asserting that collections cannot be modified, either through
@@ -44,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Robert Konigsberg
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class UnmodifiableCollectionTests {
 
   public static void assertMapEntryIsUnmodifiable(Entry<?, ?> entry) {

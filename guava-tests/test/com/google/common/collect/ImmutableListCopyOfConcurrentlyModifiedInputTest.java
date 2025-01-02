@@ -32,8 +32,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible // reflection
+@NullUnmarked
 public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
   enum WrapWithIterable {
     WRAP,

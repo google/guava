@@ -21,13 +21,15 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Synchronized#deque} and {@link Queues#synchronizedDeque}.
  *
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class SynchronizedDequeTest extends TestCase {
 
   protected Deque<String> create() {

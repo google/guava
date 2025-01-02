@@ -34,12 +34,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for {@link FluentFuture}. The tests cover only the basics for the API. The actual logic is
  * tested in {@link FuturesTest}.
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class FluentFutureTest extends TestCase {
   public void testFromFluentFuture() {

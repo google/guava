@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link ImmutableSet}.
@@ -51,7 +52,7 @@ import junit.framework.TestSuite;
  * @author Nick Kralevich
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible

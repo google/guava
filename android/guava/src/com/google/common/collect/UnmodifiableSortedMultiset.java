@@ -23,8 +23,7 @@ import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Comparator;
 import java.util.NavigableSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}, split out into
@@ -34,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends UnmodifiableMultiset<E>
     implements SortedMultiset<E> {
   UnmodifiableSortedMultiset(SortedMultiset<E> delegate) {
@@ -61,7 +59,7 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
     return (NavigableSet<E>) super.elementSet();
   }
 
-  @LazyInit @CheckForNull private transient UnmodifiableSortedMultiset<E> descendingMultiset;
+  @LazyInit private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {
@@ -75,26 +73,22 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     return delegate().firstEntry();
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     return delegate().lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> pollFirstEntry() {
+  public @Nullable Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> pollLastEntry() {
+  public @Nullable Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 

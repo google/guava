@@ -25,13 +25,12 @@ import java.nio.file.SecureDirectoryStream;
  * Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
  * MoreFiles#deleteDirectoryContents}).
  *
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.4.0 (but since 21.0 in the JRE flavor)
  * @author Colin Decker
  */
 @J2ktIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
-@ElementTypesAreNonnullByDefault
 public enum RecursiveDeleteOption {
   /**
    * Specifies that the recursive delete should not throw an exception when it can't be guaranteed

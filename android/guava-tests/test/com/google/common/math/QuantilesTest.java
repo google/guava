@@ -43,13 +43,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Quantiles}.
  *
  * @author Pete Gillin
  */
+@NullUnmarked
 public class QuantilesTest extends TestCase {
 
   /*

@@ -22,8 +22,7 @@ import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -31,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 14.0
  */
-@ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
   private final Invokable<?, ?> declaration;
@@ -77,8 +75,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   @Override
-  @CheckForNull
-  public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+  public <A extends Annotation> @Nullable A getAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     for (Annotation annotation : annotations) {
       if (annotationType.isInstance(annotation)) {
@@ -111,8 +108,7 @@ public final class Parameter implements AnnotatedElement {
    * @since 18.0
    */
   @Override
-  @CheckForNull
-  public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
+  public <A extends Annotation> @Nullable A getDeclaredAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     return FluentIterable.from(annotations).filter(annotationType).first().orNull();
   }
@@ -140,7 +136,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Parameter) {
       Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);

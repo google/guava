@@ -22,8 +22,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author ricebin */
+/**
+ * @author ricebin
+ */
+@NullUnmarked
 public class MultiReaderTest extends TestCase {
 
   public void testOnlyOneOpen() throws Exception {

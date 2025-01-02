@@ -23,8 +23,10 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 abstract class AbstractImmutableBiMapMapInterfaceTest<K, V> extends MapInterfaceTest<K, V> {
   AbstractImmutableBiMapMapInterfaceTest() {
     super(false, false, false, false, false);

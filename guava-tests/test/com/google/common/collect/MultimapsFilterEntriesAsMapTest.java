@@ -21,6 +21,7 @@ import com.google.common.base.Predicate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for Multimaps.filterEntries().asMap().
@@ -28,6 +29,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  */
 @GwtIncompatible(value = "untested")
+@NullUnmarked
 public class MultimapsFilterEntriesAsMapTest extends AbstractMultimapAsMapImplementsMapTest {
   private static final Predicate<Entry<String, Integer>> PREDICATE =
       new Predicate<Entry<String, Integer>>() {

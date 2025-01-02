@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @DoNotMock("Use FakeTimeLimiter")
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**

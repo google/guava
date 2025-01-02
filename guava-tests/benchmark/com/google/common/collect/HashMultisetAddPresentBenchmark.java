@@ -19,12 +19,14 @@ import com.google.caliper.Benchmark;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmark for HashMultiset.add for an already-present element.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class HashMultisetAddPresentBenchmark {
   private static final int ARRAY_MASK = 0x0ffff;
   private static final int ARRAY_SIZE = 0x10000;

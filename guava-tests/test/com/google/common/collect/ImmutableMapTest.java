@@ -70,7 +70,8 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ImmutableMap}.
@@ -80,7 +81,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("AlwaysThrows")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableMapTest extends TestCase {
 
   @J2ktIncompatible

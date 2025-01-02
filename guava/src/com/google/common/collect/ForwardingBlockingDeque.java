@@ -21,7 +21,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link BlockingDeque} which forwards all its method calls to another {@code BlockingDeque}.
@@ -49,7 +49,6 @@ import javax.annotation.CheckForNull;
 @Deprecated
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
 
@@ -95,14 +94,12 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
-  @CheckForNull
-  public E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollFirst(timeout, unit);
   }
 
   @Override
-  @CheckForNull
-  public E pollLast(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E pollLast(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollLast(timeout, unit);
   }
 
@@ -122,8 +119,7 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
-  @CheckForNull
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().poll(timeout, unit);
   }
 

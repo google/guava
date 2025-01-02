@@ -27,8 +27,12 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import org.jspecify.annotations.NullUnmarked;
 
-/** @author Colin Decker */
+/**
+ * @author Colin Decker
+ */
+@NullUnmarked
 public class TestInputStream extends FilterInputStream {
 
   private final ImmutableSet<TestOption> options;

@@ -24,10 +24,11 @@ import com.google.common.base.Predicates;
 import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 abstract class AbstractFilteredMapTest extends TestCase {
   private static final Predicate<@Nullable String> NOT_LENGTH_3 =
       input -> input == null || input.length() != 3;

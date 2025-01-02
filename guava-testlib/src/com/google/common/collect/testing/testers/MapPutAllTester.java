@@ -40,7 +40,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -54,7 +55,7 @@ import org.junit.Ignore;
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MapPutAllTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
@@ -176,7 +177,7 @@ public class MapPutAllTester<K extends @Nullable Object, V extends @Nullable Obj
   /**
    * Returns the {@link Method} instance for {@link #testPutAll_nullKeyUnsupported()} so that tests
    * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

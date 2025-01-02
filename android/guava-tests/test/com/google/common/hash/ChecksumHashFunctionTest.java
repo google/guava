@@ -19,12 +19,14 @@ import static com.google.common.hash.Hashing.ChecksumType.CRC_32;
 
 import java.util.zip.Checksum;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for ChecksumHashFunction.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class ChecksumHashFunctionTest extends TestCase {
 
   public void testCrc32_equalsChecksumValue() throws Exception {

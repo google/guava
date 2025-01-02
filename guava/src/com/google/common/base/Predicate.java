@@ -15,8 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
@@ -42,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @FunctionalInterface
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Predicate<T extends @Nullable Object> extends java.util.function.Predicate<T> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8+ users, see notes in the
@@ -72,7 +70,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    * predicates are known <i>not</i> to be interchangeable.
    */
   @Override
-  boolean equals(@CheckForNull Object object);
+  boolean equals(@Nullable Object object);
 
   @Override
   default boolean test(@ParametricNullness T input) {

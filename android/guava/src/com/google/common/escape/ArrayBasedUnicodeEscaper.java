@@ -19,8 +19,7 @@ import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given
@@ -42,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;
@@ -162,8 +160,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @return the replacement characters, or {@code null} if no escaping was required
    */
   @Override
-  @CheckForNull
-  protected final char[] escape(int cp) {
+  protected final char @Nullable [] escape(int cp) {
     if (cp < replacementsLength) {
       char[] chars = replacements[cp];
       if (chars != null) {
@@ -203,6 +200,5 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @param cp the Unicode code point to escape
    * @return the replacement characters, or {@code null} if no escaping was required
    */
-  @CheckForNull
-  protected abstract char[] escapeUnsafe(int cp);
+  protected abstract char @Nullable [] escapeUnsafe(int cp);
 }

@@ -31,8 +31,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -56,7 +55,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class TopKSelector<
     T extends @Nullable Object> {
 
@@ -119,7 +117,7 @@ final class TopKSelector<
    * The largest of the lowest k elements we've seen so far relative to this comparator. If
    * bufferSize ≥ k, then we can ignore any elements greater than this value.
    */
-  @CheckForNull private T threshold;
+  private @Nullable T threshold;
 
   @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing Object[] instead of T[].
   private TopKSelector(Comparator<? super T> comparator, int k) {

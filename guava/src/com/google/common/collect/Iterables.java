@@ -38,9 +38,8 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An assortment of mainly legacy static utility methods that operate on or return objects of type
@@ -65,7 +64,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Iterables {
   private Iterables() {}
 
@@ -138,7 +136,7 @@ public final class Iterables {
    */
   // <? extends @Nullable Object> instead of <?> because of Kotlin b/189937072, discussed in Joiner.
   public static boolean contains(
-      Iterable<? extends @Nullable Object> iterable, @CheckForNull Object element) {
+      Iterable<? extends @Nullable Object> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
       return Collections2.safeContains(collection, element);
@@ -206,8 +204,7 @@ public final class Iterables {
   }
 
   /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  @CheckForNull
-  static <T extends @Nullable Object> T removeFirstMatching(
+  static <T extends @Nullable Object> @Nullable T removeFirstMatching(
       Iterable<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     Iterator<T> iterator = removeFrom.iterator();
@@ -344,7 +341,7 @@ public final class Iterables {
    * @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
    *     Object)
    */
-  public static int frequency(Iterable<?> iterable, @CheckForNull Object element) {
+  public static int frequency(Iterable<?> iterable, @Nullable Object element) {
     if ((iterable instanceof Multiset)) {
       return ((Multiset<?>) iterable).count(element);
     } else if ((iterable instanceof Set)) {
@@ -681,11 +678,8 @@ public final class Iterables {
   //   iterables with null elements.)
   //
   // - @JointlyNullable means "@Nullable or no annotation"
-  @CheckForNull
-  public static <T extends @Nullable Object> T find(
-      Iterable<? extends T> iterable,
-      Predicate<? super T> predicate,
-      @CheckForNull T defaultValue) {
+  public static <T extends @Nullable Object> @Nullable T find(
+      Iterable<? extends T> iterable, Predicate<? super T> predicate, @Nullable T defaultValue) {
     return Iterators.<T>find(iterable.iterator(), predicate, defaultValue);
   }
 
@@ -795,7 +789,7 @@ public final class Iterables {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
-      List<? extends T> list = Lists.cast(iterable);
+      List<? extends T> list = (List<? extends T>) iterable;
       return (position < list.size()) ? list.get(position) : defaultValue;
     } else {
       Iterator<? extends T> iterator = iterable.iterator();
@@ -869,7 +863,7 @@ public final class Iterables {
       if (c.isEmpty()) {
         return defaultValue;
       } else if (iterable instanceof List) {
-        return getLastInNonemptyList(Lists.cast(iterable));
+        return getLastInNonemptyList((List<? extends T>) iterable);
       }
     }
 

@@ -33,7 +33,6 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface RemovalListener<K, V> {
   /**
    * Notifies the listener that a removal occurred at some point in the past.

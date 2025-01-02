@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.graph.TestUtil.EdgeType;
 import java.util.Arrays;
 import java.util.Collection;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,6 +32,7 @@ import org.junit.runners.Parameterized.Parameters;
 @AndroidIncompatible
 // TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
 @RunWith(Parameterized.class)
+@NullUnmarked
 public final class GraphEquivalenceTest {
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;

@@ -21,6 +21,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Strings;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Create multisets of strings for tests.
@@ -28,7 +29,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestStringMultisetGenerator implements TestMultisetGenerator<String> {
   @Override
   public SampleElements<String> samples() {

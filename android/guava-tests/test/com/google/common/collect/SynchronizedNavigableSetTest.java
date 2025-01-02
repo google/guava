@@ -32,13 +32,15 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link Sets#synchronizedNavigableSet(NavigableSet)}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Object[0]; // something Serializable
 

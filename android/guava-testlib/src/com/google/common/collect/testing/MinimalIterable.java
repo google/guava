@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@code Iterable} which throws an exception on all invocations of the {@link

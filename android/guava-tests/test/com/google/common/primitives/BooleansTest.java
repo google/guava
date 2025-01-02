@@ -32,7 +32,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Booleans}.
@@ -40,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class BooleansTest extends TestCase {
   private static final boolean[] EMPTY = {};
   private static final boolean[] ARRAY_FALSE = {false};
@@ -69,6 +70,8 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.falseFirst().compare(true, false)).isGreaterThan(0);
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {

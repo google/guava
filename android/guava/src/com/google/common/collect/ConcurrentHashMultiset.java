@@ -45,8 +45,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
@@ -61,7 +60,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
   /*
@@ -142,7 +140,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the nonnegative number of occurrences of the element
    */
   @Override
-  public int count(@CheckForNull Object element) {
+  public int count(@Nullable Object element) {
     AtomicInteger existingCounter = safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -273,7 +271,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @CanIgnoreReturnValue
   @Override
-  public int remove(@CheckForNull Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -314,7 +312,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  public boolean removeExactly(@CheckForNull Object element, int occurrences) {
+  public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
@@ -460,7 +458,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean contains(@CheckForNull Object object) {
+      public boolean contains(@Nullable Object object) {
         return object != null && Collections2.safeContains(delegate, object);
       }
 
@@ -470,7 +468,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean remove(@CheckForNull Object object) {
+      public boolean remove(@Nullable Object object) {
         return object != null && Collections2.safeRemove(delegate, object);
       }
 
@@ -513,8 +511,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
               countMap.entrySet().iterator();
 
           @Override
-          @CheckForNull
-          protected Entry<E> computeNext() {
+          protected @Nullable Entry<E> computeNext() {
             while (true) {
               if (!mapEntries.hasNext()) {
                 return endOfData();
@@ -529,7 +526,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         };
 
     return new ForwardingIterator<Entry<E>>() {
-      @CheckForNull private Entry<E> last;
+      private @Nullable Entry<E> last;
 
       @Override
       protected Iterator<Entry<E>> delegate() {

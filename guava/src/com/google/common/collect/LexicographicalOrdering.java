@@ -20,12 +20,10 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering which sorts iterables by comparing corresponding elements pairwise. */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class LexicographicalOrdering<T extends @Nullable Object> extends Ordering<Iterable<T>>
     implements Serializable {
   final Comparator<? super T> elementOrder;
@@ -54,7 +52,7 @@ final class LexicographicalOrdering<T extends @Nullable Object> extends Ordering
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

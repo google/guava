@@ -30,7 +30,8 @@ import com.google.common.primitives.Booleans;
 import java.util.Comparator;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link ComparisonChain}.
@@ -38,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ComparisonChainTest extends TestCase {
   private static final DontCompareMe DONT_COMPARE_ME = new DontCompareMe();
 

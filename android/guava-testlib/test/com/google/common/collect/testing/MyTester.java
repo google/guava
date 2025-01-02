@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /** Support class added to a suite as part of {@link FeatureSpecificTestSuiteBuilderTest}. */

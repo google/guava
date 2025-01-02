@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Computes a value, possibly asynchronously. For an example usage and more information, see {@link
@@ -29,7 +29,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @FunctionalInterface
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface AsyncCallable<V extends @Nullable Object> {
   /**
    * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain

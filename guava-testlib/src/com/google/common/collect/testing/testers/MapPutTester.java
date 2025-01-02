@@ -235,7 +235,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
    * Returns the {@link Method} instance for {@link #testPut_nullKeyUnsupported()} so that tests of
    * {@link java.util.TreeMap} can suppress it with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

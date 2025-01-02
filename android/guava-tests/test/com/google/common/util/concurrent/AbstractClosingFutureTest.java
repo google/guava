@@ -75,6 +75,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 import org.mockito.Mockito;
 
 /**
@@ -83,6 +84,7 @@ import org.mockito.Mockito;
  * ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)} paths to complete a
  * {@link ClosingFuture} pipeline.
  */
+@NullUnmarked
 public abstract class AbstractClosingFutureTest extends TestCase {
   // TODO(dpb): Use Expect once that supports JUnit 3, or we can use JUnit 4.
   final List<AssertionError> failures = new ArrayList<>();

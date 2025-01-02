@@ -70,7 +70,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
        * The subList() docs claim that this should be an
        * IndexOutOfBoundsException, but many JDK implementations throw
        * IllegalArgumentException:
-       * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4506427
+       * https://bugs.openjdk.org/browse/JDK-4506427
        */
     }
   }
@@ -308,7 +308,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * Returns the {@link Method} instance for {@link #testSubList_originalListSetAffectsSubList()} so
    * that tests of {@link CopyOnWriteArrayList} can suppress them with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug 6570631</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-6570631">JDK-6570631</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection
@@ -321,7 +321,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * #testSubList_originalListSetAffectsSubListLargeList()} so that tests of {@link
    * CopyOnWriteArrayList} can suppress them with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug 6570631</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-6570631">JDK-6570631</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection
@@ -334,7 +334,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * #testSubList_subListRemoveAffectsOriginalLargeList()} so that tests of {@link
    * CopyOnWriteArrayList} can suppress it with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
+   * href="https://bugs.openjdk.org/browse/JDK-6570575">JDK-6570575</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

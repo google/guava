@@ -41,17 +41,10 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
+          "group": "org.jspecify",
+          "module": "jspecify",
           "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
+            "requires": "${jspecify.version}"
           }
         },
         {
@@ -114,17 +107,10 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
+          "group": "org.jspecify",
+          "module": "jspecify",
           "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
+            "requires": "${jspecify.version}"
           }
         },
         {
@@ -187,17 +173,10 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
+          "group": "org.jspecify",
+          "module": "jspecify",
           "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
+            "requires": "${jspecify.version}"
           }
         },
         {
@@ -260,17 +239,10 @@
           }
         },
         {
-          "group": "com.google.code.findbugs",
-          "module": "jsr305",
+          "group": "org.jspecify",
+          "module": "jspecify",
           "version": {
-            "requires": "${jsr305.version}"
-          }
-        },
-        {
-          "group": "org.checkerframework",
-          "module": "checker-qual",
-          "version": {
-            "requires": "${checker.version}"
+            "requires": "${jspecify.version}"
           }
         },
         {

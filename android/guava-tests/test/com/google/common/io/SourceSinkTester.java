@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * @param <S> the source or sink type
@@ -36,6 +37,7 @@ import junit.framework.TestCase;
  * @author Colin Decker
  */
 @AndroidIncompatible // TODO(b/230620681): Make this available (even though we won't run it).
+@NullUnmarked
 public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends TestCase {
 
   static final String LOREM_IPSUM =

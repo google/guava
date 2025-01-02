@@ -22,7 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link HostAndPort}
@@ -30,6 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Paul Marks
  */
 @GwtCompatible
+@NullUnmarked
 public class HostAndPortTest extends TestCase {
 
   public void testFromStringWellFormed() {

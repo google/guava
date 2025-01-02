@@ -38,13 +38,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Benchmarks for {@link ConcurrentHashMultiset}.
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 public class ConcurrentHashMultisetBenchmark {
   @Param({"1", "2", "4", "8"})
   int threads;

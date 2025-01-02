@@ -20,7 +20,8 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.cache.LocalCache.Segment;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Benchmark for {@code LocalCache.Segment.removeEntryFromChain}.
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Charles Fry
  */
 @SuppressWarnings("CheckReturnValue")
+@NullUnmarked
 public class ChainBenchmark {
 
   @Param({"1", "2", "3", "4", "5", "6"})

@@ -15,12 +15,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class NullnessCasts {
   /**
    * Accepts a {@code @Nullable T} and returns a plain {@code T}, without performing any check that
@@ -52,7 +50,7 @@ final class NullnessCasts {
    */
   @ParametricNullness
   @SuppressWarnings("nullness")
-  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@CheckForNull T t) {
+  static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T t) {
     return t;
   }
 

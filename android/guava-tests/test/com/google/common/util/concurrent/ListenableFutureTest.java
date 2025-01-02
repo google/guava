@@ -21,8 +21,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Test for {@link ListenableFuture}. */
+@NullUnmarked
 public class ListenableFutureTest extends TestCase {
   public void testNoNewApis() throws Exception {
     assertWithMessage(

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
 import jsinterop.annotations.JsMethod;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
@@ -38,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Hayward Chan
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
 

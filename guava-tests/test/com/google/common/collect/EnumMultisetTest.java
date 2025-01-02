@@ -38,6 +38,7 @@ import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for an {@link EnumMultiset}.
@@ -46,6 +47,7 @@ import junit.framework.TestSuite;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible // EnumMultiset
+@NullUnmarked
 public class EnumMultisetTest extends TestCase {
 
   @J2ktIncompatible

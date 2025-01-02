@@ -21,12 +21,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.lang.reflect.Constructor;
 import java.util.concurrent.BlockingQueue;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for {@link Monitor}.
  *
  * @author Justin T. Sampson
  */
+@NullUnmarked
 public class MonitorBenchmark {
 
   @Param({"10", "100", "1000"})

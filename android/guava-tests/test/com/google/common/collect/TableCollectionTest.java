@@ -51,7 +51,8 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collection tests for {@link Table} implementations.
@@ -60,21 +61,25 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TableCollectionTest extends TestCase {
 
+  @J2ktIncompatible
   private static final Feature<?>[] COLLECTION_FEATURES = {
     CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
+  @J2ktIncompatible
   private static final Feature<?>[] COLLECTION_FEATURES_ORDER = {
     CollectionSize.ANY, CollectionFeature.KNOWN_ORDER, CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
+  @J2ktIncompatible
   private static final Feature<?>[] COLLECTION_FEATURES_REMOVE = {
     CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE, CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
+  @J2ktIncompatible
   private static final Feature<?>[] COLLECTION_FEATURES_REMOVE_ORDER = {
     CollectionSize.ANY,
     CollectionFeature.KNOWN_ORDER,
@@ -680,6 +685,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   private abstract static class TestCellSetGenerator
       implements TestSetGenerator<Cell<String, Integer, Character>> {
     @Override

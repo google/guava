@@ -18,7 +18,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract implementation of {@link Hasher}, which only requires subtypes to implement {@link
@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Dimitris Andreou
  */
-@ElementTypesAreNonnullByDefault
 abstract class AbstractHasher implements Hasher {
   @Override
   @CanIgnoreReturnValue

@@ -30,6 +30,7 @@ import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Generators of sorted maps and derived collections.
@@ -42,7 +43,7 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
     @Override

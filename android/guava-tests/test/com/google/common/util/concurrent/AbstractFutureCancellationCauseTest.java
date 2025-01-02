@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
 import java.util.HashMap;
@@ -27,12 +28,13 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.concurrent.GuardedBy;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link AbstractFuture} with the cancellation cause system property set */
 @AndroidIncompatible // custom classloading
 
+@NullUnmarked
 public class AbstractFutureCancellationCauseTest extends TestCase {
 
   private ClassLoader oldClassLoader;

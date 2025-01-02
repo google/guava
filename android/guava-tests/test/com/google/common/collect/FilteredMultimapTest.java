@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Multimaps} filtering methods.
@@ -31,6 +32,7 @@ import junit.framework.TestCase;
  * @author Jared Levy
  */
 @GwtIncompatible // nottested
+@NullUnmarked
 public class FilteredMultimapTest extends TestCase {
 
   private static final Predicate<Entry<String, Integer>> ENTRY_PREDICATE =

@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 public class SingletonImmutableMapMapInterfaceTest
     extends AbstractImmutableMapMapInterfaceTest<String, Integer> {
   @Override

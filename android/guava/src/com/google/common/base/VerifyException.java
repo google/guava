@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Exception thrown upon the failure of a <a
@@ -25,13 +25,12 @@ import javax.annotation.CheckForNull;
  * @since 17.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class VerifyException extends RuntimeException {
   /** Constructs a {@code VerifyException} with no message. */
   public VerifyException() {}
 
   /** Constructs a {@code VerifyException} with the message {@code message}. */
-  public VerifyException(@CheckForNull String message) {
+  public VerifyException(@Nullable String message) {
     super(message);
   }
 
@@ -41,7 +40,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(@CheckForNull Throwable cause) {
+  public VerifyException(@Nullable Throwable cause) {
     super(cause);
   }
 
@@ -51,7 +50,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(@CheckForNull String message, @CheckForNull Throwable cause) {
+  public VerifyException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 }

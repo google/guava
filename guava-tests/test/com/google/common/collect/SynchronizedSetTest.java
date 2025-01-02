@@ -31,13 +31,15 @@ import java.util.Spliterator;
 import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code Synchronized#set}.
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class SynchronizedSetTest extends TestCase {
 
   public static final Object MUTEX = new Object[0]; // something Serializable

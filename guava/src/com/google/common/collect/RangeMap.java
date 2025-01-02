@@ -23,8 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -39,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface RangeMap<K extends Comparable, V> {
   /*
    * TODO(cpovirk): These docs sometimes say "map" and sometimes say "range map." Pick one, or at
@@ -52,15 +50,13 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @CheckForNull
-  V get(K key);
+  @Nullable V get(K key);
 
   /**
    * Returns the range containing this key and its associated value, if such a range is present in
    * the range map, or {@code null} otherwise.
    */
-  @CheckForNull
-  Entry<Range<K>, V> getEntry(K key);
+  @Nullable Entry<Range<K>, V> getEntry(K key);
 
   /**
    * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges in this
@@ -136,7 +132,7 @@ public interface RangeMap<K extends Comparable, V> {
    */
   void merge(
       Range<K> range,
-      @CheckForNull V value,
+      @Nullable V value,
       BiFunction<? super V, ? super @Nullable V, ? extends @Nullable V> remappingFunction);
 
   /**
@@ -184,7 +180,7 @@ public interface RangeMap<K extends Comparable, V> {
    * #asMapOfRanges()}.
    */
   @Override
-  boolean equals(@CheckForNull Object o);
+  boolean equals(@Nullable Object o);
 
   /** Returns {@code asMapOfRanges().hashCode()}. */
   @Override

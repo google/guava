@@ -22,12 +22,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Very simple powerSet iteration benchmark.
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class PowerSetBenchmark {
   @Param({"2", "4", "8", "16"})
   int elements;

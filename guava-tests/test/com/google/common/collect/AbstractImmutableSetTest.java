@@ -40,7 +40,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for {@link ImmutableSet} and {@link ImmutableSortedSet} tests.
@@ -49,7 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of();
@@ -147,8 +148,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_collection_empty() {
-    // "<String>" is required to work around a javac 1.5 bug.
-    Collection<String> c = MinimalCollection.<String>of();
+    Collection<String> c = MinimalCollection.of();
     Set<String> set = copyOf(c);
     assertEquals(Collections.<String>emptySet(), set);
     assertSame(this.<String>of(), set);

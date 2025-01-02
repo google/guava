@@ -20,12 +20,14 @@ import com.google.common.collect.ImmutableSet;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A byte sink for testing that has configurable behavior.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class TestByteSink extends ByteSink implements TestStreamSupplier {
 
   private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();

@@ -32,6 +32,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test suite for {@link CacheBuilder}. TODO(cpovirk): merge into CacheBuilderTest?
@@ -39,6 +40,7 @@ import junit.framework.TestCase;
  * @author Jon Donovan
  */
 @GwtCompatible
+@NullUnmarked
 public class CacheBuilderGwtTest extends TestCase {
 
   private FakeTicker fakeTicker;

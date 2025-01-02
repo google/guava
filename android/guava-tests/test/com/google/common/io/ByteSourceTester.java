@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.Map.Entry;
 import java.util.Random;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code ByteSource} implementations.
@@ -45,6 +46,7 @@ import junit.framework.TestSuite;
  * @author Colin Decker
  */
 @AndroidIncompatible // TODO(b/230620681): Make this available (even though we won't run it).
+@NullUnmarked
 public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteSourceFactory> {
 
   private static final ImmutableList<Method> testMethods = getTestMethods(ByteSourceTester.class);

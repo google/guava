@@ -20,12 +20,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.common.collect.MapMaker;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Compare CacheBuilder and MapMaker performance, ensuring that they remain on par with each other.
  *
  * @author Nikita Sidorov
  */
+@NullUnmarked
 public class MapMakerComparisonBenchmark {
   private static final String TEST_KEY = "test key";
   private static final String TEST_VALUE = "test value";

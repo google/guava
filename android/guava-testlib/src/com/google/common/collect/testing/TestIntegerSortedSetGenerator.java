@@ -21,6 +21,7 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtCompatible;
 import java.util.List;
 import java.util.SortedSet;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Create integer sets for testing collections that are sorted by natural ordering.
@@ -29,7 +30,7 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenerator {
   @Override
   protected abstract SortedSet<Integer> create(Integer[] elements);

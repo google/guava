@@ -38,7 +38,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -46,7 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Laurence Gonsalves
  * @author Harry Heymann
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class SuppliersTest extends TestCase {
 
@@ -106,11 +107,11 @@ public class SuppliersTest extends TestCase {
   }
 
   public void testMemoize_redudantly() {
-    memoize_redudantlyTest(new CountingSupplier());
-    memoize_redudantlyTest(new SerializableCountingSupplier());
+    memoizeRedudantlyTest(new CountingSupplier());
+    memoizeRedudantlyTest(new SerializableCountingSupplier());
   }
 
-  private void memoize_redudantlyTest(CountingSupplier countingSupplier) {
+  private void memoizeRedudantlyTest(CountingSupplier countingSupplier) {
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
   }

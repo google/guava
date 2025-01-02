@@ -53,7 +53,6 @@ import java.util.stream.Stream;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class CharSink {
 
   /** Constructor for use by subclasses. */

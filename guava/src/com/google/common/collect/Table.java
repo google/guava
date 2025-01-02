@@ -24,8 +24,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that associates an ordered pair of keys, called a row key and a column key, with a
@@ -66,7 +65,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use ImmutableTable, HashBasedTable, or another implementation")
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Table<
     R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
@@ -80,29 +78,29 @@ public interface Table<
    * @param columnKey key of column to search for
    */
   boolean contains(
-      @CompatibleWith("R") @CheckForNull Object rowKey,
-      @CompatibleWith("C") @CheckForNull Object columnKey);
+      @CompatibleWith("R") @Nullable Object rowKey,
+      @CompatibleWith("C") @Nullable Object columnKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified row key.
    *
    * @param rowKey key of row to search for
    */
-  boolean containsRow(@CompatibleWith("R") @CheckForNull Object rowKey);
+  boolean containsRow(@CompatibleWith("R") @Nullable Object rowKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified column.
    *
    * @param columnKey key of column to search for
    */
-  boolean containsColumn(@CompatibleWith("C") @CheckForNull Object columnKey);
+  boolean containsColumn(@CompatibleWith("C") @Nullable Object columnKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified value.
    *
    * @param value value to search for
    */
-  boolean containsValue(@CompatibleWith("V") @CheckForNull Object value);
+  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
 
   /**
    * Returns the value corresponding to the given row and column keys, or {@code null} if no such
@@ -111,10 +109,9 @@ public interface Table<
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  @CheckForNull
-  V get(
-      @CompatibleWith("R") @CheckForNull Object rowKey,
-      @CompatibleWith("C") @CheckForNull Object columnKey);
+  @Nullable V get(
+      @CompatibleWith("R") @Nullable Object rowKey,
+      @CompatibleWith("C") @Nullable Object columnKey);
 
   /** Returns {@code true} if the table contains no mappings. */
   boolean isEmpty();
@@ -127,7 +124,7 @@ public interface Table<
    * cell views, as returned by {@link #cellSet}, are equal.
    */
   @Override
-  boolean equals(@CheckForNull Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this table. The hash code of a table is defined as the hash code of
@@ -152,8 +149,8 @@ public interface Table<
    *     for the keys
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  V put(@ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value);
+  @Nullable V put(
+      @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value);
 
   /**
    * Copies all mappings from the specified table to this table. The effect is equivalent to calling
@@ -171,10 +168,9 @@ public interface Table<
    * @return the value previously associated with the keys, or {@code null} if no such value existed
    */
   @CanIgnoreReturnValue
-  @CheckForNull
-  V remove(
-      @CompatibleWith("R") @CheckForNull Object rowKey,
-      @CompatibleWith("C") @CheckForNull Object columnKey);
+  @Nullable V remove(
+      @CompatibleWith("R") @Nullable Object rowKey,
+      @CompatibleWith("C") @Nullable Object columnKey);
 
   // Views
 
@@ -285,7 +281,7 @@ public interface Table<
      * equal row keys, column keys, and values.
      */
     @Override
-    boolean equals(@CheckForNull Object obj);
+    boolean equals(@Nullable Object obj);
 
     /**
      * Returns the hash code of this cell.

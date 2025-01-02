@@ -20,14 +20,13 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulated version of {@link RegularImmutableList}.
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 class RegularImmutableList<E> extends ForwardingImmutableList<E> {
 
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(emptyList());

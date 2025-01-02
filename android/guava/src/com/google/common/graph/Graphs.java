@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
@@ -45,7 +45,6 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public final class Graphs extends GraphsBridgeMethods {
 
   private Graphs() {}
@@ -151,7 +150,7 @@ public final class Graphs extends GraphsBridgeMethods {
      * successors if we determine that we need them after we've performed the initial processing of
      * the node.
      */
-    @CheckForNull Queue<N> remainingSuccessors;
+    @Nullable Queue<N> remainingSuccessors;
 
     NodeAndRemainingSuccessors(N node) {
       this.node = node;
@@ -165,7 +164,7 @@ public final class Graphs extends GraphsBridgeMethods {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, @CheckForNull Object previousNode) {
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -398,14 +397,12 @@ public final class Graphs extends GraphsBridgeMethods {
     }
 
     @Override
-    @CheckForNull
-    public V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue) {
+    public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
 
     @Override
-    @CheckForNull
-    public V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue) {
+    public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(transpose(endpoints), defaultValue);
     }
   }
@@ -469,14 +466,12 @@ public final class Graphs extends GraphsBridgeMethods {
     }
 
     @Override
-    @CheckForNull
-    public E edgeConnectingOrNull(N nodeU, N nodeV) {
+    public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {
       return delegate().edgeConnectingOrNull(nodeV, nodeU); // transpose
     }
 
     @Override
-    @CheckForNull
-    public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+    public @Nullable E edgeConnectingOrNull(EndpointPair<N> endpoints) {
       return delegate().edgeConnectingOrNull(transpose(endpoints));
     }
 

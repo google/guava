@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object representing the differences between two sorted maps.
@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 8.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface SortedMapDifference<K extends @Nullable Object, V extends @Nullable Object>
     extends MapDifference<K, V> {
 

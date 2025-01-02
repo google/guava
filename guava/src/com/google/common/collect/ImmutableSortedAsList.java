@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.Comparator;
 import java.util.Spliterator;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * List returned by {@code ImmutableSortedSet.asList()} when the set isn't empty.
@@ -29,7 +29,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
-@ElementTypesAreNonnullByDefault
 final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
   ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
@@ -51,7 +50,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   @GwtIncompatible // ImmutableSortedSet.indexOf
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
   @Override
-  public int indexOf(@CheckForNull Object target) {
+  public int indexOf(@Nullable Object target) {
     int index = delegateCollection().indexOf(target);
 
     // TODO(kevinb): reconsider if it's really worth making feeble attempts at
@@ -64,12 +63,12 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   @GwtIncompatible // ImmutableSortedSet.indexOf
   @Override
-  public int lastIndexOf(@CheckForNull Object target) {
+  public int lastIndexOf(@Nullable Object target) {
     return indexOf(target);
   }
 
   @Override
-  public boolean contains(@CheckForNull Object target) {
+  public boolean contains(@Nullable Object target) {
     // Necessary for ISS's with comparators inconsistent with equals.
     return indexOf(target) >= 0;
   }

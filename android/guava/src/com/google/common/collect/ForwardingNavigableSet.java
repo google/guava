@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
@@ -50,7 +49,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingNavigableSet<E extends @Nullable Object>
     extends ForwardingSortedSet<E> implements NavigableSet<E> {
 
@@ -61,8 +59,7 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
   protected abstract NavigableSet<E> delegate();
 
   @Override
-  @CheckForNull
-  public E lower(@ParametricNullness E e) {
+  public @Nullable E lower(@ParametricNullness E e) {
     return delegate().lower(e);
   }
 
@@ -71,14 +68,12 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #lower} to forward to this implementation.
    */
-  @CheckForNull
-  protected E standardLower(@ParametricNullness E e) {
+  protected @Nullable E standardLower(@ParametricNullness E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
   @Override
-  @CheckForNull
-  public E floor(@ParametricNullness E e) {
+  public @Nullable E floor(@ParametricNullness E e) {
     return delegate().floor(e);
   }
 
@@ -87,14 +82,12 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #floor} to forward to this implementation.
    */
-  @CheckForNull
-  protected E standardFloor(@ParametricNullness E e) {
+  protected @Nullable E standardFloor(@ParametricNullness E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   @Override
-  @CheckForNull
-  public E ceiling(@ParametricNullness E e) {
+  public @Nullable E ceiling(@ParametricNullness E e) {
     return delegate().ceiling(e);
   }
 
@@ -103,14 +96,12 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #ceiling} to forward to this implementation.
    */
-  @CheckForNull
-  protected E standardCeiling(@ParametricNullness E e) {
+  protected @Nullable E standardCeiling(@ParametricNullness E e) {
     return Iterators.getNext(tailSet(e, true).iterator(), null);
   }
 
   @Override
-  @CheckForNull
-  public E higher(@ParametricNullness E e) {
+  public @Nullable E higher(@ParametricNullness E e) {
     return delegate().higher(e);
   }
 
@@ -119,14 +110,12 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #higher} to forward to this implementation.
    */
-  @CheckForNull
-  protected E standardHigher(@ParametricNullness E e) {
+  protected @Nullable E standardHigher(@ParametricNullness E e) {
     return Iterators.getNext(tailSet(e, false).iterator(), null);
   }
 
   @Override
-  @CheckForNull
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return delegate().pollFirst();
   }
 
@@ -135,14 +124,12 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * override {@link #iterator} you may wish to override {@link #pollFirst} to forward to this
    * implementation.
    */
-  @CheckForNull
-  protected E standardPollFirst() {
+  protected @Nullable E standardPollFirst() {
     return Iterators.pollNext(iterator());
   }
 
   @Override
-  @CheckForNull
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return delegate().pollLast();
   }
 
@@ -151,8 +138,7 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    * If you override {@link #descendingIterator} you may wish to override {@link #pollLast} to
    * forward to this implementation.
    */
-  @CheckForNull
-  protected E standardPollLast() {
+  protected @Nullable E standardPollLast() {
     return Iterators.pollNext(descendingIterator());
   }
 

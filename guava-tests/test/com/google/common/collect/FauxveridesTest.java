@@ -35,7 +35,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests that all {@code public static} methods "inherited" from superclasses are "overridden" in
@@ -44,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Chris Povirk
  */
+@NullUnmarked
 public class FauxveridesTest extends TestCase {
   public void testImmutableBiMap() {
     doHasAllFauxveridesTest(ImmutableBiMap.class, ImmutableMap.class);

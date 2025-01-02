@@ -36,7 +36,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code Comparators}.
@@ -44,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ComparatorsTest extends TestCase {
   public void testLexicographical() {
     Comparator<String> comparator = Ordering.natural();

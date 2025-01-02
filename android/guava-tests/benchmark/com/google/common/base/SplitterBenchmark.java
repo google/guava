@@ -20,12 +20,14 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.Iterables;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Microbenchmark for {@link Splitter#on} with char vs String with length == 1.
  *
  * @author Paul Lindner
  */
+@NullUnmarked
 public class SplitterBenchmark {
   // overall size of string
   @Param({"1", "10", "100", "1000"})
@@ -40,6 +42,7 @@ public class SplitterBenchmark {
   private static final Splitter STRING_SPLITTER = Splitter.on("X");
 
   @BeforeExperiment
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   void setUp() {
     input = Strings.repeat(text, length);
   }

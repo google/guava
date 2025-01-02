@@ -133,13 +133,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link ArbitraryInstances}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class ArbitraryInstancesTest extends TestCase {
 
   public void testGet_primitives() {

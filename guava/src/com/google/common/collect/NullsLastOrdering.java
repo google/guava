@@ -18,13 +18,11 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that treats {@code null} as greater than all other values. */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
     implements Serializable {
   final Ordering<? super T> ordering;
@@ -34,7 +32,7 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
   }
 
   @Override
-  public int compare(@CheckForNull T left, @CheckForNull T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -66,7 +64,7 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

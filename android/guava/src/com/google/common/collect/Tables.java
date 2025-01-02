@@ -36,8 +36,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods that involve a {@code Table}.
@@ -50,7 +49,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Tables {
   private Tables() {}
 
@@ -176,7 +174,7 @@ public final class Tables {
     AbstractCell() {}
 
     @Override
-    public boolean equals(@CheckForNull Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
@@ -249,34 +247,32 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(@CheckForNull Object columnKey) {
+    public boolean containsColumn(@Nullable Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(@CheckForNull Object rowKey) {
+    public boolean containsRow(@Nullable Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(@CheckForNull Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    @CheckForNull
-    public V get(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
     @Override
-    @CheckForNull
-    public V put(
+    public @Nullable V put(
         @ParametricNullness C rowKey,
         @ParametricNullness R columnKey,
         @ParametricNullness V value) {
@@ -289,8 +285,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
@@ -423,13 +418,12 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return fromTable.contains(rowKey, columnKey);
     }
 
     @Override
-    @CheckForNull
-    public V2 get(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V2 get(@Nullable Object rowKey, @Nullable Object columnKey) {
       // The function is passed a null input only when the table contains a null
       // value.
       // The cast is safe because of the contains() check.
@@ -449,8 +443,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V2 put(
+    public @Nullable V2 put(
         @ParametricNullness R rowKey,
         @ParametricNullness C columnKey,
         @ParametricNullness V2 value) {
@@ -463,8 +456,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V2 remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V2 remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return contains(rowKey, columnKey)
           // The cast is safe because of the contains() check.
           ? function.apply(uncheckedCastNullableTToT(fromTable.remove(rowKey, columnKey)))
@@ -595,8 +587,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V put(
+    public @Nullable V put(
         @ParametricNullness R rowKey,
         @ParametricNullness C columnKey,
         @ParametricNullness V value) {
@@ -609,8 +600,7 @@ public final class Tables {
     }
 
     @Override
-    @CheckForNull
-    public V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
@@ -737,7 +727,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, @CheckForNull Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

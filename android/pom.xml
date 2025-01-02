@@ -21,8 +21,7 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.4.4</truth.version>
-    <jsr305.version>3.0.2</jsr305.version>
-    <checker.version>3.43.0</checker.version>
+    <jspecify.version>1.0.0</jspecify.version>
     <errorprone.version>2.36.0</errorprone.version>
     <j2objc.version>3.0.0</j2objc.version>
     <!-- Empty for all JDKs but 9-12 -->
@@ -391,6 +390,14 @@
           <version>3.3.1</version>
         </plugin>
         <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.3</version>
+        </plugin>
+        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
@@ -418,14 +425,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>jsr305</artifactId>
-        <version>${jsr305.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>checker-qual</artifactId>
-        <version>${checker.version}</version>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>

@@ -21,7 +21,6 @@ import java.io.Serializable;
 
 /** An ordering that uses the natural order of the string representation of the values. */
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 final class UsingToStringOrdering extends Ordering<Object> implements Serializable {
   static final UsingToStringOrdering INSTANCE = new UsingToStringOrdering();
 

@@ -38,12 +38,14 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests {@link SequentialExecutor}.
  *
  * @author JJ Furman
  */
+@NullUnmarked
 public class SequentialExecutorTest extends TestCase {
 
   private static class FakeExecutor implements Executor {

@@ -58,8 +58,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A step in a pipeline of an asynchronous computation. When the last step in the computation is
@@ -191,7 +190,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V extends @Nullable Object> {
 
@@ -479,7 +477,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
         future,
         new FutureCallback<@Nullable AutoCloseable>() {
           @Override
-          public void onSuccess(@CheckForNull AutoCloseable result) {
+          public void onSuccess(@Nullable AutoCloseable result) {
             closingFuture.closeables.closer.eventuallyClose(result, closingExecutor);
           }
 
@@ -1223,9 +1221,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *           .closing(executor);
    * }</pre>
    */
-  // TODO(cpovirk): Use simple name instead of fully qualified after we stop building with JDK 8.
-  @com.google.errorprone.annotations.DoNotMock(
-      "Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
+  @DoNotMock("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
   public static class Combiner {
 
     private final CloseableList closeables = new CloseableList();
@@ -2134,7 +2130,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
   }
 
-  private static void closeQuietly(@CheckForNull final AutoCloseable closeable, Executor executor) {
+  private static void closeQuietly(final @Nullable AutoCloseable closeable, Executor executor) {
     if (closeable == null) {
       return;
     }
@@ -2186,7 +2182,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       implements Closeable {
     private final DeferredCloser closer = new DeferredCloser(this);
     private volatile boolean closed;
-    @CheckForNull private volatile CountDownLatch whenClosed;
+    private volatile @Nullable CountDownLatch whenClosed;
 
     <V extends @Nullable Object, U extends @Nullable Object>
         ListenableFuture<U> applyClosingFunction(
@@ -2236,7 +2232,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       }
     }
 
-    void add(@CheckForNull AutoCloseable closeable, Executor executor) {
+    void add(@Nullable AutoCloseable closeable, Executor executor) {
       checkNotNull(executor);
       if (closeable == null) {
         return;

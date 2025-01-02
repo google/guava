@@ -19,6 +19,7 @@ package com.google.common.base;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Simple benchmark: create, start, read. This does not currently report the most useful result
@@ -26,6 +27,7 @@ import com.google.caliper.Benchmark;
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class StopwatchBenchmark {
   @Benchmark
   long stopwatch(int reps) {

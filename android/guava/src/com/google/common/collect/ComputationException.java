@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Wraps an exception that occurred during a computation.
@@ -34,10 +34,9 @@ import javax.annotation.CheckForNull;
  */
 @Deprecated
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public class ComputationException extends RuntimeException {
   /** Creates a new instance with the given cause. */
-  public ComputationException(@CheckForNull Throwable cause) {
+  public ComputationException(@Nullable Throwable cause) {
     super(cause);
   }
 

@@ -49,7 +49,8 @@ import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link FluentIterable}.
@@ -57,6 +58,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Marcin Mikosik
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class FluentIterableTest extends TestCase {
 
   @GwtIncompatible // NullPointerTester
@@ -80,7 +82,11 @@ public class FluentIterableTest extends TestCase {
         Lists.newArrayList(FluentIterable.from(ImmutableList.of(1, 2, 3, 4))));
   }
 
-  @SuppressWarnings("deprecation") // test of deprecated method
+  @SuppressWarnings({
+    "deprecation", // test of deprecated method
+    // We need to test that from(FluentIterable) really is just a null check.
+    "InlineMeInliner",
+  })
   public void testFrom_alreadyFluentIterable() {
     FluentIterable<Integer> iterable = FluentIterable.from(asList(1));
     assertSame(iterable, FluentIterable.from(iterable));

@@ -25,12 +25,14 @@ import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import java.lang.ref.WeakReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Interners}.
  *
  * @author Kevin Bourrillion
  */
+@NullUnmarked
 public class InternersTest extends TestCase {
 
   public void testStrong_simplistic() {

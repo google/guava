@@ -24,11 +24,13 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Quick and dirty benchmark of {@link Throwables#lazyStackTrace(Throwable)}. We benchmark a "caller
  * finder" implementation that might be used in a logging framework.
  */
+@NullUnmarked
 public class LazyStackTraceBenchmark {
   @Param({"20", "200", "2000"})
   int stackDepth;

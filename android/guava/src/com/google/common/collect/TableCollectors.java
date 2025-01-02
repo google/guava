@@ -26,11 +26,10 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs with Java 8 types in them
 // (not used publicly by guava-android as of this writing, but we include it in the jar as a test)
@@ -49,7 +48,7 @@ final class TableCollectors {
         (builder, t) ->
             builder.put(rowFunction.apply(t), columnFunction.apply(t), valueFunction.apply(t)),
         ImmutableTable.Builder::combine,
-        ImmutableTable.Builder::build);
+        ImmutableTable.Builder::buildOrThrow);
   }
 
   static <T extends @Nullable Object, R, C, V>

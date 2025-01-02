@@ -33,11 +33,12 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import junit.framework.AssertionFailedError;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Replacements for JUnit's {@code assertThrows} that work under GWT/J2CL. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 final class ReflectionFreeAssertThrows {
   interface ThrowingRunnable {
     void run() throws Throwable;

@@ -20,8 +20,10 @@ import static java.lang.Math.log;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class CompactHashSetFloodingTest extends AbstractHashFloodingTest<Set<Object>> {
   public CompactHashSetFloodingTest() {
     super(

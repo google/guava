@@ -30,7 +30,6 @@ import java.util.logging.Logger;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Flushables {
   private static final Logger logger = Logger.getLogger(Flushables.class.getName());
 
@@ -49,6 +48,7 @@ public final class Flushables {
    *     an {@code IOException}.
    * @see Closeables#close
    */
+  @SuppressWarnings("IdentifierName") // See Closeables.close
   public static void flush(Flushable flushable, boolean swallowIOException) throws IOException {
     try {
       flushable.flush();

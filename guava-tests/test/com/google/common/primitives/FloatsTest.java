@@ -37,14 +37,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Floats}.
  *
  * @author Kevin Bourrillion
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class FloatsTest extends TestCase {
   private static final float[] EMPTY = {};
@@ -89,6 +90,8 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (float x : VALUES) {
       for (float y : VALUES) {

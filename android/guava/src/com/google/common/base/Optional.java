@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of
@@ -84,7 +84,6 @@ import javax.annotation.CheckForNull;
  */
 @DoNotMock("Use Optional.of(value) or Optional.absent()")
 @GwtCompatible(serializable = true)
-@ElementTypesAreNonnullByDefault
 public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
@@ -115,7 +114,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.ofNullable}.
    */
-  public static <T> Optional<T> fromNullable(@CheckForNull T nullableReference) {
+  public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
     return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
   }
 
@@ -123,12 +122,12 @@ public abstract class Optional<T> implements Serializable {
    * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
    * java.util.Optional}, or {@code null} if the argument is null.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Optional.
-  @CheckForNull
-  public static <T> Optional<T> fromJavaUtil(@CheckForNull java.util.Optional<T> javaUtilOptional) {
+  public static <T> @Nullable Optional<T> fromJavaUtil(
+      java.util.@Nullable Optional<T> javaUtilOptional) {
     return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
   }
 
@@ -143,7 +142,7 @@ public abstract class Optional<T> implements Serializable {
    * could refer to either the static or instance version of this method. Write out the lambda
    * expression {@code o -> Optional.toJavaUtil(o)} instead.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings({
     "AmbiguousMethodReference", // We chose the name despite knowing this risk.
@@ -151,8 +150,8 @@ public abstract class Optional<T> implements Serializable {
   })
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
   @IgnoreJRERequirement
-  @CheckForNull
-  public static <T> java.util.Optional<T> toJavaUtil(@CheckForNull Optional<T> googleOptional) {
+  public static <T> java.util.@Nullable Optional<T> toJavaUtil(
+      @Nullable Optional<T> googleOptional) {
     return googleOptional == null ? null : googleOptional.toJavaUtil();
   }
 
@@ -163,7 +162,7 @@ public abstract class Optional<T> implements Serializable {
    * could refer to either the static or instance version of this method. Write out the lambda
    * expression {@code o -> o.toJavaUtil()} instead.
    *
-   * @since NEXT (but since 21.0 in the JRE flavor)
+   * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
   @SuppressWarnings({
     "AmbiguousMethodReference", // We chose the name despite knowing this risk.
@@ -264,8 +263,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.orElse(null)}.
    */
-  @CheckForNull
-  public abstract T orNull();
+  public abstract @Nullable T orNull();
 
   /**
    * Returns an immutable singleton {@link Set} whose only element is the contained instance if it
@@ -313,7 +311,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> no differences.
    */
   @Override
-  public abstract boolean equals(@CheckForNull Object object);
+  public abstract boolean equals(@Nullable Object object);
 
   /**
    * Returns a hash code for this instance.
@@ -357,8 +355,7 @@ public abstract class Optional<T> implements Serializable {
               checkNotNull(optionals.iterator());
 
           @Override
-          @CheckForNull
-          protected T computeNext() {
+          protected @Nullable T computeNext() {
             while (iterator.hasNext()) {
               Optional<? extends T> optional = iterator.next();
               if (optional.isPresent()) {

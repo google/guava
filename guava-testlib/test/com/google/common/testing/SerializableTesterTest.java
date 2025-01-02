@@ -19,13 +19,15 @@ package com.google.common.testing;
 import java.io.Serializable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link SerializableTester}.
  *
  * @author Nick Kralevich
  */
+@NullUnmarked
 public class SerializableTesterTest extends TestCase {
   public void testStringAssertions() {
     String original = "hello world";

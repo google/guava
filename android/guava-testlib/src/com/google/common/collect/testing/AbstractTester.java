@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This abstract base class for testers allows the framework to inject needed information after
@@ -34,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;
   private String suiteName;
@@ -96,7 +97,7 @@ public class AbstractTester<G> extends TestCase {
    * <p>The {@link TestCase} version (which is from JUnit 3) produces a failure message that does
    * not include the value of the object.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   public static void assertNull(String message, Object object) {
     assertEquals(message, null, object);

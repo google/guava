@@ -21,8 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to
@@ -34,7 +33,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class CharEscaperBuilder {
   /**
    * Simple decorator that turns an array of replacement char[]s into a CharEscaper, this results in
@@ -66,8 +64,7 @@ public final class CharEscaperBuilder {
     }
 
     @Override
-    @CheckForNull
-    protected char[] escape(char c) {
+    protected char @Nullable [] escape(char c) {
       return c < replaceLength ? replacements[c] : null;
     }
   }

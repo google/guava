@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@code ImmutableCollection}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ImmutableCollectionTest extends TestCase {
   public void testCapacityExpansion() {
     assertEquals(1, ImmutableCollection.Builder.expandedCapacity(0, 1));

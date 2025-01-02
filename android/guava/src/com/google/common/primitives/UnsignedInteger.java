@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.math.BigInteger;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -40,7 +40,6 @@ import javax.annotation.CheckForNull;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = fromIntBits(0);
   public static final UnsignedInteger ONE = fromIntBits(1);
@@ -229,7 +228,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof UnsignedInteger) {
       UnsignedInteger other = (UnsignedInteger) obj;
       return value == other.value;

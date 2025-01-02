@@ -122,7 +122,6 @@ import java.util.logging.Level;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ServiceManager implements ServiceManagerBridge {
   private static final LazyLogger logger = new LazyLogger(ServiceManager.class);
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
@@ -310,7 +309,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
    *     become {@linkplain #isHealthy() healthy}.
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -364,7 +363,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *
    * @param timeout the maximum time to wait
    * @throws TimeoutException if not all of the services have stopped within the deadline
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
@@ -431,7 +430,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *
    * @return Map of services and their corresponding startup time, the map entries will be ordered
    *     by startup time.
-   * @since NEXT (but since 31.0 in the JRE flavor)
+   * @since 33.4.0 (but since 31.0 in the JRE flavor)
    */
   @J2ObjCIncompatible
   @SuppressWarnings("Java7ApiChecker")

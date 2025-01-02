@@ -28,8 +28,7 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
@@ -37,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class SortedMultisets {
   private SortedMultisets() {}
 
@@ -103,26 +101,22 @@ final class SortedMultisets {
     }
 
     @Override
-    @CheckForNull
-    public E lower(@ParametricNullness E e) {
+    public @Nullable E lower(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
     }
 
     @Override
-    @CheckForNull
-    public E floor(@ParametricNullness E e) {
+    public @Nullable E floor(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
     }
 
     @Override
-    @CheckForNull
-    public E ceiling(@ParametricNullness E e) {
+    public @Nullable E ceiling(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
     }
 
     @Override
-    @CheckForNull
-    public E higher(@ParametricNullness E e) {
+    public @Nullable E higher(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
     }
 
@@ -137,14 +131,12 @@ final class SortedMultisets {
     }
 
     @Override
-    @CheckForNull
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       return getElementOrNull(multiset().pollFirstEntry());
     }
 
     @Override
-    @CheckForNull
-    public E pollLast() {
+    public @Nullable E pollLast() {
       return getElementOrNull(multiset().pollLastEntry());
     }
 
@@ -174,15 +166,15 @@ final class SortedMultisets {
     }
   }
 
-  private static <E extends @Nullable Object> E getElementOrThrow(@CheckForNull Entry<E> entry) {
+  private static <E extends @Nullable Object> E getElementOrThrow(@Nullable Entry<E> entry) {
     if (entry == null) {
       throw new NoSuchElementException();
     }
     return entry.getElement();
   }
 
-  @CheckForNull
-  private static <E extends @Nullable Object> E getElementOrNull(@CheckForNull Entry<E> entry) {
+  private static <E extends @Nullable Object> @Nullable E getElementOrNull(
+      @Nullable Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

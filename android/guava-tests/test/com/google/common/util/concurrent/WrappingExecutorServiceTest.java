@@ -36,12 +36,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test for {@link WrappingExecutorService}
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class WrappingExecutorServiceTest extends TestCase {
   private static final String RESULT_VALUE = "ran";
   // Uninteresting delegations

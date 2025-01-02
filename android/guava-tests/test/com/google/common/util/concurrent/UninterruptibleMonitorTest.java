@@ -16,12 +16,14 @@
 
 package com.google.common.util.concurrent;
 
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Monitor}'s uninterruptible methods.
  *
  * @author Justin T. Sampson
  */
+@NullUnmarked
 public class UninterruptibleMonitorTest extends MonitorTestCase {
 
   public UninterruptibleMonitorTest() {

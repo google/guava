@@ -19,8 +19,10 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link AtomicDoubleArray}. */
+@NullUnmarked
 public class AtomicDoubleArrayTest extends JSR166TestCase {
 
   private static final double[] VALUES = {

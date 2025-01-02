@@ -24,6 +24,7 @@ import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Testing utilities for {@link UrlEscapers} and {@link LegacyUrlEscapersTest}.
@@ -31,6 +32,7 @@ import com.google.common.escape.UnicodeEscaper;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 final class UrlEscaperTesting {
   /**
    * Helper to assert common expected behaviour of uri escapers. You should call

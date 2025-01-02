@@ -22,8 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -32,7 +31,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   private static final Object[] EMPTY_ARRAY = new Object[0];
   static final RegularImmutableSet<Object> EMPTY =
@@ -57,7 +55,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object target) {
+  public boolean contains(@Nullable Object target) {
     @Nullable Object[] table = this.table;
     if (target == null || table.length == 0) {
       return false;

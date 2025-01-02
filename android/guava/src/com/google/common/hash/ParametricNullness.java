@@ -19,7 +19,7 @@ package com.google.common.hash;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.RetentionPolicy.CLASS;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Retention;
@@ -54,32 +54,19 @@ import java.lang.annotation.Target;
  * <p>Consumers of this annotation include:
  *
  * <ul>
- *   <li>Kotlin, for which it makes the type-variable usage (a) a Kotlin platform type when the type
- *       argument is non-nullable and (b) nullable when the type argument is nullable. We use this
- *       to "undo" {@link ElementTypesAreNonnullByDefault}. It is the best we can do for Kotlin
- *       under our current constraints.
- *   <li>NullAway, which will <a
- *       href="https://github.com/google/guava/issues/6126#issuecomment-1204399671">treat it
- *       identically to {@code Nullable} as of version 0.9.9</a>. To treat it that way before then,
- *       you can set {@code
- *       -XepOpt:NullAway:CustomNullableAnnotations=com.google.common.base.ParametricNullness,...,com.google.common.util.concurrent.ParametricNullness},
- *       where the {@code ...} contains the names of all the other {@code ParametricNullness}
- *       annotations in Guava. Or you might prefer to omit Guava from your {@code AnnotatedPackages}
- *       list.
- *   <li><a href="https://developers.google.com/j2objc">J2ObjC</a>
- *   <li>{@code NullPointerTester}, at least in the Android backport (where the type-use annotations
- *       {@code NullPointerTester} would need are not available) and in case of <a
- *       href="https://bugs.openjdk.java.net/browse/JDK-8202469">JDK-8202469</a>
+ *   <li>NullAway, which <a
+ *       href="https://github.com/google/guava/issues/6126#issuecomment-1204399671">treats it
+ *       identically to {@code Nullable}</a> as of version 0.9.9.
+ *   <li><a href="https://developers.google.com/j2objc">J2ObjC</a>, maybe: It might no longer be
+ *       necessary there, since we have stopped using the {@code @ParametersAreNonnullByDefault}
+ *       annotations that {@code ParametricNullness} was counteracting.
  * </ul>
  *
- * <p>This annotation is a temporary hack. We will remove it after we're able to adopt the <a
- * href="https://jspecify.dev/">JSpecify</a> nullness annotations and <a
+ * <p>This annotation is a temporary hack. We will remove it after <a
  * href="https://github.com/google/guava/issues/6126#issuecomment-1203145963">tools no longer need
  * it</a>.
  */
 @GwtCompatible
-@Retention(RUNTIME)
+@Retention(CLASS)
 @Target({FIELD, METHOD, PARAMETER})
-@javax.annotation.meta.TypeQualifierNickname
-@javax.annotation.Nonnull(when = javax.annotation.meta.When.UNKNOWN)
 @interface ParametricNullness {}

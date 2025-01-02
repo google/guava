@@ -52,6 +52,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit tests for {@code TreeMultimap} with natural ordering.
@@ -59,7 +60,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TreeMultimapNaturalTest extends TestCase {
 
   @J2ktIncompatible

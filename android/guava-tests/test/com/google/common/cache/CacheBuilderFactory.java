@@ -26,7 +26,8 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper class for creating {@link CacheBuilder} instances with all combinations of several sets of
@@ -34,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author mike nonemacher
  */
+@NullUnmarked
 class CacheBuilderFactory {
   // Default values contain only 'null', which means don't call the CacheBuilder method (just give
   // the CacheBuilder default).

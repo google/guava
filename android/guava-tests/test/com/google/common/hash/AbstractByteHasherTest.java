@@ -21,12 +21,14 @@ import static org.junit.Assert.assertThrows;
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for AbstractByteHasher.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class AbstractByteHasherTest extends TestCase {
 
   public void testBytes() {

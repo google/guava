@@ -29,7 +29,8 @@ import com.google.common.util.concurrent.TestExceptions.SomeCheckedException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@link Callables}.
@@ -37,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Isaac Shum
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class CallablesTest extends TestCase {
 
   @J2ktIncompatible // TODO(b/324550390): Enable

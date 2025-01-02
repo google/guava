@@ -25,12 +25,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Dispatcher} implementations.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class DispatcherTest extends TestCase {
 
   private final EventBus bus = new EventBus();

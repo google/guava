@@ -31,7 +31,7 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -42,7 +42,6 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-@ElementTypesAreNonnullByDefault
 abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
   /**
@@ -78,7 +77,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean remove(@CheckForNull Object o) {
+      public boolean remove(@Nullable Object o) {
         throw new UnsupportedOperationException();
       }
 
@@ -87,7 +86,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       // Graph<LinkedList>.
       @SuppressWarnings("unchecked")
       @Override
-      public boolean contains(@CheckForNull Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }

@@ -22,12 +22,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 // TODO(cpovirk): Make this final (but that may break Mockito spy calls).
 class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
@@ -103,8 +101,7 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
-    @CheckForNull
-    static final ImmediateCancelledFuture<Object> INSTANCE =
+    static final @Nullable ImmediateCancelledFuture<Object> INSTANCE =
         AbstractFuture.GENERATE_CANCELLATION_CAUSES ? null : new ImmediateCancelledFuture<>();
 
     ImmediateCancelledFuture() {

@@ -25,12 +25,14 @@ import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for the non-rounding methods of {@code LongMath}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class LongMathBenchmark {
   private static final int[] exponents = new int[ARRAY_SIZE];
   private static final int[] factorialArguments = new int[ARRAY_SIZE];

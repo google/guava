@@ -32,6 +32,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test suite covering {@link Floats#asList(float[])})}.
@@ -39,6 +40,7 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class FloatArrayAsListTest extends TestCase {
 
   private static List<Float> asList(Float[] values) {

@@ -20,7 +20,7 @@ import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static methods for implementing hash-based collections.
@@ -30,7 +30,6 @@ import javax.annotation.CheckForNull;
  * @author Austin Appleby
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class Hashing {
   private Hashing() {}
 
@@ -53,7 +52,7 @@ final class Hashing {
     return (int) (C2 * Integer.rotateLeft((int) (hashCode * C1), 15));
   }
 
-  static int smearedHash(@CheckForNull Object o) {
+  static int smearedHash(@Nullable Object o) {
     return smear((o == null) ? 0 : o.hashCode());
   }
 

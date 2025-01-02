@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Supplemental tests for {@link Monitor}.
@@ -34,6 +35,7 @@ import junit.framework.TestCase;
  *
  * @author Justin T. Sampson
  */
+@NullUnmarked
 public class SupplementalMonitorTest extends TestCase {
 
   public void testLeaveWithoutEnterThrowsIMSE() {

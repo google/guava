@@ -40,6 +40,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Collection tests on wrappers from {@link Multisets}.
@@ -47,6 +48,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
+@NullUnmarked
 public class MultisetsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

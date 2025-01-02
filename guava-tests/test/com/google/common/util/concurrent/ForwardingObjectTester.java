@@ -26,12 +26,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.testing.ForwardingWrapperTester;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tester for typical subclass of {@link ForwardingObject} by using Mockito.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 final class ForwardingObjectTester {
 
   private static final Method DELEGATE_METHOD;

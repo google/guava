@@ -31,14 +31,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Optional}.
  *
  * @author Kurt Alfred Kluever
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
   @SuppressWarnings("NullOptional")

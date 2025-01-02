@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
@@ -28,13 +28,12 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
   /** Constructor for use by subclasses. */
   public AbstractGraph() {}
 
   @Override
-  public final boolean equals(@CheckForNull Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }

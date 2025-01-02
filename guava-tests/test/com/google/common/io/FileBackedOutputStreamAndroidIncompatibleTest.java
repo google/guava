@@ -20,6 +20,7 @@ import static com.google.common.io.FileBackedOutputStreamTest.write;
 
 import com.google.common.testing.GcFinalization;
 import java.io.File;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Android-incompatible tests for {@link FileBackedOutputStream}.
@@ -27,6 +28,7 @@ import java.io.File;
  * @author Chris Nokleberg
  */
 @AndroidIncompatible // Finalization probably just doesn't happen fast enough?
+@NullUnmarked
 public class FileBackedOutputStreamAndroidIncompatibleTest extends IoTestCase {
 
   public void testFinalizeDeletesFile() throws Exception {

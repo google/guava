@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests relating to cache expiration: make sure entries expire at the right times, make sure
@@ -40,6 +41,7 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 @SuppressWarnings("deprecation") // tests of deprecated method
+@NullUnmarked
 public class CacheExpirationTest extends TestCase {
 
   private static final long EXPIRING_TIME = 1000;

@@ -31,7 +31,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -74,7 +74,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible(emulated = true)
 @Immutable
-@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -406,8 +405,7 @@ public final class InternetDomainName {
    *
    * @since 6.0
    */
-  @CheckForNull
-  public InternetDomainName publicSuffix() {
+  public @Nullable InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex()) : null;
   }
 
@@ -515,8 +513,7 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
-  @CheckForNull
-  public InternetDomainName registrySuffix() {
+  public @Nullable InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex()) : null;
   }
 
@@ -674,7 +671,7 @@ public final class InternetDomainName {
    * version of the same domain name would not be considered equal.
    */
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

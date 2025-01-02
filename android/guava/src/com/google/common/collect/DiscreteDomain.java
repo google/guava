@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A descriptor for a <i>discrete</i> {@code Comparable} domain such as all {@link Integer}
@@ -45,7 +45,6 @@ import javax.annotation.CheckForNull;
  */
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
@@ -68,15 +67,13 @@ public abstract class DiscreteDomain<C extends Comparable> {
     }
 
     @Override
-    @CheckForNull
-    public Integer next(Integer value) {
+    public @Nullable Integer next(Integer value) {
       int i = value;
       return (i == Integer.MAX_VALUE) ? null : i + 1;
     }
 
     @Override
-    @CheckForNull
-    public Integer previous(Integer value) {
+    public @Nullable Integer previous(Integer value) {
       int i = value;
       return (i == Integer.MIN_VALUE) ? null : i - 1;
     }
@@ -134,15 +131,13 @@ public abstract class DiscreteDomain<C extends Comparable> {
     }
 
     @Override
-    @CheckForNull
-    public Long next(Long value) {
+    public @Nullable Long next(Long value) {
       long l = value;
       return (l == Long.MAX_VALUE) ? null : l + 1;
     }
 
     @Override
-    @CheckForNull
-    public Long previous(Long value) {
+    public @Nullable Long previous(Long value) {
       long l = value;
       return (l == Long.MIN_VALUE) ? null : l - 1;
     }
@@ -284,8 +279,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @return the least value greater than {@code value}, or {@code null} if {@code value} is {@code
    *     maxValue()}
    */
-  @CheckForNull
-  public abstract C next(C value);
+  public abstract @Nullable C next(C value);
 
   /**
    * Returns the unique greatest value of type {@code C} that is less than {@code value}, or {@code
@@ -295,8 +289,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @return the greatest value less than {@code value}, or {@code null} if {@code value} is {@code
    *     minValue()}
    */
-  @CheckForNull
-  public abstract C previous(C value);
+  public abstract @Nullable C previous(C value);
 
   /**
    * Returns a signed value indicating how many nested invocations of {@link #next} (if positive) or

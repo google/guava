@@ -49,8 +49,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@code Ordering}.
@@ -58,7 +59,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class OrderingTest extends TestCase {
   // TODO(cpovirk): some of these are inexplicably slow (20-30s) under GWT
 
@@ -357,7 +358,7 @@ public class OrderingTest extends TestCase {
   }
 
   private enum StringLengthFunction implements Function<String, Integer> {
-    StringLength;
+    STRING_LENGTH;
 
     @Override
     public Integer apply(String string) {
@@ -369,35 +370,35 @@ public class OrderingTest extends TestCase {
 
   public void testOnResultOf_natural() {
     Comparator<String> comparator =
-        Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength);
+        Ordering.<Integer>natural().onResultOf(StringLengthFunction.STRING_LENGTH);
     assertTrue(comparator.compare("to", "be") == 0);
     assertTrue(comparator.compare("or", "not") < 0);
     assertTrue(comparator.compare("that", "to") > 0);
 
     new EqualsTester()
         .addEqualityGroup(
-            comparator, Ordering.<Integer>natural().onResultOf(StringLengthFunction.StringLength))
+            comparator, Ordering.<Integer>natural().onResultOf(StringLengthFunction.STRING_LENGTH))
         .addEqualityGroup(DECREASING_INTEGER)
         .testEquals();
     reserializeAndAssert(comparator);
-    assertEquals("Ordering.natural().onResultOf(StringLength)", comparator.toString());
+    assertEquals("Ordering.natural().onResultOf(STRING_LENGTH)", comparator.toString());
   }
 
   public void testOnResultOf_chained() {
     Comparator<String> comparator =
-        DECREASING_INTEGER.onResultOf(StringLengthFunction.StringLength);
+        DECREASING_INTEGER.onResultOf(StringLengthFunction.STRING_LENGTH);
     assertTrue(comparator.compare("to", "be") == 0);
     assertTrue(comparator.compare("not", "or") < 0);
     assertTrue(comparator.compare("to", "that") > 0);
 
     new EqualsTester()
         .addEqualityGroup(
-            comparator, DECREASING_INTEGER.onResultOf(StringLengthFunction.StringLength))
+            comparator, DECREASING_INTEGER.onResultOf(StringLengthFunction.STRING_LENGTH))
         .addEqualityGroup(DECREASING_INTEGER.onResultOf(Functions.constant(1)))
         .addEqualityGroup(Ordering.natural())
         .testEquals();
     reserializeAndAssert(comparator);
-    assertEquals("Ordering.natural().reverse().onResultOf(StringLength)", comparator.toString());
+    assertEquals("Ordering.natural().reverse().onResultOf(STRING_LENGTH)", comparator.toString());
   }
 
   public void testLexicographical() {

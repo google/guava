@@ -47,6 +47,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link MoreFiles}.
@@ -56,6 +57,7 @@ import junit.framework.TestSuite;
  * @author Colin Decker
  */
 
+@NullUnmarked
 public class MoreFilesTest extends TestCase {
 
   public static TestSuite suite() {

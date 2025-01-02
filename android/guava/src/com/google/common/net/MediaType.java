@@ -43,7 +43,7 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
@@ -72,7 +72,6 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible
 @Immutable
-@ElementTypesAreNonnullByDefault
 public final class MediaType {
   private static final String CHARSET_ATTRIBUTE = "charset";
   private static final ImmutableListMultimap<String, String> UTF_8_CONSTANT_PARAMETERS =
@@ -103,7 +102,7 @@ public final class MediaType {
 
   private static final String WILDCARD = "*";
 
-  private static final Map<MediaType, MediaType> KNOWN_TYPES = Maps.newHashMap();
+  private static final Map<MediaType, MediaType> knownTypes = Maps.newHashMap();
 
   private static MediaType createConstant(String type, String subtype) {
     MediaType mediaType =
@@ -119,7 +118,7 @@ public final class MediaType {
   }
 
   private static MediaType addKnownType(MediaType mediaType) {
-    KNOWN_TYPES.put(mediaType, mediaType);
+    knownTypes.put(mediaType, mediaType);
     return mediaType;
   }
 
@@ -464,7 +463,7 @@ public final class MediaType {
    * constant ({@code application/cbor}) is used for the Concise Binary Object Representation (CBOR)
    * data format.
    *
-   * @since NEXT
+   * @since 33.4.0
    */
   public static final MediaType CBOR = createConstant(APPLICATION_TYPE, "cbor");
 
@@ -804,11 +803,11 @@ public final class MediaType {
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
 
-  @LazyInit @CheckForNull private String toString;
+  @LazyInit private @Nullable String toString;
 
   @LazyInit private int hashCode;
 
-  @LazyInit @CheckForNull private Optional<Charset> parsedCharset;
+  @LazyInit private @Nullable Optional<Charset> parsedCharset;
 
   private MediaType(String type, String subtype, ImmutableListMultimap<String, String> parameters) {
     this.type = type;
@@ -907,7 +906,7 @@ public final class MediaType {
       mediaType.parsedCharset = this.parsedCharset;
     }
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
   }
 
   /**
@@ -1008,7 +1007,7 @@ public final class MediaType {
     }
     MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
   }
 
   /**
@@ -1176,7 +1175,7 @@ public final class MediaType {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     } else if (obj instanceof MediaType) {

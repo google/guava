@@ -38,13 +38,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class BloomFilterTest extends TestCase {
   private static final int NUM_PUTS = 100_000;
   private static final ThreadLocal<Random> random =

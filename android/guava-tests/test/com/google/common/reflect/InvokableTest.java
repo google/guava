@@ -35,7 +35,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@link Invokable}.
@@ -43,6 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
+@NullUnmarked
 public class InvokableTest extends TestCase {
   // Historically Invokable inherited from java.lang.reflect.AccessibleObject. That's no longer the
   // case, but we do check that its API still has the same public methods. We exclude some methods

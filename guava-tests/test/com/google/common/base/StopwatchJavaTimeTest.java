@@ -21,10 +21,12 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
 import java.time.Duration;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for the {@code java.time} support in {@link Stopwatch}. */
 @J2ktIncompatible
 @GwtIncompatible
+@NullUnmarked
 public class StopwatchJavaTimeTest extends TestCase {
   private final FakeTicker ticker = new FakeTicker();
   private final Stopwatch stopwatch = new Stopwatch(ticker);

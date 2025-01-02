@@ -21,8 +21,7 @@ import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection which forwards all its method calls to another collection. Subclasses should
@@ -47,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingCollection<E extends @Nullable Object> extends ForwardingObject
     implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
@@ -80,7 +78,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
   }
 
   @Override
-  public boolean contains(@CheckForNull Object object) {
+  public boolean contains(@Nullable Object object) {
     return delegate().contains(object);
   }
 
@@ -92,7 +90,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@CheckForNull Object object) {
+  public boolean remove(@Nullable Object object) {
     return delegate().remove(object);
   }
 
@@ -137,7 +135,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
    *
    * @since 7.0
    */
-  protected boolean standardContains(@CheckForNull Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     return Iterators.contains(iterator(), object);
   }
 
@@ -169,7 +167,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
    *
    * @since 7.0
    */
-  protected boolean standardRemove(@CheckForNull Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     Iterator<E> iterator = iterator();
     while (iterator.hasNext()) {
       if (Objects.equal(iterator.next(), object)) {

@@ -22,8 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper classes and static methods for implementing compact hash-based collections.
@@ -31,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jon Noack
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class CompactHashing {
   private CompactHashing() {}
 
@@ -159,13 +157,13 @@ final class CompactHashing {
   }
 
   static int remove(
-      @CheckForNull Object key,
-      @CheckForNull Object value,
+      @Nullable Object key,
+      @Nullable Object value,
       int mask,
       Object table,
       int[] entries,
       @Nullable Object[] keys,
-      @CheckForNull @Nullable Object[] values) {
+      @Nullable Object @Nullable [] values) {
     int hash = Hashing.smearedHash(key);
     int tableIndex = hash & mask;
     int next = tableGet(table, tableIndex);

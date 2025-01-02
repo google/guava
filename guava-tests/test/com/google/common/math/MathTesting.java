@@ -36,6 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.primitives.Doubles;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Exhaustive input sets for every integral type.
@@ -43,6 +44,7 @@ import java.math.RoundingMode;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullUnmarked
 public class MathTesting {
   static final ImmutableSet<RoundingMode> ALL_ROUNDING_MODES =
       ImmutableSet.copyOf(RoundingMode.values());

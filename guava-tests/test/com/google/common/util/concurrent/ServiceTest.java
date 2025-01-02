@@ -25,8 +25,10 @@ import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
 import java.util.Locale;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Service} */
+@NullUnmarked
 public class ServiceTest extends TestCase {
 
   /** Assert on the comparison ordering of the State enum since we guarantee it. */

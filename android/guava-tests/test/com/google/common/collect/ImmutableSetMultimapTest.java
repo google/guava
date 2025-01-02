@@ -41,7 +41,8 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ImmutableSetMultimap}.
@@ -49,8 +50,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Ward
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableSetMultimapTest extends TestCase {
+  @J2ktIncompatible
   private static final class ImmutableSetMultimapGenerator extends TestStringSetMultimapGenerator {
     @Override
     protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
@@ -62,6 +64,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   private static final class ImmutableSetMultimapCopyOfEntriesGenerator
       extends TestStringSetMultimapGenerator {
     @Override

@@ -22,8 +22,10 @@ import com.google.caliper.Param;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 @SuppressWarnings("unused") // Nested enums used reflectively in setUp.
+@NullUnmarked
 public class EnumsBenchmark {
 
   @Param({"Small", "Medium", "Large"})

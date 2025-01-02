@@ -40,7 +40,8 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * LocalCache emulation for GWT.
@@ -50,6 +51,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Charles Fry
  * @author Jon Donovan
  */
+@NullUnmarked
+@SuppressWarnings("nullness") // TODO: b/384945891 - Remove after fixing checker.
 public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   private static final int UNSET_INT = CacheBuilder.UNSET_INT;
 

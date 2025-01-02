@@ -26,13 +26,15 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link AbstractCache}.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class AbstractCacheTest extends TestCase {
 
   public void testGetIfPresent() {

@@ -21,7 +21,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Based on what a {@link Type} is, dispatch it to the corresponding {@code visit*} method. By
@@ -54,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
-@ElementTypesAreNonnullByDefault
 abstract class TypeVisitor {
 
   private final Set<Type> visited = Sets.newHashSet();

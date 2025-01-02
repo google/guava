@@ -33,7 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Derived suite generators for Guava collection interfaces, split out of the suite builders so that
@@ -42,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class DerivedGoogleCollectionGenerators {
   public static class MapGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestMapGenerator<K, V>, DerivedGenerator {

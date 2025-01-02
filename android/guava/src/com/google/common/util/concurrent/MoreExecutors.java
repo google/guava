@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -30,7 +30,6 @@ import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
@@ -51,7 +50,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory and utility methods for {@link java.util.concurrent.Executor}, {@link ExecutorService},
@@ -63,7 +62,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 3.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class MoreExecutors {
   private MoreExecutors() {}
 
@@ -78,7 +76,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // TODO
@@ -141,7 +139,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -204,7 +202,7 @@ public final class MoreExecutors {
    * @param service ExecutorService which uses daemon threads
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
@@ -817,9 +815,8 @@ public final class MoreExecutors {
     } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throwIfUnchecked(e.getCause());
-      // This should be impossible: `currentRequestThreadFactory` has no `throws` clause.
-      throw new UndeclaredThrowableException(e.getCause());
+      // `currentRequestThreadFactory` has no `throws` clause.
+      throw sneakyThrow(e.getCause());
     }
   }
 
@@ -982,7 +979,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
    *     if the call timed out or was interrupted
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

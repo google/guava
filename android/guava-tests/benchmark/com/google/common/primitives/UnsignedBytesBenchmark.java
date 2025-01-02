@@ -22,12 +22,14 @@ import com.google.caliper.Param;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Microbenchmark for {@link UnsignedBytes}.
  *
  * @author Hiroshi Yamauchi
  */
+@NullUnmarked
 public class UnsignedBytesBenchmark {
 
   private byte[] ba1;

@@ -24,8 +24,10 @@ import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
+@NullUnmarked
 public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
     extends SortedMapInterfaceTest<K, V> {
   public AbstractImmutableSortedMapMapInterfaceTest() {
@@ -37,7 +39,7 @@ public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
     throw new UnsupportedOperationException();
   }
 
-  private static final Joiner joiner = Joiner.on(", ");
+  private static final Joiner JOINER = Joiner.on(", ");
 
   @Override
   protected void assertMoreInvariants(Map<K, V> map) {
@@ -46,10 +48,10 @@ public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
       assertEquals(entry.getKey() + "=" + entry.getValue(), entry.toString());
     }
 
-    assertEquals("{" + joiner.join(map.entrySet()) + "}", map.toString());
-    assertEquals("[" + joiner.join(map.entrySet()) + "]", map.entrySet().toString());
-    assertEquals("[" + joiner.join(map.keySet()) + "]", map.keySet().toString());
-    assertEquals("[" + joiner.join(map.values()) + "]", map.values().toString());
+    assertEquals("{" + JOINER.join(map.entrySet()) + "}", map.toString());
+    assertEquals("[" + JOINER.join(map.entrySet()) + "]", map.entrySet().toString());
+    assertEquals("[" + JOINER.join(map.keySet()) + "]", map.keySet().toString());
+    assertEquals("[" + JOINER.join(map.values()) + "]", map.values().toString());
 
     assertEquals(newHashSet(map.entrySet()), map.entrySet());
     assertEquals(newHashSet(map.keySet()), map.keySet());

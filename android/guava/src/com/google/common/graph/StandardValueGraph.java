@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Standard implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -43,7 +43,6 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-@ElementTypesAreNonnullByDefault
 class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
@@ -142,14 +141,12 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  @CheckForNull
-  public V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue) {
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     return edgeValueOrDefaultInternal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
   }
 
   @Override
-  @CheckForNull
-  public V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue) {
+  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
     validateEndpoints(endpoints);
     return edgeValueOrDefaultInternal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
@@ -168,7 +165,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  final boolean containsNode(@CheckForNull N node) {
+  final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
@@ -177,8 +174,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return (connectionsU != null) && connectionsU.successors().contains(nodeV);
   }
 
-  @CheckForNull
-  private final V edgeValueOrDefaultInternal(N nodeU, N nodeV, @CheckForNull V defaultValue) {
+  private final @Nullable V edgeValueOrDefaultInternal(N nodeU, N nodeV, @Nullable V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.

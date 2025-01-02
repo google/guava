@@ -24,21 +24,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to facilitate the set returned by {@link Graph#edges()}.
  *
  * @author James Sexton
  */
-@ElementTypesAreNonnullByDefault
 abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
   private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;
 
-  @CheckForNull
-  N node = null; // null is safe as an initial value because graphs don't allow null nodes
+  @Nullable N node = null; // null is safe as an initial value because graphs don't allow null nodes
 
   Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
@@ -75,8 +72,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
     }
 
     @Override
-    @CheckForNull
-    protected EndpointPair<N> computeNext() {
+    protected @Nullable EndpointPair<N> computeNext() {
       while (true) {
         if (successorIterator.hasNext()) {
           // requireNonNull is safe because successorIterator is empty until we set this.node.
@@ -117,7 +113,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    */
   private static final class Undirected<N> extends EndpointPairIterator<N> {
     // It's a little weird that we add `null` to this set, but it makes for slightly simpler code.
-    @CheckForNull private Set<@Nullable N> visitedNodes;
+    private @Nullable Set<@Nullable N> visitedNodes;
 
     private Undirected(BaseGraph<N> graph) {
       super(graph);
@@ -125,8 +121,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
     }
 
     @Override
-    @CheckForNull
-    protected EndpointPair<N> computeNext() {
+    protected @Nullable EndpointPair<N> computeNext() {
       while (true) {
         /*
          * requireNonNull is safe because visitedNodes isn't cleared until this method calls

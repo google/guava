@@ -21,12 +21,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Table.Cell;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * @author Gregory Kick
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableSet<Cell<Character, Integer, String>> CELLS =
       ImmutableSet.of(

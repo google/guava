@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -56,7 +55,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible // hasn't been tested yet
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
@@ -354,7 +352,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   @Override
   public abstract ImmutableSortedSet<E> elementSet();
 
-  @LazyInit @CheckForNull transient ImmutableSortedMultiset<E> descendingMultiset;
+  @LazyInit transient @Nullable ImmutableSortedMultiset<E> descendingMultiset;
 
   @Override
   public ImmutableSortedMultiset<E> descendingMultiset() {
@@ -380,8 +378,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<E> pollFirstEntry() {
+  public final @Nullable Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -397,8 +394,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  @CheckForNull
-  public final Entry<E> pollLastEntry() {
+  public final @Nullable Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -436,8 +432,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * reverse of their natural ordering.
    *
    * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
+   * Comparable<? super E>} in order to accommodate users of obsolete javac versions affected by <a
+   * href="https://bugs.openjdk.org/browse/JDK-6468354">JDK-6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
     return new Builder<>(Ordering.<E>natural().reverse());
@@ -450,8 +446,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * that implement {@link Comparable}.
    *
    * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
+   * Comparable<? super E>} in order to accommodate users of obsolete javac versions affected by <a
+   * href="https://bugs.openjdk.org/browse/JDK-6468354">JDK-6468354</a>.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
     return new Builder<>(Ordering.natural());

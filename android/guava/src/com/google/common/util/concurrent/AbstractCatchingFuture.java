@@ -30,12 +30,10 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings({
   // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
   "ShortCircuitBoolean",
@@ -68,9 +66,9 @@ abstract class AbstractCatchingFuture<
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull @LazyInit ListenableFuture<? extends V> inputFuture;
-  @CheckForNull @LazyInit Class<X> exceptionType;
-  @CheckForNull @LazyInit F fallback;
+  @LazyInit @Nullable ListenableFuture<? extends V> inputFuture;
+  @LazyInit @Nullable Class<X> exceptionType;
+  @LazyInit @Nullable F fallback;
 
   AbstractCatchingFuture(
       ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
@@ -151,8 +149,7 @@ abstract class AbstractCatchingFuture<
   }
 
   @Override
-  @CheckForNull
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = inputFuture;
     @RetainedLocalRef Class<X> localExceptionType = exceptionType;
     @RetainedLocalRef F localFallback = fallback;

@@ -22,12 +22,14 @@ import com.google.caliper.Param;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test iteration speed at various size for {@link Set} instances.
  *
  * @author Christopher Swenson
  */
+@NullUnmarked
 public class SetIterationBenchmark {
   @Param({
     "3", "6", "11", "23", "45", "91", "181", "362", "724", "1448", "2896", "5793", "11585", "23170",

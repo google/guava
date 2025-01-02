@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Arrays;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Crc32c}. Known test values are from RFC 3720, Section B.4.
@@ -26,6 +27,7 @@ import junit.framework.TestCase;
  * @author Patrick Costello
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class Crc32cHashFunctionTest extends TestCase {
   public void testEmpty() {
     assertCrc(0, new byte[0]);
@@ -124,7 +126,7 @@ public class Crc32cHashFunctionTest extends TestCase {
   private static int referenceCrc(byte[] bytes) {
     int crc = ~0;
     for (byte b : bytes) {
-      crc = (crc >>> 8) ^ Crc32cHashFunction.Crc32cHasher.BYTE_TABLE[(crc ^ b) & 0xFF];
+      crc = (crc >>> 8) ^ Crc32cHashFunction.Crc32cHasher.byteTable[(crc ^ b) & 0xFF];
     }
     return ~crc;
   }
@@ -167,7 +169,7 @@ public class Crc32cHashFunctionTest extends TestCase {
       expected[i] = crc;
     }
 
-    int[] actual = Crc32cHashFunction.Crc32cHasher.BYTE_TABLE;
+    int[] actual = Crc32cHashFunction.Crc32cHasher.byteTable;
     assertTrue(
         "Expected: \n" + Arrays.toString(expected) + "\nActual:\n" + Arrays.toString(actual),
         Arrays.equals(expected, actual));
@@ -184,7 +186,7 @@ public class Crc32cHashFunctionTest extends TestCase {
   public void testCrc32cStrideTable() {
     int next = CRC32C_GENERATOR_FLIPPED;
     for (int i = 0; i < 12; i++) { // for 3 ints = 12 bytes in between each stride window
-      next = (next >>> 8) ^ Crc32cHashFunction.Crc32cHasher.BYTE_TABLE[next & 0xFF];
+      next = (next >>> 8) ^ Crc32cHashFunction.Crc32cHasher.byteTable[next & 0xFF];
     }
     int[][] expected = new int[4][256];
     for (int b = 0; b < 4; ++b) {
@@ -202,7 +204,7 @@ public class Crc32cHashFunctionTest extends TestCase {
       }
     }
 
-    int[][] actual = Crc32cHashFunction.Crc32cHasher.STRIDE_TABLE;
+    int[][] actual = Crc32cHashFunction.Crc32cHasher.strideTable;
     assertTrue(
         "Expected: \n"
             + Arrays.deepToString(expected)

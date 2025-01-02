@@ -27,8 +27,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
@@ -81,7 +80,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // Coffee's for {@link Closer closers} only.
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class Closer implements Closeable {
   /** Creates a new {@link Closer}. */
   public static Closer create() {
@@ -92,7 +90,7 @@ public final class Closer implements Closeable {
 
   // only need space for 2 elements in most cases, so try to use the smallest array possible
   private final Deque<Closeable> stack = new ArrayDeque<>(4);
-  @CheckForNull private Throwable thrown;
+  private @Nullable Throwable thrown;
 
   @VisibleForTesting
   Closer(Suppressor suppressor) {

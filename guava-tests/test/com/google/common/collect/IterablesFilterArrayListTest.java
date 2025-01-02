@@ -18,7 +18,9 @@ package com.google.common.collect;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.FilteredCollectionsTestUtil.AbstractFilteredIterableTest;
+import org.jspecify.annotations.NullUnmarked;
 
+@NullUnmarked
 public final class IterablesFilterArrayListTest
     extends AbstractFilteredIterableTest<Iterable<Integer>> {
   @Override

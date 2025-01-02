@@ -28,13 +28,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code Synchronized#map}.
  *
  * @author Mike Bostock
  */
+@NullUnmarked
 public class SynchronizedMapTest extends TestCase {
   public final Object mutex = new Object[0]; // something Serializable
 

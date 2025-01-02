@@ -20,12 +20,14 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Parameter}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class ParameterTest extends TestCase {
 
   public void testNulls() {

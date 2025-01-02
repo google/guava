@@ -20,12 +20,14 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.cache.TestingCacheLoaders.IncrementingLoader;
 import com.google.common.testing.FakeTicker;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests relating to automatic cache refreshing.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class CacheRefreshTest extends TestCase {
   public void testAutoRefresh() {
     FakeTicker ticker = new FakeTicker();

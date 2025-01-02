@@ -45,8 +45,10 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.zip.DataFormatException;
 import javax.security.auth.RefreshFailedException;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Microbenchmark for {@link Futures#getChecked}. */
+@NullUnmarked
 public class FuturesGetCheckedBenchmark {
   private enum Validator {
     NON_CACHING_WITH_CONSTRUCTOR_CHECK(nonCachingWithConstructorCheckValidator()),

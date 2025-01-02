@@ -43,8 +43,7 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -55,7 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;
@@ -338,7 +336,7 @@ public final class ByteStreams {
     }
 
     @Override
-    public void readFully(byte b[]) {
+    public void readFully(byte[] b) {
       try {
         input.readFully(b);
       } catch (IOException e) {
@@ -347,7 +345,7 @@ public final class ByteStreams {
     }
 
     @Override
-    public void readFully(byte b[], int off, int len) {
+    public void readFully(byte[] b, int off, int len) {
       try {
         input.readFully(b, off, len);
       } catch (IOException e) {
@@ -457,8 +455,7 @@ public final class ByteStreams {
     }
 
     @Override
-    @CheckForNull
-    public String readLine() {
+    public @Nullable String readLine() {
       try {
         return input.readLine();
       } catch (IOException e) {

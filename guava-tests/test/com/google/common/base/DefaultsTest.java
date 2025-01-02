@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Defaults}.
@@ -27,6 +28,7 @@ import junit.framework.TestCase;
  * @author Jige Yu
  */
 @GwtIncompatible
+@NullUnmarked
 public class DefaultsTest extends TestCase {
   public void testGetDefaultValue() {
     assertEquals(false, Defaults.defaultValue(boolean.class).booleanValue());

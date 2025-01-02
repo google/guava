@@ -25,6 +25,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link ExecutionList}.
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
  * @author Nishant Thakkar
  * @author Sven Mawson
  */
+@NullUnmarked
 public class ExecutionListTest extends TestCase {
 
   private final ExecutionList list = new ExecutionList();

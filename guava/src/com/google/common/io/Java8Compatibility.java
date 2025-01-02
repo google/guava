@@ -24,7 +24,6 @@ import java.nio.Buffer;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 final class Java8Compatibility {
   static void clear(Buffer b) {
     b.clear();

@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A TimeLimiter implementation which actually does not attempt to limit time at all. This may be
@@ -37,7 +37,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public final class FakeTimeLimiter implements TimeLimiter {
   /** Creates a new {@link FakeTimeLimiter}. */
   public FakeTimeLimiter() {}

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation helper for {@link TestMapGenerator} for use with enum maps.
@@ -30,7 +31,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, String> {
 
   @Override

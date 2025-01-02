@@ -34,7 +34,8 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Generated tests for {@link Monitor}.
@@ -46,6 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Justin T. Sampson
  */
+@NullUnmarked
 public class GeneratedMonitorTest extends TestCase {
 
   public static TestSuite suite() {

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test cases for {@link Range} which cannot run as GWT tests.
@@ -25,6 +26,7 @@ import junit.framework.TestCase;
  * @author Gregory Kick
  * @see RangeTest
  */
+@NullUnmarked
 public class RangeNonGwtTest extends TestCase {
 
   public void testNullPointers() {

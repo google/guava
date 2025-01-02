@@ -37,12 +37,14 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Stream;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the default implementations of {@code CharSource} methods.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class CharSourceTest extends IoTestCase {
 
   @AndroidIncompatible // Android doesn't understand suites whose tests lack default constructors.

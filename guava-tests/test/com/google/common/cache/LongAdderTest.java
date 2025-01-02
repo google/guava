@@ -17,8 +17,10 @@ package com.google.common.cache;
 import static com.google.common.truth.Truth.assertThat;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link LongAdder}. */
+@NullUnmarked
 public class LongAdderTest extends TestCase {
 
   /**

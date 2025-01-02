@@ -42,15 +42,16 @@ import java.util.Spliterator.OfPrimitive;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tester for {@code Spliterator} implementations.
  *
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.4.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {
@@ -259,7 +260,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since NEXT (but since 28.1 in the JRE flavor)
+   * @since 33.4.0 (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Integer> ofInt(Supplier<Spliterator.OfInt> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -269,7 +270,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since NEXT (but since 28.1 in the JRE flavor)
+   * @since 33.4.0 (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Long> ofLong(Supplier<Spliterator.OfLong> spliteratorSupplier) {
     return new SpliteratorTester<>(
@@ -279,7 +280,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
   }
 
   /**
-   * @since NEXT (but since 28.1 in the JRE flavor)
+   * @since 33.4.0 (but since 28.1 in the JRE flavor)
    */
   public static SpliteratorTester<Double> ofDouble(
       Supplier<Spliterator.OfDouble> spliteratorSupplier) {

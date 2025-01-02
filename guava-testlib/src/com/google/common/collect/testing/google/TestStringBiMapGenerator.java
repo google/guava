@@ -23,6 +23,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.SampleElements;
 import java.util.List;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation helper for {@link TestBiMapGenerator} for use with bimaps of strings.
@@ -33,7 +34,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestStringBiMapGenerator implements TestBiMapGenerator<String, String> {
 
   @Override

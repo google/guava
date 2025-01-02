@@ -21,8 +21,10 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /** A benchmark that tries invoking {@code Set.contains} on many different sets. */
+@NullUnmarked
 public class MultipleSetContainsBenchmark {
 
   @Param({"0.0", "0.1", "0.7", "1.0"})

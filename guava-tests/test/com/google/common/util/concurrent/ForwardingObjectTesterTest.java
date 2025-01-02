@@ -18,12 +18,14 @@ package com.google.common.util.concurrent;
 
 import com.google.common.collect.ForwardingObject;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link ForwardingObjectTester}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class ForwardingObjectTesterTest extends TestCase {
 
   public void testFailsToForward() {

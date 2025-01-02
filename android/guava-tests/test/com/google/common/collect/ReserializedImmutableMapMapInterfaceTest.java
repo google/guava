@@ -19,8 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible // SerializableTester
+@NullUnmarked
 public class ReserializedImmutableMapMapInterfaceTest
     extends AbstractImmutableMapMapInterfaceTest<String, Integer> {
   @Override

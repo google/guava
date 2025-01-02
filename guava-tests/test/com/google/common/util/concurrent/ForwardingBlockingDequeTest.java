@@ -17,12 +17,14 @@
 package com.google.common.util.concurrent;
 
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test for {@link ForwardingBlockingDeque}
  *
  * @author Emily Soldal
  */
+@NullUnmarked
 public class ForwardingBlockingDequeTest extends TestCase {
 
   public void testForwarding() {

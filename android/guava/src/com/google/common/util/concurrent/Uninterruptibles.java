@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
@@ -46,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Uninterruptibles {
 
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
@@ -77,7 +76,7 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -120,7 +119,7 @@ public final class Uninterruptibles {
    * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -185,7 +184,7 @@ public final class Uninterruptibles {
    * Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
    * uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -279,7 +278,7 @@ public final class Uninterruptibles {
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    * @throws TimeoutException if the wait timed out
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible
@@ -390,7 +389,7 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -431,7 +430,7 @@ public final class Uninterruptibles {
    * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
    * timeout, unit)} uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -459,7 +458,7 @@ public final class Uninterruptibles {
    * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
    * timeout, unit)} uninterruptibly.
    *
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -507,7 +506,7 @@ public final class Uninterruptibles {
    * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT (but since 30.0 in the JRE flavor)
+   * @since 33.4.0 (but since 30.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -564,7 +563,7 @@ public final class Uninterruptibles {
    * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
    * awaitTermination(long, TimeUnit)} uninterruptibly.
    *
-   * @since NEXT (but since 30.0 in the JRE flavor)
+   * @since 33.4.0 (but since 30.0 in the JRE flavor)
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency

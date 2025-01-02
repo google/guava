@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ForwardingWrapperTester}. Live in a different package to detect reflection

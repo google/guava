@@ -52,7 +52,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link MinMaxPriorityQueue}.
@@ -61,7 +62,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sverre Sundsdal
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MinMaxPriorityQueueTest extends TestCase {
   private static final Ordering<Integer> SOME_COMPARATOR = Ordering.<Integer>natural().reverse();
 

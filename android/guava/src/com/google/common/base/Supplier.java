@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class that can supply objects of a single type; a pre-Java-8 version of {@link
@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface Supplier<T extends @Nullable Object> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or may not be a new

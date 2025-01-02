@@ -24,8 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for AbstractNonStreamingHashFunction. */
+@NullUnmarked
 public class AbstractNonStreamingHashFunctionTest extends TestCase {
   /**
    * Constructs two trivial HashFunctions (output := input), one streaming and one non-streaming,

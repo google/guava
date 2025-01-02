@@ -17,9 +17,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.annotations.NullMarked;
 
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class FilteredBiMapTest extends AbstractFilteredMapTest {
   @Override
   BiMap<String, Integer> createUnfiltered() {

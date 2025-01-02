@@ -18,10 +18,9 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Emulation for InterruptibleTask in GWT. */
-@ElementTypesAreNonnullByDefault
 abstract class InterruptibleTask<T extends @Nullable Object> implements Runnable {
 
   @Override

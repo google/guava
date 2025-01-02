@@ -55,6 +55,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit tests for {@link ImmutableSortedSet}.
@@ -62,7 +63,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible
@@ -972,7 +973,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   }
 
   // In GWT, java.util.TreeSet throws ClassCastException when the comparator
-  // throws it, unlike JDK6.  Therefore, we accept ClassCastException as a
+  // throws it, unlike the JDK.  Therefore, we accept ClassCastException as a
   // valid result thrown by java.util.TreeSet#equals.
   private static void assertNotEqualLenient(TreeSet<?> unexpected, SortedSet<?> actual) {
     try {

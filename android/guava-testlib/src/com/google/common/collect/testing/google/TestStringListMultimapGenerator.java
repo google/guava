@@ -25,6 +25,7 @@ import com.google.common.collect.testing.SampleElements;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A skeleton generator for a {@code ListMultimap} implementation.
@@ -32,7 +33,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestStringListMultimapGenerator
     implements TestListMultimapGenerator<String, String> {
 

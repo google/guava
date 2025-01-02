@@ -33,7 +33,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests representing the contract of {@link Map}. Concrete subclasses of this base class test
@@ -48,7 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // check the order if so.
 // TODO: Refactor to share code with SetTestBuilder etc.
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nullable Object>
     extends TestCase {
 

@@ -24,8 +24,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
@@ -54,7 +53,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
@@ -65,8 +63,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
   protected abstract NavigableMap<K, V> delegate();
 
   @Override
-  @CheckForNull
-  public Entry<K, V> lowerEntry(@ParametricNullness K key) {
+  public @Nullable Entry<K, V> lowerEntry(@ParametricNullness K key) {
     return delegate().lowerEntry(key);
   }
 
@@ -75,14 +72,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * lowerEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardLowerEntry(@ParametricNullness K key) {
+  protected @Nullable Entry<K, V> standardLowerEntry(@ParametricNullness K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public K lowerKey(@ParametricNullness K key) {
+  public @Nullable K lowerKey(@ParametricNullness K key) {
     return delegate().lowerKey(key);
   }
 
@@ -91,14 +86,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@link #lowerEntry}, you may wish to override {@code lowerKey} to forward to this
    * implementation.
    */
-  @CheckForNull
-  protected K standardLowerKey(@ParametricNullness K key) {
+  protected @Nullable K standardLowerKey(@ParametricNullness K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> floorEntry(@ParametricNullness K key) {
+  public @Nullable Entry<K, V> floorEntry(@ParametricNullness K key) {
     return delegate().floorEntry(key);
   }
 
@@ -107,14 +100,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * floorEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardFloorEntry(@ParametricNullness K key) {
+  protected @Nullable Entry<K, V> standardFloorEntry(@ParametricNullness K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  @CheckForNull
-  public K floorKey(@ParametricNullness K key) {
+  public @Nullable K floorKey(@ParametricNullness K key) {
     return delegate().floorKey(key);
   }
 
@@ -123,14 +114,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code floorEntry}, you may wish to override {@code floorKey} to forward to this
    * implementation.
    */
-  @CheckForNull
-  protected K standardFloorKey(@ParametricNullness K key) {
+  protected @Nullable K standardFloorKey(@ParametricNullness K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> ceilingEntry(@ParametricNullness K key) {
+  public @Nullable Entry<K, V> ceilingEntry(@ParametricNullness K key) {
     return delegate().ceilingEntry(key);
   }
 
@@ -139,14 +128,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * ceilingEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardCeilingEntry(@ParametricNullness K key) {
+  protected @Nullable Entry<K, V> standardCeilingEntry(@ParametricNullness K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  @CheckForNull
-  public K ceilingKey(@ParametricNullness K key) {
+  public @Nullable K ceilingKey(@ParametricNullness K key) {
     return delegate().ceilingKey(key);
   }
 
@@ -155,14 +142,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code ceilingEntry}, you may wish to override {@code ceilingKey} to forward to this
    * implementation.
    */
-  @CheckForNull
-  protected K standardCeilingKey(@ParametricNullness K key) {
+  protected @Nullable K standardCeilingKey(@ParametricNullness K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> higherEntry(@ParametricNullness K key) {
+  public @Nullable Entry<K, V> higherEntry(@ParametricNullness K key) {
     return delegate().higherEntry(key);
   }
 
@@ -171,14 +156,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * higherEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardHigherEntry(@ParametricNullness K key) {
+  protected @Nullable Entry<K, V> standardHigherEntry(@ParametricNullness K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  @CheckForNull
-  public K higherKey(@ParametricNullness K key) {
+  public @Nullable K higherKey(@ParametricNullness K key) {
     return delegate().higherKey(key);
   }
 
@@ -187,14 +170,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * {@code higherEntry}, you may wish to override {@code higherKey} to forward to this
    * implementation.
    */
-  @CheckForNull
-  protected K standardHigherKey(@ParametricNullness K key) {
+  protected @Nullable K standardHigherKey(@ParametricNullness K key) {
     return keyOrNull(higherEntry(key));
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return delegate().firstEntry();
   }
 
@@ -203,8 +184,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #entrySet}. If you override {@code entrySet}, you may wish to override {@code firstEntry} to
    * forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardFirstEntry() {
+  protected @Nullable Entry<K, V> standardFirstEntry() {
     return Iterables.<@Nullable Entry<K, V>>getFirst(entrySet(), null);
   }
 
@@ -223,8 +203,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return delegate().lastEntry();
   }
 
@@ -233,8 +212,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * #entrySet} of {@link #descendingMap}. If you override {@code descendingMap}, you may wish to
    * override {@code lastEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardLastEntry() {
+  protected @Nullable Entry<K, V> standardLastEntry() {
     return Iterables.<@Nullable Entry<K, V>>getFirst(descendingMap().entrySet(), null);
   }
 
@@ -252,8 +230,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return delegate().pollFirstEntry();
   }
 
@@ -262,14 +239,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * entrySet}. If you override {@code entrySet}, you may wish to override {@code pollFirstEntry} to
    * forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardPollFirstEntry() {
+  protected @Nullable Entry<K, V> standardPollFirstEntry() {
     return Iterators.pollNext(entrySet().iterator());
   }
 
   @Override
-  @CheckForNull
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return delegate().pollLastEntry();
   }
 
@@ -278,8 +253,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * entrySet} of {@code descendingMap}. If you override {@code descendingMap}, you may wish to
    * override {@code pollFirstEntry} to forward to this implementation.
    */
-  @CheckForNull
-  protected Entry<K, V> standardPollLastEntry() {
+  protected @Nullable Entry<K, V> standardPollLastEntry() {
     return Iterators.pollNext(descendingMap().entrySet().iterator());
   }
 
@@ -311,8 +285,8 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
     @Override
     protected Iterator<Entry<K, V>> entryIterator() {
       return new Iterator<Entry<K, V>>() {
-        @CheckForNull private Entry<K, V> toRemove = null;
-        @CheckForNull private Entry<K, V> nextOrNull = forward().lastEntry();
+        private @Nullable Entry<K, V> toRemove = null;
+        private @Nullable Entry<K, V> nextOrNull = forward().lastEntry();
 
         @Override
         public boolean hasNext() {

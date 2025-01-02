@@ -22,8 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Multiset} which maintains the ordering of its elements, according to either their
@@ -43,7 +42,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object>
     extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**
@@ -57,29 +55,25 @@ public interface SortedMultiset<E extends @Nullable Object>
    * Returns the entry of the first element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @CheckForNull
-  Entry<E> firstEntry();
+  @Nullable Entry<E> firstEntry();
 
   /**
    * Returns the entry of the last element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  @CheckForNull
-  Entry<E> lastEntry();
+  @Nullable Entry<E> lastEntry();
 
   /**
    * Returns and removes the entry associated with the lowest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @CheckForNull
-  Entry<E> pollFirstEntry();
+  @Nullable Entry<E> pollFirstEntry();
 
   /**
    * Returns and removes the entry associated with the greatest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
-  @CheckForNull
-  Entry<E> pollLastEntry();
+  @Nullable Entry<E> pollLastEntry();
 
   /**
    * Returns a {@link NavigableSet} view of the distinct elements in this multiset.

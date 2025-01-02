@@ -27,12 +27,14 @@ import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwar
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Futures#transformAsync(ListenableFuture, AsyncFunction, Executor)}.
  *
  * @author Nishant Thakkar
  */
+@NullUnmarked
 public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTest<String> {
   protected static final int SLOW_OUTPUT_VALID_INPUT_DATA = 2;
   protected static final int SLOW_FUNC_VALID_INPUT_DATA = 3;

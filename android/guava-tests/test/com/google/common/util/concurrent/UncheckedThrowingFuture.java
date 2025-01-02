@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A {@link Future} implementation which always throws directly from calls to {@code get()} (i.e.
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeoutException;
  * @author Anthony Zana
  */
 @GwtCompatible
+@NullUnmarked
 final class UncheckedThrowingFuture<V> extends AbstractFuture<V> {
 
   public static <V> ListenableFuture<V> throwingError(Error error) {

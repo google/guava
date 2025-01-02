@@ -25,7 +25,7 @@ import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable representation of a host and port.
@@ -62,7 +62,6 @@ import javax.annotation.CheckForNull;
  */
 @Immutable
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class HostAndPort implements Serializable {
   /** Magic value indicating the absence of a port number. */
   private static final int NO_PORT = -1;
@@ -281,7 +280,7 @@ public final class HostAndPort implements Serializable {
   }
 
   @Override
-  public boolean equals(@CheckForNull Object other) {
+  public boolean equals(@Nullable Object other) {
     if (this == other) {
       return true;
     }

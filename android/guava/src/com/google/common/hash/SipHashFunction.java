@@ -24,7 +24,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link HashFunction} implementation of SipHash-c-d.
@@ -34,7 +34,6 @@ import javax.annotation.CheckForNull;
  * @author Daniel J. Bernstein
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =
       new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
@@ -82,7 +81,7 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
   }
 
   @Override
-  public boolean equals(@CheckForNull Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof SipHashFunction) {
       SipHashFunction other = (SipHashFunction) object;
       return (c == other.c) && (d == other.d) && (k0 == other.k0) && (k1 == other.k1);

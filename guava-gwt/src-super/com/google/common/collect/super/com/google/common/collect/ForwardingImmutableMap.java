@@ -21,14 +21,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT implementation of {@link ImmutableMap} that forwards to another map.
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   final transient Map<K, V> delegate;

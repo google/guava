@@ -43,11 +43,13 @@ import java.util.stream.DoubleStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ImmutableDoubleArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 
@@ -168,7 +170,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
    */
   public void testBuilder_bruteForce() {
     for (int i = 0; i < reduceIterationsIfGwt(100); i++) {
-      ImmutableDoubleArray.Builder builder = ImmutableDoubleArray.builder(RANDOM.nextInt(20));
+      ImmutableDoubleArray.Builder builder = ImmutableDoubleArray.builder(random.nextInt(20));
       AtomicInteger counter = new AtomicInteger(0);
       while (counter.get() < 1000) {
         BuilderOp op = BuilderOp.randomOp();
@@ -191,7 +193,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
     ADD_ARRAY {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
-        double[] array = new double[RANDOM.nextInt(10)];
+        double[] array = new double[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -202,7 +204,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
         List<Double> list = new ArrayList<>();
-        double num = RANDOM.nextInt(10);
+        double num = random.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add((double) counter.getAndIncrement());
         }
@@ -213,7 +215,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
         List<Double> list = new ArrayList<>();
-        double num = RANDOM.nextInt(10);
+        double num = random.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add((double) counter.getAndIncrement());
         }
@@ -223,7 +225,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
     ADD_STREAM {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
-        double[] array = new double[RANDOM.nextInt(10)];
+        double[] array = new double[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -233,7 +235,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
     ADD_IIA {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
-        double[] array = new double[RANDOM.nextInt(10)];
+        double[] array = new double[random.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -243,7 +245,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
     ADD_LARGER_ARRAY {
       @Override
       void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter) {
-        double[] array = new double[RANDOM.nextInt(200) + 200];
+        double[] array = new double[random.nextInt(200) + 200];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -255,13 +257,13 @@ public class ImmutableDoubleArrayTest extends TestCase {
     static final BuilderOp[] values = values();
 
     static BuilderOp randomOp() {
-      return values[RANDOM.nextInt(values.length)];
+      return values[random.nextInt(values.length)];
     }
 
     abstract void doIt(ImmutableDoubleArray.Builder builder, AtomicInteger counter);
   }
 
-  private static final Random RANDOM = new Random(42);
+  private static final Random random = new Random(42);
 
   public void testLength() {
     assertThat(ImmutableDoubleArray.of().length()).isEqualTo(0);

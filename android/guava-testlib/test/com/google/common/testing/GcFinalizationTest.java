@@ -26,7 +26,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link GcFinalization}.
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @AndroidIncompatible // depends on details of gc
 
+@NullUnmarked
 public class GcFinalizationTest extends TestCase {
 
   // ----------------------------------------------------------------

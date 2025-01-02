@@ -21,12 +21,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.Arrays;
 import java.util.Iterator;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks {@link Joiner} against some common implementations of delimiter-based string joining.
  *
  * @author Adomas Paltanavicius
  */
+@NullUnmarked
 public class JoinerBenchmark {
 
   private static final String DELIMITER_STRING = ",";
@@ -44,6 +46,7 @@ public class JoinerBenchmark {
   private Iterable<String> components;
 
   @BeforeExperiment
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   void setUp() {
     String component = Strings.repeat("a", componentLength);
     String[] raw = new String[count];

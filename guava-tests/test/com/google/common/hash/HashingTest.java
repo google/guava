@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link Hashing}.
@@ -47,6 +48,7 @@ import junit.framework.TestCase;
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
  */
+@NullUnmarked
 public class HashingTest extends TestCase {
   public void testMd5() {
     HashTestUtils.checkAvalanche(Hashing.md5(), 100, 0.4);

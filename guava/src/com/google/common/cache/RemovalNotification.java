@@ -18,8 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A notification of the removal of a single entry. The key and/or value may be null if they were
@@ -33,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class RemovalNotification<K, V>
     extends SimpleImmutableEntry<@Nullable K, @Nullable V> {
   private final RemovalCause cause;
@@ -46,11 +44,11 @@ public final class RemovalNotification<K, V>
    * @since 19.0
    */
   public static <K, V> RemovalNotification<K, V> create(
-      @CheckForNull K key, @CheckForNull V value, RemovalCause cause) {
+      @Nullable K key, @Nullable V value, RemovalCause cause) {
     return new RemovalNotification<>(key, value, cause);
   }
 
-  private RemovalNotification(@CheckForNull K key, @CheckForNull V value, RemovalCause cause) {
+  private RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
     super(key, value);
     this.cause = checkNotNull(cause);
   }

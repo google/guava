@@ -31,7 +31,6 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.SortedMultiset;
@@ -59,15 +58,10 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   private Entry<E> b;
   private Entry<E> c;
 
-  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T> SortedMultiset<T> cast(Multiset<T> iterable) {
-    return (SortedMultiset<T>) iterable;
-  }
-
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    sortedMultiset = cast(getMultiset());
+    sortedMultiset = (SortedMultiset<E>) getMultiset();
     entries =
         copyToList(
             getSubjectGenerator()

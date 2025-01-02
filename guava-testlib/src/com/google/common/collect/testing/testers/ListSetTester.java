@@ -125,10 +125,10 @@ public class ListSetTester<E> extends AbstractListTester<E> {
    * Returns the {@link java.lang.reflect.Method} instance for {@link #testSet_null()} so that tests
    * of {@link java.util.Collections#checkedCollection(java.util.Collection, Class)} can suppress it
    * with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409434">Sun bug 6409434</a> is fixed.
-   * It's unclear whether nulls were to be permitted or forbidden, but presumably the eventual fix
-   * will be to permit them, as it seems more likely that code would depend on that behavior than on
-   * the other. Thus, we say the bug is in set(), which fails to support null.
+   * href="https://bugs.openjdk.org/browse/JDK-6409434">JDK-6409434</a> is fixed. It's unclear
+   * whether nulls were to be permitted or forbidden, but presumably the eventual fix will be to
+   * permit them, as it seems more likely that code would depend on that behavior than on the other.
+   * Thus, we say the bug is in set(), which fails to support null.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

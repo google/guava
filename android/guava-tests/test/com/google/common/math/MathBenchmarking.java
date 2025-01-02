@@ -18,6 +18,7 @@ package com.google.common.math;
 
 import java.math.BigInteger;
 import java.util.Random;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Utilities for benchmarks.
@@ -28,6 +29,7 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 final class MathBenchmarking {
   static final int ARRAY_SIZE = 0x10000;
   static final int ARRAY_MASK = 0x0ffff;

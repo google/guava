@@ -26,11 +26,10 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 final class TableCollectors {
 
   static <T extends @Nullable Object, R, C, V>
@@ -46,7 +45,7 @@ final class TableCollectors {
         (builder, t) ->
             builder.put(rowFunction.apply(t), columnFunction.apply(t), valueFunction.apply(t)),
         ImmutableTable.Builder::combine,
-        ImmutableTable.Builder::build);
+        ImmutableTable.Builder::buildOrThrow);
   }
 
   static <T extends @Nullable Object, R, C, V>

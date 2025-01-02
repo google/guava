@@ -18,7 +18,7 @@ package com.google.common.base;
 
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** @author Jesse Wilson */
 final class Platform {

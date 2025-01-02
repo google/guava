@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Unhashables;
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Creates collections containing unhashable sample elements, to be tested.
@@ -27,7 +28,7 @@ import java.util.List;
  * @author Regina O'Dell
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public abstract class TestUnhashableCollectionGenerator<T extends Collection<UnhashableObject>>
     implements TestCollectionGenerator<UnhashableObject> {
   @Override

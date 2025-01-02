@@ -19,7 +19,8 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The subject-generator interface accepted by Collection testers, for testing a Collection at one
@@ -32,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public interface OneSizeTestContainerGenerator<T, E extends @Nullable Object>
     extends TestSubjectGenerator<T>, TestContainerGenerator<T, E> {
   TestContainerGenerator<T, E> getInnerGenerator();

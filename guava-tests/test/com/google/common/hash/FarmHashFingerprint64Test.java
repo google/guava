@@ -23,6 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for FarmHashFingerprint64.
@@ -30,11 +31,13 @@ import junit.framework.TestCase;
  * @author Kyle Maddison
  * @author Geoff Pike
  */
+@NullUnmarked
 public class FarmHashFingerprint64Test extends TestCase {
 
   private static final HashFunction HASH_FN = Hashing.farmHashFingerprint64();
 
   // If this test fails, all bets are off
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   public void testReallySimpleFingerprints() {
     assertEquals(8581389452482819506L, fingerprint("test".getBytes(UTF_8)));
     // 32 characters long

@@ -19,6 +19,7 @@ package com.google.common.graph;
 import com.google.common.collect.Ordering;
 import java.util.Arrays;
 import java.util.Collection;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -26,6 +27,7 @@ import org.junit.runners.Parameterized.Parameters;
 /** Tests for an undirected {@link StandardMutableNetwork}. */
 @AndroidIncompatible
 @RunWith(Parameterized.class)
+@NullUnmarked
 public final class StandardMutableUndirectedNetworkTest
     extends AbstractStandardUndirectedNetworkTest {
 

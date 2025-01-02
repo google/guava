@@ -32,7 +32,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
+@NullUnmarked
 public final class ListeningExecutorServiceTest extends TestCase {
 
   private Collection<? extends Callable<?>> recordedTasks;

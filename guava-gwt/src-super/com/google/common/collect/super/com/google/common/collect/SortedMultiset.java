@@ -18,8 +18,7 @@ package com.google.common.collect;
 
 import java.util.Comparator;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulation of {@code SortedMultiset}, with {@code elementSet} reduced to returning a {@code
@@ -28,21 +27,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  * @since 11.0
  */
-@ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object> extends Multiset<E>, SortedIterable<E> {
   Comparator<? super E> comparator();
 
-  @CheckForNull
-  Entry<E> firstEntry();
+  @Nullable Entry<E> firstEntry();
 
-  @CheckForNull
-  Entry<E> lastEntry();
+  @Nullable Entry<E> lastEntry();
 
-  @CheckForNull
-  Entry<E> pollFirstEntry();
+  @Nullable Entry<E> pollFirstEntry();
 
-  @CheckForNull
-  Entry<E> pollLastEntry();
+  @Nullable Entry<E> pollLastEntry();
 
   /**
    * Returns a {@link SortedSet} view of the distinct elements in this multiset. (Outside GWT, this

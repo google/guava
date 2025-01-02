@@ -70,6 +70,7 @@ import java.util.TreeSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Run collection tests on wrappers from {@link Multimaps}.
@@ -77,6 +78,7 @@ import junit.framework.TestSuite;
  * @author Jared Levy
  */
 @GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
+@NullUnmarked
 public class MultimapsCollectionTest extends TestCase {
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ONE = {

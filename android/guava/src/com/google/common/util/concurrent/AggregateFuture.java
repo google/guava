@@ -32,8 +32,7 @@ import com.google.j2objc.annotations.RetainedLocalRef;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A future whose value is derived from a collection of input futures.
@@ -42,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <OutputT> the type of the output (i.e. this) future
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings(
     // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
     "ShortCircuitBoolean")
@@ -60,8 +58,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @CheckForNull @LazyInit
-  private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
+  @LazyInit
+  private @Nullable ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
 
   private final boolean allMustSucceed;
   private final boolean collectsValues;
@@ -97,8 +95,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   @Override
-  @CheckForNull
-  protected final String pendingToString() {
+  protected final @Nullable String pendingToString() {
     @RetainedLocalRef ImmutableCollection<? extends Future<?>> localFutures = futures;
     if (localFutures != null) {
       return "futures=" + localFutures;
@@ -293,9 +290,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   private void decrementCountAndMaybeComplete(
-      @CheckForNull
-          ImmutableCollection<? extends Future<? extends InputT>>
-              futuresIfNeedToCollectAtCompletion) {
+      @Nullable ImmutableCollection<? extends Future<? extends InputT>>
+          futuresIfNeedToCollectAtCompletion) {
     int newRemaining = decrementRemainingAndGet();
     checkState(newRemaining >= 0, "Less than 0 remaining futures");
     if (newRemaining == 0) {
@@ -304,9 +300,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   }
 
   private void processCompleted(
-      @CheckForNull
-          ImmutableCollection<? extends Future<? extends InputT>>
-              futuresIfNeedToCollectAtCompletion) {
+      @Nullable ImmutableCollection<? extends Future<? extends InputT>>
+          futuresIfNeedToCollectAtCompletion) {
     if (futuresIfNeedToCollectAtCompletion != null) {
       int i = 0;
       for (Future<? extends InputT> future : futuresIfNeedToCollectAtCompletion) {

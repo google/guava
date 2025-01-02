@@ -32,11 +32,12 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TableCollectorsTest extends TestCase {
   public void testToImmutableTable() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
@@ -49,7 +50,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 2)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3));
@@ -111,7 +112,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 6)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3),
@@ -181,7 +182,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 2)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3));
@@ -251,7 +252,7 @@ public class TableCollectorsTest extends TestCase {
                 .put("one", "uno", 1)
                 .put("two", "dos", 6)
                 .put("three", "tres", 3)
-                .build(),
+                .buildOrThrow(),
             immutableCell("one", "uno", 1),
             immutableCell("two", "dos", 2),
             immutableCell("three", "tres", 3),

@@ -39,14 +39,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link Longs}.
  *
  * @author Kevin Bourrillion
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class LongsTest extends TestCase {
   private static final long[] EMPTY = {};
@@ -64,6 +65,8 @@ public class LongsTest extends TestCase {
     }
   }
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testCompare() {
     for (long x : VALUES) {
       for (long y : VALUES) {
@@ -647,6 +650,9 @@ public class LongsTest extends TestCase {
     assertThat(Longs.tryParse("-")).isNull();
     assertThat(Longs.tryParse("+1")).isNull();
     assertThat(Longs.tryParse("999999999999999999999999")).isNull();
+    assertThat(Longs.tryParse(" ")).isNull();
+    assertThat(Longs.tryParse("1 ")).isNull();
+    assertThat(Longs.tryParse(" 1")).isNull();
     assertWithMessage("Max long + 1")
         .that(Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()))
         .isNull();

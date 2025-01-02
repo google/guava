@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -33,7 +33,6 @@ import javax.annotation.CheckForNull;
  * @since 10.0
  */
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingCache<K, V> extends ForwardingObject implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */
@@ -42,10 +41,11 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   @Override
   protected abstract Cache<K, V> delegate();
 
-  /** @since 11.0 */
+  /**
+   * @since 11.0
+   */
   @Override
-  @CheckForNull
-  public V getIfPresent(Object key) {
+  public @Nullable V getIfPresent(Object key) {
     return delegate().getIfPresent(key);
   }
 

@@ -20,6 +20,7 @@ import static com.google.common.graph.TestUtil.ERROR_ELEMENT_NOT_IN_GRAPH;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.testing.AbstractPackageSanityTests;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Covers basic sanity checks for the entire package.
@@ -27,11 +28,12 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Kurt Alfred Kluever
  */
 
+@NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
+  private static final AbstractGraphBuilder<?> graphBuilderA =
       GraphBuilder.directed().expectedNodeCount(10);
-  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
+  private static final AbstractGraphBuilder<?> graphBuilderB =
       ValueGraphBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
   private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A =
@@ -39,9 +41,9 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final ImmutableGraph<String> IMMUTABLE_GRAPH_B =
       GraphBuilder.directed().<String>immutable().addNode("B").build();
 
-  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
+  private static final NetworkBuilder<?, ?> networkBuilderA =
       NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
-  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_B =
+  private static final NetworkBuilder<?, ?> networkBuilderB =
       NetworkBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
   private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_A =
@@ -55,10 +57,10 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     MutableNetwork<String, String> mutableNetworkB = NetworkBuilder.directed().build();
     mutableNetworkB.addNode("b");
 
-    setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
+    setDistinctValues(AbstractGraphBuilder.class, graphBuilderA, graphBuilderB);
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(MutableNetwork.class, mutableNetworkA, mutableNetworkB);
-    setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
+    setDistinctValues(NetworkBuilder.class, networkBuilderA, networkBuilderB);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
     setDefault(EndpointPair.class, EndpointPair.ordered("A", "B"));
   }

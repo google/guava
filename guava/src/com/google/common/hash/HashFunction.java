@@ -18,7 +18,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A hash function is a collision-averse pure function that maps an arbitrary block of data to a
@@ -116,7 +116,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 public interface HashFunction {
   /**
    * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}

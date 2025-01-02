@@ -24,15 +24,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulation of {@link com.google.common.collect.ImmutableBiMap}.
  *
  * @author Hayward Chan
  */
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
   public static <T extends @Nullable Object, K, V>
@@ -260,8 +258,7 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     return inverse().keySet();
   }
 
-  @CheckForNull
-  public final V forcePut(K key, V value) {
+  public final @Nullable V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
 }

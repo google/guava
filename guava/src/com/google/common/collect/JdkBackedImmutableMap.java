@@ -26,15 +26,13 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of ImmutableMap backed by a JDK HashMap, which has smartness protecting against
  * hash flooding.
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   /**
    * Creates an {@code ImmutableMap} backed by a JDK HashMap. Used when probable hash flooding is
@@ -102,8 +100,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  @CheckForNull
-  public V get(@CheckForNull Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegateMap.get(key);
   }
 

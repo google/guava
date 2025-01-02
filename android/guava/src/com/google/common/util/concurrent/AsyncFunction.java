@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Transforms a value, possibly asynchronously. For an example usage and more information, see
@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface AsyncFunction<I extends @Nullable Object, O extends @Nullable Object> {
   /**
    * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code

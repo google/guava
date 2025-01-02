@@ -23,12 +23,14 @@ import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit tests for {@link AbstractPackageSanityTests}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class AbstractPackageSanityTestsTest extends TestCase {
   /*
    * This is a public type so that the Android test runner can create an instance directly as it
@@ -108,6 +110,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   static class Foo {}
 
+  @SuppressWarnings("IdentifierName") // We're testing that we ignore classes with underscores.
   static class Foo_Bar {}
 
   public static class PublicFoo {}

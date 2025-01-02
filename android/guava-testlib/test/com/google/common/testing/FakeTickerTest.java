@@ -31,7 +31,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link FakeTicker}.
@@ -41,6 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible(emulated = true)
 // We also want to test the TimeUnit overload (especially under GWT, where it's the only option).
 @SuppressWarnings("SetAutoIncrementStep_Nanos")
+@NullUnmarked
 public class FakeTickerTest extends TestCase {
 
   @GwtIncompatible // NullPointerTester

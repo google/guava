@@ -52,13 +52,14 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Tests for BigIntegerMath.
  *
  * @author Louis Wasserman
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class BigIntegerMathTest extends TestCase {
   public void testCeilingPowerOfTwo() {
@@ -620,16 +621,18 @@ public class BigIntegerMathTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_maxDouble() {
-    BigInteger maxDoubleAsBI = DoubleMath.roundToBigInteger(Double.MAX_VALUE, UNNECESSARY);
-    new RoundToDoubleTester(maxDoubleAsBI).setExpectation(Double.MAX_VALUE, values()).test();
+    BigInteger maxDoubleAsBigInteger = DoubleMath.roundToBigInteger(Double.MAX_VALUE, UNNECESSARY);
+    new RoundToDoubleTester(maxDoubleAsBigInteger)
+        .setExpectation(Double.MAX_VALUE, values())
+        .test();
   }
 
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_maxDoublePlusOne() {
-    BigInteger maxDoubleAsBI =
+    BigInteger maxDoubleAsBigInteger =
         DoubleMath.roundToBigInteger(Double.MAX_VALUE, UNNECESSARY).add(BigInteger.ONE);
-    new RoundToDoubleTester(maxDoubleAsBI)
+    new RoundToDoubleTester(maxDoubleAsBigInteger)
         .setExpectation(Double.MAX_VALUE, DOWN, FLOOR, HALF_EVEN, HALF_UP, HALF_DOWN)
         .setExpectation(Double.POSITIVE_INFINITY, UP, CEILING)
         .roundUnnecessaryShouldThrow()
@@ -705,16 +708,18 @@ public class BigIntegerMathTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_minDouble() {
-    BigInteger minDoubleAsBI = DoubleMath.roundToBigInteger(-Double.MAX_VALUE, UNNECESSARY);
-    new RoundToDoubleTester(minDoubleAsBI).setExpectation(-Double.MAX_VALUE, values()).test();
+    BigInteger minDoubleAsBigInteger = DoubleMath.roundToBigInteger(-Double.MAX_VALUE, UNNECESSARY);
+    new RoundToDoubleTester(minDoubleAsBigInteger)
+        .setExpectation(-Double.MAX_VALUE, values())
+        .test();
   }
 
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_minDoubleMinusOne() {
-    BigInteger minDoubleAsBI =
+    BigInteger minDoubleAsBigInteger =
         DoubleMath.roundToBigInteger(-Double.MAX_VALUE, UNNECESSARY).subtract(BigInteger.ONE);
-    new RoundToDoubleTester(minDoubleAsBI)
+    new RoundToDoubleTester(minDoubleAsBigInteger)
         .setExpectation(-Double.MAX_VALUE, DOWN, CEILING, HALF_EVEN, HALF_UP, HALF_DOWN)
         .setExpectation(Double.NEGATIVE_INFINITY, UP, FLOOR)
         .roundUnnecessaryShouldThrow()

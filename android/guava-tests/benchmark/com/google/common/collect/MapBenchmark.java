@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * A microbenchmark that tests the performance of get() and iteration on various map
@@ -37,6 +38,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  *
  * @author Nicholaus Shupe
  */
+@NullUnmarked
 public class MapBenchmark {
   @Param({"Hash", "LinkedHM", "MapMaker1", "Immutable"})
   private Impl impl;

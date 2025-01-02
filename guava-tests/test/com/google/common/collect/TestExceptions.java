@@ -17,9 +17,11 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Exception classes for use in tests. */
 @GwtCompatible
+@NullUnmarked
 final class TestExceptions {
   static class SomeError extends Error {}
 

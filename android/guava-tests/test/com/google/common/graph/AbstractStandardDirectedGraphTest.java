@@ -23,11 +23,13 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
+import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 
 /**
  * Abstract base class for testing directed {@link Graph} implementations defined in this package.
  */
+@NullUnmarked
 public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTest {
 
   @Override

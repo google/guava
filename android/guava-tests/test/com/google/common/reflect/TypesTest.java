@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Types}.
@@ -44,6 +45,7 @@ import junit.framework.TestCase;
  * @author Ben Yu
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
+@NullUnmarked
 public class TypesTest extends TestCase {
   public void testNewParameterizedType_ownerTypeImplied() throws Exception {
     ParameterizedType jvmType =
@@ -82,10 +84,10 @@ public class TypesTest extends TestCase {
   }
 
   public void testNewParameterizedType_staticLocalClass() {
-    doTestNewParameterizedType_staticLocalClass();
+    doTestNewParameterizedTypeStaticLocalClass();
   }
 
-  private static void doTestNewParameterizedType_staticLocalClass() {
+  private static void doTestNewParameterizedTypeStaticLocalClass() {
     class LocalClass<T> {}
     Type jvmType = new LocalClass<String>() {}.getClass().getGenericSuperclass();
     Type ourType = Types.newParameterizedType(LocalClass.class, String.class);

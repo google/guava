@@ -94,14 +94,15 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit tests for {@link Futures}.
  *
  * @author Nishant Thakkar
  */
-@ElementTypesAreNonnullByDefault
+@NullMarked
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
   private static final Logger aggregateFutureLogger =
@@ -3336,7 +3337,7 @@ public class FuturesTest extends TestCase {
     Logger exceptionLogger = Logger.getLogger(AbstractFuture.class.getName());
     exceptionLogger.addHandler(listenerLoggerHandler);
     try {
-      doTestSuccessfulAsList_resultCancelledRacingInputDone();
+      doTestSuccessfulAsListResultCancelledRacingInputDone();
 
       assertWithMessage("Nothing should be logged")
           .that(listenerLoggerHandler.getStoredLogRecords())
@@ -3346,7 +3347,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
+  private static void doTestSuccessfulAsListResultCancelledRacingInputDone() throws Exception {
     // Simple (combined.cancel -> input.cancel -> setOneValue):
     successfulAsList(ImmutableList.of(SettableFuture.create())).cancel(true);
 

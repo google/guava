@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link Objects}.
@@ -28,6 +29,7 @@ import junit.framework.TestCase;
  * @author Laurence Gonsalves
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class ObjectsTest extends TestCase {
 
   public void testEqual() throws Exception {

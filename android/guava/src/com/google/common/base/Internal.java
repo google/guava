@@ -21,7 +21,6 @@ import java.time.Duration;
 /** This class is for {@code com.google.common.base} use only! */
 @J2ktIncompatible
 @GwtIncompatible // java.time.Duration
-@ElementTypesAreNonnullByDefault
 final class Internal {
 
   /**

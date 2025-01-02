@@ -18,7 +18,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code ObjectCountLinkedHashMap} is a subclass of {@code ObjectCountHashMap} with insertion
@@ -28,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * footprint.
  */
 @GwtCompatible(serializable = true, emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */
   static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> create() {

@@ -44,8 +44,7 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents a multimap as a map
@@ -86,7 +85,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements Serializable {
   /*
@@ -177,7 +175,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @Override
-  public boolean containsKey(@CheckForNull Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
   }
 
@@ -249,7 +247,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    * <p>The returned collection is immutable.
    */
   @Override
-  public Collection<V> removeAll(@CheckForNull Object key) {
+  public Collection<V> removeAll(@Nullable Object key) {
     Collection<V> collection = map.remove(key);
 
     if (collection == null) {
@@ -304,7 +302,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   final List<V> wrapList(
-      @ParametricNullness K key, List<V> list, @CheckForNull WrappedCollection ancestor) {
+      @ParametricNullness K key, List<V> list, @Nullable WrappedCollection ancestor) {
     return (list instanceof RandomAccess)
         ? new RandomAccessWrappedList(key, list, ancestor)
         : new WrappedList(key, list, ancestor);
@@ -329,13 +327,11 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   class WrappedCollection extends AbstractCollection<V> {
     @ParametricNullness final K key;
     Collection<V> delegate;
-    @CheckForNull final WrappedCollection ancestor;
-    @CheckForNull final Collection<V> ancestorDelegate;
+    final @Nullable WrappedCollection ancestor;
+    final @Nullable Collection<V> ancestorDelegate;
 
     WrappedCollection(
-        @ParametricNullness K key,
-        Collection<V> delegate,
-        @CheckForNull WrappedCollection ancestor) {
+        @ParametricNullness K key, Collection<V> delegate, @Nullable WrappedCollection ancestor) {
       this.key = key;
       this.delegate = delegate;
       this.ancestor = ancestor;
@@ -401,7 +397,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -494,8 +490,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return changed;
     }
 
-    @CheckForNull
-    WrappedCollection getAncestor() {
+    @Nullable WrappedCollection getAncestor() {
       return ancestor;
     }
 
@@ -519,7 +514,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean contains(@CheckForNull Object o) {
+    public boolean contains(@Nullable Object o) {
       refreshIfEmpty();
       return delegate.contains(o);
     }
@@ -542,7 +537,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean remove(@CheckForNull Object o) {
+    public boolean remove(@Nullable Object o) {
       refreshIfEmpty();
       boolean changed = delegate.remove(o);
       if (changed) {
@@ -619,9 +614,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   @WeakOuter
   class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
     WrappedSortedSet(
-        @ParametricNullness K key,
-        SortedSet<V> delegate,
-        @CheckForNull WrappedCollection ancestor) {
+        @ParametricNullness K key, SortedSet<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -630,8 +623,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public Comparator<? super V> comparator() {
+    public @Nullable Comparator<? super V> comparator() {
       return getSortedSetDelegate().comparator();
     }
 
@@ -680,9 +672,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
-        @ParametricNullness K key,
-        NavigableSet<V> delegate,
-        @CheckForNull WrappedCollection ancestor) {
+        @ParametricNullness K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -692,38 +682,32 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public V lower(@ParametricNullness V v) {
+    public @Nullable V lower(@ParametricNullness V v) {
       return getSortedSetDelegate().lower(v);
     }
 
     @Override
-    @CheckForNull
-    public V floor(@ParametricNullness V v) {
+    public @Nullable V floor(@ParametricNullness V v) {
       return getSortedSetDelegate().floor(v);
     }
 
     @Override
-    @CheckForNull
-    public V ceiling(@ParametricNullness V v) {
+    public @Nullable V ceiling(@ParametricNullness V v) {
       return getSortedSetDelegate().ceiling(v);
     }
 
     @Override
-    @CheckForNull
-    public V higher(@ParametricNullness V v) {
+    public @Nullable V higher(@ParametricNullness V v) {
       return getSortedSetDelegate().higher(v);
     }
 
     @Override
-    @CheckForNull
-    public V pollFirst() {
+    public @Nullable V pollFirst() {
       return Iterators.pollNext(iterator());
     }
 
     @Override
-    @CheckForNull
-    public V pollLast() {
+    public @Nullable V pollLast() {
       return Iterators.pollNext(descendingIterator());
     }
 
@@ -765,8 +749,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   /** List decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
   class WrappedList extends WrappedCollection implements List<V> {
-    WrappedList(
-        @ParametricNullness K key, List<V> delegate, @CheckForNull WrappedCollection ancestor) {
+    WrappedList(@ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -827,13 +810,13 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public int indexOf(@CheckForNull Object o) {
+    public int indexOf(@Nullable Object o) {
       refreshIfEmpty();
       return getListDelegate().indexOf(o);
     }
 
     @Override
-    public int lastIndexOf(@CheckForNull Object o) {
+    public int lastIndexOf(@Nullable Object o) {
       refreshIfEmpty();
       return getListDelegate().lastIndexOf(o);
     }
@@ -915,7 +898,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    */
   private class RandomAccessWrappedList extends WrappedList implements RandomAccess {
     RandomAccessWrappedList(
-        @ParametricNullness K key, List<V> delegate, @CheckForNull WrappedCollection ancestor) {
+        @ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
   }
@@ -945,7 +928,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     public Iterator<K> iterator() {
       final Iterator<Entry<K, Collection<V>>> entryIterator = map().entrySet().iterator();
       return new Iterator<K>() {
-        @CheckForNull Entry<K, Collection<V>> entry;
+        @Nullable Entry<K, Collection<V>> entry;
 
         @Override
         public boolean hasNext() {
@@ -974,7 +957,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     // The following methods are included for better performance.
 
     @Override
-    public boolean remove(@CheckForNull Object key) {
+    public boolean remove(@Nullable Object key) {
       int count = 0;
       Collection<V> collection = map().remove(key);
       if (collection != null) {
@@ -996,7 +979,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       return this == object || this.map().keySet().equals(object);
     }
 
@@ -1018,8 +1001,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return sortedMap().comparator();
     }
 
@@ -1063,38 +1045,32 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public K lower(@ParametricNullness K k) {
+    public @Nullable K lower(@ParametricNullness K k) {
       return sortedMap().lowerKey(k);
     }
 
     @Override
-    @CheckForNull
-    public K floor(@ParametricNullness K k) {
+    public @Nullable K floor(@ParametricNullness K k) {
       return sortedMap().floorKey(k);
     }
 
     @Override
-    @CheckForNull
-    public K ceiling(@ParametricNullness K k) {
+    public @Nullable K ceiling(@ParametricNullness K k) {
       return sortedMap().ceilingKey(k);
     }
 
     @Override
-    @CheckForNull
-    public K higher(@ParametricNullness K k) {
+    public @Nullable K higher(@ParametricNullness K k) {
       return sortedMap().higherKey(k);
     }
 
     @Override
-    @CheckForNull
-    public K pollFirst() {
+    public @Nullable K pollFirst() {
       return Iterators.pollNext(iterator());
     }
 
     @Override
-    @CheckForNull
-    public K pollLast() {
+    public @Nullable K pollLast() {
       return Iterators.pollNext(descendingIterator());
     }
 
@@ -1146,7 +1122,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   /** Removes all values for the provided key. */
-  private void removeValuesForKey(@CheckForNull Object key) {
+  private void removeValuesForKey(@Nullable Object key) {
     Collection<V> collection = Maps.safeRemove(map, key);
 
     if (collection != null) {
@@ -1158,8 +1134,8 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
-    @CheckForNull K key;
-    @CheckForNull Collection<V> collection;
+    @Nullable K key;
+    @Nullable Collection<V> collection;
     Iterator<V> valueIterator;
 
     Itr() {
@@ -1320,13 +1296,12 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     // The following methods are included for performance.
 
     @Override
-    public boolean containsKey(@CheckForNull Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return Maps.safeContainsKey(submap, key);
     }
 
     @Override
-    @CheckForNull
-    public Collection<V> get(@CheckForNull Object key) {
+    public @Nullable Collection<V> get(@Nullable Object key) {
       Collection<V> collection = safeGet(submap, key);
       if (collection == null) {
         return null;
@@ -1347,8 +1322,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public Collection<V> remove(@CheckForNull Object key) {
+    public @Nullable Collection<V> remove(@Nullable Object key) {
       Collection<V> collection = submap.remove(key);
       if (collection == null) {
         return null;
@@ -1362,7 +1336,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean equals(@CheckForNull Object object) {
+    public boolean equals(@Nullable Object object) {
       return this == object || submap.equals(object);
     }
 
@@ -1405,12 +1379,12 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       // The following methods are included for performance.
 
       @Override
-      public boolean contains(@CheckForNull Object o) {
+      public boolean contains(@Nullable Object o) {
         return Collections2.safeContains(submap.entrySet(), o);
       }
 
       @Override
-      public boolean remove(@CheckForNull Object o) {
+      public boolean remove(@Nullable Object o) {
         if (!contains(o)) {
           return false;
         }
@@ -1424,7 +1398,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     /** Iterator across all keys and value collections. */
     class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
       final Iterator<Entry<K, Collection<V>>> delegateIterator = submap.entrySet().iterator();
-      @CheckForNull Collection<V> collection;
+      @Nullable Collection<V> collection;
 
       @Override
       public boolean hasNext() {
@@ -1460,8 +1434,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return sortedMap().comparator();
     }
 
@@ -1493,7 +1466,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return new SortedAsMap(sortedMap().tailMap(fromKey));
     }
 
-    @CheckForNull SortedSet<K> sortedKeySet;
+    @Nullable SortedSet<K> sortedKeySet;
 
     // returns a SortedSet, even though returning a Set would be sufficient to
     // satisfy the SortedMap.keySet() interface
@@ -1521,85 +1494,73 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> lowerEntry(@ParametricNullness K key) {
+    public @Nullable Entry<K, Collection<V>> lowerEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().lowerEntry(key);
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public K lowerKey(@ParametricNullness K key) {
+    public @Nullable K lowerKey(@ParametricNullness K key) {
       return sortedMap().lowerKey(key);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> floorEntry(@ParametricNullness K key) {
+    public @Nullable Entry<K, Collection<V>> floorEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().floorEntry(key);
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public K floorKey(@ParametricNullness K key) {
+    public @Nullable K floorKey(@ParametricNullness K key) {
       return sortedMap().floorKey(key);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> ceilingEntry(@ParametricNullness K key) {
+    public @Nullable Entry<K, Collection<V>> ceilingEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().ceilingEntry(key);
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public K ceilingKey(@ParametricNullness K key) {
+    public @Nullable K ceilingKey(@ParametricNullness K key) {
       return sortedMap().ceilingKey(key);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> higherEntry(@ParametricNullness K key) {
+    public @Nullable Entry<K, Collection<V>> higherEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().higherEntry(key);
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public K higherKey(@ParametricNullness K key) {
+    public @Nullable K higherKey(@ParametricNullness K key) {
       return sortedMap().higherKey(key);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> firstEntry() {
+    public @Nullable Entry<K, Collection<V>> firstEntry() {
       Entry<K, Collection<V>> entry = sortedMap().firstEntry();
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> lastEntry() {
+    public @Nullable Entry<K, Collection<V>> lastEntry() {
       Entry<K, Collection<V>> entry = sortedMap().lastEntry();
       return (entry == null) ? null : wrapEntry(entry);
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> pollFirstEntry() {
+    public @Nullable Entry<K, Collection<V>> pollFirstEntry() {
       return pollAsMapEntry(entrySet().iterator());
     }
 
     @Override
-    @CheckForNull
-    public Entry<K, Collection<V>> pollLastEntry() {
+    public @Nullable Entry<K, Collection<V>> pollLastEntry() {
       return pollAsMapEntry(descendingMap().entrySet().iterator());
     }
 
-    @CheckForNull
-    Entry<K, Collection<V>> pollAsMapEntry(Iterator<Entry<K, Collection<V>>> entryIterator) {
+    @Nullable Entry<K, Collection<V>> pollAsMapEntry(
+        Iterator<Entry<K, Collection<V>>> entryIterator) {
       if (!entryIterator.hasNext()) {
         return null;
       }

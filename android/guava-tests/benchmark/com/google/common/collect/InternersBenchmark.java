@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarking interners.
  *
  * @author Dimitris Andreou
  */
+@NullUnmarked
 public class InternersBenchmark {
   @Benchmark
   int weakInterner(int reps) {

@@ -21,12 +21,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmarks for {@link CycleDetectingLockFactory}.
  *
  * @author Darick Tong
  */
+@NullUnmarked
 public class CycleDetectingLockFactoryBenchmark {
 
   @Param({"2", "3", "4", "5", "10"})

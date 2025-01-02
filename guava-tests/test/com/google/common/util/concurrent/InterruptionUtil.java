@@ -25,6 +25,7 @@ import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownAccepter;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Utilities for performing thread interruption in tests
@@ -32,6 +33,7 @@ import java.util.logging.Logger;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
+@NullUnmarked
 final class InterruptionUtil {
   private static final Logger logger = Logger.getLogger(InterruptionUtil.class.getName());
 

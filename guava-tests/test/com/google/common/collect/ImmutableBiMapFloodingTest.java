@@ -29,8 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@NullUnmarked
 public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<Object, Object>> {
   public ImmutableBiMapFloodingTest() {
     super(

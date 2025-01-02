@@ -18,10 +18,11 @@ import static com.google.common.collect.Hashing.smear;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /** Tests for {@code Hashing}. */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class HashingTest extends TestCase {
   public void testSmear() {
     assertEquals(1459320713, smear(754102528));

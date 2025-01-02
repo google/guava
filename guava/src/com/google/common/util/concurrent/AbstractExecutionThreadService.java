@@ -34,7 +34,6 @@ import java.util.concurrent.TimeoutException;
  */
 @GwtIncompatible
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
   /* use AbstractService for state management */
   private final Service delegate =

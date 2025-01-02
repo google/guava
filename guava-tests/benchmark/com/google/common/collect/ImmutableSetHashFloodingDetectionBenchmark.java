@@ -21,8 +21,10 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.math.IntMath;
 import java.math.RoundingMode;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Benchmark of implementations of {@link ImmutableSet#hashFloodingDetected(Object[])}. */
+@NullUnmarked
 public class ImmutableSetHashFloodingDetectionBenchmark {
   private static final int TEST_CASES = 0x100;
 

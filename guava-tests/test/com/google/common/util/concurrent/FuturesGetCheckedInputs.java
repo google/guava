@@ -18,12 +18,14 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Classes and futures used in {@link FuturesGetCheckedTest} and {@link FuturesGetUncheckedTest}.
  */
 @GwtCompatible
+@NullUnmarked
 final class FuturesGetCheckedInputs {
   static final Exception CHECKED_EXCEPTION = new Exception("mymessage");
   static final Future<String> FAILED_FUTURE_CHECKED_EXCEPTION =
@@ -60,7 +62,7 @@ final class FuturesGetCheckedInputs {
   }
 
   public static final class ExceptionWithManyConstructorsButOnlyOneThrowable extends Exception {
-    @CheckForNull private Throwable antecedent;
+    private @Nullable Throwable antecedent;
 
     public ExceptionWithManyConstructorsButOnlyOneThrowable(String message, String a1) {
       super(message);

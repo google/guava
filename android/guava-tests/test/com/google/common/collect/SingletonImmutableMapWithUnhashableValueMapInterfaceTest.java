@@ -20,8 +20,10 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SampleElements.Unhashables;
 import com.google.common.collect.testing.UnhashableObject;
 import java.util.Map;
+import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible // GWT's ImmutableMap emulation is backed by java.util.HashMap.
+@NullUnmarked
 public class SingletonImmutableMapWithUnhashableValueMapInterfaceTest
     extends RegularImmutableMapWithUnhashableValuesMapInterfaceTest {
   @Override

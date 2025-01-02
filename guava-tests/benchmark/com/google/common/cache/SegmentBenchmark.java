@@ -23,12 +23,14 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.cache.LocalCache.Segment;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmark for {@code LocalCache.Segment.expand()}.
  *
  * @author Charles Fry
  */
+@NullUnmarked
 public class SegmentBenchmark {
 
   @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})

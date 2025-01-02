@@ -17,7 +17,7 @@ package com.google.common.escape;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -40,7 +40,6 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public abstract class CharEscaper extends Escaper {
   /** Constructor for use by subclasses. */
   protected CharEscaper() {}
@@ -80,8 +79,7 @@ public abstract class CharEscaper extends Escaper {
    * @param c the character to escape if necessary
    * @return the replacement characters, or {@code null} if no escaping was needed
    */
-  @CheckForNull
-  protected abstract char[] escape(char c);
+  protected abstract char @Nullable [] escape(char c);
 
   /**
    * Returns the escaped form of a given literal string, starting at the given index. This method is

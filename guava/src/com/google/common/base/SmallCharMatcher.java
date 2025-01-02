@@ -26,7 +26,6 @@ import java.util.BitSet;
  * @author Christopher Swenson
  */
 @GwtIncompatible // no precomputation is done in GWT
-@ElementTypesAreNonnullByDefault
 final class SmallCharMatcher extends NamedFastMatcher {
   static final int MAX_SIZE = 1023;
   private final char[] table;

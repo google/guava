@@ -96,7 +96,6 @@ import java.util.concurrent.TimeUnit;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("GoodTime") // lots of violations
-@ElementTypesAreNonnullByDefault
 public final class Stopwatch {
   private final Ticker ticker;
   private boolean isRunning;
@@ -227,7 +226,7 @@ public final class Stopwatch {
    * href="https://developer.android.com/studio/write/java11-default-support-table">opt in to
    * library desugaring</a>.
    *
-   * @since NEXT (but since 22.0 in the JRE flavor)
+   * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Duration calls

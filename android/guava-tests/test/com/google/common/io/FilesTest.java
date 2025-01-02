@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link Files}.
@@ -56,6 +57,7 @@ import junit.framework.TestSuite;
  */
 
 @SuppressWarnings("InlineMeInliner") // many tests of deprecated methods
+@NullUnmarked
 public class FilesTest extends IoTestCase {
 
   @AndroidIncompatible // suites, ByteSourceTester (b/230620681)

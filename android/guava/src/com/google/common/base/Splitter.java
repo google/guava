@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -99,7 +99,6 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
@@ -432,7 +431,7 @@ public final class Splitter {
    *
    * @param sequence the sequence of characters to split
    * @return a stream over the segments split from the parameter
-   * @since NEXT (but since 28.2 in the JRE flavor)
+   * @since 33.4.0 (but since 28.2 in the JRE flavor)
    */
   @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls.
@@ -564,9 +563,8 @@ public final class Splitter {
       this.toSplit = toSplit;
     }
 
-    @CheckForNull
     @Override
-    protected String computeNext() {
+    protected @Nullable String computeNext() {
       /*
        * The returned string will be from the end of the last match to the beginning of the next
        * one. nextStart is the start position of the returned substring, while offset is the place

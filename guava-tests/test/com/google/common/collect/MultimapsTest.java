@@ -76,7 +76,8 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@code Multimaps}.
@@ -84,7 +85,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =

@@ -32,12 +32,14 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test of {@link MutableTypeToInstanceMap}.
  *
  * @author Ben Yu
  */
+@NullUnmarked
 public class MutableTypeToInstanceMapTest extends TestCase {
 
   @AndroidIncompatible // problem with suite builders on Android

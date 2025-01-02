@@ -30,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Testing utilities relating to garbage collection finalization.
@@ -107,7 +108,7 @@ import java.util.concurrent.TimeoutException;
 @GwtIncompatible
 @J2ktIncompatible
 @J2ObjCIncompatible // gc
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class GcFinalization {
   private GcFinalization() {}
 

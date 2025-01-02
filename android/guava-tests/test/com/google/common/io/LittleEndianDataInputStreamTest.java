@@ -27,12 +27,14 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test class for {@link LittleEndianDataInputStream}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class LittleEndianDataInputStreamTest extends TestCase {
 
   private byte[] data;

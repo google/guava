@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract {@code ScheduledExecutorService} that allows subclasses to {@linkplain
@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 abstract class WrappingScheduledExecutorService extends WrappingExecutorService
     implements ScheduledExecutorService {
   final ScheduledExecutorService delegate;

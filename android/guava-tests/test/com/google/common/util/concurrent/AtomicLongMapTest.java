@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for {@link AtomicLongMap}.
@@ -34,6 +35,7 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class AtomicLongMapTest extends TestCase {
   private static final int ITERATIONS = 100;
   private static final int MAX_ADDEND = 100;

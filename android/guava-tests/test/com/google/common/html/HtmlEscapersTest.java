@@ -18,6 +18,7 @@ import static com.google.common.html.HtmlEscapers.htmlEscaper;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for the {@link HtmlEscapers} class.
@@ -25,6 +26,7 @@ import junit.framework.TestCase;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 public class HtmlEscapersTest extends TestCase {
 
   public void testHtmlEscaper() throws Exception {

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.SneakyThrows.sneakyThrow;
 import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
@@ -49,8 +50,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods related to {@code Stream} instances.
@@ -58,7 +58,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0 (but only since 33.4.0 in the Android flavor)
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public final class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
@@ -172,17 +171,6 @@ public final class Streams {
       // But theoretically we could see sneaky checked exception
       sneakyThrow(exception);
     }
-  }
-
-  /** Throws an undeclared checked exception. */
-  private static void sneakyThrow(Throwable t) {
-    class SneakyThrower<T extends Throwable> {
-      @SuppressWarnings("unchecked") // not really safe, but that's the point
-      void throwIt(Throwable t) throws T {
-        throw (T) t;
-      }
-    }
-    new SneakyThrower<Error>().throwIt(t);
   }
 
   /**
@@ -481,7 +469,7 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      @CheckForNull T holder;
+      @Nullable T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
@@ -781,8 +769,7 @@ public final class Streams {
     abstract S createSplit(F from, long i);
 
     @Override
-    @CheckForNull
-    public S trySplit() {
+    public @Nullable S trySplit() {
       Spliterator<?> splitOrNull = fromSpliterator.trySplit();
       if (splitOrNull == null) {
         return null;
@@ -876,7 +863,7 @@ public final class Streams {
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
     class OptionalState {
       boolean set = false;
-      @CheckForNull T value = null;
+      @Nullable T value = null;
 
       void set(T value) {
         this.set = true;

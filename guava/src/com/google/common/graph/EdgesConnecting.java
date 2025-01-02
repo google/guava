@@ -23,7 +23,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
 import java.util.Map;
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
@@ -34,7 +34,6 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
-@ElementTypesAreNonnullByDefault
 final class EdgesConnecting<E> extends AbstractSet<E> {
 
   private final Map<?, E> nodeToOutEdge;
@@ -59,13 +58,12 @@ final class EdgesConnecting<E> extends AbstractSet<E> {
   }
 
   @Override
-  public boolean contains(@CheckForNull Object edge) {
+  public boolean contains(@Nullable Object edge) {
     E connectingEdge = getConnectingEdge();
     return (connectingEdge != null && connectingEdge.equals(edge));
   }
 
-  @CheckForNull
-  private E getConnectingEdge() {
+  private @Nullable E getConnectingEdge() {
     return nodeToOutEdge.get(targetNode);
   }
 }

@@ -20,7 +20,8 @@ import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link UnicodeEscaper}.
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author David Beaumont
  */
 @GwtCompatible
+@NullUnmarked
 public class UnicodeEscaperTest extends TestCase {
 
   private static final String SMALLEST_SURROGATE =

@@ -120,8 +120,8 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Generates fresh instances of types that are different from each other (if possible).
@@ -130,6 +130,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible
 @J2ktIncompatible
+@NullUnmarked
+@SuppressWarnings("nullness")
 class FreshValueGenerator {
 
   private static final ImmutableMap<Class<?>, Method> GENERATORS;
@@ -291,8 +293,8 @@ class FreshValueGenerator {
     }
 
     @Override
-    @CheckForNull
-    protected Object handleInvocation(Object proxy, Method method, @Nullable Object[] args) {
+    protected @Nullable Object handleInvocation(
+        Object proxy, Method method, @Nullable Object[] args) {
       return interfaceMethodCalled(interfaceType, method);
     }
 
@@ -317,8 +319,7 @@ class FreshValueGenerator {
   }
 
   /** Subclasses can override to provide different return value for proxied interface methods. */
-  @CheckForNull
-  Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
+  @Nullable Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
     throw new UnsupportedOperationException();
   }
 

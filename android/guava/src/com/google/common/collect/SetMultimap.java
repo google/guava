@@ -22,8 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code Multimap} that cannot hold duplicate key-value pairs. Adding a key-value pair that's
@@ -52,7 +51,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends Multimap<K, V> {
   /**
@@ -74,7 +72,7 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    */
   @CanIgnoreReturnValue
   @Override
-  Set<V> removeAll(@CheckForNull Object key);
+  Set<V> removeAll(@Nullable Object key);
 
   /**
    * {@inheritDoc}
@@ -119,5 +117,5 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    * empty {@code ListMultimap}.
    */
   @Override
-  boolean equals(@CheckForNull Object obj);
+  boolean equals(@Nullable Object obj);
 }

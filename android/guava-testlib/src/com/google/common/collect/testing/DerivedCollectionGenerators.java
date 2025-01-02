@@ -33,7 +33,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Derived suite generators, split out of the suite builders so that they are available to GWT.
@@ -41,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author George van den Driessche
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public final class DerivedCollectionGenerators {
   public static class MapEntrySetGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestSetGenerator<Entry<K, V>>, DerivedGenerator {

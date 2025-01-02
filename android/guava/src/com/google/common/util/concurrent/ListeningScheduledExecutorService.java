@@ -19,7 +19,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its
@@ -32,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
 

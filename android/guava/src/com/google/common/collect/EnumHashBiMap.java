@@ -29,8 +29,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code BiMap} backed by an {@code EnumMap} instance for keys-to-values, and a {@code HashMap}
@@ -45,7 +44,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @J2ktIncompatible
-@ElementTypesAreNonnullByDefault
 public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     extends AbstractBiMap<K, V> {
   transient Class<K> keyTypeOrObjectUnderJ2cl;
@@ -94,8 +92,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  @CheckForNull
-  public V put(K key, @ParametricNullness V value) {
+  public @Nullable V put(K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
@@ -103,8 +100,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @Override
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
-  @CheckForNull
-  public V forcePut(K key, @ParametricNullness V value) {
+  public @Nullable V forcePut(K key, @ParametricNullness V value) {
     return super.forcePut(key, value);
   }
 

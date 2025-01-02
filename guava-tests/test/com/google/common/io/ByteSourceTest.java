@@ -42,13 +42,15 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EnumSet;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for the default implementations of {@code ByteSource} methods.
  *
  * @author Colin Decker
  */
+@NullUnmarked
 public class ByteSourceTest extends IoTestCase {
 
   @AndroidIncompatible // Android doesn't understand suites whose tests lack default constructors.

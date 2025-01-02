@@ -19,12 +19,14 @@ package com.google.common.collect;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Benchmark for various ways to create an {@code ImmutableList}.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class ImmutableListCreationBenchmark {
 
   @Param({"10", "1000", "1000000"})

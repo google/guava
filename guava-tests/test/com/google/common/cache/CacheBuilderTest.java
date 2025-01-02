@@ -47,11 +47,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for CacheBuilder. */
 @GwtCompatible(emulated = true)
 // We are intentionally testing the TimeUnit overloads, too.
 @SuppressWarnings("LongTimeUnit_ExpireAfterWrite_Seconds")
+@NullUnmarked
 public class CacheBuilderTest extends TestCase {
 
   public void testNewBuilder() {

@@ -16,7 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.hash.SneakyThrows.sneakyThrow;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
@@ -24,10 +24,9 @@ import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.ByteBuffer;
 import java.util.zip.Checksum;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.
@@ -35,7 +34,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Colin Decker
  */
 @Immutable
-@ElementTypesAreNonnullByDefault
 final class ChecksumHashFunction extends AbstractHashFunction implements Serializable {
   private final ImmutableSupplier<? extends Checksum> checksumSupplier;
   private final int bits;
@@ -117,9 +115,8 @@ final class ChecksumHashFunction extends AbstractHashFunction implements Seriali
         try {
           UPDATE_BB.invokeExact(cs, bb);
         } catch (Throwable e) {
-          throwIfUnchecked(e);
-          // This should be impossible, since `update` has no `throws` clause.
-          throw new UndeclaredThrowableException(e);
+          // `update` has no `throws` clause.
+          sneakyThrow(e);
         }
         return true;
       } else {

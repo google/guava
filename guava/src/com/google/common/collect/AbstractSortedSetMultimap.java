@@ -25,8 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link
@@ -36,7 +35,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
@@ -101,7 +99,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(@CheckForNull Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 

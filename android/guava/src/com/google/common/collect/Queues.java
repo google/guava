@@ -35,7 +35,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 
@@ -287,7 +286,7 @@ public final class Queues {
    * @param timeout how long to wait before giving up
    * @return the number of elements transferred
    * @throws InterruptedException if interrupted while waiting
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible
@@ -359,7 +358,7 @@ public final class Queues {
    * @param numElements the number of elements to be waited for
    * @param timeout how long to wait before giving up
    * @return the number of elements transferred
-   * @since NEXT (but since 28.0 in the JRE flavor)
+   * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
   @CanIgnoreReturnValue
   @J2ktIncompatible

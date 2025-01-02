@@ -30,7 +30,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
-@ElementTypesAreNonnullByDefault
 public interface MutableNetwork<N, E> extends Network<N, E> {
 
   /**

@@ -29,6 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for UnsignedInts
@@ -36,6 +37,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class UnsignedIntsTest extends TestCase {
   private static final long[] UNSIGNED_INTS = {
     0L,
@@ -92,7 +94,7 @@ public class UnsignedIntsTest extends TestCase {
   public void testCompare() {
     for (long a : UNSIGNED_INTS) {
       for (long b : UNSIGNED_INTS) {
-        int cmpAsLongs = Longs.compare(a, b);
+        int cmpAsLongs = Long.compare(a, b);
         int cmpAsUInt = UnsignedInts.compare((int) a, (int) b);
         assertThat(Integer.signum(cmpAsUInt)).isEqualTo(Integer.signum(cmpAsLongs));
       }

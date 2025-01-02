@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
@@ -33,7 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@ElementTypesAreNonnullByDefault
 abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
   @GwtTransient final Comparator<? super E> comparator;
@@ -64,22 +62,19 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> pollFirstEntry() {
+  public @Nullable Entry<E> pollFirstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();
@@ -91,8 +86,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   }
 
   @Override
-  @CheckForNull
-  public Entry<E> pollLastEntry() {
+  public @Nullable Entry<E> pollLastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();

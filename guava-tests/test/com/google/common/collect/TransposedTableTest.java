@@ -19,7 +19,8 @@ package com.google.common.collect;
 import static com.google.common.collect.Tables.transpose;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Test cases for {@link Tables#transpose}.
@@ -27,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
+@NullMarked
 public class TransposedTableTest extends AbstractTableTest<Character> {
 
   @Override

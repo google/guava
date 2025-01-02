@@ -21,15 +21,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Note this class is a copy of {@link com.google.common.collect.AbstractIterator} (for dependency
  * reasons).
  */
 @GwtCompatible
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
   private State state = State.NOT_READY;
 
@@ -42,14 +40,12 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
     FAILED,
   }
 
-  @CheckForNull private T next;
+  private @Nullable T next;
 
-  @CheckForNull
-  protected abstract T computeNext();
+  protected abstract @Nullable T computeNext();
 
   @CanIgnoreReturnValue
-  @CheckForNull
-  protected final T endOfData() {
+  protected final @Nullable T endOfData() {
     state = State.DONE;
     return null;
   }

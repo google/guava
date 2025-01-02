@@ -21,7 +21,7 @@ import static com.google.common.collect.testing.Helpers.copyToSet;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Encapsulates the constraints that a class under test must satisfy in order for a tester method to

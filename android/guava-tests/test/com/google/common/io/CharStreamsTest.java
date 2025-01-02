@@ -29,12 +29,14 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.List;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Unit test for {@link CharStreams}.
  *
  * @author Chris Nokleberg
  */
+@NullUnmarked
 public class CharStreamsTest extends IoTestCase {
 
   private static final String TEXT = "The quick brown fox jumped over the lazy dog.";
@@ -224,6 +226,7 @@ public class CharStreamsTest extends IoTestCase {
    * is permanently reduced, but with certain Reader implementations it could also cause the buffer
    * size to reach 0, causing an infinite loop.
    */
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   public void testCopyWithReaderThatDoesNotFillBuffer() throws IOException {
     // need a long enough string for the buffer to hit 0 remaining before the copy completes
     String string = Strings.repeat("0123456789", 100);
