@@ -300,6 +300,9 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target name="copy-gwt-resources">
+                <delete dir="${project.build.directory}/guava-gwt-sources" quiet="true" />
+                <delete dir="${project.build.directory}/guava-test-gwt-sources" quiet="true" />
+
                 <copy toDir="${project.build.directory}/guava-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-sources">
                     <contains text="@GwtCompatible"/>
