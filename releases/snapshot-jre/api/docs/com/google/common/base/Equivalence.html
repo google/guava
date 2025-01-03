@@ -92,13 +92,13 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;@Nullable T,<wbr>@Nullable T&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-38">Equivalence</a>&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;@Nullable T,<wbr>@Nullable T&gt;</span></div>
+implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&gt;</span></div>
 <div class="block">A strategy for determining whether two instances are considered equivalent, and for computing
  hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
  <a href="#identity()">identity equivalence</a> and the <a href="#equals()">"equals" equivalence</a>.</div>
@@ -122,7 +122,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final class&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="Equivalence.Wrapper.html" class="type-name-link" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="Equivalence.Wrapper.html" class="type-name-link" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-last even-row-color">
 <div class="block">Wraps an object so that <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Equivalence.Wrapper.equals(Object)</code></a> and <a href="Equivalence.Wrapper.html#hashCode()"><code>Equivalence.Wrapper.hashCode()</code></a> delegate to an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.</div>
 </div>
@@ -176,19 +176,19 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <div class="block">Returns an equivalence that delegates to <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equivalent(T,T)" class="member-name-link">equivalent</a><wbr>(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
- @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equivalent(T,T)" class="member-name-link">equivalent</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns <code>true</code> if the given objects are considered equivalent.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Predicate.html" title="interface in com.google.common.base">Predicate</a><wbr>&lt;@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equivalentTo(T)" class="member-name-link">equivalentTo</a><wbr>(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Predicate.html" title="interface in com.google.common.base">Predicate</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equivalentTo(T)" class="member-name-link">equivalentTo</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
  target</code> according to this equivalence relation.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hash(T)" class="member-name-link">hash</a><wbr>(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hash(T)" class="member-name-link">hash</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code for <code>t</code>.</div>
 </div>
@@ -198,26 +198,26 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <div class="block">Returns an equivalence that uses <code>==</code> to compare values and <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#identityHashCode-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>System.identityHashCode(Object)</code></a> to compute the hash code.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;F&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a><wbr>&lt;F&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onResultOf(com.google.common.base.Function)" class="member-name-link">onResultOf</a><wbr>(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onResultOf(com.google.common.base.Function)" class="member-name-link">onResultOf</a><wbr>(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;S extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pairwise()" class="member-name-link">pairwise</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#test(T,T)" class="member-name-link">test</a><wbr>(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t,
- @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;u)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#test(T,T)" class="member-name-link">test</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t,
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;u)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Provided only to satisfy the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link"><code>BiPredicate</code></a> interface; use <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
      instead.</div>
 </div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;S extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a><wbr>&lt;S&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a><wbr>&lt;S&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wrap(S)" class="member-name-link">wrap</a><wbr>(S&nbsp;reference)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
@@ -261,8 +261,8 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <li>
 <section class="detail" id="equivalent(T,T)">
 <h3 id="equivalent(java.lang.Object,java.lang.Object)">equivalent</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-64">equivalent</a></span><wbr><span class="parameters">(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
- @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-64">equivalent</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</span></div>
 <div class="block">Returns <code>true</code> if the given objects are considered equivalent.
 
  <p>This method describes an <i>equivalence relation</i> on object references, meaning that for
@@ -285,15 +285,15 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <h3 id="test(java.lang.Object,java.lang.Object)">test</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.equivalent(t, u)")
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-79">test</a></span><wbr><span class="parameters">(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t,
- @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;u)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-79">test</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t,
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;u)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Provided only to satisfy the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link"><code>BiPredicate</code></a> interface; use <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
      instead.</div>
 </div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html#test-T-U-" title="class or interface in java.util.function" class="external-link">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>,<wbr>@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html#test-T-U-" title="class or interface in java.util.function" class="external-link">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></dd>
 <dt>Since:</dt>
 <dd>21.0</dd>
 </dl>
@@ -319,7 +319,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <li>
 <section class="detail" id="hash(T)">
 <h3 id="hash(java.lang.Object)">hash</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-115">hash</a></span><wbr><span class="parameters">(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-115">hash</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
 <div class="block">Returns a hash code for <code>t</code>.
 
  <p>The <code>hash</code> has the following properties:
@@ -356,7 +356,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <li>
 <section class="detail" id="onResultOf(com.google.common.base.Function)">
 <h3>onResultOf</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;F&gt;</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-157">onResultOf</a></span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;F&gt;</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-157">onResultOf</a></span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</span></div>
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>. That is, for any pair of
  non-null objects <code>x</code> and <code>y</code>, <code>equivalence.onResultOf(function).equivalent(a,
@@ -385,7 +385,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <li>
 <section class="detail" id="wrap(S)">
 <h3 id="wrap(java.lang.Object)">wrap</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
 <span class="return-type"><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-171">wrap</a></span><wbr><span class="parameters">(S&nbsp;reference)</span></div>
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
  b)</code>.
@@ -402,7 +402,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <section class="detail" id="pairwise()">
 <h3>pairwise</h3>
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends @Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
+</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
 <span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-276">pairwise</a></span>()</div>
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements. More
  specifically, two iterables are considered equivalent if they both contain the same number of
@@ -421,7 +421,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function
 <li>
 <section class="detail" id="equivalentTo(T)">
 <h3 id="equivalentTo(java.lang.Object)">equivalentTo</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-289">equivalentTo</a></span><wbr><span class="parameters">(@Nullable <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-289">equivalentTo</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</span></div>
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
  target</code> according to this equivalence relation.</div>
 <dl class="notes">

@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.hash</a></div>
-<h1 title="Class BloomFilter" class="title">Class BloomFilter&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Class BloomFilter" class="title">Class BloomFilter&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.hash.BloomFilter&lt;T&gt;</div>
@@ -100,7 +100,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-71">BloomFilter</a>&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-71">BloomFilter</a>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;, <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
 <div class="block">A Bloom filter for instances of <code>T</code>. A Bloom filter offers an approximate containment test
@@ -167,14 +167,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a new <code>BloomFilter</code> that's a copy of this instance.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(com.google.common.hash.Funnel,int)" class="member-name-link">create</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  int&nbsp;expectedInsertions)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
  false positive probability of 3%.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(com.google.common.hash.Funnel,int,double)" class="member-name-link">create</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  int&nbsp;expectedInsertions,
  double&nbsp;fpp)</code></div>
@@ -182,14 +182,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and expected false
  positive probability.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(com.google.common.hash.Funnel,long)" class="member-name-link">create</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
  false positive probability of 3%.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(com.google.common.hash.Funnel,long,double)" class="member-name-link">create</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions,
  double&nbsp;fpp)</code></div>
@@ -198,7 +198,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  positive probability.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether another object is equal to this predicate.</div>
 </div>
@@ -233,20 +233,20 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="block">Combines this Bloom filter with another Bloom filter by performing a bitwise OR of the
  underlying data.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)" class="member-name-link">readFrom</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;in,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
  BloomFilter</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with false positive probability 3%.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long,double)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions,
  double&nbsp;fpp)</code></div>
@@ -318,7 +318,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  </ul></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../base/Predicate.html#apply(T)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="../base/Predicate.html#apply(T)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -411,7 +411,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-288">equals</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-288">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../base/Predicate.html#equals(java.lang.Object)">Predicate</a></code></span></div>
 <div class="block">Indicates whether another object is equal to this predicate.
 
@@ -423,7 +423,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  predicates are known <i>not</i> to be interchangeable.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../base/Predicate.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="../base/Predicate.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="BloomFilter.html" title="type parameter in BloomFilter">T</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
@@ -442,7 +442,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="toBloomFilter(com.google.common.hash.Funnel,long)">
 <h3>toBloomFilter</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-329">toBloomFilter</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions)</span></div>
 <div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with false positive probability 3%.
@@ -472,7 +472,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="toBloomFilter(com.google.common.hash.Funnel,long,double)">
 <h3>toBloomFilter</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a>&lt;T,<wbr>?,<wbr><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-358">toBloomFilter</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions,
  double&nbsp;fpp)</span></div>
@@ -504,7 +504,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="create(com.google.common.hash.Funnel,int,double)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-398">create</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  int&nbsp;expectedInsertions,
  double&nbsp;fpp)</span></div>
@@ -534,7 +534,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="create(com.google.common.hash.Funnel,long,double)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-424">create</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions,
  double&nbsp;fpp)</span></div>
@@ -566,7 +566,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="create(com.google.common.hash.Funnel,int)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-475">create</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  int&nbsp;expectedInsertions)</span></div>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
@@ -594,7 +594,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="create(com.google.common.hash.Funnel,long)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-500">create</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions)</span></div>
 <div class="block">Creates a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a default expected
@@ -640,7 +640,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li>
 <section class="detail" id="readFrom(java.io.InputStream,com.google.common.hash.Funnel)">
 <h3>readFrom</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line-609">readFrom</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;in,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>

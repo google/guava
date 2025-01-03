@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h1 title="Class SettableFuture" class="title">Class SettableFuture&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Class SettableFuture" class="title">Class SettableFuture&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.util.concurrent.internal.InternalFutureFailureAccess
@@ -100,7 +100,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-35">SettableFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-35">SettableFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</span></div>
 <div class="block">A <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="#set(V)"><code>set(Object)</code></a>, <a href="#setException(java.lang.Throwable)"><code>setException(Throwable)</code></a> or <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>setFuture(ListenableFuture)</code></a> call. It can also, like any
  other <code>Future</code>, be <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#cancel-boolean-" title="class or interface in java.util.concurrent" class="external-link">cancelled</a>.
@@ -147,7 +147,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(boolean)" class="member-name-link">cancel</a><wbr>(boolean&nbsp;mayInterruptIfRunning)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a><wbr>&lt;V&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a><wbr>&lt;V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
@@ -210,7 +210,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="create()">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-41">create</a></span>()</div>
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
 </section>
@@ -233,7 +233,7 @@ loadScripts(document, 'script');</script>
  acquire other locks, risking deadlocks.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#set(V)">set</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#set(V)">set</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>value</code> - the value to be used as the result</dd>
 <dt>Returns:</dt>
@@ -259,7 +259,7 @@ loadScripts(document, 'script');</script>
  acquire other locks, risking deadlocks.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#setException(java.lang.Throwable)">setException</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#setException(java.lang.Throwable)">setException</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>throwable</code> - the exception to be used as the failed result</dd>
 <dt>Returns:</dt>
@@ -297,7 +297,7 @@ loadScripts(document, 'script');</script>
  acquire other locks, risking deadlocks.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">setFuture</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">setFuture</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>future</code> - the future to delegate to</dd>
 <dt>Returns:</dt>
@@ -320,9 +320,9 @@ loadScripts(document, 'script');</script>
  current thread is interrupted during the call, even if the value is already available.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get--" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get--" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#get()">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#get()">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code></dd>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code></dd>
@@ -345,9 +345,9 @@ loadScripts(document, 'script');</script>
  current thread is interrupted during the call, even if the value is already available.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)">get</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code></dd>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code></dd>
@@ -361,9 +361,9 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDone</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#isDone()">isDone</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#isDone()">isDone</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -373,9 +373,9 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCancelled</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isCancelled--" title="class or interface in java.util.concurrent" class="external-link">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isCancelled--" title="class or interface in java.util.concurrent" class="external-link">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#isCancelled()">isCancelled</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#isCancelled()">isCancelled</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -410,9 +410,9 @@ loadScripts(document, 'script');</script>
  after executing them.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></code>&nbsp;in interface&nbsp;<code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></code>&nbsp;in interface&nbsp;<code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>listener</code> - the listener to run when the computation is complete</dd>
 <dd><code>executor</code> - the executor to run the listener in</dd>
@@ -439,9 +439,9 @@ loadScripts(document, 'script');</script>
  acquire other locks, risking deadlocks.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#cancel-boolean-" title="class or interface in java.util.concurrent" class="external-link">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#cancel-boolean-" title="class or interface in java.util.concurrent" class="external-link">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AbstractFuture.html#cancel(boolean)">cancel</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="AbstractFuture.html#cancel(boolean)">cancel</a></code>&nbsp;in class&nbsp;<code><a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>

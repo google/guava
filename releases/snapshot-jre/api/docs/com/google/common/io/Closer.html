@@ -171,7 +171,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a new <a href="Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;C extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>&gt;<br>C</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;C extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>&gt;<br>C</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#register(C)" class="member-name-link">register</a><wbr>(C&nbsp;closeable)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="#close()">closed</a>.</div>
@@ -223,7 +223,7 @@ X2 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exceptio
 <section class="detail" id="register(C)">
 <h3 id="register(java.io.Closeable)">register</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;C extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>&gt;</span>&nbsp;<span class="return-type">C</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/Closer.html#line-107">register</a></span><wbr><span class="parameters">(C&nbsp;closeable)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>&gt;</span>&nbsp;<span class="return-type">C</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/Closer.html#line-107">register</a></span><wbr><span class="parameters">(C&nbsp;closeable)</span></div>
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="#close()">closed</a>.</div>
 <dl class="notes">
 <dt>Returns:</dt>

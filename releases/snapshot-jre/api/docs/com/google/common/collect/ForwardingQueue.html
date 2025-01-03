@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h1 title="Class ForwardingQueue" class="title">Class ForwardingQueue&lt;E extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Class ForwardingQueue" class="title">Class ForwardingQueue&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a>
@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-47">ForwardingQueue</a>&lt;E extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-47">ForwardingQueue</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;E&gt;</span></div>
 <div class="block">A queue which forwards all its method calls to another queue. Subclasses should override one or
@@ -170,10 +170,10 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#offer(E)" class="member-name-link">offer</a><wbr>(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#peek()" class="member-name-link">peek</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#poll()" class="member-name-link">poll</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
@@ -184,12 +184,12 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">A sensible definition of <a href="#offer(E)"><code>offer(E)</code></a> in terms of <a href="ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#standardPeek()" class="member-name-link">standardPeek</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">A sensible definition of <a href="#peek()"><code>peek()</code></a> in terms of <a href="#element()"><code>element()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#standardPoll()" class="member-name-link">standardPoll</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">A sensible definition of <a href="#poll()"><code>poll()</code></a> in terms of <a href="#remove()"><code>remove()</code></a>.</div>
@@ -252,7 +252,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
  instance being decorated.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ForwardingCollection.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingCollection.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -263,7 +263,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-57">offer</a></span><wbr><span class="parameters">(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#offer-E-" title="class or interface in java.util" class="external-link">offer</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#offer-E-" title="class or interface in java.util" class="external-link">offer</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -271,10 +271,10 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <section class="detail" id="poll()">
 <h3>poll</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-63">poll</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-63">poll</a></span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#poll--" title="class or interface in java.util" class="external-link">poll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#poll--" title="class or interface in java.util" class="external-link">poll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -285,17 +285,17 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-69">remove</a></span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#remove--" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#remove--" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="peek()">
 <h3>peek</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-76">peek</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-76">peek</a></span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#peek--" title="class or interface in java.util" class="external-link">peek</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#peek--" title="class or interface in java.util" class="external-link">peek</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -305,7 +305,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-81">element</a></span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#element--" title="class or interface in java.util" class="external-link">element</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html#element--" title="class or interface in java.util" class="external-link">element</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html" title="class or interface in java.util" class="external-link">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -324,7 +324,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <li>
 <section class="detail" id="standardPeek()">
 <h3>standardPeek</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-107">standardPeek</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-107">standardPeek</a></span>()</div>
 <div class="block">A sensible definition of <a href="#peek()"><code>peek()</code></a> in terms of <a href="#element()"><code>element()</code></a>. If you override <a href="#element()"><code>element()</code></a>, you may wish to override <a href="#peek()"><code>peek()</code></a> to forward to this implementation.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -335,7 +335,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Queue.ht
 <li>
 <section class="detail" id="standardPoll()">
 <h3>standardPoll</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-121">standardPoll</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line-121">standardPoll</a></span>()</div>
 <div class="block">A sensible definition of <a href="#poll()"><code>poll()</code></a> in terms of <a href="#remove()"><code>remove()</code></a>. If you override <a href="#remove()"><code>remove()</code></a>, you may wish to override <a href="#poll()"><code>poll()</code></a> to forward to this implementation.</div>
 <dl class="notes">
 <dt>Since:</dt>

@@ -88,14 +88,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;@Nullable <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
+<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 </div>
 <div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromNullable(T)" class="member-name-link">fromNullable</a><wbr>(@Nullable T&nbsp;nullableReference)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromNullable(T)" class="member-name-link">fromNullable</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;nullableReference)</code></div>
 <div class="col-last even-row-color">
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="../Optional.html#absent()"><code>absent()</code></a>.</div>
@@ -133,8 +133,8 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#toJavaUtil(com.google.common.base.Optional)" class="member-name-link">toJavaUtil</a><wbr>(@Nullable <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></div>
+<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#toJavaUtil(com.google.common.base.Optional)" class="member-name-link">toJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -162,18 +162,18 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">FluentIterable.</span><code><a href="../../collect/FluentIterable.html#first()" class="member-name-link">first</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable.</div>
 </div>
-<div class="col-first odd-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">FluentIterable.</span><code><a href="../../collect/FluentIterable.html#firstMatch(com.google.common.base.Predicate)" class="member-name-link">firstMatch</a><wbr>(<a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable that satisfies
  the given predicate, if such an element exists.</div>
 </div>
-<div class="col-first even-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;@NonNull <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>final <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="../../collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">FluentIterable.</span><code><a href="../../collect/FluentIterable.html#last()" class="member-name-link">last</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable.</div>

@@ -234,7 +234,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
  <code>long</code> value, interpreted in little-endian byte order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashObject(T,com.google.common.hash.Funnel)" class="member-name-link">hashObject</a><wbr>(T&nbsp;instance,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -396,7 +396,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hashObject(T,com.google.common.hash.Funnel)">
 <h3 id="hashObject(java.lang.Object,com.google.common.hash.Funnel)">hashObject</h3>
-<div class="member-signature"><span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-213">hashObject</a></span><wbr><span class="parameters">(T&nbsp;instance,
+<div class="member-signature"><span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-213">hashObject</a></span><wbr><span class="parameters">(T&nbsp;instance,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</span></div>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>

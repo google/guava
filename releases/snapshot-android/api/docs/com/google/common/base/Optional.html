@@ -191,19 +191,19 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
  is present; an empty immutable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> otherwise.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equal</a> to each other or both are absent.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@Nullable <a href="Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromNullable(T)" class="member-name-link">fromNullable</a><wbr>(@Nullable T&nbsp;nullableReference)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromNullable(T)" class="member-name-link">fromNullable</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;nullableReference)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.</div>
@@ -243,7 +243,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the contained instance if it is present; <code>defaultValue</code> otherwise.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract @Nullable <a href="Optional.html" title="type parameter in Optional">T</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#orNull()" class="member-name-link">orNull</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise.</div>
@@ -259,8 +259,8 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toJavaUtil(com.google.common.base.Optional)" class="member-name-link">toJavaUtil</a><wbr>(@Nullable <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toJavaUtil(com.google.common.base.Optional)" class="member-name-link">toJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -320,7 +320,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="fromNullable(T)">
 <h3 id="fromNullable(java.lang.Object)">fromNullable</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-117">fromNullable</a></span><wbr><span class="parameters">(@Nullable T&nbsp;nullableReference)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-117">fromNullable</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;nullableReference)</span></div>
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.
 
@@ -331,7 +331,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="fromJavaUtil(java.util.Optional)">
 <h3>fromJavaUtil</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@Nullable <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-127">fromJavaUtil</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-127">fromJavaUtil</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</span></div>
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 <dl class="notes">
@@ -343,7 +343,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="toJavaUtil(com.google.common.base.Optional)">
 <h3>toJavaUtil</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-147">toJavaUtil</a></span><wbr><span class="parameters">(@Nullable <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-147">toJavaUtil</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</span></div>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.
 
@@ -469,7 +469,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="orNull()">
 <h3>orNull</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">@Nullable <a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-266">orNull</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-266">orNull</a></span>()</div>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="#get()"><code>get()</code></a> instead.
 
@@ -527,7 +527,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-313">equals</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-313">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equal</a> to each other or both are absent.
  Note that <code>Optional</code> instances of differing parameterized types can be equal.

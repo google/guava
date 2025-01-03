@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h1 title="Interface Multiset" class="title">Interface Multiset&lt;E extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface Multiset" class="title">Interface Multiset&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -101,7 +101,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-94">Multiset</a>&lt;E extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-94">Multiset</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;</span></div>
 <div class="block">A collection that supports order-independent equality, like <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a>, but may have duplicate
  elements. A multiset is also sometimes called a <i>bag</i>.
@@ -175,7 +175,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <div class="table-header col-second">Interface</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="Multiset.Entry.html" class="type-name-link" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="Multiset.Entry.html" class="type-name-link" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-last even-row-color">
 <div class="block">An unmodifiable element-count pair for a multiset.</div>
 </div>
@@ -205,7 +205,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <div class="block">Adds a number of occurrences of an element to this multiset.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Determines whether this multiset contains the specified element.</div>
 </div>
@@ -216,7 +216,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  specified collection.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#count(java.lang.Object)" class="member-name-link">count</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#count(java.lang.Object)" class="member-name-link">count</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element).</div>
@@ -233,7 +233,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  each providing an element of the multiset and the count of that element.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Compares the specified object with this multiset for equality.</div>
 </div>
@@ -255,12 +255,12 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#iterator()" class="member-name-link">iterator</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#remove(java.lang.Object,int)" class="member-name-link">remove</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#remove(java.lang.Object,int)" class="member-name-link">remove</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes a number of occurrences of the specified element from this multiset.</div>
@@ -323,7 +323,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  multiset, which is given by <code>entrySet().size()</code>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#size--" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#size--" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -331,7 +331,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <section class="detail" id="count(java.lang.Object)">
 <h3>count</h3>
 <div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-120">count</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
- @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>-based multiset, this gives the same result as
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#frequency-java.util.Collection-java.lang.Object-" title="class or interface in java.util" class="external-link"><code>Collections.frequency(java.util.Collection&lt;?&gt;, java.lang.Object)</code></a> (which would presumably perform more poorly).
@@ -390,7 +390,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  <p>To both add the element and obtain the previous count of that element, use <a href="#add(E,int)"><code>add</code></a><code>(element, 1)</code> instead.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#add-E-" title="class or interface in java.util" class="external-link">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#add-E-" title="class or interface in java.util" class="external-link">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>element</code> - the element to add one occurrence of; may be null only if explicitly allowed by
      the implementation</dd>
@@ -410,7 +410,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <h3>remove</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-180">remove</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
- @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
+ <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
  contains fewer than this number of occurrences to begin with, all occurrences will be removed.
@@ -432,7 +432,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <section class="detail" id="remove(java.lang.Object)">
 <h3>remove</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-195">remove</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-195">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
  <p>This method refines <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#remove-java.lang.Object-" title="class or interface in java.util" class="external-link"><code>Collection.remove(java.lang.Object)</code></a> to further specify that it <b>may not</b>
@@ -441,7 +441,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  <p>To both remove the element and obtain the previous count of that element, use <a href="#remove(java.lang.Object,int)"><code>remove</code></a><code>(element, 1)</code> instead.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#remove-java.lang.Object-" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#remove-java.lang.Object-" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>element</code> - the element to remove one occurrence of</dd>
 <dt>Returns:</dt>
@@ -557,13 +557,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-359">equals</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-359">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
  order.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#equals-java.lang.Object-" title="class or interface in java.util" class="external-link">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#equals-java.lang.Object-" title="class or interface in java.util" class="external-link">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
@@ -583,7 +583,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  always have the same hash code.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#hashCode--" title="class or interface in java.util" class="external-link">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#hashCode--" title="class or interface in java.util" class="external-link">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
@@ -614,23 +614,23 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  iterator, though not necessarily sequentially.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#iterator--" title="class or interface in java.util" class="external-link">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#iterator--" title="class or interface in java.util" class="external-link">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#iterator--" title="class or interface in java.lang" class="external-link">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#iterator--" title="class or interface in java.lang" class="external-link">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="contains(java.lang.Object)">
 <h3>contains</h3>
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-406">contains</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-406">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Determines whether this multiset contains the specified element.
 
  <p>This method refines <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#contains-java.lang.Object-" title="class or interface in java.util" class="external-link"><code>Collection.contains(java.lang.Object)</code></a> to further specify that it <b>may not</b>
  throw an exception in response to <code>element</code> being null or of the wrong type.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#contains-java.lang.Object-" title="class or interface in java.util" class="external-link">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#contains-java.lang.Object-" title="class or interface in java.util" class="external-link">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>element</code> - the element to check for</dd>
 <dt>Returns:</dt>
@@ -654,7 +654,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  other collection type like <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a>, but it may be unexpected to the user of a multiset.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#containsAll-java.util.Collection-" title="class or interface in java.util" class="external-link">containsAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#containsAll-java.util.Collection-" title="class or interface in java.util" class="external-link">containsAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>elements</code> - the collection of elements to be checked for containment in this multiset</dd>
 <dt>Returns:</dt>
@@ -680,7 +680,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#removeAll-java.util.Collection-" title="class or interface in java.util" class="external-link">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#removeAll-java.util.Collection-" title="class or interface in java.util" class="external-link">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -699,7 +699,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  throw an exception in response to any of <code>elements</code> being null or of the wrong type.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#retainAll-java.util.Collection-" title="class or interface in java.util" class="external-link">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#retainAll-java.util.Collection-" title="class or interface in java.util" class="external-link">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list-long">
@@ -719,7 +719,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
  correspondingly many times, though not necessarily sequentially.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#forEach-java.util.function.Consumer-" title="class or interface in java.lang" class="external-link">forEach</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#forEach-java.util.function.Consumer-" title="class or interface in java.lang" class="external-link">forEach</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -729,9 +729,9 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html" title="class or interface in java.util" class="external-link">Spliterator</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-481">spliterator</a></span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#spliterator--" title="class or interface in java.util" class="external-link">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#spliterator--" title="class or interface in java.util" class="external-link">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#spliterator--" title="class or interface in java.lang" class="external-link">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html#spliterator--" title="class or interface in java.lang" class="external-link">spliterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>

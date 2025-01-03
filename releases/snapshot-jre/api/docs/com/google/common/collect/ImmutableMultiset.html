@@ -149,7 +149,7 @@ implements <a href="Multiset.html" title="interface in com.google.common.collect
 </div>
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-com.google.common.collect.Multiset">Nested classes/interfaces inherited from interface&nbsp;com.google.common.collect.<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a></h2>
-<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -183,7 +183,7 @@ implements <a href="Multiset.html" title="interface in com.google.common.collect
 <div class="block">Returns a new builder.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determines whether this multiset contains the specified element.</div>
 </div>
@@ -217,7 +217,7 @@ implements <a href="Multiset.html" title="interface in com.google.common.collect
  each providing an element of the multiset and the count of that element.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Compares the specified object with this multiset for equality.</div>
 </div>
@@ -287,7 +287,7 @@ implements <a href="Multiset.html" title="interface in com.google.common.collect
  described in the class documentation.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#remove(java.lang.Object,int)" class="member-name-link">remove</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#remove(java.lang.Object,int)" class="member-name-link">remove</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
@@ -317,7 +317,7 @@ implements <a href="Multiset.html" title="interface in com.google.common.collect
 <div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>
  ImmutableMultiset</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
 E&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T,<wbr>?,<wbr><a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toImmutableMultiset(java.util.function.Function,java.util.function.ToIntFunction)" class="member-name-link">toImmutableMultiset</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T,<wbr>? extends E&gt;&nbsp;elementFunction,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToIntFunction.html" title="class or interface in java.util.function" class="external-link">ToIntFunction</a>&lt;? super T&gt;&nbsp;countFunction)</code></div>
@@ -375,7 +375,7 @@ E&gt;<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Col
 <li>
 <section class="detail" id="toImmutableMultiset(java.util.function.Function,java.util.function.ToIntFunction)">
 <h3>toImmutableMultiset</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
 E&gt;</span>
 <span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a>&lt;T,<wbr>?,<wbr><a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-85">toImmutableMultiset</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T,<wbr>? extends E&gt;&nbsp;elementFunction,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToIntFunction.html" title="class or interface in java.util.function" class="external-link">ToIntFunction</a>&lt;? super T&gt;&nbsp;countFunction)</span></div>
@@ -575,7 +575,7 @@ E&gt;</span>
 <li>
 <section class="detail" id="contains(java.lang.Object)">
 <h3>contains</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-266">contains</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-266">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#contains(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Determines whether this multiset contains the specified element.
 
@@ -626,7 +626,7 @@ E&gt;</span>
 <h3>remove</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-291">remove</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-291">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Unsupported operation.</div>
@@ -702,7 +702,7 @@ E&gt;</span>
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-337">equals</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line-337">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#equals(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
  given object is also a multiset and contains equal elements with equal counts, regardless of

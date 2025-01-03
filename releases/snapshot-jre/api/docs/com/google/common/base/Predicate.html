@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.base</a></div>
-<h1 title="Interface Predicate" class="title">Interface Predicate&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface Predicate" class="title">Interface Predicate&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Predicate.html#line-42">Predicate</a>&lt;T extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Predicate.html#line-42">Predicate</a>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;</span></div>
 <div class="block">Legacy version of <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>java.util.function.Predicate</code></a>. Determines a
  true or false value for a given input.
@@ -147,7 +147,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Pr
  class documentation above).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Indicates whether another object is equal to this predicate.</div>
 </div>
@@ -194,7 +194,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Pr
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Predicate.html#line-72">equals</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Predicate.html#line-72">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Indicates whether another object is equal to this predicate.
 
  <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>.
@@ -215,7 +215,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Pr
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Predicate.html#line-75">test</a></span><wbr><span class="parameters">(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html#test-T-" title="class or interface in java.util.function" class="external-link">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="Predicate.html" title="type parameter in Predicate">T</a> extends @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html#test-T-" title="class or interface in java.util.function" class="external-link">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="Predicate.html" title="type parameter in Predicate">T</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
