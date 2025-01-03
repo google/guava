@@ -44,9 +44,7 @@ jobs:
       - name: 'Set up JDKs'
         uses: actions/setup-java@8df1039502a15bceb9433410b1a100fbe190c53b # v4.5.0
         with:
-          java-version: |
-            ${{ matrix.java }}
-            23
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Install'
