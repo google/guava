@@ -13,7 +13,7 @@
  */
 
 /**
- * <a href="https://guava.dev/CacheBuilder">Discouraged</a> (in favor of <a
+ * {@linkplain CacheBuilder Discouraged} (in favor of <a
  * href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>) caching utilities.
  *
  * <p>The core interface used to represent caches is {@link Cache}. In-memory caches can be
