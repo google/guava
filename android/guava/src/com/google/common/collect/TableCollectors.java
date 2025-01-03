@@ -32,7 +32,6 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs with Java 8 types in them
-// (not used publicly by guava-android as of this writing, but we include it in the jar as a test)
 final class TableCollectors {
 
   static <T extends @Nullable Object, R, C, V>
