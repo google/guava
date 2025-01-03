@@ -161,6 +161,7 @@
           <links>
             <link>https://docs.oracle.com/javase/21/docs/api/</link>
             <link>https://errorprone.info/api/latest/</link>
+            <link>https://jspecify.dev/docs/api/</link>
           </links>
           <overview>../../overview.html</overview>
         </configuration>
