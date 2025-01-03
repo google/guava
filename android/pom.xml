@@ -200,20 +200,6 @@
             (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
             -->
             <execution>
-              <id>download-21</id>
-              <goals>
-                <goal>toolchain</goal>
-              </goals>
-              <configuration>
-                <toolchains>
-                  <jdk>
-                    <version>21</version>
-                    <vendor>temurin</vendor>
-                  </jdk>
-                </toolchains>
-              </configuration>
-            </execution>
-            <execution>
               <id>download-23-and-surefire-version</id>
               <goals>
                 <goal>toolchain</goal>
@@ -329,8 +315,7 @@
           <version>3.11.2</version>
           <configuration>
             <jdkToolchain>
-              <version>21</version>
-              <vendor>temurin</vendor>
+              <version>23</version>
             </jdkToolchain>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
