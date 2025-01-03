@@ -29,8 +29,11 @@ import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import com.google.j2objc.annotations.RetainedLocalRef;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -150,35 +153,60 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
   private static final AtomicHelper ATOMIC_HELPER;
 
+  /**
+   * Returns the result of calling {@link MethodHandles#lookup} from inside {@link AbstractFuture}.
+   * By virtue of being created there, it has access to the private fields of {@link
+   * AbstractFuture}, so that access is available to anyone who calls this method—specifically, to
+   * {@link VarHandleAtomicHelper}.
+   *
+   * <p>This "shouldn't" be necessary: {@link VarHandleAtomicHelper} and {@link AbstractFuture}
+   * "should" be nestmates, so a call to {@link MethodHandles#lookup} inside {@link
+   * VarHandleAtomicHelper} "should" have access to each other's private fields. However, our
+   * open-source build uses {@code -source 8 -target 8}, so the class files from that build can't
+   * express nestmates. Thus, when those class files are used from Java 9 or higher (i.e., high
+   * enough to trigger the {@link VarHandle} code path), such a lookup would fail with an {@link
+   * IllegalAccessException}.
+   *
+   * <p>Note that we do not have a similar problem with the fields in {@link Waiter} because those
+   * fields are not private. (We could solve the problem with {@link AbstractFuture} fields in the
+   * same way if we wanted.)
+   */
+  private static MethodHandles.Lookup methodHandlesLookupFromWithinAbstractFuture() {
+    return MethodHandles.lookup();
+  }
+
   static {
     AtomicHelper helper;
     Throwable thrownUnsafeFailure = null;
     Throwable thrownAtomicReferenceFieldUpdaterFailure = null;
 
-    try {
-      helper = new UnsafeAtomicHelper();
-    } catch (Exception | Error unsafeFailure) { // sneaky checked exception
-      thrownUnsafeFailure = unsafeFailure;
-      // catch absolutely everything and fall through to our
-      // 'AtomicReferenceFieldUpdaterAtomicHelper' The access control checks that ARFU does means
-      // the caller class has to be AbstractFuture instead of
-      // AtomicReferenceFieldUpdaterAtomicHelper, so we annoyingly define these here
+    helper = VarHandleAtomicHelperMaker.INSTANCE.tryMakeVarHandleAtomicHelper();
+    if (helper == null) {
       try {
-        helper =
-            new AtomicReferenceFieldUpdaterAtomicHelper(
-                newUpdater(Waiter.class, Thread.class, "thread"),
-                newUpdater(Waiter.class, Waiter.class, "next"),
-                newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
-                newUpdater(AbstractFuture.class, Listener.class, "listeners"),
-                newUpdater(AbstractFuture.class, Object.class, "value"));
-      } catch (Exception // sneaky checked exception
-          | Error atomicReferenceFieldUpdaterFailure) {
-        // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
-        // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
-        // For these users fallback to a suboptimal implementation, based on synchronized. This will
-        // be a definite performance hit to those users.
-        thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
-        helper = new SynchronizedHelper();
+        helper = new UnsafeAtomicHelper();
+      } catch (Exception | Error unsafeFailure) { // sneaky checked exception
+        thrownUnsafeFailure = unsafeFailure;
+        // catch absolutely everything and fall through to our
+        // 'AtomicReferenceFieldUpdaterAtomicHelper' The access control checks that ARFU does means
+        // the caller class has to be AbstractFuture instead of
+        // AtomicReferenceFieldUpdaterAtomicHelper, so we annoyingly define these here
+        try {
+          helper =
+              new AtomicReferenceFieldUpdaterAtomicHelper(
+                  newUpdater(Waiter.class, Thread.class, "thread"),
+                  newUpdater(Waiter.class, Waiter.class, "next"),
+                  newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
+                  newUpdater(AbstractFuture.class, Listener.class, "listeners"),
+                  newUpdater(AbstractFuture.class, Object.class, "value"));
+        } catch (Exception // sneaky checked exception
+            | Error atomicReferenceFieldUpdaterFailure) {
+          // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+          // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+          // For these users fallback to a suboptimal implementation, based on synchronized. This
+          // will be a definite performance hit to those users.
+          thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
+          helper = new SynchronizedHelper();
+        }
       }
     }
     ATOMIC_HELPER = helper;
@@ -197,6 +225,40 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
               Level.SEVERE,
               "AtomicReferenceFieldUpdaterAtomicHelper is broken!",
               thrownAtomicReferenceFieldUpdaterFailure);
+    }
+  }
+
+  private enum VarHandleAtomicHelperMaker {
+    INSTANCE {
+      /**
+       * Implementation used by non-J2ObjC environments (aside, of course, from those that have
+       * supersource for the entirety of {@link AbstractFuture}).
+       */
+      @Override
+      @J2ObjCIncompatible
+      @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
+        try {
+          /*
+           * We first use reflection to check whether VarHandle exists. If we instead just tried to
+           * load our class directly (which would trigger non-reflective loading of VarHandle) from
+           * within a `try` block, then an error might be thrown even before we enter the `try`
+           * block: https://github.com/google/truth/issues/333#issuecomment-765652454
+           *
+           * Also, it's nice that this approach should let us catch *only* ClassNotFoundException
+           * instead of having to catch more broadly (potentially even including, say, a
+           * StackOverflowError).
+           */
+          Class.forName("java.lang.invoke.VarHandle");
+        } catch (ClassNotFoundException beforeJava9) {
+          return null;
+        }
+        return new VarHandleAtomicHelper();
+      }
+    };
+
+    /** Implementation used by J2ObjC environments, overridden for other environments. */
+    @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
+      return null;
     }
   }
 
@@ -1337,6 +1399,72 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     /** Performs a CAS operation on the {@link AbstractFuture#value} field. */
     abstract boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update);
+  }
+
+  /** {@link AtomicHelper} based on {@link VarHandle}. */
+  @J2ObjCIncompatible
+  // We use this class only after confirming that VarHandle is available at runtime.
+  @SuppressWarnings("Java8ApiChecker")
+  @IgnoreJRERequirement
+  private static final class VarHandleAtomicHelper extends AtomicHelper {
+    static final VarHandle waiterThreadUpdater;
+    static final VarHandle waiterNextUpdater;
+    static final VarHandle waitersUpdater;
+    static final VarHandle listenersUpdater;
+    static final VarHandle valueUpdater;
+
+    static {
+      MethodHandles.Lookup lookup = methodHandlesLookupFromWithinAbstractFuture();
+      try {
+        waiterThreadUpdater = lookup.findVarHandle(Waiter.class, "thread", Thread.class);
+        waiterNextUpdater = lookup.findVarHandle(Waiter.class, "next", Waiter.class);
+        waitersUpdater = lookup.findVarHandle(AbstractFuture.class, "waiters", Waiter.class);
+        listenersUpdater = lookup.findVarHandle(AbstractFuture.class, "listeners", Listener.class);
+        valueUpdater = lookup.findVarHandle(AbstractFuture.class, "value", Object.class);
+      } catch (ReflectiveOperationException e) {
+        // Those fields exist.
+        throw newLinkageError(e);
+      }
+    }
+
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      waiterThreadUpdater.setRelease(waiter, newValue);
+    }
+
+    @Override
+    void putNext(Waiter waiter, @Nullable Waiter newValue) {
+      waiterNextUpdater.setRelease(waiter, newValue);
+    }
+
+    @Override
+    boolean casWaiters(AbstractFuture<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
+      return waitersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    boolean casListeners(AbstractFuture<?> future, @Nullable Listener expect, Listener update) {
+      return listenersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      return (Listener) listenersUpdater.getAndSet(future, update);
+    }
+
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      return (Waiter) waitersUpdater.getAndSet(future, update);
+    }
+
+    @Override
+    boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update) {
+      return valueUpdater.compareAndSet(future, expect, update);
+    }
+
+    private static LinkageError newLinkageError(Throwable cause) {
+      return new LinkageError(cause.toString(), cause);
+    }
   }
 
   /**
