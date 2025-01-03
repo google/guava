@@ -84,18 +84,18 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h1 title="Interface PeekingIterator" class="title">Interface PeekingIterator&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface PeekingIterator" class="title">Interface PeekingIterator&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use Iterators.peekingIterator")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line-36">PeekingIterator</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
-extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line-36">PeekingIterator</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;</span></div>
 <div class="block">An iterator that supports a one-element lookahead while iterating.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator"><code>
@@ -135,8 +135,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.ht
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.util.Iterator">Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#forEachRemaining-java.util.function.Consumer-" title="class or interface in java.util" class="external-link">forEachRemaining</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#hasNext--" title="class or interface in java.util" class="external-link">hasNext</a></code></div>
+<h3 id="methods-inherited-from-class-java.util.Iterator">Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html#forEachRemaining(java.util.function.Consumer)" title="class or interface in java.util" class="external-link">forEachRemaining</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html#hasNext()" title="class or interface in java.util" class="external-link">hasNext</a></code></div>
 </section>
 </li>
 </ul>
@@ -158,7 +158,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.ht
  <i>may</i> prevent removal of the most recent element via <a href="#remove()"><code>remove()</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/NoSuchElementException.html" title="class or interface in java.util" class="external-link">NoSuchElementException</a></code> - if the iteration has no more elements according to <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#hasNext--" title="class or interface in java.util" class="external-link"><code>Iterator.hasNext()</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/NoSuchElementException.html" title="class or interface in java.util" class="external-link">NoSuchElementException</a></code> - if the iteration has no more elements according to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html#hasNext()" title="class or interface in java.util" class="external-link"><code>Iterator.hasNext()</code></a></dd>
 </dl>
 </section>
 </li>
@@ -173,7 +173,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.ht
  guaranteed to be equal to each other.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#next--" title="class or interface in java.util" class="external-link">next</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html#next()" title="class or interface in java.util" class="external-link">next</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -187,9 +187,9 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.ht
  since the most recent call to <a href="#next()"><code>next()</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#remove--" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html#remove()" title="class or interface in java.util" class="external-link">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="PeekingIterator.html" title="type parameter in PeekingIterator">E</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link">IllegalStateException</a></code> - if there has been a call to <a href="#peek()"><code>peek()</code></a> since the most recent
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link">IllegalStateException</a></code> - if there has been a call to <a href="#peek()"><code>peek()</code></a> since the most recent
      call to <a href="#next()"><code>next()</code></a> and this implementation does not support this sequence of calls
      (optional)</dd>
 </dl>

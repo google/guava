@@ -163,9 +163,9 @@ loadScripts(document, 'script');</script>
  <p><b>Compatibility note:</b> Throughout this API, multibyte values are always interpreted in
  <i>little-endian</i> order. That is, hashing the byte array <code>{0x01, 0x02, 0x03, 0x04}</code> is
  equivalent to hashing the <code>int</code> value <code>0x04030201</code>. If this isn't what you need,
- methods such as <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#reverseBytes-int-" title="class or interface in java.lang" class="external-link"><code>Integer.reverseBytes(int)</code></a> and <a href="../primitives/Ints.html#toByteArray(int)"><code>Ints.toByteArray(int)</code></a> will help.
+ methods such as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#reverseBytes(int)" title="class or interface in java.lang" class="external-link"><code>Integer.reverseBytes(int)</code></a> and <a href="../primitives/Ints.html#toByteArray(int)"><code>Ints.toByteArray(int)</code></a> will help.
 
- <h3 id="relationship-to-object-hashcode-heading">Relationship to <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a></h3>
+ <h3 id="relationship-to-object-hashcode-heading">Relationship to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a></h3>
 
  <p>Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation
  between hash algorithms and the data they act on, so alternate hash algorithms can't be easily
@@ -218,7 +218,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Shortcut for <code>newHasher().putBytes(input, off, len).hash()</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashBytes(java.nio.ByteBuffer)" class="member-name-link">hashBytes</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashBytes(java.nio.ByteBuffer)" class="member-name-link">hashBytes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>.</div>
 </div>
@@ -234,20 +234,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
  <code>long</code> value, interpreted in little-endian byte order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashObject(T,com.google.common.hash.Funnel)" class="member-name-link">hashObject</a><wbr>(T&nbsp;instance,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashString(java.lang.CharSequence,java.nio.charset.Charset)" class="member-name-link">hashString</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashString(java.lang.CharSequence,java.nio.charset.Charset)" class="member-name-link">hashString</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashUnencodedChars(java.lang.CharSequence)" class="member-name-link">hashUnencodedChars</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashUnencodedChars(java.lang.CharSequence)" class="member-name-link">hashUnencodedChars</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>.</div>
 </div>
@@ -342,7 +342,7 @@ loadScripts(document, 'script');</script>
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>off &lt; 0</code> or <code>off + len &gt; bytes.length</code> or
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>off &lt; 0</code> or <code>off + len &gt; bytes.length</code> or
      <code>len &lt; 0</code></dd>
 </dl>
 </section>
@@ -350,7 +350,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hashBytes(java.nio.ByteBuffer)">
 <h3>hashBytes</h3>
-<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-178">hashBytes</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</span></div>
+<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-178">hashBytes</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</span></div>
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
 <dl class="notes">
@@ -362,7 +362,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hashUnencodedChars(java.lang.CharSequence)">
 <h3>hashUnencodedChars</h3>
-<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-193">hashUnencodedChars</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</span></div>
+<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-193">hashUnencodedChars</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</span></div>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse. Note
  that no character encoding is performed; the low byte and high byte of each <code>char</code> are
@@ -381,10 +381,10 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hashString(java.lang.CharSequence,java.nio.charset.Charset)">
 <h3>hashString</h3>
-<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-205">hashString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
+<div class="member-signature"><span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-205">hashString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>. Characters are encoded using
- the given <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
+ the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
  equivalent, but should not perform worse.
 
  <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
@@ -396,7 +396,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hashObject(T,com.google.common.hash.Funnel)">
 <h3 id="hashObject(java.lang.Object,com.google.common.hash.Funnel)">hashObject</h3>
-<div class="member-signature"><span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-213">hashObject</a></span><wbr><span class="parameters">(T&nbsp;instance,
+<div class="member-signature"><span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashFunction.html#line-213">hashObject</a></span><wbr><span class="parameters">(T&nbsp;instance,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</span></div>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>

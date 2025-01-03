@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h1 title="Interface ClosingFuture.Combiner.AsyncCombiningCallable" class="title">Interface ClosingFuture.Combiner.AsyncCombiningCallable&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface ClosingFuture.Combiner.AsyncCombiningCallable" class="title">Interface ClosingFuture.Combiner.AsyncCombiningCallable&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -100,8 +100,8 @@ loadScripts(document, 'script');</script>
 <dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
-</span><span class="modifiers">public static interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line-1260">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
+<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
+</span><span class="modifiers">public static interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line-1260">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">An operation that returns a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> result and may throw an exception.</div>
 </section>
 <section class="summary">
@@ -142,7 +142,7 @@ loadScripts(document, 'script');</script>
 <h3>call</h3>
 <div class="member-signature"><span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="type parameter in ClosingFuture.Combiner.AsyncCombiningCallable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.AsyncCombiningCallable.html#line-1272">call</a></span><wbr><span class="parameters">(<a href="ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.DeferredCloser</a>&nbsp;closer,
  <a href="ClosingFuture.Peeker.html" title="class in com.google.common.util.concurrent">ClosingFuture.Peeker</a>&nbsp;peeker)</span>
-               throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Computes a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> result, or throws an exception if unable to do so.
 
  <p>Any objects that are passed to <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>closer.eventuallyClose()</code></a> will be closed when the <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is done
@@ -152,7 +152,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>peeker</code> - used to get the value of any of the input futures</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
 </dl>
 </section>
 </li>

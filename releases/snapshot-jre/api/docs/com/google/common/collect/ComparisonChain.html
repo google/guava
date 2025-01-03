@@ -86,16 +86,16 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
 <h1 title="Class ComparisonChain" class="title">Class ComparisonChain</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.collect.ComparisonChain</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-92">ComparisonChain</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A utility for performing a chained comparison statement. <b>Note:</b> Java 8+ users should
- generally prefer the methods in <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a>; see <a href="#java8">below</a>.
+ generally prefer the methods in <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a>; see <a href="#java8">below</a>.
 
  <p>Example usage of <code>ComparisonChain</code>:
 
@@ -117,7 +117,7 @@ loadScripts(document, 'script');</script>
 
  <p>Performance note: Even though the <code>ComparisonChain</code> caller always invokes its <code>
  compare</code> methods unconditionally, the <code>ComparisonChain</code> implementation stops calling its
- inputs' <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html#compareTo-T-" title="class or interface in java.lang" class="external-link"><code>compareTo</code></a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html#compare-T-T-" title="class or interface in java.util" class="external-link"><code>compare</code></a> methods as
+ inputs' <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link"><code>compareTo</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html#compare(T,T)" title="class or interface in java.util" class="external-link"><code>compare</code></a> methods as
  soon as one of them returns a nonzero result. This optimization is typically important only in
  the presence of expensive <code>compareTo</code> and <code>compare</code> implementations.
 
@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
 
  <h4 id="java8">Java 8+ equivalents</h4>
 
- If you are using Java version 8 or greater, you should generally use the static methods in <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>ComparisonChain</code>. The example above can be implemented like this:
+ If you are using Java version 8 or greater, you should generally use the static methods in <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>ComparisonChain</code>. The example above can be implemented like this:
 
  <pre><code>
  import static java.util.Comparator.comparing;
@@ -147,7 +147,7 @@ loadScripts(document, 'script');</script>
 
  <p>With method references it is more succinct: <code>comparing(Foo::aString)</code> for example.
 
- <p>Using <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> avoids certain types of bugs, for example when you meant to write
+ <p>Using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> avoids certain types of bugs, for example when you meant to write
  <code>.compare(a.foo, b.foo)</code> but you actually wrote <code>.compare(a.foo, a.foo)</code> or <code>
  .compare(a.foo, b.bar)</code>. <code>ComparisonChain</code> also has a potential performance problem that
  <code>Comparator</code> doesn't: it evaluates all the parameters of all the <code>.compare</code> calls,
@@ -177,33 +177,33 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(double,double)" class="member-name-link">compare</a><wbr>(double&nbsp;left,
  double&nbsp;right)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Compares two <code>double</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#compare-double-double-" title="class or interface in java.lang" class="external-link"><code>Double.compare(double, double)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>double</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#compare(double,double)" title="class or interface in java.lang" class="external-link"><code>Double.compare(double, double)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(float,float)" class="member-name-link">compare</a><wbr>(float&nbsp;left,
  float&nbsp;right)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Compares two <code>float</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html#compare-float-float-" title="class or interface in java.lang" class="external-link"><code>Float.compare(float, float)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>float</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#compare(float,float)" title="class or interface in java.lang" class="external-link"><code>Float.compare(float, float)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(int,int)" class="member-name-link">compare</a><wbr>(int&nbsp;left,
  int&nbsp;right)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Compares two <code>int</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#compare-int-int-" title="class or interface in java.lang" class="external-link"><code>Integer.compare(int, int)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>int</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#compare(int,int)" title="class or interface in java.lang" class="external-link"><code>Integer.compare(int, int)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(long,long)" class="member-name-link">compare</a><wbr>(long&nbsp;left,
  long&nbsp;right)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Compares two <code>long</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html#compare-long-long-" title="class or interface in java.lang" class="external-link"><code>Long.compare(long, long)</code></a>, <i>if</i> the result of
+<div class="block">Compares two <code>long</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html#compare(long,long)" title="class or interface in java.lang" class="external-link"><code>Long.compare(long, long)</code></a>, <i>if</i> the result of
  this comparison chain has not already been determined.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>final <a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#compare(java.lang.Boolean,java.lang.Boolean)" class="member-name-link">compare</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;right)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#compare(java.lang.Boolean,java.lang.Boolean)" class="member-name-link">compare</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;right)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#compareFalseFirst(boolean,boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed are being either
@@ -211,16 +211,16 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(java.lang.Comparable,java.lang.Comparable)" class="member-name-link">compare</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;right)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(java.lang.Comparable,java.lang.Comparable)" class="member-name-link">compare</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;right)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html#compareTo-T-" title="class or interface in java.lang" class="external-link"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
+<div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
  result of this comparison chain has not already been determined.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compare(T,T,java.util.Comparator)" class="member-name-link">compare</a><wbr>(T&nbsp;left,
  T&nbsp;right,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
  already been determined.</div>
@@ -254,8 +254,8 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -277,9 +277,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="compare(java.lang.Comparable,java.lang.Comparable)">
 <h3>compare</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-229">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;right)</span></div>
-<div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html#compareTo-T-" title="class or interface in java.lang" class="external-link"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-229">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;right)</span></div>
+<div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
  result of this comparison chain has not already been determined.
 
  <p>This method is declared to accept any 2 <code>Comparable</code> objects, even if they are not <a href="https://docs.oracle.com/javase/tutorial/collections/interfaces/order.html">mutually
@@ -291,17 +291,17 @@ loadScripts(document, 'script');</script>
  for raw <code>Comparable</code> types in Guava in general is tracked as <a href="https://github.com/google/guava/issues/989">#989</a>.)</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html" title="class or interface in java.lang" class="external-link">ClassCastException</a></code> - if the parameters are not mutually comparable</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassCastException.html" title="class or interface in java.lang" class="external-link">ClassCastException</a></code> - if the parameters are not mutually comparable</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="compare(T,T,java.util.Comparator)">
 <h3 id="compare(java.lang.Object,java.lang.Object,java.util.Comparator)">compare</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-235">compare</a></span><wbr><span class="parameters">(T&nbsp;left,
  T&nbsp;right,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</span></div>
 <div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
  already been determined.</div>
 </section>
@@ -311,7 +311,7 @@ loadScripts(document, 'script');</script>
 <h3>compare</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-242">compare</a></span><wbr><span class="parameters">(int&nbsp;left,
  int&nbsp;right)</span></div>
-<div class="block">Compares two <code>int</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#compare-int-int-" title="class or interface in java.lang" class="external-link"><code>Integer.compare(int, int)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>int</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#compare(int,int)" title="class or interface in java.lang" class="external-link"><code>Integer.compare(int, int)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </section>
 </li>
@@ -320,7 +320,7 @@ loadScripts(document, 'script');</script>
 <h3>compare</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-248">compare</a></span><wbr><span class="parameters">(long&nbsp;left,
  long&nbsp;right)</span></div>
-<div class="block">Compares two <code>long</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html#compare-long-long-" title="class or interface in java.lang" class="external-link"><code>Long.compare(long, long)</code></a>, <i>if</i> the result of
+<div class="block">Compares two <code>long</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html#compare(long,long)" title="class or interface in java.lang" class="external-link"><code>Long.compare(long, long)</code></a>, <i>if</i> the result of
  this comparison chain has not already been determined.</div>
 </section>
 </li>
@@ -329,7 +329,7 @@ loadScripts(document, 'script');</script>
 <h3>compare</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-254">compare</a></span><wbr><span class="parameters">(float&nbsp;left,
  float&nbsp;right)</span></div>
-<div class="block">Compares two <code>float</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html#compare-float-float-" title="class or interface in java.lang" class="external-link"><code>Float.compare(float, float)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>float</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#compare(float,float)" title="class or interface in java.lang" class="external-link"><code>Float.compare(float, float)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </section>
 </li>
@@ -338,7 +338,7 @@ loadScripts(document, 'script');</script>
 <h3>compare</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-260">compare</a></span><wbr><span class="parameters">(double&nbsp;left,
  double&nbsp;right)</span></div>
-<div class="block">Compares two <code>double</code> values as specified by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#compare-double-double-" title="class or interface in java.lang" class="external-link"><code>Double.compare(double, double)</code></a>, <i>if</i> the result
+<div class="block">Compares two <code>double</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#compare(double,double)" title="class or interface in java.lang" class="external-link"><code>Double.compare(double, double)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
 </section>
 </li>
@@ -346,9 +346,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(java.lang.Boolean,java.lang.Boolean)">
 <h3>compare</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.compareFalseFirst(left, right)")
-<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-269">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;right)</span></div>
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-269">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;right)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#compareFalseFirst(boolean,boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed are being either
      negated or reversed, undo the negation or reversal and use <a href="#compareTrueFirst(boolean,boolean)"><code>compareTrueFirst(boolean, boolean)</code></a>.</div>

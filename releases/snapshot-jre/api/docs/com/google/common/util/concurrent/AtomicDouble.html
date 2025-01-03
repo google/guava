@@ -86,30 +86,30 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
 <h1 title="Class AtomicDouble" class="title">Class AtomicDouble</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">java.lang.Number</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">java.lang.Number</a>
 <div class="inheritance">com.google.common.util.concurrent.AtomicDouble</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/ReflectionSupport.html" title="class or interface in com.google.j2objc.annotations" class="external-link">@ReflectionSupport</a>(<a href="https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/com/google/j2objc/annotations/ReflectionSupport.Level.html#FULL" title="class or interface in com.google.j2objc.annotations" class="external-link">FULL</a>)
 </span><span class="modifiers">public class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-62">AtomicDouble</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a>
-implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
-<div class="block">A <code>double</code> value that may be updated atomically. See the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html" class="external-link"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a>
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
+<div class="block">A <code>double</code> value that may be updated atomically. See the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" class="external-link"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
  variables. An <code>AtomicDouble</code> is used in applications such as atomic accumulation, and
- cannot be used as a replacement for a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html" title="class or interface in java.lang" class="external-link"><code>Double</code></a>. However, this class does extend <code>
+ cannot be used as a replacement for a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link"><code>Double</code></a>. However, this class does extend <code>
  Number</code> to allow uniform access by tools and utilities that deal with numerically-based classes.
 
  <p><a id="bitEquals"></a>This class compares primitive <code>double</code> values in methods such as
- <a href="#compareAndSet(double,double)"><code>compareAndSet(double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#doubleToRawLongBits-double-" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
- from <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>Double.equals(java.lang.Object)</code></a>, as if implemented by:
+ <a href="#compareAndSet(double,double)"><code>compareAndSet(double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#doubleToRawLongBits(double)" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
+ from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Double.equals(java.lang.Object)</code></a>, as if implemented by:
 
  <pre><code>
  static boolean bitEquals(double x, double y) {
@@ -169,7 +169,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#accumulateAndGet(double,java.util.function.DoubleBinaryOperator)" class="member-name-link">accumulateAndGet</a><wbr>(double&nbsp;x,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the current value with the results of applying the given function to the
  current and given values.</div>
@@ -203,7 +203,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAndAccumulate(double,java.util.function.DoubleBinaryOperator)" class="member-name-link">getAndAccumulate</a><wbr>(double&nbsp;x,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the current value with the results of applying the given function to the
  current and given values.</div>
@@ -219,7 +219,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="block">Atomically sets to the given value and returns the old value.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAndUpdate(java.util.function.DoubleUnaryOperator)" class="member-name-link">getAndUpdate</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAndUpdate(java.util.function.DoubleUnaryOperator)" class="member-name-link">getAndUpdate</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the current value with the results of applying the given function.</div>
 </div>
@@ -245,13 +245,13 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets to the given value.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the String representation of the current value.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateAndGet(java.util.function.DoubleUnaryOperator)" class="member-name-link">updateAndGet</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateAndGet(java.util.function.DoubleUnaryOperator)" class="member-name-link">updateAndGet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the current value with the results of applying the given function.</div>
 </div>
@@ -265,11 +265,11 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Number">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#byteValue--" title="class or interface in java.lang" class="external-link">byteValue</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#shortValue--" title="class or interface in java.lang" class="external-link">shortValue</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Number">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#byteValue()" title="class or interface in java.lang" class="external-link">byteValue</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#shortValue()" title="class or interface in java.lang" class="external-link">shortValue</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -421,7 +421,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <h3>getAndAccumulate</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-189">getAndAccumulate</a></span><wbr><span class="parameters">(double&nbsp;x,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
 <div class="block">Atomically updates the current value with the results of applying the given function to the
  current and given values.</div>
 <dl class="notes">
@@ -440,7 +440,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <h3>accumulateAndGet</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-204">accumulateAndGet</a></span><wbr><span class="parameters">(double&nbsp;x,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
 <div class="block">Atomically updates the current value with the results of applying the given function to the
  current and given values.</div>
 <dl class="notes">
@@ -458,7 +458,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <section class="detail" id="getAndUpdate(java.util.function.DoubleUnaryOperator)">
 <h3>getAndUpdate</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-217">getAndUpdate</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-217">getAndUpdate</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</span></div>
 <div class="block">Atomically updates the current value with the results of applying the given function.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -474,7 +474,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <section class="detail" id="updateAndGet(java.util.function.DoubleUnaryOperator)">
 <h3>updateAndGet</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-237">updateAndGet</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-237">updateAndGet</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updateFunction)</span></div>
 <div class="block">Atomically updates the current value with the results of applying the given function.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -489,11 +489,11 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="toString()">
 <h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-255">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line-255">toString</a></span>()</div>
 <div class="block">Returns the String representation of the current value.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 <dt>Returns:</dt>
 <dd>the String representation of the current value</dd>
 </dl>
@@ -507,7 +507,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
  conversion.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#intValue--" title="class or interface in java.lang" class="external-link">intValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#intValue()" title="class or interface in java.lang" class="external-link">intValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
 </dl>
 </section>
 </li>
@@ -519,7 +519,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
  conversion.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#longValue--" title="class or interface in java.lang" class="external-link">longValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#longValue()" title="class or interface in java.lang" class="external-link">longValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
 </dl>
 </section>
 </li>
@@ -531,7 +531,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
  conversion.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#floatValue--" title="class or interface in java.lang" class="external-link">floatValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#floatValue()" title="class or interface in java.lang" class="external-link">floatValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
 </dl>
 </section>
 </li>
@@ -542,7 +542,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>double</code>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html#doubleValue--" title="class or interface in java.lang" class="external-link">doubleValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html#doubleValue()" title="class or interface in java.lang" class="external-link">doubleValue</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Number.html" title="class or interface in java.lang" class="external-link">Number</a></code></dd>
 </dl>
 </section>
 </li>

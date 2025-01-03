@@ -84,12 +84,12 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h1 title="Interface ListenableFuture" class="title">Interface ListenableFuture&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface ListenableFuture" class="title">Interface ListenableFuture&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Subinterfaces:</dt>
@@ -102,10 +102,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use the methods in Futures (like immediateFuture) or SettableFuture")
 <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NullMarked.html" title="class or interface in org.jspecify.annotations" class="external-link">@NullMarked</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line-120">ListenableFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
-extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</span></div>
-<div class="block">A <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a> that accepts completion listeners. Each listener has an associated executor, and
- it is invoked using this executor once the future's computation is <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">complete</a>. If the computation has already completed when the listener is added, the listener will
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line-120">ListenableFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</span></div>
+<div class="block">A <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a> that accepts completion listeners. Each listener has an associated executor, and
+ it is invoked using this executor once the future's computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">complete</a>. If the computation has already completed when the listener is added, the listener will
  execute immediately.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained"><code>
@@ -153,7 +153,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/
  <ul>
    <li>If you receive them from an <code>java.util.concurrent.ExecutorService</code>, convert that
        service to a <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a>, usually by calling <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator</code></a>.
-   <li>If you manually call <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/FutureTask.html#set-V-" title="class or interface in java.util.concurrent" class="external-link"><code>FutureTask.set(V)</code></a> or a similar method,
+   <li>If you manually call <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/FutureTask.html#set(V)" title="class or interface in java.util.concurrent" class="external-link"><code>FutureTask.set(V)</code></a> or a similar method,
        create a <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a> instead. (If your needs are more complex, you may prefer
        <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>.)
  </ul>
@@ -185,8 +185,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/
 <section class="nested-class-summary" id="nested-class-summary">
 <h2>Nested Class Summary</h2>
 <div class="inherited-list">
-<h2 id="nested-classes-inherited-from-class-java.util.concurrent.Future">Nested classes/interfaces inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a></h2>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.State.html" title="class or interface in java.util.concurrent" class="external-link">Future.State</a></code></div>
+<h2 id="nested-classes-inherited-from-class-java.util.concurrent.Future">Nested classes/interfaces inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a></h2>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.State.html" title="class or interface in java.util.concurrent" class="external-link">Future.State</a></code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -201,17 +201,17 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addListener(java.lang.Runnable,java.util.concurrent.Executor)" class="member-name-link">addListener</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addListener(java.lang.Runnable,java.util.concurrent.Executor)" class="member-name-link">addListener</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Registers a listener to be <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent" class="external-link">run</a> on the given executor.</div>
+<div class="block">Registers a listener to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link">run</a> on the given executor.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.util.concurrent.Future">Methods inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#cancel-boolean-" title="class or interface in java.util.concurrent" class="external-link">cancel</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#exceptionNow--" title="class or interface in java.util.concurrent" class="external-link">exceptionNow</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get--" title="class or interface in java.util.concurrent" class="external-link">get</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent" class="external-link">get</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isCancelled--" title="class or interface in java.util.concurrent" class="external-link">isCancelled</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">isDone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#resultNow--" title="class or interface in java.util.concurrent" class="external-link">resultNow</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#state--" title="class or interface in java.util.concurrent" class="external-link">state</a></code></div>
+<h3 id="methods-inherited-from-class-java.util.concurrent.Future">Methods inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#cancel(boolean)" title="class or interface in java.util.concurrent" class="external-link">cancel</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#exceptionNow()" title="class or interface in java.util.concurrent" class="external-link">exceptionNow</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#get()" title="class or interface in java.util.concurrent" class="external-link">get</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#get(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="external-link">get</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isCancelled()" title="class or interface in java.util.concurrent" class="external-link">isCancelled</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">isDone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#resultNow()" title="class or interface in java.util.concurrent" class="external-link">resultNow</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#state()" title="class or interface in java.util.concurrent" class="external-link">state</a></code></div>
 </section>
 </li>
 </ul>
@@ -226,10 +226,10 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/
 <li>
 <section class="detail" id="addListener(java.lang.Runnable,java.util.concurrent.Executor)">
 <h3>addListener</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line-157">addListener</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
-<div class="block">Registers a listener to be <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent" class="external-link">run</a> on the given executor.
- The listener will run when the <code>Future</code>'s computation is <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">complete</a> or, if the computation is already complete, immediately.
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line-157">addListener</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
+<div class="block">Registers a listener to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link">run</a> on the given executor.
+ The listener will run when the <code>Future</code>'s computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">complete</a> or, if the computation is already complete, immediately.
 
  <p>There is no guaranteed ordering of execution of listeners, but any listener added through
  this method is guaranteed to be called once the computation is complete.
@@ -256,7 +256,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/
 <dd><code>listener</code> - the listener to run when the computation is complete</dd>
 <dd><code>executor</code> - the executor to run the listener in</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/RejectedExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">RejectedExecutionException</a></code> - if we tried to execute the listener immediately but the
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/RejectedExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">RejectedExecutionException</a></code> - if we tried to execute the listener immediately but the
      executor rejected it.</dd>
 </dl>
 </section>

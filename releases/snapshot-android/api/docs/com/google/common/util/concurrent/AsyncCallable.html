@@ -84,15 +84,15 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h1 title="Interface AsyncCallable" class="title">Interface AsyncCallable&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface AsyncCallable" class="title">Interface AsyncCallable&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line-30">AsyncCallable</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line-30">AsyncCallable</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">Computes a value, possibly asynchronously. For an example usage and more information, see <a href="Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable,java.util.concurrent.Executor)"><code>Futures.FutureCombiner.callAsync(AsyncCallable, java.util.concurrent.Executor)</code></a>.
 
- <p>Much like <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link"><code>Callable</code></a>, but returning a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
+ <p>Much like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link"><code>Callable</code></a>, but returning a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
  result.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -135,13 +135,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="call()">
 <h3>call</h3>
 <div class="member-signature"><span class="return-type"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line-39">call</a></span>()
-                  throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
-<div class="block">Computes a result <code>Future</code>. The output <code>Future</code> need not be <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">done</a>, making <code>AsyncCallable</code> suitable for asynchronous derivations.
+                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+<div class="block">Computes a result <code>Future</code>. The output <code>Future</code> need not be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">done</a>, making <code>AsyncCallable</code> suitable for asynchronous derivations.
 
  <p>Throwing an exception from this method is equivalent to returning a failing <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
 </dl>
 </section>
 </li>

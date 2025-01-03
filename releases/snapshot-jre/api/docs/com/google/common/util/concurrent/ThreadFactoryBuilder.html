@@ -86,26 +86,26 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
 <h1 title="Class ThreadFactoryBuilder" class="title">Class ThreadFactoryBuilder</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.util.concurrent.ThreadFactoryBuilder</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-52">ThreadFactoryBuilder</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A ThreadFactory builder, providing any combination of these features:
 
  <ul>
-   <li>whether threads should be marked as <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setDaemon-boolean-" title="class or interface in java.lang" class="external-link">daemon</a> threads
+   <li>whether threads should be marked as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setDaemon(boolean)" title="class or interface in java.lang" class="external-link">daemon</a> threads
    <li>a <a href="#setNameFormat(java.lang.String)">naming format</a>
-   <li>a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setPriority-int-" title="class or interface in java.lang" class="external-link">thread priority</a>
-   <li>an <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setUncaughtExceptionHandler-java.lang.Thread.UncaughtExceptionHandler-" title="class or interface in java.lang" class="external-link">uncaught exception handler</a>
-   <li>a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html#newThread-java.lang.Runnable-" title="class or interface in java.util.concurrent" class="external-link">backing thread factory</a>
+   <li>a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setPriority(int)" title="class or interface in java.lang" class="external-link">thread priority</a>
+   <li>an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)" title="class or interface in java.lang" class="external-link">uncaught exception handler</a>
+   <li>a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html#newThread(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link">backing thread factory</a>
  </ul>
 
  <p>If no backing thread factory is provided, a default backing thread factory is used as if by
- calling <code>setThreadFactory(</code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executors.html#defaultThreadFactory--" title="class or interface in java.util.concurrent" class="external-link"><code>Executors.defaultThreadFactory()</code></a><code>)</code>.
+ calling <code>setThreadFactory(</code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executors.html#defaultThreadFactory()" title="class or interface in java.util.concurrent" class="external-link"><code>Executors.defaultThreadFactory()</code></a><code>)</code>.
 
  <p><b>Java 21+ users:</b> consider using the <code>Thread.Builder</code> interface instead. E.g.,
  instead of <code>new ThreadFactoryBuilder().setPriority(priority).setDaemon(false).build()</code>, use
@@ -129,7 +129,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ThreadFactoryBuilder</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.</div>
+<div class="block">Creates a new <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.</div>
 </div>
 </div>
 </section>
@@ -145,7 +145,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a new thread factory using the options supplied during the building process.</div>
@@ -156,9 +156,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets daemon or not for new threads created with this ThreadFactory.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNameFormat(java.lang.String)" class="member-name-link">setNameFormat</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nameFormat)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNameFormat(java.lang.String)" class="member-name-link">setNameFormat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nameFormat)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the naming format to use when naming threads (<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setName-java.lang.String-" title="class or interface in java.lang" class="external-link"><code>Thread.setName(java.lang.String)</code></a>) which are created
+<div class="block">Sets the naming format to use when naming threads (<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setName(java.lang.String)" title="class or interface in java.lang" class="external-link"><code>Thread.setName(java.lang.String)</code></a>) which are created
  with this ThreadFactory.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></code></div>
@@ -167,21 +167,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the priority for new threads created with this ThreadFactory.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setThreadFactory(java.util.concurrent.ThreadFactory)" class="member-name-link">setThreadFactory</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a>&nbsp;backingThreadFactory)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setThreadFactory(java.util.concurrent.ThreadFactory)" class="member-name-link">setThreadFactory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a>&nbsp;backingThreadFactory)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the backing <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> for new threads created with this ThreadFactory.</div>
+<div class="block">Sets the backing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> for new threads created with this ThreadFactory.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)" class="member-name-link">setUncaughtExceptionHandler</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link">Thread.UncaughtExceptionHandler</a>&nbsp;uncaughtExceptionHandler)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)" class="member-name-link">setUncaughtExceptionHandler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link">Thread.UncaughtExceptionHandler</a>&nbsp;uncaughtExceptionHandler)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.</div>
+<div class="block">Sets the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -197,7 +197,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>ThreadFactoryBuilder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-62">ThreadFactoryBuilder</a></span>()</div>
-<div class="block">Creates a new <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.</div>
+<div class="block">Creates a new <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.</div>
 </section>
 </li>
 </ul>
@@ -212,12 +212,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setNameFormat(java.lang.String)">
 <h3>setNameFormat</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-75">setNameFormat</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nameFormat)</span></div>
-<div class="block">Sets the naming format to use when naming threads (<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setName-java.lang.String-" title="class or interface in java.lang" class="external-link"><code>Thread.setName(java.lang.String)</code></a>) which are created
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-75">setNameFormat</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nameFormat)</span></div>
+<div class="block">Sets the naming format to use when naming threads (<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setName(java.lang.String)" title="class or interface in java.lang" class="external-link"><code>Thread.setName(java.lang.String)</code></a>) which are created
  with this ThreadFactory.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>nameFormat</code> - a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#format-java.lang.String-java.lang.Object...-" title="class or interface in java.lang" class="external-link"><code>String.format(String, Object...)</code></a>-compatible format String, to which
+<dd><code>nameFormat</code> - a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)" title="class or interface in java.lang" class="external-link"><code>String.format(String, Object...)</code></a>-compatible format String, to which
      a unique integer (0, 1, etc.) will be supplied as the single parameter. This integer will
      be unique to the built instance of the ThreadFactory and will be assigned sequentially. For
      example, <code>"rpc-pool-%d"</code> will generate thread names like <code>"rpc-pool-0"</code>, <code>
@@ -261,8 +261,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)">
 <h3>setUncaughtExceptionHandler</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-128">setUncaughtExceptionHandler</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link">Thread.UncaughtExceptionHandler</a>&nbsp;uncaughtExceptionHandler)</span></div>
-<div class="block">Sets the <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-128">setUncaughtExceptionHandler</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link">Thread.UncaughtExceptionHandler</a>&nbsp;uncaughtExceptionHandler)</span></div>
+<div class="block">Sets the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>uncaughtExceptionHandler</code> - the uncaught exception handler for new Threads created with
@@ -276,12 +276,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setThreadFactory(java.util.concurrent.ThreadFactory)">
 <h3>setThreadFactory</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-144">setThreadFactory</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a>&nbsp;backingThreadFactory)</span></div>
-<div class="block">Sets the backing <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> for new threads created with this ThreadFactory. Threads
- will be created by invoking #newThread(Runnable) on this backing <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-144">setThreadFactory</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a>&nbsp;backingThreadFactory)</span></div>
+<div class="block">Sets the backing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> for new threads created with this ThreadFactory. Threads
+ will be created by invoking #newThread(Runnable) on this backing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>backingThreadFactory</code> - the backing <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> which will be delegated to during
+<dd><code>backingThreadFactory</code> - the backing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> which will be delegated to during
      thread creation.</dd>
 <dt>Returns:</dt>
 <dd>this for the builder pattern</dd>
@@ -297,13 +297,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="build()">
 <h3>build</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-157">build</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ThreadFactoryBuilder.html#line-157">build</a></span>()</div>
 <div class="block">Returns a new thread factory using the options supplied during the building process. After
  building, it is still possible to change the options used to build the ThreadFactory and/or
  build again. State is not shared amongst built instances.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the fully constructed <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a></dd>
+<dd>the fully constructed <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a></dd>
 </dl>
 </section>
 </li>

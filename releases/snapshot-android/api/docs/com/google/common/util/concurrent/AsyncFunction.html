@@ -84,12 +84,12 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
-<h1 title="Interface AsyncFunction" class="title">Interface AsyncFunction&lt;I extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>O extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
+<h1 title="Interface AsyncFunction" class="title">Interface AsyncFunction&lt;I extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>O extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line-28">AsyncFunction</a>&lt;I extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>O extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line-28">AsyncFunction</a>&lt;I extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>O extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">Transforms a value, possibly asynchronously. For an example usage and more information, see
  <a href="Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)"><code>Futures.transformAsync(ListenableFuture, AsyncFunction, Executor)</code></a>.</div>
 <dl class="notes">
@@ -135,15 +135,15 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="apply(I)">
 <h3 id="apply(java.lang.Object)">apply</h3>
 <div class="member-signature"><span class="return-type"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncFunction.html" title="type parameter in AsyncFunction">O</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncFunction.html#line-37">apply</a></span><wbr><span class="parameters">(<a href="AsyncFunction.html" title="type parameter in AsyncFunction">I</a>&nbsp;input)</span>
-                   throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>. The output <code>
- Future</code> need not be <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html#isDone--" title="class or interface in java.util.concurrent" class="external-link">done</a>, making <code>AsyncFunction</code> suitable for
+ Future</code> need not be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">done</a>, making <code>AsyncFunction</code> suitable for
  asynchronous derivations.
 
  <p>Throwing an exception from this method is equivalent to returning a failing <code>Future</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
 </dl>
 </section>
 </li>

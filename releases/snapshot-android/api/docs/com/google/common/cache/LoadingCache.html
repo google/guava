@@ -139,7 +139,7 @@ extends <a href="Cache.html" title="interface in com.google.common.cache">Cache<
 <div class="deprecation-comment">Provided to satisfy the <code>Function</code> interface; use <a href="#get(K)"><code>get(K)</code></a> or <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a> instead.</div>
 </div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a><wbr>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a><wbr>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#asMap()" class="member-name-link">asMap</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map.</div>
@@ -151,7 +151,7 @@ extends <a href="Cache.html" title="interface in com.google.common.cache">Cache<
  necessary.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a><wbr>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAll(java.lang.Iterable)" class="member-name-link">getAll</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAll(java.lang.Iterable)" class="member-name-link">getAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
  if necessary.</div>
@@ -192,7 +192,7 @@ extends <a href="Cache.html" title="interface in com.google.common.cache">Cache<
 <h3 id="get(java.lang.Object)">get</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="return-type"><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-70">get</a></span><wbr><span class="parameters">(<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</span>
-throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
+throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
  necessary. No observable state associated with this cache is modified until loading completes.
 
@@ -210,7 +210,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
  then prefer <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a> over this method.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
      ExecutionException</code> is thrown <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 <dd><code><a href="../util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></code> - if an unchecked exception was thrown while loading the
@@ -254,8 +254,8 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
 <section class="detail" id="getAll(java.lang.Iterable)">
 <h3>getAll</h3>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-124">getAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)</span>
-                  throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
+</span><span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-124">getAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)</span>
+                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
  if necessary. The returned map contains entries that were already cached, combined with newly
  loaded entries; it will never contain null keys or values.
@@ -266,11 +266,11 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
  returns <code>null</code>, returns a map containing null keys or values, or fails to return an entry
  for each requested key.
 
- <p>Note that duplicate elements in <code>keys</code>, as determined by <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>, will
+ <p>Note that duplicate elements in <code>keys</code>, as determined by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>, will
  be ignored.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>
      ExecutionException</code> is thrown <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 <dd><code><a href="../util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></code> - if an unchecked exception was thrown while loading the
@@ -284,7 +284,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
 <li>
 <section class="detail" id="apply(K)">
 <h3 id="apply(java.lang.Object)">apply</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="return-type"><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-134">apply</a></span><wbr><span class="parameters">(<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Provided to satisfy the <code>Function</code> interface; use <a href="#get(K)"><code>get(K)</code></a> or <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a> instead.</div>
@@ -316,7 +316,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
  previous value (if any) will continue to be returned by <code>get(key)</code> unless it is evicted.
  If the new value is loaded successfully it will replace the previous value in the cache; if an
  exception is thrown while refreshing the previous value will remain, <i>and the exception will
- be logged (using <a href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html" title="class or interface in java.util.logging" class="external-link"><code>Logger</code></a>) and swallowed</i>.
+ be logged (using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.logging/java/util/logging/Logger.html" title="class or interface in java.util.logging" class="external-link"><code>Logger</code></a>) and swallowed</i>.
 
  <p>Caches loaded by a <a href="CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a> if the cache
  currently contains a value for <code>key</code>, and <a href="CacheLoader.html#load(K)"><code>CacheLoader.load(K)</code></a> otherwise. Loading is
@@ -335,7 +335,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
 <li>
 <section class="detail" id="asMap()">
 <h3>asMap</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-164">asMap</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="LoadingCache.html" title="type parameter in LoadingCache">K</a>,<wbr><a href="LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line-164">asMap</a></span>()</div>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -344,7 +344,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/a
  created, it is undefined which of the changes (if any) will be reflected in that iterator.
 
  <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
- have been newly added to <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link"><code>ConcurrentMap</code></a>! These are marked with "Since: 1.8" in the
+ have been newly added to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link"><code>ConcurrentMap</code></a>! These are marked with "Since: 1.8" in the
  <code>ConcurrentMap</code> documentation. They will not function correctly and it is impossible for
  Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.
 

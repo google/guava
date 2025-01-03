@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.util.concurrent</a></div>
 <h1 title="Class RateLimiter" class="title">Class RateLimiter</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.util.concurrent.RateLimiter</div>
 </div>
 <section class="class-description" id="class-description">
@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-96">RateLimiter</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
  <a href="#acquire()"><code>acquire()</code></a> blocks if necessary until a permit is available, and then takes it. Once
  acquired, permits need not be released.
@@ -103,7 +103,7 @@ loadScripts(document, 'script');</script>
  all threads. Note, however, that it does not guarantee fairness.
 
  <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
- is accessed. This is in contrast to <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link"><code>Semaphore</code></a> which restricts the
+ is accessed. This is in contrast to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link"><code>Semaphore</code></a> which restricts the
  number of concurrent accesses instead of the rate (note though that concurrency and rate are
  closely related, e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's
  Law</a>).
@@ -188,7 +188,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(double,long,java.util.concurrent.TimeUnit)" class="member-name-link">create</a><wbr>(double&nbsp;permitsPerSecond,
  long&nbsp;warmupPeriod,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
@@ -197,7 +197,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(double,java.time.Duration)" class="member-name-link">create</a><wbr>(double&nbsp;permitsPerSecond,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;warmupPeriod)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;warmupPeriod)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
@@ -216,7 +216,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Updates the stable rate of this <code>RateLimiter</code>, that is, the <code>permitsPerSecond</code>
  argument provided in the factory method that constructed the <code>RateLimiter</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
@@ -233,7 +233,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryAcquire(int,long,java.util.concurrent.TimeUnit)" class="member-name-link">tryAcquire</a><wbr>(int&nbsp;permits,
  long&nbsp;timeout,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
@@ -241,7 +241,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryAcquire(int,java.time.Duration)" class="member-name-link">tryAcquire</a><wbr>(int&nbsp;permits,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
@@ -249,14 +249,14 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryAcquire(long,java.util.concurrent.TimeUnit)" class="member-name-link">tryAcquire</a><wbr>(long&nbsp;timeout,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryAcquire(java.time.Duration)" class="member-name-link">tryAcquire</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryAcquire(java.time.Duration)" class="member-name-link">tryAcquire</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -266,8 +266,8 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -297,7 +297,7 @@ loadScripts(document, 'script');</script>
 <dd><code>permitsPerSecond</code> - the rate of the returned <code>RateLimiter</code>, measured in how many
      permits become available per second</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
 </dl>
 </section>
 </li>
@@ -305,7 +305,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="create(double,java.time.Duration)">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-165">create</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;warmupPeriod)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;warmupPeriod)</span></div>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
  during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
@@ -327,7 +327,7 @@ loadScripts(document, 'script');</script>
 <dd><code>warmupPeriod</code> - the duration of the period where the <code>RateLimiter</code> ramps up its rate,
      before reaching its stable (maximum) rate</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
      warmupPeriod</code> is negative</dd>
 <dt>Since:</dt>
 <dd>33.4.0 (but since 28.0 in the JRE flavor)</dd>
@@ -339,7 +339,7 @@ loadScripts(document, 'script');</script>
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-195">create</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
  long&nbsp;warmupPeriod,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
  during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
@@ -362,7 +362,7 @@ loadScripts(document, 'script');</script>
      before reaching its stable (maximum) rate</dd>
 <dd><code>unit</code> - the time unit of the warmupPeriod argument</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>
      warmupPeriod</code> is negative</dd>
 </dl>
 </section>
@@ -388,7 +388,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>permitsPerSecond</code> - the new stable rate of this <code>RateLimiter</code></dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero</dd>
 </dl>
 </section>
 </li>
@@ -432,7 +432,7 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt>Since:</dt>
 <dd>16.0 (present in 13.0 with <code>void</code> return type})</dd>
 </dl>
@@ -441,7 +441,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="tryAcquire(java.time.Duration)">
 <h3>tryAcquire</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-336">tryAcquire</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-336">tryAcquire</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.
@@ -453,7 +453,7 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd><code>true</code> if the permit was acquired, <code>false</code> otherwise</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt>Since:</dt>
 <dd>33.4.0 (but since 28.0 in the JRE flavor)</dd>
 </dl>
@@ -463,7 +463,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tryAcquire(long,java.util.concurrent.TimeUnit)">
 <h3>tryAcquire</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-354">tryAcquire</a></span><wbr><span class="parameters">(long&nbsp;timeout,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.
@@ -476,7 +476,7 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd><code>true</code> if the permit was acquired, <code>false</code> otherwise</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 </dl>
 </section>
 </li>
@@ -493,7 +493,7 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt>Since:</dt>
 <dd>14.0</dd>
 </dl>
@@ -519,7 +519,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tryAcquire(int,java.time.Duration)">
 <h3>tryAcquire</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-397">tryAcquire</a></span><wbr><span class="parameters">(int&nbsp;permits,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
  waiting) if the permits would not have been granted before the timeout expired.</div>
@@ -530,7 +530,7 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 <dt>Since:</dt>
 <dd>33.4.0 (but since 28.0 in the JRE flavor)</dd>
 </dl>
@@ -541,7 +541,7 @@ loadScripts(document, 'script');</script>
 <h3>tryAcquire</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-414">tryAcquire</a></span><wbr><span class="parameters">(int&nbsp;permits,
  long&nbsp;timeout,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
  waiting) if the permits would not have been granted before the timeout expired.</div>
@@ -553,17 +553,17 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd><code>true</code> if the permits were acquired, <code>false</code> otherwise</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the requested number of permits is negative or zero</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="toString()">
 <h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-462">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-462">toString</a></span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </section>
 </li>

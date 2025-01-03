@@ -70,31 +70,31 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#allEqual()" class="member-name-link">allEqual</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an ordering which treats all values as equal, indicating "no ordering."</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#arbitrary()" class="member-name-link">arbitrary</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
  <code>a == b</code> (identity equality).</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#compound(java.lang.Iterable)" class="member-name-link">compound</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</code></div>
+<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#compound(java.lang.Iterable)" class="member-name-link">compound</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an ordering which tries each given comparator in order until a non-zero result is
  found, returning that result, and returning zero only if all comparators return zero.</div>
 </div>
 <div class="col-first odd-row-color"><code>&lt;U extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;U&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#compound(java.util.Comparator)" class="member-name-link">compound</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#compound(java.util.Comparator)" class="member-name-link">compound</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which in the event of a
  "tie", then delegates to <code>secondaryComparator</code>.</div>
 </div>
 <div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#explicit(java.util.List)" class="member-name-link">explicit</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;T&gt;&nbsp;valuesInOrder)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#explicit(java.util.List)" class="member-name-link">explicit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;T&gt;&nbsp;valuesInOrder)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an ordering that compares objects according to the order in which they appear in the
  given list.</div>
@@ -106,25 +106,25 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns an ordering that compares objects according to the order in which they are given to
  this method.</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#from(com.google.common.collect.Ordering)" class="member-name-link">from</a><wbr>(<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</code></div>
 <div class="col-last even-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">no need to use this</div>
 </div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#from(java.util.Comparator)" class="member-name-link">from</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></div>
+<div class="col-first odd-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#from(java.util.Comparator)" class="member-name-link">from</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an ordering based on an <i>existing</i> comparator instance.</div>
 </div>
-<div class="col-first even-row-color"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</code></div>
+<div class="col-first even-row-color"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#lexicographical()" class="member-name-link">lexicographical</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until
  a nonzero result is found; imposes "dictionary order".</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;C&gt;</code></div>
+<div class="col-first odd-row-color"><code>static &lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;C&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#natural()" class="member-name-link">natural</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a serializable ordering that uses the natural order of the values.</div>
@@ -141,7 +141,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns an ordering that treats <code>null</code> as greater than all other values and uses this
  ordering to compare non-null values.</div>
 </div>
-<div class="col-first even-row-color"><code>&lt;F extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;F&gt;</code></div>
+<div class="col-first even-row-color"><code>&lt;F extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;F&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#onResultOf(com.google.common.base.Function)" class="member-name-link">onResultOf</a><wbr>(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,<wbr>? extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying a function to them,
@@ -150,9 +150,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;S&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#reverse()" class="member-name-link">reverse</a>()</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#reverseOrder-java.util.Comparator-" title="class or interface in java.util" class="external-link"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
+<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#reverseOrder(java.util.Comparator)" title="class or interface in java.util" class="external-link"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#usingToString()" class="member-name-link">usingToString</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an ordering that compares objects by the natural ordering of their string
@@ -164,7 +164,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../Ordering.html#from(com.google.common.collect.Ordering)" class="member-name-link">from</a><wbr>(<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</code></div>
 <div class="col-last even-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>

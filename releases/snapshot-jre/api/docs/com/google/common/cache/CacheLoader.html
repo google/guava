@@ -86,14 +86,14 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.cache</a></div>
 <h1 title="Class CacheLoader" class="title">Class CacheLoader&lt;K,<wbr>V&gt;</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.cache.CacheLoader&lt;K,<wbr>V&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 </span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-57">CacheLoader</a>&lt;K,<wbr>V&gt;</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Computes or retrieves values, based on a key, for use in populating a <a href="LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a>.
 
  <p>Most implementations will only need to implement <a href="#load(K)"><code>load(K)</code></a>. Other methods may be
@@ -178,7 +178,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;K,<wbr>
 V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a><wbr>&lt;K,<wbr>V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#asyncReloading(com.google.common.cache.CacheLoader,java.util.concurrent.Executor)" class="member-name-link">asyncReloading</a><wbr>(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,<wbr>V&gt;&nbsp;loader,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>CacheLoader</code> which wraps <code>loader</code>, executing calls to <a href="#reload(K,V)"><code>reload(K, V)</code></a> using <code>executor</code>.</div>
 </div>
@@ -189,7 +189,7 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <div class="block">Returns a cache loader that uses <code>function</code> to load keys, without supporting either
  reloading or bulk loading.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#from(com.google.common.base.Supplier)" class="member-name-link">from</a><wbr>(<a href="../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;V&gt;&nbsp;supplier)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a cache loader based on an <i>existing</i> supplier instance.</div>
@@ -199,8 +199,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Computes or retrieves the value corresponding to <code>key</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>,<wbr><a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadAll(java.lang.Iterable)" class="member-name-link">loadAll</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&gt;&nbsp;keys)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>,<wbr><a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadAll(java.lang.Iterable)" class="member-name-link">loadAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&gt;&nbsp;keys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Computes or retrieves the values corresponding to <code>keys</code>.</div>
 </div>
@@ -214,8 +214,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -246,7 +246,7 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <section class="detail" id="load(K)">
 <h3 id="load(java.lang.Object)">load</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="type parameter in CacheLoader">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-72">load</a></span><wbr><span class="parameters">(<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&nbsp;key)</span>
-                throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+                throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Computes or retrieves the value corresponding to <code>key</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -254,8 +254,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <dt>Returns:</dt>
 <dd>the value associated with <code>key</code>; <b>must not be null</b></dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to load the result</dd>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to load the result</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
      treated like any other <code>Exception</code> in all respects except that, when it is caught,
      the thread's interrupt status is set</dd>
 </dl>
@@ -267,7 +267,7 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-95">reload</a></span><wbr><span class="parameters">(<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&nbsp;key,
  <a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&nbsp;oldValue)</span>
-                           throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+                           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Computes or retrieves a replacement value corresponding to an already-cached <code>key</code>. This
  method is called when an existing cache entry is refreshed by <a href="CacheBuilder.html#refreshAfterWrite(java.time.Duration)"><code>CacheBuilder.refreshAfterWrite(java.time.Duration)</code></a>, or through a call to <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>.
 
@@ -283,8 +283,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <dd>the future new value associated with <code>key</code>; <b>must not be null, must not return
      null</b></dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to reload the result</dd>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to reload the result</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
      treated like any other <code>Exception</code> in all respects except that, when it is caught,
      the thread's interrupt status is set</dd>
 <dt>Since:</dt>
@@ -295,8 +295,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <li>
 <section class="detail" id="loadAll(java.lang.Iterable)">
 <h3>loadAll</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>,<wbr><a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-124">loadAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&gt;&nbsp;keys)</span>
-                 throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>,<wbr><a href="CacheLoader.html" title="type parameter in CacheLoader">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-124">loadAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="CacheLoader.html" title="type parameter in CacheLoader">K</a>&gt;&nbsp;keys)</span>
+                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Computes or retrieves the values corresponding to <code>keys</code>. This method is called by <a href="LoadingCache.html#getAll(java.lang.Iterable)"><code>LoadingCache.getAll(java.lang.Iterable&lt;? extends K&gt;)</code></a>.
 
  <p>If the returned map doesn't contain all requested <code>keys</code> then the entries it does
@@ -314,8 +314,8 @@ V&gt;&nbsp;<a href="CacheLoader.html" title="class in com.google.common.cache">C
 <dd>a map from each key in <code>keys</code> to the value associated with that key; <b>may not
      contain null values</b></dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to load the result</dd>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - if unable to load the result</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if this method is interrupted. <code>InterruptedException</code> is
      treated like any other <code>Exception</code> in all respects except that, when it is caught,
      the thread's interrupt status is set</dd>
 <dt>Since:</dt>
@@ -343,7 +343,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="cl
 <li>
 <section class="detail" id="from(com.google.common.base.Supplier)">
 <h3>from</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V&gt;</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-154">from</a></span><wbr><span class="parameters">(<a href="../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;V&gt;&nbsp;supplier)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V&gt;</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-154">from</a></span><wbr><span class="parameters">(<a href="../base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;V&gt;&nbsp;supplier)</span></div>
 <div class="block">Returns a cache loader based on an <i>existing</i> supplier instance. Note that there's no need
  to create a <i>new</i> supplier just to pass it in here; just subclass <code>CacheLoader</code> and
  implement <a href="#load(K)"><code>load</code></a> instead.
@@ -364,7 +364,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="cl
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
 V&gt;</span>&nbsp;<span class="return-type"><a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/CacheLoader.html#line-183">asyncReloading</a></span><wbr><span class="parameters">(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;K,<wbr>V&gt;&nbsp;loader,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a <code>CacheLoader</code> which wraps <code>loader</code>, executing calls to <a href="#reload(K,V)"><code>reload(K, V)</code></a> using <code>executor</code>.
 
  <p>This method is useful only when <code>loader.reload</code> has a synchronous implementation, such

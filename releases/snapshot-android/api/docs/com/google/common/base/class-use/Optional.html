@@ -89,7 +89,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.</div>
 </div>
 <div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#fromJavaUtil(java.util.Optional)" class="member-name-link">fromJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
@@ -100,11 +100,11 @@ loadScripts(document, 'script');</script>
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="../Optional.html#absent()"><code>absent()</code></a>.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;T&gt;&gt;<br><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Enums.</span><code><a href="../Enums.html#getIfPresent(java.lang.Class,java.lang.String)" class="member-name-link">getIfPresent</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;enumClass,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-first odd-row-color"><code>static &lt;T extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;T&gt;&gt;<br><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Enums.</span><code><a href="../Enums.html#getIfPresent(java.lang.Class,java.lang.String)" class="member-name-link">getIfPresent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;enumClass,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Returns an optional enum constant for the given type, using <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html#valueOf-java.lang.Class-java.lang.String-" title="class or interface in java.lang" class="external-link"><code>Enum.valueOf(java.lang.Class&lt;T&gt;, java.lang.String)</code></a>.</div>
+<div class="block">Returns an optional enum constant for the given type, using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html#valueOf(java.lang.Class,java.lang.String)" title="class or interface in java.lang" class="external-link"><code>Enum.valueOf(java.lang.Class&lt;T&gt;, java.lang.String)</code></a>.</div>
 </div>
 <div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#of(T)" class="member-name-link">of</a><wbr>(T&nbsp;reference)</code></div>
@@ -133,7 +133,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#toJavaUtil(com.google.common.base.Optional)" class="member-name-link">toJavaUtil</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
@@ -145,8 +145,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#presentInstances(java.lang.Iterable)" class="member-name-link">presentInstances</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</code></div>
+<div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Optional.</span><code><a href="../Optional.html#presentInstances(java.lang.Iterable)" class="member-name-link">presentInstances</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="../Optional.html#absent()"><code>absent()</code></a>.</div>
@@ -179,14 +179,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable.</div>
 </div>
 <div class="col-first odd-row-color"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Iterables.</span><code><a href="../../collect/Iterables.html#tryFind(java.lang.Iterable,com.google.common.base.Predicate)" class="member-name-link">tryFind</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<div class="col-second odd-row-color"><span class="type-name-label">Iterables.</span><code><a href="../../collect/Iterables.html#tryFind(java.lang.Iterable,com.google.common.base.Predicate)" class="member-name-link">tryFind</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
  <a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterable</code> that satisfies the
  given predicate, if such an element exists.</div>
 </div>
 <div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Iterators.</span><code><a href="../../collect/Iterators.html#tryFind(java.util.Iterator,com.google.common.base.Predicate)" class="member-name-link">tryFind</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<div class="col-second even-row-color"><span class="type-name-label">Iterators.</span><code><a href="../../collect/Iterators.html#tryFind(java.util.Iterator,com.google.common.base.Predicate)" class="member-name-link">tryFind</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;T&gt;&nbsp;iterator,
  <a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterator</code> that satisfies the
@@ -198,7 +198,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first even-row-color"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Streams.</span><code><a href="../../collect/Streams.html#stream(com.google.common.base.Optional)" class="member-name-link">stream</a><wbr>(<a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;optional)</code></div>
 <div class="col-last even-row-color">
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
@@ -215,13 +215,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</code></div>
+<div class="col-first even-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">CharSource.</span><code><a href="../../io/CharSource.html#lengthIfKnown()" class="member-name-link">lengthIfKnown</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns the size of this source in chars, if the size can be easily determined without actually
  opening the data stream.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">ByteSource.</span><code><a href="../../io/ByteSource.html#sizeIfKnown()" class="member-name-link">sizeIfKnown</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
@@ -238,7 +238,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&gt;</code></div>
+<div class="col-first even-row-color"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">MediaType.</span><code><a href="../../net/MediaType.html#charset()" class="member-name-link">charset</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns an optional charset for the value of the charset parameter if it is specified.</div>

@@ -86,21 +86,21 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.google.common.primitives</a></div>
 <h1 title="Class ImmutableIntArray" class="title">Class ImmutableIntArray</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.primitives.ImmutableIntArray</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>
 </span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-86">ImmutableIntArray</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
-<div class="block">An immutable array of <code>int</code> values, with an API resembling <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a>.
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
+<div class="block">An immutable array of <code>int</code> values, with an API resembling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a>.
 
  <p>Advantages compared to <code>int[]</code>:
 
@@ -109,7 +109,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
        edition, Item 17).
    <li>Has the value-based (not identity-based) <a href="#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a>, <a href="#hashCode()"><code>hashCode()</code></a>, and <a href="#toString()"><code>toString()</code></a> behavior you expect.
    <li>Offers useful operations beyond just <code>get</code> and <code>length</code>, so you don't have to
-       hunt through classes like <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html" title="class or interface in java.util" class="external-link"><code>Arrays</code></a> and <a href="Ints.html" title="class in com.google.common.primitives"><code>Ints</code></a> for them.
+       hunt through classes like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Arrays.html" title="class or interface in java.util" class="external-link"><code>Arrays</code></a> and <a href="Ints.html" title="class in com.google.common.primitives"><code>Ints</code></a> for them.
    <li>Supports a copy-free <a href="#subArray(int,int)"><code>subArray(int, int)</code></a> view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
    <li>Can be streamed without "breaking the chain": <code>foo.getBarInts().stream()...</code>.
@@ -134,7 +134,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
  <ul>
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
-   <li>Access to <code>IntStream</code> features (like <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#sum--" title="class or interface in java.util.stream" class="external-link"><code>IntStream.sum()</code></a>) using <code>stream()</code>
+   <li>Access to <code>IntStream</code> features (like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/IntStream.html#sum()" title="class or interface in java.util.stream" class="external-link"><code>IntStream.sum()</code></a>) using <code>stream()</code>
        instead of the awkward <code>stream().mapToInt(v -&gt; v)</code>.
  </ul>
 
@@ -186,11 +186,11 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asList()" class="member-name-link">asList</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>
- int</code> values are boxed into <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link"><code>Integer</code></a> instances on demand, which can be very expensive.</div>
+ int</code> values are boxed into <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link"><code>Integer</code></a> instances on demand, which can be very expensive.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#builder()" class="member-name-link">builder</a>()</code></div>
@@ -215,28 +215,28 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.lang.Iterable)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.lang.Iterable)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.util.Collection)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.util.Collection)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.util.stream.IntStream)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a>&nbsp;stream)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyOf(java.util.stream.IntStream)" class="member-name-link">copyOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a>&nbsp;stream)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableIntArray</code> containing the same
  values as this one, in the same order.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forEach(java.util.function.IntConsumer)" class="member-name-link">forEach</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/IntConsumer.html" title="class or interface in java.util.function" class="external-link">IntConsumer</a>&nbsp;consumer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forEach(java.util.function.IntConsumer)" class="member-name-link">forEach</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/IntConsumer.html" title="class or interface in java.util.function" class="external-link">IntConsumer</a>&nbsp;consumer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
 </div>
@@ -328,7 +328,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stream()" class="member-name-link">stream</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a stream over the values in this array, in order.</div>
@@ -344,10 +344,10 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>int[]</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a string representation of this array in the same form as <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#toString-int:A-" title="class or interface in java.util" class="external-link"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
+<div class="block">Returns a string representation of this array in the same form as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Arrays.html#toString(int%5B%5D)" title="class or interface in java.util" class="external-link"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#trimmed()" class="member-name-link">trimmed</a>()</code></div>
@@ -358,8 +358,8 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -455,24 +455,24 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="copyOf(java.util.Collection)">
 <h3>copyOf</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-150">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-150">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</span></div>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="copyOf(java.lang.Iterable)">
 <h3>copyOf</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-161">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-161">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;values)</span></div>
 <div class="block">Returns an immutable array containing the given values, in order.
 
  <p><b>Performance note:</b> this method delegates to <a href="#copyOf(java.util.Collection)"><code>copyOf(Collection)</code></a> if <code>
- values</code> is a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>. Otherwise it creates a <a href="#builder(int)"><code>builder(int)</code></a> and uses <a href="ImmutableIntArray.Builder.html#addAll(java.lang.Iterable)"><code>ImmutableIntArray.Builder.addAll(Iterable)</code></a>, with all the performance implications associated with that.</div>
+ values</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>. Otherwise it creates a <a href="#builder(int)"><code>builder(int)</code></a> and uses <a href="ImmutableIntArray.Builder.html#addAll(java.lang.Iterable)"><code>ImmutableIntArray.Builder.addAll(Iterable)</code></a>, with all the performance implications associated with that.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="copyOf(java.util.stream.IntStream)">
 <h3>copyOf</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-173">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a>&nbsp;stream)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-173">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a>&nbsp;stream)</span></div>
 <div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -526,7 +526,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="block">Returns the <code>int</code> value present at the given index.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>index</code> is negative, or greater than or equal to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>index</code> is negative, or greater than or equal to
      <a href="#length()"><code>length()</code></a></dd>
 </dl>
 </section>
@@ -558,7 +558,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="forEach(java.util.function.IntConsumer)">
 <h3>forEach</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-421">forEach</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/IntConsumer.html" title="class or interface in java.util.function" class="external-link">IntConsumer</a>&nbsp;consumer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-421">forEach</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/IntConsumer.html" title="class or interface in java.util.function" class="external-link">IntConsumer</a>&nbsp;consumer)</span></div>
 <div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -569,7 +569,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="stream()">
 <h3>stream</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-433">stream</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/IntStream.html" title="class or interface in java.util.stream" class="external-link">IntStream</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-433">stream</a></span>()</div>
 <div class="block">Returns a stream over the values in this array, in order.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -599,9 +599,9 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="asList()">
 <h3>asList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-471">asList</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-471">asList</a></span>()</div>
 <div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>
- int</code> values are boxed into <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html" title="class or interface in java.lang" class="external-link"><code>Integer</code></a> instances on demand, which can be very expensive.
+ int</code> values are boxed into <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link"><code>Integer</code></a> instances on demand, which can be very expensive.
  The returned list should be used once and discarded. For any usages beyond that, pass the
  returned list to <a href="../collect/ImmutableList.html#copyOf(java.util.Collection)"><code>ImmutableList.copyOf</code></a> and use that list instead.</div>
 </section>
@@ -609,12 +609,12 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-565">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-565">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableIntArray</code> containing the same
  values as this one, in the same order.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </section>
 </li>
@@ -625,18 +625,18 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializab
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="toString()">
 <h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-600">toString</a></span>()</div>
-<div class="block">Returns a string representation of this array in the same form as <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#toString-int:A-" title="class or interface in java.util" class="external-link"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line-600">toString</a></span>()</div>
+<div class="block">Returns a string representation of this array in the same form as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Arrays.html#toString(int%5B%5D)" title="class or interface in java.util" class="external-link"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </section>
 </li>
