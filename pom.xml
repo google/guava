@@ -195,7 +195,6 @@
         <plugin>
           <groupId>org.mvnsearch</groupId>
           <artifactId>toolchains-maven-plugin</artifactId>
-          <version>4.5.0</version>
           <executions>
             <!--
             We can apparently have only one <jdk> per execution: Others are silently ignored :(
@@ -204,15 +203,15 @@
             (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
             -->
             <execution>
-              <id>download-11</id>
+              <id>download-21</id>
               <goals>
                 <goal>toolchain</goal>
               </goals>
               <configuration>
                 <toolchains>
                   <jdk>
-                    <version>11</version>
-                    <vendor>zulu</vendor>
+                    <version>21</version>
+                    <vendor>temurin</vendor>
                   </jdk>
                 </toolchains>
               </configuration>
@@ -226,11 +225,11 @@
                 <toolchains>
                   <jdk>
                     <version>23</version>
-                    <vendor>zulu</vendor>
+                    <vendor>temurin</vendor>
                   </jdk>
                   <testJdk>
                     <version>${surefire.toolchain.version}</version>
-                    <vendor>zulu</vendor>
+                    <vendor>temurin</vendor>
                   </testJdk>
                 </toolchains>
               </configuration>
@@ -251,7 +250,6 @@
             <toolchains>
               <jdk>
                 <version>23</version>
-                <vendor>zulu</vendor>
               </jdk>
             </toolchains>
           </configuration>
@@ -327,10 +325,9 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.1</version>
           <configuration>
-            <!-- TODO: b/286965322 - Use a newer version (probably the default javac toolchain we set up?) if it doesn't break Javadoc (including causing trouble for our later run of JDiff, which we do outside Maven, during snapshots/releases). At that point, we'll likely want to remove the no-module-directories additionalJOption, as documented below. -->
             <jdkToolchain>
-              <version>11</version>
-              <vendor>zulu</vendor>
+              <version>21</version>
+              <vendor>temurin</vendor>
             </jdkToolchain>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -343,14 +340,6 @@
             </additionalOptions>
             <linksource>true</linksource>
             <source>8</source>
-            <!--
-                Required to make symbol search work correctly in the generated pages under JDK 11-12.
-
-                This flag does not exist on 9-10 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
-
-                Consider removing it once our Javadoc generation is migrated to a recent JDK.
-             -->
-            <additionalJOption>--no-module-directories</additionalJOption>
           </configuration>
           <executions>
             <execution>
@@ -373,7 +362,6 @@
           <configuration>
             <jdkToolchain>
               <version>${surefire.toolchain.version}</version>
-              <vendor>zulu</vendor>
             </jdkToolchain>
             <includes>
               <include>${test.include}</include>
@@ -414,6 +402,11 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.mvnsearch</groupId>
+          <artifactId>toolchains-maven-plugin</artifactId>
+          <version>4.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -506,11 +499,32 @@
         <test.add.opens></test.add.opens>
       </properties>
     </profile>
-    <!-- The Gradle integration tests need to set JAVA_HOME to the location of Java 11. The following profile extracts that location. -->
+    <!-- JDiff and the Gradle integration tests need Java 11 to be installed, and they need to know where it's located so that they can set JAVA_HOME to point to it. The following profile downloads a temurin Java 11 (if one isn't already available) and writes its location to target/java_11_home. This lets our JDiff and Gradle-integration-test scripts invoke the `print-java-11-home` profile and then read that file. -->
     <profile>
       <id>print-java-11-home</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.mvnsearch</groupId>
+            <artifactId>toolchains-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>download-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+                <configuration>
+                  <toolchains>
+                    <jdk>
+                      <version>11</version>
+                      <vendor>temurin</vendor>
+                    </jdk>
+                  </toolchains>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <artifactId>maven-toolchains-plugin</artifactId>
             <executions>
@@ -526,7 +540,6 @@
               <toolchains>
                 <jdk>
                   <version>11</version>
-                  <vendor>zulu</vendor>
                 </jdk>
               </toolchains>
             </configuration>
