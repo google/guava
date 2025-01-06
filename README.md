@@ -3,7 +3,7 @@
 [![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
 [![Build Status](https://github.com/google/guava/workflows/CI/badge.svg?branch=master)](https://github.com/google/guava/actions)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7197/badge)](https://bestpractices.coreinfrastructure.org/projects/7197)
-
+[![JavaDoc](https://javadoc.io/badge2/com.google.guava/guava/javadoc.svg)](https://javadoc.io/doc/com.google.guava/guava)
 
 
 Guava is a set of core Java libraries from Google that includes new collection
