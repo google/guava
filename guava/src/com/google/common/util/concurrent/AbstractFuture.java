@@ -186,18 +186,9 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
         helper = new UnsafeAtomicHelper();
       } catch (Exception | Error unsafeFailure) { // sneaky checked exception
         thrownUnsafeFailure = unsafeFailure;
-        // catch absolutely everything and fall through to our
-        // 'AtomicReferenceFieldUpdaterAtomicHelper' The access control checks that ARFU does means
-        // the caller class has to be AbstractFuture instead of
-        // AtomicReferenceFieldUpdaterAtomicHelper, so we annoyingly define these here
+        // Catch absolutely everything and fall through to AtomicReferenceFieldUpdaterAtomicHelper.
         try {
-          helper =
-              new AtomicReferenceFieldUpdaterAtomicHelper(
-                  newUpdater(Waiter.class, Thread.class, "thread"),
-                  newUpdater(Waiter.class, Waiter.class, "next"),
-                  newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
-                  newUpdater(AbstractFuture.class, Listener.class, "listeners"),
-                  newUpdater(AbstractFuture.class, Object.class, "value"));
+          helper = new AtomicReferenceFieldUpdaterAtomicHelper();
         } catch (Exception // sneaky checked exception
             | Error atomicReferenceFieldUpdaterFailure) {
           // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
@@ -1559,24 +1550,16 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
   private static final class AtomicReferenceFieldUpdaterAtomicHelper extends AtomicHelper {
-    final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
-    final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;
-    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater;
-    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener> listenersUpdater;
-    final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object> valueUpdater;
-
-    AtomicReferenceFieldUpdaterAtomicHelper(
-        AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater,
-        AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater,
-        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter> waitersUpdater,
-        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener> listenersUpdater,
-        AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object> valueUpdater) {
-      this.waiterThreadUpdater = waiterThreadUpdater;
-      this.waiterNextUpdater = waiterNextUpdater;
-      this.waitersUpdater = waitersUpdater;
-      this.listenersUpdater = listenersUpdater;
-      this.valueUpdater = valueUpdater;
-    }
+    private static final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater =
+        newUpdater(Waiter.class, Thread.class, "thread");
+    private static final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater =
+        newUpdater(Waiter.class, Waiter.class, "next");
+    private static final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter>
+        waitersUpdater = waitersUpdaterFromWithinAbstractFuture();
+    private static final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener>
+        listenersUpdater = listenersUpdaterFromWithinAbstractFuture();
+    private static final AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object>
+        valueUpdater = valueUpdaterFromWithinAbstractFuture();
 
     @Override
     void putThread(Waiter waiter, Thread newValue) {
@@ -1612,6 +1595,24 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
     }
+  }
+
+  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}. */
+  private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter>
+      waitersUpdaterFromWithinAbstractFuture() {
+    return newUpdater(AbstractFuture.class, Waiter.class, "waiters");
+  }
+
+  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}. */
+  private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener>
+      listenersUpdaterFromWithinAbstractFuture() {
+    return newUpdater(AbstractFuture.class, Listener.class, "listeners");
+  }
+
+  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}. */
+  private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object>
+      valueUpdaterFromWithinAbstractFuture() {
+    return newUpdater(AbstractFuture.class, Object.class, "value");
   }
 
   /**
