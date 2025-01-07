@@ -225,7 +225,6 @@ public class MapsTest extends TestCase {
     assertEquals(emptyMap(), map);
   }
 
-  @SuppressWarnings("serial")
   public void testLinkedHashMapWithInitialMap() {
     Map<String, String> map =
         new LinkedHashMap<String, String>(
@@ -982,7 +981,6 @@ public class MapsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
-  @SuppressWarnings("deprecation") // StringBufferInputStream
   public void testFromProperties() throws IOException {
     Properties testProp = new Properties();
 

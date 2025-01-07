@@ -243,7 +243,6 @@ public class ListsImplTest extends TestCase {
   }
 
   @SafeVarargs
-  @SuppressWarnings("varargs")
   private final <T> List<T> createList(Class<T> listType, T... contents) {
     return getExample().createList(listType, asList(contents));
   }

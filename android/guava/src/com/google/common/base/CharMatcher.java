@@ -1815,7 +1815,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return predicate.apply(c);
     }
 
-    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily
+    @Deprecated
     @Override
     public boolean apply(Character character) {
       return predicate.apply(checkNotNull(character));

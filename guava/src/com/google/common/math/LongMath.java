@@ -1241,7 +1241,6 @@ public final class LongMath {
    *     is not precisely representable as a {@code double}
    * @since 30.0
    */
-  @SuppressWarnings("deprecation")
   @GwtIncompatible
   public static double roundToDouble(long x, RoundingMode mode) {
     // Logic adapted from ToDoubleRounder.
