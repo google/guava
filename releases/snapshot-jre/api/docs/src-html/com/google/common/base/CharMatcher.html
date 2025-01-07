@@ -1828,7 +1828,7 @@
 <span class="source-line-no">1815</span><span id="line-1815">      return predicate.apply(c);</span>
 <span class="source-line-no">1816</span><span id="line-1816">    }</span>
 <span class="source-line-no">1817</span><span id="line-1817"></span>
-<span class="source-line-no">1818</span><span id="line-1818">    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily</span>
+<span class="source-line-no">1818</span><span id="line-1818">    @Deprecated</span>
 <span class="source-line-no">1819</span><span id="line-1819">    @Override</span>
 <span class="source-line-no">1820</span><span id="line-1820">    public boolean apply(Character character) {</span>
 <span class="source-line-no">1821</span><span id="line-1821">      return predicate.apply(checkNotNull(character));</span>
