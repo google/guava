@@ -65131,7 +65131,7 @@
 
  <p>The default implementation does nothing.
 
- <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, consulting
+ <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, checking
  {@link #wasInterrupted} to decide whether to interrupt your task.
 
  @since 10.0]]>
