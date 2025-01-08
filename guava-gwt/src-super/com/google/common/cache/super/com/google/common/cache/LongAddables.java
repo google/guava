@@ -23,6 +23,22 @@ package com.google.common.cache;
  */
 final class LongAddables {
   public static LongAddable create() {
-    return new LongAdder();
+    return new GwtLongAddable();
+  }
+
+  private static final class GwtLongAddable implements LongAddable {
+    private long value;
+
+    public void increment() {
+      value++;
+    }
+
+    public void add(long x) {
+      value += x;
+    }
+
+    public long sum() {
+      return value;
+    }
   }
 }
