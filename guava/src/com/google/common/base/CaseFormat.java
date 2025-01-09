@@ -30,7 +30,10 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 public enum CaseFormat {
-  /** Hyphenated variable naming convention, e.g., "lower-hyphen". */
+  /**
+   * Hyphenated variable naming convention, e.g., "lower-hyphen". This format is also colloquially
+   * known as "kebab case".
+   */
   LOWER_HYPHEN(CharMatcher.is('-'), "-") {
     @Override
     String normalizeWord(String word) {
