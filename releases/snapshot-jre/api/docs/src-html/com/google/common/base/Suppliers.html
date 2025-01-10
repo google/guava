@@ -187,7 +187,7 @@
 <span class="source-line-no">174</span><span id="line-174">    private final Object lock = new Object();</span>
 <span class="source-line-no">175</span><span id="line-175"></span>
 <span class="source-line-no">176</span><span id="line-176">    @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object</span>
-<span class="source-line-no">177</span><span id="line-177">    private static final Supplier&lt;Void&gt; SUCCESSFULLY_COMPUTED =</span>
+<span class="source-line-no">177</span><span id="line-177">    private static final Supplier&lt;@Nullable Void&gt; SUCCESSFULLY_COMPUTED =</span>
 <span class="source-line-no">178</span><span id="line-178">        () -&gt; {</span>
 <span class="source-line-no">179</span><span id="line-179">          throw new IllegalStateException(); // Should never get called.</span>
 <span class="source-line-no">180</span><span id="line-180">        };</span>
