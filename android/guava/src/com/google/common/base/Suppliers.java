@@ -174,7 +174,7 @@ public final class Suppliers {
     private final Object lock = new Object();
 
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
-    private static final Supplier<Void> SUCCESSFULLY_COMPUTED =
+    private static final Supplier<@Nullable Void> SUCCESSFULLY_COMPUTED =
         () -> {
           throw new IllegalStateException(); // Should never get called.
         };
