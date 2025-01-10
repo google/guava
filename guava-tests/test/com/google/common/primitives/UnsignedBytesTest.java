@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.primitives.UnsignedBytes.max;
 import static com.google.common.primitives.UnsignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
@@ -242,12 +243,14 @@ public class UnsignedBytesTest extends TestCase {
     Comparator<byte[]> defaultComparator = UnsignedBytes.lexicographicalComparator();
     assertThat(defaultComparator).isNotNull();
     assertThat(UnsignedBytes.lexicographicalComparator()).isSameInstanceAs(defaultComparator);
-    if (unsafeComparatorAvailable()) {
-      assertThat(Class.forName(unsafeComparatorClassName()))
-          .isSameInstanceAs(defaultComparator.getClass());
+    if (!isJava8()) {
+      assertThat(defaultComparator.getClass())
+          .isEqualTo(UnsignedBytes.ArraysCompareUnsignedComparator.class);
+    } else if (unsafeComparatorAvailable()) {
+      assertThat(defaultComparator.getClass())
+          .isEqualTo(Class.forName(unsafeComparatorClassName()));
     } else {
-      assertThat(UnsignedBytes.lexicographicalComparatorJavaImpl())
-          .isSameInstanceAs(defaultComparator);
+      assertThat(defaultComparator).isEqualTo(UnsignedBytes.lexicographicalComparatorJavaImpl());
     }
   }
 
@@ -359,5 +362,9 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedBytes.class);
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }

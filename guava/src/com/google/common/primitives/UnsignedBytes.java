@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.reflect.Field;
 import java.nio.ByteOrder;
 import java.security.AccessController;
@@ -30,6 +31,7 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.jspecify.annotations.Nullable;
 import sun.misc.Unsafe;
 
 /**
@@ -439,6 +441,12 @@ public final class UnsignedBytes {
      * to do so.
      */
     static Comparator<byte[]> getBestComparator() {
+      Comparator<byte[]> arraysCompareUnsignedComparator =
+          ArraysCompareUnsignedComparatorMaker.INSTANCE.tryMakeArraysCompareUnsignedComparator();
+      if (arraysCompareUnsignedComparator != null) {
+        return arraysCompareUnsignedComparator;
+      }
+
       try {
         Class<?> theClass = Class.forName(UNSAFE_COMPARATOR_NAME);
 
@@ -452,6 +460,44 @@ public final class UnsignedBytes {
       } catch (Throwable t) { // ensure we really catch *everything*
         return lexicographicalComparatorJavaImpl();
       }
+    }
+  }
+
+  private enum ArraysCompareUnsignedComparatorMaker {
+    INSTANCE {
+      /** Implementation used by non-J2ObjC environments. */
+      // We use Arrays.compareUnsigned only after confirming that it's available at runtime.
+      @SuppressWarnings("Java8ApiChecker")
+      @IgnoreJRERequirement
+      @Override
+      @J2ObjCIncompatible
+      @Nullable Comparator<byte[]> tryMakeArraysCompareUnsignedComparator() {
+        try {
+          // Compare AbstractFuture.VarHandleAtomicHelperMaker.
+          Arrays.class.getMethod("compareUnsigned", byte[].class, byte[].class);
+        } catch (NoSuchMethodException beforeJava9) {
+          return null;
+        }
+        return ArraysCompareUnsignedComparator.INSTANCE;
+      }
+    };
+
+    /** Implementation used by J2ObjC environments, overridden for other environments. */
+    @Nullable Comparator<byte[]> tryMakeArraysCompareUnsignedComparator() {
+      return null;
+    }
+  }
+
+  @J2ObjCIncompatible
+  enum ArraysCompareUnsignedComparator implements Comparator<byte[]> {
+    INSTANCE;
+
+    @Override
+    // We use the class only after confirming that Arrays.compareUnsigned is available at runtime.
+    @SuppressWarnings("Java8ApiChecker")
+    @IgnoreJRERequirement
+    public int compare(byte[] left, byte[] right) {
+      return Arrays.compareUnsigned(left, right);
     }
   }
 
