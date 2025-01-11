@@ -92,6 +92,10 @@ final class CollectSpliterators {
       @Override
       public @Nullable Comparator<? super T> getComparator() {
         if (hasCharacteristics(Spliterator.SORTED)) {
+          if (Ordering.natural().equals(comparator)
+                  || Comparator.naturalOrder().equals(comparator)) {
+            return null;
+          }
           return comparator;
         } else {
           throw new IllegalStateException();
