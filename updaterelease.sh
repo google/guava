@@ -361,32 +361,6 @@ update_config_yml() {
   fi
 }
 
-# Generates Javadoc shortlinks for the current snapshot release.
-generate_snapshot_javadoc_shortlinks() {
-  if [[ "$RELEASE" != "snapshot" ]]; then
-    return
-  fi
-  # Creates 2 sub-folders for each non-nested class inside javadocshortcuts.
-  # This ensures that each class documentation is accessible using  https://guava.dev/ClassName
-  # or https://guava.dev/classname.
-  for F in $(find releases/snapshot-jre/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
-    SHORT=$(basename $F .html)
-
-    # Lowercases the 2nd sub-folder's name
-    SHORT_LOWER=$(echo $SHORT | tr A-Z a-z)
-    mkdir -p javadocshortcuts/{$SHORT,$SHORT_LOWER} && (
-      echo ---
-      echo "title: $SHORT"
-      echo "permalink: /$SHORT/"
-      echo "redirect_to: https://guava.dev/$F"
-      echo ---
-    ) | tee javadocshortcuts/{$SHORT,$SHORT_LOWER}/index.md >/dev/null
-
-    # Lowercases the permalink value inside the 2nd sub-folder's index.md
-    perl -pi -e 's/^permalink.*/\L$&/' javadocshortcuts/$SHORT_LOWER/index.md
-  done
-}
-
 # Main function actually run the process.
 main() {
   # Make sure we have all the latest tags
@@ -440,7 +414,6 @@ main() {
     move_generated_files "android"
   fi
 
-  generate_snapshot_javadoc_shortlinks
   commit_changes
   update_config_yml
 

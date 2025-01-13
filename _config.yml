@@ -2,7 +2,6 @@
 title: Guava
 subtitle: Google core libraries for Java
 description: Google core libraries for Java
-baseurl: /
 url: https://guava.dev
 
 themeColor: red
@@ -17,9 +16,6 @@ exclude:
   - node_modules
   - vendor
   - "*.sh"
-
-plugins:
-  - jekyll-redirect-from
 
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields
