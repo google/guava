@@ -20,6 +20,7 @@ import static com.google.common.primitives.UnsignedBytes.max;
 import static com.google.common.primitives.UnsignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.lang.Math.signum;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.Helpers;
@@ -95,8 +96,8 @@ public class UnsignedBytesTest extends TestCase {
         byte y = VALUES[j];
         // note: spec requires only that the sign is the same
         assertWithMessage(x + ", " + y)
-            .that(Math.signum(UnsignedBytes.compare(x, y)))
-            .isEqualTo(Math.signum(Integer.compare(i, j)));
+            .that(signum(UnsignedBytes.compare(x, y)))
+            .isEqualTo(signum(Integer.compare(i, j)));
       }
     }
   }
@@ -264,7 +265,7 @@ public class UnsignedBytesTest extends TestCase {
             new byte[] {GREATEST, GREATEST},
             new byte[] {GREATEST, GREATEST, GREATEST});
 
-    // The Unsafe implementation if it's available. Otherwise, the Java implementation.
+    // The VarHandle, Unsafe, or Java implementation.
     Comparator<byte[]> comparator = UnsignedBytes.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
     assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
@@ -275,24 +276,40 @@ public class UnsignedBytesTest extends TestCase {
     assertThat(SerializableTester.reserialize(javaImpl)).isSameInstanceAs(javaImpl);
   }
 
-  public void testLexicographicalComparatorLongInputs() {
-    Random rnd = new Random();
-    for (Comparator<byte[]> comparator :
-        Arrays.asList(
-            UnsignedBytes.lexicographicalComparator(),
-            UnsignedBytes.lexicographicalComparatorJavaImpl())) {
-      for (int trials = 10; trials-- > 0; ) {
-        byte[] left = new byte[1 + rnd.nextInt(32)];
-        rnd.nextBytes(left);
-        byte[] right = left.clone();
-        assertThat(comparator.compare(left, right)).isEqualTo(0);
-        int i = rnd.nextInt(left.length);
-        left[i] ^= (byte) (1 + rnd.nextInt(255));
-        assertThat(comparator.compare(left, right)).isNotEqualTo(0);
-        assertThat(UnsignedBytes.compare(left[i], right[i]) > 0)
-            .isEqualTo(comparator.compare(left, right) > 0);
-      }
+  public void testLexicographicalComparatorLongPseudorandomInputs() {
+    Comparator<byte[]> comparator1 = UnsignedBytes.lexicographicalComparator();
+    Comparator<byte[]> comparator2 = UnsignedBytes.lexicographicalComparatorJavaImpl();
+    Random rnd = new Random(714958103);
+    for (int trial = 0; trial < 100; trial++) {
+      byte[] left = new byte[1 + rnd.nextInt(32)];
+      rnd.nextBytes(left);
+      byte[] right = left.clone();
+      assertThat(comparator1.compare(left, right)).isEqualTo(0);
+      assertThat(comparator2.compare(left, right)).isEqualTo(0);
+      int i = rnd.nextInt(left.length);
+      left[i] ^= (byte) (1 + rnd.nextInt(255));
+      assertThat(signum(comparator1.compare(left, right)))
+          .isEqualTo(signum(UnsignedBytes.compare(left[i], right[i])));
+      assertThat(signum(comparator2.compare(left, right)))
+          .isEqualTo(signum(UnsignedBytes.compare(left[i], right[i])));
     }
+  }
+
+  public void testLexicographicalComparatorLongHandwrittenInputs() {
+    Comparator<byte[]> comparator1 = UnsignedBytes.lexicographicalComparator();
+    Comparator<byte[]> comparator2 = UnsignedBytes.lexicographicalComparatorJavaImpl();
+
+    /*
+     * These arrays are set up to test that the comparator compares bytes within a word in the
+     * correct order—in order words, that it doesn't mix up big-endian and little-endian. The first
+     * array has a smaller element at one index, and then the second array has a smaller elements at
+     * the next.
+     */
+    byte[] a0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 99, 15, 16, 17};
+    byte[] b0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 99, 14, 15, 16, 17};
+
+    assertThat(comparator1.compare(a0, b0)).isLessThan(0);
+    assertThat(comparator2.compare(a0, b0)).isLessThan(0);
   }
 
   public void testSort() {
