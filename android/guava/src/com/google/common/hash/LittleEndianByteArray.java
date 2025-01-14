@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static java.lang.Math.min;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Longs;
 import java.lang.reflect.Field;
 import java.nio.ByteOrder;
@@ -32,8 +33,11 @@ import sun.misc.Unsafe;
  */
 final class LittleEndianByteArray {
 
-  /** The instance that actually does the work; delegates to Unsafe or a pure-Java fallback. */
-  private static final LittleEndianBytes byteArray;
+  /**
+   * The instance that actually does the work; delegates to VarHandle, Unsafe, or a Java-8
+   * compatible pure-Java fallback.
+   */
+  private static final LittleEndianBytes byteArray = makeGetter();
 
   /**
    * Load 8 bytes into long in a little endian manner, from the substring between position and
@@ -104,12 +108,12 @@ final class LittleEndianByteArray {
   }
 
   /**
-   * Indicates that the loading of Unsafe was successful and the load and store operations will be
-   * very efficient. May be useful for calling code to fall back on an alternative implementation
-   * that is slower than Unsafe.get/store but faster than the pure-Java mask-and-shift.
+   * Indicates that the load and store operations will be very efficient because of use of VarHandle
+   * or Unsafe. May be useful for calling code to fall back on an alternative implementation that is
+   * slower than those implementations but faster than the pure-Java mask-and-shift.
    */
-  static boolean usingUnsafe() {
-    return (byteArray instanceof UnsafeByteArray);
+  static boolean usingFastPath() {
+    return byteArray.usesFastPath();
   }
 
   /**
@@ -122,6 +126,8 @@ final class LittleEndianByteArray {
     long getLongLittleEndian(byte[] array, int offset);
 
     void putLongLittleEndian(byte[] array, int offset, long value);
+
+    boolean usesFastPath();
   }
 
   /**
@@ -130,7 +136,8 @@ final class LittleEndianByteArray {
    * class's static initializer can fall back on a non-Unsafe version.
    */
   @SuppressWarnings({"SunApi", "removal"}) // b/345822163
-  private enum UnsafeByteArray implements LittleEndianBytes {
+  @VisibleForTesting
+  enum UnsafeByteArray implements LittleEndianBytes {
     // Do *not* change the order of these constants!
     UNSAFE_LITTLE_ENDIAN {
       @Override
@@ -158,6 +165,11 @@ final class LittleEndianByteArray {
         theUnsafe.putLong(array, (long) offset + BYTE_ARRAY_BASE_OFFSET, littleEndianValue);
       }
     };
+
+    @Override
+    public boolean usesFastPath() {
+      return true;
+    }
 
     // Provides load and store operations that use native instructions to get better performance.
     private static final Unsafe theUnsafe;
@@ -207,7 +219,10 @@ final class LittleEndianByteArray {
     }
   }
 
-  /** Fallback implementation for when Unsafe is not available in our current environment. */
+  /**
+   * Fallback implementation for when VarHandle and Unsafe are not available in our current
+   * environment.
+   */
   private enum JavaLittleEndianBytes implements LittleEndianBytes {
     INSTANCE {
       @Override
@@ -230,11 +245,15 @@ final class LittleEndianByteArray {
           sink[offset + i] = (byte) ((value & mask) >> (i * 8));
         }
       }
+
+      @Override
+      public boolean usesFastPath() {
+        return false;
+      }
     }
   }
 
-  static {
-    LittleEndianBytes theGetter = JavaLittleEndianBytes.INSTANCE;
+  static LittleEndianBytes makeGetter() {
     try {
       /*
        * UnsafeByteArray uses Unsafe.getLong() in an unsupported way, which is known to cause
@@ -249,15 +268,15 @@ final class LittleEndianByteArray {
        */
       String arch = System.getProperty("os.arch");
       if ("amd64".equals(arch)) {
-        theGetter =
-            ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
-                ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
-                : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
+        return ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
+            ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
+            : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
       }
     } catch (Throwable t) {
       // ensure we really catch *everything*
     }
-    byteArray = theGetter;
+
+    return JavaLittleEndianBytes.INSTANCE;
   }
 
   /** Deter instantiation of this class. */
