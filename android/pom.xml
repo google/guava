@@ -192,6 +192,7 @@
         <plugin>
           <groupId>org.mvnsearch</groupId>
           <artifactId>toolchains-maven-plugin</artifactId>
+          <version>4.5.0</version>
           <executions>
             <!--
             We can apparently have only one <jdk> per execution: Others are silently ignored :(
@@ -390,11 +391,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.mvnsearch</groupId>
-          <artifactId>toolchains-maven-plugin</artifactId>
-          <version>4.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
