@@ -1349,7 +1349,7 @@
 <span class="source-line-no">1336</span><span id="line-1336">   * &lt;p&gt;Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot</span>
 <span class="source-line-no">1337</span><span id="line-1337">   * be accessed.</span>
 <span class="source-line-no">1338</span><span id="line-1338">   */</span>
-<span class="source-line-no">1339</span><span id="line-1339">  @SuppressWarnings({"SunApi", "removal"}) // b/345822163</span>
+<span class="source-line-no">1339</span><span id="line-1339">  @SuppressWarnings("SunApi") // b/345822163</span>
 <span class="source-line-no">1340</span><span id="line-1340">  private static final class UnsafeAtomicHelper extends AtomicHelper {</span>
 <span class="source-line-no">1341</span><span id="line-1341">    static final Unsafe UNSAFE;</span>
 <span class="source-line-no">1342</span><span id="line-1342">    static final long LISTENERS_OFFSET;</span>
