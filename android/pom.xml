@@ -134,6 +134,10 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.13.0</version>
           <configuration>
@@ -190,57 +194,54 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.mvnsearch</groupId>
-          <artifactId>toolchains-maven-plugin</artifactId>
-          <version>4.5.0</version>
-          <executions>
-            <!--
-            We can apparently have only one <jdk> per execution: Others are silently ignored :(
-            To properly test this, you need to remove existing toolchains:
-            rm -rf ~/.m2/jdks/ ~/.m2/toolchains.xml
-            (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
-            -->
-            <execution>
-              <id>download-23-and-surefire-version</id>
-              <goals>
-                <goal>toolchain</goal>
-              </goals>
-              <configuration>
-                <toolchains>
-                  <jdk>
-                    <version>23</version>
-                    <vendor>temurin</vendor>
-                  </jdk>
-                  <testJdk>
-                    <version>${surefire.toolchain.version}</version>
-                    <vendor>temurin</vendor>
-                  </testJdk>
-                </toolchains>
-              </configuration>
-            </execution>
-          </executions>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
-          <artifactId>maven-toolchains-plugin</artifactId>
-          <version>3.2.0</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>toolchain</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <toolchains>
-              <jdk>
-                <version>23</version>
-              </jdk>
-            </toolchains>
-          </configuration>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.11.2</version>
+          <configuration>
+            <jdkToolchain>
+              <version>23</version>
+            </jdkToolchain>
+            <quiet>true</quiet>
+            <notimestamp>true</notimestamp>
+            <encoding>UTF-8</encoding>
+            <docencoding>UTF-8</docencoding>
+            <charset>UTF-8</charset>
+            <additionalOptions>
+              <additionalOption>-XDignore.symbol.file</additionalOption>
+              <additionalOption>-Xdoclint:-html</additionalOption>
+            </additionalOptions>
+            <linksource>true</linksource>
+            <source>8</source>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-docs</id>
+              <goals><goal>jar</goal></goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
@@ -261,6 +262,50 @@
               <version>3.5.1</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.1</version>
+          <configuration>
+            <jdkToolchain>
+              <version>${surefire.toolchain.version}</version>
+            </jdkToolchain>
+            <includes>
+              <include>${test.include}</include>
+            </includes>
+            <!-- By having our own entries here, we also override the default exclusion filter, which excludes all nested classes. -->
+            <excludes>
+              <!-- https://github.com/google/guava/issues/2840 -->
+              <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
+              <!-- FeatureUtilTest.*ExampleDerivedInterfaceTester, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
+              <exclude>%regex[.*Tester.class]</exclude>
+              <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
+              <exclude>%regex[.*[$]\d+.class]</exclude>
+            </excludes>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <runOrder>alphabetical</runOrder>
+            <!-- Set max heap for tests. -->
+            <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <toolchains>
+              <jdk>
+                <version>23</version>
+              </jdk>
+            </toolchains>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -312,85 +357,40 @@
           </executions>
         </plugin>
         <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
-          <configuration>
-            <jdkToolchain>
-              <version>23</version>
-            </jdkToolchain>
-            <quiet>true</quiet>
-            <notimestamp>true</notimestamp>
-            <encoding>UTF-8</encoding>
-            <docencoding>UTF-8</docencoding>
-            <charset>UTF-8</charset>
-            <additionalOptions>
-              <additionalOption>-XDignore.symbol.file</additionalOption>
-              <additionalOption>-Xdoclint:-html</additionalOption>
-            </additionalOptions>
-            <linksource>true</linksource>
-            <source>8</source>
-          </configuration>
-          <executions>
-            <execution>
-              <id>attach-docs</id>
-              <goals><goal>jar</goal></goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.6</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.3.1</version>
-          <configuration>
-            <jdkToolchain>
-              <version>${surefire.toolchain.version}</version>
-            </jdkToolchain>
-            <includes>
-              <include>${test.include}</include>
-            </includes>
-            <!-- By having our own entries here, we also override the default exclusion filter, which excludes all nested classes. -->
-            <excludes>
-              <!-- https://github.com/google/guava/issues/2840 -->
-              <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
-              <!-- FeatureUtilTest.*ExampleDerivedInterfaceTester, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
-              <exclude>%regex[.*Tester.class]</exclude>
-              <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
-              <exclude>%regex[.*[$]\d+.class]</exclude>
-            </excludes>
-            <redirectTestOutputToFile>true</redirectTestOutputToFile>
-            <runOrder>alphabetical</runOrder>
-            <!-- Set max heap for tests. -->
-            <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
-        </plugin>
-        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.mvnsearch</groupId>
+          <artifactId>toolchains-maven-plugin</artifactId>
+          <version>4.5.0</version>
+          <executions>
+            <!--
+            We can apparently have only one <jdk> per execution: Others are silently ignored :(
+            To properly test this, you need to remove existing toolchains:
+            rm -rf ~/.m2/jdks/ ~/.m2/toolchains.xml
+            (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
+            -->
+            <execution>
+              <id>download-23-and-surefire-version</id>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+              <configuration>
+                <toolchains>
+                  <jdk>
+                    <version>23</version>
+                    <vendor>temurin</vendor>
+                  </jdk>
+                  <testJdk>
+                    <version>${surefire.toolchain.version}</version>
+                    <vendor>temurin</vendor>
+                  </testJdk>
+                </toolchains>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
