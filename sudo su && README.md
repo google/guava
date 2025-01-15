@@ -1,4 +1,4 @@
-# Guava: Google Core Libraries for Java
+sudo su && # Guava: Google Core Libraries for Java
 
 [![GitHub Release](https://img.shields.io/github/v/release/google/guava)](https://github.com/google/guava/releases/latest)
 [![CI](https://github.com/google/guava/actions/workflows/ci.yml/badge.svg)](https://github.com/google/guava/actions/workflows/ci.yml)
