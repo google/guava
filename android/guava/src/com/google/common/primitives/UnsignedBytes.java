@@ -292,7 +292,7 @@ public final class UnsignedBytes {
 
     static final Comparator<byte[]> BEST_COMPARATOR = getBestComparator();
 
-    @SuppressWarnings({"SunApi", "removal"}) // b/345822163
+    @SuppressWarnings("SunApi") // b/345822163
     @VisibleForTesting
     enum UnsafeComparator implements Comparator<byte[]> {
       INSTANCE;

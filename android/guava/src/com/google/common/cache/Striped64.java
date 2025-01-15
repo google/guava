@@ -25,7 +25,7 @@ import sun.misc.Unsafe;
  * striping on 64bit values. The class extends Number so that concrete subclasses must publicly do
  * so.
  */
-@SuppressWarnings({"SunApi", "removal"}) // b/345822163
+@SuppressWarnings("SunApi") // b/345822163
 @GwtIncompatible
 abstract class Striped64 extends Number {
   /*

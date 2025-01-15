@@ -170,7 +170,7 @@ final class LittleEndianByteArray {
    * Unsafe.theUnsafe is inaccessible, the attempt to load the nested class fails, and the outer
    * class's static initializer can fall back on a non-Unsafe version.
    */
-  @SuppressWarnings({"SunApi", "removal"}) // b/345822163
+  @SuppressWarnings("SunApi") // b/345822163
   @VisibleForTesting
   enum UnsafeByteArray implements LittleEndianBytes {
     // Do *not* change the order of these constants!
