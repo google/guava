@@ -125,8 +125,7 @@ public final class InternetDomainNameTest extends TestCase {
           "xn--jrpeland-54a.no" // IDNA (punycode) encoding of above
           );
 
-  private static final ImmutableSet<String> PS_NOT_RS =
-      ImmutableSet.of("blogspot.com", "blogspot.co.uk", "uk.com");
+  private static final ImmutableSet<String> PS_NOT_RS = ImmutableSet.of("blogspot.com", "uk.com");
 
   private static final ImmutableSet<String> PS =
       ImmutableSet.<String>builder().addAll(RS).addAll(PS_NOT_RS).build();
