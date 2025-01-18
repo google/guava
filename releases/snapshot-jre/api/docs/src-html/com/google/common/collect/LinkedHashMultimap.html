@@ -390,292 +390,291 @@
 <span class="source-line-no">377</span><span id="line-377">      int tableSize = Hashing.closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);</span>
 <span class="source-line-no">378</span><span id="line-378"></span>
 <span class="source-line-no">379</span><span id="line-379">      @SuppressWarnings({"rawtypes", "unchecked"})</span>
-<span class="source-line-no">380</span><span id="line-380">      @Nullable</span>
-<span class="source-line-no">381</span><span id="line-381">      ValueEntry&lt;K, V&gt;[] hashTable = new @Nullable ValueEntry[tableSize];</span>
-<span class="source-line-no">382</span><span id="line-382">      this.hashTable = hashTable;</span>
-<span class="source-line-no">383</span><span id="line-383">    }</span>
-<span class="source-line-no">384</span><span id="line-384"></span>
-<span class="source-line-no">385</span><span id="line-385">    private int mask() {</span>
-<span class="source-line-no">386</span><span id="line-386">      return hashTable.length - 1;</span>
-<span class="source-line-no">387</span><span id="line-387">    }</span>
-<span class="source-line-no">388</span><span id="line-388"></span>
-<span class="source-line-no">389</span><span id="line-389">    @Override</span>
-<span class="source-line-no">390</span><span id="line-390">    public ValueSetLink&lt;K, V&gt; getPredecessorInValueSet() {</span>
-<span class="source-line-no">391</span><span id="line-391">      return lastEntry;</span>
-<span class="source-line-no">392</span><span id="line-392">    }</span>
-<span class="source-line-no">393</span><span id="line-393"></span>
-<span class="source-line-no">394</span><span id="line-394">    @Override</span>
-<span class="source-line-no">395</span><span id="line-395">    public ValueSetLink&lt;K, V&gt; getSuccessorInValueSet() {</span>
-<span class="source-line-no">396</span><span id="line-396">      return firstEntry;</span>
-<span class="source-line-no">397</span><span id="line-397">    }</span>
-<span class="source-line-no">398</span><span id="line-398"></span>
-<span class="source-line-no">399</span><span id="line-399">    @Override</span>
-<span class="source-line-no">400</span><span id="line-400">    public void setPredecessorInValueSet(ValueSetLink&lt;K, V&gt; entry) {</span>
-<span class="source-line-no">401</span><span id="line-401">      lastEntry = entry;</span>
-<span class="source-line-no">402</span><span id="line-402">    }</span>
-<span class="source-line-no">403</span><span id="line-403"></span>
-<span class="source-line-no">404</span><span id="line-404">    @Override</span>
-<span class="source-line-no">405</span><span id="line-405">    public void setSuccessorInValueSet(ValueSetLink&lt;K, V&gt; entry) {</span>
-<span class="source-line-no">406</span><span id="line-406">      firstEntry = entry;</span>
-<span class="source-line-no">407</span><span id="line-407">    }</span>
-<span class="source-line-no">408</span><span id="line-408"></span>
-<span class="source-line-no">409</span><span id="line-409">    @Override</span>
-<span class="source-line-no">410</span><span id="line-410">    public Iterator&lt;V&gt; iterator() {</span>
-<span class="source-line-no">411</span><span id="line-411">      return new Iterator&lt;V&gt;() {</span>
-<span class="source-line-no">412</span><span id="line-412">        ValueSetLink&lt;K, V&gt; nextEntry = firstEntry;</span>
-<span class="source-line-no">413</span><span id="line-413">        @Nullable ValueEntry&lt;K, V&gt; toRemove;</span>
-<span class="source-line-no">414</span><span id="line-414">        int expectedModCount = modCount;</span>
-<span class="source-line-no">415</span><span id="line-415"></span>
-<span class="source-line-no">416</span><span id="line-416">        private void checkForComodification() {</span>
-<span class="source-line-no">417</span><span id="line-417">          if (modCount != expectedModCount) {</span>
-<span class="source-line-no">418</span><span id="line-418">            throw new ConcurrentModificationException();</span>
-<span class="source-line-no">419</span><span id="line-419">          }</span>
-<span class="source-line-no">420</span><span id="line-420">        }</span>
-<span class="source-line-no">421</span><span id="line-421"></span>
-<span class="source-line-no">422</span><span id="line-422">        @Override</span>
-<span class="source-line-no">423</span><span id="line-423">        public boolean hasNext() {</span>
-<span class="source-line-no">424</span><span id="line-424">          checkForComodification();</span>
-<span class="source-line-no">425</span><span id="line-425">          return nextEntry != ValueSet.this;</span>
-<span class="source-line-no">426</span><span id="line-426">        }</span>
-<span class="source-line-no">427</span><span id="line-427"></span>
-<span class="source-line-no">428</span><span id="line-428">        @Override</span>
-<span class="source-line-no">429</span><span id="line-429">        @ParametricNullness</span>
-<span class="source-line-no">430</span><span id="line-430">        public V next() {</span>
-<span class="source-line-no">431</span><span id="line-431">          if (!hasNext()) {</span>
-<span class="source-line-no">432</span><span id="line-432">            throw new NoSuchElementException();</span>
-<span class="source-line-no">433</span><span id="line-433">          }</span>
-<span class="source-line-no">434</span><span id="line-434">          ValueEntry&lt;K, V&gt; entry = (ValueEntry&lt;K, V&gt;) nextEntry;</span>
-<span class="source-line-no">435</span><span id="line-435">          V result = entry.getValue();</span>
-<span class="source-line-no">436</span><span id="line-436">          toRemove = entry;</span>
-<span class="source-line-no">437</span><span id="line-437">          nextEntry = entry.getSuccessorInValueSet();</span>
-<span class="source-line-no">438</span><span id="line-438">          return result;</span>
-<span class="source-line-no">439</span><span id="line-439">        }</span>
-<span class="source-line-no">440</span><span id="line-440"></span>
-<span class="source-line-no">441</span><span id="line-441">        @Override</span>
-<span class="source-line-no">442</span><span id="line-442">        public void remove() {</span>
-<span class="source-line-no">443</span><span id="line-443">          checkForComodification();</span>
-<span class="source-line-no">444</span><span id="line-444">          checkState(toRemove != null, "no calls to next() since the last call to remove()");</span>
-<span class="source-line-no">445</span><span id="line-445">          ValueSet.this.remove(toRemove.getValue());</span>
-<span class="source-line-no">446</span><span id="line-446">          expectedModCount = modCount;</span>
-<span class="source-line-no">447</span><span id="line-447">          toRemove = null;</span>
-<span class="source-line-no">448</span><span id="line-448">        }</span>
-<span class="source-line-no">449</span><span id="line-449">      };</span>
-<span class="source-line-no">450</span><span id="line-450">    }</span>
-<span class="source-line-no">451</span><span id="line-451"></span>
-<span class="source-line-no">452</span><span id="line-452">    @Override</span>
-<span class="source-line-no">453</span><span id="line-453">    public void forEach(Consumer&lt;? super V&gt; action) {</span>
-<span class="source-line-no">454</span><span id="line-454">      checkNotNull(action);</span>
-<span class="source-line-no">455</span><span id="line-455">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
-<span class="source-line-no">456</span><span id="line-456">          entry != ValueSet.this;</span>
-<span class="source-line-no">457</span><span id="line-457">          entry = entry.getSuccessorInValueSet()) {</span>
-<span class="source-line-no">458</span><span id="line-458">        action.accept(((ValueEntry&lt;K, V&gt;) entry).getValue());</span>
-<span class="source-line-no">459</span><span id="line-459">      }</span>
-<span class="source-line-no">460</span><span id="line-460">    }</span>
-<span class="source-line-no">461</span><span id="line-461"></span>
-<span class="source-line-no">462</span><span id="line-462">    @Override</span>
-<span class="source-line-no">463</span><span id="line-463">    public int size() {</span>
-<span class="source-line-no">464</span><span id="line-464">      return size;</span>
-<span class="source-line-no">465</span><span id="line-465">    }</span>
-<span class="source-line-no">466</span><span id="line-466"></span>
-<span class="source-line-no">467</span><span id="line-467">    @Override</span>
-<span class="source-line-no">468</span><span id="line-468">    public boolean contains(@Nullable Object o) {</span>
-<span class="source-line-no">469</span><span id="line-469">      int smearedHash = Hashing.smearedHash(o);</span>
-<span class="source-line-no">470</span><span id="line-470">      for (ValueEntry&lt;K, V&gt; entry = hashTable[smearedHash &amp; mask()];</span>
-<span class="source-line-no">471</span><span id="line-471">          entry != null;</span>
-<span class="source-line-no">472</span><span id="line-472">          entry = entry.nextInValueBucket) {</span>
-<span class="source-line-no">473</span><span id="line-473">        if (entry.matchesValue(o, smearedHash)) {</span>
-<span class="source-line-no">474</span><span id="line-474">          return true;</span>
-<span class="source-line-no">475</span><span id="line-475">        }</span>
-<span class="source-line-no">476</span><span id="line-476">      }</span>
-<span class="source-line-no">477</span><span id="line-477">      return false;</span>
-<span class="source-line-no">478</span><span id="line-478">    }</span>
-<span class="source-line-no">479</span><span id="line-479"></span>
-<span class="source-line-no">480</span><span id="line-480">    @Override</span>
-<span class="source-line-no">481</span><span id="line-481">    public boolean add(@ParametricNullness V value) {</span>
-<span class="source-line-no">482</span><span id="line-482">      int smearedHash = Hashing.smearedHash(value);</span>
-<span class="source-line-no">483</span><span id="line-483">      int bucket = smearedHash &amp; mask();</span>
-<span class="source-line-no">484</span><span id="line-484">      ValueEntry&lt;K, V&gt; rowHead = hashTable[bucket];</span>
-<span class="source-line-no">485</span><span id="line-485">      for (ValueEntry&lt;K, V&gt; entry = rowHead; entry != null; entry = entry.nextInValueBucket) {</span>
-<span class="source-line-no">486</span><span id="line-486">        if (entry.matchesValue(value, smearedHash)) {</span>
-<span class="source-line-no">487</span><span id="line-487">          return false;</span>
-<span class="source-line-no">488</span><span id="line-488">        }</span>
-<span class="source-line-no">489</span><span id="line-489">      }</span>
-<span class="source-line-no">490</span><span id="line-490"></span>
-<span class="source-line-no">491</span><span id="line-491">      ValueEntry&lt;K, V&gt; newEntry = new ValueEntry&lt;&gt;(key, value, smearedHash, rowHead);</span>
-<span class="source-line-no">492</span><span id="line-492">      succeedsInValueSet(lastEntry, newEntry);</span>
-<span class="source-line-no">493</span><span id="line-493">      succeedsInValueSet(newEntry, this);</span>
-<span class="source-line-no">494</span><span id="line-494">      succeedsInMultimap(multimapHeaderEntry.getPredecessorInMultimap(), newEntry);</span>
-<span class="source-line-no">495</span><span id="line-495">      succeedsInMultimap(newEntry, multimapHeaderEntry);</span>
-<span class="source-line-no">496</span><span id="line-496">      hashTable[bucket] = newEntry;</span>
-<span class="source-line-no">497</span><span id="line-497">      size++;</span>
-<span class="source-line-no">498</span><span id="line-498">      modCount++;</span>
-<span class="source-line-no">499</span><span id="line-499">      rehashIfNecessary();</span>
-<span class="source-line-no">500</span><span id="line-500">      return true;</span>
-<span class="source-line-no">501</span><span id="line-501">    }</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">    private void rehashIfNecessary() {</span>
-<span class="source-line-no">504</span><span id="line-504">      if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {</span>
-<span class="source-line-no">505</span><span id="line-505">        @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">506</span><span id="line-506">        ValueEntry&lt;K, V&gt;[] hashTable =</span>
-<span class="source-line-no">507</span><span id="line-507">            (ValueEntry&lt;K, V&gt;[]) new ValueEntry&lt;?, ?&gt;[this.hashTable.length * 2];</span>
-<span class="source-line-no">508</span><span id="line-508">        this.hashTable = hashTable;</span>
-<span class="source-line-no">509</span><span id="line-509">        int mask = hashTable.length - 1;</span>
-<span class="source-line-no">510</span><span id="line-510">        for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
-<span class="source-line-no">511</span><span id="line-511">            entry != this;</span>
-<span class="source-line-no">512</span><span id="line-512">            entry = entry.getSuccessorInValueSet()) {</span>
-<span class="source-line-no">513</span><span id="line-513">          ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</span>
-<span class="source-line-no">514</span><span id="line-514">          int bucket = valueEntry.smearedValueHash &amp; mask;</span>
-<span class="source-line-no">515</span><span id="line-515">          valueEntry.nextInValueBucket = hashTable[bucket];</span>
-<span class="source-line-no">516</span><span id="line-516">          hashTable[bucket] = valueEntry;</span>
-<span class="source-line-no">517</span><span id="line-517">        }</span>
-<span class="source-line-no">518</span><span id="line-518">      }</span>
-<span class="source-line-no">519</span><span id="line-519">    }</span>
-<span class="source-line-no">520</span><span id="line-520"></span>
-<span class="source-line-no">521</span><span id="line-521">    @CanIgnoreReturnValue</span>
-<span class="source-line-no">522</span><span id="line-522">    @Override</span>
-<span class="source-line-no">523</span><span id="line-523">    public boolean remove(@Nullable Object o) {</span>
-<span class="source-line-no">524</span><span id="line-524">      int smearedHash = Hashing.smearedHash(o);</span>
-<span class="source-line-no">525</span><span id="line-525">      int bucket = smearedHash &amp; mask();</span>
-<span class="source-line-no">526</span><span id="line-526">      ValueEntry&lt;K, V&gt; prev = null;</span>
-<span class="source-line-no">527</span><span id="line-527">      for (ValueEntry&lt;K, V&gt; entry = hashTable[bucket];</span>
-<span class="source-line-no">528</span><span id="line-528">          entry != null;</span>
-<span class="source-line-no">529</span><span id="line-529">          prev = entry, entry = entry.nextInValueBucket) {</span>
-<span class="source-line-no">530</span><span id="line-530">        if (entry.matchesValue(o, smearedHash)) {</span>
-<span class="source-line-no">531</span><span id="line-531">          if (prev == null) {</span>
-<span class="source-line-no">532</span><span id="line-532">            // first entry in the bucket</span>
-<span class="source-line-no">533</span><span id="line-533">            hashTable[bucket] = entry.nextInValueBucket;</span>
-<span class="source-line-no">534</span><span id="line-534">          } else {</span>
-<span class="source-line-no">535</span><span id="line-535">            prev.nextInValueBucket = entry.nextInValueBucket;</span>
-<span class="source-line-no">536</span><span id="line-536">          }</span>
-<span class="source-line-no">537</span><span id="line-537">          deleteFromValueSet(entry);</span>
-<span class="source-line-no">538</span><span id="line-538">          deleteFromMultimap(entry);</span>
-<span class="source-line-no">539</span><span id="line-539">          size--;</span>
-<span class="source-line-no">540</span><span id="line-540">          modCount++;</span>
-<span class="source-line-no">541</span><span id="line-541">          return true;</span>
-<span class="source-line-no">542</span><span id="line-542">        }</span>
-<span class="source-line-no">543</span><span id="line-543">      }</span>
-<span class="source-line-no">544</span><span id="line-544">      return false;</span>
-<span class="source-line-no">545</span><span id="line-545">    }</span>
-<span class="source-line-no">546</span><span id="line-546"></span>
-<span class="source-line-no">547</span><span id="line-547">    @Override</span>
-<span class="source-line-no">548</span><span id="line-548">    public void clear() {</span>
-<span class="source-line-no">549</span><span id="line-549">      Arrays.fill(hashTable, null);</span>
-<span class="source-line-no">550</span><span id="line-550">      size = 0;</span>
-<span class="source-line-no">551</span><span id="line-551">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
-<span class="source-line-no">552</span><span id="line-552">          entry != this;</span>
-<span class="source-line-no">553</span><span id="line-553">          entry = entry.getSuccessorInValueSet()) {</span>
-<span class="source-line-no">554</span><span id="line-554">        ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</span>
-<span class="source-line-no">555</span><span id="line-555">        deleteFromMultimap(valueEntry);</span>
-<span class="source-line-no">556</span><span id="line-556">      }</span>
-<span class="source-line-no">557</span><span id="line-557">      succeedsInValueSet(this, this);</span>
-<span class="source-line-no">558</span><span id="line-558">      modCount++;</span>
-<span class="source-line-no">559</span><span id="line-559">    }</span>
-<span class="source-line-no">560</span><span id="line-560">  }</span>
-<span class="source-line-no">561</span><span id="line-561"></span>
-<span class="source-line-no">562</span><span id="line-562">  @Override</span>
-<span class="source-line-no">563</span><span id="line-563">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</span>
-<span class="source-line-no">564</span><span id="line-564">    return new Iterator&lt;Entry&lt;K, V&gt;&gt;() {</span>
-<span class="source-line-no">565</span><span id="line-565">      ValueEntry&lt;K, V&gt; nextEntry = multimapHeaderEntry.getSuccessorInMultimap();</span>
-<span class="source-line-no">566</span><span id="line-566">      @Nullable ValueEntry&lt;K, V&gt; toRemove;</span>
-<span class="source-line-no">567</span><span id="line-567"></span>
-<span class="source-line-no">568</span><span id="line-568">      @Override</span>
-<span class="source-line-no">569</span><span id="line-569">      public boolean hasNext() {</span>
-<span class="source-line-no">570</span><span id="line-570">        return nextEntry != multimapHeaderEntry;</span>
-<span class="source-line-no">571</span><span id="line-571">      }</span>
-<span class="source-line-no">572</span><span id="line-572"></span>
-<span class="source-line-no">573</span><span id="line-573">      @Override</span>
-<span class="source-line-no">574</span><span id="line-574">      public Entry&lt;K, V&gt; next() {</span>
-<span class="source-line-no">575</span><span id="line-575">        if (!hasNext()) {</span>
-<span class="source-line-no">576</span><span id="line-576">          throw new NoSuchElementException();</span>
-<span class="source-line-no">577</span><span id="line-577">        }</span>
-<span class="source-line-no">578</span><span id="line-578">        ValueEntry&lt;K, V&gt; result = nextEntry;</span>
-<span class="source-line-no">579</span><span id="line-579">        toRemove = result;</span>
-<span class="source-line-no">580</span><span id="line-580">        nextEntry = nextEntry.getSuccessorInMultimap();</span>
-<span class="source-line-no">581</span><span id="line-581">        return result;</span>
-<span class="source-line-no">582</span><span id="line-582">      }</span>
-<span class="source-line-no">583</span><span id="line-583"></span>
-<span class="source-line-no">584</span><span id="line-584">      @Override</span>
-<span class="source-line-no">585</span><span id="line-585">      public void remove() {</span>
-<span class="source-line-no">586</span><span id="line-586">        checkState(toRemove != null, "no calls to next() since the last call to remove()");</span>
-<span class="source-line-no">587</span><span id="line-587">        LinkedHashMultimap.this.remove(toRemove.getKey(), toRemove.getValue());</span>
-<span class="source-line-no">588</span><span id="line-588">        toRemove = null;</span>
-<span class="source-line-no">589</span><span id="line-589">      }</span>
-<span class="source-line-no">590</span><span id="line-590">    };</span>
-<span class="source-line-no">591</span><span id="line-591">  }</span>
-<span class="source-line-no">592</span><span id="line-592"></span>
-<span class="source-line-no">593</span><span id="line-593">  @Override</span>
-<span class="source-line-no">594</span><span id="line-594">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</span>
-<span class="source-line-no">595</span><span id="line-595">    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);</span>
-<span class="source-line-no">596</span><span id="line-596">  }</span>
-<span class="source-line-no">597</span><span id="line-597"></span>
-<span class="source-line-no">598</span><span id="line-598">  @Override</span>
-<span class="source-line-no">599</span><span id="line-599">  Iterator&lt;V&gt; valueIterator() {</span>
-<span class="source-line-no">600</span><span id="line-600">    return Maps.valueIterator(entryIterator());</span>
-<span class="source-line-no">601</span><span id="line-601">  }</span>
-<span class="source-line-no">602</span><span id="line-602"></span>
-<span class="source-line-no">603</span><span id="line-603">  @Override</span>
-<span class="source-line-no">604</span><span id="line-604">  Spliterator&lt;V&gt; valueSpliterator() {</span>
-<span class="source-line-no">605</span><span id="line-605">    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);</span>
-<span class="source-line-no">606</span><span id="line-606">  }</span>
-<span class="source-line-no">607</span><span id="line-607"></span>
-<span class="source-line-no">608</span><span id="line-608">  @Override</span>
-<span class="source-line-no">609</span><span id="line-609">  public void clear() {</span>
-<span class="source-line-no">610</span><span id="line-610">    super.clear();</span>
-<span class="source-line-no">611</span><span id="line-611">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</span>
-<span class="source-line-no">612</span><span id="line-612">  }</span>
-<span class="source-line-no">613</span><span id="line-613"></span>
-<span class="source-line-no">614</span><span id="line-614">  /**</span>
-<span class="source-line-no">615</span><span id="line-615">   * @serialData the expected values per key, the number of distinct keys, the number of entries,</span>
-<span class="source-line-no">616</span><span id="line-616">   *     and the entries in order</span>
-<span class="source-line-no">617</span><span id="line-617">   */</span>
-<span class="source-line-no">618</span><span id="line-618">  @GwtIncompatible // java.io.ObjectOutputStream</span>
-<span class="source-line-no">619</span><span id="line-619">  @J2ktIncompatible</span>
-<span class="source-line-no">620</span><span id="line-620">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
-<span class="source-line-no">621</span><span id="line-621">    stream.defaultWriteObject();</span>
-<span class="source-line-no">622</span><span id="line-622">    stream.writeInt(keySet().size());</span>
-<span class="source-line-no">623</span><span id="line-623">    for (K key : keySet()) {</span>
-<span class="source-line-no">624</span><span id="line-624">      stream.writeObject(key);</span>
-<span class="source-line-no">625</span><span id="line-625">    }</span>
-<span class="source-line-no">626</span><span id="line-626">    stream.writeInt(size());</span>
-<span class="source-line-no">627</span><span id="line-627">    for (Entry&lt;K, V&gt; entry : entries()) {</span>
-<span class="source-line-no">628</span><span id="line-628">      stream.writeObject(entry.getKey());</span>
-<span class="source-line-no">629</span><span id="line-629">      stream.writeObject(entry.getValue());</span>
-<span class="source-line-no">630</span><span id="line-630">    }</span>
-<span class="source-line-no">631</span><span id="line-631">  }</span>
-<span class="source-line-no">632</span><span id="line-632"></span>
-<span class="source-line-no">633</span><span id="line-633">  @GwtIncompatible // java.io.ObjectInputStream</span>
-<span class="source-line-no">634</span><span id="line-634">  @J2ktIncompatible</span>
-<span class="source-line-no">635</span><span id="line-635">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
-<span class="source-line-no">636</span><span id="line-636">    stream.defaultReadObject();</span>
-<span class="source-line-no">637</span><span id="line-637">    multimapHeaderEntry = ValueEntry.newHeader();</span>
-<span class="source-line-no">638</span><span id="line-638">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</span>
-<span class="source-line-no">639</span><span id="line-639">    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;</span>
-<span class="source-line-no">640</span><span id="line-640">    int distinctKeys = stream.readInt();</span>
-<span class="source-line-no">641</span><span id="line-641">    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newLinkedHashMapWithExpectedSize(12);</span>
-<span class="source-line-no">642</span><span id="line-642">    for (int i = 0; i &lt; distinctKeys; i++) {</span>
-<span class="source-line-no">643</span><span id="line-643">      @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">644</span><span id="line-644">      K key = (K) stream.readObject();</span>
-<span class="source-line-no">645</span><span id="line-645">      map.put(key, createCollection(key));</span>
-<span class="source-line-no">646</span><span id="line-646">    }</span>
-<span class="source-line-no">647</span><span id="line-647">    int entries = stream.readInt();</span>
-<span class="source-line-no">648</span><span id="line-648">    for (int i = 0; i &lt; entries; i++) {</span>
-<span class="source-line-no">649</span><span id="line-649">      @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">650</span><span id="line-650">      K key = (K) stream.readObject();</span>
-<span class="source-line-no">651</span><span id="line-651">      @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">652</span><span id="line-652">      V value = (V) stream.readObject();</span>
-<span class="source-line-no">653</span><span id="line-653">      /*</span>
-<span class="source-line-no">654</span><span id="line-654">       * requireNonNull is safe for a properly serialized multimap: We've already inserted a</span>
-<span class="source-line-no">655</span><span id="line-655">       * collection for each key that we expect.</span>
-<span class="source-line-no">656</span><span id="line-656">       */</span>
-<span class="source-line-no">657</span><span id="line-657">      requireNonNull(map.get(key)).add(value);</span>
-<span class="source-line-no">658</span><span id="line-658">    }</span>
-<span class="source-line-no">659</span><span id="line-659">    setMap(map);</span>
-<span class="source-line-no">660</span><span id="line-660">  }</span>
-<span class="source-line-no">661</span><span id="line-661"></span>
-<span class="source-line-no">662</span><span id="line-662">  @GwtIncompatible // java serialization not supported</span>
-<span class="source-line-no">663</span><span id="line-663">  @J2ktIncompatible</span>
-<span class="source-line-no">664</span><span id="line-664">  private static final long serialVersionUID = 1;</span>
-<span class="source-line-no">665</span><span id="line-665">}</span>
+<span class="source-line-no">380</span><span id="line-380">      @Nullable ValueEntry&lt;K, V&gt;[] hashTable = new @Nullable ValueEntry[tableSize];</span>
+<span class="source-line-no">381</span><span id="line-381">      this.hashTable = hashTable;</span>
+<span class="source-line-no">382</span><span id="line-382">    }</span>
+<span class="source-line-no">383</span><span id="line-383"></span>
+<span class="source-line-no">384</span><span id="line-384">    private int mask() {</span>
+<span class="source-line-no">385</span><span id="line-385">      return hashTable.length - 1;</span>
+<span class="source-line-no">386</span><span id="line-386">    }</span>
+<span class="source-line-no">387</span><span id="line-387"></span>
+<span class="source-line-no">388</span><span id="line-388">    @Override</span>
+<span class="source-line-no">389</span><span id="line-389">    public ValueSetLink&lt;K, V&gt; getPredecessorInValueSet() {</span>
+<span class="source-line-no">390</span><span id="line-390">      return lastEntry;</span>
+<span class="source-line-no">391</span><span id="line-391">    }</span>
+<span class="source-line-no">392</span><span id="line-392"></span>
+<span class="source-line-no">393</span><span id="line-393">    @Override</span>
+<span class="source-line-no">394</span><span id="line-394">    public ValueSetLink&lt;K, V&gt; getSuccessorInValueSet() {</span>
+<span class="source-line-no">395</span><span id="line-395">      return firstEntry;</span>
+<span class="source-line-no">396</span><span id="line-396">    }</span>
+<span class="source-line-no">397</span><span id="line-397"></span>
+<span class="source-line-no">398</span><span id="line-398">    @Override</span>
+<span class="source-line-no">399</span><span id="line-399">    public void setPredecessorInValueSet(ValueSetLink&lt;K, V&gt; entry) {</span>
+<span class="source-line-no">400</span><span id="line-400">      lastEntry = entry;</span>
+<span class="source-line-no">401</span><span id="line-401">    }</span>
+<span class="source-line-no">402</span><span id="line-402"></span>
+<span class="source-line-no">403</span><span id="line-403">    @Override</span>
+<span class="source-line-no">404</span><span id="line-404">    public void setSuccessorInValueSet(ValueSetLink&lt;K, V&gt; entry) {</span>
+<span class="source-line-no">405</span><span id="line-405">      firstEntry = entry;</span>
+<span class="source-line-no">406</span><span id="line-406">    }</span>
+<span class="source-line-no">407</span><span id="line-407"></span>
+<span class="source-line-no">408</span><span id="line-408">    @Override</span>
+<span class="source-line-no">409</span><span id="line-409">    public Iterator&lt;V&gt; iterator() {</span>
+<span class="source-line-no">410</span><span id="line-410">      return new Iterator&lt;V&gt;() {</span>
+<span class="source-line-no">411</span><span id="line-411">        ValueSetLink&lt;K, V&gt; nextEntry = firstEntry;</span>
+<span class="source-line-no">412</span><span id="line-412">        @Nullable ValueEntry&lt;K, V&gt; toRemove;</span>
+<span class="source-line-no">413</span><span id="line-413">        int expectedModCount = modCount;</span>
+<span class="source-line-no">414</span><span id="line-414"></span>
+<span class="source-line-no">415</span><span id="line-415">        private void checkForComodification() {</span>
+<span class="source-line-no">416</span><span id="line-416">          if (modCount != expectedModCount) {</span>
+<span class="source-line-no">417</span><span id="line-417">            throw new ConcurrentModificationException();</span>
+<span class="source-line-no">418</span><span id="line-418">          }</span>
+<span class="source-line-no">419</span><span id="line-419">        }</span>
+<span class="source-line-no">420</span><span id="line-420"></span>
+<span class="source-line-no">421</span><span id="line-421">        @Override</span>
+<span class="source-line-no">422</span><span id="line-422">        public boolean hasNext() {</span>
+<span class="source-line-no">423</span><span id="line-423">          checkForComodification();</span>
+<span class="source-line-no">424</span><span id="line-424">          return nextEntry != ValueSet.this;</span>
+<span class="source-line-no">425</span><span id="line-425">        }</span>
+<span class="source-line-no">426</span><span id="line-426"></span>
+<span class="source-line-no">427</span><span id="line-427">        @Override</span>
+<span class="source-line-no">428</span><span id="line-428">        @ParametricNullness</span>
+<span class="source-line-no">429</span><span id="line-429">        public V next() {</span>
+<span class="source-line-no">430</span><span id="line-430">          if (!hasNext()) {</span>
+<span class="source-line-no">431</span><span id="line-431">            throw new NoSuchElementException();</span>
+<span class="source-line-no">432</span><span id="line-432">          }</span>
+<span class="source-line-no">433</span><span id="line-433">          ValueEntry&lt;K, V&gt; entry = (ValueEntry&lt;K, V&gt;) nextEntry;</span>
+<span class="source-line-no">434</span><span id="line-434">          V result = entry.getValue();</span>
+<span class="source-line-no">435</span><span id="line-435">          toRemove = entry;</span>
+<span class="source-line-no">436</span><span id="line-436">          nextEntry = entry.getSuccessorInValueSet();</span>
+<span class="source-line-no">437</span><span id="line-437">          return result;</span>
+<span class="source-line-no">438</span><span id="line-438">        }</span>
+<span class="source-line-no">439</span><span id="line-439"></span>
+<span class="source-line-no">440</span><span id="line-440">        @Override</span>
+<span class="source-line-no">441</span><span id="line-441">        public void remove() {</span>
+<span class="source-line-no">442</span><span id="line-442">          checkForComodification();</span>
+<span class="source-line-no">443</span><span id="line-443">          checkState(toRemove != null, "no calls to next() since the last call to remove()");</span>
+<span class="source-line-no">444</span><span id="line-444">          ValueSet.this.remove(toRemove.getValue());</span>
+<span class="source-line-no">445</span><span id="line-445">          expectedModCount = modCount;</span>
+<span class="source-line-no">446</span><span id="line-446">          toRemove = null;</span>
+<span class="source-line-no">447</span><span id="line-447">        }</span>
+<span class="source-line-no">448</span><span id="line-448">      };</span>
+<span class="source-line-no">449</span><span id="line-449">    }</span>
+<span class="source-line-no">450</span><span id="line-450"></span>
+<span class="source-line-no">451</span><span id="line-451">    @Override</span>
+<span class="source-line-no">452</span><span id="line-452">    public void forEach(Consumer&lt;? super V&gt; action) {</span>
+<span class="source-line-no">453</span><span id="line-453">      checkNotNull(action);</span>
+<span class="source-line-no">454</span><span id="line-454">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
+<span class="source-line-no">455</span><span id="line-455">          entry != ValueSet.this;</span>
+<span class="source-line-no">456</span><span id="line-456">          entry = entry.getSuccessorInValueSet()) {</span>
+<span class="source-line-no">457</span><span id="line-457">        action.accept(((ValueEntry&lt;K, V&gt;) entry).getValue());</span>
+<span class="source-line-no">458</span><span id="line-458">      }</span>
+<span class="source-line-no">459</span><span id="line-459">    }</span>
+<span class="source-line-no">460</span><span id="line-460"></span>
+<span class="source-line-no">461</span><span id="line-461">    @Override</span>
+<span class="source-line-no">462</span><span id="line-462">    public int size() {</span>
+<span class="source-line-no">463</span><span id="line-463">      return size;</span>
+<span class="source-line-no">464</span><span id="line-464">    }</span>
+<span class="source-line-no">465</span><span id="line-465"></span>
+<span class="source-line-no">466</span><span id="line-466">    @Override</span>
+<span class="source-line-no">467</span><span id="line-467">    public boolean contains(@Nullable Object o) {</span>
+<span class="source-line-no">468</span><span id="line-468">      int smearedHash = Hashing.smearedHash(o);</span>
+<span class="source-line-no">469</span><span id="line-469">      for (ValueEntry&lt;K, V&gt; entry = hashTable[smearedHash &amp; mask()];</span>
+<span class="source-line-no">470</span><span id="line-470">          entry != null;</span>
+<span class="source-line-no">471</span><span id="line-471">          entry = entry.nextInValueBucket) {</span>
+<span class="source-line-no">472</span><span id="line-472">        if (entry.matchesValue(o, smearedHash)) {</span>
+<span class="source-line-no">473</span><span id="line-473">          return true;</span>
+<span class="source-line-no">474</span><span id="line-474">        }</span>
+<span class="source-line-no">475</span><span id="line-475">      }</span>
+<span class="source-line-no">476</span><span id="line-476">      return false;</span>
+<span class="source-line-no">477</span><span id="line-477">    }</span>
+<span class="source-line-no">478</span><span id="line-478"></span>
+<span class="source-line-no">479</span><span id="line-479">    @Override</span>
+<span class="source-line-no">480</span><span id="line-480">    public boolean add(@ParametricNullness V value) {</span>
+<span class="source-line-no">481</span><span id="line-481">      int smearedHash = Hashing.smearedHash(value);</span>
+<span class="source-line-no">482</span><span id="line-482">      int bucket = smearedHash &amp; mask();</span>
+<span class="source-line-no">483</span><span id="line-483">      ValueEntry&lt;K, V&gt; rowHead = hashTable[bucket];</span>
+<span class="source-line-no">484</span><span id="line-484">      for (ValueEntry&lt;K, V&gt; entry = rowHead; entry != null; entry = entry.nextInValueBucket) {</span>
+<span class="source-line-no">485</span><span id="line-485">        if (entry.matchesValue(value, smearedHash)) {</span>
+<span class="source-line-no">486</span><span id="line-486">          return false;</span>
+<span class="source-line-no">487</span><span id="line-487">        }</span>
+<span class="source-line-no">488</span><span id="line-488">      }</span>
+<span class="source-line-no">489</span><span id="line-489"></span>
+<span class="source-line-no">490</span><span id="line-490">      ValueEntry&lt;K, V&gt; newEntry = new ValueEntry&lt;&gt;(key, value, smearedHash, rowHead);</span>
+<span class="source-line-no">491</span><span id="line-491">      succeedsInValueSet(lastEntry, newEntry);</span>
+<span class="source-line-no">492</span><span id="line-492">      succeedsInValueSet(newEntry, this);</span>
+<span class="source-line-no">493</span><span id="line-493">      succeedsInMultimap(multimapHeaderEntry.getPredecessorInMultimap(), newEntry);</span>
+<span class="source-line-no">494</span><span id="line-494">      succeedsInMultimap(newEntry, multimapHeaderEntry);</span>
+<span class="source-line-no">495</span><span id="line-495">      hashTable[bucket] = newEntry;</span>
+<span class="source-line-no">496</span><span id="line-496">      size++;</span>
+<span class="source-line-no">497</span><span id="line-497">      modCount++;</span>
+<span class="source-line-no">498</span><span id="line-498">      rehashIfNecessary();</span>
+<span class="source-line-no">499</span><span id="line-499">      return true;</span>
+<span class="source-line-no">500</span><span id="line-500">    }</span>
+<span class="source-line-no">501</span><span id="line-501"></span>
+<span class="source-line-no">502</span><span id="line-502">    private void rehashIfNecessary() {</span>
+<span class="source-line-no">503</span><span id="line-503">      if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {</span>
+<span class="source-line-no">504</span><span id="line-504">        @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">505</span><span id="line-505">        ValueEntry&lt;K, V&gt;[] hashTable =</span>
+<span class="source-line-no">506</span><span id="line-506">            (ValueEntry&lt;K, V&gt;[]) new ValueEntry&lt;?, ?&gt;[this.hashTable.length * 2];</span>
+<span class="source-line-no">507</span><span id="line-507">        this.hashTable = hashTable;</span>
+<span class="source-line-no">508</span><span id="line-508">        int mask = hashTable.length - 1;</span>
+<span class="source-line-no">509</span><span id="line-509">        for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
+<span class="source-line-no">510</span><span id="line-510">            entry != this;</span>
+<span class="source-line-no">511</span><span id="line-511">            entry = entry.getSuccessorInValueSet()) {</span>
+<span class="source-line-no">512</span><span id="line-512">          ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</span>
+<span class="source-line-no">513</span><span id="line-513">          int bucket = valueEntry.smearedValueHash &amp; mask;</span>
+<span class="source-line-no">514</span><span id="line-514">          valueEntry.nextInValueBucket = hashTable[bucket];</span>
+<span class="source-line-no">515</span><span id="line-515">          hashTable[bucket] = valueEntry;</span>
+<span class="source-line-no">516</span><span id="line-516">        }</span>
+<span class="source-line-no">517</span><span id="line-517">      }</span>
+<span class="source-line-no">518</span><span id="line-518">    }</span>
+<span class="source-line-no">519</span><span id="line-519"></span>
+<span class="source-line-no">520</span><span id="line-520">    @CanIgnoreReturnValue</span>
+<span class="source-line-no">521</span><span id="line-521">    @Override</span>
+<span class="source-line-no">522</span><span id="line-522">    public boolean remove(@Nullable Object o) {</span>
+<span class="source-line-no">523</span><span id="line-523">      int smearedHash = Hashing.smearedHash(o);</span>
+<span class="source-line-no">524</span><span id="line-524">      int bucket = smearedHash &amp; mask();</span>
+<span class="source-line-no">525</span><span id="line-525">      ValueEntry&lt;K, V&gt; prev = null;</span>
+<span class="source-line-no">526</span><span id="line-526">      for (ValueEntry&lt;K, V&gt; entry = hashTable[bucket];</span>
+<span class="source-line-no">527</span><span id="line-527">          entry != null;</span>
+<span class="source-line-no">528</span><span id="line-528">          prev = entry, entry = entry.nextInValueBucket) {</span>
+<span class="source-line-no">529</span><span id="line-529">        if (entry.matchesValue(o, smearedHash)) {</span>
+<span class="source-line-no">530</span><span id="line-530">          if (prev == null) {</span>
+<span class="source-line-no">531</span><span id="line-531">            // first entry in the bucket</span>
+<span class="source-line-no">532</span><span id="line-532">            hashTable[bucket] = entry.nextInValueBucket;</span>
+<span class="source-line-no">533</span><span id="line-533">          } else {</span>
+<span class="source-line-no">534</span><span id="line-534">            prev.nextInValueBucket = entry.nextInValueBucket;</span>
+<span class="source-line-no">535</span><span id="line-535">          }</span>
+<span class="source-line-no">536</span><span id="line-536">          deleteFromValueSet(entry);</span>
+<span class="source-line-no">537</span><span id="line-537">          deleteFromMultimap(entry);</span>
+<span class="source-line-no">538</span><span id="line-538">          size--;</span>
+<span class="source-line-no">539</span><span id="line-539">          modCount++;</span>
+<span class="source-line-no">540</span><span id="line-540">          return true;</span>
+<span class="source-line-no">541</span><span id="line-541">        }</span>
+<span class="source-line-no">542</span><span id="line-542">      }</span>
+<span class="source-line-no">543</span><span id="line-543">      return false;</span>
+<span class="source-line-no">544</span><span id="line-544">    }</span>
+<span class="source-line-no">545</span><span id="line-545"></span>
+<span class="source-line-no">546</span><span id="line-546">    @Override</span>
+<span class="source-line-no">547</span><span id="line-547">    public void clear() {</span>
+<span class="source-line-no">548</span><span id="line-548">      Arrays.fill(hashTable, null);</span>
+<span class="source-line-no">549</span><span id="line-549">      size = 0;</span>
+<span class="source-line-no">550</span><span id="line-550">      for (ValueSetLink&lt;K, V&gt; entry = firstEntry;</span>
+<span class="source-line-no">551</span><span id="line-551">          entry != this;</span>
+<span class="source-line-no">552</span><span id="line-552">          entry = entry.getSuccessorInValueSet()) {</span>
+<span class="source-line-no">553</span><span id="line-553">        ValueEntry&lt;K, V&gt; valueEntry = (ValueEntry&lt;K, V&gt;) entry;</span>
+<span class="source-line-no">554</span><span id="line-554">        deleteFromMultimap(valueEntry);</span>
+<span class="source-line-no">555</span><span id="line-555">      }</span>
+<span class="source-line-no">556</span><span id="line-556">      succeedsInValueSet(this, this);</span>
+<span class="source-line-no">557</span><span id="line-557">      modCount++;</span>
+<span class="source-line-no">558</span><span id="line-558">    }</span>
+<span class="source-line-no">559</span><span id="line-559">  }</span>
+<span class="source-line-no">560</span><span id="line-560"></span>
+<span class="source-line-no">561</span><span id="line-561">  @Override</span>
+<span class="source-line-no">562</span><span id="line-562">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</span>
+<span class="source-line-no">563</span><span id="line-563">    return new Iterator&lt;Entry&lt;K, V&gt;&gt;() {</span>
+<span class="source-line-no">564</span><span id="line-564">      ValueEntry&lt;K, V&gt; nextEntry = multimapHeaderEntry.getSuccessorInMultimap();</span>
+<span class="source-line-no">565</span><span id="line-565">      @Nullable ValueEntry&lt;K, V&gt; toRemove;</span>
+<span class="source-line-no">566</span><span id="line-566"></span>
+<span class="source-line-no">567</span><span id="line-567">      @Override</span>
+<span class="source-line-no">568</span><span id="line-568">      public boolean hasNext() {</span>
+<span class="source-line-no">569</span><span id="line-569">        return nextEntry != multimapHeaderEntry;</span>
+<span class="source-line-no">570</span><span id="line-570">      }</span>
+<span class="source-line-no">571</span><span id="line-571"></span>
+<span class="source-line-no">572</span><span id="line-572">      @Override</span>
+<span class="source-line-no">573</span><span id="line-573">      public Entry&lt;K, V&gt; next() {</span>
+<span class="source-line-no">574</span><span id="line-574">        if (!hasNext()) {</span>
+<span class="source-line-no">575</span><span id="line-575">          throw new NoSuchElementException();</span>
+<span class="source-line-no">576</span><span id="line-576">        }</span>
+<span class="source-line-no">577</span><span id="line-577">        ValueEntry&lt;K, V&gt; result = nextEntry;</span>
+<span class="source-line-no">578</span><span id="line-578">        toRemove = result;</span>
+<span class="source-line-no">579</span><span id="line-579">        nextEntry = nextEntry.getSuccessorInMultimap();</span>
+<span class="source-line-no">580</span><span id="line-580">        return result;</span>
+<span class="source-line-no">581</span><span id="line-581">      }</span>
+<span class="source-line-no">582</span><span id="line-582"></span>
+<span class="source-line-no">583</span><span id="line-583">      @Override</span>
+<span class="source-line-no">584</span><span id="line-584">      public void remove() {</span>
+<span class="source-line-no">585</span><span id="line-585">        checkState(toRemove != null, "no calls to next() since the last call to remove()");</span>
+<span class="source-line-no">586</span><span id="line-586">        LinkedHashMultimap.this.remove(toRemove.getKey(), toRemove.getValue());</span>
+<span class="source-line-no">587</span><span id="line-587">        toRemove = null;</span>
+<span class="source-line-no">588</span><span id="line-588">      }</span>
+<span class="source-line-no">589</span><span id="line-589">    };</span>
+<span class="source-line-no">590</span><span id="line-590">  }</span>
+<span class="source-line-no">591</span><span id="line-591"></span>
+<span class="source-line-no">592</span><span id="line-592">  @Override</span>
+<span class="source-line-no">593</span><span id="line-593">  Spliterator&lt;Entry&lt;K, V&gt;&gt; entrySpliterator() {</span>
+<span class="source-line-no">594</span><span id="line-594">    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);</span>
+<span class="source-line-no">595</span><span id="line-595">  }</span>
+<span class="source-line-no">596</span><span id="line-596"></span>
+<span class="source-line-no">597</span><span id="line-597">  @Override</span>
+<span class="source-line-no">598</span><span id="line-598">  Iterator&lt;V&gt; valueIterator() {</span>
+<span class="source-line-no">599</span><span id="line-599">    return Maps.valueIterator(entryIterator());</span>
+<span class="source-line-no">600</span><span id="line-600">  }</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">  @Override</span>
+<span class="source-line-no">603</span><span id="line-603">  Spliterator&lt;V&gt; valueSpliterator() {</span>
+<span class="source-line-no">604</span><span id="line-604">    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);</span>
+<span class="source-line-no">605</span><span id="line-605">  }</span>
+<span class="source-line-no">606</span><span id="line-606"></span>
+<span class="source-line-no">607</span><span id="line-607">  @Override</span>
+<span class="source-line-no">608</span><span id="line-608">  public void clear() {</span>
+<span class="source-line-no">609</span><span id="line-609">    super.clear();</span>
+<span class="source-line-no">610</span><span id="line-610">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</span>
+<span class="source-line-no">611</span><span id="line-611">  }</span>
+<span class="source-line-no">612</span><span id="line-612"></span>
+<span class="source-line-no">613</span><span id="line-613">  /**</span>
+<span class="source-line-no">614</span><span id="line-614">   * @serialData the expected values per key, the number of distinct keys, the number of entries,</span>
+<span class="source-line-no">615</span><span id="line-615">   *     and the entries in order</span>
+<span class="source-line-no">616</span><span id="line-616">   */</span>
+<span class="source-line-no">617</span><span id="line-617">  @GwtIncompatible // java.io.ObjectOutputStream</span>
+<span class="source-line-no">618</span><span id="line-618">  @J2ktIncompatible</span>
+<span class="source-line-no">619</span><span id="line-619">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
+<span class="source-line-no">620</span><span id="line-620">    stream.defaultWriteObject();</span>
+<span class="source-line-no">621</span><span id="line-621">    stream.writeInt(keySet().size());</span>
+<span class="source-line-no">622</span><span id="line-622">    for (K key : keySet()) {</span>
+<span class="source-line-no">623</span><span id="line-623">      stream.writeObject(key);</span>
+<span class="source-line-no">624</span><span id="line-624">    }</span>
+<span class="source-line-no">625</span><span id="line-625">    stream.writeInt(size());</span>
+<span class="source-line-no">626</span><span id="line-626">    for (Entry&lt;K, V&gt; entry : entries()) {</span>
+<span class="source-line-no">627</span><span id="line-627">      stream.writeObject(entry.getKey());</span>
+<span class="source-line-no">628</span><span id="line-628">      stream.writeObject(entry.getValue());</span>
+<span class="source-line-no">629</span><span id="line-629">    }</span>
+<span class="source-line-no">630</span><span id="line-630">  }</span>
+<span class="source-line-no">631</span><span id="line-631"></span>
+<span class="source-line-no">632</span><span id="line-632">  @GwtIncompatible // java.io.ObjectInputStream</span>
+<span class="source-line-no">633</span><span id="line-633">  @J2ktIncompatible</span>
+<span class="source-line-no">634</span><span id="line-634">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
+<span class="source-line-no">635</span><span id="line-635">    stream.defaultReadObject();</span>
+<span class="source-line-no">636</span><span id="line-636">    multimapHeaderEntry = ValueEntry.newHeader();</span>
+<span class="source-line-no">637</span><span id="line-637">    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);</span>
+<span class="source-line-no">638</span><span id="line-638">    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;</span>
+<span class="source-line-no">639</span><span id="line-639">    int distinctKeys = stream.readInt();</span>
+<span class="source-line-no">640</span><span id="line-640">    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newLinkedHashMapWithExpectedSize(12);</span>
+<span class="source-line-no">641</span><span id="line-641">    for (int i = 0; i &lt; distinctKeys; i++) {</span>
+<span class="source-line-no">642</span><span id="line-642">      @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">643</span><span id="line-643">      K key = (K) stream.readObject();</span>
+<span class="source-line-no">644</span><span id="line-644">      map.put(key, createCollection(key));</span>
+<span class="source-line-no">645</span><span id="line-645">    }</span>
+<span class="source-line-no">646</span><span id="line-646">    int entries = stream.readInt();</span>
+<span class="source-line-no">647</span><span id="line-647">    for (int i = 0; i &lt; entries; i++) {</span>
+<span class="source-line-no">648</span><span id="line-648">      @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">649</span><span id="line-649">      K key = (K) stream.readObject();</span>
+<span class="source-line-no">650</span><span id="line-650">      @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">651</span><span id="line-651">      V value = (V) stream.readObject();</span>
+<span class="source-line-no">652</span><span id="line-652">      /*</span>
+<span class="source-line-no">653</span><span id="line-653">       * requireNonNull is safe for a properly serialized multimap: We've already inserted a</span>
+<span class="source-line-no">654</span><span id="line-654">       * collection for each key that we expect.</span>
+<span class="source-line-no">655</span><span id="line-655">       */</span>
+<span class="source-line-no">656</span><span id="line-656">      requireNonNull(map.get(key)).add(value);</span>
+<span class="source-line-no">657</span><span id="line-657">    }</span>
+<span class="source-line-no">658</span><span id="line-658">    setMap(map);</span>
+<span class="source-line-no">659</span><span id="line-659">  }</span>
+<span class="source-line-no">660</span><span id="line-660"></span>
+<span class="source-line-no">661</span><span id="line-661">  @GwtIncompatible // java serialization not supported</span>
+<span class="source-line-no">662</span><span id="line-662">  @J2ktIncompatible</span>
+<span class="source-line-no">663</span><span id="line-663">  private static final long serialVersionUID = 1;</span>
+<span class="source-line-no">664</span><span id="line-664">}</span>
 
 
 

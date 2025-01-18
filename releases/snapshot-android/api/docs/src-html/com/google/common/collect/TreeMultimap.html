@@ -177,69 +177,71 @@
 <span class="source-line-no">164</span><span id="line-164">    return valueComparator;</span>
 <span class="source-line-no">165</span><span id="line-165">  }</span>
 <span class="source-line-no">166</span><span id="line-166"></span>
-<span class="source-line-no">167</span><span id="line-167">  /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */</span>
-<span class="source-line-no">168</span><span id="line-168">  @Override</span>
-<span class="source-line-no">169</span><span id="line-169">  @GwtIncompatible // NavigableSet</span>
-<span class="source-line-no">170</span><span id="line-170">  public NavigableSet&lt;V&gt; get(@ParametricNullness K key) {</span>
-<span class="source-line-no">171</span><span id="line-171">    return (NavigableSet&lt;V&gt;) super.get(key);</span>
-<span class="source-line-no">172</span><span id="line-172">  }</span>
-<span class="source-line-no">173</span><span id="line-173"></span>
-<span class="source-line-no">174</span><span id="line-174">  /**</span>
-<span class="source-line-no">175</span><span id="line-175">   * {@inheritDoc}</span>
-<span class="source-line-no">176</span><span id="line-176">   *</span>
-<span class="source-line-no">177</span><span id="line-177">   * &lt;p&gt;Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link</span>
-<span class="source-line-no">178</span><span id="line-178">   * NavigableSet}, instead of the {@link java.util.Set} specified in the {@link Multimap}</span>
-<span class="source-line-no">179</span><span id="line-179">   * interface.</span>
-<span class="source-line-no">180</span><span id="line-180">   *</span>
-<span class="source-line-no">181</span><span id="line-181">   * @since 14.0 (present with return type {@code SortedSet} since 2.0)</span>
-<span class="source-line-no">182</span><span id="line-182">   */</span>
-<span class="source-line-no">183</span><span id="line-183">  @Override</span>
-<span class="source-line-no">184</span><span id="line-184">  public NavigableSet&lt;K&gt; keySet() {</span>
-<span class="source-line-no">185</span><span id="line-185">    return (NavigableSet&lt;K&gt;) super.keySet();</span>
-<span class="source-line-no">186</span><span id="line-186">  }</span>
-<span class="source-line-no">187</span><span id="line-187"></span>
-<span class="source-line-no">188</span><span id="line-188">  /**</span>
-<span class="source-line-no">189</span><span id="line-189">   * {@inheritDoc}</span>
-<span class="source-line-no">190</span><span id="line-190">   *</span>
-<span class="source-line-no">191</span><span id="line-191">   * &lt;p&gt;Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link</span>
-<span class="source-line-no">192</span><span id="line-192">   * NavigableMap}, instead of the {@link java.util.Map} specified in the {@link Multimap}</span>
-<span class="source-line-no">193</span><span id="line-193">   * interface.</span>
-<span class="source-line-no">194</span><span id="line-194">   *</span>
-<span class="source-line-no">195</span><span id="line-195">   * @since 14.0 (present with return type {@code SortedMap} since 2.0)</span>
-<span class="source-line-no">196</span><span id="line-196">   */</span>
-<span class="source-line-no">197</span><span id="line-197">  @Override</span>
-<span class="source-line-no">198</span><span id="line-198">  public NavigableMap&lt;K, Collection&lt;V&gt;&gt; asMap() {</span>
-<span class="source-line-no">199</span><span id="line-199">    return (NavigableMap&lt;K, Collection&lt;V&gt;&gt;) super.asMap();</span>
-<span class="source-line-no">200</span><span id="line-200">  }</span>
-<span class="source-line-no">201</span><span id="line-201"></span>
-<span class="source-line-no">202</span><span id="line-202">  /**</span>
-<span class="source-line-no">203</span><span id="line-203">   * @serialData key comparator, value comparator, number of distinct keys, and then for each</span>
-<span class="source-line-no">204</span><span id="line-204">   *     distinct key: the key, number of values for that key, and key values</span>
-<span class="source-line-no">205</span><span id="line-205">   */</span>
-<span class="source-line-no">206</span><span id="line-206">  @GwtIncompatible // java.io.ObjectOutputStream</span>
-<span class="source-line-no">207</span><span id="line-207">  @J2ktIncompatible</span>
-<span class="source-line-no">208</span><span id="line-208">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
-<span class="source-line-no">209</span><span id="line-209">    stream.defaultWriteObject();</span>
-<span class="source-line-no">210</span><span id="line-210">    stream.writeObject(keyComparator());</span>
-<span class="source-line-no">211</span><span id="line-211">    stream.writeObject(valueComparator());</span>
-<span class="source-line-no">212</span><span id="line-212">    Serialization.writeMultimap(this, stream);</span>
-<span class="source-line-no">213</span><span id="line-213">  }</span>
-<span class="source-line-no">214</span><span id="line-214"></span>
-<span class="source-line-no">215</span><span id="line-215">  @GwtIncompatible // java.io.ObjectInputStream</span>
-<span class="source-line-no">216</span><span id="line-216">  @J2ktIncompatible</span>
-<span class="source-line-no">217</span><span id="line-217">  @SuppressWarnings("unchecked") // reading data stored by writeObject</span>
-<span class="source-line-no">218</span><span id="line-218">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
-<span class="source-line-no">219</span><span id="line-219">    stream.defaultReadObject();</span>
-<span class="source-line-no">220</span><span id="line-220">    keyComparator = requireNonNull((Comparator&lt;? super K&gt;) stream.readObject());</span>
-<span class="source-line-no">221</span><span id="line-221">    valueComparator = requireNonNull((Comparator&lt;? super V&gt;) stream.readObject());</span>
-<span class="source-line-no">222</span><span id="line-222">    setMap(new TreeMap&lt;K, Collection&lt;V&gt;&gt;(keyComparator));</span>
-<span class="source-line-no">223</span><span id="line-223">    Serialization.populateMultimap(this, stream);</span>
-<span class="source-line-no">224</span><span id="line-224">  }</span>
-<span class="source-line-no">225</span><span id="line-225"></span>
-<span class="source-line-no">226</span><span id="line-226">  @GwtIncompatible // not needed in emulated source</span>
-<span class="source-line-no">227</span><span id="line-227">  @J2ktIncompatible</span>
-<span class="source-line-no">228</span><span id="line-228">  private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">229</span><span id="line-229">}</span>
+<span class="source-line-no">167</span><span id="line-167">  /**</span>
+<span class="source-line-no">168</span><span id="line-168">   * @since 14.0 (present with return type {@code SortedSet} since 2.0)</span>
+<span class="source-line-no">169</span><span id="line-169">   */</span>
+<span class="source-line-no">170</span><span id="line-170">  @Override</span>
+<span class="source-line-no">171</span><span id="line-171">  @GwtIncompatible // NavigableSet</span>
+<span class="source-line-no">172</span><span id="line-172">  public NavigableSet&lt;V&gt; get(@ParametricNullness K key) {</span>
+<span class="source-line-no">173</span><span id="line-173">    return (NavigableSet&lt;V&gt;) super.get(key);</span>
+<span class="source-line-no">174</span><span id="line-174">  }</span>
+<span class="source-line-no">175</span><span id="line-175"></span>
+<span class="source-line-no">176</span><span id="line-176">  /**</span>
+<span class="source-line-no">177</span><span id="line-177">   * {@inheritDoc}</span>
+<span class="source-line-no">178</span><span id="line-178">   *</span>
+<span class="source-line-no">179</span><span id="line-179">   * &lt;p&gt;Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link</span>
+<span class="source-line-no">180</span><span id="line-180">   * NavigableSet}, instead of the {@link java.util.Set} specified in the {@link Multimap}</span>
+<span class="source-line-no">181</span><span id="line-181">   * interface.</span>
+<span class="source-line-no">182</span><span id="line-182">   *</span>
+<span class="source-line-no">183</span><span id="line-183">   * @since 14.0 (present with return type {@code SortedSet} since 2.0)</span>
+<span class="source-line-no">184</span><span id="line-184">   */</span>
+<span class="source-line-no">185</span><span id="line-185">  @Override</span>
+<span class="source-line-no">186</span><span id="line-186">  public NavigableSet&lt;K&gt; keySet() {</span>
+<span class="source-line-no">187</span><span id="line-187">    return (NavigableSet&lt;K&gt;) super.keySet();</span>
+<span class="source-line-no">188</span><span id="line-188">  }</span>
+<span class="source-line-no">189</span><span id="line-189"></span>
+<span class="source-line-no">190</span><span id="line-190">  /**</span>
+<span class="source-line-no">191</span><span id="line-191">   * {@inheritDoc}</span>
+<span class="source-line-no">192</span><span id="line-192">   *</span>
+<span class="source-line-no">193</span><span id="line-193">   * &lt;p&gt;Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link</span>
+<span class="source-line-no">194</span><span id="line-194">   * NavigableMap}, instead of the {@link java.util.Map} specified in the {@link Multimap}</span>
+<span class="source-line-no">195</span><span id="line-195">   * interface.</span>
+<span class="source-line-no">196</span><span id="line-196">   *</span>
+<span class="source-line-no">197</span><span id="line-197">   * @since 14.0 (present with return type {@code SortedMap} since 2.0)</span>
+<span class="source-line-no">198</span><span id="line-198">   */</span>
+<span class="source-line-no">199</span><span id="line-199">  @Override</span>
+<span class="source-line-no">200</span><span id="line-200">  public NavigableMap&lt;K, Collection&lt;V&gt;&gt; asMap() {</span>
+<span class="source-line-no">201</span><span id="line-201">    return (NavigableMap&lt;K, Collection&lt;V&gt;&gt;) super.asMap();</span>
+<span class="source-line-no">202</span><span id="line-202">  }</span>
+<span class="source-line-no">203</span><span id="line-203"></span>
+<span class="source-line-no">204</span><span id="line-204">  /**</span>
+<span class="source-line-no">205</span><span id="line-205">   * @serialData key comparator, value comparator, number of distinct keys, and then for each</span>
+<span class="source-line-no">206</span><span id="line-206">   *     distinct key: the key, number of values for that key, and key values</span>
+<span class="source-line-no">207</span><span id="line-207">   */</span>
+<span class="source-line-no">208</span><span id="line-208">  @GwtIncompatible // java.io.ObjectOutputStream</span>
+<span class="source-line-no">209</span><span id="line-209">  @J2ktIncompatible</span>
+<span class="source-line-no">210</span><span id="line-210">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
+<span class="source-line-no">211</span><span id="line-211">    stream.defaultWriteObject();</span>
+<span class="source-line-no">212</span><span id="line-212">    stream.writeObject(keyComparator());</span>
+<span class="source-line-no">213</span><span id="line-213">    stream.writeObject(valueComparator());</span>
+<span class="source-line-no">214</span><span id="line-214">    Serialization.writeMultimap(this, stream);</span>
+<span class="source-line-no">215</span><span id="line-215">  }</span>
+<span class="source-line-no">216</span><span id="line-216"></span>
+<span class="source-line-no">217</span><span id="line-217">  @GwtIncompatible // java.io.ObjectInputStream</span>
+<span class="source-line-no">218</span><span id="line-218">  @J2ktIncompatible</span>
+<span class="source-line-no">219</span><span id="line-219">  @SuppressWarnings("unchecked") // reading data stored by writeObject</span>
+<span class="source-line-no">220</span><span id="line-220">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
+<span class="source-line-no">221</span><span id="line-221">    stream.defaultReadObject();</span>
+<span class="source-line-no">222</span><span id="line-222">    keyComparator = requireNonNull((Comparator&lt;? super K&gt;) stream.readObject());</span>
+<span class="source-line-no">223</span><span id="line-223">    valueComparator = requireNonNull((Comparator&lt;? super V&gt;) stream.readObject());</span>
+<span class="source-line-no">224</span><span id="line-224">    setMap(new TreeMap&lt;K, Collection&lt;V&gt;&gt;(keyComparator));</span>
+<span class="source-line-no">225</span><span id="line-225">    Serialization.populateMultimap(this, stream);</span>
+<span class="source-line-no">226</span><span id="line-226">  }</span>
+<span class="source-line-no">227</span><span id="line-227"></span>
+<span class="source-line-no">228</span><span id="line-228">  @GwtIncompatible // not needed in emulated source</span>
+<span class="source-line-no">229</span><span id="line-229">  @J2ktIncompatible</span>
+<span class="source-line-no">230</span><span id="line-230">  private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">231</span><span id="line-231">}</span>
 
 
 

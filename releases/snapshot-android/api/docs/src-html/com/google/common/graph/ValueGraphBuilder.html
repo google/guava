@@ -194,28 +194,29 @@
 <span class="source-line-no">181</span><span id="line-181">    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);</span>
 <span class="source-line-no">182</span><span id="line-182">    return newBuilder;</span>
 <span class="source-line-no">183</span><span id="line-183">  }</span>
-<span class="source-line-no">184</span><span id="line-184">  /**</span>
-<span class="source-line-no">185</span><span id="line-185">   * Returns an empty {@link MutableValueGraph} with the properties of this {@link</span>
-<span class="source-line-no">186</span><span id="line-186">   * ValueGraphBuilder}.</span>
-<span class="source-line-no">187</span><span id="line-187">   */</span>
-<span class="source-line-no">188</span><span id="line-188">  public &lt;N1 extends N, V1 extends V&gt; MutableValueGraph&lt;N1, V1&gt; build() {</span>
-<span class="source-line-no">189</span><span id="line-189">    return new StandardMutableValueGraph&lt;&gt;(this);</span>
-<span class="source-line-no">190</span><span id="line-190">  }</span>
-<span class="source-line-no">191</span><span id="line-191"></span>
-<span class="source-line-no">192</span><span id="line-192">  ValueGraphBuilder&lt;N, V&gt; copy() {</span>
-<span class="source-line-no">193</span><span id="line-193">    ValueGraphBuilder&lt;N, V&gt; newBuilder = new ValueGraphBuilder&lt;&gt;(directed);</span>
-<span class="source-line-no">194</span><span id="line-194">    newBuilder.allowsSelfLoops = allowsSelfLoops;</span>
-<span class="source-line-no">195</span><span id="line-195">    newBuilder.nodeOrder = nodeOrder;</span>
-<span class="source-line-no">196</span><span id="line-196">    newBuilder.expectedNodeCount = expectedNodeCount;</span>
-<span class="source-line-no">197</span><span id="line-197">    newBuilder.incidentEdgeOrder = incidentEdgeOrder;</span>
-<span class="source-line-no">198</span><span id="line-198">    return newBuilder;</span>
-<span class="source-line-no">199</span><span id="line-199">  }</span>
-<span class="source-line-no">200</span><span id="line-200"></span>
-<span class="source-line-no">201</span><span id="line-201">  @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">202</span><span id="line-202">  private &lt;N1 extends N, V1 extends V&gt; ValueGraphBuilder&lt;N1, V1&gt; cast() {</span>
-<span class="source-line-no">203</span><span id="line-203">    return (ValueGraphBuilder&lt;N1, V1&gt;) this;</span>
-<span class="source-line-no">204</span><span id="line-204">  }</span>
-<span class="source-line-no">205</span><span id="line-205">}</span>
+<span class="source-line-no">184</span><span id="line-184"></span>
+<span class="source-line-no">185</span><span id="line-185">  /**</span>
+<span class="source-line-no">186</span><span id="line-186">   * Returns an empty {@link MutableValueGraph} with the properties of this {@link</span>
+<span class="source-line-no">187</span><span id="line-187">   * ValueGraphBuilder}.</span>
+<span class="source-line-no">188</span><span id="line-188">   */</span>
+<span class="source-line-no">189</span><span id="line-189">  public &lt;N1 extends N, V1 extends V&gt; MutableValueGraph&lt;N1, V1&gt; build() {</span>
+<span class="source-line-no">190</span><span id="line-190">    return new StandardMutableValueGraph&lt;&gt;(this);</span>
+<span class="source-line-no">191</span><span id="line-191">  }</span>
+<span class="source-line-no">192</span><span id="line-192"></span>
+<span class="source-line-no">193</span><span id="line-193">  ValueGraphBuilder&lt;N, V&gt; copy() {</span>
+<span class="source-line-no">194</span><span id="line-194">    ValueGraphBuilder&lt;N, V&gt; newBuilder = new ValueGraphBuilder&lt;&gt;(directed);</span>
+<span class="source-line-no">195</span><span id="line-195">    newBuilder.allowsSelfLoops = allowsSelfLoops;</span>
+<span class="source-line-no">196</span><span id="line-196">    newBuilder.nodeOrder = nodeOrder;</span>
+<span class="source-line-no">197</span><span id="line-197">    newBuilder.expectedNodeCount = expectedNodeCount;</span>
+<span class="source-line-no">198</span><span id="line-198">    newBuilder.incidentEdgeOrder = incidentEdgeOrder;</span>
+<span class="source-line-no">199</span><span id="line-199">    return newBuilder;</span>
+<span class="source-line-no">200</span><span id="line-200">  }</span>
+<span class="source-line-no">201</span><span id="line-201"></span>
+<span class="source-line-no">202</span><span id="line-202">  @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">203</span><span id="line-203">  private &lt;N1 extends N, V1 extends V&gt; ValueGraphBuilder&lt;N1, V1&gt; cast() {</span>
+<span class="source-line-no">204</span><span id="line-204">    return (ValueGraphBuilder&lt;N1, V1&gt;) this;</span>
+<span class="source-line-no">205</span><span id="line-205">  }</span>
+<span class="source-line-no">206</span><span id="line-206">}</span>
 
 
 

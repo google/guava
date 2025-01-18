@@ -306,141 +306,145 @@
 <span class="source-line-no">293</span><span id="line-293">    return new PredicateFunction&lt;&gt;(predicate);</span>
 <span class="source-line-no">294</span><span id="line-294">  }</span>
 <span class="source-line-no">295</span><span id="line-295"></span>
-<span class="source-line-no">296</span><span id="line-296">  /** @see Functions#forPredicate */</span>
-<span class="source-line-no">297</span><span id="line-297">  private static class PredicateFunction&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">298</span><span id="line-298">      implements Function&lt;T, Boolean&gt;, Serializable {</span>
-<span class="source-line-no">299</span><span id="line-299">    private final Predicate&lt;T&gt; predicate;</span>
-<span class="source-line-no">300</span><span id="line-300"></span>
-<span class="source-line-no">301</span><span id="line-301">    private PredicateFunction(Predicate&lt;T&gt; predicate) {</span>
-<span class="source-line-no">302</span><span id="line-302">      this.predicate = checkNotNull(predicate);</span>
-<span class="source-line-no">303</span><span id="line-303">    }</span>
-<span class="source-line-no">304</span><span id="line-304"></span>
-<span class="source-line-no">305</span><span id="line-305">    @Override</span>
-<span class="source-line-no">306</span><span id="line-306">    public Boolean apply(@ParametricNullness T t) {</span>
-<span class="source-line-no">307</span><span id="line-307">      return predicate.apply(t);</span>
-<span class="source-line-no">308</span><span id="line-308">    }</span>
-<span class="source-line-no">309</span><span id="line-309"></span>
-<span class="source-line-no">310</span><span id="line-310">    @Override</span>
-<span class="source-line-no">311</span><span id="line-311">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">312</span><span id="line-312">      if (obj instanceof PredicateFunction) {</span>
-<span class="source-line-no">313</span><span id="line-313">        PredicateFunction&lt;?&gt; that = (PredicateFunction&lt;?&gt;) obj;</span>
-<span class="source-line-no">314</span><span id="line-314">        return predicate.equals(that.predicate);</span>
-<span class="source-line-no">315</span><span id="line-315">      }</span>
-<span class="source-line-no">316</span><span id="line-316">      return false;</span>
-<span class="source-line-no">317</span><span id="line-317">    }</span>
-<span class="source-line-no">318</span><span id="line-318"></span>
-<span class="source-line-no">319</span><span id="line-319">    @Override</span>
-<span class="source-line-no">320</span><span id="line-320">    public int hashCode() {</span>
-<span class="source-line-no">321</span><span id="line-321">      return predicate.hashCode();</span>
-<span class="source-line-no">322</span><span id="line-322">    }</span>
-<span class="source-line-no">323</span><span id="line-323"></span>
-<span class="source-line-no">324</span><span id="line-324">    @Override</span>
-<span class="source-line-no">325</span><span id="line-325">    public String toString() {</span>
-<span class="source-line-no">326</span><span id="line-326">      return "Functions.forPredicate(" + predicate + ")";</span>
-<span class="source-line-no">327</span><span id="line-327">    }</span>
-<span class="source-line-no">328</span><span id="line-328"></span>
-<span class="source-line-no">329</span><span id="line-329">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">330</span><span id="line-330">  }</span>
-<span class="source-line-no">331</span><span id="line-331"></span>
-<span class="source-line-no">332</span><span id="line-332">  /**</span>
-<span class="source-line-no">333</span><span id="line-333">   * Returns a function that ignores its input and always returns {@code value}.</span>
-<span class="source-line-no">334</span><span id="line-334">   *</span>
-<span class="source-line-no">335</span><span id="line-335">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; value} instead.</span>
+<span class="source-line-no">296</span><span id="line-296">  /**</span>
+<span class="source-line-no">297</span><span id="line-297">   * @see Functions#forPredicate</span>
+<span class="source-line-no">298</span><span id="line-298">   */</span>
+<span class="source-line-no">299</span><span id="line-299">  private static class PredicateFunction&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">300</span><span id="line-300">      implements Function&lt;T, Boolean&gt;, Serializable {</span>
+<span class="source-line-no">301</span><span id="line-301">    private final Predicate&lt;T&gt; predicate;</span>
+<span class="source-line-no">302</span><span id="line-302"></span>
+<span class="source-line-no">303</span><span id="line-303">    private PredicateFunction(Predicate&lt;T&gt; predicate) {</span>
+<span class="source-line-no">304</span><span id="line-304">      this.predicate = checkNotNull(predicate);</span>
+<span class="source-line-no">305</span><span id="line-305">    }</span>
+<span class="source-line-no">306</span><span id="line-306"></span>
+<span class="source-line-no">307</span><span id="line-307">    @Override</span>
+<span class="source-line-no">308</span><span id="line-308">    public Boolean apply(@ParametricNullness T t) {</span>
+<span class="source-line-no">309</span><span id="line-309">      return predicate.apply(t);</span>
+<span class="source-line-no">310</span><span id="line-310">    }</span>
+<span class="source-line-no">311</span><span id="line-311"></span>
+<span class="source-line-no">312</span><span id="line-312">    @Override</span>
+<span class="source-line-no">313</span><span id="line-313">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">314</span><span id="line-314">      if (obj instanceof PredicateFunction) {</span>
+<span class="source-line-no">315</span><span id="line-315">        PredicateFunction&lt;?&gt; that = (PredicateFunction&lt;?&gt;) obj;</span>
+<span class="source-line-no">316</span><span id="line-316">        return predicate.equals(that.predicate);</span>
+<span class="source-line-no">317</span><span id="line-317">      }</span>
+<span class="source-line-no">318</span><span id="line-318">      return false;</span>
+<span class="source-line-no">319</span><span id="line-319">    }</span>
+<span class="source-line-no">320</span><span id="line-320"></span>
+<span class="source-line-no">321</span><span id="line-321">    @Override</span>
+<span class="source-line-no">322</span><span id="line-322">    public int hashCode() {</span>
+<span class="source-line-no">323</span><span id="line-323">      return predicate.hashCode();</span>
+<span class="source-line-no">324</span><span id="line-324">    }</span>
+<span class="source-line-no">325</span><span id="line-325"></span>
+<span class="source-line-no">326</span><span id="line-326">    @Override</span>
+<span class="source-line-no">327</span><span id="line-327">    public String toString() {</span>
+<span class="source-line-no">328</span><span id="line-328">      return "Functions.forPredicate(" + predicate + ")";</span>
+<span class="source-line-no">329</span><span id="line-329">    }</span>
+<span class="source-line-no">330</span><span id="line-330"></span>
+<span class="source-line-no">331</span><span id="line-331">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">332</span><span id="line-332">  }</span>
+<span class="source-line-no">333</span><span id="line-333"></span>
+<span class="source-line-no">334</span><span id="line-334">  /**</span>
+<span class="source-line-no">335</span><span id="line-335">   * Returns a function that ignores its input and always returns {@code value}.</span>
 <span class="source-line-no">336</span><span id="line-336">   *</span>
-<span class="source-line-no">337</span><span id="line-337">   * @param value the constant value for the function to return</span>
-<span class="source-line-no">338</span><span id="line-338">   * @return a function that always returns {@code value}</span>
-<span class="source-line-no">339</span><span id="line-339">   */</span>
-<span class="source-line-no">340</span><span id="line-340">  public static &lt;E extends @Nullable Object&gt; Function&lt;@Nullable Object, E&gt; constant(</span>
-<span class="source-line-no">341</span><span id="line-341">      @ParametricNullness E value) {</span>
-<span class="source-line-no">342</span><span id="line-342">    return new ConstantFunction&lt;&gt;(value);</span>
-<span class="source-line-no">343</span><span id="line-343">  }</span>
-<span class="source-line-no">344</span><span id="line-344"></span>
-<span class="source-line-no">345</span><span id="line-345">  private static class ConstantFunction&lt;E extends @Nullable Object&gt;</span>
-<span class="source-line-no">346</span><span id="line-346">      implements Function&lt;@Nullable Object, E&gt;, Serializable {</span>
-<span class="source-line-no">347</span><span id="line-347">    @ParametricNullness private final E value;</span>
-<span class="source-line-no">348</span><span id="line-348"></span>
-<span class="source-line-no">349</span><span id="line-349">    public ConstantFunction(@ParametricNullness E value) {</span>
-<span class="source-line-no">350</span><span id="line-350">      this.value = value;</span>
-<span class="source-line-no">351</span><span id="line-351">    }</span>
-<span class="source-line-no">352</span><span id="line-352"></span>
-<span class="source-line-no">353</span><span id="line-353">    @Override</span>
-<span class="source-line-no">354</span><span id="line-354">    @ParametricNullness</span>
-<span class="source-line-no">355</span><span id="line-355">    public E apply(@Nullable Object from) {</span>
-<span class="source-line-no">356</span><span id="line-356">      return value;</span>
-<span class="source-line-no">357</span><span id="line-357">    }</span>
-<span class="source-line-no">358</span><span id="line-358"></span>
-<span class="source-line-no">359</span><span id="line-359">    @Override</span>
-<span class="source-line-no">360</span><span id="line-360">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">361</span><span id="line-361">      if (obj instanceof ConstantFunction) {</span>
-<span class="source-line-no">362</span><span id="line-362">        ConstantFunction&lt;?&gt; that = (ConstantFunction&lt;?&gt;) obj;</span>
-<span class="source-line-no">363</span><span id="line-363">        return Objects.equal(value, that.value);</span>
-<span class="source-line-no">364</span><span id="line-364">      }</span>
-<span class="source-line-no">365</span><span id="line-365">      return false;</span>
-<span class="source-line-no">366</span><span id="line-366">    }</span>
-<span class="source-line-no">367</span><span id="line-367"></span>
-<span class="source-line-no">368</span><span id="line-368">    @Override</span>
-<span class="source-line-no">369</span><span id="line-369">    public int hashCode() {</span>
-<span class="source-line-no">370</span><span id="line-370">      return (value == null) ? 0 : value.hashCode();</span>
-<span class="source-line-no">371</span><span id="line-371">    }</span>
-<span class="source-line-no">372</span><span id="line-372"></span>
-<span class="source-line-no">373</span><span id="line-373">    @Override</span>
-<span class="source-line-no">374</span><span id="line-374">    public String toString() {</span>
-<span class="source-line-no">375</span><span id="line-375">      return "Functions.constant(" + value + ")";</span>
-<span class="source-line-no">376</span><span id="line-376">    }</span>
-<span class="source-line-no">377</span><span id="line-377"></span>
-<span class="source-line-no">378</span><span id="line-378">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">379</span><span id="line-379">  }</span>
-<span class="source-line-no">380</span><span id="line-380"></span>
-<span class="source-line-no">381</span><span id="line-381">  /**</span>
-<span class="source-line-no">382</span><span id="line-382">   * Returns a function that ignores its input and returns the result of {@code supplier.get()}.</span>
-<span class="source-line-no">383</span><span id="line-383">   *</span>
-<span class="source-line-no">384</span><span id="line-384">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; supplier.get()} instead.</span>
+<span class="source-line-no">337</span><span id="line-337">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; value} instead.</span>
+<span class="source-line-no">338</span><span id="line-338">   *</span>
+<span class="source-line-no">339</span><span id="line-339">   * @param value the constant value for the function to return</span>
+<span class="source-line-no">340</span><span id="line-340">   * @return a function that always returns {@code value}</span>
+<span class="source-line-no">341</span><span id="line-341">   */</span>
+<span class="source-line-no">342</span><span id="line-342">  public static &lt;E extends @Nullable Object&gt; Function&lt;@Nullable Object, E&gt; constant(</span>
+<span class="source-line-no">343</span><span id="line-343">      @ParametricNullness E value) {</span>
+<span class="source-line-no">344</span><span id="line-344">    return new ConstantFunction&lt;&gt;(value);</span>
+<span class="source-line-no">345</span><span id="line-345">  }</span>
+<span class="source-line-no">346</span><span id="line-346"></span>
+<span class="source-line-no">347</span><span id="line-347">  private static class ConstantFunction&lt;E extends @Nullable Object&gt;</span>
+<span class="source-line-no">348</span><span id="line-348">      implements Function&lt;@Nullable Object, E&gt;, Serializable {</span>
+<span class="source-line-no">349</span><span id="line-349">    @ParametricNullness private final E value;</span>
+<span class="source-line-no">350</span><span id="line-350"></span>
+<span class="source-line-no">351</span><span id="line-351">    public ConstantFunction(@ParametricNullness E value) {</span>
+<span class="source-line-no">352</span><span id="line-352">      this.value = value;</span>
+<span class="source-line-no">353</span><span id="line-353">    }</span>
+<span class="source-line-no">354</span><span id="line-354"></span>
+<span class="source-line-no">355</span><span id="line-355">    @Override</span>
+<span class="source-line-no">356</span><span id="line-356">    @ParametricNullness</span>
+<span class="source-line-no">357</span><span id="line-357">    public E apply(@Nullable Object from) {</span>
+<span class="source-line-no">358</span><span id="line-358">      return value;</span>
+<span class="source-line-no">359</span><span id="line-359">    }</span>
+<span class="source-line-no">360</span><span id="line-360"></span>
+<span class="source-line-no">361</span><span id="line-361">    @Override</span>
+<span class="source-line-no">362</span><span id="line-362">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">363</span><span id="line-363">      if (obj instanceof ConstantFunction) {</span>
+<span class="source-line-no">364</span><span id="line-364">        ConstantFunction&lt;?&gt; that = (ConstantFunction&lt;?&gt;) obj;</span>
+<span class="source-line-no">365</span><span id="line-365">        return Objects.equal(value, that.value);</span>
+<span class="source-line-no">366</span><span id="line-366">      }</span>
+<span class="source-line-no">367</span><span id="line-367">      return false;</span>
+<span class="source-line-no">368</span><span id="line-368">    }</span>
+<span class="source-line-no">369</span><span id="line-369"></span>
+<span class="source-line-no">370</span><span id="line-370">    @Override</span>
+<span class="source-line-no">371</span><span id="line-371">    public int hashCode() {</span>
+<span class="source-line-no">372</span><span id="line-372">      return (value == null) ? 0 : value.hashCode();</span>
+<span class="source-line-no">373</span><span id="line-373">    }</span>
+<span class="source-line-no">374</span><span id="line-374"></span>
+<span class="source-line-no">375</span><span id="line-375">    @Override</span>
+<span class="source-line-no">376</span><span id="line-376">    public String toString() {</span>
+<span class="source-line-no">377</span><span id="line-377">      return "Functions.constant(" + value + ")";</span>
+<span class="source-line-no">378</span><span id="line-378">    }</span>
+<span class="source-line-no">379</span><span id="line-379"></span>
+<span class="source-line-no">380</span><span id="line-380">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">381</span><span id="line-381">  }</span>
+<span class="source-line-no">382</span><span id="line-382"></span>
+<span class="source-line-no">383</span><span id="line-383">  /**</span>
+<span class="source-line-no">384</span><span id="line-384">   * Returns a function that ignores its input and returns the result of {@code supplier.get()}.</span>
 <span class="source-line-no">385</span><span id="line-385">   *</span>
-<span class="source-line-no">386</span><span id="line-386">   * @since 10.0</span>
-<span class="source-line-no">387</span><span id="line-387">   */</span>
-<span class="source-line-no">388</span><span id="line-388">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Function&lt;F, T&gt; forSupplier(</span>
-<span class="source-line-no">389</span><span id="line-389">      Supplier&lt;T&gt; supplier) {</span>
-<span class="source-line-no">390</span><span id="line-390">    return new SupplierFunction&lt;&gt;(supplier);</span>
-<span class="source-line-no">391</span><span id="line-391">  }</span>
-<span class="source-line-no">392</span><span id="line-392"></span>
-<span class="source-line-no">393</span><span id="line-393">  /** @see Functions#forSupplier */</span>
-<span class="source-line-no">394</span><span id="line-394">  private static class SupplierFunction&lt;F extends @Nullable Object, T extends @Nullable Object&gt;</span>
-<span class="source-line-no">395</span><span id="line-395">      implements Function&lt;F, T&gt;, Serializable {</span>
-<span class="source-line-no">396</span><span id="line-396"></span>
-<span class="source-line-no">397</span><span id="line-397">    private final Supplier&lt;T&gt; supplier;</span>
-<span class="source-line-no">398</span><span id="line-398"></span>
-<span class="source-line-no">399</span><span id="line-399">    private SupplierFunction(Supplier&lt;T&gt; supplier) {</span>
-<span class="source-line-no">400</span><span id="line-400">      this.supplier = checkNotNull(supplier);</span>
-<span class="source-line-no">401</span><span id="line-401">    }</span>
+<span class="source-line-no">386</span><span id="line-386">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use the lambda expression {@code o -&gt; supplier.get()} instead.</span>
+<span class="source-line-no">387</span><span id="line-387">   *</span>
+<span class="source-line-no">388</span><span id="line-388">   * @since 10.0</span>
+<span class="source-line-no">389</span><span id="line-389">   */</span>
+<span class="source-line-no">390</span><span id="line-390">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Function&lt;F, T&gt; forSupplier(</span>
+<span class="source-line-no">391</span><span id="line-391">      Supplier&lt;T&gt; supplier) {</span>
+<span class="source-line-no">392</span><span id="line-392">    return new SupplierFunction&lt;&gt;(supplier);</span>
+<span class="source-line-no">393</span><span id="line-393">  }</span>
+<span class="source-line-no">394</span><span id="line-394"></span>
+<span class="source-line-no">395</span><span id="line-395">  /**</span>
+<span class="source-line-no">396</span><span id="line-396">   * @see Functions#forSupplier</span>
+<span class="source-line-no">397</span><span id="line-397">   */</span>
+<span class="source-line-no">398</span><span id="line-398">  private static class SupplierFunction&lt;F extends @Nullable Object, T extends @Nullable Object&gt;</span>
+<span class="source-line-no">399</span><span id="line-399">      implements Function&lt;F, T&gt;, Serializable {</span>
+<span class="source-line-no">400</span><span id="line-400"></span>
+<span class="source-line-no">401</span><span id="line-401">    private final Supplier&lt;T&gt; supplier;</span>
 <span class="source-line-no">402</span><span id="line-402"></span>
-<span class="source-line-no">403</span><span id="line-403">    @Override</span>
-<span class="source-line-no">404</span><span id="line-404">    @ParametricNullness</span>
-<span class="source-line-no">405</span><span id="line-405">    public T apply(@ParametricNullness F input) {</span>
-<span class="source-line-no">406</span><span id="line-406">      return supplier.get();</span>
-<span class="source-line-no">407</span><span id="line-407">    }</span>
-<span class="source-line-no">408</span><span id="line-408"></span>
-<span class="source-line-no">409</span><span id="line-409">    @Override</span>
-<span class="source-line-no">410</span><span id="line-410">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">411</span><span id="line-411">      if (obj instanceof SupplierFunction) {</span>
-<span class="source-line-no">412</span><span id="line-412">        SupplierFunction&lt;?, ?&gt; that = (SupplierFunction&lt;?, ?&gt;) obj;</span>
-<span class="source-line-no">413</span><span id="line-413">        return this.supplier.equals(that.supplier);</span>
-<span class="source-line-no">414</span><span id="line-414">      }</span>
-<span class="source-line-no">415</span><span id="line-415">      return false;</span>
-<span class="source-line-no">416</span><span id="line-416">    }</span>
-<span class="source-line-no">417</span><span id="line-417"></span>
-<span class="source-line-no">418</span><span id="line-418">    @Override</span>
-<span class="source-line-no">419</span><span id="line-419">    public int hashCode() {</span>
-<span class="source-line-no">420</span><span id="line-420">      return supplier.hashCode();</span>
-<span class="source-line-no">421</span><span id="line-421">    }</span>
-<span class="source-line-no">422</span><span id="line-422"></span>
-<span class="source-line-no">423</span><span id="line-423">    @Override</span>
-<span class="source-line-no">424</span><span id="line-424">    public String toString() {</span>
-<span class="source-line-no">425</span><span id="line-425">      return "Functions.forSupplier(" + supplier + ")";</span>
-<span class="source-line-no">426</span><span id="line-426">    }</span>
-<span class="source-line-no">427</span><span id="line-427"></span>
-<span class="source-line-no">428</span><span id="line-428">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">429</span><span id="line-429">  }</span>
-<span class="source-line-no">430</span><span id="line-430">}</span>
+<span class="source-line-no">403</span><span id="line-403">    private SupplierFunction(Supplier&lt;T&gt; supplier) {</span>
+<span class="source-line-no">404</span><span id="line-404">      this.supplier = checkNotNull(supplier);</span>
+<span class="source-line-no">405</span><span id="line-405">    }</span>
+<span class="source-line-no">406</span><span id="line-406"></span>
+<span class="source-line-no">407</span><span id="line-407">    @Override</span>
+<span class="source-line-no">408</span><span id="line-408">    @ParametricNullness</span>
+<span class="source-line-no">409</span><span id="line-409">    public T apply(@ParametricNullness F input) {</span>
+<span class="source-line-no">410</span><span id="line-410">      return supplier.get();</span>
+<span class="source-line-no">411</span><span id="line-411">    }</span>
+<span class="source-line-no">412</span><span id="line-412"></span>
+<span class="source-line-no">413</span><span id="line-413">    @Override</span>
+<span class="source-line-no">414</span><span id="line-414">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">415</span><span id="line-415">      if (obj instanceof SupplierFunction) {</span>
+<span class="source-line-no">416</span><span id="line-416">        SupplierFunction&lt;?, ?&gt; that = (SupplierFunction&lt;?, ?&gt;) obj;</span>
+<span class="source-line-no">417</span><span id="line-417">        return this.supplier.equals(that.supplier);</span>
+<span class="source-line-no">418</span><span id="line-418">      }</span>
+<span class="source-line-no">419</span><span id="line-419">      return false;</span>
+<span class="source-line-no">420</span><span id="line-420">    }</span>
+<span class="source-line-no">421</span><span id="line-421"></span>
+<span class="source-line-no">422</span><span id="line-422">    @Override</span>
+<span class="source-line-no">423</span><span id="line-423">    public int hashCode() {</span>
+<span class="source-line-no">424</span><span id="line-424">      return supplier.hashCode();</span>
+<span class="source-line-no">425</span><span id="line-425">    }</span>
+<span class="source-line-no">426</span><span id="line-426"></span>
+<span class="source-line-no">427</span><span id="line-427">    @Override</span>
+<span class="source-line-no">428</span><span id="line-428">    public String toString() {</span>
+<span class="source-line-no">429</span><span id="line-429">      return "Functions.forSupplier(" + supplier + ")";</span>
+<span class="source-line-no">430</span><span id="line-430">    }</span>
+<span class="source-line-no">431</span><span id="line-431"></span>
+<span class="source-line-no">432</span><span id="line-432">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">433</span><span id="line-433">  }</span>
+<span class="source-line-no">434</span><span id="line-434">}</span>
 
 
 

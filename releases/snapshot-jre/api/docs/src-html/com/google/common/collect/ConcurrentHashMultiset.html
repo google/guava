@@ -497,128 +497,132 @@
 <span class="source-line-no">484</span><span id="line-484">    throw new AssertionError("should never be called");</span>
 <span class="source-line-no">485</span><span id="line-485">  }</span>
 <span class="source-line-no">486</span><span id="line-486"></span>
-<span class="source-line-no">487</span><span id="line-487">  /** @deprecated Internal method, use {@link #entrySet()}. */</span>
-<span class="source-line-no">488</span><span id="line-488">  @Deprecated</span>
-<span class="source-line-no">489</span><span id="line-489">  @Override</span>
-<span class="source-line-no">490</span><span id="line-490">  public Set&lt;Multiset.Entry&lt;E&gt;&gt; createEntrySet() {</span>
-<span class="source-line-no">491</span><span id="line-491">    return new EntrySet();</span>
-<span class="source-line-no">492</span><span id="line-492">  }</span>
-<span class="source-line-no">493</span><span id="line-493"></span>
-<span class="source-line-no">494</span><span id="line-494">  @Override</span>
-<span class="source-line-no">495</span><span id="line-495">  int distinctElements() {</span>
-<span class="source-line-no">496</span><span id="line-496">    return countMap.size();</span>
-<span class="source-line-no">497</span><span id="line-497">  }</span>
-<span class="source-line-no">498</span><span id="line-498"></span>
-<span class="source-line-no">499</span><span id="line-499">  @Override</span>
-<span class="source-line-no">500</span><span id="line-500">  public boolean isEmpty() {</span>
-<span class="source-line-no">501</span><span id="line-501">    return countMap.isEmpty();</span>
-<span class="source-line-no">502</span><span id="line-502">  }</span>
-<span class="source-line-no">503</span><span id="line-503"></span>
-<span class="source-line-no">504</span><span id="line-504">  @Override</span>
-<span class="source-line-no">505</span><span id="line-505">  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {</span>
-<span class="source-line-no">506</span><span id="line-506">    // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support</span>
-<span class="source-line-no">507</span><span id="line-507">    // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.</span>
-<span class="source-line-no">508</span><span id="line-508">    Iterator&lt;Entry&lt;E&gt;&gt; readOnlyIterator =</span>
-<span class="source-line-no">509</span><span id="line-509">        new AbstractIterator&lt;Entry&lt;E&gt;&gt;() {</span>
-<span class="source-line-no">510</span><span id="line-510">          private final Iterator&lt;Map.Entry&lt;E, AtomicInteger&gt;&gt; mapEntries =</span>
-<span class="source-line-no">511</span><span id="line-511">              countMap.entrySet().iterator();</span>
-<span class="source-line-no">512</span><span id="line-512"></span>
-<span class="source-line-no">513</span><span id="line-513">          @Override</span>
-<span class="source-line-no">514</span><span id="line-514">          protected @Nullable Entry&lt;E&gt; computeNext() {</span>
-<span class="source-line-no">515</span><span id="line-515">            while (true) {</span>
-<span class="source-line-no">516</span><span id="line-516">              if (!mapEntries.hasNext()) {</span>
-<span class="source-line-no">517</span><span id="line-517">                return endOfData();</span>
-<span class="source-line-no">518</span><span id="line-518">              }</span>
-<span class="source-line-no">519</span><span id="line-519">              Map.Entry&lt;E, AtomicInteger&gt; mapEntry = mapEntries.next();</span>
-<span class="source-line-no">520</span><span id="line-520">              int count = mapEntry.getValue().get();</span>
-<span class="source-line-no">521</span><span id="line-521">              if (count != 0) {</span>
-<span class="source-line-no">522</span><span id="line-522">                return Multisets.immutableEntry(mapEntry.getKey(), count);</span>
-<span class="source-line-no">523</span><span id="line-523">              }</span>
-<span class="source-line-no">524</span><span id="line-524">            }</span>
-<span class="source-line-no">525</span><span id="line-525">          }</span>
-<span class="source-line-no">526</span><span id="line-526">        };</span>
-<span class="source-line-no">527</span><span id="line-527"></span>
-<span class="source-line-no">528</span><span id="line-528">    return new ForwardingIterator&lt;Entry&lt;E&gt;&gt;() {</span>
-<span class="source-line-no">529</span><span id="line-529">      private @Nullable Entry&lt;E&gt; last;</span>
-<span class="source-line-no">530</span><span id="line-530"></span>
-<span class="source-line-no">531</span><span id="line-531">      @Override</span>
-<span class="source-line-no">532</span><span id="line-532">      protected Iterator&lt;Entry&lt;E&gt;&gt; delegate() {</span>
-<span class="source-line-no">533</span><span id="line-533">        return readOnlyIterator;</span>
-<span class="source-line-no">534</span><span id="line-534">      }</span>
-<span class="source-line-no">535</span><span id="line-535"></span>
-<span class="source-line-no">536</span><span id="line-536">      @Override</span>
-<span class="source-line-no">537</span><span id="line-537">      public Entry&lt;E&gt; next() {</span>
-<span class="source-line-no">538</span><span id="line-538">        last = super.next();</span>
-<span class="source-line-no">539</span><span id="line-539">        return last;</span>
-<span class="source-line-no">540</span><span id="line-540">      }</span>
-<span class="source-line-no">541</span><span id="line-541"></span>
-<span class="source-line-no">542</span><span id="line-542">      @Override</span>
-<span class="source-line-no">543</span><span id="line-543">      public void remove() {</span>
-<span class="source-line-no">544</span><span id="line-544">        checkState(last != null, "no calls to next() since the last call to remove()");</span>
-<span class="source-line-no">545</span><span id="line-545">        ConcurrentHashMultiset.this.setCount(last.getElement(), 0);</span>
-<span class="source-line-no">546</span><span id="line-546">        last = null;</span>
-<span class="source-line-no">547</span><span id="line-547">      }</span>
-<span class="source-line-no">548</span><span id="line-548">    };</span>
-<span class="source-line-no">549</span><span id="line-549">  }</span>
-<span class="source-line-no">550</span><span id="line-550"></span>
-<span class="source-line-no">551</span><span id="line-551">  @Override</span>
-<span class="source-line-no">552</span><span id="line-552">  public Iterator&lt;E&gt; iterator() {</span>
-<span class="source-line-no">553</span><span id="line-553">    return Multisets.iteratorImpl(this);</span>
-<span class="source-line-no">554</span><span id="line-554">  }</span>
-<span class="source-line-no">555</span><span id="line-555"></span>
-<span class="source-line-no">556</span><span id="line-556">  @Override</span>
-<span class="source-line-no">557</span><span id="line-557">  public void clear() {</span>
-<span class="source-line-no">558</span><span id="line-558">    countMap.clear();</span>
-<span class="source-line-no">559</span><span id="line-559">  }</span>
-<span class="source-line-no">560</span><span id="line-560"></span>
-<span class="source-line-no">561</span><span id="line-561">  @WeakOuter</span>
-<span class="source-line-no">562</span><span id="line-562">  private class EntrySet extends AbstractMultiset&lt;E&gt;.EntrySet {</span>
-<span class="source-line-no">563</span><span id="line-563">    @Override</span>
-<span class="source-line-no">564</span><span id="line-564">    ConcurrentHashMultiset&lt;E&gt; multiset() {</span>
-<span class="source-line-no">565</span><span id="line-565">      return ConcurrentHashMultiset.this;</span>
-<span class="source-line-no">566</span><span id="line-566">    }</span>
-<span class="source-line-no">567</span><span id="line-567"></span>
-<span class="source-line-no">568</span><span id="line-568">    /*</span>
-<span class="source-line-no">569</span><span id="line-569">     * Note: the superclass toArray() methods assume that size() gives a correct</span>
-<span class="source-line-no">570</span><span id="line-570">     * answer, which ours does not.</span>
-<span class="source-line-no">571</span><span id="line-571">     */</span>
-<span class="source-line-no">572</span><span id="line-572"></span>
-<span class="source-line-no">573</span><span id="line-573">    @Override</span>
-<span class="source-line-no">574</span><span id="line-574">    public Object[] toArray() {</span>
-<span class="source-line-no">575</span><span id="line-575">      return snapshot().toArray();</span>
-<span class="source-line-no">576</span><span id="line-576">    }</span>
-<span class="source-line-no">577</span><span id="line-577"></span>
-<span class="source-line-no">578</span><span id="line-578">    @Override</span>
-<span class="source-line-no">579</span><span id="line-579">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</span>
-<span class="source-line-no">580</span><span id="line-580">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</span>
-<span class="source-line-no">581</span><span id="line-581">      return snapshot().toArray(array);</span>
-<span class="source-line-no">582</span><span id="line-582">    }</span>
-<span class="source-line-no">583</span><span id="line-583"></span>
-<span class="source-line-no">584</span><span id="line-584">    private List&lt;Multiset.Entry&lt;E&gt;&gt; snapshot() {</span>
-<span class="source-line-no">585</span><span id="line-585">      List&lt;Multiset.Entry&lt;E&gt;&gt; list = newArrayListWithExpectedSize(size());</span>
-<span class="source-line-no">586</span><span id="line-586">      // Not Iterables.addAll(list, this), because that'll forward right back here.</span>
-<span class="source-line-no">587</span><span id="line-587">      Iterators.addAll(list, iterator());</span>
-<span class="source-line-no">588</span><span id="line-588">      return list;</span>
-<span class="source-line-no">589</span><span id="line-589">    }</span>
-<span class="source-line-no">590</span><span id="line-590">  }</span>
-<span class="source-line-no">591</span><span id="line-591"></span>
-<span class="source-line-no">592</span><span id="line-592">  /** @serialData the ConcurrentMap of elements and their counts. */</span>
-<span class="source-line-no">593</span><span id="line-593">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
-<span class="source-line-no">594</span><span id="line-594">    stream.defaultWriteObject();</span>
-<span class="source-line-no">595</span><span id="line-595">    stream.writeObject(countMap);</span>
-<span class="source-line-no">596</span><span id="line-596">  }</span>
-<span class="source-line-no">597</span><span id="line-597"></span>
-<span class="source-line-no">598</span><span id="line-598">  @J2ktIncompatible // serialization</span>
-<span class="source-line-no">599</span><span id="line-599">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
-<span class="source-line-no">600</span><span id="line-600">    stream.defaultReadObject();</span>
-<span class="source-line-no">601</span><span id="line-601">    @SuppressWarnings("unchecked") // reading data stored by writeObject</span>
-<span class="source-line-no">602</span><span id="line-602">    ConcurrentMap&lt;E, Integer&gt; deserializedCountMap =</span>
-<span class="source-line-no">603</span><span id="line-603">        (ConcurrentMap&lt;E, Integer&gt;) requireNonNull(stream.readObject());</span>
-<span class="source-line-no">604</span><span id="line-604">    FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);</span>
-<span class="source-line-no">605</span><span id="line-605">  }</span>
-<span class="source-line-no">606</span><span id="line-606"></span>
-<span class="source-line-no">607</span><span id="line-607">  private static final long serialVersionUID = 1;</span>
-<span class="source-line-no">608</span><span id="line-608">}</span>
+<span class="source-line-no">487</span><span id="line-487">  /**</span>
+<span class="source-line-no">488</span><span id="line-488">   * @deprecated Internal method, use {@link #entrySet()}.</span>
+<span class="source-line-no">489</span><span id="line-489">   */</span>
+<span class="source-line-no">490</span><span id="line-490">  @Deprecated</span>
+<span class="source-line-no">491</span><span id="line-491">  @Override</span>
+<span class="source-line-no">492</span><span id="line-492">  public Set&lt;Multiset.Entry&lt;E&gt;&gt; createEntrySet() {</span>
+<span class="source-line-no">493</span><span id="line-493">    return new EntrySet();</span>
+<span class="source-line-no">494</span><span id="line-494">  }</span>
+<span class="source-line-no">495</span><span id="line-495"></span>
+<span class="source-line-no">496</span><span id="line-496">  @Override</span>
+<span class="source-line-no">497</span><span id="line-497">  int distinctElements() {</span>
+<span class="source-line-no">498</span><span id="line-498">    return countMap.size();</span>
+<span class="source-line-no">499</span><span id="line-499">  }</span>
+<span class="source-line-no">500</span><span id="line-500"></span>
+<span class="source-line-no">501</span><span id="line-501">  @Override</span>
+<span class="source-line-no">502</span><span id="line-502">  public boolean isEmpty() {</span>
+<span class="source-line-no">503</span><span id="line-503">    return countMap.isEmpty();</span>
+<span class="source-line-no">504</span><span id="line-504">  }</span>
+<span class="source-line-no">505</span><span id="line-505"></span>
+<span class="source-line-no">506</span><span id="line-506">  @Override</span>
+<span class="source-line-no">507</span><span id="line-507">  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {</span>
+<span class="source-line-no">508</span><span id="line-508">    // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support</span>
+<span class="source-line-no">509</span><span id="line-509">    // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.</span>
+<span class="source-line-no">510</span><span id="line-510">    Iterator&lt;Entry&lt;E&gt;&gt; readOnlyIterator =</span>
+<span class="source-line-no">511</span><span id="line-511">        new AbstractIterator&lt;Entry&lt;E&gt;&gt;() {</span>
+<span class="source-line-no">512</span><span id="line-512">          private final Iterator&lt;Map.Entry&lt;E, AtomicInteger&gt;&gt; mapEntries =</span>
+<span class="source-line-no">513</span><span id="line-513">              countMap.entrySet().iterator();</span>
+<span class="source-line-no">514</span><span id="line-514"></span>
+<span class="source-line-no">515</span><span id="line-515">          @Override</span>
+<span class="source-line-no">516</span><span id="line-516">          protected @Nullable Entry&lt;E&gt; computeNext() {</span>
+<span class="source-line-no">517</span><span id="line-517">            while (true) {</span>
+<span class="source-line-no">518</span><span id="line-518">              if (!mapEntries.hasNext()) {</span>
+<span class="source-line-no">519</span><span id="line-519">                return endOfData();</span>
+<span class="source-line-no">520</span><span id="line-520">              }</span>
+<span class="source-line-no">521</span><span id="line-521">              Map.Entry&lt;E, AtomicInteger&gt; mapEntry = mapEntries.next();</span>
+<span class="source-line-no">522</span><span id="line-522">              int count = mapEntry.getValue().get();</span>
+<span class="source-line-no">523</span><span id="line-523">              if (count != 0) {</span>
+<span class="source-line-no">524</span><span id="line-524">                return Multisets.immutableEntry(mapEntry.getKey(), count);</span>
+<span class="source-line-no">525</span><span id="line-525">              }</span>
+<span class="source-line-no">526</span><span id="line-526">            }</span>
+<span class="source-line-no">527</span><span id="line-527">          }</span>
+<span class="source-line-no">528</span><span id="line-528">        };</span>
+<span class="source-line-no">529</span><span id="line-529"></span>
+<span class="source-line-no">530</span><span id="line-530">    return new ForwardingIterator&lt;Entry&lt;E&gt;&gt;() {</span>
+<span class="source-line-no">531</span><span id="line-531">      private @Nullable Entry&lt;E&gt; last;</span>
+<span class="source-line-no">532</span><span id="line-532"></span>
+<span class="source-line-no">533</span><span id="line-533">      @Override</span>
+<span class="source-line-no">534</span><span id="line-534">      protected Iterator&lt;Entry&lt;E&gt;&gt; delegate() {</span>
+<span class="source-line-no">535</span><span id="line-535">        return readOnlyIterator;</span>
+<span class="source-line-no">536</span><span id="line-536">      }</span>
+<span class="source-line-no">537</span><span id="line-537"></span>
+<span class="source-line-no">538</span><span id="line-538">      @Override</span>
+<span class="source-line-no">539</span><span id="line-539">      public Entry&lt;E&gt; next() {</span>
+<span class="source-line-no">540</span><span id="line-540">        last = super.next();</span>
+<span class="source-line-no">541</span><span id="line-541">        return last;</span>
+<span class="source-line-no">542</span><span id="line-542">      }</span>
+<span class="source-line-no">543</span><span id="line-543"></span>
+<span class="source-line-no">544</span><span id="line-544">      @Override</span>
+<span class="source-line-no">545</span><span id="line-545">      public void remove() {</span>
+<span class="source-line-no">546</span><span id="line-546">        checkState(last != null, "no calls to next() since the last call to remove()");</span>
+<span class="source-line-no">547</span><span id="line-547">        ConcurrentHashMultiset.this.setCount(last.getElement(), 0);</span>
+<span class="source-line-no">548</span><span id="line-548">        last = null;</span>
+<span class="source-line-no">549</span><span id="line-549">      }</span>
+<span class="source-line-no">550</span><span id="line-550">    };</span>
+<span class="source-line-no">551</span><span id="line-551">  }</span>
+<span class="source-line-no">552</span><span id="line-552"></span>
+<span class="source-line-no">553</span><span id="line-553">  @Override</span>
+<span class="source-line-no">554</span><span id="line-554">  public Iterator&lt;E&gt; iterator() {</span>
+<span class="source-line-no">555</span><span id="line-555">    return Multisets.iteratorImpl(this);</span>
+<span class="source-line-no">556</span><span id="line-556">  }</span>
+<span class="source-line-no">557</span><span id="line-557"></span>
+<span class="source-line-no">558</span><span id="line-558">  @Override</span>
+<span class="source-line-no">559</span><span id="line-559">  public void clear() {</span>
+<span class="source-line-no">560</span><span id="line-560">    countMap.clear();</span>
+<span class="source-line-no">561</span><span id="line-561">  }</span>
+<span class="source-line-no">562</span><span id="line-562"></span>
+<span class="source-line-no">563</span><span id="line-563">  @WeakOuter</span>
+<span class="source-line-no">564</span><span id="line-564">  private class EntrySet extends AbstractMultiset&lt;E&gt;.EntrySet {</span>
+<span class="source-line-no">565</span><span id="line-565">    @Override</span>
+<span class="source-line-no">566</span><span id="line-566">    ConcurrentHashMultiset&lt;E&gt; multiset() {</span>
+<span class="source-line-no">567</span><span id="line-567">      return ConcurrentHashMultiset.this;</span>
+<span class="source-line-no">568</span><span id="line-568">    }</span>
+<span class="source-line-no">569</span><span id="line-569"></span>
+<span class="source-line-no">570</span><span id="line-570">    /*</span>
+<span class="source-line-no">571</span><span id="line-571">     * Note: the superclass toArray() methods assume that size() gives a correct</span>
+<span class="source-line-no">572</span><span id="line-572">     * answer, which ours does not.</span>
+<span class="source-line-no">573</span><span id="line-573">     */</span>
+<span class="source-line-no">574</span><span id="line-574"></span>
+<span class="source-line-no">575</span><span id="line-575">    @Override</span>
+<span class="source-line-no">576</span><span id="line-576">    public Object[] toArray() {</span>
+<span class="source-line-no">577</span><span id="line-577">      return snapshot().toArray();</span>
+<span class="source-line-no">578</span><span id="line-578">    }</span>
+<span class="source-line-no">579</span><span id="line-579"></span>
+<span class="source-line-no">580</span><span id="line-580">    @Override</span>
+<span class="source-line-no">581</span><span id="line-581">    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations</span>
+<span class="source-line-no">582</span><span id="line-582">    public &lt;T extends @Nullable Object&gt; T[] toArray(T[] array) {</span>
+<span class="source-line-no">583</span><span id="line-583">      return snapshot().toArray(array);</span>
+<span class="source-line-no">584</span><span id="line-584">    }</span>
+<span class="source-line-no">585</span><span id="line-585"></span>
+<span class="source-line-no">586</span><span id="line-586">    private List&lt;Multiset.Entry&lt;E&gt;&gt; snapshot() {</span>
+<span class="source-line-no">587</span><span id="line-587">      List&lt;Multiset.Entry&lt;E&gt;&gt; list = newArrayListWithExpectedSize(size());</span>
+<span class="source-line-no">588</span><span id="line-588">      // Not Iterables.addAll(list, this), because that'll forward right back here.</span>
+<span class="source-line-no">589</span><span id="line-589">      Iterators.addAll(list, iterator());</span>
+<span class="source-line-no">590</span><span id="line-590">      return list;</span>
+<span class="source-line-no">591</span><span id="line-591">    }</span>
+<span class="source-line-no">592</span><span id="line-592">  }</span>
+<span class="source-line-no">593</span><span id="line-593"></span>
+<span class="source-line-no">594</span><span id="line-594">  /**</span>
+<span class="source-line-no">595</span><span id="line-595">   * @serialData the ConcurrentMap of elements and their counts.</span>
+<span class="source-line-no">596</span><span id="line-596">   */</span>
+<span class="source-line-no">597</span><span id="line-597">  private void writeObject(ObjectOutputStream stream) throws IOException {</span>
+<span class="source-line-no">598</span><span id="line-598">    stream.defaultWriteObject();</span>
+<span class="source-line-no">599</span><span id="line-599">    stream.writeObject(countMap);</span>
+<span class="source-line-no">600</span><span id="line-600">  }</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">  @J2ktIncompatible // serialization</span>
+<span class="source-line-no">603</span><span id="line-603">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</span>
+<span class="source-line-no">604</span><span id="line-604">    stream.defaultReadObject();</span>
+<span class="source-line-no">605</span><span id="line-605">    @SuppressWarnings("unchecked") // reading data stored by writeObject</span>
+<span class="source-line-no">606</span><span id="line-606">    ConcurrentMap&lt;E, Integer&gt; deserializedCountMap =</span>
+<span class="source-line-no">607</span><span id="line-607">        (ConcurrentMap&lt;E, Integer&gt;) requireNonNull(stream.readObject());</span>
+<span class="source-line-no">608</span><span id="line-608">    FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);</span>
+<span class="source-line-no">609</span><span id="line-609">  }</span>
+<span class="source-line-no">610</span><span id="line-610"></span>
+<span class="source-line-no">611</span><span id="line-611">  private static final long serialVersionUID = 1;</span>
+<span class="source-line-no">612</span><span id="line-612">}</span>
 
 
 

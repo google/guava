@@ -855,7 +855,7 @@
 <span class="source-line-no">842</span><span id="line-842">  protected boolean set(@ParametricNullness V value) {</span>
 <span class="source-line-no">843</span><span id="line-843">    Object valueToSet = value == null ? NULL : value;</span>
 <span class="source-line-no">844</span><span id="line-844">    if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {</span>
-<span class="source-line-no">845</span><span id="line-845">      complete(this, /*callInterruptTask=*/ false);</span>
+<span class="source-line-no">845</span><span id="line-845">      complete(this, /* callInterruptTask= */ false);</span>
 <span class="source-line-no">846</span><span id="line-846">      return true;</span>
 <span class="source-line-no">847</span><span id="line-847">    }</span>
 <span class="source-line-no">848</span><span id="line-848">    return false;</span>
@@ -880,7 +880,7 @@
 <span class="source-line-no">867</span><span id="line-867">  protected boolean setException(Throwable throwable) {</span>
 <span class="source-line-no">868</span><span id="line-868">    Object valueToSet = new Failure(checkNotNull(throwable));</span>
 <span class="source-line-no">869</span><span id="line-869">    if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {</span>
-<span class="source-line-no">870</span><span id="line-870">      complete(this, /*callInterruptTask=*/ false);</span>
+<span class="source-line-no">870</span><span id="line-870">      complete(this, /* callInterruptTask= */ false);</span>
 <span class="source-line-no">871</span><span id="line-871">      return true;</span>
 <span class="source-line-no">872</span><span id="line-872">    }</span>
 <span class="source-line-no">873</span><span id="line-873">    return false;</span>

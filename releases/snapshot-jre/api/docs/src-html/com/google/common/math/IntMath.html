@@ -130,7 +130,7 @@
 <span class="source-line-no">117</span><span id="line-117">    switch (mode) {</span>
 <span class="source-line-no">118</span><span id="line-118">      case UNNECESSARY:</span>
 <span class="source-line-no">119</span><span id="line-119">        checkRoundingUnnecessary(isPowerOfTwo(x));</span>
-<span class="source-line-no">120</span><span id="line-120">        // fall through</span>
+<span class="source-line-no">120</span><span id="line-120">      // fall through</span>
 <span class="source-line-no">121</span><span id="line-121">      case DOWN:</span>
 <span class="source-line-no">122</span><span id="line-122">      case FLOOR:</span>
 <span class="source-line-no">123</span><span id="line-123">        return (Integer.SIZE - 1) - Integer.numberOfLeadingZeros(x);</span>
@@ -171,7 +171,7 @@
 <span class="source-line-no">158</span><span id="line-158">    switch (mode) {</span>
 <span class="source-line-no">159</span><span id="line-159">      case UNNECESSARY:</span>
 <span class="source-line-no">160</span><span id="line-160">        checkRoundingUnnecessary(x == floorPow);</span>
-<span class="source-line-no">161</span><span id="line-161">        // fall through</span>
+<span class="source-line-no">161</span><span id="line-161">      // fall through</span>
 <span class="source-line-no">162</span><span id="line-162">      case FLOOR:</span>
 <span class="source-line-no">163</span><span id="line-163">      case DOWN:</span>
 <span class="source-line-no">164</span><span id="line-164">        return logFloor;</span>
@@ -344,7 +344,7 @@
 <span class="source-line-no">331</span><span id="line-331">    switch (mode) {</span>
 <span class="source-line-no">332</span><span id="line-332">      case UNNECESSARY:</span>
 <span class="source-line-no">333</span><span id="line-333">        checkRoundingUnnecessary(rem == 0);</span>
-<span class="source-line-no">334</span><span id="line-334">        // fall through</span>
+<span class="source-line-no">334</span><span id="line-334">      // fall through</span>
 <span class="source-line-no">335</span><span id="line-335">      case DOWN:</span>
 <span class="source-line-no">336</span><span id="line-336">        increment = false;</span>
 <span class="source-line-no">337</span><span id="line-337">        break;</span>

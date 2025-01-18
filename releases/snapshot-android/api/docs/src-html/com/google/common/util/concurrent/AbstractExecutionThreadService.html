@@ -173,70 +173,86 @@
 <span class="source-line-no">160</span><span id="line-160">    return delegate.state();</span>
 <span class="source-line-no">161</span><span id="line-161">  }</span>
 <span class="source-line-no">162</span><span id="line-162"></span>
-<span class="source-line-no">163</span><span id="line-163">  /** @since 13.0 */</span>
-<span class="source-line-no">164</span><span id="line-164">  @Override</span>
-<span class="source-line-no">165</span><span id="line-165">  public final void addListener(Listener listener, Executor executor) {</span>
-<span class="source-line-no">166</span><span id="line-166">    delegate.addListener(listener, executor);</span>
-<span class="source-line-no">167</span><span id="line-167">  }</span>
-<span class="source-line-no">168</span><span id="line-168"></span>
-<span class="source-line-no">169</span><span id="line-169">  /** @since 14.0 */</span>
-<span class="source-line-no">170</span><span id="line-170">  @Override</span>
-<span class="source-line-no">171</span><span id="line-171">  public final Throwable failureCause() {</span>
-<span class="source-line-no">172</span><span id="line-172">    return delegate.failureCause();</span>
-<span class="source-line-no">173</span><span id="line-173">  }</span>
-<span class="source-line-no">174</span><span id="line-174"></span>
-<span class="source-line-no">175</span><span id="line-175">  /** @since 15.0 */</span>
-<span class="source-line-no">176</span><span id="line-176">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">177</span><span id="line-177">  @Override</span>
-<span class="source-line-no">178</span><span id="line-178">  public final Service startAsync() {</span>
-<span class="source-line-no">179</span><span id="line-179">    delegate.startAsync();</span>
-<span class="source-line-no">180</span><span id="line-180">    return this;</span>
-<span class="source-line-no">181</span><span id="line-181">  }</span>
-<span class="source-line-no">182</span><span id="line-182"></span>
-<span class="source-line-no">183</span><span id="line-183">  /** @since 15.0 */</span>
-<span class="source-line-no">184</span><span id="line-184">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">185</span><span id="line-185">  @Override</span>
-<span class="source-line-no">186</span><span id="line-186">  public final Service stopAsync() {</span>
-<span class="source-line-no">187</span><span id="line-187">    delegate.stopAsync();</span>
-<span class="source-line-no">188</span><span id="line-188">    return this;</span>
-<span class="source-line-no">189</span><span id="line-189">  }</span>
-<span class="source-line-no">190</span><span id="line-190"></span>
-<span class="source-line-no">191</span><span id="line-191">  /** @since 15.0 */</span>
-<span class="source-line-no">192</span><span id="line-192">  @Override</span>
-<span class="source-line-no">193</span><span id="line-193">  public final void awaitRunning() {</span>
-<span class="source-line-no">194</span><span id="line-194">    delegate.awaitRunning();</span>
-<span class="source-line-no">195</span><span id="line-195">  }</span>
-<span class="source-line-no">196</span><span id="line-196"></span>
-<span class="source-line-no">197</span><span id="line-197">  /** @since 15.0 */</span>
-<span class="source-line-no">198</span><span id="line-198">  @Override</span>
-<span class="source-line-no">199</span><span id="line-199">  public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {</span>
-<span class="source-line-no">200</span><span id="line-200">    delegate.awaitRunning(timeout, unit);</span>
-<span class="source-line-no">201</span><span id="line-201">  }</span>
-<span class="source-line-no">202</span><span id="line-202"></span>
-<span class="source-line-no">203</span><span id="line-203">  /** @since 15.0 */</span>
-<span class="source-line-no">204</span><span id="line-204">  @Override</span>
-<span class="source-line-no">205</span><span id="line-205">  public final void awaitTerminated() {</span>
-<span class="source-line-no">206</span><span id="line-206">    delegate.awaitTerminated();</span>
-<span class="source-line-no">207</span><span id="line-207">  }</span>
-<span class="source-line-no">208</span><span id="line-208"></span>
-<span class="source-line-no">209</span><span id="line-209">  /** @since 15.0 */</span>
+<span class="source-line-no">163</span><span id="line-163">  /**</span>
+<span class="source-line-no">164</span><span id="line-164">   * @since 13.0</span>
+<span class="source-line-no">165</span><span id="line-165">   */</span>
+<span class="source-line-no">166</span><span id="line-166">  @Override</span>
+<span class="source-line-no">167</span><span id="line-167">  public final void addListener(Listener listener, Executor executor) {</span>
+<span class="source-line-no">168</span><span id="line-168">    delegate.addListener(listener, executor);</span>
+<span class="source-line-no">169</span><span id="line-169">  }</span>
+<span class="source-line-no">170</span><span id="line-170"></span>
+<span class="source-line-no">171</span><span id="line-171">  /**</span>
+<span class="source-line-no">172</span><span id="line-172">   * @since 14.0</span>
+<span class="source-line-no">173</span><span id="line-173">   */</span>
+<span class="source-line-no">174</span><span id="line-174">  @Override</span>
+<span class="source-line-no">175</span><span id="line-175">  public final Throwable failureCause() {</span>
+<span class="source-line-no">176</span><span id="line-176">    return delegate.failureCause();</span>
+<span class="source-line-no">177</span><span id="line-177">  }</span>
+<span class="source-line-no">178</span><span id="line-178"></span>
+<span class="source-line-no">179</span><span id="line-179">  /**</span>
+<span class="source-line-no">180</span><span id="line-180">   * @since 15.0</span>
+<span class="source-line-no">181</span><span id="line-181">   */</span>
+<span class="source-line-no">182</span><span id="line-182">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">183</span><span id="line-183">  @Override</span>
+<span class="source-line-no">184</span><span id="line-184">  public final Service startAsync() {</span>
+<span class="source-line-no">185</span><span id="line-185">    delegate.startAsync();</span>
+<span class="source-line-no">186</span><span id="line-186">    return this;</span>
+<span class="source-line-no">187</span><span id="line-187">  }</span>
+<span class="source-line-no">188</span><span id="line-188"></span>
+<span class="source-line-no">189</span><span id="line-189">  /**</span>
+<span class="source-line-no">190</span><span id="line-190">   * @since 15.0</span>
+<span class="source-line-no">191</span><span id="line-191">   */</span>
+<span class="source-line-no">192</span><span id="line-192">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">193</span><span id="line-193">  @Override</span>
+<span class="source-line-no">194</span><span id="line-194">  public final Service stopAsync() {</span>
+<span class="source-line-no">195</span><span id="line-195">    delegate.stopAsync();</span>
+<span class="source-line-no">196</span><span id="line-196">    return this;</span>
+<span class="source-line-no">197</span><span id="line-197">  }</span>
+<span class="source-line-no">198</span><span id="line-198"></span>
+<span class="source-line-no">199</span><span id="line-199">  /**</span>
+<span class="source-line-no">200</span><span id="line-200">   * @since 15.0</span>
+<span class="source-line-no">201</span><span id="line-201">   */</span>
+<span class="source-line-no">202</span><span id="line-202">  @Override</span>
+<span class="source-line-no">203</span><span id="line-203">  public final void awaitRunning() {</span>
+<span class="source-line-no">204</span><span id="line-204">    delegate.awaitRunning();</span>
+<span class="source-line-no">205</span><span id="line-205">  }</span>
+<span class="source-line-no">206</span><span id="line-206"></span>
+<span class="source-line-no">207</span><span id="line-207">  /**</span>
+<span class="source-line-no">208</span><span id="line-208">   * @since 15.0</span>
+<span class="source-line-no">209</span><span id="line-209">   */</span>
 <span class="source-line-no">210</span><span id="line-210">  @Override</span>
-<span class="source-line-no">211</span><span id="line-211">  public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {</span>
-<span class="source-line-no">212</span><span id="line-212">    delegate.awaitTerminated(timeout, unit);</span>
+<span class="source-line-no">211</span><span id="line-211">  public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {</span>
+<span class="source-line-no">212</span><span id="line-212">    delegate.awaitRunning(timeout, unit);</span>
 <span class="source-line-no">213</span><span id="line-213">  }</span>
 <span class="source-line-no">214</span><span id="line-214"></span>
 <span class="source-line-no">215</span><span id="line-215">  /**</span>
-<span class="source-line-no">216</span><span id="line-216">   * Returns the name of this service. {@link AbstractExecutionThreadService} may include the name</span>
-<span class="source-line-no">217</span><span id="line-217">   * in debugging output.</span>
-<span class="source-line-no">218</span><span id="line-218">   *</span>
-<span class="source-line-no">219</span><span id="line-219">   * &lt;p&gt;Subclasses may override this method.</span>
-<span class="source-line-no">220</span><span id="line-220">   *</span>
-<span class="source-line-no">221</span><span id="line-221">   * @since 14.0 (present in 10.0 as getServiceName)</span>
-<span class="source-line-no">222</span><span id="line-222">   */</span>
-<span class="source-line-no">223</span><span id="line-223">  protected String serviceName() {</span>
-<span class="source-line-no">224</span><span id="line-224">    return getClass().getSimpleName();</span>
-<span class="source-line-no">225</span><span id="line-225">  }</span>
-<span class="source-line-no">226</span><span id="line-226">}</span>
+<span class="source-line-no">216</span><span id="line-216">   * @since 15.0</span>
+<span class="source-line-no">217</span><span id="line-217">   */</span>
+<span class="source-line-no">218</span><span id="line-218">  @Override</span>
+<span class="source-line-no">219</span><span id="line-219">  public final void awaitTerminated() {</span>
+<span class="source-line-no">220</span><span id="line-220">    delegate.awaitTerminated();</span>
+<span class="source-line-no">221</span><span id="line-221">  }</span>
+<span class="source-line-no">222</span><span id="line-222"></span>
+<span class="source-line-no">223</span><span id="line-223">  /**</span>
+<span class="source-line-no">224</span><span id="line-224">   * @since 15.0</span>
+<span class="source-line-no">225</span><span id="line-225">   */</span>
+<span class="source-line-no">226</span><span id="line-226">  @Override</span>
+<span class="source-line-no">227</span><span id="line-227">  public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {</span>
+<span class="source-line-no">228</span><span id="line-228">    delegate.awaitTerminated(timeout, unit);</span>
+<span class="source-line-no">229</span><span id="line-229">  }</span>
+<span class="source-line-no">230</span><span id="line-230"></span>
+<span class="source-line-no">231</span><span id="line-231">  /**</span>
+<span class="source-line-no">232</span><span id="line-232">   * Returns the name of this service. {@link AbstractExecutionThreadService} may include the name</span>
+<span class="source-line-no">233</span><span id="line-233">   * in debugging output.</span>
+<span class="source-line-no">234</span><span id="line-234">   *</span>
+<span class="source-line-no">235</span><span id="line-235">   * &lt;p&gt;Subclasses may override this method.</span>
+<span class="source-line-no">236</span><span id="line-236">   *</span>
+<span class="source-line-no">237</span><span id="line-237">   * @since 14.0 (present in 10.0 as getServiceName)</span>
+<span class="source-line-no">238</span><span id="line-238">   */</span>
+<span class="source-line-no">239</span><span id="line-239">  protected String serviceName() {</span>
+<span class="source-line-no">240</span><span id="line-240">    return getClass().getSimpleName();</span>
+<span class="source-line-no">241</span><span id="line-241">  }</span>
+<span class="source-line-no">242</span><span id="line-242">}</span>
 
 
 

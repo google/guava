@@ -109,52 +109,54 @@
 <span class="source-line-no">096</span><span id="line-96">    return getDeclaredAnnotationsByType(annotationType);</span>
 <span class="source-line-no">097</span><span id="line-97">  }</span>
 <span class="source-line-no">098</span><span id="line-98"></span>
-<span class="source-line-no">099</span><span id="line-99">  /** @since 18.0 */</span>
-<span class="source-line-no">100</span><span id="line-100">  @Override</span>
-<span class="source-line-no">101</span><span id="line-101">  public Annotation[] getDeclaredAnnotations() {</span>
-<span class="source-line-no">102</span><span id="line-102">    return annotations.toArray(new Annotation[0]);</span>
-<span class="source-line-no">103</span><span id="line-103">  }</span>
-<span class="source-line-no">104</span><span id="line-104"></span>
-<span class="source-line-no">105</span><span id="line-105">  /**</span>
-<span class="source-line-no">106</span><span id="line-106">   * @since 18.0</span>
-<span class="source-line-no">107</span><span id="line-107">   */</span>
-<span class="source-line-no">108</span><span id="line-108">  @Override</span>
-<span class="source-line-no">109</span><span id="line-109">  public &lt;A extends Annotation&gt; @Nullable A getDeclaredAnnotation(Class&lt;A&gt; annotationType) {</span>
-<span class="source-line-no">110</span><span id="line-110">    checkNotNull(annotationType);</span>
-<span class="source-line-no">111</span><span id="line-111">    return FluentIterable.from(annotations).filter(annotationType).first().orNull();</span>
-<span class="source-line-no">112</span><span id="line-112">  }</span>
-<span class="source-line-no">113</span><span id="line-113"></span>
-<span class="source-line-no">114</span><span id="line-114">  /**</span>
-<span class="source-line-no">115</span><span id="line-115">   * @since 18.0</span>
-<span class="source-line-no">116</span><span id="line-116">   */</span>
-<span class="source-line-no">117</span><span id="line-117">  @Override</span>
-<span class="source-line-no">118</span><span id="line-118">  public &lt;A extends Annotation&gt; A[] getDeclaredAnnotationsByType(Class&lt;A&gt; annotationType) {</span>
-<span class="source-line-no">119</span><span id="line-119">    @Nullable</span>
-<span class="source-line-no">120</span><span id="line-120">    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);</span>
-<span class="source-line-no">121</span><span id="line-121">    @SuppressWarnings("nullness") // safe because the input list contains no nulls</span>
-<span class="source-line-no">122</span><span id="line-122">    A[] cast = (A[]) result;</span>
-<span class="source-line-no">123</span><span id="line-123">    return cast;</span>
-<span class="source-line-no">124</span><span id="line-124">  }</span>
-<span class="source-line-no">125</span><span id="line-125"></span>
-<span class="source-line-no">126</span><span id="line-126">  @Override</span>
-<span class="source-line-no">127</span><span id="line-127">  public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">128</span><span id="line-128">    if (obj instanceof Parameter) {</span>
-<span class="source-line-no">129</span><span id="line-129">      Parameter that = (Parameter) obj;</span>
-<span class="source-line-no">130</span><span id="line-130">      return position == that.position &amp;&amp; declaration.equals(that.declaration);</span>
-<span class="source-line-no">131</span><span id="line-131">    }</span>
-<span class="source-line-no">132</span><span id="line-132">    return false;</span>
-<span class="source-line-no">133</span><span id="line-133">  }</span>
-<span class="source-line-no">134</span><span id="line-134"></span>
-<span class="source-line-no">135</span><span id="line-135">  @Override</span>
-<span class="source-line-no">136</span><span id="line-136">  public int hashCode() {</span>
-<span class="source-line-no">137</span><span id="line-137">    return position;</span>
-<span class="source-line-no">138</span><span id="line-138">  }</span>
-<span class="source-line-no">139</span><span id="line-139"></span>
-<span class="source-line-no">140</span><span id="line-140">  @Override</span>
-<span class="source-line-no">141</span><span id="line-141">  public String toString() {</span>
-<span class="source-line-no">142</span><span id="line-142">    return type + " arg" + position;</span>
-<span class="source-line-no">143</span><span id="line-143">  }</span>
-<span class="source-line-no">144</span><span id="line-144">}</span>
+<span class="source-line-no">099</span><span id="line-99">  /**</span>
+<span class="source-line-no">100</span><span id="line-100">   * @since 18.0</span>
+<span class="source-line-no">101</span><span id="line-101">   */</span>
+<span class="source-line-no">102</span><span id="line-102">  @Override</span>
+<span class="source-line-no">103</span><span id="line-103">  public Annotation[] getDeclaredAnnotations() {</span>
+<span class="source-line-no">104</span><span id="line-104">    return annotations.toArray(new Annotation[0]);</span>
+<span class="source-line-no">105</span><span id="line-105">  }</span>
+<span class="source-line-no">106</span><span id="line-106"></span>
+<span class="source-line-no">107</span><span id="line-107">  /**</span>
+<span class="source-line-no">108</span><span id="line-108">   * @since 18.0</span>
+<span class="source-line-no">109</span><span id="line-109">   */</span>
+<span class="source-line-no">110</span><span id="line-110">  @Override</span>
+<span class="source-line-no">111</span><span id="line-111">  public &lt;A extends Annotation&gt; @Nullable A getDeclaredAnnotation(Class&lt;A&gt; annotationType) {</span>
+<span class="source-line-no">112</span><span id="line-112">    checkNotNull(annotationType);</span>
+<span class="source-line-no">113</span><span id="line-113">    return FluentIterable.from(annotations).filter(annotationType).first().orNull();</span>
+<span class="source-line-no">114</span><span id="line-114">  }</span>
+<span class="source-line-no">115</span><span id="line-115"></span>
+<span class="source-line-no">116</span><span id="line-116">  /**</span>
+<span class="source-line-no">117</span><span id="line-117">   * @since 18.0</span>
+<span class="source-line-no">118</span><span id="line-118">   */</span>
+<span class="source-line-no">119</span><span id="line-119">  @Override</span>
+<span class="source-line-no">120</span><span id="line-120">  public &lt;A extends Annotation&gt; A[] getDeclaredAnnotationsByType(Class&lt;A&gt; annotationType) {</span>
+<span class="source-line-no">121</span><span id="line-121">    @Nullable A[] result =</span>
+<span class="source-line-no">122</span><span id="line-122">        FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);</span>
+<span class="source-line-no">123</span><span id="line-123">    @SuppressWarnings("nullness") // safe because the input list contains no nulls</span>
+<span class="source-line-no">124</span><span id="line-124">    A[] cast = (A[]) result;</span>
+<span class="source-line-no">125</span><span id="line-125">    return cast;</span>
+<span class="source-line-no">126</span><span id="line-126">  }</span>
+<span class="source-line-no">127</span><span id="line-127"></span>
+<span class="source-line-no">128</span><span id="line-128">  @Override</span>
+<span class="source-line-no">129</span><span id="line-129">  public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">130</span><span id="line-130">    if (obj instanceof Parameter) {</span>
+<span class="source-line-no">131</span><span id="line-131">      Parameter that = (Parameter) obj;</span>
+<span class="source-line-no">132</span><span id="line-132">      return position == that.position &amp;&amp; declaration.equals(that.declaration);</span>
+<span class="source-line-no">133</span><span id="line-133">    }</span>
+<span class="source-line-no">134</span><span id="line-134">    return false;</span>
+<span class="source-line-no">135</span><span id="line-135">  }</span>
+<span class="source-line-no">136</span><span id="line-136"></span>
+<span class="source-line-no">137</span><span id="line-137">  @Override</span>
+<span class="source-line-no">138</span><span id="line-138">  public int hashCode() {</span>
+<span class="source-line-no">139</span><span id="line-139">    return position;</span>
+<span class="source-line-no">140</span><span id="line-140">  }</span>
+<span class="source-line-no">141</span><span id="line-141"></span>
+<span class="source-line-no">142</span><span id="line-142">  @Override</span>
+<span class="source-line-no">143</span><span id="line-143">  public String toString() {</span>
+<span class="source-line-no">144</span><span id="line-144">    return type + " arg" + position;</span>
+<span class="source-line-no">145</span><span id="line-145">  }</span>
+<span class="source-line-no">146</span><span id="line-146">}</span>
 
 
 

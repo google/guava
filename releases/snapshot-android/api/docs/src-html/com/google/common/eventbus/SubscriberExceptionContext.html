@@ -65,21 +65,27 @@
 <span class="source-line-no">052</span><span id="line-52">    return eventBus;</span>
 <span class="source-line-no">053</span><span id="line-53">  }</span>
 <span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">  /** @return The event object that caused the subscriber to throw. */</span>
-<span class="source-line-no">056</span><span id="line-56">  public Object getEvent() {</span>
-<span class="source-line-no">057</span><span id="line-57">    return event;</span>
-<span class="source-line-no">058</span><span id="line-58">  }</span>
-<span class="source-line-no">059</span><span id="line-59"></span>
-<span class="source-line-no">060</span><span id="line-60">  /** @return The object context that the subscriber was called on. */</span>
-<span class="source-line-no">061</span><span id="line-61">  public Object getSubscriber() {</span>
-<span class="source-line-no">062</span><span id="line-62">    return subscriber;</span>
-<span class="source-line-no">063</span><span id="line-63">  }</span>
-<span class="source-line-no">064</span><span id="line-64"></span>
-<span class="source-line-no">065</span><span id="line-65">  /** @return The subscribed method that threw the exception. */</span>
-<span class="source-line-no">066</span><span id="line-66">  public Method getSubscriberMethod() {</span>
-<span class="source-line-no">067</span><span id="line-67">    return subscriberMethod;</span>
-<span class="source-line-no">068</span><span id="line-68">  }</span>
-<span class="source-line-no">069</span><span id="line-69">}</span>
+<span class="source-line-no">055</span><span id="line-55">  /**</span>
+<span class="source-line-no">056</span><span id="line-56">   * @return The event object that caused the subscriber to throw.</span>
+<span class="source-line-no">057</span><span id="line-57">   */</span>
+<span class="source-line-no">058</span><span id="line-58">  public Object getEvent() {</span>
+<span class="source-line-no">059</span><span id="line-59">    return event;</span>
+<span class="source-line-no">060</span><span id="line-60">  }</span>
+<span class="source-line-no">061</span><span id="line-61"></span>
+<span class="source-line-no">062</span><span id="line-62">  /**</span>
+<span class="source-line-no">063</span><span id="line-63">   * @return The object context that the subscriber was called on.</span>
+<span class="source-line-no">064</span><span id="line-64">   */</span>
+<span class="source-line-no">065</span><span id="line-65">  public Object getSubscriber() {</span>
+<span class="source-line-no">066</span><span id="line-66">    return subscriber;</span>
+<span class="source-line-no">067</span><span id="line-67">  }</span>
+<span class="source-line-no">068</span><span id="line-68"></span>
+<span class="source-line-no">069</span><span id="line-69">  /**</span>
+<span class="source-line-no">070</span><span id="line-70">   * @return The subscribed method that threw the exception.</span>
+<span class="source-line-no">071</span><span id="line-71">   */</span>
+<span class="source-line-no">072</span><span id="line-72">  public Method getSubscriberMethod() {</span>
+<span class="source-line-no">073</span><span id="line-73">    return subscriberMethod;</span>
+<span class="source-line-no">074</span><span id="line-74">  }</span>
+<span class="source-line-no">075</span><span id="line-75">}</span>
 
 
 

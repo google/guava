@@ -433,7 +433,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="addListener(com.google.common.util.concurrent.Service.Listener,java.util.concurrent.Executor)">
 <h3>addListener</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-165">addListener</a></span><wbr><span class="parameters">(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-167">addListener</a></span><wbr><span class="parameters">(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#addListener(com.google.common.util.concurrent.Service.Listener,java.util.concurrent.Executor)">Service</a></code></span></div>
 <div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link">executed</a> on the given
@@ -468,7 +468,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="failureCause()">
 <h3>failureCause</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-171">failureCause</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-175">failureCause</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#failureCause()">Service</a></code></span></div>
 <div class="block">Returns the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link"><code>Throwable</code></a> that caused this service to fail.</div>
 <dl class="notes">
@@ -485,7 +485,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <h3>startAsync</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-177">startAsync</a></span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-183">startAsync</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#startAsync()">Service</a></code></span></div>
 <div class="block">If the service state is <a href="Service.State.html#NEW"><code>Service.State.NEW</code></a>, this initiates service startup and returns
  immediately. A stopped service may not be restarted.</div>
@@ -505,7 +505,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <h3>stopAsync</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-185">stopAsync</a></span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-193">stopAsync</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#stopAsync()">Service</a></code></span></div>
 <div class="block">If the service is <a href="Service.State.html#STARTING">starting</a> or <a href="Service.State.html#RUNNING">running</a>,
  this initiates service shutdown and returns immediately. If the service is <a href="Service.State.html#NEW">new</a>, it is <a href="Service.State.html#TERMINATED">terminated</a> without having been started nor
@@ -526,7 +526,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitRunning()">
 <h3>awaitRunning</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-193">awaitRunning</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-203">awaitRunning</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitRunning()">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a>.</div>
 <dl class="notes">
@@ -542,7 +542,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitRunning(java.time.Duration)">
 <h3>awaitRunning</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-199">awaitRunning</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-211">awaitRunning</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span>
                         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeoutException.html" title="class or interface in java.util.concurrent" class="external-link">TimeoutException</a></span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitRunning(java.time.Duration)">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
@@ -564,7 +564,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitRunning(long,java.util.concurrent.TimeUnit)">
 <h3>awaitRunning</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-205">awaitRunning</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-219">awaitRunning</a></span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeoutException.html" title="class or interface in java.util.concurrent" class="external-link">TimeoutException</a></span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitRunning(long,java.util.concurrent.TimeUnit)">Service</a></code></span></div>
@@ -588,7 +588,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitTerminated()">
 <h3>awaitTerminated</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-211">awaitTerminated</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-227">awaitTerminated</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitTerminated()">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#TERMINATED">terminated state</a>.</div>
 <dl class="notes">
@@ -604,7 +604,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitTerminated(java.time.Duration)">
 <h3>awaitTerminated</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-217">awaitTerminated</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-235">awaitTerminated</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span>
                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeoutException.html" title="class or interface in java.util.concurrent" class="external-link">TimeoutException</a></span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitTerminated(java.time.Duration)">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
@@ -625,7 +625,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="awaitTerminated(long,java.util.concurrent.TimeUnit)">
 <h3>awaitTerminated</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-223">awaitTerminated</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-243">awaitTerminated</a></span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeoutException.html" title="class or interface in java.util.concurrent" class="external-link">TimeoutException</a></span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#awaitTerminated(long,java.util.concurrent.TimeUnit)">Service</a></code></span></div>
@@ -648,7 +648,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <section class="detail" id="serviceName()">
 <h3>serviceName</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-236">serviceName</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractExecutionThreadService.html#line-256">serviceName</a></span>()</div>
 <div class="block">Returns the name of this service. <a href="AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent"><code>AbstractExecutionThreadService</code></a> may include the name
  in debugging output.
 

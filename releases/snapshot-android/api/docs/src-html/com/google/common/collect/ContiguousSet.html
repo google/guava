@@ -167,121 +167,127 @@
 <span class="source-line-no">154</span><span id="line-154">    return headSetImpl(checkNotNull(toElement), false);</span>
 <span class="source-line-no">155</span><span id="line-155">  }</span>
 <span class="source-line-no">156</span><span id="line-156"></span>
-<span class="source-line-no">157</span><span id="line-157">  /** @since 12.0 */</span>
-<span class="source-line-no">158</span><span id="line-158">  @GwtIncompatible // NavigableSet</span>
-<span class="source-line-no">159</span><span id="line-159">  @Override</span>
-<span class="source-line-no">160</span><span id="line-160">  public ContiguousSet&lt;C&gt; headSet(C toElement, boolean inclusive) {</span>
-<span class="source-line-no">161</span><span id="line-161">    return headSetImpl(checkNotNull(toElement), inclusive);</span>
-<span class="source-line-no">162</span><span id="line-162">  }</span>
-<span class="source-line-no">163</span><span id="line-163"></span>
-<span class="source-line-no">164</span><span id="line-164">  @Override</span>
-<span class="source-line-no">165</span><span id="line-165">  public ContiguousSet&lt;C&gt; subSet(C fromElement, C toElement) {</span>
-<span class="source-line-no">166</span><span id="line-166">    checkNotNull(fromElement);</span>
-<span class="source-line-no">167</span><span id="line-167">    checkNotNull(toElement);</span>
-<span class="source-line-no">168</span><span id="line-168">    checkArgument(comparator().compare(fromElement, toElement) &lt;= 0);</span>
-<span class="source-line-no">169</span><span id="line-169">    return subSetImpl(fromElement, true, toElement, false);</span>
-<span class="source-line-no">170</span><span id="line-170">  }</span>
-<span class="source-line-no">171</span><span id="line-171"></span>
-<span class="source-line-no">172</span><span id="line-172">  /** @since 12.0 */</span>
-<span class="source-line-no">173</span><span id="line-173">  @GwtIncompatible // NavigableSet</span>
-<span class="source-line-no">174</span><span id="line-174">  @Override</span>
-<span class="source-line-no">175</span><span id="line-175">  public ContiguousSet&lt;C&gt; subSet(</span>
-<span class="source-line-no">176</span><span id="line-176">      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {</span>
-<span class="source-line-no">177</span><span id="line-177">    checkNotNull(fromElement);</span>
-<span class="source-line-no">178</span><span id="line-178">    checkNotNull(toElement);</span>
-<span class="source-line-no">179</span><span id="line-179">    checkArgument(comparator().compare(fromElement, toElement) &lt;= 0);</span>
-<span class="source-line-no">180</span><span id="line-180">    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);</span>
-<span class="source-line-no">181</span><span id="line-181">  }</span>
-<span class="source-line-no">182</span><span id="line-182"></span>
-<span class="source-line-no">183</span><span id="line-183">  @Override</span>
-<span class="source-line-no">184</span><span id="line-184">  public ContiguousSet&lt;C&gt; tailSet(C fromElement) {</span>
-<span class="source-line-no">185</span><span id="line-185">    return tailSetImpl(checkNotNull(fromElement), true);</span>
-<span class="source-line-no">186</span><span id="line-186">  }</span>
-<span class="source-line-no">187</span><span id="line-187"></span>
-<span class="source-line-no">188</span><span id="line-188">  /** @since 12.0 */</span>
-<span class="source-line-no">189</span><span id="line-189">  @GwtIncompatible // NavigableSet</span>
-<span class="source-line-no">190</span><span id="line-190">  @Override</span>
-<span class="source-line-no">191</span><span id="line-191">  public ContiguousSet&lt;C&gt; tailSet(C fromElement, boolean inclusive) {</span>
-<span class="source-line-no">192</span><span id="line-192">    return tailSetImpl(checkNotNull(fromElement), inclusive);</span>
-<span class="source-line-no">193</span><span id="line-193">  }</span>
-<span class="source-line-no">194</span><span id="line-194"></span>
-<span class="source-line-no">195</span><span id="line-195">  /*</span>
-<span class="source-line-no">196</span><span id="line-196">   * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.</span>
-<span class="source-line-no">197</span><span id="line-197">   */</span>
-<span class="source-line-no">198</span><span id="line-198">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
-<span class="source-line-no">199</span><span id="line-199">  abstract ContiguousSet&lt;C&gt; headSetImpl(C toElement, boolean inclusive);</span>
+<span class="source-line-no">157</span><span id="line-157">  /**</span>
+<span class="source-line-no">158</span><span id="line-158">   * @since 12.0</span>
+<span class="source-line-no">159</span><span id="line-159">   */</span>
+<span class="source-line-no">160</span><span id="line-160">  @GwtIncompatible // NavigableSet</span>
+<span class="source-line-no">161</span><span id="line-161">  @Override</span>
+<span class="source-line-no">162</span><span id="line-162">  public ContiguousSet&lt;C&gt; headSet(C toElement, boolean inclusive) {</span>
+<span class="source-line-no">163</span><span id="line-163">    return headSetImpl(checkNotNull(toElement), inclusive);</span>
+<span class="source-line-no">164</span><span id="line-164">  }</span>
+<span class="source-line-no">165</span><span id="line-165"></span>
+<span class="source-line-no">166</span><span id="line-166">  @Override</span>
+<span class="source-line-no">167</span><span id="line-167">  public ContiguousSet&lt;C&gt; subSet(C fromElement, C toElement) {</span>
+<span class="source-line-no">168</span><span id="line-168">    checkNotNull(fromElement);</span>
+<span class="source-line-no">169</span><span id="line-169">    checkNotNull(toElement);</span>
+<span class="source-line-no">170</span><span id="line-170">    checkArgument(comparator().compare(fromElement, toElement) &lt;= 0);</span>
+<span class="source-line-no">171</span><span id="line-171">    return subSetImpl(fromElement, true, toElement, false);</span>
+<span class="source-line-no">172</span><span id="line-172">  }</span>
+<span class="source-line-no">173</span><span id="line-173"></span>
+<span class="source-line-no">174</span><span id="line-174">  /**</span>
+<span class="source-line-no">175</span><span id="line-175">   * @since 12.0</span>
+<span class="source-line-no">176</span><span id="line-176">   */</span>
+<span class="source-line-no">177</span><span id="line-177">  @GwtIncompatible // NavigableSet</span>
+<span class="source-line-no">178</span><span id="line-178">  @Override</span>
+<span class="source-line-no">179</span><span id="line-179">  public ContiguousSet&lt;C&gt; subSet(</span>
+<span class="source-line-no">180</span><span id="line-180">      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {</span>
+<span class="source-line-no">181</span><span id="line-181">    checkNotNull(fromElement);</span>
+<span class="source-line-no">182</span><span id="line-182">    checkNotNull(toElement);</span>
+<span class="source-line-no">183</span><span id="line-183">    checkArgument(comparator().compare(fromElement, toElement) &lt;= 0);</span>
+<span class="source-line-no">184</span><span id="line-184">    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);</span>
+<span class="source-line-no">185</span><span id="line-185">  }</span>
+<span class="source-line-no">186</span><span id="line-186"></span>
+<span class="source-line-no">187</span><span id="line-187">  @Override</span>
+<span class="source-line-no">188</span><span id="line-188">  public ContiguousSet&lt;C&gt; tailSet(C fromElement) {</span>
+<span class="source-line-no">189</span><span id="line-189">    return tailSetImpl(checkNotNull(fromElement), true);</span>
+<span class="source-line-no">190</span><span id="line-190">  }</span>
+<span class="source-line-no">191</span><span id="line-191"></span>
+<span class="source-line-no">192</span><span id="line-192">  /**</span>
+<span class="source-line-no">193</span><span id="line-193">   * @since 12.0</span>
+<span class="source-line-no">194</span><span id="line-194">   */</span>
+<span class="source-line-no">195</span><span id="line-195">  @GwtIncompatible // NavigableSet</span>
+<span class="source-line-no">196</span><span id="line-196">  @Override</span>
+<span class="source-line-no">197</span><span id="line-197">  public ContiguousSet&lt;C&gt; tailSet(C fromElement, boolean inclusive) {</span>
+<span class="source-line-no">198</span><span id="line-198">    return tailSetImpl(checkNotNull(fromElement), inclusive);</span>
+<span class="source-line-no">199</span><span id="line-199">  }</span>
 <span class="source-line-no">200</span><span id="line-200"></span>
-<span class="source-line-no">201</span><span id="line-201">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
-<span class="source-line-no">202</span><span id="line-202">  abstract ContiguousSet&lt;C&gt; subSetImpl(</span>
-<span class="source-line-no">203</span><span id="line-203">      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);</span>
-<span class="source-line-no">204</span><span id="line-204"></span>
-<span class="source-line-no">205</span><span id="line-205">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
-<span class="source-line-no">206</span><span id="line-206">  abstract ContiguousSet&lt;C&gt; tailSetImpl(C fromElement, boolean inclusive);</span>
-<span class="source-line-no">207</span><span id="line-207"></span>
-<span class="source-line-no">208</span><span id="line-208">  /**</span>
-<span class="source-line-no">209</span><span id="line-209">   * Returns the set of values that are contained in both this set and the other.</span>
-<span class="source-line-no">210</span><span id="line-210">   *</span>
-<span class="source-line-no">211</span><span id="line-211">   * &lt;p&gt;This method should always be used instead of {@link Sets#intersection} for {@link</span>
-<span class="source-line-no">212</span><span id="line-212">   * ContiguousSet} instances.</span>
-<span class="source-line-no">213</span><span id="line-213">   */</span>
-<span class="source-line-no">214</span><span id="line-214">  public abstract ContiguousSet&lt;C&gt; intersection(ContiguousSet&lt;C&gt; other);</span>
-<span class="source-line-no">215</span><span id="line-215"></span>
-<span class="source-line-no">216</span><span id="line-216">  /**</span>
-<span class="source-line-no">217</span><span id="line-217">   * Returns a range, closed on both ends, whose endpoints are the minimum and maximum values</span>
-<span class="source-line-no">218</span><span id="line-218">   * contained in this set. This is equivalent to {@code range(CLOSED, CLOSED)}.</span>
-<span class="source-line-no">219</span><span id="line-219">   *</span>
-<span class="source-line-no">220</span><span id="line-220">   * @throws NoSuchElementException if this set is empty</span>
-<span class="source-line-no">221</span><span id="line-221">   */</span>
-<span class="source-line-no">222</span><span id="line-222">  public abstract Range&lt;C&gt; range();</span>
-<span class="source-line-no">223</span><span id="line-223"></span>
-<span class="source-line-no">224</span><span id="line-224">  /**</span>
-<span class="source-line-no">225</span><span id="line-225">   * Returns the minimal range with the given boundary types for which all values in this set are</span>
-<span class="source-line-no">226</span><span id="line-226">   * {@linkplain Range#contains(Comparable) contained} within the range.</span>
-<span class="source-line-no">227</span><span id="line-227">   *</span>
-<span class="source-line-no">228</span><span id="line-228">   * &lt;p&gt;Note that this method will return ranges with unbounded endpoints if {@link BoundType#OPEN}</span>
-<span class="source-line-no">229</span><span id="line-229">   * is requested for a domain minimum or maximum. For example, if {@code set} was created from the</span>
-<span class="source-line-no">230</span><span id="line-230">   * range {@code [1..Integer.MAX_VALUE]} then {@code set.range(CLOSED, OPEN)} must return {@code</span>
-<span class="source-line-no">231</span><span id="line-231">   * [1..∞)}.</span>
-<span class="source-line-no">232</span><span id="line-232">   *</span>
-<span class="source-line-no">233</span><span id="line-233">   * @throws NoSuchElementException if this set is empty</span>
-<span class="source-line-no">234</span><span id="line-234">   */</span>
-<span class="source-line-no">235</span><span id="line-235">  public abstract Range&lt;C&gt; range(BoundType lowerBoundType, BoundType upperBoundType);</span>
-<span class="source-line-no">236</span><span id="line-236"></span>
-<span class="source-line-no">237</span><span id="line-237">  @Override</span>
-<span class="source-line-no">238</span><span id="line-238">  @GwtIncompatible // NavigableSet</span>
-<span class="source-line-no">239</span><span id="line-239">  ImmutableSortedSet&lt;C&gt; createDescendingSet() {</span>
-<span class="source-line-no">240</span><span id="line-240">    return new DescendingImmutableSortedSet&lt;&gt;(this);</span>
-<span class="source-line-no">241</span><span id="line-241">  }</span>
+<span class="source-line-no">201</span><span id="line-201">  /*</span>
+<span class="source-line-no">202</span><span id="line-202">   * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.</span>
+<span class="source-line-no">203</span><span id="line-203">   */</span>
+<span class="source-line-no">204</span><span id="line-204">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
+<span class="source-line-no">205</span><span id="line-205">  abstract ContiguousSet&lt;C&gt; headSetImpl(C toElement, boolean inclusive);</span>
+<span class="source-line-no">206</span><span id="line-206"></span>
+<span class="source-line-no">207</span><span id="line-207">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
+<span class="source-line-no">208</span><span id="line-208">  abstract ContiguousSet&lt;C&gt; subSetImpl(</span>
+<span class="source-line-no">209</span><span id="line-209">      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);</span>
+<span class="source-line-no">210</span><span id="line-210"></span>
+<span class="source-line-no">211</span><span id="line-211">  @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.</span>
+<span class="source-line-no">212</span><span id="line-212">  abstract ContiguousSet&lt;C&gt; tailSetImpl(C fromElement, boolean inclusive);</span>
+<span class="source-line-no">213</span><span id="line-213"></span>
+<span class="source-line-no">214</span><span id="line-214">  /**</span>
+<span class="source-line-no">215</span><span id="line-215">   * Returns the set of values that are contained in both this set and the other.</span>
+<span class="source-line-no">216</span><span id="line-216">   *</span>
+<span class="source-line-no">217</span><span id="line-217">   * &lt;p&gt;This method should always be used instead of {@link Sets#intersection} for {@link</span>
+<span class="source-line-no">218</span><span id="line-218">   * ContiguousSet} instances.</span>
+<span class="source-line-no">219</span><span id="line-219">   */</span>
+<span class="source-line-no">220</span><span id="line-220">  public abstract ContiguousSet&lt;C&gt; intersection(ContiguousSet&lt;C&gt; other);</span>
+<span class="source-line-no">221</span><span id="line-221"></span>
+<span class="source-line-no">222</span><span id="line-222">  /**</span>
+<span class="source-line-no">223</span><span id="line-223">   * Returns a range, closed on both ends, whose endpoints are the minimum and maximum values</span>
+<span class="source-line-no">224</span><span id="line-224">   * contained in this set. This is equivalent to {@code range(CLOSED, CLOSED)}.</span>
+<span class="source-line-no">225</span><span id="line-225">   *</span>
+<span class="source-line-no">226</span><span id="line-226">   * @throws NoSuchElementException if this set is empty</span>
+<span class="source-line-no">227</span><span id="line-227">   */</span>
+<span class="source-line-no">228</span><span id="line-228">  public abstract Range&lt;C&gt; range();</span>
+<span class="source-line-no">229</span><span id="line-229"></span>
+<span class="source-line-no">230</span><span id="line-230">  /**</span>
+<span class="source-line-no">231</span><span id="line-231">   * Returns the minimal range with the given boundary types for which all values in this set are</span>
+<span class="source-line-no">232</span><span id="line-232">   * {@linkplain Range#contains(Comparable) contained} within the range.</span>
+<span class="source-line-no">233</span><span id="line-233">   *</span>
+<span class="source-line-no">234</span><span id="line-234">   * &lt;p&gt;Note that this method will return ranges with unbounded endpoints if {@link BoundType#OPEN}</span>
+<span class="source-line-no">235</span><span id="line-235">   * is requested for a domain minimum or maximum. For example, if {@code set} was created from the</span>
+<span class="source-line-no">236</span><span id="line-236">   * range {@code [1..Integer.MAX_VALUE]} then {@code set.range(CLOSED, OPEN)} must return {@code</span>
+<span class="source-line-no">237</span><span id="line-237">   * [1..∞)}.</span>
+<span class="source-line-no">238</span><span id="line-238">   *</span>
+<span class="source-line-no">239</span><span id="line-239">   * @throws NoSuchElementException if this set is empty</span>
+<span class="source-line-no">240</span><span id="line-240">   */</span>
+<span class="source-line-no">241</span><span id="line-241">  public abstract Range&lt;C&gt; range(BoundType lowerBoundType, BoundType upperBoundType);</span>
 <span class="source-line-no">242</span><span id="line-242"></span>
-<span class="source-line-no">243</span><span id="line-243">  /** Returns a shorthand representation of the contents such as {@code "[1..100]"}. */</span>
-<span class="source-line-no">244</span><span id="line-244">  @Override</span>
-<span class="source-line-no">245</span><span id="line-245">  public String toString() {</span>
-<span class="source-line-no">246</span><span id="line-246">    return range().toString();</span>
+<span class="source-line-no">243</span><span id="line-243">  @Override</span>
+<span class="source-line-no">244</span><span id="line-244">  @GwtIncompatible // NavigableSet</span>
+<span class="source-line-no">245</span><span id="line-245">  ImmutableSortedSet&lt;C&gt; createDescendingSet() {</span>
+<span class="source-line-no">246</span><span id="line-246">    return new DescendingImmutableSortedSet&lt;&gt;(this);</span>
 <span class="source-line-no">247</span><span id="line-247">  }</span>
 <span class="source-line-no">248</span><span id="line-248"></span>
-<span class="source-line-no">249</span><span id="line-249">  /**</span>
-<span class="source-line-no">250</span><span id="line-250">   * Not supported. {@code ContiguousSet} instances are constructed with {@link #create}. This</span>
-<span class="source-line-no">251</span><span id="line-251">   * method exists only to hide {@link ImmutableSet#builder} from consumers of {@code</span>
-<span class="source-line-no">252</span><span id="line-252">   * ContiguousSet}.</span>
-<span class="source-line-no">253</span><span id="line-253">   *</span>
-<span class="source-line-no">254</span><span id="line-254">   * @throws UnsupportedOperationException always</span>
-<span class="source-line-no">255</span><span id="line-255">   * @deprecated Use {@link #create}.</span>
-<span class="source-line-no">256</span><span id="line-256">   */</span>
-<span class="source-line-no">257</span><span id="line-257">  @Deprecated</span>
-<span class="source-line-no">258</span><span id="line-258">  @DoNotCall("Always throws UnsupportedOperationException")</span>
-<span class="source-line-no">259</span><span id="line-259">  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builder() {</span>
-<span class="source-line-no">260</span><span id="line-260">    throw new UnsupportedOperationException();</span>
-<span class="source-line-no">261</span><span id="line-261">  }</span>
-<span class="source-line-no">262</span><span id="line-262"></span>
-<span class="source-line-no">263</span><span id="line-263">  // redeclare to help optimizers with b/310253115</span>
-<span class="source-line-no">264</span><span id="line-264">  @SuppressWarnings("RedundantOverride")</span>
-<span class="source-line-no">265</span><span id="line-265">  @J2ktIncompatible // serialization</span>
-<span class="source-line-no">266</span><span id="line-266">  @Override</span>
-<span class="source-line-no">267</span><span id="line-267">  @GwtIncompatible // serialization</span>
-<span class="source-line-no">268</span><span id="line-268">  Object writeReplace() {</span>
-<span class="source-line-no">269</span><span id="line-269">    return super.writeReplace();</span>
-<span class="source-line-no">270</span><span id="line-270">  }</span>
-<span class="source-line-no">271</span><span id="line-271">}</span>
+<span class="source-line-no">249</span><span id="line-249">  /** Returns a shorthand representation of the contents such as {@code "[1..100]"}. */</span>
+<span class="source-line-no">250</span><span id="line-250">  @Override</span>
+<span class="source-line-no">251</span><span id="line-251">  public String toString() {</span>
+<span class="source-line-no">252</span><span id="line-252">    return range().toString();</span>
+<span class="source-line-no">253</span><span id="line-253">  }</span>
+<span class="source-line-no">254</span><span id="line-254"></span>
+<span class="source-line-no">255</span><span id="line-255">  /**</span>
+<span class="source-line-no">256</span><span id="line-256">   * Not supported. {@code ContiguousSet} instances are constructed with {@link #create}. This</span>
+<span class="source-line-no">257</span><span id="line-257">   * method exists only to hide {@link ImmutableSet#builder} from consumers of {@code</span>
+<span class="source-line-no">258</span><span id="line-258">   * ContiguousSet}.</span>
+<span class="source-line-no">259</span><span id="line-259">   *</span>
+<span class="source-line-no">260</span><span id="line-260">   * @throws UnsupportedOperationException always</span>
+<span class="source-line-no">261</span><span id="line-261">   * @deprecated Use {@link #create}.</span>
+<span class="source-line-no">262</span><span id="line-262">   */</span>
+<span class="source-line-no">263</span><span id="line-263">  @Deprecated</span>
+<span class="source-line-no">264</span><span id="line-264">  @DoNotCall("Always throws UnsupportedOperationException")</span>
+<span class="source-line-no">265</span><span id="line-265">  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builder() {</span>
+<span class="source-line-no">266</span><span id="line-266">    throw new UnsupportedOperationException();</span>
+<span class="source-line-no">267</span><span id="line-267">  }</span>
+<span class="source-line-no">268</span><span id="line-268"></span>
+<span class="source-line-no">269</span><span id="line-269">  // redeclare to help optimizers with b/310253115</span>
+<span class="source-line-no">270</span><span id="line-270">  @SuppressWarnings("RedundantOverride")</span>
+<span class="source-line-no">271</span><span id="line-271">  @J2ktIncompatible // serialization</span>
+<span class="source-line-no">272</span><span id="line-272">  @Override</span>
+<span class="source-line-no">273</span><span id="line-273">  @GwtIncompatible // serialization</span>
+<span class="source-line-no">274</span><span id="line-274">  Object writeReplace() {</span>
+<span class="source-line-no">275</span><span id="line-275">    return super.writeReplace();</span>
+<span class="source-line-no">276</span><span id="line-276">  }</span>
+<span class="source-line-no">277</span><span id="line-277">}</span>
 
 
 

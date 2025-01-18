@@ -450,7 +450,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="rowKeyList()">
 <h3>rowKeyList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-298">rowKeyList</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-296">rowKeyList</a></span>()</div>
 <div class="block">Returns, as an immutable list, the row keys provided when the table was constructed, including
  those that are mapped to null values only.</div>
 </div>
@@ -460,7 +460,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="columnKeyList()">
 <h3>columnKeyList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-306">columnKeyList</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-304">columnKeyList</a></span>()</div>
 <div class="block">Returns, as an immutable list, the column keys provided when the table was constructed,
  including those that are mapped to null values only.</div>
 </div>
@@ -470,7 +470,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="at(int,int)">
 <h3>at</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-322">at</a></span><wbr><span class="parameters">(int&nbsp;rowIndex,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-320">at</a></span><wbr><span class="parameters">(int&nbsp;rowIndex,
  int&nbsp;columnIndex)</span></div>
 <div class="block">Returns the value corresponding to the specified row and column indices. The same value is
  returned by <code>get(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex))</code>, but this
@@ -494,7 +494,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <h3 id="set(int,int,java.lang.Object)">set</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-342">set</a></span><wbr><span class="parameters">(int&nbsp;rowIndex,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-340">set</a></span><wbr><span class="parameters">(int&nbsp;rowIndex,
  int&nbsp;columnIndex,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</span></div>
 <div class="block">Associates <code>value</code> with the specified row and column indices. The logic <code>
@@ -520,7 +520,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <h3>toArray</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>[][]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-361">toArray</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;valueClass)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>[][]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-359">toArray</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;valueClass)</span></div>
 <div class="block">Returns a two-dimensional array with the table contents. The row and column indices correspond
  to the positions of the row and column in the iterables provided during table construction. If
  the table lacks a mapping for a given row and column, the corresponding array element is null.
@@ -538,7 +538,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <h3>clear</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-378">clear</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-376">clear</a></span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#eraseAll()"><code>eraseAll()</code></a></div>
 </div>
@@ -556,7 +556,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="eraseAll()">
 <h3>eraseAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-386">eraseAll</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-384">eraseAll</a></span>()</div>
 <div class="block">Associates the value <code>null</code> with every pair of allowed row and column keys.</div>
 </div>
 </section>
@@ -565,7 +565,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="contains(java.lang.Object,java.lang.Object)">
 <h3>contains</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-396">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-394">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block">Returns <code>true</code> if the provided keys are among the keys provided when the table was
  constructed.</div>
@@ -583,7 +583,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="containsColumn(java.lang.Object)">
 <h3>containsColumn</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-405">containsColumn</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-403">containsColumn</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block">Returns <code>true</code> if the provided column key is among the column keys provided when the
  table was constructed.</div>
 <dl class="notes">
@@ -599,7 +599,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="containsRow(java.lang.Object)">
 <h3>containsRow</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-414">containsRow</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-412">containsRow</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey)</span></div>
 <div class="block">Returns <code>true</code> if the provided row key is among the row keys provided when the table was
  constructed.</div>
 <dl class="notes">
@@ -615,7 +615,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="containsValue(java.lang.Object)">
 <h3>containsValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-419">containsValue</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-417">containsValue</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#containsValue(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 <dl class="notes">
@@ -631,7 +631,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="get(java.lang.Object,java.lang.Object)">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-431">get</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-429">get</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#get(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
@@ -650,7 +650,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="isEmpty()">
 <h3>isEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-441">isEmpty</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-439">isEmpty</a></span>()</div>
 <div class="block">Returns <code>true</code> if <code>rowKeyList().size == 0</code> or <code>columnKeyList().size() == 0</code>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -664,7 +664,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <h3 id="put(java.lang.Object,java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-452">put</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-450">put</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey,
  <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&nbsp;value)</span></div>
 <div class="block">Associates the specified value with the specified keys. If the table already contained a
@@ -690,7 +690,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="putAll(com.google.common.collect.Table)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-479">putAll</a></span><wbr><span class="parameters">(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr>? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;table)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-477">putAll</a></span><wbr><span class="parameters">(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr>? extends <a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&nbsp;table)</span></div>
 <div class="block">Copies all mappings from the specified table to this table. The effect is equivalent to calling
  <a href="Table.html#put(R,C,V)"><code>Table.put(R, C, V)</code></a> with each row key / column key / value mapping in <code>table</code>.
 
@@ -715,7 +715,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-490">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-488">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#erase(java.lang.Object,java.lang.Object)"><code>erase(java.lang.Object, java.lang.Object)</code></a></div>
@@ -740,7 +740,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <h3>erase</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-511">erase</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-509">erase</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block">Associates the value <code>null</code> with the specified keys, assuming both keys are valid. If
  either key is null or isn't among the keys provided during construction, this method has no
@@ -763,7 +763,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-523">size</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-521">size</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#size()">Table</a></code></span></div>
 <div class="block">Returns the number of row key / column key / value mappings in the table.</div>
 <dl class="notes">
@@ -777,7 +777,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="cellSet()">
 <h3>cellSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-539">cellSet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-537">cellSet</a></span>()</div>
 <div class="block">Returns an unmodifiable set of all row key / column key / value triplets. Changes to the table
  will update the returned set.
 
@@ -798,7 +798,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="column(C)">
 <h3 id="column(java.lang.Object)">column</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-593">column</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-591">column</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&nbsp;columnKey)</span></div>
 <div class="block">Returns a view of all mappings that have the given column key. If the column key isn't in
  <a href="#columnKeySet()"><code>columnKeySet()</code></a>, an empty immutable map is returned.
 
@@ -820,7 +820,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="columnKeySet()">
 <h3>columnKeySet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-634">columnKeySet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-632">columnKeySet</a></span>()</div>
 <div class="block">Returns an immutable set of the valid column keys, including those that are associated with
  null values only.</div>
 <dl class="notes">
@@ -836,7 +836,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="columnMap()">
 <h3>columnMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-641">columnMap</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-639">columnMap</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#columnMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each column key with the corresponding map from row keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -858,7 +858,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="row(R)">
 <h3 id="row(java.lang.Object)">row</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-685">row</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-683">row</a></span><wbr><span class="parameters">(<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&nbsp;rowKey)</span></div>
 <div class="block">Returns a view of all mappings that have the given row key. If the row key isn't in <a href="#rowKeySet()"><code>rowKeySet()</code></a>, an empty immutable map is returned.
 
  <p>Otherwise, for each column key in <a href="#columnKeySet()"><code>columnKeySet()</code></a>, the returned map associates the
@@ -879,7 +879,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="rowKeySet()">
 <h3>rowKeySet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-726">rowKeySet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-724">rowKeySet</a></span>()</div>
 <div class="block">Returns an immutable set of the valid row keys, including those that are associated with null
  values only.</div>
 <dl class="notes">
@@ -895,7 +895,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="rowMap()">
 <h3>rowMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-733">rowMap</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">R</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ArrayTable.html" title="type parameter in ArrayTable">C</a>,<wbr><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-731">rowMap</a></span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#rowMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each row key with the corresponding map from column keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -917,7 +917,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ArrayTable.html" title="cla
 <section class="detail" id="values()">
 <h3>values</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-775">values</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ArrayTable.html" title="type parameter in ArrayTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ArrayTable.html#line-773">values</a></span>()</div>
 <div class="block">Returns an unmodifiable collection of all values, which may contain duplicates. Changes to the
  table will update the returned collection.
 

@@ -1107,147 +1107,148 @@
 <span class="source-line-no">1094</span><span id="line-1094">  public static Inet4Address fromIPv4BigInteger(BigInteger address) {</span>
 <span class="source-line-no">1095</span><span id="line-1095">    return (Inet4Address) fromBigInteger(address, false);</span>
 <span class="source-line-no">1096</span><span id="line-1096">  }</span>
-<span class="source-line-no">1097</span><span id="line-1097">  /**</span>
-<span class="source-line-no">1098</span><span id="line-1098">   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.</span>
-<span class="source-line-no">1099</span><span id="line-1099">   *</span>
-<span class="source-line-no">1100</span><span id="line-1100">   * @param address BigInteger representing the IPv6 address</span>
-<span class="source-line-no">1101</span><span id="line-1101">   * @return Inet6Address representation of the given BigInteger</span>
-<span class="source-line-no">1102</span><span id="line-1102">   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1</span>
-<span class="source-line-no">1103</span><span id="line-1103">   * @since 28.2</span>
-<span class="source-line-no">1104</span><span id="line-1104">   */</span>
-<span class="source-line-no">1105</span><span id="line-1105">  public static Inet6Address fromIPv6BigInteger(BigInteger address) {</span>
-<span class="source-line-no">1106</span><span id="line-1106">    return (Inet6Address) fromBigInteger(address, true);</span>
-<span class="source-line-no">1107</span><span id="line-1107">  }</span>
-<span class="source-line-no">1108</span><span id="line-1108"></span>
-<span class="source-line-no">1109</span><span id="line-1109">  /**</span>
-<span class="source-line-no">1110</span><span id="line-1110">   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be</span>
-<span class="source-line-no">1111</span><span id="line-1111">   * constrained to 32 bits, otherwise it is constrained to 128 bits.</span>
-<span class="source-line-no">1112</span><span id="line-1112">   *</span>
-<span class="source-line-no">1113</span><span id="line-1113">   * @param address the address represented as a big integer</span>
-<span class="source-line-no">1114</span><span id="line-1114">   * @param isIpv6 whether the created address should be IPv4 or IPv6</span>
-<span class="source-line-no">1115</span><span id="line-1115">   * @return the BigInteger converted to an address</span>
-<span class="source-line-no">1116</span><span id="line-1116">   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4</span>
-<span class="source-line-no">1117</span><span id="line-1117">   *     or IPv6 respectively</span>
-<span class="source-line-no">1118</span><span id="line-1118">   */</span>
-<span class="source-line-no">1119</span><span id="line-1119">  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {</span>
-<span class="source-line-no">1120</span><span id="line-1120">    checkArgument(address.signum() &gt;= 0, "BigInteger must be greater than or equal to 0");</span>
-<span class="source-line-no">1121</span><span id="line-1121"></span>
-<span class="source-line-no">1122</span><span id="line-1122">    int numBytes = isIpv6 ? 16 : 4;</span>
-<span class="source-line-no">1123</span><span id="line-1123"></span>
-<span class="source-line-no">1124</span><span id="line-1124">    byte[] addressBytes = address.toByteArray();</span>
-<span class="source-line-no">1125</span><span id="line-1125">    byte[] targetCopyArray = new byte[numBytes];</span>
-<span class="source-line-no">1126</span><span id="line-1126"></span>
-<span class="source-line-no">1127</span><span id="line-1127">    int srcPos = max(0, addressBytes.length - numBytes);</span>
-<span class="source-line-no">1128</span><span id="line-1128">    int copyLength = addressBytes.length - srcPos;</span>
-<span class="source-line-no">1129</span><span id="line-1129">    int destPos = numBytes - copyLength;</span>
-<span class="source-line-no">1130</span><span id="line-1130"></span>
-<span class="source-line-no">1131</span><span id="line-1131">    // Check the extra bytes in the BigInteger are all zero.</span>
-<span class="source-line-no">1132</span><span id="line-1132">    for (int i = 0; i &lt; srcPos; i++) {</span>
-<span class="source-line-no">1133</span><span id="line-1133">      if (addressBytes[i] != 0x00) {</span>
-<span class="source-line-no">1134</span><span id="line-1134">        throw formatIllegalArgumentException(</span>
-<span class="source-line-no">1135</span><span id="line-1135">            "BigInteger cannot be converted to InetAddress because it has more than %d"</span>
-<span class="source-line-no">1136</span><span id="line-1136">                + " bytes: %s",</span>
-<span class="source-line-no">1137</span><span id="line-1137">            numBytes, address);</span>
-<span class="source-line-no">1138</span><span id="line-1138">      }</span>
-<span class="source-line-no">1139</span><span id="line-1139">    }</span>
-<span class="source-line-no">1140</span><span id="line-1140"></span>
-<span class="source-line-no">1141</span><span id="line-1141">    // Copy the bytes into the least significant positions.</span>
-<span class="source-line-no">1142</span><span id="line-1142">    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);</span>
-<span class="source-line-no">1143</span><span id="line-1143"></span>
-<span class="source-line-no">1144</span><span id="line-1144">    try {</span>
-<span class="source-line-no">1145</span><span id="line-1145">      return InetAddress.getByAddress(targetCopyArray);</span>
-<span class="source-line-no">1146</span><span id="line-1146">    } catch (UnknownHostException impossible) {</span>
-<span class="source-line-no">1147</span><span id="line-1147">      throw new AssertionError(impossible);</span>
-<span class="source-line-no">1148</span><span id="line-1148">    }</span>
-<span class="source-line-no">1149</span><span id="line-1149">  }</span>
-<span class="source-line-no">1150</span><span id="line-1150"></span>
-<span class="source-line-no">1151</span><span id="line-1151">  /**</span>
-<span class="source-line-no">1152</span><span id="line-1152">   * Returns an address from a &lt;b&gt;little-endian ordered&lt;/b&gt; byte array (the opposite of what {@link</span>
-<span class="source-line-no">1153</span><span id="line-1153">   * InetAddress#getByAddress} expects).</span>
-<span class="source-line-no">1154</span><span id="line-1154">   *</span>
-<span class="source-line-no">1155</span><span id="line-1155">   * &lt;p&gt;IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.</span>
-<span class="source-line-no">1156</span><span id="line-1156">   *</span>
-<span class="source-line-no">1157</span><span id="line-1157">   * @param addr the raw IP address in little-endian byte order</span>
-<span class="source-line-no">1158</span><span id="line-1158">   * @return an InetAddress object created from the raw IP address</span>
-<span class="source-line-no">1159</span><span id="line-1159">   * @throws UnknownHostException if IP address is of illegal length</span>
-<span class="source-line-no">1160</span><span id="line-1160">   */</span>
-<span class="source-line-no">1161</span><span id="line-1161">  public static InetAddress fromLittleEndianByteArray(byte[] addr) throws UnknownHostException {</span>
-<span class="source-line-no">1162</span><span id="line-1162">    byte[] reversed = new byte[addr.length];</span>
-<span class="source-line-no">1163</span><span id="line-1163">    for (int i = 0; i &lt; addr.length; i++) {</span>
-<span class="source-line-no">1164</span><span id="line-1164">      reversed[i] = addr[addr.length - i - 1];</span>
-<span class="source-line-no">1165</span><span id="line-1165">    }</span>
-<span class="source-line-no">1166</span><span id="line-1166">    return InetAddress.getByAddress(reversed);</span>
-<span class="source-line-no">1167</span><span id="line-1167">  }</span>
-<span class="source-line-no">1168</span><span id="line-1168"></span>
-<span class="source-line-no">1169</span><span id="line-1169">  /**</span>
-<span class="source-line-no">1170</span><span id="line-1170">   * Returns a new InetAddress that is one less than the passed in address. This method works for</span>
-<span class="source-line-no">1171</span><span id="line-1171">   * both IPv4 and IPv6 addresses.</span>
-<span class="source-line-no">1172</span><span id="line-1172">   *</span>
-<span class="source-line-no">1173</span><span id="line-1173">   * @param address the InetAddress to decrement</span>
-<span class="source-line-no">1174</span><span id="line-1174">   * @return a new InetAddress that is one less than the passed in address</span>
-<span class="source-line-no">1175</span><span id="line-1175">   * @throws IllegalArgumentException if InetAddress is at the beginning of its range</span>
-<span class="source-line-no">1176</span><span id="line-1176">   * @since 18.0</span>
-<span class="source-line-no">1177</span><span id="line-1177">   */</span>
-<span class="source-line-no">1178</span><span id="line-1178">  public static InetAddress decrement(InetAddress address) {</span>
-<span class="source-line-no">1179</span><span id="line-1179">    byte[] addr = address.getAddress();</span>
-<span class="source-line-no">1180</span><span id="line-1180">    int i = addr.length - 1;</span>
-<span class="source-line-no">1181</span><span id="line-1181">    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0x00) {</span>
-<span class="source-line-no">1182</span><span id="line-1182">      addr[i] = (byte) 0xff;</span>
-<span class="source-line-no">1183</span><span id="line-1183">      i--;</span>
-<span class="source-line-no">1184</span><span id="line-1184">    }</span>
-<span class="source-line-no">1185</span><span id="line-1185"></span>
-<span class="source-line-no">1186</span><span id="line-1186">    checkArgument(i &gt;= 0, "Decrementing %s would wrap.", address);</span>
-<span class="source-line-no">1187</span><span id="line-1187"></span>
-<span class="source-line-no">1188</span><span id="line-1188">    addr[i]--;</span>
-<span class="source-line-no">1189</span><span id="line-1189">    return bytesToInetAddress(addr, null);</span>
-<span class="source-line-no">1190</span><span id="line-1190">  }</span>
-<span class="source-line-no">1191</span><span id="line-1191"></span>
-<span class="source-line-no">1192</span><span id="line-1192">  /**</span>
-<span class="source-line-no">1193</span><span id="line-1193">   * Returns a new InetAddress that is one more than the passed in address. This method works for</span>
-<span class="source-line-no">1194</span><span id="line-1194">   * both IPv4 and IPv6 addresses.</span>
-<span class="source-line-no">1195</span><span id="line-1195">   *</span>
-<span class="source-line-no">1196</span><span id="line-1196">   * @param address the InetAddress to increment</span>
-<span class="source-line-no">1197</span><span id="line-1197">   * @return a new InetAddress that is one more than the passed in address</span>
-<span class="source-line-no">1198</span><span id="line-1198">   * @throws IllegalArgumentException if InetAddress is at the end of its range</span>
-<span class="source-line-no">1199</span><span id="line-1199">   * @since 10.0</span>
-<span class="source-line-no">1200</span><span id="line-1200">   */</span>
-<span class="source-line-no">1201</span><span id="line-1201">  public static InetAddress increment(InetAddress address) {</span>
-<span class="source-line-no">1202</span><span id="line-1202">    byte[] addr = address.getAddress();</span>
-<span class="source-line-no">1203</span><span id="line-1203">    int i = addr.length - 1;</span>
-<span class="source-line-no">1204</span><span id="line-1204">    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0xff) {</span>
-<span class="source-line-no">1205</span><span id="line-1205">      addr[i] = 0;</span>
-<span class="source-line-no">1206</span><span id="line-1206">      i--;</span>
-<span class="source-line-no">1207</span><span id="line-1207">    }</span>
-<span class="source-line-no">1208</span><span id="line-1208"></span>
-<span class="source-line-no">1209</span><span id="line-1209">    checkArgument(i &gt;= 0, "Incrementing %s would wrap.", address);</span>
-<span class="source-line-no">1210</span><span id="line-1210"></span>
-<span class="source-line-no">1211</span><span id="line-1211">    addr[i]++;</span>
-<span class="source-line-no">1212</span><span id="line-1212">    return bytesToInetAddress(addr, null);</span>
-<span class="source-line-no">1213</span><span id="line-1213">  }</span>
-<span class="source-line-no">1214</span><span id="line-1214"></span>
-<span class="source-line-no">1215</span><span id="line-1215">  /**</span>
-<span class="source-line-no">1216</span><span id="line-1216">   * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or</span>
-<span class="source-line-no">1217</span><span id="line-1217">   * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.</span>
-<span class="source-line-no">1218</span><span id="line-1218">   *</span>
-<span class="source-line-no">1219</span><span id="line-1219">   * @return true if the InetAddress is either 255.255.255.255 for IPv4 or</span>
-<span class="source-line-no">1220</span><span id="line-1220">   *     ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6</span>
-<span class="source-line-no">1221</span><span id="line-1221">   * @since 10.0</span>
-<span class="source-line-no">1222</span><span id="line-1222">   */</span>
-<span class="source-line-no">1223</span><span id="line-1223">  public static boolean isMaximum(InetAddress address) {</span>
-<span class="source-line-no">1224</span><span id="line-1224">    byte[] addr = address.getAddress();</span>
-<span class="source-line-no">1225</span><span id="line-1225">    for (byte b : addr) {</span>
-<span class="source-line-no">1226</span><span id="line-1226">      if (b != (byte) 0xff) {</span>
-<span class="source-line-no">1227</span><span id="line-1227">        return false;</span>
-<span class="source-line-no">1228</span><span id="line-1228">      }</span>
-<span class="source-line-no">1229</span><span id="line-1229">    }</span>
-<span class="source-line-no">1230</span><span id="line-1230">    return true;</span>
-<span class="source-line-no">1231</span><span id="line-1231">  }</span>
-<span class="source-line-no">1232</span><span id="line-1232"></span>
-<span class="source-line-no">1233</span><span id="line-1233">  private static IllegalArgumentException formatIllegalArgumentException(</span>
-<span class="source-line-no">1234</span><span id="line-1234">      String format, Object... args) {</span>
-<span class="source-line-no">1235</span><span id="line-1235">    return new IllegalArgumentException(String.format(Locale.ROOT, format, args));</span>
-<span class="source-line-no">1236</span><span id="line-1236">  }</span>
-<span class="source-line-no">1237</span><span id="line-1237">}</span>
+<span class="source-line-no">1097</span><span id="line-1097"></span>
+<span class="source-line-no">1098</span><span id="line-1098">  /**</span>
+<span class="source-line-no">1099</span><span id="line-1099">   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.</span>
+<span class="source-line-no">1100</span><span id="line-1100">   *</span>
+<span class="source-line-no">1101</span><span id="line-1101">   * @param address BigInteger representing the IPv6 address</span>
+<span class="source-line-no">1102</span><span id="line-1102">   * @return Inet6Address representation of the given BigInteger</span>
+<span class="source-line-no">1103</span><span id="line-1103">   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1</span>
+<span class="source-line-no">1104</span><span id="line-1104">   * @since 28.2</span>
+<span class="source-line-no">1105</span><span id="line-1105">   */</span>
+<span class="source-line-no">1106</span><span id="line-1106">  public static Inet6Address fromIPv6BigInteger(BigInteger address) {</span>
+<span class="source-line-no">1107</span><span id="line-1107">    return (Inet6Address) fromBigInteger(address, true);</span>
+<span class="source-line-no">1108</span><span id="line-1108">  }</span>
+<span class="source-line-no">1109</span><span id="line-1109"></span>
+<span class="source-line-no">1110</span><span id="line-1110">  /**</span>
+<span class="source-line-no">1111</span><span id="line-1111">   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be</span>
+<span class="source-line-no">1112</span><span id="line-1112">   * constrained to 32 bits, otherwise it is constrained to 128 bits.</span>
+<span class="source-line-no">1113</span><span id="line-1113">   *</span>
+<span class="source-line-no">1114</span><span id="line-1114">   * @param address the address represented as a big integer</span>
+<span class="source-line-no">1115</span><span id="line-1115">   * @param isIpv6 whether the created address should be IPv4 or IPv6</span>
+<span class="source-line-no">1116</span><span id="line-1116">   * @return the BigInteger converted to an address</span>
+<span class="source-line-no">1117</span><span id="line-1117">   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4</span>
+<span class="source-line-no">1118</span><span id="line-1118">   *     or IPv6 respectively</span>
+<span class="source-line-no">1119</span><span id="line-1119">   */</span>
+<span class="source-line-no">1120</span><span id="line-1120">  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {</span>
+<span class="source-line-no">1121</span><span id="line-1121">    checkArgument(address.signum() &gt;= 0, "BigInteger must be greater than or equal to 0");</span>
+<span class="source-line-no">1122</span><span id="line-1122"></span>
+<span class="source-line-no">1123</span><span id="line-1123">    int numBytes = isIpv6 ? 16 : 4;</span>
+<span class="source-line-no">1124</span><span id="line-1124"></span>
+<span class="source-line-no">1125</span><span id="line-1125">    byte[] addressBytes = address.toByteArray();</span>
+<span class="source-line-no">1126</span><span id="line-1126">    byte[] targetCopyArray = new byte[numBytes];</span>
+<span class="source-line-no">1127</span><span id="line-1127"></span>
+<span class="source-line-no">1128</span><span id="line-1128">    int srcPos = max(0, addressBytes.length - numBytes);</span>
+<span class="source-line-no">1129</span><span id="line-1129">    int copyLength = addressBytes.length - srcPos;</span>
+<span class="source-line-no">1130</span><span id="line-1130">    int destPos = numBytes - copyLength;</span>
+<span class="source-line-no">1131</span><span id="line-1131"></span>
+<span class="source-line-no">1132</span><span id="line-1132">    // Check the extra bytes in the BigInteger are all zero.</span>
+<span class="source-line-no">1133</span><span id="line-1133">    for (int i = 0; i &lt; srcPos; i++) {</span>
+<span class="source-line-no">1134</span><span id="line-1134">      if (addressBytes[i] != 0x00) {</span>
+<span class="source-line-no">1135</span><span id="line-1135">        throw formatIllegalArgumentException(</span>
+<span class="source-line-no">1136</span><span id="line-1136">            "BigInteger cannot be converted to InetAddress because it has more than %d"</span>
+<span class="source-line-no">1137</span><span id="line-1137">                + " bytes: %s",</span>
+<span class="source-line-no">1138</span><span id="line-1138">            numBytes, address);</span>
+<span class="source-line-no">1139</span><span id="line-1139">      }</span>
+<span class="source-line-no">1140</span><span id="line-1140">    }</span>
+<span class="source-line-no">1141</span><span id="line-1141"></span>
+<span class="source-line-no">1142</span><span id="line-1142">    // Copy the bytes into the least significant positions.</span>
+<span class="source-line-no">1143</span><span id="line-1143">    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);</span>
+<span class="source-line-no">1144</span><span id="line-1144"></span>
+<span class="source-line-no">1145</span><span id="line-1145">    try {</span>
+<span class="source-line-no">1146</span><span id="line-1146">      return InetAddress.getByAddress(targetCopyArray);</span>
+<span class="source-line-no">1147</span><span id="line-1147">    } catch (UnknownHostException impossible) {</span>
+<span class="source-line-no">1148</span><span id="line-1148">      throw new AssertionError(impossible);</span>
+<span class="source-line-no">1149</span><span id="line-1149">    }</span>
+<span class="source-line-no">1150</span><span id="line-1150">  }</span>
+<span class="source-line-no">1151</span><span id="line-1151"></span>
+<span class="source-line-no">1152</span><span id="line-1152">  /**</span>
+<span class="source-line-no">1153</span><span id="line-1153">   * Returns an address from a &lt;b&gt;little-endian ordered&lt;/b&gt; byte array (the opposite of what {@link</span>
+<span class="source-line-no">1154</span><span id="line-1154">   * InetAddress#getByAddress} expects).</span>
+<span class="source-line-no">1155</span><span id="line-1155">   *</span>
+<span class="source-line-no">1156</span><span id="line-1156">   * &lt;p&gt;IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.</span>
+<span class="source-line-no">1157</span><span id="line-1157">   *</span>
+<span class="source-line-no">1158</span><span id="line-1158">   * @param addr the raw IP address in little-endian byte order</span>
+<span class="source-line-no">1159</span><span id="line-1159">   * @return an InetAddress object created from the raw IP address</span>
+<span class="source-line-no">1160</span><span id="line-1160">   * @throws UnknownHostException if IP address is of illegal length</span>
+<span class="source-line-no">1161</span><span id="line-1161">   */</span>
+<span class="source-line-no">1162</span><span id="line-1162">  public static InetAddress fromLittleEndianByteArray(byte[] addr) throws UnknownHostException {</span>
+<span class="source-line-no">1163</span><span id="line-1163">    byte[] reversed = new byte[addr.length];</span>
+<span class="source-line-no">1164</span><span id="line-1164">    for (int i = 0; i &lt; addr.length; i++) {</span>
+<span class="source-line-no">1165</span><span id="line-1165">      reversed[i] = addr[addr.length - i - 1];</span>
+<span class="source-line-no">1166</span><span id="line-1166">    }</span>
+<span class="source-line-no">1167</span><span id="line-1167">    return InetAddress.getByAddress(reversed);</span>
+<span class="source-line-no">1168</span><span id="line-1168">  }</span>
+<span class="source-line-no">1169</span><span id="line-1169"></span>
+<span class="source-line-no">1170</span><span id="line-1170">  /**</span>
+<span class="source-line-no">1171</span><span id="line-1171">   * Returns a new InetAddress that is one less than the passed in address. This method works for</span>
+<span class="source-line-no">1172</span><span id="line-1172">   * both IPv4 and IPv6 addresses.</span>
+<span class="source-line-no">1173</span><span id="line-1173">   *</span>
+<span class="source-line-no">1174</span><span id="line-1174">   * @param address the InetAddress to decrement</span>
+<span class="source-line-no">1175</span><span id="line-1175">   * @return a new InetAddress that is one less than the passed in address</span>
+<span class="source-line-no">1176</span><span id="line-1176">   * @throws IllegalArgumentException if InetAddress is at the beginning of its range</span>
+<span class="source-line-no">1177</span><span id="line-1177">   * @since 18.0</span>
+<span class="source-line-no">1178</span><span id="line-1178">   */</span>
+<span class="source-line-no">1179</span><span id="line-1179">  public static InetAddress decrement(InetAddress address) {</span>
+<span class="source-line-no">1180</span><span id="line-1180">    byte[] addr = address.getAddress();</span>
+<span class="source-line-no">1181</span><span id="line-1181">    int i = addr.length - 1;</span>
+<span class="source-line-no">1182</span><span id="line-1182">    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0x00) {</span>
+<span class="source-line-no">1183</span><span id="line-1183">      addr[i] = (byte) 0xff;</span>
+<span class="source-line-no">1184</span><span id="line-1184">      i--;</span>
+<span class="source-line-no">1185</span><span id="line-1185">    }</span>
+<span class="source-line-no">1186</span><span id="line-1186"></span>
+<span class="source-line-no">1187</span><span id="line-1187">    checkArgument(i &gt;= 0, "Decrementing %s would wrap.", address);</span>
+<span class="source-line-no">1188</span><span id="line-1188"></span>
+<span class="source-line-no">1189</span><span id="line-1189">    addr[i]--;</span>
+<span class="source-line-no">1190</span><span id="line-1190">    return bytesToInetAddress(addr, null);</span>
+<span class="source-line-no">1191</span><span id="line-1191">  }</span>
+<span class="source-line-no">1192</span><span id="line-1192"></span>
+<span class="source-line-no">1193</span><span id="line-1193">  /**</span>
+<span class="source-line-no">1194</span><span id="line-1194">   * Returns a new InetAddress that is one more than the passed in address. This method works for</span>
+<span class="source-line-no">1195</span><span id="line-1195">   * both IPv4 and IPv6 addresses.</span>
+<span class="source-line-no">1196</span><span id="line-1196">   *</span>
+<span class="source-line-no">1197</span><span id="line-1197">   * @param address the InetAddress to increment</span>
+<span class="source-line-no">1198</span><span id="line-1198">   * @return a new InetAddress that is one more than the passed in address</span>
+<span class="source-line-no">1199</span><span id="line-1199">   * @throws IllegalArgumentException if InetAddress is at the end of its range</span>
+<span class="source-line-no">1200</span><span id="line-1200">   * @since 10.0</span>
+<span class="source-line-no">1201</span><span id="line-1201">   */</span>
+<span class="source-line-no">1202</span><span id="line-1202">  public static InetAddress increment(InetAddress address) {</span>
+<span class="source-line-no">1203</span><span id="line-1203">    byte[] addr = address.getAddress();</span>
+<span class="source-line-no">1204</span><span id="line-1204">    int i = addr.length - 1;</span>
+<span class="source-line-no">1205</span><span id="line-1205">    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0xff) {</span>
+<span class="source-line-no">1206</span><span id="line-1206">      addr[i] = 0;</span>
+<span class="source-line-no">1207</span><span id="line-1207">      i--;</span>
+<span class="source-line-no">1208</span><span id="line-1208">    }</span>
+<span class="source-line-no">1209</span><span id="line-1209"></span>
+<span class="source-line-no">1210</span><span id="line-1210">    checkArgument(i &gt;= 0, "Incrementing %s would wrap.", address);</span>
+<span class="source-line-no">1211</span><span id="line-1211"></span>
+<span class="source-line-no">1212</span><span id="line-1212">    addr[i]++;</span>
+<span class="source-line-no">1213</span><span id="line-1213">    return bytesToInetAddress(addr, null);</span>
+<span class="source-line-no">1214</span><span id="line-1214">  }</span>
+<span class="source-line-no">1215</span><span id="line-1215"></span>
+<span class="source-line-no">1216</span><span id="line-1216">  /**</span>
+<span class="source-line-no">1217</span><span id="line-1217">   * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or</span>
+<span class="source-line-no">1218</span><span id="line-1218">   * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.</span>
+<span class="source-line-no">1219</span><span id="line-1219">   *</span>
+<span class="source-line-no">1220</span><span id="line-1220">   * @return true if the InetAddress is either 255.255.255.255 for IPv4 or</span>
+<span class="source-line-no">1221</span><span id="line-1221">   *     ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6</span>
+<span class="source-line-no">1222</span><span id="line-1222">   * @since 10.0</span>
+<span class="source-line-no">1223</span><span id="line-1223">   */</span>
+<span class="source-line-no">1224</span><span id="line-1224">  public static boolean isMaximum(InetAddress address) {</span>
+<span class="source-line-no">1225</span><span id="line-1225">    byte[] addr = address.getAddress();</span>
+<span class="source-line-no">1226</span><span id="line-1226">    for (byte b : addr) {</span>
+<span class="source-line-no">1227</span><span id="line-1227">      if (b != (byte) 0xff) {</span>
+<span class="source-line-no">1228</span><span id="line-1228">        return false;</span>
+<span class="source-line-no">1229</span><span id="line-1229">      }</span>
+<span class="source-line-no">1230</span><span id="line-1230">    }</span>
+<span class="source-line-no">1231</span><span id="line-1231">    return true;</span>
+<span class="source-line-no">1232</span><span id="line-1232">  }</span>
+<span class="source-line-no">1233</span><span id="line-1233"></span>
+<span class="source-line-no">1234</span><span id="line-1234">  private static IllegalArgumentException formatIllegalArgumentException(</span>
+<span class="source-line-no">1235</span><span id="line-1235">      String format, Object... args) {</span>
+<span class="source-line-no">1236</span><span id="line-1236">    return new IllegalArgumentException(String.format(Locale.ROOT, format, args));</span>
+<span class="source-line-no">1237</span><span id="line-1237">  }</span>
+<span class="source-line-no">1238</span><span id="line-1238">}</span>
 
 
 

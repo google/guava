@@ -492,149 +492,157 @@
 <span class="source-line-no">479</span><span id="line-479">    return snapshot.externalState();</span>
 <span class="source-line-no">480</span><span id="line-480">  }</span>
 <span class="source-line-no">481</span><span id="line-481"></span>
-<span class="source-line-no">482</span><span id="line-482">  /** @since 14.0 */</span>
-<span class="source-line-no">483</span><span id="line-483">  @Override</span>
-<span class="source-line-no">484</span><span id="line-484">  public final Throwable failureCause() {</span>
-<span class="source-line-no">485</span><span id="line-485">    return snapshot.failureCause();</span>
-<span class="source-line-no">486</span><span id="line-486">  }</span>
-<span class="source-line-no">487</span><span id="line-487"></span>
-<span class="source-line-no">488</span><span id="line-488">  /** @since 13.0 */</span>
-<span class="source-line-no">489</span><span id="line-489">  @Override</span>
-<span class="source-line-no">490</span><span id="line-490">  public final void addListener(Listener listener, Executor executor) {</span>
-<span class="source-line-no">491</span><span id="line-491">    listeners.addListener(listener, executor);</span>
-<span class="source-line-no">492</span><span id="line-492">  }</span>
-<span class="source-line-no">493</span><span id="line-493"></span>
-<span class="source-line-no">494</span><span id="line-494">  @Override</span>
-<span class="source-line-no">495</span><span id="line-495">  public String toString() {</span>
-<span class="source-line-no">496</span><span id="line-496">    return getClass().getSimpleName() + " [" + state() + "]";</span>
-<span class="source-line-no">497</span><span id="line-497">  }</span>
-<span class="source-line-no">498</span><span id="line-498"></span>
-<span class="source-line-no">499</span><span id="line-499">  /**</span>
-<span class="source-line-no">500</span><span id="line-500">   * Attempts to execute all the listeners in {@link #listeners} while not holding the {@link</span>
-<span class="source-line-no">501</span><span id="line-501">   * #monitor}.</span>
-<span class="source-line-no">502</span><span id="line-502">   */</span>
-<span class="source-line-no">503</span><span id="line-503">  private void dispatchListenerEvents() {</span>
-<span class="source-line-no">504</span><span id="line-504">    if (!monitor.isOccupiedByCurrentThread()) {</span>
-<span class="source-line-no">505</span><span id="line-505">      listeners.dispatch();</span>
-<span class="source-line-no">506</span><span id="line-506">    }</span>
-<span class="source-line-no">507</span><span id="line-507">  }</span>
-<span class="source-line-no">508</span><span id="line-508"></span>
-<span class="source-line-no">509</span><span id="line-509">  private void enqueueStartingEvent() {</span>
-<span class="source-line-no">510</span><span id="line-510">    listeners.enqueue(STARTING_EVENT);</span>
+<span class="source-line-no">482</span><span id="line-482">  /**</span>
+<span class="source-line-no">483</span><span id="line-483">   * @since 14.0</span>
+<span class="source-line-no">484</span><span id="line-484">   */</span>
+<span class="source-line-no">485</span><span id="line-485">  @Override</span>
+<span class="source-line-no">486</span><span id="line-486">  public final Throwable failureCause() {</span>
+<span class="source-line-no">487</span><span id="line-487">    return snapshot.failureCause();</span>
+<span class="source-line-no">488</span><span id="line-488">  }</span>
+<span class="source-line-no">489</span><span id="line-489"></span>
+<span class="source-line-no">490</span><span id="line-490">  /**</span>
+<span class="source-line-no">491</span><span id="line-491">   * @since 13.0</span>
+<span class="source-line-no">492</span><span id="line-492">   */</span>
+<span class="source-line-no">493</span><span id="line-493">  @Override</span>
+<span class="source-line-no">494</span><span id="line-494">  public final void addListener(Listener listener, Executor executor) {</span>
+<span class="source-line-no">495</span><span id="line-495">    listeners.addListener(listener, executor);</span>
+<span class="source-line-no">496</span><span id="line-496">  }</span>
+<span class="source-line-no">497</span><span id="line-497"></span>
+<span class="source-line-no">498</span><span id="line-498">  @Override</span>
+<span class="source-line-no">499</span><span id="line-499">  public String toString() {</span>
+<span class="source-line-no">500</span><span id="line-500">    return getClass().getSimpleName() + " [" + state() + "]";</span>
+<span class="source-line-no">501</span><span id="line-501">  }</span>
+<span class="source-line-no">502</span><span id="line-502"></span>
+<span class="source-line-no">503</span><span id="line-503">  /**</span>
+<span class="source-line-no">504</span><span id="line-504">   * Attempts to execute all the listeners in {@link #listeners} while not holding the {@link</span>
+<span class="source-line-no">505</span><span id="line-505">   * #monitor}.</span>
+<span class="source-line-no">506</span><span id="line-506">   */</span>
+<span class="source-line-no">507</span><span id="line-507">  private void dispatchListenerEvents() {</span>
+<span class="source-line-no">508</span><span id="line-508">    if (!monitor.isOccupiedByCurrentThread()) {</span>
+<span class="source-line-no">509</span><span id="line-509">      listeners.dispatch();</span>
+<span class="source-line-no">510</span><span id="line-510">    }</span>
 <span class="source-line-no">511</span><span id="line-511">  }</span>
 <span class="source-line-no">512</span><span id="line-512"></span>
-<span class="source-line-no">513</span><span id="line-513">  private void enqueueRunningEvent() {</span>
-<span class="source-line-no">514</span><span id="line-514">    listeners.enqueue(RUNNING_EVENT);</span>
+<span class="source-line-no">513</span><span id="line-513">  private void enqueueStartingEvent() {</span>
+<span class="source-line-no">514</span><span id="line-514">    listeners.enqueue(STARTING_EVENT);</span>
 <span class="source-line-no">515</span><span id="line-515">  }</span>
 <span class="source-line-no">516</span><span id="line-516"></span>
-<span class="source-line-no">517</span><span id="line-517">  private void enqueueStoppingEvent(final State from) {</span>
-<span class="source-line-no">518</span><span id="line-518">    if (from == State.STARTING) {</span>
-<span class="source-line-no">519</span><span id="line-519">      listeners.enqueue(STOPPING_FROM_STARTING_EVENT);</span>
-<span class="source-line-no">520</span><span id="line-520">    } else if (from == State.RUNNING) {</span>
-<span class="source-line-no">521</span><span id="line-521">      listeners.enqueue(STOPPING_FROM_RUNNING_EVENT);</span>
-<span class="source-line-no">522</span><span id="line-522">    } else {</span>
-<span class="source-line-no">523</span><span id="line-523">      throw new AssertionError();</span>
-<span class="source-line-no">524</span><span id="line-524">    }</span>
-<span class="source-line-no">525</span><span id="line-525">  }</span>
-<span class="source-line-no">526</span><span id="line-526"></span>
-<span class="source-line-no">527</span><span id="line-527">  private void enqueueTerminatedEvent(final State from) {</span>
-<span class="source-line-no">528</span><span id="line-528">    switch (from) {</span>
-<span class="source-line-no">529</span><span id="line-529">      case NEW:</span>
-<span class="source-line-no">530</span><span id="line-530">        listeners.enqueue(TERMINATED_FROM_NEW_EVENT);</span>
-<span class="source-line-no">531</span><span id="line-531">        break;</span>
-<span class="source-line-no">532</span><span id="line-532">      case STARTING:</span>
-<span class="source-line-no">533</span><span id="line-533">        listeners.enqueue(TERMINATED_FROM_STARTING_EVENT);</span>
-<span class="source-line-no">534</span><span id="line-534">        break;</span>
-<span class="source-line-no">535</span><span id="line-535">      case RUNNING:</span>
-<span class="source-line-no">536</span><span id="line-536">        listeners.enqueue(TERMINATED_FROM_RUNNING_EVENT);</span>
-<span class="source-line-no">537</span><span id="line-537">        break;</span>
-<span class="source-line-no">538</span><span id="line-538">      case STOPPING:</span>
-<span class="source-line-no">539</span><span id="line-539">        listeners.enqueue(TERMINATED_FROM_STOPPING_EVENT);</span>
-<span class="source-line-no">540</span><span id="line-540">        break;</span>
-<span class="source-line-no">541</span><span id="line-541">      case TERMINATED:</span>
-<span class="source-line-no">542</span><span id="line-542">      case FAILED:</span>
-<span class="source-line-no">543</span><span id="line-543">        throw new AssertionError();</span>
-<span class="source-line-no">544</span><span id="line-544">    }</span>
-<span class="source-line-no">545</span><span id="line-545">  }</span>
-<span class="source-line-no">546</span><span id="line-546"></span>
-<span class="source-line-no">547</span><span id="line-547">  private void enqueueFailedEvent(final State from, final Throwable cause) {</span>
-<span class="source-line-no">548</span><span id="line-548">    // can't memoize this one due to the exception</span>
-<span class="source-line-no">549</span><span id="line-549">    listeners.enqueue(</span>
-<span class="source-line-no">550</span><span id="line-550">        new ListenerCallQueue.Event&lt;Listener&gt;() {</span>
-<span class="source-line-no">551</span><span id="line-551">          @Override</span>
-<span class="source-line-no">552</span><span id="line-552">          public void call(Listener listener) {</span>
-<span class="source-line-no">553</span><span id="line-553">            listener.failed(from, cause);</span>
-<span class="source-line-no">554</span><span id="line-554">          }</span>
-<span class="source-line-no">555</span><span id="line-555"></span>
-<span class="source-line-no">556</span><span id="line-556">          @Override</span>
-<span class="source-line-no">557</span><span id="line-557">          public String toString() {</span>
-<span class="source-line-no">558</span><span id="line-558">            return "failed({from = " + from + ", cause = " + cause + "})";</span>
-<span class="source-line-no">559</span><span id="line-559">          }</span>
-<span class="source-line-no">560</span><span id="line-560">        });</span>
-<span class="source-line-no">561</span><span id="line-561">  }</span>
-<span class="source-line-no">562</span><span id="line-562"></span>
-<span class="source-line-no">563</span><span id="line-563">  /**</span>
-<span class="source-line-no">564</span><span id="line-564">   * An immutable snapshot of the current state of the service. This class represents a consistent</span>
-<span class="source-line-no">565</span><span id="line-565">   * snapshot of the state and therefore it can be used to answer simple queries without needing to</span>
-<span class="source-line-no">566</span><span id="line-566">   * grab a lock.</span>
-<span class="source-line-no">567</span><span id="line-567">   */</span>
-<span class="source-line-no">568</span><span id="line-568">  // @Immutable except that Throwable is mutable (initCause(), setStackTrace(), mutable subclasses).</span>
-<span class="source-line-no">569</span><span id="line-569">  private static final class StateSnapshot {</span>
-<span class="source-line-no">570</span><span id="line-570">    /**</span>
-<span class="source-line-no">571</span><span id="line-571">     * The internal state, which equals external state unless shutdownWhenStartupFinishes is true.</span>
-<span class="source-line-no">572</span><span id="line-572">     */</span>
-<span class="source-line-no">573</span><span id="line-573">    final State state;</span>
-<span class="source-line-no">574</span><span id="line-574"></span>
-<span class="source-line-no">575</span><span id="line-575">    /** If true, the user requested a shutdown while the service was still starting up. */</span>
-<span class="source-line-no">576</span><span id="line-576">    final boolean shutdownWhenStartupFinishes;</span>
-<span class="source-line-no">577</span><span id="line-577"></span>
-<span class="source-line-no">578</span><span id="line-578">    /**</span>
-<span class="source-line-no">579</span><span id="line-579">     * The exception that caused this service to fail. This will be {@code null} unless the service</span>
-<span class="source-line-no">580</span><span id="line-580">     * has failed.</span>
-<span class="source-line-no">581</span><span id="line-581">     */</span>
-<span class="source-line-no">582</span><span id="line-582">    final @Nullable Throwable failure;</span>
-<span class="source-line-no">583</span><span id="line-583"></span>
-<span class="source-line-no">584</span><span id="line-584">    StateSnapshot(State internalState) {</span>
-<span class="source-line-no">585</span><span id="line-585">      this(internalState, false, null);</span>
-<span class="source-line-no">586</span><span id="line-586">    }</span>
+<span class="source-line-no">517</span><span id="line-517">  private void enqueueRunningEvent() {</span>
+<span class="source-line-no">518</span><span id="line-518">    listeners.enqueue(RUNNING_EVENT);</span>
+<span class="source-line-no">519</span><span id="line-519">  }</span>
+<span class="source-line-no">520</span><span id="line-520"></span>
+<span class="source-line-no">521</span><span id="line-521">  private void enqueueStoppingEvent(final State from) {</span>
+<span class="source-line-no">522</span><span id="line-522">    if (from == State.STARTING) {</span>
+<span class="source-line-no">523</span><span id="line-523">      listeners.enqueue(STOPPING_FROM_STARTING_EVENT);</span>
+<span class="source-line-no">524</span><span id="line-524">    } else if (from == State.RUNNING) {</span>
+<span class="source-line-no">525</span><span id="line-525">      listeners.enqueue(STOPPING_FROM_RUNNING_EVENT);</span>
+<span class="source-line-no">526</span><span id="line-526">    } else {</span>
+<span class="source-line-no">527</span><span id="line-527">      throw new AssertionError();</span>
+<span class="source-line-no">528</span><span id="line-528">    }</span>
+<span class="source-line-no">529</span><span id="line-529">  }</span>
+<span class="source-line-no">530</span><span id="line-530"></span>
+<span class="source-line-no">531</span><span id="line-531">  private void enqueueTerminatedEvent(final State from) {</span>
+<span class="source-line-no">532</span><span id="line-532">    switch (from) {</span>
+<span class="source-line-no">533</span><span id="line-533">      case NEW:</span>
+<span class="source-line-no">534</span><span id="line-534">        listeners.enqueue(TERMINATED_FROM_NEW_EVENT);</span>
+<span class="source-line-no">535</span><span id="line-535">        break;</span>
+<span class="source-line-no">536</span><span id="line-536">      case STARTING:</span>
+<span class="source-line-no">537</span><span id="line-537">        listeners.enqueue(TERMINATED_FROM_STARTING_EVENT);</span>
+<span class="source-line-no">538</span><span id="line-538">        break;</span>
+<span class="source-line-no">539</span><span id="line-539">      case RUNNING:</span>
+<span class="source-line-no">540</span><span id="line-540">        listeners.enqueue(TERMINATED_FROM_RUNNING_EVENT);</span>
+<span class="source-line-no">541</span><span id="line-541">        break;</span>
+<span class="source-line-no">542</span><span id="line-542">      case STOPPING:</span>
+<span class="source-line-no">543</span><span id="line-543">        listeners.enqueue(TERMINATED_FROM_STOPPING_EVENT);</span>
+<span class="source-line-no">544</span><span id="line-544">        break;</span>
+<span class="source-line-no">545</span><span id="line-545">      case TERMINATED:</span>
+<span class="source-line-no">546</span><span id="line-546">      case FAILED:</span>
+<span class="source-line-no">547</span><span id="line-547">        throw new AssertionError();</span>
+<span class="source-line-no">548</span><span id="line-548">    }</span>
+<span class="source-line-no">549</span><span id="line-549">  }</span>
+<span class="source-line-no">550</span><span id="line-550"></span>
+<span class="source-line-no">551</span><span id="line-551">  private void enqueueFailedEvent(final State from, final Throwable cause) {</span>
+<span class="source-line-no">552</span><span id="line-552">    // can't memoize this one due to the exception</span>
+<span class="source-line-no">553</span><span id="line-553">    listeners.enqueue(</span>
+<span class="source-line-no">554</span><span id="line-554">        new ListenerCallQueue.Event&lt;Listener&gt;() {</span>
+<span class="source-line-no">555</span><span id="line-555">          @Override</span>
+<span class="source-line-no">556</span><span id="line-556">          public void call(Listener listener) {</span>
+<span class="source-line-no">557</span><span id="line-557">            listener.failed(from, cause);</span>
+<span class="source-line-no">558</span><span id="line-558">          }</span>
+<span class="source-line-no">559</span><span id="line-559"></span>
+<span class="source-line-no">560</span><span id="line-560">          @Override</span>
+<span class="source-line-no">561</span><span id="line-561">          public String toString() {</span>
+<span class="source-line-no">562</span><span id="line-562">            return "failed({from = " + from + ", cause = " + cause + "})";</span>
+<span class="source-line-no">563</span><span id="line-563">          }</span>
+<span class="source-line-no">564</span><span id="line-564">        });</span>
+<span class="source-line-no">565</span><span id="line-565">  }</span>
+<span class="source-line-no">566</span><span id="line-566"></span>
+<span class="source-line-no">567</span><span id="line-567">  /**</span>
+<span class="source-line-no">568</span><span id="line-568">   * An immutable snapshot of the current state of the service. This class represents a consistent</span>
+<span class="source-line-no">569</span><span id="line-569">   * snapshot of the state and therefore it can be used to answer simple queries without needing to</span>
+<span class="source-line-no">570</span><span id="line-570">   * grab a lock.</span>
+<span class="source-line-no">571</span><span id="line-571">   */</span>
+<span class="source-line-no">572</span><span id="line-572">  // @Immutable except that Throwable is mutable (initCause(), setStackTrace(), mutable subclasses).</span>
+<span class="source-line-no">573</span><span id="line-573">  private static final class StateSnapshot {</span>
+<span class="source-line-no">574</span><span id="line-574">    /**</span>
+<span class="source-line-no">575</span><span id="line-575">     * The internal state, which equals external state unless shutdownWhenStartupFinishes is true.</span>
+<span class="source-line-no">576</span><span id="line-576">     */</span>
+<span class="source-line-no">577</span><span id="line-577">    final State state;</span>
+<span class="source-line-no">578</span><span id="line-578"></span>
+<span class="source-line-no">579</span><span id="line-579">    /** If true, the user requested a shutdown while the service was still starting up. */</span>
+<span class="source-line-no">580</span><span id="line-580">    final boolean shutdownWhenStartupFinishes;</span>
+<span class="source-line-no">581</span><span id="line-581"></span>
+<span class="source-line-no">582</span><span id="line-582">    /**</span>
+<span class="source-line-no">583</span><span id="line-583">     * The exception that caused this service to fail. This will be {@code null} unless the service</span>
+<span class="source-line-no">584</span><span id="line-584">     * has failed.</span>
+<span class="source-line-no">585</span><span id="line-585">     */</span>
+<span class="source-line-no">586</span><span id="line-586">    final @Nullable Throwable failure;</span>
 <span class="source-line-no">587</span><span id="line-587"></span>
-<span class="source-line-no">588</span><span id="line-588">    StateSnapshot(</span>
-<span class="source-line-no">589</span><span id="line-589">        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {</span>
-<span class="source-line-no">590</span><span id="line-590">      checkArgument(</span>
-<span class="source-line-no">591</span><span id="line-591">          !shutdownWhenStartupFinishes || internalState == STARTING,</span>
-<span class="source-line-no">592</span><span id="line-592">          "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",</span>
-<span class="source-line-no">593</span><span id="line-593">          internalState);</span>
+<span class="source-line-no">588</span><span id="line-588">    StateSnapshot(State internalState) {</span>
+<span class="source-line-no">589</span><span id="line-589">      this(internalState, false, null);</span>
+<span class="source-line-no">590</span><span id="line-590">    }</span>
+<span class="source-line-no">591</span><span id="line-591"></span>
+<span class="source-line-no">592</span><span id="line-592">    StateSnapshot(</span>
+<span class="source-line-no">593</span><span id="line-593">        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {</span>
 <span class="source-line-no">594</span><span id="line-594">      checkArgument(</span>
-<span class="source-line-no">595</span><span id="line-595">          (failure != null) == (internalState == FAILED),</span>
-<span class="source-line-no">596</span><span id="line-596">          "A failure cause should be set if and only if the state is failed.  Got %s and %s "</span>
-<span class="source-line-no">597</span><span id="line-597">              + "instead.",</span>
-<span class="source-line-no">598</span><span id="line-598">          internalState,</span>
-<span class="source-line-no">599</span><span id="line-599">          failure);</span>
-<span class="source-line-no">600</span><span id="line-600">      this.state = internalState;</span>
-<span class="source-line-no">601</span><span id="line-601">      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;</span>
-<span class="source-line-no">602</span><span id="line-602">      this.failure = failure;</span>
-<span class="source-line-no">603</span><span id="line-603">    }</span>
-<span class="source-line-no">604</span><span id="line-604"></span>
-<span class="source-line-no">605</span><span id="line-605">    /** @see Service#state() */</span>
-<span class="source-line-no">606</span><span id="line-606">    State externalState() {</span>
-<span class="source-line-no">607</span><span id="line-607">      if (shutdownWhenStartupFinishes &amp;&amp; state == STARTING) {</span>
-<span class="source-line-no">608</span><span id="line-608">        return STOPPING;</span>
-<span class="source-line-no">609</span><span id="line-609">      } else {</span>
-<span class="source-line-no">610</span><span id="line-610">        return state;</span>
-<span class="source-line-no">611</span><span id="line-611">      }</span>
-<span class="source-line-no">612</span><span id="line-612">    }</span>
-<span class="source-line-no">613</span><span id="line-613"></span>
-<span class="source-line-no">614</span><span id="line-614">    /** @see Service#failureCause() */</span>
-<span class="source-line-no">615</span><span id="line-615">    Throwable failureCause() {</span>
-<span class="source-line-no">616</span><span id="line-616">      checkState(</span>
-<span class="source-line-no">617</span><span id="line-617">          state == FAILED,</span>
-<span class="source-line-no">618</span><span id="line-618">          "failureCause() is only valid if the service has failed, service is %s",</span>
-<span class="source-line-no">619</span><span id="line-619">          state);</span>
-<span class="source-line-no">620</span><span id="line-620">      // requireNonNull is safe because the constructor requires a non-null cause with state=FAILED.</span>
-<span class="source-line-no">621</span><span id="line-621">      return requireNonNull(failure);</span>
-<span class="source-line-no">622</span><span id="line-622">    }</span>
-<span class="source-line-no">623</span><span id="line-623">  }</span>
-<span class="source-line-no">624</span><span id="line-624">}</span>
+<span class="source-line-no">595</span><span id="line-595">          !shutdownWhenStartupFinishes || internalState == STARTING,</span>
+<span class="source-line-no">596</span><span id="line-596">          "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",</span>
+<span class="source-line-no">597</span><span id="line-597">          internalState);</span>
+<span class="source-line-no">598</span><span id="line-598">      checkArgument(</span>
+<span class="source-line-no">599</span><span id="line-599">          (failure != null) == (internalState == FAILED),</span>
+<span class="source-line-no">600</span><span id="line-600">          "A failure cause should be set if and only if the state is failed.  Got %s and %s "</span>
+<span class="source-line-no">601</span><span id="line-601">              + "instead.",</span>
+<span class="source-line-no">602</span><span id="line-602">          internalState,</span>
+<span class="source-line-no">603</span><span id="line-603">          failure);</span>
+<span class="source-line-no">604</span><span id="line-604">      this.state = internalState;</span>
+<span class="source-line-no">605</span><span id="line-605">      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;</span>
+<span class="source-line-no">606</span><span id="line-606">      this.failure = failure;</span>
+<span class="source-line-no">607</span><span id="line-607">    }</span>
+<span class="source-line-no">608</span><span id="line-608"></span>
+<span class="source-line-no">609</span><span id="line-609">    /**</span>
+<span class="source-line-no">610</span><span id="line-610">     * @see Service#state()</span>
+<span class="source-line-no">611</span><span id="line-611">     */</span>
+<span class="source-line-no">612</span><span id="line-612">    State externalState() {</span>
+<span class="source-line-no">613</span><span id="line-613">      if (shutdownWhenStartupFinishes &amp;&amp; state == STARTING) {</span>
+<span class="source-line-no">614</span><span id="line-614">        return STOPPING;</span>
+<span class="source-line-no">615</span><span id="line-615">      } else {</span>
+<span class="source-line-no">616</span><span id="line-616">        return state;</span>
+<span class="source-line-no">617</span><span id="line-617">      }</span>
+<span class="source-line-no">618</span><span id="line-618">    }</span>
+<span class="source-line-no">619</span><span id="line-619"></span>
+<span class="source-line-no">620</span><span id="line-620">    /**</span>
+<span class="source-line-no">621</span><span id="line-621">     * @see Service#failureCause()</span>
+<span class="source-line-no">622</span><span id="line-622">     */</span>
+<span class="source-line-no">623</span><span id="line-623">    Throwable failureCause() {</span>
+<span class="source-line-no">624</span><span id="line-624">      checkState(</span>
+<span class="source-line-no">625</span><span id="line-625">          state == FAILED,</span>
+<span class="source-line-no">626</span><span id="line-626">          "failureCause() is only valid if the service has failed, service is %s",</span>
+<span class="source-line-no">627</span><span id="line-627">          state);</span>
+<span class="source-line-no">628</span><span id="line-628">      // requireNonNull is safe because the constructor requires a non-null cause with state=FAILED.</span>
+<span class="source-line-no">629</span><span id="line-629">      return requireNonNull(failure);</span>
+<span class="source-line-no">630</span><span id="line-630">    }</span>
+<span class="source-line-no">631</span><span id="line-631">  }</span>
+<span class="source-line-no">632</span><span id="line-632">}</span>
 
 
 

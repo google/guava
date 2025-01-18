@@ -51,66 +51,74 @@
 <span class="source-line-no">038</span><span id="line-38">public interface ListeningScheduledExecutorService</span>
 <span class="source-line-no">039</span><span id="line-39">    extends ScheduledExecutorService, ListeningExecutorService {</span>
 <span class="source-line-no">040</span><span id="line-40"></span>
-<span class="source-line-no">041</span><span id="line-41">  /** @since 15.0 (previously returned ScheduledFuture) */</span>
-<span class="source-line-no">042</span><span id="line-42">  @Override</span>
-<span class="source-line-no">043</span><span id="line-43">  ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">  /**</span>
-<span class="source-line-no">046</span><span id="line-46">   * Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.</span>
-<span class="source-line-no">047</span><span id="line-47">   *</span>
-<span class="source-line-no">048</span><span id="line-48">   * @since 29.0</span>
-<span class="source-line-no">049</span><span id="line-49">   */</span>
-<span class="source-line-no">050</span><span id="line-50">  default ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, Duration delay) {</span>
-<span class="source-line-no">051</span><span id="line-51">    return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
-<span class="source-line-no">052</span><span id="line-52">  }</span>
-<span class="source-line-no">053</span><span id="line-53"></span>
-<span class="source-line-no">054</span><span id="line-54">  /** @since 15.0 (previously returned ScheduledFuture) */</span>
-<span class="source-line-no">055</span><span id="line-55">  @Override</span>
-<span class="source-line-no">056</span><span id="line-56">  &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
-<span class="source-line-no">057</span><span id="line-57">      Callable&lt;V&gt; callable, long delay, TimeUnit unit);</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  /**</span>
-<span class="source-line-no">060</span><span id="line-60">   * Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.</span>
-<span class="source-line-no">061</span><span id="line-61">   *</span>
-<span class="source-line-no">062</span><span id="line-62">   * @since 29.0</span>
-<span class="source-line-no">063</span><span id="line-63">   */</span>
-<span class="source-line-no">064</span><span id="line-64">  default &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
-<span class="source-line-no">065</span><span id="line-65">      Callable&lt;V&gt; callable, Duration delay) {</span>
-<span class="source-line-no">066</span><span id="line-66">    return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
-<span class="source-line-no">067</span><span id="line-67">  }</span>
-<span class="source-line-no">068</span><span id="line-68"></span>
-<span class="source-line-no">069</span><span id="line-69">  /** @since 15.0 (previously returned ScheduledFuture) */</span>
-<span class="source-line-no">070</span><span id="line-70">  @Override</span>
-<span class="source-line-no">071</span><span id="line-71">  ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
-<span class="source-line-no">072</span><span id="line-72">      Runnable command, long initialDelay, long period, TimeUnit unit);</span>
-<span class="source-line-no">073</span><span id="line-73"></span>
-<span class="source-line-no">074</span><span id="line-74">  /**</span>
-<span class="source-line-no">075</span><span id="line-75">   * Duration-based overload of {@link #scheduleAtFixedRate(Runnable, long, long, TimeUnit)}.</span>
-<span class="source-line-no">076</span><span id="line-76">   *</span>
-<span class="source-line-no">077</span><span id="line-77">   * @since 29.0</span>
-<span class="source-line-no">078</span><span id="line-78">   */</span>
-<span class="source-line-no">079</span><span id="line-79">  default ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
-<span class="source-line-no">080</span><span id="line-80">      Runnable command, Duration initialDelay, Duration period) {</span>
-<span class="source-line-no">081</span><span id="line-81">    return scheduleAtFixedRate(</span>
-<span class="source-line-no">082</span><span id="line-82">        command, toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);</span>
-<span class="source-line-no">083</span><span id="line-83">  }</span>
-<span class="source-line-no">084</span><span id="line-84"></span>
-<span class="source-line-no">085</span><span id="line-85">  /** @since 15.0 (previously returned ScheduledFuture) */</span>
-<span class="source-line-no">086</span><span id="line-86">  @Override</span>
-<span class="source-line-no">087</span><span id="line-87">  ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
-<span class="source-line-no">088</span><span id="line-88">      Runnable command, long initialDelay, long delay, TimeUnit unit);</span>
-<span class="source-line-no">089</span><span id="line-89"></span>
-<span class="source-line-no">090</span><span id="line-90">  /**</span>
-<span class="source-line-no">091</span><span id="line-91">   * Duration-based overload of {@link #scheduleWithFixedDelay(Runnable, long, long, TimeUnit)}.</span>
-<span class="source-line-no">092</span><span id="line-92">   *</span>
-<span class="source-line-no">093</span><span id="line-93">   * @since 29.0</span>
-<span class="source-line-no">094</span><span id="line-94">   */</span>
-<span class="source-line-no">095</span><span id="line-95">  default ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
-<span class="source-line-no">096</span><span id="line-96">      Runnable command, Duration initialDelay, Duration delay) {</span>
-<span class="source-line-no">097</span><span id="line-97">    return scheduleWithFixedDelay(</span>
-<span class="source-line-no">098</span><span id="line-98">        command, toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
-<span class="source-line-no">099</span><span id="line-99">  }</span>
-<span class="source-line-no">100</span><span id="line-100">}</span>
+<span class="source-line-no">041</span><span id="line-41">  /**</span>
+<span class="source-line-no">042</span><span id="line-42">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">043</span><span id="line-43">   */</span>
+<span class="source-line-no">044</span><span id="line-44">  @Override</span>
+<span class="source-line-no">045</span><span id="line-45">  ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</span>
+<span class="source-line-no">046</span><span id="line-46"></span>
+<span class="source-line-no">047</span><span id="line-47">  /**</span>
+<span class="source-line-no">048</span><span id="line-48">   * Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.</span>
+<span class="source-line-no">049</span><span id="line-49">   *</span>
+<span class="source-line-no">050</span><span id="line-50">   * @since 29.0</span>
+<span class="source-line-no">051</span><span id="line-51">   */</span>
+<span class="source-line-no">052</span><span id="line-52">  default ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, Duration delay) {</span>
+<span class="source-line-no">053</span><span id="line-53">    return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
+<span class="source-line-no">054</span><span id="line-54">  }</span>
+<span class="source-line-no">055</span><span id="line-55"></span>
+<span class="source-line-no">056</span><span id="line-56">  /**</span>
+<span class="source-line-no">057</span><span id="line-57">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">058</span><span id="line-58">   */</span>
+<span class="source-line-no">059</span><span id="line-59">  @Override</span>
+<span class="source-line-no">060</span><span id="line-60">  &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
+<span class="source-line-no">061</span><span id="line-61">      Callable&lt;V&gt; callable, long delay, TimeUnit unit);</span>
+<span class="source-line-no">062</span><span id="line-62"></span>
+<span class="source-line-no">063</span><span id="line-63">  /**</span>
+<span class="source-line-no">064</span><span id="line-64">   * Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.</span>
+<span class="source-line-no">065</span><span id="line-65">   *</span>
+<span class="source-line-no">066</span><span id="line-66">   * @since 29.0</span>
+<span class="source-line-no">067</span><span id="line-67">   */</span>
+<span class="source-line-no">068</span><span id="line-68">  default &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
+<span class="source-line-no">069</span><span id="line-69">      Callable&lt;V&gt; callable, Duration delay) {</span>
+<span class="source-line-no">070</span><span id="line-70">    return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
+<span class="source-line-no">071</span><span id="line-71">  }</span>
+<span class="source-line-no">072</span><span id="line-72"></span>
+<span class="source-line-no">073</span><span id="line-73">  /**</span>
+<span class="source-line-no">074</span><span id="line-74">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">075</span><span id="line-75">   */</span>
+<span class="source-line-no">076</span><span id="line-76">  @Override</span>
+<span class="source-line-no">077</span><span id="line-77">  ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
+<span class="source-line-no">078</span><span id="line-78">      Runnable command, long initialDelay, long period, TimeUnit unit);</span>
+<span class="source-line-no">079</span><span id="line-79"></span>
+<span class="source-line-no">080</span><span id="line-80">  /**</span>
+<span class="source-line-no">081</span><span id="line-81">   * Duration-based overload of {@link #scheduleAtFixedRate(Runnable, long, long, TimeUnit)}.</span>
+<span class="source-line-no">082</span><span id="line-82">   *</span>
+<span class="source-line-no">083</span><span id="line-83">   * @since 29.0</span>
+<span class="source-line-no">084</span><span id="line-84">   */</span>
+<span class="source-line-no">085</span><span id="line-85">  default ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
+<span class="source-line-no">086</span><span id="line-86">      Runnable command, Duration initialDelay, Duration period) {</span>
+<span class="source-line-no">087</span><span id="line-87">    return scheduleAtFixedRate(</span>
+<span class="source-line-no">088</span><span id="line-88">        command, toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);</span>
+<span class="source-line-no">089</span><span id="line-89">  }</span>
+<span class="source-line-no">090</span><span id="line-90"></span>
+<span class="source-line-no">091</span><span id="line-91">  /**</span>
+<span class="source-line-no">092</span><span id="line-92">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">093</span><span id="line-93">   */</span>
+<span class="source-line-no">094</span><span id="line-94">  @Override</span>
+<span class="source-line-no">095</span><span id="line-95">  ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
+<span class="source-line-no">096</span><span id="line-96">      Runnable command, long initialDelay, long delay, TimeUnit unit);</span>
+<span class="source-line-no">097</span><span id="line-97"></span>
+<span class="source-line-no">098</span><span id="line-98">  /**</span>
+<span class="source-line-no">099</span><span id="line-99">   * Duration-based overload of {@link #scheduleWithFixedDelay(Runnable, long, long, TimeUnit)}.</span>
+<span class="source-line-no">100</span><span id="line-100">   *</span>
+<span class="source-line-no">101</span><span id="line-101">   * @since 29.0</span>
+<span class="source-line-no">102</span><span id="line-102">   */</span>
+<span class="source-line-no">103</span><span id="line-103">  default ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
+<span class="source-line-no">104</span><span id="line-104">      Runnable command, Duration initialDelay, Duration delay) {</span>
+<span class="source-line-no">105</span><span id="line-105">    return scheduleWithFixedDelay(</span>
+<span class="source-line-no">106</span><span id="line-106">        command, toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);</span>
+<span class="source-line-no">107</span><span id="line-107">  }</span>
+<span class="source-line-no">108</span><span id="line-108">}</span>
 
 
 

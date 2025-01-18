@@ -291,278 +291,279 @@
 <span class="source-line-no">278</span><span id="line-278">  public static Striped&lt;ReadWriteLock&gt; lazyWeakReadWriteLock(int stripes) {</span>
 <span class="source-line-no">279</span><span id="line-279">    return lazyWeakCustom(stripes, WeakSafeReadWriteLock::new);</span>
 <span class="source-line-no">280</span><span id="line-280">  }</span>
-<span class="source-line-no">281</span><span id="line-281">  /**</span>
-<span class="source-line-no">282</span><span id="line-282">   * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.</span>
-<span class="source-line-no">283</span><span id="line-283">   * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure</span>
-<span class="source-line-no">284</span><span id="line-284">   * the {@code ReadWriteLock} is retained.</span>
-<span class="source-line-no">285</span><span id="line-285">   */</span>
-<span class="source-line-no">286</span><span id="line-286">  private static final class WeakSafeReadWriteLock implements ReadWriteLock {</span>
-<span class="source-line-no">287</span><span id="line-287">    private final ReadWriteLock delegate;</span>
-<span class="source-line-no">288</span><span id="line-288"></span>
-<span class="source-line-no">289</span><span id="line-289">    WeakSafeReadWriteLock() {</span>
-<span class="source-line-no">290</span><span id="line-290">      this.delegate = new ReentrantReadWriteLock();</span>
-<span class="source-line-no">291</span><span id="line-291">    }</span>
-<span class="source-line-no">292</span><span id="line-292"></span>
-<span class="source-line-no">293</span><span id="line-293">    @Override</span>
-<span class="source-line-no">294</span><span id="line-294">    public Lock readLock() {</span>
-<span class="source-line-no">295</span><span id="line-295">      return new WeakSafeLock(delegate.readLock(), this);</span>
-<span class="source-line-no">296</span><span id="line-296">    }</span>
-<span class="source-line-no">297</span><span id="line-297"></span>
-<span class="source-line-no">298</span><span id="line-298">    @Override</span>
-<span class="source-line-no">299</span><span id="line-299">    public Lock writeLock() {</span>
-<span class="source-line-no">300</span><span id="line-300">      return new WeakSafeLock(delegate.writeLock(), this);</span>
-<span class="source-line-no">301</span><span id="line-301">    }</span>
-<span class="source-line-no">302</span><span id="line-302">  }</span>
-<span class="source-line-no">303</span><span id="line-303"></span>
-<span class="source-line-no">304</span><span id="line-304">  /** Lock object that ensures a strong reference is retained to a specified object. */</span>
-<span class="source-line-no">305</span><span id="line-305">  private static final class WeakSafeLock extends ForwardingLock {</span>
-<span class="source-line-no">306</span><span id="line-306">    private final Lock delegate;</span>
-<span class="source-line-no">307</span><span id="line-307"></span>
-<span class="source-line-no">308</span><span id="line-308">    @SuppressWarnings("unused")</span>
-<span class="source-line-no">309</span><span id="line-309">    private final WeakSafeReadWriteLock strongReference;</span>
-<span class="source-line-no">310</span><span id="line-310"></span>
-<span class="source-line-no">311</span><span id="line-311">    WeakSafeLock(Lock delegate, WeakSafeReadWriteLock strongReference) {</span>
-<span class="source-line-no">312</span><span id="line-312">      this.delegate = delegate;</span>
-<span class="source-line-no">313</span><span id="line-313">      this.strongReference = strongReference;</span>
-<span class="source-line-no">314</span><span id="line-314">    }</span>
-<span class="source-line-no">315</span><span id="line-315"></span>
-<span class="source-line-no">316</span><span id="line-316">    @Override</span>
-<span class="source-line-no">317</span><span id="line-317">    Lock delegate() {</span>
-<span class="source-line-no">318</span><span id="line-318">      return delegate;</span>
-<span class="source-line-no">319</span><span id="line-319">    }</span>
-<span class="source-line-no">320</span><span id="line-320"></span>
-<span class="source-line-no">321</span><span id="line-321">    @Override</span>
-<span class="source-line-no">322</span><span id="line-322">    public Condition newCondition() {</span>
-<span class="source-line-no">323</span><span id="line-323">      return new WeakSafeCondition(delegate.newCondition(), strongReference);</span>
-<span class="source-line-no">324</span><span id="line-324">    }</span>
-<span class="source-line-no">325</span><span id="line-325">  }</span>
-<span class="source-line-no">326</span><span id="line-326"></span>
-<span class="source-line-no">327</span><span id="line-327">  /** Condition object that ensures a strong reference is retained to a specified object. */</span>
-<span class="source-line-no">328</span><span id="line-328">  private static final class WeakSafeCondition extends ForwardingCondition {</span>
-<span class="source-line-no">329</span><span id="line-329">    private final Condition delegate;</span>
-<span class="source-line-no">330</span><span id="line-330"></span>
-<span class="source-line-no">331</span><span id="line-331">    @SuppressWarnings("unused")</span>
-<span class="source-line-no">332</span><span id="line-332">    private final WeakSafeReadWriteLock strongReference;</span>
-<span class="source-line-no">333</span><span id="line-333"></span>
-<span class="source-line-no">334</span><span id="line-334">    WeakSafeCondition(Condition delegate, WeakSafeReadWriteLock strongReference) {</span>
-<span class="source-line-no">335</span><span id="line-335">      this.delegate = delegate;</span>
-<span class="source-line-no">336</span><span id="line-336">      this.strongReference = strongReference;</span>
-<span class="source-line-no">337</span><span id="line-337">    }</span>
-<span class="source-line-no">338</span><span id="line-338"></span>
-<span class="source-line-no">339</span><span id="line-339">    @Override</span>
-<span class="source-line-no">340</span><span id="line-340">    Condition delegate() {</span>
-<span class="source-line-no">341</span><span id="line-341">      return delegate;</span>
-<span class="source-line-no">342</span><span id="line-342">    }</span>
-<span class="source-line-no">343</span><span id="line-343">  }</span>
-<span class="source-line-no">344</span><span id="line-344"></span>
-<span class="source-line-no">345</span><span id="line-345">  private abstract static class PowerOfTwoStriped&lt;L&gt; extends Striped&lt;L&gt; {</span>
-<span class="source-line-no">346</span><span id="line-346">    /** Capacity (power of two) minus one, for fast mod evaluation */</span>
-<span class="source-line-no">347</span><span id="line-347">    final int mask;</span>
-<span class="source-line-no">348</span><span id="line-348"></span>
-<span class="source-line-no">349</span><span id="line-349">    PowerOfTwoStriped(int stripes) {</span>
-<span class="source-line-no">350</span><span id="line-350">      Preconditions.checkArgument(stripes &gt; 0, "Stripes must be positive");</span>
-<span class="source-line-no">351</span><span id="line-351">      this.mask = stripes &gt; Ints.MAX_POWER_OF_TWO ? ALL_SET : ceilToPowerOfTwo(stripes) - 1;</span>
-<span class="source-line-no">352</span><span id="line-352">    }</span>
-<span class="source-line-no">353</span><span id="line-353"></span>
-<span class="source-line-no">354</span><span id="line-354">    @Override</span>
-<span class="source-line-no">355</span><span id="line-355">    final int indexFor(Object key) {</span>
-<span class="source-line-no">356</span><span id="line-356">      int hash = smear(key.hashCode());</span>
-<span class="source-line-no">357</span><span id="line-357">      return hash &amp; mask;</span>
-<span class="source-line-no">358</span><span id="line-358">    }</span>
-<span class="source-line-no">359</span><span id="line-359"></span>
-<span class="source-line-no">360</span><span id="line-360">    @Override</span>
-<span class="source-line-no">361</span><span id="line-361">    public final L get(Object key) {</span>
-<span class="source-line-no">362</span><span id="line-362">      return getAt(indexFor(key));</span>
-<span class="source-line-no">363</span><span id="line-363">    }</span>
-<span class="source-line-no">364</span><span id="line-364">  }</span>
-<span class="source-line-no">365</span><span id="line-365"></span>
-<span class="source-line-no">366</span><span id="line-366">  /**</span>
-<span class="source-line-no">367</span><span id="line-367">   * Implementation of Striped where 2^k stripes are represented as an array of the same length,</span>
-<span class="source-line-no">368</span><span id="line-368">   * eagerly initialized.</span>
-<span class="source-line-no">369</span><span id="line-369">   */</span>
-<span class="source-line-no">370</span><span id="line-370">  private static class CompactStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
-<span class="source-line-no">371</span><span id="line-371">    /** Size is a power of two. */</span>
-<span class="source-line-no">372</span><span id="line-372">    private final Object[] array;</span>
-<span class="source-line-no">373</span><span id="line-373"></span>
-<span class="source-line-no">374</span><span id="line-374">    private CompactStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
-<span class="source-line-no">375</span><span id="line-375">      super(stripes);</span>
-<span class="source-line-no">376</span><span id="line-376">      Preconditions.checkArgument(stripes &lt;= Ints.MAX_POWER_OF_TWO, "Stripes must be &lt;= 2^30)");</span>
-<span class="source-line-no">377</span><span id="line-377"></span>
-<span class="source-line-no">378</span><span id="line-378">      this.array = new Object[mask + 1];</span>
-<span class="source-line-no">379</span><span id="line-379">      for (int i = 0; i &lt; array.length; i++) {</span>
-<span class="source-line-no">380</span><span id="line-380">        array[i] = supplier.get();</span>
-<span class="source-line-no">381</span><span id="line-381">      }</span>
-<span class="source-line-no">382</span><span id="line-382">    }</span>
-<span class="source-line-no">383</span><span id="line-383"></span>
-<span class="source-line-no">384</span><span id="line-384">    @SuppressWarnings("unchecked") // we only put L's in the array</span>
-<span class="source-line-no">385</span><span id="line-385">    @Override</span>
-<span class="source-line-no">386</span><span id="line-386">    public L getAt(int index) {</span>
-<span class="source-line-no">387</span><span id="line-387">      return (L) array[index];</span>
-<span class="source-line-no">388</span><span id="line-388">    }</span>
-<span class="source-line-no">389</span><span id="line-389"></span>
-<span class="source-line-no">390</span><span id="line-390">    @Override</span>
-<span class="source-line-no">391</span><span id="line-391">    public int size() {</span>
-<span class="source-line-no">392</span><span id="line-392">      return array.length;</span>
-<span class="source-line-no">393</span><span id="line-393">    }</span>
-<span class="source-line-no">394</span><span id="line-394">  }</span>
-<span class="source-line-no">395</span><span id="line-395"></span>
-<span class="source-line-no">396</span><span id="line-396">  /**</span>
-<span class="source-line-no">397</span><span id="line-397">   * Implementation of Striped where up to 2^k stripes can be represented, using an</span>
-<span class="source-line-no">398</span><span id="line-398">   * AtomicReferenceArray of size 2^k. To map a user key into a stripe, we take a k-bit slice of the</span>
-<span class="source-line-no">399</span><span id="line-399">   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.</span>
-<span class="source-line-no">400</span><span id="line-400">   */</span>
-<span class="source-line-no">401</span><span id="line-401">  @VisibleForTesting</span>
-<span class="source-line-no">402</span><span id="line-402">  static class SmallLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
-<span class="source-line-no">403</span><span id="line-403">    final AtomicReferenceArray&lt;@Nullable ArrayReference&lt;? extends L&gt;&gt; locks;</span>
-<span class="source-line-no">404</span><span id="line-404">    final Supplier&lt;L&gt; supplier;</span>
-<span class="source-line-no">405</span><span id="line-405">    final int size;</span>
-<span class="source-line-no">406</span><span id="line-406">    final ReferenceQueue&lt;L&gt; queue = new ReferenceQueue&lt;&gt;();</span>
-<span class="source-line-no">407</span><span id="line-407"></span>
-<span class="source-line-no">408</span><span id="line-408">    SmallLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
-<span class="source-line-no">409</span><span id="line-409">      super(stripes);</span>
-<span class="source-line-no">410</span><span id="line-410">      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;</span>
-<span class="source-line-no">411</span><span id="line-411">      this.locks = new AtomicReferenceArray&lt;&gt;(size);</span>
-<span class="source-line-no">412</span><span id="line-412">      this.supplier = supplier;</span>
-<span class="source-line-no">413</span><span id="line-413">    }</span>
-<span class="source-line-no">414</span><span id="line-414"></span>
-<span class="source-line-no">415</span><span id="line-415">    @Override</span>
-<span class="source-line-no">416</span><span id="line-416">    public L getAt(int index) {</span>
-<span class="source-line-no">417</span><span id="line-417">      if (size != Integer.MAX_VALUE) {</span>
-<span class="source-line-no">418</span><span id="line-418">        Preconditions.checkElementIndex(index, size());</span>
-<span class="source-line-no">419</span><span id="line-419">      } // else no check necessary, all index values are valid</span>
-<span class="source-line-no">420</span><span id="line-420">      ArrayReference&lt;? extends L&gt; existingRef = locks.get(index);</span>
-<span class="source-line-no">421</span><span id="line-421">      L existing = existingRef == null ? null : existingRef.get();</span>
-<span class="source-line-no">422</span><span id="line-422">      if (existing != null) {</span>
-<span class="source-line-no">423</span><span id="line-423">        return existing;</span>
-<span class="source-line-no">424</span><span id="line-424">      }</span>
-<span class="source-line-no">425</span><span id="line-425">      L created = supplier.get();</span>
-<span class="source-line-no">426</span><span id="line-426">      ArrayReference&lt;L&gt; newRef = new ArrayReference&lt;&gt;(created, index, queue);</span>
-<span class="source-line-no">427</span><span id="line-427">      while (!locks.compareAndSet(index, existingRef, newRef)) {</span>
-<span class="source-line-no">428</span><span id="line-428">        // we raced, we need to re-read and try again</span>
-<span class="source-line-no">429</span><span id="line-429">        existingRef = locks.get(index);</span>
-<span class="source-line-no">430</span><span id="line-430">        existing = existingRef == null ? null : existingRef.get();</span>
-<span class="source-line-no">431</span><span id="line-431">        if (existing != null) {</span>
-<span class="source-line-no">432</span><span id="line-432">          return existing;</span>
-<span class="source-line-no">433</span><span id="line-433">        }</span>
-<span class="source-line-no">434</span><span id="line-434">      }</span>
-<span class="source-line-no">435</span><span id="line-435">      drainQueue();</span>
-<span class="source-line-no">436</span><span id="line-436">      return created;</span>
-<span class="source-line-no">437</span><span id="line-437">    }</span>
-<span class="source-line-no">438</span><span id="line-438"></span>
-<span class="source-line-no">439</span><span id="line-439">    // N.B. Draining the queue is only necessary to ensure that we don't accumulate empty references</span>
-<span class="source-line-no">440</span><span id="line-440">    // in the array. We could skip this if we decide we don't care about holding on to Reference</span>
-<span class="source-line-no">441</span><span id="line-441">    // objects indefinitely.</span>
-<span class="source-line-no">442</span><span id="line-442">    private void drainQueue() {</span>
-<span class="source-line-no">443</span><span id="line-443">      Reference&lt;? extends L&gt; ref;</span>
-<span class="source-line-no">444</span><span id="line-444">      while ((ref = queue.poll()) != null) {</span>
-<span class="source-line-no">445</span><span id="line-445">        // We only ever register ArrayReferences with the queue so this is always safe.</span>
-<span class="source-line-no">446</span><span id="line-446">        ArrayReference&lt;? extends L&gt; arrayRef = (ArrayReference&lt;? extends L&gt;) ref;</span>
-<span class="source-line-no">447</span><span id="line-447">        // Try to clear out the array slot, n.b. if we fail that is fine, in either case the</span>
-<span class="source-line-no">448</span><span id="line-448">        // arrayRef will be out of the array after this step.</span>
-<span class="source-line-no">449</span><span id="line-449">        locks.compareAndSet(arrayRef.index, arrayRef, null);</span>
-<span class="source-line-no">450</span><span id="line-450">      }</span>
-<span class="source-line-no">451</span><span id="line-451">    }</span>
-<span class="source-line-no">452</span><span id="line-452"></span>
-<span class="source-line-no">453</span><span id="line-453">    @Override</span>
-<span class="source-line-no">454</span><span id="line-454">    public int size() {</span>
-<span class="source-line-no">455</span><span id="line-455">      return size;</span>
-<span class="source-line-no">456</span><span id="line-456">    }</span>
-<span class="source-line-no">457</span><span id="line-457"></span>
-<span class="source-line-no">458</span><span id="line-458">    private static final class ArrayReference&lt;L&gt; extends WeakReference&lt;L&gt; {</span>
-<span class="source-line-no">459</span><span id="line-459">      final int index;</span>
-<span class="source-line-no">460</span><span id="line-460"></span>
-<span class="source-line-no">461</span><span id="line-461">      ArrayReference(L referent, int index, ReferenceQueue&lt;L&gt; queue) {</span>
-<span class="source-line-no">462</span><span id="line-462">        super(referent, queue);</span>
-<span class="source-line-no">463</span><span id="line-463">        this.index = index;</span>
-<span class="source-line-no">464</span><span id="line-464">      }</span>
-<span class="source-line-no">465</span><span id="line-465">    }</span>
-<span class="source-line-no">466</span><span id="line-466">  }</span>
-<span class="source-line-no">467</span><span id="line-467"></span>
-<span class="source-line-no">468</span><span id="line-468">  /**</span>
-<span class="source-line-no">469</span><span id="line-469">   * Implementation of Striped where up to 2^k stripes can be represented, using a ConcurrentMap</span>
-<span class="source-line-no">470</span><span id="line-470">   * where the key domain is [0..2^k). To map a user key into a stripe, we take a k-bit slice of the</span>
-<span class="source-line-no">471</span><span id="line-471">   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.</span>
-<span class="source-line-no">472</span><span id="line-472">   */</span>
-<span class="source-line-no">473</span><span id="line-473">  @VisibleForTesting</span>
-<span class="source-line-no">474</span><span id="line-474">  static class LargeLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
-<span class="source-line-no">475</span><span id="line-475">    final ConcurrentMap&lt;Integer, L&gt; locks;</span>
-<span class="source-line-no">476</span><span id="line-476">    final Supplier&lt;L&gt; supplier;</span>
-<span class="source-line-no">477</span><span id="line-477">    final int size;</span>
-<span class="source-line-no">478</span><span id="line-478"></span>
-<span class="source-line-no">479</span><span id="line-479">    LargeLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
-<span class="source-line-no">480</span><span id="line-480">      super(stripes);</span>
-<span class="source-line-no">481</span><span id="line-481">      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;</span>
-<span class="source-line-no">482</span><span id="line-482">      this.supplier = supplier;</span>
-<span class="source-line-no">483</span><span id="line-483">      this.locks = new MapMaker().weakValues().makeMap();</span>
-<span class="source-line-no">484</span><span id="line-484">    }</span>
-<span class="source-line-no">485</span><span id="line-485"></span>
-<span class="source-line-no">486</span><span id="line-486">    @Override</span>
-<span class="source-line-no">487</span><span id="line-487">    public L getAt(int index) {</span>
-<span class="source-line-no">488</span><span id="line-488">      if (size != Integer.MAX_VALUE) {</span>
-<span class="source-line-no">489</span><span id="line-489">        Preconditions.checkElementIndex(index, size());</span>
-<span class="source-line-no">490</span><span id="line-490">      } // else no check necessary, all index values are valid</span>
-<span class="source-line-no">491</span><span id="line-491">      L existing = locks.get(index);</span>
-<span class="source-line-no">492</span><span id="line-492">      if (existing != null) {</span>
-<span class="source-line-no">493</span><span id="line-493">        return existing;</span>
-<span class="source-line-no">494</span><span id="line-494">      }</span>
-<span class="source-line-no">495</span><span id="line-495">      L created = supplier.get();</span>
-<span class="source-line-no">496</span><span id="line-496">      existing = locks.putIfAbsent(index, created);</span>
-<span class="source-line-no">497</span><span id="line-497">      return MoreObjects.firstNonNull(existing, created);</span>
-<span class="source-line-no">498</span><span id="line-498">    }</span>
-<span class="source-line-no">499</span><span id="line-499"></span>
-<span class="source-line-no">500</span><span id="line-500">    @Override</span>
-<span class="source-line-no">501</span><span id="line-501">    public int size() {</span>
-<span class="source-line-no">502</span><span id="line-502">      return size;</span>
-<span class="source-line-no">503</span><span id="line-503">    }</span>
-<span class="source-line-no">504</span><span id="line-504">  }</span>
-<span class="source-line-no">505</span><span id="line-505"></span>
-<span class="source-line-no">506</span><span id="line-506">  /** A bit mask were all bits are set. */</span>
-<span class="source-line-no">507</span><span id="line-507">  private static final int ALL_SET = ~0;</span>
-<span class="source-line-no">508</span><span id="line-508"></span>
-<span class="source-line-no">509</span><span id="line-509">  private static int ceilToPowerOfTwo(int x) {</span>
-<span class="source-line-no">510</span><span id="line-510">    return 1 &lt;&lt; IntMath.log2(x, RoundingMode.CEILING);</span>
-<span class="source-line-no">511</span><span id="line-511">  }</span>
-<span class="source-line-no">512</span><span id="line-512"></span>
-<span class="source-line-no">513</span><span id="line-513">  /*</span>
-<span class="source-line-no">514</span><span id="line-514">   * This method was written by Doug Lea with assistance from members of JCP JSR-166 Expert Group</span>
-<span class="source-line-no">515</span><span id="line-515">   * and released to the public domain, as explained at</span>
-<span class="source-line-no">516</span><span id="line-516">   * http://creativecommons.org/licenses/publicdomain</span>
-<span class="source-line-no">517</span><span id="line-517">   *</span>
-<span class="source-line-no">518</span><span id="line-518">   * As of 2010/06/11, this method is identical to the (package private) hash method in OpenJDK 7's</span>
-<span class="source-line-no">519</span><span id="line-519">   * java.util.HashMap class.</span>
-<span class="source-line-no">520</span><span id="line-520">   */</span>
-<span class="source-line-no">521</span><span id="line-521">  // Copied from java/com/google/common/collect/Hashing.java</span>
-<span class="source-line-no">522</span><span id="line-522">  private static int smear(int hashCode) {</span>
-<span class="source-line-no">523</span><span id="line-523">    hashCode ^= (hashCode &gt;&gt;&gt; 20) ^ (hashCode &gt;&gt;&gt; 12);</span>
-<span class="source-line-no">524</span><span id="line-524">    return hashCode ^ (hashCode &gt;&gt;&gt; 7) ^ (hashCode &gt;&gt;&gt; 4);</span>
-<span class="source-line-no">525</span><span id="line-525">  }</span>
-<span class="source-line-no">526</span><span id="line-526"></span>
-<span class="source-line-no">527</span><span id="line-527">  private static class PaddedLock extends ReentrantLock {</span>
-<span class="source-line-no">528</span><span id="line-528">    /*</span>
-<span class="source-line-no">529</span><span id="line-529">     * Padding from 40 into 64 bytes, same size as cache line. Might be beneficial to add a fourth</span>
-<span class="source-line-no">530</span><span id="line-530">     * long here, to minimize chance of interference between consecutive locks, but I couldn't</span>
-<span class="source-line-no">531</span><span id="line-531">     * observe any benefit from that.</span>
-<span class="source-line-no">532</span><span id="line-532">     */</span>
-<span class="source-line-no">533</span><span id="line-533">    long unused1;</span>
-<span class="source-line-no">534</span><span id="line-534">    long unused2;</span>
-<span class="source-line-no">535</span><span id="line-535">    long unused3;</span>
-<span class="source-line-no">536</span><span id="line-536"></span>
-<span class="source-line-no">537</span><span id="line-537">    PaddedLock() {</span>
-<span class="source-line-no">538</span><span id="line-538">      super(false);</span>
-<span class="source-line-no">539</span><span id="line-539">    }</span>
-<span class="source-line-no">540</span><span id="line-540">  }</span>
-<span class="source-line-no">541</span><span id="line-541"></span>
-<span class="source-line-no">542</span><span id="line-542">  private static class PaddedSemaphore extends Semaphore {</span>
-<span class="source-line-no">543</span><span id="line-543">    // See PaddedReentrantLock comment</span>
-<span class="source-line-no">544</span><span id="line-544">    long unused1;</span>
-<span class="source-line-no">545</span><span id="line-545">    long unused2;</span>
-<span class="source-line-no">546</span><span id="line-546">    long unused3;</span>
-<span class="source-line-no">547</span><span id="line-547"></span>
-<span class="source-line-no">548</span><span id="line-548">    PaddedSemaphore(int permits) {</span>
-<span class="source-line-no">549</span><span id="line-549">      super(permits, false);</span>
-<span class="source-line-no">550</span><span id="line-550">    }</span>
-<span class="source-line-no">551</span><span id="line-551">  }</span>
-<span class="source-line-no">552</span><span id="line-552">}</span>
+<span class="source-line-no">281</span><span id="line-281"></span>
+<span class="source-line-no">282</span><span id="line-282">  /**</span>
+<span class="source-line-no">283</span><span id="line-283">   * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.</span>
+<span class="source-line-no">284</span><span id="line-284">   * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure</span>
+<span class="source-line-no">285</span><span id="line-285">   * the {@code ReadWriteLock} is retained.</span>
+<span class="source-line-no">286</span><span id="line-286">   */</span>
+<span class="source-line-no">287</span><span id="line-287">  private static final class WeakSafeReadWriteLock implements ReadWriteLock {</span>
+<span class="source-line-no">288</span><span id="line-288">    private final ReadWriteLock delegate;</span>
+<span class="source-line-no">289</span><span id="line-289"></span>
+<span class="source-line-no">290</span><span id="line-290">    WeakSafeReadWriteLock() {</span>
+<span class="source-line-no">291</span><span id="line-291">      this.delegate = new ReentrantReadWriteLock();</span>
+<span class="source-line-no">292</span><span id="line-292">    }</span>
+<span class="source-line-no">293</span><span id="line-293"></span>
+<span class="source-line-no">294</span><span id="line-294">    @Override</span>
+<span class="source-line-no">295</span><span id="line-295">    public Lock readLock() {</span>
+<span class="source-line-no">296</span><span id="line-296">      return new WeakSafeLock(delegate.readLock(), this);</span>
+<span class="source-line-no">297</span><span id="line-297">    }</span>
+<span class="source-line-no">298</span><span id="line-298"></span>
+<span class="source-line-no">299</span><span id="line-299">    @Override</span>
+<span class="source-line-no">300</span><span id="line-300">    public Lock writeLock() {</span>
+<span class="source-line-no">301</span><span id="line-301">      return new WeakSafeLock(delegate.writeLock(), this);</span>
+<span class="source-line-no">302</span><span id="line-302">    }</span>
+<span class="source-line-no">303</span><span id="line-303">  }</span>
+<span class="source-line-no">304</span><span id="line-304"></span>
+<span class="source-line-no">305</span><span id="line-305">  /** Lock object that ensures a strong reference is retained to a specified object. */</span>
+<span class="source-line-no">306</span><span id="line-306">  private static final class WeakSafeLock extends ForwardingLock {</span>
+<span class="source-line-no">307</span><span id="line-307">    private final Lock delegate;</span>
+<span class="source-line-no">308</span><span id="line-308"></span>
+<span class="source-line-no">309</span><span id="line-309">    @SuppressWarnings("unused")</span>
+<span class="source-line-no">310</span><span id="line-310">    private final WeakSafeReadWriteLock strongReference;</span>
+<span class="source-line-no">311</span><span id="line-311"></span>
+<span class="source-line-no">312</span><span id="line-312">    WeakSafeLock(Lock delegate, WeakSafeReadWriteLock strongReference) {</span>
+<span class="source-line-no">313</span><span id="line-313">      this.delegate = delegate;</span>
+<span class="source-line-no">314</span><span id="line-314">      this.strongReference = strongReference;</span>
+<span class="source-line-no">315</span><span id="line-315">    }</span>
+<span class="source-line-no">316</span><span id="line-316"></span>
+<span class="source-line-no">317</span><span id="line-317">    @Override</span>
+<span class="source-line-no">318</span><span id="line-318">    Lock delegate() {</span>
+<span class="source-line-no">319</span><span id="line-319">      return delegate;</span>
+<span class="source-line-no">320</span><span id="line-320">    }</span>
+<span class="source-line-no">321</span><span id="line-321"></span>
+<span class="source-line-no">322</span><span id="line-322">    @Override</span>
+<span class="source-line-no">323</span><span id="line-323">    public Condition newCondition() {</span>
+<span class="source-line-no">324</span><span id="line-324">      return new WeakSafeCondition(delegate.newCondition(), strongReference);</span>
+<span class="source-line-no">325</span><span id="line-325">    }</span>
+<span class="source-line-no">326</span><span id="line-326">  }</span>
+<span class="source-line-no">327</span><span id="line-327"></span>
+<span class="source-line-no">328</span><span id="line-328">  /** Condition object that ensures a strong reference is retained to a specified object. */</span>
+<span class="source-line-no">329</span><span id="line-329">  private static final class WeakSafeCondition extends ForwardingCondition {</span>
+<span class="source-line-no">330</span><span id="line-330">    private final Condition delegate;</span>
+<span class="source-line-no">331</span><span id="line-331"></span>
+<span class="source-line-no">332</span><span id="line-332">    @SuppressWarnings("unused")</span>
+<span class="source-line-no">333</span><span id="line-333">    private final WeakSafeReadWriteLock strongReference;</span>
+<span class="source-line-no">334</span><span id="line-334"></span>
+<span class="source-line-no">335</span><span id="line-335">    WeakSafeCondition(Condition delegate, WeakSafeReadWriteLock strongReference) {</span>
+<span class="source-line-no">336</span><span id="line-336">      this.delegate = delegate;</span>
+<span class="source-line-no">337</span><span id="line-337">      this.strongReference = strongReference;</span>
+<span class="source-line-no">338</span><span id="line-338">    }</span>
+<span class="source-line-no">339</span><span id="line-339"></span>
+<span class="source-line-no">340</span><span id="line-340">    @Override</span>
+<span class="source-line-no">341</span><span id="line-341">    Condition delegate() {</span>
+<span class="source-line-no">342</span><span id="line-342">      return delegate;</span>
+<span class="source-line-no">343</span><span id="line-343">    }</span>
+<span class="source-line-no">344</span><span id="line-344">  }</span>
+<span class="source-line-no">345</span><span id="line-345"></span>
+<span class="source-line-no">346</span><span id="line-346">  private abstract static class PowerOfTwoStriped&lt;L&gt; extends Striped&lt;L&gt; {</span>
+<span class="source-line-no">347</span><span id="line-347">    /** Capacity (power of two) minus one, for fast mod evaluation */</span>
+<span class="source-line-no">348</span><span id="line-348">    final int mask;</span>
+<span class="source-line-no">349</span><span id="line-349"></span>
+<span class="source-line-no">350</span><span id="line-350">    PowerOfTwoStriped(int stripes) {</span>
+<span class="source-line-no">351</span><span id="line-351">      Preconditions.checkArgument(stripes &gt; 0, "Stripes must be positive");</span>
+<span class="source-line-no">352</span><span id="line-352">      this.mask = stripes &gt; Ints.MAX_POWER_OF_TWO ? ALL_SET : ceilToPowerOfTwo(stripes) - 1;</span>
+<span class="source-line-no">353</span><span id="line-353">    }</span>
+<span class="source-line-no">354</span><span id="line-354"></span>
+<span class="source-line-no">355</span><span id="line-355">    @Override</span>
+<span class="source-line-no">356</span><span id="line-356">    final int indexFor(Object key) {</span>
+<span class="source-line-no">357</span><span id="line-357">      int hash = smear(key.hashCode());</span>
+<span class="source-line-no">358</span><span id="line-358">      return hash &amp; mask;</span>
+<span class="source-line-no">359</span><span id="line-359">    }</span>
+<span class="source-line-no">360</span><span id="line-360"></span>
+<span class="source-line-no">361</span><span id="line-361">    @Override</span>
+<span class="source-line-no">362</span><span id="line-362">    public final L get(Object key) {</span>
+<span class="source-line-no">363</span><span id="line-363">      return getAt(indexFor(key));</span>
+<span class="source-line-no">364</span><span id="line-364">    }</span>
+<span class="source-line-no">365</span><span id="line-365">  }</span>
+<span class="source-line-no">366</span><span id="line-366"></span>
+<span class="source-line-no">367</span><span id="line-367">  /**</span>
+<span class="source-line-no">368</span><span id="line-368">   * Implementation of Striped where 2^k stripes are represented as an array of the same length,</span>
+<span class="source-line-no">369</span><span id="line-369">   * eagerly initialized.</span>
+<span class="source-line-no">370</span><span id="line-370">   */</span>
+<span class="source-line-no">371</span><span id="line-371">  private static class CompactStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
+<span class="source-line-no">372</span><span id="line-372">    /** Size is a power of two. */</span>
+<span class="source-line-no">373</span><span id="line-373">    private final Object[] array;</span>
+<span class="source-line-no">374</span><span id="line-374"></span>
+<span class="source-line-no">375</span><span id="line-375">    private CompactStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
+<span class="source-line-no">376</span><span id="line-376">      super(stripes);</span>
+<span class="source-line-no">377</span><span id="line-377">      Preconditions.checkArgument(stripes &lt;= Ints.MAX_POWER_OF_TWO, "Stripes must be &lt;= 2^30)");</span>
+<span class="source-line-no">378</span><span id="line-378"></span>
+<span class="source-line-no">379</span><span id="line-379">      this.array = new Object[mask + 1];</span>
+<span class="source-line-no">380</span><span id="line-380">      for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="source-line-no">381</span><span id="line-381">        array[i] = supplier.get();</span>
+<span class="source-line-no">382</span><span id="line-382">      }</span>
+<span class="source-line-no">383</span><span id="line-383">    }</span>
+<span class="source-line-no">384</span><span id="line-384"></span>
+<span class="source-line-no">385</span><span id="line-385">    @SuppressWarnings("unchecked") // we only put L's in the array</span>
+<span class="source-line-no">386</span><span id="line-386">    @Override</span>
+<span class="source-line-no">387</span><span id="line-387">    public L getAt(int index) {</span>
+<span class="source-line-no">388</span><span id="line-388">      return (L) array[index];</span>
+<span class="source-line-no">389</span><span id="line-389">    }</span>
+<span class="source-line-no">390</span><span id="line-390"></span>
+<span class="source-line-no">391</span><span id="line-391">    @Override</span>
+<span class="source-line-no">392</span><span id="line-392">    public int size() {</span>
+<span class="source-line-no">393</span><span id="line-393">      return array.length;</span>
+<span class="source-line-no">394</span><span id="line-394">    }</span>
+<span class="source-line-no">395</span><span id="line-395">  }</span>
+<span class="source-line-no">396</span><span id="line-396"></span>
+<span class="source-line-no">397</span><span id="line-397">  /**</span>
+<span class="source-line-no">398</span><span id="line-398">   * Implementation of Striped where up to 2^k stripes can be represented, using an</span>
+<span class="source-line-no">399</span><span id="line-399">   * AtomicReferenceArray of size 2^k. To map a user key into a stripe, we take a k-bit slice of the</span>
+<span class="source-line-no">400</span><span id="line-400">   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.</span>
+<span class="source-line-no">401</span><span id="line-401">   */</span>
+<span class="source-line-no">402</span><span id="line-402">  @VisibleForTesting</span>
+<span class="source-line-no">403</span><span id="line-403">  static class SmallLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
+<span class="source-line-no">404</span><span id="line-404">    final AtomicReferenceArray&lt;@Nullable ArrayReference&lt;? extends L&gt;&gt; locks;</span>
+<span class="source-line-no">405</span><span id="line-405">    final Supplier&lt;L&gt; supplier;</span>
+<span class="source-line-no">406</span><span id="line-406">    final int size;</span>
+<span class="source-line-no">407</span><span id="line-407">    final ReferenceQueue&lt;L&gt; queue = new ReferenceQueue&lt;&gt;();</span>
+<span class="source-line-no">408</span><span id="line-408"></span>
+<span class="source-line-no">409</span><span id="line-409">    SmallLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
+<span class="source-line-no">410</span><span id="line-410">      super(stripes);</span>
+<span class="source-line-no">411</span><span id="line-411">      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;</span>
+<span class="source-line-no">412</span><span id="line-412">      this.locks = new AtomicReferenceArray&lt;&gt;(size);</span>
+<span class="source-line-no">413</span><span id="line-413">      this.supplier = supplier;</span>
+<span class="source-line-no">414</span><span id="line-414">    }</span>
+<span class="source-line-no">415</span><span id="line-415"></span>
+<span class="source-line-no">416</span><span id="line-416">    @Override</span>
+<span class="source-line-no">417</span><span id="line-417">    public L getAt(int index) {</span>
+<span class="source-line-no">418</span><span id="line-418">      if (size != Integer.MAX_VALUE) {</span>
+<span class="source-line-no">419</span><span id="line-419">        Preconditions.checkElementIndex(index, size());</span>
+<span class="source-line-no">420</span><span id="line-420">      } // else no check necessary, all index values are valid</span>
+<span class="source-line-no">421</span><span id="line-421">      ArrayReference&lt;? extends L&gt; existingRef = locks.get(index);</span>
+<span class="source-line-no">422</span><span id="line-422">      L existing = existingRef == null ? null : existingRef.get();</span>
+<span class="source-line-no">423</span><span id="line-423">      if (existing != null) {</span>
+<span class="source-line-no">424</span><span id="line-424">        return existing;</span>
+<span class="source-line-no">425</span><span id="line-425">      }</span>
+<span class="source-line-no">426</span><span id="line-426">      L created = supplier.get();</span>
+<span class="source-line-no">427</span><span id="line-427">      ArrayReference&lt;L&gt; newRef = new ArrayReference&lt;&gt;(created, index, queue);</span>
+<span class="source-line-no">428</span><span id="line-428">      while (!locks.compareAndSet(index, existingRef, newRef)) {</span>
+<span class="source-line-no">429</span><span id="line-429">        // we raced, we need to re-read and try again</span>
+<span class="source-line-no">430</span><span id="line-430">        existingRef = locks.get(index);</span>
+<span class="source-line-no">431</span><span id="line-431">        existing = existingRef == null ? null : existingRef.get();</span>
+<span class="source-line-no">432</span><span id="line-432">        if (existing != null) {</span>
+<span class="source-line-no">433</span><span id="line-433">          return existing;</span>
+<span class="source-line-no">434</span><span id="line-434">        }</span>
+<span class="source-line-no">435</span><span id="line-435">      }</span>
+<span class="source-line-no">436</span><span id="line-436">      drainQueue();</span>
+<span class="source-line-no">437</span><span id="line-437">      return created;</span>
+<span class="source-line-no">438</span><span id="line-438">    }</span>
+<span class="source-line-no">439</span><span id="line-439"></span>
+<span class="source-line-no">440</span><span id="line-440">    // N.B. Draining the queue is only necessary to ensure that we don't accumulate empty references</span>
+<span class="source-line-no">441</span><span id="line-441">    // in the array. We could skip this if we decide we don't care about holding on to Reference</span>
+<span class="source-line-no">442</span><span id="line-442">    // objects indefinitely.</span>
+<span class="source-line-no">443</span><span id="line-443">    private void drainQueue() {</span>
+<span class="source-line-no">444</span><span id="line-444">      Reference&lt;? extends L&gt; ref;</span>
+<span class="source-line-no">445</span><span id="line-445">      while ((ref = queue.poll()) != null) {</span>
+<span class="source-line-no">446</span><span id="line-446">        // We only ever register ArrayReferences with the queue so this is always safe.</span>
+<span class="source-line-no">447</span><span id="line-447">        ArrayReference&lt;? extends L&gt; arrayRef = (ArrayReference&lt;? extends L&gt;) ref;</span>
+<span class="source-line-no">448</span><span id="line-448">        // Try to clear out the array slot, n.b. if we fail that is fine, in either case the</span>
+<span class="source-line-no">449</span><span id="line-449">        // arrayRef will be out of the array after this step.</span>
+<span class="source-line-no">450</span><span id="line-450">        locks.compareAndSet(arrayRef.index, arrayRef, null);</span>
+<span class="source-line-no">451</span><span id="line-451">      }</span>
+<span class="source-line-no">452</span><span id="line-452">    }</span>
+<span class="source-line-no">453</span><span id="line-453"></span>
+<span class="source-line-no">454</span><span id="line-454">    @Override</span>
+<span class="source-line-no">455</span><span id="line-455">    public int size() {</span>
+<span class="source-line-no">456</span><span id="line-456">      return size;</span>
+<span class="source-line-no">457</span><span id="line-457">    }</span>
+<span class="source-line-no">458</span><span id="line-458"></span>
+<span class="source-line-no">459</span><span id="line-459">    private static final class ArrayReference&lt;L&gt; extends WeakReference&lt;L&gt; {</span>
+<span class="source-line-no">460</span><span id="line-460">      final int index;</span>
+<span class="source-line-no">461</span><span id="line-461"></span>
+<span class="source-line-no">462</span><span id="line-462">      ArrayReference(L referent, int index, ReferenceQueue&lt;L&gt; queue) {</span>
+<span class="source-line-no">463</span><span id="line-463">        super(referent, queue);</span>
+<span class="source-line-no">464</span><span id="line-464">        this.index = index;</span>
+<span class="source-line-no">465</span><span id="line-465">      }</span>
+<span class="source-line-no">466</span><span id="line-466">    }</span>
+<span class="source-line-no">467</span><span id="line-467">  }</span>
+<span class="source-line-no">468</span><span id="line-468"></span>
+<span class="source-line-no">469</span><span id="line-469">  /**</span>
+<span class="source-line-no">470</span><span id="line-470">   * Implementation of Striped where up to 2^k stripes can be represented, using a ConcurrentMap</span>
+<span class="source-line-no">471</span><span id="line-471">   * where the key domain is [0..2^k). To map a user key into a stripe, we take a k-bit slice of the</span>
+<span class="source-line-no">472</span><span id="line-472">   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.</span>
+<span class="source-line-no">473</span><span id="line-473">   */</span>
+<span class="source-line-no">474</span><span id="line-474">  @VisibleForTesting</span>
+<span class="source-line-no">475</span><span id="line-475">  static class LargeLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {</span>
+<span class="source-line-no">476</span><span id="line-476">    final ConcurrentMap&lt;Integer, L&gt; locks;</span>
+<span class="source-line-no">477</span><span id="line-477">    final Supplier&lt;L&gt; supplier;</span>
+<span class="source-line-no">478</span><span id="line-478">    final int size;</span>
+<span class="source-line-no">479</span><span id="line-479"></span>
+<span class="source-line-no">480</span><span id="line-480">    LargeLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {</span>
+<span class="source-line-no">481</span><span id="line-481">      super(stripes);</span>
+<span class="source-line-no">482</span><span id="line-482">      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;</span>
+<span class="source-line-no">483</span><span id="line-483">      this.supplier = supplier;</span>
+<span class="source-line-no">484</span><span id="line-484">      this.locks = new MapMaker().weakValues().makeMap();</span>
+<span class="source-line-no">485</span><span id="line-485">    }</span>
+<span class="source-line-no">486</span><span id="line-486"></span>
+<span class="source-line-no">487</span><span id="line-487">    @Override</span>
+<span class="source-line-no">488</span><span id="line-488">    public L getAt(int index) {</span>
+<span class="source-line-no">489</span><span id="line-489">      if (size != Integer.MAX_VALUE) {</span>
+<span class="source-line-no">490</span><span id="line-490">        Preconditions.checkElementIndex(index, size());</span>
+<span class="source-line-no">491</span><span id="line-491">      } // else no check necessary, all index values are valid</span>
+<span class="source-line-no">492</span><span id="line-492">      L existing = locks.get(index);</span>
+<span class="source-line-no">493</span><span id="line-493">      if (existing != null) {</span>
+<span class="source-line-no">494</span><span id="line-494">        return existing;</span>
+<span class="source-line-no">495</span><span id="line-495">      }</span>
+<span class="source-line-no">496</span><span id="line-496">      L created = supplier.get();</span>
+<span class="source-line-no">497</span><span id="line-497">      existing = locks.putIfAbsent(index, created);</span>
+<span class="source-line-no">498</span><span id="line-498">      return MoreObjects.firstNonNull(existing, created);</span>
+<span class="source-line-no">499</span><span id="line-499">    }</span>
+<span class="source-line-no">500</span><span id="line-500"></span>
+<span class="source-line-no">501</span><span id="line-501">    @Override</span>
+<span class="source-line-no">502</span><span id="line-502">    public int size() {</span>
+<span class="source-line-no">503</span><span id="line-503">      return size;</span>
+<span class="source-line-no">504</span><span id="line-504">    }</span>
+<span class="source-line-no">505</span><span id="line-505">  }</span>
+<span class="source-line-no">506</span><span id="line-506"></span>
+<span class="source-line-no">507</span><span id="line-507">  /** A bit mask were all bits are set. */</span>
+<span class="source-line-no">508</span><span id="line-508">  private static final int ALL_SET = ~0;</span>
+<span class="source-line-no">509</span><span id="line-509"></span>
+<span class="source-line-no">510</span><span id="line-510">  private static int ceilToPowerOfTwo(int x) {</span>
+<span class="source-line-no">511</span><span id="line-511">    return 1 &lt;&lt; IntMath.log2(x, RoundingMode.CEILING);</span>
+<span class="source-line-no">512</span><span id="line-512">  }</span>
+<span class="source-line-no">513</span><span id="line-513"></span>
+<span class="source-line-no">514</span><span id="line-514">  /*</span>
+<span class="source-line-no">515</span><span id="line-515">   * This method was written by Doug Lea with assistance from members of JCP JSR-166 Expert Group</span>
+<span class="source-line-no">516</span><span id="line-516">   * and released to the public domain, as explained at</span>
+<span class="source-line-no">517</span><span id="line-517">   * http://creativecommons.org/licenses/publicdomain</span>
+<span class="source-line-no">518</span><span id="line-518">   *</span>
+<span class="source-line-no">519</span><span id="line-519">   * As of 2010/06/11, this method is identical to the (package private) hash method in OpenJDK 7's</span>
+<span class="source-line-no">520</span><span id="line-520">   * java.util.HashMap class.</span>
+<span class="source-line-no">521</span><span id="line-521">   */</span>
+<span class="source-line-no">522</span><span id="line-522">  // Copied from java/com/google/common/collect/Hashing.java</span>
+<span class="source-line-no">523</span><span id="line-523">  private static int smear(int hashCode) {</span>
+<span class="source-line-no">524</span><span id="line-524">    hashCode ^= (hashCode &gt;&gt;&gt; 20) ^ (hashCode &gt;&gt;&gt; 12);</span>
+<span class="source-line-no">525</span><span id="line-525">    return hashCode ^ (hashCode &gt;&gt;&gt; 7) ^ (hashCode &gt;&gt;&gt; 4);</span>
+<span class="source-line-no">526</span><span id="line-526">  }</span>
+<span class="source-line-no">527</span><span id="line-527"></span>
+<span class="source-line-no">528</span><span id="line-528">  private static class PaddedLock extends ReentrantLock {</span>
+<span class="source-line-no">529</span><span id="line-529">    /*</span>
+<span class="source-line-no">530</span><span id="line-530">     * Padding from 40 into 64 bytes, same size as cache line. Might be beneficial to add a fourth</span>
+<span class="source-line-no">531</span><span id="line-531">     * long here, to minimize chance of interference between consecutive locks, but I couldn't</span>
+<span class="source-line-no">532</span><span id="line-532">     * observe any benefit from that.</span>
+<span class="source-line-no">533</span><span id="line-533">     */</span>
+<span class="source-line-no">534</span><span id="line-534">    long unused1;</span>
+<span class="source-line-no">535</span><span id="line-535">    long unused2;</span>
+<span class="source-line-no">536</span><span id="line-536">    long unused3;</span>
+<span class="source-line-no">537</span><span id="line-537"></span>
+<span class="source-line-no">538</span><span id="line-538">    PaddedLock() {</span>
+<span class="source-line-no">539</span><span id="line-539">      super(false);</span>
+<span class="source-line-no">540</span><span id="line-540">    }</span>
+<span class="source-line-no">541</span><span id="line-541">  }</span>
+<span class="source-line-no">542</span><span id="line-542"></span>
+<span class="source-line-no">543</span><span id="line-543">  private static class PaddedSemaphore extends Semaphore {</span>
+<span class="source-line-no">544</span><span id="line-544">    // See PaddedReentrantLock comment</span>
+<span class="source-line-no">545</span><span id="line-545">    long unused1;</span>
+<span class="source-line-no">546</span><span id="line-546">    long unused2;</span>
+<span class="source-line-no">547</span><span id="line-547">    long unused3;</span>
+<span class="source-line-no">548</span><span id="line-548"></span>
+<span class="source-line-no">549</span><span id="line-549">    PaddedSemaphore(int permits) {</span>
+<span class="source-line-no">550</span><span id="line-550">      super(permits, false);</span>
+<span class="source-line-no">551</span><span id="line-551">    }</span>
+<span class="source-line-no">552</span><span id="line-552">  }</span>
+<span class="source-line-no">553</span><span id="line-553">}</span>
 
 
 
