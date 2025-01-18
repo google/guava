@@ -126,5 +126,4 @@ public class CompactHashSetTest extends TestCase {
       assertThat(set.elements).hasLength(expectedSize);
     }
   }
-
 }

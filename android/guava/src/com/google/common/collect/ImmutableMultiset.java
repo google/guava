@@ -344,7 +344,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     return entrySet().toString();
   }
 
-  /** @since 21.0 (present with return type {@code Set} since 2.0) */
+  /**
+   * @since 21.0 (present with return type {@code Set} since 2.0)
+   */
   @Override
   public abstract ImmutableSet<E> elementSet();
 
@@ -478,6 +480,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
      * modifications, or we'll modify the already-built ImmutableMultiset.
      */
     boolean buildInvoked = false;
+
     /**
      * In the event of a setCount(elem, 0) call, we may need to remove elements, which destroys the
      * insertion order property of ObjectCountHashMap. In that event, we need to convert to a

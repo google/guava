@@ -98,7 +98,9 @@ public final class Parameter implements AnnotatedElement {
     return getDeclaredAnnotationsByType(annotationType);
   }
 
-  /** @since 18.0 */
+  /**
+   * @since 18.0
+   */
   @Override
   public Annotation[] getDeclaredAnnotations() {
     return annotations.toArray(new Annotation[0]);
@@ -118,8 +120,8 @@ public final class Parameter implements AnnotatedElement {
    */
   @Override
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
-    @Nullable
-    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @Nullable A[] result =
+        FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
     @SuppressWarnings("nullness") // safe because the input list contains no nulls
     A[] cast = (A[]) result;
     return cast;

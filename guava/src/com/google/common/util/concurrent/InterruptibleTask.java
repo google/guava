@@ -45,6 +45,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     @Override
     public void run() {}
   }
+
   // The thread executing the task publishes itself to the superclass' reference and the thread
   // interrupting sets DONE when it has finished interrupting.
   private static final Runnable DONE = new DoNothingRunnable();

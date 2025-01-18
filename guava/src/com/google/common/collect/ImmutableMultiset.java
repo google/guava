@@ -349,7 +349,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     return entrySet().toString();
   }
 
-  /** @since 21.0 (present with return type {@code Set} since 2.0) */
+  /**
+   * @since 21.0 (present with return type {@code Set} since 2.0)
+   */
   @Override
   public abstract ImmutableSet<E> elementSet();
 

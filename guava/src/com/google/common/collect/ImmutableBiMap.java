@@ -226,6 +226,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         entryOf(k8, v8),
         entryOf(k9, v9));
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *

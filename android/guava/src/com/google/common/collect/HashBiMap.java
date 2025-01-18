@@ -88,25 +88,34 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Maps an "entry" to the key of that entry. */
   transient @Nullable K[] keys;
+
   /** Maps an "entry" to the value of that entry. */
   transient @Nullable V[] values;
 
   transient int size;
   transient int modCount;
+
   /** Maps a bucket to the "entry" of its first element. */
   private transient int[] hashTableKToV;
+
   /** Maps a bucket to the "entry" of its first element. */
   private transient int[] hashTableVToK;
+
   /** Maps an "entry" to the "entry" that follows it in its bucket. */
   private transient int[] nextInBucketKToV;
+
   /** Maps an "entry" to the "entry" that follows it in its bucket. */
   private transient int[] nextInBucketVToK;
+
   /** The "entry" of the first element in insertion order. */
   private transient int firstInInsertionOrder;
+
   /** The "entry" of the last element in insertion order. */
   private transient int lastInInsertionOrder;
+
   /** Maps an "entry" to the "entry" that precedes it in insertion order. */
   private transient int[] prevInInsertionOrder;
+
   /** Maps an "entry" to the "entry" that follows it in insertion order. */
   private transient int[] nextInInsertionOrder;
 

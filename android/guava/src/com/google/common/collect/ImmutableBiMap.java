@@ -152,6 +152,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return new RegularImmutableBiMap<K, V>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6}, 6);
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -170,6 +171,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return new RegularImmutableBiMap<K, V>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7}, 7);
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -204,6 +206,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return new RegularImmutableBiMap<K, V>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8}, 8);
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -241,6 +244,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return new RegularImmutableBiMap<K, V>(
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9}, 9);
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *

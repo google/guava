@@ -56,8 +56,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  @Nullable
-  Object[] internalArray() {
+  @Nullable Object[] internalArray() {
     return array;
   }
 

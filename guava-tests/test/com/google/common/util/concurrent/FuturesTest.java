@@ -194,7 +194,7 @@ public class FuturesTest extends TestCase {
         assertThrows(CancellationException.class, () -> CallerClass2.get(future));
     List<StackTraceElement> stackTrace = ImmutableList.copyOf(expected.getStackTrace());
     assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
-      assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
+    assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
 
     // See AbstractFutureCancellationCauseTest for how to set causes.
     assertThat(expected).hasCauseThat().isNull();
@@ -2253,7 +2253,7 @@ public class FuturesTest extends TestCase {
             () -> getDone(allAsList(immediateFailedFuture(new SomeError()))));
     assertThat(expected).hasCauseThat().isInstanceOf(SomeError.class);
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-      assertThat(logged).hasSize(1); // errors are always logged
+    assertThat(logged).hasSize(1); // errors are always logged
     assertThat(logged.get(0).getThrown()).isInstanceOf(SomeError.class);
   }
 
@@ -2269,8 +2269,8 @@ public class FuturesTest extends TestCase {
                         immediateFailedFuture(new MyException()))));
     assertThat(expected).hasCauseThat().isInstanceOf(MyException.class);
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-      assertThat(logged).hasSize(1); // the second failure is logged
-      assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
+    assertThat(logged).hasSize(1); // the second failure is logged
+    assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
   }
 
   /** All as list will log extra exceptions that occur later. */

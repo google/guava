@@ -838,7 +838,9 @@ public class IterablesTest extends TestCase {
    * need to prove that it isn't called.
    */
   private static class DiesOnIteratorArrayList extends ArrayList<String> {
-    /** @throws UnsupportedOperationException all the time */
+    /**
+     * @throws UnsupportedOperationException all the time
+     */
     @Override
     public Iterator<String> iterator() {
       throw new UnsupportedOperationException();

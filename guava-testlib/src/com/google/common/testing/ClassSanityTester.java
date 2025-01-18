@@ -203,7 +203,9 @@ public final class ClassSanityTester {
   }
 
   void doTestNulls(Class<?> cls, Visibility visibility)
-      throws ParameterNotInstantiableException, IllegalAccessException, InvocationTargetException,
+      throws ParameterNotInstantiableException,
+          IllegalAccessException,
+          InvocationTargetException,
           FactoryMethodReturnsNullException {
     if (!Modifier.isAbstract(cls.getModifiers())) {
       nullPointerTester.testConstructors(cls, visibility);
@@ -295,8 +297,11 @@ public final class ClassSanityTester {
   }
 
   void doTestEquals(Class<?> cls)
-      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
-          IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
+      throws ParameterNotInstantiableException,
+          ParameterHasNoDistinctValueException,
+          IllegalAccessException,
+          InvocationTargetException,
+          FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       return;
     }
@@ -566,8 +571,11 @@ public final class ClassSanityTester {
   }
 
   private void testEqualsUsing(final Invokable<?, ?> factory)
-      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
-          IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
+      throws ParameterNotInstantiableException,
+          ParameterHasNoDistinctValueException,
+          IllegalAccessException,
+          InvocationTargetException,
+          FactoryMethodReturnsNullException {
     List<Parameter> params = factory.getParameters();
     List<FreshValueGenerator> argGenerators = Lists.newArrayListWithCapacity(params.size());
     List<@Nullable Object> args = Lists.newArrayListWithCapacity(params.size());
@@ -617,8 +625,10 @@ public final class ClassSanityTester {
    */
   private List<Object> generateEqualFactoryArguments(
       Invokable<?, ?> factory, List<Parameter> params, List<Object> args)
-      throws ParameterNotInstantiableException, FactoryMethodReturnsNullException,
-          InvocationTargetException, IllegalAccessException {
+      throws ParameterNotInstantiableException,
+          FactoryMethodReturnsNullException,
+          InvocationTargetException,
+          IllegalAccessException {
     List<Object> equalArgs = Lists.newArrayList(args);
     for (int i = 0; i < args.size(); i++) {
       Parameter param = params.get(i);

@@ -39,7 +39,8 @@ public final class InternalFutures {
    * </ul>
    */
   public static
-      Throwable tryInternalFastPathGetFailure(InternalFutureFailureAccess future) {
+      Throwable
+      tryInternalFastPathGetFailure(InternalFutureFailureAccess future) {
     return future.tryInternalFastPathGetFailure();
   }
 

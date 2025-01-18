@@ -377,8 +377,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       int tableSize = Hashing.closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);
 
       @SuppressWarnings({"rawtypes", "unchecked"})
-      @Nullable
-      ValueEntry<K, V>[] hashTable = new @Nullable ValueEntry[tableSize];
+      @Nullable ValueEntry<K, V>[] hashTable = new @Nullable ValueEntry[tableSize];
       this.hashTable = hashTable;
     }
 

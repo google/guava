@@ -511,20 +511,20 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
     {
-    ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
+      ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
       assertThrows(NullPointerException.class, () -> builder.addAll((Collection<String>) null));
     }
 
     {
       ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
-    List<@Nullable String> listWithNulls = asList("a", null, "b");
+      List<@Nullable String> listWithNulls = asList("a", null, "b");
       assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
     }
 
     {
       ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
-    Multiset<@Nullable String> multisetWithNull =
-        LinkedHashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
+      Multiset<@Nullable String> multisetWithNull =
+          LinkedHashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
       assertThrows(
           NullPointerException.class, () -> builder.addAll((Multiset<String>) multisetWithNull));
     }

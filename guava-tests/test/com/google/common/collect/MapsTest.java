@@ -1422,12 +1422,12 @@ public class MapsTest extends TestCase {
           iterator.remove();
         });
     {
-    Entry<Integer, String> entry = entries.iterator().next();
+      Entry<Integer, String> entry = entries.iterator().next();
       assertThrows(UnsupportedOperationException.class, () -> entry.setValue("four"));
     }
     {
       Entry<Integer, String> entry = unmod.lowerEntry(1);
-    assertNull(entry);
+      assertNull(entry);
     }
     {
       Entry<Integer, String> entry = unmod.floorEntry(2);

@@ -75,7 +75,6 @@ public abstract class Equivalence<T> {
   }
 
   /**
-   *
    * @since 10.0 (previously, subclasses would override equivalent())
    */
   @ForOverride

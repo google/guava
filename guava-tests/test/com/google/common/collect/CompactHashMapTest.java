@@ -142,5 +142,4 @@ public class CompactHashMapTest extends TestCase {
       assertThat(map.values).hasLength(expectedSize);
     }
   }
-
 }

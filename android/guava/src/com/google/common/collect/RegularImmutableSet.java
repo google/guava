@@ -85,8 +85,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  @Nullable
-  Object[] internalArray() {
+  @Nullable Object[] internalArray() {
     return elements;
   }
 

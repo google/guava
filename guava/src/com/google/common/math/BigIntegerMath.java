@@ -185,7 +185,7 @@ public final class BigIntegerMath {
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(floorCmp == 0);
-        // fall through
+      // fall through
       case FLOOR:
       case DOWN:
         return floorLog;

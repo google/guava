@@ -181,6 +181,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
     newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);
     return newBuilder;
   }
+
   /**
    * Returns an empty {@link MutableValueGraph} with the properties of this {@link
    * ValueGraphBuilder}.

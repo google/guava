@@ -251,7 +251,7 @@ public final class DoubleMath {
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(isPowerOfTwo(x));
-        // fall through
+      // fall through
       case FLOOR:
         increment = false;
         break;

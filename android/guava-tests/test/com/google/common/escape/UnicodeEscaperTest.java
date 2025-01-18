@@ -151,6 +151,7 @@ public class UnicodeEscaperTest extends TestCase {
           protected char @Nullable [] escape(int cp) {
             return ('a' <= cp && cp <= 'z') ? new char[] {Character.toUpperCase((char) cp)} : null;
           }
+
           // Inefficient implementation that defines all letters as escapable.
           @Override
           protected int nextEscapeIndex(CharSequence csq, int index, int end) {

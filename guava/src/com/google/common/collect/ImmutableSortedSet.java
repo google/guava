@@ -643,7 +643,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     return headSet(toElement, false);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @Override
   public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
@@ -666,7 +668,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     return subSet(fromElement, true, toElement, false);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> subSet(
@@ -692,7 +696,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     return tailSet(fromElement, true);
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
@@ -789,7 +795,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
   @LazyInit
   transient @Nullable ImmutableSortedSet<E> descendingSet;
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> descendingSet() {
@@ -831,7 +839,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     };
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @GwtIncompatible // NavigableSet
   @Override
   public abstract UnmodifiableIterator<E> descendingIterator();

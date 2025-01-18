@@ -45,7 +45,7 @@ final class TestUtil {
     assertThat(throwable).hasMessageThat().startsWith(NODE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
-  
+
   static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
     assertThat(throwable).hasMessageThat().startsWith(EDGE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);

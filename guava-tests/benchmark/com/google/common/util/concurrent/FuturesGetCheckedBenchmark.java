@@ -104,6 +104,7 @@ public class FuturesGetCheckedBenchmark {
   @Param Validator validator;
   @Param Result result;
   @Param ExceptionType exceptionType;
+
   /**
    * The number of other exception types in the cache of known-good exceptions and the number of
    * other {@code ClassValue} entries for the exception type to be tested. This lets us evaluate

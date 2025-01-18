@@ -50,5 +50,6 @@ public abstract class InternalFutureFailureAccess {
    * InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.
    */
   protected abstract
-      Throwable tryInternalFastPathGetFailure();
+      Throwable
+      tryInternalFastPathGetFailure();
 }

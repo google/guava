@@ -32,6 +32,7 @@ public class SplitterBenchmark {
   // overall size of string
   @Param({"1", "10", "100", "1000"})
   int length;
+
   // Number of matching strings
   @Param({"xxxx", "xxXx", "xXxX", "XXXX"})
   String text;

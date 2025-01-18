@@ -332,7 +332,9 @@ public final class Lists {
     return new TwoPlusArrayList<>(first, second, rest);
   }
 
-  /** @see Lists#asList(Object, Object[]) */
+  /**
+   * @see Lists#asList(Object, Object[])
+   */
   private static class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;
@@ -359,7 +361,9 @@ public final class Lists {
     @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  /** @see Lists#asList(Object, Object, Object[]) */
+  /**
+   * @see Lists#asList(Object, Object, Object[])
+   */
   private static class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;

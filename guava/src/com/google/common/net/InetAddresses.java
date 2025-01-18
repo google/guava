@@ -1094,6 +1094,7 @@ public final class InetAddresses {
   public static Inet4Address fromIPv4BigInteger(BigInteger address) {
     return (Inet4Address) fromBigInteger(address, false);
   }
+
   /**
    * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.
    *

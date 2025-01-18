@@ -14,7 +14,6 @@
 
 package com.google.common.eventbus;
 
-
 /**
  * Handler for exceptions thrown by event subscribers.
  *

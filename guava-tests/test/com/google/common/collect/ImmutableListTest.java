@@ -565,7 +565,7 @@ public class ImmutableListTest extends TestCase {
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
     {
-    ImmutableList.Builder<String> builder = ImmutableList.builder();
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
       assertThrows(NullPointerException.class, () -> builder.addAll((Iterable<String>) null));
     }
 
@@ -576,21 +576,21 @@ public class ImmutableListTest extends TestCase {
 
     {
       ImmutableList.Builder<String> builder = ImmutableList.builder();
-    List<@Nullable String> listWithNulls = asList("a", null, "b");
+      List<@Nullable String> listWithNulls = asList("a", null, "b");
       assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
     }
 
     {
       ImmutableList.Builder<String> builder = ImmutableList.builder();
-    Iterator<@Nullable String> iteratorWithNulls =
-        Arrays.<@Nullable String>asList("a", null, "b").iterator();
+      Iterator<@Nullable String> iteratorWithNulls =
+          Arrays.<@Nullable String>asList("a", null, "b").iterator();
       assertThrows(
           NullPointerException.class, () -> builder.addAll((Iterator<String>) iteratorWithNulls));
     }
 
     {
       ImmutableList.Builder<String> builder = ImmutableList.builder();
-    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+      Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
       assertThrows(
           NullPointerException.class, () -> builder.addAll((Iterable<String>) iterableWithNulls));
     }

@@ -53,12 +53,16 @@ public abstract class AbstractCollectionTester<E extends @Nullable Object>
     return collection;
   }
 
-  /** @see AbstractContainerTester#resetContainer() */
+  /**
+   * @see AbstractContainerTester#resetContainer()
+   */
   protected void resetCollection() {
     resetContainer();
   }
 
-  /** @return an array of the proper size with {@code null} inserted into the middle element. */
+  /**
+   * @return an array of the proper size with {@code null} inserted into the middle element.
+   */
   protected E[] createArrayWithNullElement() {
     E[] array = createSamplesArray();
     array[getNullLocation()] = null;

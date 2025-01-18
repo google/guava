@@ -254,7 +254,9 @@ public final class Predicates {
 
   // Package private for GWT serialization.
   enum ObjectPredicate implements Predicate<@Nullable Object> {
-    /** @see Predicates#alwaysTrue() */
+    /**
+     * @see Predicates#alwaysTrue()
+     */
     ALWAYS_TRUE {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -266,7 +268,9 @@ public final class Predicates {
         return "Predicates.alwaysTrue()";
       }
     },
-    /** @see Predicates#alwaysFalse() */
+    /**
+     * @see Predicates#alwaysFalse()
+     */
     ALWAYS_FALSE {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -278,7 +282,9 @@ public final class Predicates {
         return "Predicates.alwaysFalse()";
       }
     },
-    /** @see Predicates#isNull() */
+    /**
+     * @see Predicates#isNull()
+     */
     IS_NULL {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -290,7 +296,9 @@ public final class Predicates {
         return "Predicates.isNull()";
       }
     },
-    /** @see Predicates#notNull() */
+    /**
+     * @see Predicates#notNull()
+     */
     NOT_NULL {
       @Override
       public boolean apply(@Nullable Object o) {
@@ -309,7 +317,9 @@ public final class Predicates {
     }
   }
 
-  /** @see Predicates#not(Predicate) */
+  /**
+   * @see Predicates#not(Predicate)
+   */
   private static class NotPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     final Predicate<T> predicate;
@@ -345,7 +355,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#and(Iterable) */
+  /**
+   * @see Predicates#and(Iterable)
+   */
   private static class AndPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -388,7 +400,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#or(Iterable) */
+  /**
+   * @see Predicates#or(Iterable)
+   */
   private static class OrPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -444,7 +458,9 @@ public final class Predicates {
     return builder.append(')').toString();
   }
 
-  /** @see Predicates#equalTo(Object) */
+  /**
+   * @see Predicates#equalTo(Object)
+   */
   private static class IsEqualToPredicate implements Predicate<@Nullable Object>, Serializable {
     private final Object target;
 
@@ -562,7 +578,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#in(Collection) */
+  /**
+   * @see Predicates#in(Collection)
+   */
   private static class InPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final Collection<?> target;
@@ -602,7 +620,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#compose(Predicate, Function) */
+  /**
+   * @see Predicates#compose(Predicate, Function)
+   */
   private static class CompositionPredicate<A extends @Nullable Object, B extends @Nullable Object>
       implements Predicate<A>, Serializable {
     final Predicate<B> p;

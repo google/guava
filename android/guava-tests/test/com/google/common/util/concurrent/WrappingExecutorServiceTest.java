@@ -46,6 +46,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class WrappingExecutorServiceTest extends TestCase {
   private static final String RESULT_VALUE = "ran";
+
   // Uninteresting delegations
   public void testDelegations() throws InterruptedException {
     MockExecutor mock = new MockExecutor();

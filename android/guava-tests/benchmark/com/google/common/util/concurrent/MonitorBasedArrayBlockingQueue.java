@@ -62,10 +62,13 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   /** The queued items */
   final E[] items;
+
   /** items index for next take, poll or remove */
   int takeIndex;
+
   /** items index for next put, offer, or add. */
   int putIndex;
+
   /** Number of items in the queue */
   private int count;
 

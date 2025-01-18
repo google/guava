@@ -57,8 +57,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       ImmutableSet<R> rowSpace,
       ImmutableSet<C> columnSpace) {
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] array = (@Nullable V[][]) new Object[rowSpace.size()][columnSpace.size()];
+    @Nullable V[][] array = (@Nullable V[][]) new Object[rowSpace.size()][columnSpace.size()];
     this.values = array;
     this.rowKeyToIndex = Maps.indexMap(rowSpace);
     this.columnKeyToIndex = Maps.indexMap(columnSpace);

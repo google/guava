@@ -14,7 +14,6 @@
 
 package com.google.common.hash;
 
-
 /**
  * Abstract interface for objects that can concurrently add longs.
  *

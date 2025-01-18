@@ -1130,7 +1130,9 @@ public final class Multimaps {
     return new MapMultimap<>(map);
   }
 
-  /** @see Multimaps#forMap */
+  /**
+   * @see Multimaps#forMap
+   */
   private static class MapMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMultimap<K, V> implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;

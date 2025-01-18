@@ -43,7 +43,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   /** Constructor for use by subclasses. */
   protected AbstractCache() {}
 
-  /** @since 11.0 */
+  /**
+   * @since 11.0
+   */
   @Override
   public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
     throw new UnsupportedOperationException();
@@ -78,13 +80,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     return ImmutableMap.copyOf(result);
   }
 
-  /** @since 11.0 */
+  /**
+   * @since 11.0
+   */
   @Override
   public void put(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
-  /** @since 12.0 */
+  /**
+   * @since 12.0
+   */
   @Override
   public void putAll(Map<? extends K, ? extends V> m) {
     for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
@@ -105,7 +111,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     throw new UnsupportedOperationException();
   }
 
-  /** @since 11.0 */
+  /**
+   * @since 11.0
+   */
   @Override
   // For discussion of <? extends Object>, see getAllPresent.
   public void invalidateAll(Iterable<? extends Object> keys) {
@@ -209,13 +217,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     /** Constructs an instance with all counts initialized to zero. */
     public SimpleStatsCounter() {}
 
-    /** @since 11.0 */
+    /**
+     * @since 11.0
+     */
     @Override
     public void recordHits(int count) {
       hitCount.add(count);
     }
 
-    /** @since 11.0 */
+    /**
+     * @since 11.0
+     */
     @Override
     public void recordMisses(int count) {
       missCount.add(count);

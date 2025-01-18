@@ -203,6 +203,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         6, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -221,6 +222,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         7, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -255,6 +257,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         8, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -292,6 +295,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(
         9, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9});
   }
+
   /**
    * Returns an immutable map containing the given entries, in order.
    *
@@ -436,6 +440,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @Nullable Object[] alternatingKeysAndValues;
     int size;
     boolean entriesUsed;
+
     /**
      * If non-null, a duplicate key we found in a previous buildKeepingLast() or buildOrThrow()
      * call. A later buildOrThrow() can simply report this duplicate immediately.

@@ -161,8 +161,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     columnKeyToIndex = Maps.indexMap(columnList);
 
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] tmpArray = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
+    @Nullable V[][] tmpArray = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
     array = tmpArray;
     // Necessary because in GWT the arrays are initialized with "undefined" instead of null.
     eraseAll();
@@ -179,8 +178,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     rowKeyToIndex = table.rowKeyToIndex;
     columnKeyToIndex = table.columnKeyToIndex;
     @SuppressWarnings("unchecked")
-    @Nullable
-    V[][] copy = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
+    @Nullable V[][] copy = (@Nullable V[][]) new Object[rowList.size()][columnList.size()];
     array = copy;
     for (int i = 0; i < rowList.size(); i++) {
       arraycopy(table.array[i], 0, copy[i], 0, table.array[i].length);
@@ -367,8 +365,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   @GwtIncompatible // reflection
   public @Nullable V[][] toArray(Class<V> valueClass) {
     @SuppressWarnings("unchecked") // TODO: safe?
-    @Nullable
-    V[][] copy = (@Nullable V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
+    @Nullable V[][] copy =
+        (@Nullable V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
     for (int i = 0; i < rowList.size(); i++) {
       arraycopy(array[i], 0, copy[i], 0, array[i].length);
     }

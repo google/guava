@@ -278,8 +278,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    *
    * @return null if an explanation cannot be provided because the future is done.
    */
-  @Nullable
-  String pendingToString() {
+  @Nullable String pendingToString() {
     if (state == State.DELEGATED) {
       return "setFuture=[" + delegate + "]";
     }

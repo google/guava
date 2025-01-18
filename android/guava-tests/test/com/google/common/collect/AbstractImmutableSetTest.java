@@ -389,7 +389,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testBuilderAddHandlesNullsCorrectly() {
     {
-    ImmutableSet.Builder<String> builder = this.<String>builder();
+      ImmutableSet.Builder<String> builder = this.<String>builder();
       assertThrows(NullPointerException.class, () -> builder.add((String) null));
     }
 
@@ -421,7 +421,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testBuilderAddAllHandlesNullsCorrectly() {
     {
-    ImmutableSet.Builder<String> builder = this.<String>builder();
+      ImmutableSet.Builder<String> builder = this.<String>builder();
       assertThrows(NullPointerException.class, () -> builder.addAll((Iterable<String>) null));
     }
 
@@ -432,13 +432,13 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
     {
       ImmutableSet.Builder<String> builder = this.<String>builder();
-    List<@Nullable String> listWithNulls = asList("a", null, "b");
+      List<@Nullable String> listWithNulls = asList("a", null, "b");
       assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
     }
 
     {
       ImmutableSet.Builder<String> builder = this.<String>builder();
-    Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
+      Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
       assertThrows(
           NullPointerException.class, () -> builder.addAll((Iterable<String>) iterableWithNulls));
     }

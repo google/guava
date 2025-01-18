@@ -169,10 +169,10 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     }
 
     return new DirectedGraphConnections<>(
-        /* adjacentNodeValues = */ new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR),
+        /* adjacentNodeValues= */ new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR),
         orderedNodeConnections,
-        /* predecessorCount = */ 0,
-        /* successorCount = */ 0);
+        /* predecessorCount= */ 0,
+        /* successorCount= */ 0);
   }
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(

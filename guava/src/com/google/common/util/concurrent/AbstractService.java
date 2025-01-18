@@ -310,7 +310,9 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  /** @since 28.0 */
+  /**
+   * @since 28.0
+   */
   @Override
   public final void awaitRunning(Duration timeout) throws TimeoutException {
     Service.super.awaitRunning(timeout);
@@ -343,7 +345,9 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  /** @since 28.0 */
+  /**
+   * @since 28.0
+   */
   @Override
   public final void awaitTerminated(Duration timeout) throws TimeoutException {
     Service.super.awaitTerminated(timeout);
@@ -492,13 +496,17 @@ public abstract class AbstractService implements Service {
     return snapshot.externalState();
   }
 
-  /** @since 14.0 */
+  /**
+   * @since 14.0
+   */
   @Override
   public final Throwable failureCause() {
     return snapshot.failureCause();
   }
 
-  /** @since 13.0 */
+  /**
+   * @since 13.0
+   */
   @Override
   public final void addListener(Listener listener, Executor executor) {
     listeners.addListener(listener, executor);
@@ -615,7 +623,9 @@ public abstract class AbstractService implements Service {
       this.failure = failure;
     }
 
-    /** @see Service#state() */
+    /**
+     * @see Service#state()
+     */
     State externalState() {
       if (shutdownWhenStartupFinishes && state == STARTING) {
         return STOPPING;
@@ -624,7 +634,9 @@ public abstract class AbstractService implements Service {
       }
     }
 
-    /** @see Service#failureCause() */
+    /**
+     * @see Service#failureCause()
+     */
     Throwable failureCause() {
       checkState(
           state == FAILED,

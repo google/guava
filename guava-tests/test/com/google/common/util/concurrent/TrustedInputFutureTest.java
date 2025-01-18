@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 import org.jspecify.annotations.NullUnmarked;

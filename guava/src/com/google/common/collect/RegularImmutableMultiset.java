@@ -50,8 +50,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     int tableSize = Hashing.closedTableSize(distinct, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
     @SuppressWarnings({"unchecked", "rawtypes"})
-    @Nullable
-    ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
+    @Nullable ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
 
     int index = 0;
     int hashCode = 0;

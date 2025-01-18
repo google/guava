@@ -38,7 +38,9 @@ import org.jspecify.annotations.Nullable;
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
 
-  /** @since 15.0 (previously returned ScheduledFuture) */
+  /**
+   * @since 15.0 (previously returned ScheduledFuture)
+   */
   @Override
   ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
 
@@ -51,7 +53,9 @@ public interface ListeningScheduledExecutorService
     return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
   }
 
-  /** @since 15.0 (previously returned ScheduledFuture) */
+  /**
+   * @since 15.0 (previously returned ScheduledFuture)
+   */
   @Override
   <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, long delay, TimeUnit unit);
@@ -66,7 +70,9 @@ public interface ListeningScheduledExecutorService
     return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
   }
 
-  /** @since 15.0 (previously returned ScheduledFuture) */
+  /**
+   * @since 15.0 (previously returned ScheduledFuture)
+   */
   @Override
   ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit);
@@ -82,7 +88,9 @@ public interface ListeningScheduledExecutorService
         command, toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);
   }
 
-  /** @since 15.0 (previously returned ScheduledFuture) */
+  /**
+   * @since 15.0 (previously returned ScheduledFuture)
+   */
   @Override
   ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit);

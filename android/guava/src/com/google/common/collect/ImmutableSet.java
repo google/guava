@@ -205,8 +205,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       // Resize the table when the array includes too many duplicates.
       return construct(uniques, elements);
     } else {
-      @Nullable
-      Object[] uniqueElements =
+      @Nullable Object[] uniqueElements =
           shouldTrim(uniques, elements.length) ? Arrays.copyOf(elements, uniques) : elements;
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
     }
@@ -609,8 +608,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         default:
           ImmutableSet<E> result;
           if (hashTable != null && chooseTableSize(size) == hashTable.length) {
-            @Nullable
-            Object[] uniqueElements =
+            @Nullable Object[] uniqueElements =
                 shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;
             result =
                 new RegularImmutableSet<E>(

@@ -583,9 +583,9 @@ public class ImmutableMapTest extends TestCase {
     // being true.
     Pattern pattern = Pattern.compile("Multiple entries with same key: four=(.*) and four=(.*)");
     assertThat(expected).hasMessageThat().matches(pattern);
-      Matcher matcher = pattern.matcher(expected.getMessage());
-      assertThat(matcher.matches()).isTrue();
-      assertThat(matcher.group(1)).isNotEqualTo(matcher.group(2));
+    Matcher matcher = pattern.matcher(expected.getMessage());
+    assertThat(matcher.matches()).isTrue();
+    assertThat(matcher.group(1)).isNotEqualTo(matcher.group(2));
   }
 
   public void testOf() {
