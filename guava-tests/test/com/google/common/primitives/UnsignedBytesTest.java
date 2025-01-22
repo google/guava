@@ -305,7 +305,7 @@ public class UnsignedBytesTest extends TestCase {
     /*
      * These arrays are set up to test that the comparator compares bytes within a word in the
      * correct order—in order words, that it doesn't mix up big-endian and little-endian. The first
-     * array has a smaller element at one index, and then the second array has a smaller elements at
+     * array has a smaller element at one index, and then the second array has a smaller element at
      * the next.
      */
     byte[] a0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 99, 15, 16, 17};
