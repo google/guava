@@ -384,10 +384,11 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
 
     @Override
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     public int add(int a, int b) {
       try {
         return adder.add(a, b);
-      } catch (Exception e) {
+      } catch (Exception e) { // sneaky checked exception
         // swallow!
         return 0;
       }

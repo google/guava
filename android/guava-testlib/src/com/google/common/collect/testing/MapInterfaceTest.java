@@ -152,6 +152,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     }
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   protected final boolean supportsValuesHashCode(Map<K, V> map) {
     // get the first non-null value
     Collection<V> values = map.values();
@@ -159,7 +160,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       if (value != null) {
         try {
           int unused = value.hashCode();
-        } catch (Exception e) {
+        } catch (Exception e) { // sneaky checked exception
           return false;
         }
         return true;

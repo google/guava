@@ -304,13 +304,14 @@ public final class Strings {
     return builder.toString();
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   private static String lenientToString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }
     try {
       return o.toString();
-    } catch (Exception e) {
+    } catch (Exception e) { // sneaky checked exception
       // Default toString() behavior - see Object.toString()
       String objectToString =
           o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));
