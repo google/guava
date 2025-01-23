@@ -311,23 +311,24 @@
 <span class="source-line-no">298</span><span id="line-298">    return builder.toString();</span>
 <span class="source-line-no">299</span><span id="line-299">  }</span>
 <span class="source-line-no">300</span><span id="line-300"></span>
-<span class="source-line-no">301</span><span id="line-301">  private static String lenientToString(@Nullable Object o) {</span>
-<span class="source-line-no">302</span><span id="line-302">    if (o == null) {</span>
-<span class="source-line-no">303</span><span id="line-303">      return "null";</span>
-<span class="source-line-no">304</span><span id="line-304">    }</span>
-<span class="source-line-no">305</span><span id="line-305">    try {</span>
-<span class="source-line-no">306</span><span id="line-306">      return o.toString();</span>
-<span class="source-line-no">307</span><span id="line-307">    } catch (Exception e) {</span>
-<span class="source-line-no">308</span><span id="line-308">      // Default toString() behavior - see Object.toString()</span>
-<span class="source-line-no">309</span><span id="line-309">      String objectToString =</span>
-<span class="source-line-no">310</span><span id="line-310">          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));</span>
-<span class="source-line-no">311</span><span id="line-311">      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.</span>
-<span class="source-line-no">312</span><span id="line-312">      Logger.getLogger("com.google.common.base.Strings")</span>
-<span class="source-line-no">313</span><span id="line-313">          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);</span>
-<span class="source-line-no">314</span><span id="line-314">      return "&lt;" + objectToString + " threw " + e.getClass().getName() + "&gt;";</span>
-<span class="source-line-no">315</span><span id="line-315">    }</span>
-<span class="source-line-no">316</span><span id="line-316">  }</span>
-<span class="source-line-no">317</span><span id="line-317">}</span>
+<span class="source-line-no">301</span><span id="line-301">  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception</span>
+<span class="source-line-no">302</span><span id="line-302">  private static String lenientToString(@Nullable Object o) {</span>
+<span class="source-line-no">303</span><span id="line-303">    if (o == null) {</span>
+<span class="source-line-no">304</span><span id="line-304">      return "null";</span>
+<span class="source-line-no">305</span><span id="line-305">    }</span>
+<span class="source-line-no">306</span><span id="line-306">    try {</span>
+<span class="source-line-no">307</span><span id="line-307">      return o.toString();</span>
+<span class="source-line-no">308</span><span id="line-308">    } catch (Exception e) { // sneaky checked exception</span>
+<span class="source-line-no">309</span><span id="line-309">      // Default toString() behavior - see Object.toString()</span>
+<span class="source-line-no">310</span><span id="line-310">      String objectToString =</span>
+<span class="source-line-no">311</span><span id="line-311">          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));</span>
+<span class="source-line-no">312</span><span id="line-312">      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.</span>
+<span class="source-line-no">313</span><span id="line-313">      Logger.getLogger("com.google.common.base.Strings")</span>
+<span class="source-line-no">314</span><span id="line-314">          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);</span>
+<span class="source-line-no">315</span><span id="line-315">      return "&lt;" + objectToString + " threw " + e.getClass().getName() + "&gt;";</span>
+<span class="source-line-no">316</span><span id="line-316">    }</span>
+<span class="source-line-no">317</span><span id="line-317">  }</span>
+<span class="source-line-no">318</span><span id="line-318">}</span>
 
 
 
