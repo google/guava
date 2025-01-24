@@ -41,6 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible(emulated = true)
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class FloatArrayAsListTest extends TestCase {
 
   private static List<Float> asList(Float[] values) {

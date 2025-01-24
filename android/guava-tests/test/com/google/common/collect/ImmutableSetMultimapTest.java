@@ -53,6 +53,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class ImmutableSetMultimapTest extends TestCase {
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   private static final class ImmutableSetMultimapGenerator extends TestStringSetMultimapGenerator {
     @Override
     protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
@@ -65,6 +66,7 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   private static final class ImmutableSetMultimapCopyOfEntriesGenerator
       extends TestStringSetMultimapGenerator {
     @Override
@@ -75,6 +77,7 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSetMultimapTest.class);

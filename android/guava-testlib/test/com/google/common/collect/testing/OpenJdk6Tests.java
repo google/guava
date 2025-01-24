@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
  *
  * @author Kevin Bourrillion
  */
+@AndroidIncompatible // test-suite builders
 public class OpenJdk6Tests extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

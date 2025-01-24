@@ -41,6 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible(emulated = true)
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class CharArrayAsListTest extends TestCase {
 
   private static List<Character> asList(Character[] values) {

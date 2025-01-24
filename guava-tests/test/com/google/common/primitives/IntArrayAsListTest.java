@@ -42,6 +42,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class IntArrayAsListTest extends TestCase {
 
   private static List<Integer> asList(Integer[] values) {

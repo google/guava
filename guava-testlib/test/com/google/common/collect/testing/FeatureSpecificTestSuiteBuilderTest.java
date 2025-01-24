@@ -26,6 +26,7 @@ import junit.framework.TestResult;
 /**
  * @author Max Ross
  */
+@AndroidIncompatible // test-suite builders
 public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
   private static final class MyTestSuiteBuilder
       extends FeatureSpecificTestSuiteBuilder<MyTestSuiteBuilder, String> {

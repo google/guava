@@ -31,6 +31,7 @@ import junit.framework.Test;
  *
  * @author Kevin Bourrillion
  */
+@AndroidIncompatible // test-suite builders
 public class OpenJdk6QueueTests extends TestsForQueuesInJavaUtil {
   public static Test suite() {
     return new OpenJdk6QueueTests().allTests();

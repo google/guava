@@ -40,6 +40,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class SynchronizedBiMapTest extends SynchronizedMapTest {
 
+  @AndroidIncompatible // test-suite builders
   public static TestSuite suite() {
     TestSuite suite = new TestSuite(SynchronizedBiMapTest.class);
     suite.addTest(
@@ -78,6 +79,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     return outer;
   }
 
+  @AndroidIncompatible // test-suite builders
   public static final class SynchronizedHashBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
@@ -90,6 +92,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     }
   }
 
+  @AndroidIncompatible // test-suite builders
   public static final class SynchTestingBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {

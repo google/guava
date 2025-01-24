@@ -433,6 +433,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     List<ListTestSuiteBuilder<Long>> builders =
         ImmutableList.of(
@@ -465,6 +466,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   private static ImmutableLongArray makeArray(Long[] values) {
     return ImmutableLongArray.copyOf(Arrays.asList(values));
   }
@@ -474,6 +476,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableLongArrayAsListGenerator extends TestLongListGenerator {
     @Override
     protected List<Long> create(Long[] elements) {
@@ -483,6 +486,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableLongArrayHeadSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
@@ -495,6 +499,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableLongArrayTailSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
@@ -507,6 +512,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableLongArrayMiddleSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
@@ -520,12 +526,14 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   private static Long[] concat(Long[] a, Long[] b) {
     return ObjectArrays.concat(a, b, Long.class);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public abstract static class TestLongListGenerator implements TestListGenerator<Long> {
     @Override
     public SampleElements<Long> samples() {
@@ -562,6 +570,7 @@ public class ImmutableLongArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static class SampleLongs extends SampleElements<Long> {
     public SampleLongs() {
       super(1L << 31, 1L << 33, 1L << 36, 1L << 40, 1L << 45);

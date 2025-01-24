@@ -445,6 +445,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     List<ListTestSuiteBuilder<Double>> builders =
         ImmutableList.of(
@@ -477,6 +478,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   private static ImmutableDoubleArray makeArray(Double[] values) {
     return ImmutableDoubleArray.copyOf(Arrays.asList(values));
   }
@@ -486,6 +488,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableDoubleArrayAsListGenerator extends TestDoubleListGenerator {
     @Override
     protected List<Double> create(Double[] elements) {
@@ -495,6 +498,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableDoubleArrayHeadSubListAsListGenerator
       extends TestDoubleListGenerator {
     @Override
@@ -507,6 +511,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableDoubleArrayTailSubListAsListGenerator
       extends TestDoubleListGenerator {
     @Override
@@ -519,6 +524,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static final class ImmutableDoubleArrayMiddleSubListAsListGenerator
       extends TestDoubleListGenerator {
     @Override
@@ -532,12 +538,14 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   private static Double[] concat(Double[] a, Double[] b) {
     return ObjectArrays.concat(a, b, Double.class);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public abstract static class TestDoubleListGenerator implements TestListGenerator<Double> {
     @Override
     public SampleElements<Double> samples() {
@@ -574,6 +582,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only from suite
+  @AndroidIncompatible
   public static class SampleDoubles extends SampleElements<Double> {
     public SampleDoubles() {
       super(-0.0, Long.MAX_VALUE * 3.0, Double.MAX_VALUE, Double.POSITIVE_INFINITY, Double.NaN);

@@ -88,6 +88,7 @@ public class IteratorsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
     suite.addTest(testsForRemoveAllAndRetainAll());
@@ -469,7 +470,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testNullFriendlyTransform() {
-    Iterator<Integer> input = asList(1, 2, null, 3).iterator();
+    Iterator<@Nullable Integer> input = Arrays.<@Nullable Integer>asList(1, 2, null, 3).iterator();
     Iterator<String> result =
         Iterators.transform(
             input,
@@ -1436,6 +1437,7 @@ public class IteratorsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // ListTestSuiteBuilder
+  @AndroidIncompatible // test-suite builders
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {

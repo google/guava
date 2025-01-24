@@ -42,6 +42,7 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 public class SafeTreeMapTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SafeTreeMapTest.class);
