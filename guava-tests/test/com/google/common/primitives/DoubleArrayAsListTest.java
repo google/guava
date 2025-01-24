@@ -41,6 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible(emulated = true)
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class DoubleArrayAsListTest extends TestCase {
 
   private static List<Double> asList(Double[] values) {

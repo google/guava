@@ -34,6 +34,7 @@ import junit.framework.Test;
  *
  * @author Kevin Bourrillion
  */
+@AndroidIncompatible // test-suite builders
 public class OpenJdk6ListTests extends TestsForListsInJavaUtil {
   public static Test suite() {
     return new OpenJdk6ListTests().allTests();

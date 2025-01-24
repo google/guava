@@ -52,6 +52,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class ImmutableEnumMapTest extends TestCase {
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
     @Override
     protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
@@ -65,6 +66,7 @@ public class ImmutableEnumMapTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

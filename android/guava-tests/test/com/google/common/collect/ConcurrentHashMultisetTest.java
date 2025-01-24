@@ -51,6 +51,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ConcurrentHashMultisetTest extends TestCase {
 
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -76,6 +77,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     return suite;
   }
 
+  @AndroidIncompatible // test-suite builders
   private static TestStringMultisetGenerator concurrentHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override
@@ -85,6 +87,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     };
   }
 
+  @AndroidIncompatible // test-suite builders
   private static TestStringMultisetGenerator concurrentSkipListMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

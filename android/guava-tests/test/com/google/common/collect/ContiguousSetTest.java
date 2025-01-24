@@ -390,6 +390,7 @@ public class ContiguousSetTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static class BuiltTests extends TestCase {
     public static Test suite() {
       TestSuite suite = new TestSuite();

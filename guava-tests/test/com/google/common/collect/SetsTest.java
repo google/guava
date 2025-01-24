@@ -118,6 +118,7 @@ public class SetsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SetsTest.class);
@@ -231,6 +232,7 @@ public class SetsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilter() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
@@ -255,6 +257,7 @@ public class SetsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterNoNulls() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -307,6 +310,7 @@ public class SetsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterFiltered() {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {

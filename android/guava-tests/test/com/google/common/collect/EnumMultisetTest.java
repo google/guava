@@ -52,6 +52,7 @@ public class EnumMultisetTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -69,6 +70,7 @@ public class EnumMultisetTest extends TestCase {
     return suite;
   }
 
+  @AndroidIncompatible // test-suite builders
   private static TestEnumMultisetGenerator enumMultisetGenerator() {
     return new TestEnumMultisetGenerator() {
       @Override

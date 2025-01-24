@@ -430,6 +430,7 @@ public class ImmutableIntArrayTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     List<ListTestSuiteBuilder<Integer>> builders =
         ImmutableList.of(

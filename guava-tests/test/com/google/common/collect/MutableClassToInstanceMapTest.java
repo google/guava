@@ -38,6 +38,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 public class MutableClassToInstanceMapTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableClassToInstanceMapTest.class);

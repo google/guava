@@ -46,6 +46,7 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ImmutableClassToInstanceMapTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableClassToInstanceMapTest.class);
