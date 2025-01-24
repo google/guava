@@ -85,12 +85,16 @@ public class FauxveridesTest extends TestCase {
   }
 
   public void testImmutableSortedSetCopyOfIterable() {
+    // false positive: `new Object()` is not equal to `new Object()`
+    @SuppressWarnings("DistinctVarargsChecker")
     Set<Object> original = ImmutableSet.of(new Object(), new Object());
 
     assertThrows(ClassCastException.class, () -> ImmutableSortedSet.copyOf(original));
   }
 
   public void testImmutableSortedSetCopyOfIterator() {
+    // false positive: `new Object()` is not equal to `new Object()`
+    @SuppressWarnings("DistinctVarargsChecker")
     Set<Object> original = ImmutableSet.of(new Object(), new Object());
 
     assertThrows(ClassCastException.class, () -> ImmutableSortedSet.copyOf(original.iterator()));

@@ -132,12 +132,10 @@ public class SetGenerators {
   }
 
   public static class DegeneratedImmutableSetGenerator extends TestStringSetGenerator {
-    // Make sure we get what we think we're getting, or else this test
-    // is pointless
-    @SuppressWarnings("cast")
+    @SuppressWarnings("DistinctVarargsChecker") // deliberately testing deduplication
     @Override
     protected Set<String> create(String[] elements) {
-      return (ImmutableSet<String>) ImmutableSet.of(elements[0], elements[0]);
+      return ImmutableSet.of(elements[0], elements[0]);
     }
   }
 
