@@ -65,6 +65,7 @@ public class EnumHashBiMapTest extends TestCase {
     UK
   }
 
+  @AndroidIncompatible // test-suite builders
   public static final class EnumHashBiMapGenerator implements TestBiMapGenerator<Country, String> {
     @SuppressWarnings("unchecked")
     @Override
@@ -111,6 +112,7 @@ public class EnumHashBiMapTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

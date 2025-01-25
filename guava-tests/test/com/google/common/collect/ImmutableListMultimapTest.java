@@ -62,6 +62,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class ImmutableListMultimapTest extends TestCase {
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   public static class ImmutableListMultimapGenerator extends TestStringListMultimapGenerator {
     @Override
     protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
@@ -74,6 +75,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   public static class ImmutableListMultimapCopyOfEntriesGenerator
       extends TestStringListMultimapGenerator {
     @Override
@@ -84,6 +86,7 @@ public class ImmutableListMultimapTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

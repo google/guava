@@ -68,6 +68,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MinMaxPriorityQueueTest.class);

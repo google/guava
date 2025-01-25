@@ -44,6 +44,7 @@ import org.jspecify.annotations.NullMarked;
 public class SetOperationsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

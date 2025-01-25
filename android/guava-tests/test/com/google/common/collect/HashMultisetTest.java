@@ -45,6 +45,7 @@ public class HashMultisetTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
@@ -63,6 +64,7 @@ public class HashMultisetTest extends TestCase {
   }
 
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   private static TestStringMultisetGenerator hashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

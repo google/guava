@@ -37,6 +37,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class SafeTreeSetTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SafeTreeSetTest.class);

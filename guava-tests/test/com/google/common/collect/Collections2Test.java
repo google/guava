@@ -54,6 +54,7 @@ import org.jspecify.annotations.Nullable;
 public class Collections2Test extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite(Collections2Test.class.getSimpleName());
     suite.addTest(testsForFilter());
@@ -73,6 +74,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilter() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
@@ -97,6 +99,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterAll() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
@@ -119,6 +122,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterLinkedList() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
@@ -143,6 +147,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterNoNulls() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
@@ -167,6 +172,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForFilterFiltered() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
@@ -192,6 +198,7 @@ public class Collections2Test extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   private static Test testsForTransform() {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {

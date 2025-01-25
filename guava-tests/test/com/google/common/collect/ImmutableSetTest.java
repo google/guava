@@ -64,6 +64,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

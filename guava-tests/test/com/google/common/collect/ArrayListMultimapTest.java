@@ -48,6 +48,7 @@ public class ArrayListMultimapTest extends TestCase {
 
   @GwtIncompatible // suite
   @J2ktIncompatible
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(

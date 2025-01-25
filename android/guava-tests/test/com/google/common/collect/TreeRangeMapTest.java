@@ -43,6 +43,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible // NavigableMap
 @NullUnmarked
 public class TreeRangeMapTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeRangeMapTest.class);

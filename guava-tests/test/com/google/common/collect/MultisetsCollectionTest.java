@@ -49,6 +49,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class MultisetsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

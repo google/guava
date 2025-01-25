@@ -63,6 +63,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMultisetTest.class);

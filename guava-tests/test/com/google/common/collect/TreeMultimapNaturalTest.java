@@ -65,6 +65,7 @@ public class TreeMultimapNaturalTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     // TODO(lowasser): should we force TreeMultimap to be more thorough about checking nulls?

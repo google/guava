@@ -27,6 +27,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
+@AndroidIncompatible // test-suite builders
 public class MinimalCollectionTest extends TestCase {
   public static Test suite() {
     return CollectionTestSuiteBuilder.using(

@@ -27,6 +27,7 @@ import junit.framework.TestCase;
  *
  * @author Regina O'Dell
  */
+@AndroidIncompatible // test-suite builders
 public class MinimalSetTest extends TestCase {
   public static Test suite() {
     return SetTestSuiteBuilder.using(

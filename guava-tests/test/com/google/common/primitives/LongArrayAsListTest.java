@@ -41,6 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible(emulated = true)
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class LongArrayAsListTest extends TestCase {
 
   private static List<Long> asList(Long[] values) {

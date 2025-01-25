@@ -95,6 +95,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 @NullUnmarked
 public class LocalCacheTest extends TestCase {
+  @AndroidIncompatible
   private static class TestStringCacheGenerator extends TestStringMapGenerator {
     private final CacheBuilder<? super String, ? super String> builder;
 
@@ -112,6 +113,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(LocalCacheTest.class);

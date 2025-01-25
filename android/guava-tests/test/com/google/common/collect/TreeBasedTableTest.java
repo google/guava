@@ -51,6 +51,7 @@ import org.jspecify.annotations.Nullable;
 public class TreeBasedTableTest extends AbstractTableTest<Character> {
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);

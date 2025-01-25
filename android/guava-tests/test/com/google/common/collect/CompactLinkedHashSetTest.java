@@ -42,6 +42,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible // java.util.Arrays#copyOf(Object[], int), java.lang.reflect.Array
 @NullUnmarked
 public class CompactLinkedHashSetTest extends TestCase {
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     List<Feature<?>> allFeatures =
         Arrays.<Feature<?>>asList(

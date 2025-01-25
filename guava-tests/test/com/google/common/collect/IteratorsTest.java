@@ -88,6 +88,7 @@ public class IteratorsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // suite
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
     suite.addTest(testsForRemoveAllAndRetainAll());
@@ -1436,6 +1437,7 @@ public class IteratorsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // ListTestSuiteBuilder
+  @AndroidIncompatible // test-suite builders
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {

@@ -52,6 +52,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author George van den Driessche
  */
+@AndroidIncompatible // test-suite builders
 public final class MapTestSuiteBuilderTests extends TestCase {
   private MapTestSuiteBuilderTests() {}
 

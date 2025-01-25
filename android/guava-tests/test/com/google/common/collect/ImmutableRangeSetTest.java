@@ -40,6 +40,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
+  @AndroidIncompatible // test-suite builders
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
@@ -67,6 +68,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // test-suite builders
   static final class ImmutableRangeSetBigIntegerAsSetGenerator
       implements TestSetGenerator<BigInteger> {
     @Override
@@ -100,6 +102,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableRangeSetTest.class);

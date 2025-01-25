@@ -79,6 +79,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class MultimapsCollectionTest extends TestCase {
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ONE = {

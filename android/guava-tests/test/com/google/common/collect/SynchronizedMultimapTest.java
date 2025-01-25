@@ -46,6 +46,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class SynchronizedMultimapTest extends TestCase {
 
+  @AndroidIncompatible // test-suite builders
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedMultimapTest.class);

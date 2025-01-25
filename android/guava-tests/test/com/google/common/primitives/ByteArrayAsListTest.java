@@ -41,6 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible(emulated = true)
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class ByteArrayAsListTest extends TestCase {
 
   private static List<Byte> asList(Byte[] values) {

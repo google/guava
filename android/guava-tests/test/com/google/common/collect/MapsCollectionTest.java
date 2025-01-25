@@ -61,6 +61,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @NullUnmarked
+@AndroidIncompatible // test-suite builders
 public class MapsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
