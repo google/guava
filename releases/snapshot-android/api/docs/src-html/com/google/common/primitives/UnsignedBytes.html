@@ -280,255 +280,258 @@
 <span class="source-line-no">267</span><span id="line-267">   * support only identity equality), but it is consistent with {@link</span>
 <span class="source-line-no">268</span><span id="line-268">   * java.util.Arrays#equals(byte[], byte[])}.</span>
 <span class="source-line-no">269</span><span id="line-269">   *</span>
-<span class="source-line-no">270</span><span id="line-270">   * @since 2.0</span>
-<span class="source-line-no">271</span><span id="line-271">   */</span>
-<span class="source-line-no">272</span><span id="line-272">  public static Comparator&lt;byte[]&gt; lexicographicalComparator() {</span>
-<span class="source-line-no">273</span><span id="line-273">    return LexicographicalComparatorHolder.BEST_COMPARATOR;</span>
-<span class="source-line-no">274</span><span id="line-274">  }</span>
-<span class="source-line-no">275</span><span id="line-275"></span>
-<span class="source-line-no">276</span><span id="line-276">  @VisibleForTesting</span>
-<span class="source-line-no">277</span><span id="line-277">  static Comparator&lt;byte[]&gt; lexicographicalComparatorJavaImpl() {</span>
-<span class="source-line-no">278</span><span id="line-278">    return LexicographicalComparatorHolder.PureJavaComparator.INSTANCE;</span>
-<span class="source-line-no">279</span><span id="line-279">  }</span>
-<span class="source-line-no">280</span><span id="line-280"></span>
-<span class="source-line-no">281</span><span id="line-281">  /**</span>
-<span class="source-line-no">282</span><span id="line-282">   * Provides a lexicographical comparator implementation; either a Java implementation or a faster</span>
-<span class="source-line-no">283</span><span id="line-283">   * implementation based on {@link Unsafe}.</span>
-<span class="source-line-no">284</span><span id="line-284">   *</span>
-<span class="source-line-no">285</span><span id="line-285">   * &lt;p&gt;Uses reflection to gracefully fall back to the Java implementation if {@code Unsafe} isn't</span>
-<span class="source-line-no">286</span><span id="line-286">   * available.</span>
-<span class="source-line-no">287</span><span id="line-287">   */</span>
-<span class="source-line-no">288</span><span id="line-288">  @VisibleForTesting</span>
-<span class="source-line-no">289</span><span id="line-289">  static class LexicographicalComparatorHolder {</span>
-<span class="source-line-no">290</span><span id="line-290">    static final String UNSAFE_COMPARATOR_NAME =</span>
-<span class="source-line-no">291</span><span id="line-291">        LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";</span>
-<span class="source-line-no">292</span><span id="line-292"></span>
-<span class="source-line-no">293</span><span id="line-293">    static final Comparator&lt;byte[]&gt; BEST_COMPARATOR = getBestComparator();</span>
-<span class="source-line-no">294</span><span id="line-294"></span>
-<span class="source-line-no">295</span><span id="line-295">    @SuppressWarnings("SunApi") // b/345822163</span>
-<span class="source-line-no">296</span><span id="line-296">    @VisibleForTesting</span>
-<span class="source-line-no">297</span><span id="line-297">    enum UnsafeComparator implements Comparator&lt;byte[]&gt; {</span>
-<span class="source-line-no">298</span><span id="line-298">      INSTANCE;</span>
-<span class="source-line-no">299</span><span id="line-299"></span>
-<span class="source-line-no">300</span><span id="line-300">      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);</span>
-<span class="source-line-no">301</span><span id="line-301"></span>
-<span class="source-line-no">302</span><span id="line-302">      /*</span>
-<span class="source-line-no">303</span><span id="line-303">       * The following static final fields exist for performance reasons.</span>
-<span class="source-line-no">304</span><span id="line-304">       *</span>
-<span class="source-line-no">305</span><span id="line-305">       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the</span>
-<span class="source-line-no">306</span><span id="line-306">       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static</span>
-<span class="source-line-no">307</span><span id="line-307">       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the</span>
-<span class="source-line-no">308</span><span id="line-308">       * non-final fields need to be reloaded inside the loop.</span>
-<span class="source-line-no">309</span><span id="line-309">       *</span>
-<span class="source-line-no">310</span><span id="line-310">       * And, no, defining (final or not) local variables out of the loop still isn't as good</span>
-<span class="source-line-no">311</span><span id="line-311">       * because the null check on the theUnsafe object remains inside the loop and</span>
-<span class="source-line-no">312</span><span id="line-312">       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.</span>
-<span class="source-line-no">313</span><span id="line-313">       *</span>
-<span class="source-line-no">314</span><span id="line-314">       * The compiler can treat static final fields as compile-time constants and can constant-fold</span>
-<span class="source-line-no">315</span><span id="line-315">       * them while (final or not) local variables are run time values.</span>
-<span class="source-line-no">316</span><span id="line-316">       */</span>
-<span class="source-line-no">317</span><span id="line-317"></span>
-<span class="source-line-no">318</span><span id="line-318">      static final Unsafe theUnsafe = getUnsafe();</span>
-<span class="source-line-no">319</span><span id="line-319"></span>
-<span class="source-line-no">320</span><span id="line-320">      /** The offset to the first element in a byte array. */</span>
-<span class="source-line-no">321</span><span id="line-321">      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);</span>
+<span class="source-line-no">270</span><span id="line-270">   * &lt;p&gt;&lt;b&gt;Java 9+ users:&lt;/b&gt; Use {@link Arrays#compareUnsigned(byte[], byte[])</span>
+<span class="source-line-no">271</span><span id="line-271">   * Arrays::compareUnsigned}.</span>
+<span class="source-line-no">272</span><span id="line-272">   *</span>
+<span class="source-line-no">273</span><span id="line-273">   * @since 2.0</span>
+<span class="source-line-no">274</span><span id="line-274">   */</span>
+<span class="source-line-no">275</span><span id="line-275">  public static Comparator&lt;byte[]&gt; lexicographicalComparator() {</span>
+<span class="source-line-no">276</span><span id="line-276">    return LexicographicalComparatorHolder.BEST_COMPARATOR;</span>
+<span class="source-line-no">277</span><span id="line-277">  }</span>
+<span class="source-line-no">278</span><span id="line-278"></span>
+<span class="source-line-no">279</span><span id="line-279">  @VisibleForTesting</span>
+<span class="source-line-no">280</span><span id="line-280">  static Comparator&lt;byte[]&gt; lexicographicalComparatorJavaImpl() {</span>
+<span class="source-line-no">281</span><span id="line-281">    return LexicographicalComparatorHolder.PureJavaComparator.INSTANCE;</span>
+<span class="source-line-no">282</span><span id="line-282">  }</span>
+<span class="source-line-no">283</span><span id="line-283"></span>
+<span class="source-line-no">284</span><span id="line-284">  /**</span>
+<span class="source-line-no">285</span><span id="line-285">   * Provides a lexicographical comparator implementation; either a Java implementation or a faster</span>
+<span class="source-line-no">286</span><span id="line-286">   * implementation based on {@link Unsafe}.</span>
+<span class="source-line-no">287</span><span id="line-287">   *</span>
+<span class="source-line-no">288</span><span id="line-288">   * &lt;p&gt;Uses reflection to gracefully fall back to the Java implementation if {@code Unsafe} isn't</span>
+<span class="source-line-no">289</span><span id="line-289">   * available.</span>
+<span class="source-line-no">290</span><span id="line-290">   */</span>
+<span class="source-line-no">291</span><span id="line-291">  @VisibleForTesting</span>
+<span class="source-line-no">292</span><span id="line-292">  static class LexicographicalComparatorHolder {</span>
+<span class="source-line-no">293</span><span id="line-293">    static final String UNSAFE_COMPARATOR_NAME =</span>
+<span class="source-line-no">294</span><span id="line-294">        LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";</span>
+<span class="source-line-no">295</span><span id="line-295"></span>
+<span class="source-line-no">296</span><span id="line-296">    static final Comparator&lt;byte[]&gt; BEST_COMPARATOR = getBestComparator();</span>
+<span class="source-line-no">297</span><span id="line-297"></span>
+<span class="source-line-no">298</span><span id="line-298">    @SuppressWarnings("SunApi") // b/345822163</span>
+<span class="source-line-no">299</span><span id="line-299">    @VisibleForTesting</span>
+<span class="source-line-no">300</span><span id="line-300">    enum UnsafeComparator implements Comparator&lt;byte[]&gt; {</span>
+<span class="source-line-no">301</span><span id="line-301">      INSTANCE;</span>
+<span class="source-line-no">302</span><span id="line-302"></span>
+<span class="source-line-no">303</span><span id="line-303">      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);</span>
+<span class="source-line-no">304</span><span id="line-304"></span>
+<span class="source-line-no">305</span><span id="line-305">      /*</span>
+<span class="source-line-no">306</span><span id="line-306">       * The following static final fields exist for performance reasons.</span>
+<span class="source-line-no">307</span><span id="line-307">       *</span>
+<span class="source-line-no">308</span><span id="line-308">       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the</span>
+<span class="source-line-no">309</span><span id="line-309">       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static</span>
+<span class="source-line-no">310</span><span id="line-310">       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the</span>
+<span class="source-line-no">311</span><span id="line-311">       * non-final fields need to be reloaded inside the loop.</span>
+<span class="source-line-no">312</span><span id="line-312">       *</span>
+<span class="source-line-no">313</span><span id="line-313">       * And, no, defining (final or not) local variables out of the loop still isn't as good</span>
+<span class="source-line-no">314</span><span id="line-314">       * because the null check on the theUnsafe object remains inside the loop and</span>
+<span class="source-line-no">315</span><span id="line-315">       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.</span>
+<span class="source-line-no">316</span><span id="line-316">       *</span>
+<span class="source-line-no">317</span><span id="line-317">       * The compiler can treat static final fields as compile-time constants and can constant-fold</span>
+<span class="source-line-no">318</span><span id="line-318">       * them while (final or not) local variables are run time values.</span>
+<span class="source-line-no">319</span><span id="line-319">       */</span>
+<span class="source-line-no">320</span><span id="line-320"></span>
+<span class="source-line-no">321</span><span id="line-321">      static final Unsafe theUnsafe = getUnsafe();</span>
 <span class="source-line-no">322</span><span id="line-322"></span>
-<span class="source-line-no">323</span><span id="line-323">      static {</span>
-<span class="source-line-no">324</span><span id="line-324">        // fall back to the safer pure java implementation unless we're in</span>
-<span class="source-line-no">325</span><span id="line-325">        // a 64-bit JVM with an 8-byte aligned field offset.</span>
-<span class="source-line-no">326</span><span id="line-326">        if (!("64".equals(System.getProperty("sun.arch.data.model"))</span>
-<span class="source-line-no">327</span><span id="line-327">            &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0</span>
-<span class="source-line-no">328</span><span id="line-328">            // sanity check - this should never fail</span>
-<span class="source-line-no">329</span><span id="line-329">            &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {</span>
-<span class="source-line-no">330</span><span id="line-330">          throw new Error(); // force fallback to PureJavaComparator</span>
-<span class="source-line-no">331</span><span id="line-331">        }</span>
-<span class="source-line-no">332</span><span id="line-332">      }</span>
-<span class="source-line-no">333</span><span id="line-333"></span>
-<span class="source-line-no">334</span><span id="line-334">      /**</span>
-<span class="source-line-no">335</span><span id="line-335">       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple</span>
-<span class="source-line-no">336</span><span id="line-336">       * call to Unsafe.getUnsafe when integrating into a jdk.</span>
-<span class="source-line-no">337</span><span id="line-337">       *</span>
-<span class="source-line-no">338</span><span id="line-338">       * @return a sun.misc.Unsafe</span>
-<span class="source-line-no">339</span><span id="line-339">       */</span>
-<span class="source-line-no">340</span><span id="line-340">      private static Unsafe getUnsafe() {</span>
-<span class="source-line-no">341</span><span id="line-341">        try {</span>
-<span class="source-line-no">342</span><span id="line-342">          return Unsafe.getUnsafe();</span>
-<span class="source-line-no">343</span><span id="line-343">        } catch (SecurityException e) {</span>
-<span class="source-line-no">344</span><span id="line-344">          // that's okay; try reflection instead</span>
-<span class="source-line-no">345</span><span id="line-345">        }</span>
-<span class="source-line-no">346</span><span id="line-346">        try {</span>
-<span class="source-line-no">347</span><span id="line-347">          return AccessController.doPrivileged(</span>
-<span class="source-line-no">348</span><span id="line-348">              new PrivilegedExceptionAction&lt;Unsafe&gt;() {</span>
-<span class="source-line-no">349</span><span id="line-349">                @Override</span>
-<span class="source-line-no">350</span><span id="line-350">                public Unsafe run() throws Exception {</span>
-<span class="source-line-no">351</span><span id="line-351">                  Class&lt;Unsafe&gt; k = Unsafe.class;</span>
-<span class="source-line-no">352</span><span id="line-352">                  for (Field f : k.getDeclaredFields()) {</span>
-<span class="source-line-no">353</span><span id="line-353">                    f.setAccessible(true);</span>
-<span class="source-line-no">354</span><span id="line-354">                    Object x = f.get(null);</span>
-<span class="source-line-no">355</span><span id="line-355">                    if (k.isInstance(x)) {</span>
-<span class="source-line-no">356</span><span id="line-356">                      return k.cast(x);</span>
-<span class="source-line-no">357</span><span id="line-357">                    }</span>
-<span class="source-line-no">358</span><span id="line-358">                  }</span>
-<span class="source-line-no">359</span><span id="line-359">                  throw new NoSuchFieldError("the Unsafe");</span>
-<span class="source-line-no">360</span><span id="line-360">                }</span>
-<span class="source-line-no">361</span><span id="line-361">              });</span>
-<span class="source-line-no">362</span><span id="line-362">        } catch (PrivilegedActionException e) {</span>
-<span class="source-line-no">363</span><span id="line-363">          throw new RuntimeException("Could not initialize intrinsics", e.getCause());</span>
-<span class="source-line-no">364</span><span id="line-364">        }</span>
-<span class="source-line-no">365</span><span id="line-365">      }</span>
-<span class="source-line-no">366</span><span id="line-366"></span>
-<span class="source-line-no">367</span><span id="line-367">      @Override</span>
-<span class="source-line-no">368</span><span id="line-368">      // Long.compareUnsigned is available under Android, which is what we really care about.</span>
-<span class="source-line-no">369</span><span id="line-369">      @SuppressWarnings("Java7ApiChecker")</span>
-<span class="source-line-no">370</span><span id="line-370">      public int compare(byte[] left, byte[] right) {</span>
-<span class="source-line-no">371</span><span id="line-371">        int stride = 8;</span>
-<span class="source-line-no">372</span><span id="line-372">        int minLength = Math.min(left.length, right.length);</span>
-<span class="source-line-no">373</span><span id="line-373">        int strideLimit = minLength &amp; ~(stride - 1);</span>
-<span class="source-line-no">374</span><span id="line-374">        int i;</span>
-<span class="source-line-no">375</span><span id="line-375"></span>
-<span class="source-line-no">376</span><span id="line-376">        /*</span>
-<span class="source-line-no">377</span><span id="line-377">         * Compare 8 bytes at a time. Benchmarking on x86 shows a stride of 8 bytes is no slower</span>
-<span class="source-line-no">378</span><span id="line-378">         * than 4 bytes even on 32-bit. On the other hand, it is substantially faster on 64-bit.</span>
-<span class="source-line-no">379</span><span id="line-379">         */</span>
-<span class="source-line-no">380</span><span id="line-380">        for (i = 0; i &lt; strideLimit; i += stride) {</span>
-<span class="source-line-no">381</span><span id="line-381">          long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);</span>
-<span class="source-line-no">382</span><span id="line-382">          long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);</span>
-<span class="source-line-no">383</span><span id="line-383">          if (lw != rw) {</span>
-<span class="source-line-no">384</span><span id="line-384">            if (BIG_ENDIAN) {</span>
-<span class="source-line-no">385</span><span id="line-385">              return Long.compareUnsigned(lw, rw);</span>
-<span class="source-line-no">386</span><span id="line-386">            }</span>
-<span class="source-line-no">387</span><span id="line-387"></span>
-<span class="source-line-no">388</span><span id="line-388">            /*</span>
-<span class="source-line-no">389</span><span id="line-389">             * We want to compare only the first index where left[index] != right[index]. This</span>
-<span class="source-line-no">390</span><span id="line-390">             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are</span>
-<span class="source-line-no">391</span><span id="line-391">             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant</span>
-<span class="source-line-no">392</span><span id="line-392">             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get</span>
-<span class="source-line-no">393</span><span id="line-393">             * that least significant nonzero byte.</span>
-<span class="source-line-no">394</span><span id="line-394">             */</span>
-<span class="source-line-no">395</span><span id="line-395">            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;</span>
-<span class="source-line-no">396</span><span id="line-396">            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));</span>
-<span class="source-line-no">397</span><span id="line-397">          }</span>
-<span class="source-line-no">398</span><span id="line-398">        }</span>
-<span class="source-line-no">399</span><span id="line-399"></span>
-<span class="source-line-no">400</span><span id="line-400">        // The epilogue to cover the last (minLength % stride) elements.</span>
-<span class="source-line-no">401</span><span id="line-401">        for (; i &lt; minLength; i++) {</span>
-<span class="source-line-no">402</span><span id="line-402">          int result = UnsignedBytes.compare(left[i], right[i]);</span>
-<span class="source-line-no">403</span><span id="line-403">          if (result != 0) {</span>
-<span class="source-line-no">404</span><span id="line-404">            return result;</span>
-<span class="source-line-no">405</span><span id="line-405">          }</span>
-<span class="source-line-no">406</span><span id="line-406">        }</span>
-<span class="source-line-no">407</span><span id="line-407">        return left.length - right.length;</span>
-<span class="source-line-no">408</span><span id="line-408">      }</span>
-<span class="source-line-no">409</span><span id="line-409"></span>
-<span class="source-line-no">410</span><span id="line-410">      @Override</span>
-<span class="source-line-no">411</span><span id="line-411">      public String toString() {</span>
-<span class="source-line-no">412</span><span id="line-412">        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";</span>
-<span class="source-line-no">413</span><span id="line-413">      }</span>
-<span class="source-line-no">414</span><span id="line-414">    }</span>
-<span class="source-line-no">415</span><span id="line-415"></span>
-<span class="source-line-no">416</span><span id="line-416">    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {</span>
-<span class="source-line-no">417</span><span id="line-417">      INSTANCE;</span>
+<span class="source-line-no">323</span><span id="line-323">      /** The offset to the first element in a byte array. */</span>
+<span class="source-line-no">324</span><span id="line-324">      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);</span>
+<span class="source-line-no">325</span><span id="line-325"></span>
+<span class="source-line-no">326</span><span id="line-326">      static {</span>
+<span class="source-line-no">327</span><span id="line-327">        // fall back to the safer pure java implementation unless we're in</span>
+<span class="source-line-no">328</span><span id="line-328">        // a 64-bit JVM with an 8-byte aligned field offset.</span>
+<span class="source-line-no">329</span><span id="line-329">        if (!("64".equals(System.getProperty("sun.arch.data.model"))</span>
+<span class="source-line-no">330</span><span id="line-330">            &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0</span>
+<span class="source-line-no">331</span><span id="line-331">            // sanity check - this should never fail</span>
+<span class="source-line-no">332</span><span id="line-332">            &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {</span>
+<span class="source-line-no">333</span><span id="line-333">          throw new Error(); // force fallback to PureJavaComparator</span>
+<span class="source-line-no">334</span><span id="line-334">        }</span>
+<span class="source-line-no">335</span><span id="line-335">      }</span>
+<span class="source-line-no">336</span><span id="line-336"></span>
+<span class="source-line-no">337</span><span id="line-337">      /**</span>
+<span class="source-line-no">338</span><span id="line-338">       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple</span>
+<span class="source-line-no">339</span><span id="line-339">       * call to Unsafe.getUnsafe when integrating into a jdk.</span>
+<span class="source-line-no">340</span><span id="line-340">       *</span>
+<span class="source-line-no">341</span><span id="line-341">       * @return a sun.misc.Unsafe</span>
+<span class="source-line-no">342</span><span id="line-342">       */</span>
+<span class="source-line-no">343</span><span id="line-343">      private static Unsafe getUnsafe() {</span>
+<span class="source-line-no">344</span><span id="line-344">        try {</span>
+<span class="source-line-no">345</span><span id="line-345">          return Unsafe.getUnsafe();</span>
+<span class="source-line-no">346</span><span id="line-346">        } catch (SecurityException e) {</span>
+<span class="source-line-no">347</span><span id="line-347">          // that's okay; try reflection instead</span>
+<span class="source-line-no">348</span><span id="line-348">        }</span>
+<span class="source-line-no">349</span><span id="line-349">        try {</span>
+<span class="source-line-no">350</span><span id="line-350">          return AccessController.doPrivileged(</span>
+<span class="source-line-no">351</span><span id="line-351">              new PrivilegedExceptionAction&lt;Unsafe&gt;() {</span>
+<span class="source-line-no">352</span><span id="line-352">                @Override</span>
+<span class="source-line-no">353</span><span id="line-353">                public Unsafe run() throws Exception {</span>
+<span class="source-line-no">354</span><span id="line-354">                  Class&lt;Unsafe&gt; k = Unsafe.class;</span>
+<span class="source-line-no">355</span><span id="line-355">                  for (Field f : k.getDeclaredFields()) {</span>
+<span class="source-line-no">356</span><span id="line-356">                    f.setAccessible(true);</span>
+<span class="source-line-no">357</span><span id="line-357">                    Object x = f.get(null);</span>
+<span class="source-line-no">358</span><span id="line-358">                    if (k.isInstance(x)) {</span>
+<span class="source-line-no">359</span><span id="line-359">                      return k.cast(x);</span>
+<span class="source-line-no">360</span><span id="line-360">                    }</span>
+<span class="source-line-no">361</span><span id="line-361">                  }</span>
+<span class="source-line-no">362</span><span id="line-362">                  throw new NoSuchFieldError("the Unsafe");</span>
+<span class="source-line-no">363</span><span id="line-363">                }</span>
+<span class="source-line-no">364</span><span id="line-364">              });</span>
+<span class="source-line-no">365</span><span id="line-365">        } catch (PrivilegedActionException e) {</span>
+<span class="source-line-no">366</span><span id="line-366">          throw new RuntimeException("Could not initialize intrinsics", e.getCause());</span>
+<span class="source-line-no">367</span><span id="line-367">        }</span>
+<span class="source-line-no">368</span><span id="line-368">      }</span>
+<span class="source-line-no">369</span><span id="line-369"></span>
+<span class="source-line-no">370</span><span id="line-370">      @Override</span>
+<span class="source-line-no">371</span><span id="line-371">      // Long.compareUnsigned is available under Android, which is what we really care about.</span>
+<span class="source-line-no">372</span><span id="line-372">      @SuppressWarnings("Java7ApiChecker")</span>
+<span class="source-line-no">373</span><span id="line-373">      public int compare(byte[] left, byte[] right) {</span>
+<span class="source-line-no">374</span><span id="line-374">        int stride = 8;</span>
+<span class="source-line-no">375</span><span id="line-375">        int minLength = Math.min(left.length, right.length);</span>
+<span class="source-line-no">376</span><span id="line-376">        int strideLimit = minLength &amp; ~(stride - 1);</span>
+<span class="source-line-no">377</span><span id="line-377">        int i;</span>
+<span class="source-line-no">378</span><span id="line-378"></span>
+<span class="source-line-no">379</span><span id="line-379">        /*</span>
+<span class="source-line-no">380</span><span id="line-380">         * Compare 8 bytes at a time. Benchmarking on x86 shows a stride of 8 bytes is no slower</span>
+<span class="source-line-no">381</span><span id="line-381">         * than 4 bytes even on 32-bit. On the other hand, it is substantially faster on 64-bit.</span>
+<span class="source-line-no">382</span><span id="line-382">         */</span>
+<span class="source-line-no">383</span><span id="line-383">        for (i = 0; i &lt; strideLimit; i += stride) {</span>
+<span class="source-line-no">384</span><span id="line-384">          long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);</span>
+<span class="source-line-no">385</span><span id="line-385">          long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);</span>
+<span class="source-line-no">386</span><span id="line-386">          if (lw != rw) {</span>
+<span class="source-line-no">387</span><span id="line-387">            if (BIG_ENDIAN) {</span>
+<span class="source-line-no">388</span><span id="line-388">              return Long.compareUnsigned(lw, rw);</span>
+<span class="source-line-no">389</span><span id="line-389">            }</span>
+<span class="source-line-no">390</span><span id="line-390"></span>
+<span class="source-line-no">391</span><span id="line-391">            /*</span>
+<span class="source-line-no">392</span><span id="line-392">             * We want to compare only the first index where left[index] != right[index]. This</span>
+<span class="source-line-no">393</span><span id="line-393">             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are</span>
+<span class="source-line-no">394</span><span id="line-394">             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant</span>
+<span class="source-line-no">395</span><span id="line-395">             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get</span>
+<span class="source-line-no">396</span><span id="line-396">             * that least significant nonzero byte.</span>
+<span class="source-line-no">397</span><span id="line-397">             */</span>
+<span class="source-line-no">398</span><span id="line-398">            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;</span>
+<span class="source-line-no">399</span><span id="line-399">            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));</span>
+<span class="source-line-no">400</span><span id="line-400">          }</span>
+<span class="source-line-no">401</span><span id="line-401">        }</span>
+<span class="source-line-no">402</span><span id="line-402"></span>
+<span class="source-line-no">403</span><span id="line-403">        // The epilogue to cover the last (minLength % stride) elements.</span>
+<span class="source-line-no">404</span><span id="line-404">        for (; i &lt; minLength; i++) {</span>
+<span class="source-line-no">405</span><span id="line-405">          int result = UnsignedBytes.compare(left[i], right[i]);</span>
+<span class="source-line-no">406</span><span id="line-406">          if (result != 0) {</span>
+<span class="source-line-no">407</span><span id="line-407">            return result;</span>
+<span class="source-line-no">408</span><span id="line-408">          }</span>
+<span class="source-line-no">409</span><span id="line-409">        }</span>
+<span class="source-line-no">410</span><span id="line-410">        return left.length - right.length;</span>
+<span class="source-line-no">411</span><span id="line-411">      }</span>
+<span class="source-line-no">412</span><span id="line-412"></span>
+<span class="source-line-no">413</span><span id="line-413">      @Override</span>
+<span class="source-line-no">414</span><span id="line-414">      public String toString() {</span>
+<span class="source-line-no">415</span><span id="line-415">        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";</span>
+<span class="source-line-no">416</span><span id="line-416">      }</span>
+<span class="source-line-no">417</span><span id="line-417">    }</span>
 <span class="source-line-no">418</span><span id="line-418"></span>
-<span class="source-line-no">419</span><span id="line-419">      @Override</span>
-<span class="source-line-no">420</span><span id="line-420">      public int compare(byte[] left, byte[] right) {</span>
-<span class="source-line-no">421</span><span id="line-421">        int minLength = Math.min(left.length, right.length);</span>
-<span class="source-line-no">422</span><span id="line-422">        for (int i = 0; i &lt; minLength; i++) {</span>
-<span class="source-line-no">423</span><span id="line-423">          int result = UnsignedBytes.compare(left[i], right[i]);</span>
-<span class="source-line-no">424</span><span id="line-424">          if (result != 0) {</span>
-<span class="source-line-no">425</span><span id="line-425">            return result;</span>
-<span class="source-line-no">426</span><span id="line-426">          }</span>
-<span class="source-line-no">427</span><span id="line-427">        }</span>
-<span class="source-line-no">428</span><span id="line-428">        return left.length - right.length;</span>
-<span class="source-line-no">429</span><span id="line-429">      }</span>
-<span class="source-line-no">430</span><span id="line-430"></span>
-<span class="source-line-no">431</span><span id="line-431">      @Override</span>
-<span class="source-line-no">432</span><span id="line-432">      public String toString() {</span>
-<span class="source-line-no">433</span><span id="line-433">        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";</span>
-<span class="source-line-no">434</span><span id="line-434">      }</span>
-<span class="source-line-no">435</span><span id="line-435">    }</span>
-<span class="source-line-no">436</span><span id="line-436"></span>
-<span class="source-line-no">437</span><span id="line-437">    /**</span>
-<span class="source-line-no">438</span><span id="line-438">     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable</span>
-<span class="source-line-no">439</span><span id="line-439">     * to do so.</span>
-<span class="source-line-no">440</span><span id="line-440">     */</span>
-<span class="source-line-no">441</span><span id="line-441">    static Comparator&lt;byte[]&gt; getBestComparator() {</span>
-<span class="source-line-no">442</span><span id="line-442">      try {</span>
-<span class="source-line-no">443</span><span id="line-443">        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);</span>
-<span class="source-line-no">444</span><span id="line-444"></span>
-<span class="source-line-no">445</span><span id="line-445">        // requireNonNull is safe because the class is an enum.</span>
-<span class="source-line-no">446</span><span id="line-446">        Object[] constants = requireNonNull(theClass.getEnumConstants());</span>
+<span class="source-line-no">419</span><span id="line-419">    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {</span>
+<span class="source-line-no">420</span><span id="line-420">      INSTANCE;</span>
+<span class="source-line-no">421</span><span id="line-421"></span>
+<span class="source-line-no">422</span><span id="line-422">      @Override</span>
+<span class="source-line-no">423</span><span id="line-423">      public int compare(byte[] left, byte[] right) {</span>
+<span class="source-line-no">424</span><span id="line-424">        int minLength = Math.min(left.length, right.length);</span>
+<span class="source-line-no">425</span><span id="line-425">        for (int i = 0; i &lt; minLength; i++) {</span>
+<span class="source-line-no">426</span><span id="line-426">          int result = UnsignedBytes.compare(left[i], right[i]);</span>
+<span class="source-line-no">427</span><span id="line-427">          if (result != 0) {</span>
+<span class="source-line-no">428</span><span id="line-428">            return result;</span>
+<span class="source-line-no">429</span><span id="line-429">          }</span>
+<span class="source-line-no">430</span><span id="line-430">        }</span>
+<span class="source-line-no">431</span><span id="line-431">        return left.length - right.length;</span>
+<span class="source-line-no">432</span><span id="line-432">      }</span>
+<span class="source-line-no">433</span><span id="line-433"></span>
+<span class="source-line-no">434</span><span id="line-434">      @Override</span>
+<span class="source-line-no">435</span><span id="line-435">      public String toString() {</span>
+<span class="source-line-no">436</span><span id="line-436">        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";</span>
+<span class="source-line-no">437</span><span id="line-437">      }</span>
+<span class="source-line-no">438</span><span id="line-438">    }</span>
+<span class="source-line-no">439</span><span id="line-439"></span>
+<span class="source-line-no">440</span><span id="line-440">    /**</span>
+<span class="source-line-no">441</span><span id="line-441">     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable</span>
+<span class="source-line-no">442</span><span id="line-442">     * to do so.</span>
+<span class="source-line-no">443</span><span id="line-443">     */</span>
+<span class="source-line-no">444</span><span id="line-444">    static Comparator&lt;byte[]&gt; getBestComparator() {</span>
+<span class="source-line-no">445</span><span id="line-445">      try {</span>
+<span class="source-line-no">446</span><span id="line-446">        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);</span>
 <span class="source-line-no">447</span><span id="line-447"></span>
-<span class="source-line-no">448</span><span id="line-448">        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;</span>
-<span class="source-line-no">449</span><span id="line-449">        @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">450</span><span id="line-450">        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) constants[0];</span>
-<span class="source-line-no">451</span><span id="line-451">        return comparator;</span>
-<span class="source-line-no">452</span><span id="line-452">      } catch (Throwable t) { // ensure we really catch *everything*</span>
-<span class="source-line-no">453</span><span id="line-453">        return lexicographicalComparatorJavaImpl();</span>
-<span class="source-line-no">454</span><span id="line-454">      }</span>
-<span class="source-line-no">455</span><span id="line-455">    }</span>
-<span class="source-line-no">456</span><span id="line-456">  }</span>
-<span class="source-line-no">457</span><span id="line-457"></span>
-<span class="source-line-no">458</span><span id="line-458">  private static byte flip(byte b) {</span>
-<span class="source-line-no">459</span><span id="line-459">    return (byte) (b ^ 0x80);</span>
-<span class="source-line-no">460</span><span id="line-460">  }</span>
-<span class="source-line-no">461</span><span id="line-461"></span>
-<span class="source-line-no">462</span><span id="line-462">  /**</span>
-<span class="source-line-no">463</span><span id="line-463">   * Sorts the array, treating its elements as unsigned bytes.</span>
-<span class="source-line-no">464</span><span id="line-464">   *</span>
-<span class="source-line-no">465</span><span id="line-465">   * @since 23.1</span>
-<span class="source-line-no">466</span><span id="line-466">   */</span>
-<span class="source-line-no">467</span><span id="line-467">  public static void sort(byte[] array) {</span>
-<span class="source-line-no">468</span><span id="line-468">    checkNotNull(array);</span>
-<span class="source-line-no">469</span><span id="line-469">    sort(array, 0, array.length);</span>
-<span class="source-line-no">470</span><span id="line-470">  }</span>
-<span class="source-line-no">471</span><span id="line-471"></span>
-<span class="source-line-no">472</span><span id="line-472">  /**</span>
-<span class="source-line-no">473</span><span id="line-473">   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its</span>
-<span class="source-line-no">474</span><span id="line-474">   * elements as unsigned bytes.</span>
-<span class="source-line-no">475</span><span id="line-475">   *</span>
-<span class="source-line-no">476</span><span id="line-476">   * @since 23.1</span>
-<span class="source-line-no">477</span><span id="line-477">   */</span>
-<span class="source-line-no">478</span><span id="line-478">  public static void sort(byte[] array, int fromIndex, int toIndex) {</span>
-<span class="source-line-no">479</span><span id="line-479">    checkNotNull(array);</span>
-<span class="source-line-no">480</span><span id="line-480">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
-<span class="source-line-no">481</span><span id="line-481">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">482</span><span id="line-482">      array[i] = flip(array[i]);</span>
-<span class="source-line-no">483</span><span id="line-483">    }</span>
-<span class="source-line-no">484</span><span id="line-484">    Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="source-line-no">485</span><span id="line-485">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">486</span><span id="line-486">      array[i] = flip(array[i]);</span>
-<span class="source-line-no">487</span><span id="line-487">    }</span>
-<span class="source-line-no">488</span><span id="line-488">  }</span>
-<span class="source-line-no">489</span><span id="line-489"></span>
-<span class="source-line-no">490</span><span id="line-490">  /**</span>
-<span class="source-line-no">491</span><span id="line-491">   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit</span>
-<span class="source-line-no">492</span><span id="line-492">   * integers.</span>
-<span class="source-line-no">493</span><span id="line-493">   *</span>
-<span class="source-line-no">494</span><span id="line-494">   * @since 23.1</span>
-<span class="source-line-no">495</span><span id="line-495">   */</span>
-<span class="source-line-no">496</span><span id="line-496">  public static void sortDescending(byte[] array) {</span>
-<span class="source-line-no">497</span><span id="line-497">    checkNotNull(array);</span>
-<span class="source-line-no">498</span><span id="line-498">    sortDescending(array, 0, array.length);</span>
-<span class="source-line-no">499</span><span id="line-499">  }</span>
-<span class="source-line-no">500</span><span id="line-500"></span>
-<span class="source-line-no">501</span><span id="line-501">  /**</span>
-<span class="source-line-no">502</span><span id="line-502">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</span>
-<span class="source-line-no">503</span><span id="line-503">   * exclusive in descending order, interpreting them as unsigned 8-bit integers.</span>
-<span class="source-line-no">504</span><span id="line-504">   *</span>
-<span class="source-line-no">505</span><span id="line-505">   * @since 23.1</span>
-<span class="source-line-no">506</span><span id="line-506">   */</span>
-<span class="source-line-no">507</span><span id="line-507">  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {</span>
-<span class="source-line-no">508</span><span id="line-508">    checkNotNull(array);</span>
-<span class="source-line-no">509</span><span id="line-509">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
-<span class="source-line-no">510</span><span id="line-510">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">511</span><span id="line-511">      array[i] ^= Byte.MAX_VALUE;</span>
-<span class="source-line-no">512</span><span id="line-512">    }</span>
-<span class="source-line-no">513</span><span id="line-513">    Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="source-line-no">514</span><span id="line-514">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">515</span><span id="line-515">      array[i] ^= Byte.MAX_VALUE;</span>
-<span class="source-line-no">516</span><span id="line-516">    }</span>
-<span class="source-line-no">517</span><span id="line-517">  }</span>
-<span class="source-line-no">518</span><span id="line-518">}</span>
+<span class="source-line-no">448</span><span id="line-448">        // requireNonNull is safe because the class is an enum.</span>
+<span class="source-line-no">449</span><span id="line-449">        Object[] constants = requireNonNull(theClass.getEnumConstants());</span>
+<span class="source-line-no">450</span><span id="line-450"></span>
+<span class="source-line-no">451</span><span id="line-451">        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;</span>
+<span class="source-line-no">452</span><span id="line-452">        @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">453</span><span id="line-453">        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) constants[0];</span>
+<span class="source-line-no">454</span><span id="line-454">        return comparator;</span>
+<span class="source-line-no">455</span><span id="line-455">      } catch (Throwable t) { // ensure we really catch *everything*</span>
+<span class="source-line-no">456</span><span id="line-456">        return lexicographicalComparatorJavaImpl();</span>
+<span class="source-line-no">457</span><span id="line-457">      }</span>
+<span class="source-line-no">458</span><span id="line-458">    }</span>
+<span class="source-line-no">459</span><span id="line-459">  }</span>
+<span class="source-line-no">460</span><span id="line-460"></span>
+<span class="source-line-no">461</span><span id="line-461">  private static byte flip(byte b) {</span>
+<span class="source-line-no">462</span><span id="line-462">    return (byte) (b ^ 0x80);</span>
+<span class="source-line-no">463</span><span id="line-463">  }</span>
+<span class="source-line-no">464</span><span id="line-464"></span>
+<span class="source-line-no">465</span><span id="line-465">  /**</span>
+<span class="source-line-no">466</span><span id="line-466">   * Sorts the array, treating its elements as unsigned bytes.</span>
+<span class="source-line-no">467</span><span id="line-467">   *</span>
+<span class="source-line-no">468</span><span id="line-468">   * @since 23.1</span>
+<span class="source-line-no">469</span><span id="line-469">   */</span>
+<span class="source-line-no">470</span><span id="line-470">  public static void sort(byte[] array) {</span>
+<span class="source-line-no">471</span><span id="line-471">    checkNotNull(array);</span>
+<span class="source-line-no">472</span><span id="line-472">    sort(array, 0, array.length);</span>
+<span class="source-line-no">473</span><span id="line-473">  }</span>
+<span class="source-line-no">474</span><span id="line-474"></span>
+<span class="source-line-no">475</span><span id="line-475">  /**</span>
+<span class="source-line-no">476</span><span id="line-476">   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its</span>
+<span class="source-line-no">477</span><span id="line-477">   * elements as unsigned bytes.</span>
+<span class="source-line-no">478</span><span id="line-478">   *</span>
+<span class="source-line-no">479</span><span id="line-479">   * @since 23.1</span>
+<span class="source-line-no">480</span><span id="line-480">   */</span>
+<span class="source-line-no">481</span><span id="line-481">  public static void sort(byte[] array, int fromIndex, int toIndex) {</span>
+<span class="source-line-no">482</span><span id="line-482">    checkNotNull(array);</span>
+<span class="source-line-no">483</span><span id="line-483">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
+<span class="source-line-no">484</span><span id="line-484">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">485</span><span id="line-485">      array[i] = flip(array[i]);</span>
+<span class="source-line-no">486</span><span id="line-486">    }</span>
+<span class="source-line-no">487</span><span id="line-487">    Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="source-line-no">488</span><span id="line-488">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">489</span><span id="line-489">      array[i] = flip(array[i]);</span>
+<span class="source-line-no">490</span><span id="line-490">    }</span>
+<span class="source-line-no">491</span><span id="line-491">  }</span>
+<span class="source-line-no">492</span><span id="line-492"></span>
+<span class="source-line-no">493</span><span id="line-493">  /**</span>
+<span class="source-line-no">494</span><span id="line-494">   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit</span>
+<span class="source-line-no">495</span><span id="line-495">   * integers.</span>
+<span class="source-line-no">496</span><span id="line-496">   *</span>
+<span class="source-line-no">497</span><span id="line-497">   * @since 23.1</span>
+<span class="source-line-no">498</span><span id="line-498">   */</span>
+<span class="source-line-no">499</span><span id="line-499">  public static void sortDescending(byte[] array) {</span>
+<span class="source-line-no">500</span><span id="line-500">    checkNotNull(array);</span>
+<span class="source-line-no">501</span><span id="line-501">    sortDescending(array, 0, array.length);</span>
+<span class="source-line-no">502</span><span id="line-502">  }</span>
+<span class="source-line-no">503</span><span id="line-503"></span>
+<span class="source-line-no">504</span><span id="line-504">  /**</span>
+<span class="source-line-no">505</span><span id="line-505">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</span>
+<span class="source-line-no">506</span><span id="line-506">   * exclusive in descending order, interpreting them as unsigned 8-bit integers.</span>
+<span class="source-line-no">507</span><span id="line-507">   *</span>
+<span class="source-line-no">508</span><span id="line-508">   * @since 23.1</span>
+<span class="source-line-no">509</span><span id="line-509">   */</span>
+<span class="source-line-no">510</span><span id="line-510">  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {</span>
+<span class="source-line-no">511</span><span id="line-511">    checkNotNull(array);</span>
+<span class="source-line-no">512</span><span id="line-512">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
+<span class="source-line-no">513</span><span id="line-513">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">514</span><span id="line-514">      array[i] ^= Byte.MAX_VALUE;</span>
+<span class="source-line-no">515</span><span id="line-515">    }</span>
+<span class="source-line-no">516</span><span id="line-516">    Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="source-line-no">517</span><span id="line-517">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">518</span><span id="line-518">      array[i] ^= Byte.MAX_VALUE;</span>
+<span class="source-line-no">519</span><span id="line-519">    }</span>
+<span class="source-line-no">520</span><span id="line-520">  }</span>
+<span class="source-line-no">521</span><span id="line-521">}</span>
 
 
 
