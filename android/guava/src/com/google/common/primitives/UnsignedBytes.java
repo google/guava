@@ -267,6 +267,9 @@ public final class UnsignedBytes {
    * support only identity equality), but it is consistent with {@link
    * java.util.Arrays#equals(byte[], byte[])}.
    *
+   * <p><b>Java 9+ users:</b> Use {@link Arrays#compareUnsigned(byte[], byte[])
+   * Arrays::compareUnsigned}.
+   *
    * @since 2.0
    */
   public static Comparator<byte[]> lexicographicalComparator() {
