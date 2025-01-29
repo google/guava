@@ -257,11 +257,7 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  /*
-   * Android does not handle this stack overflow gracefully... though somehow some other
-   * stack-overflow tests work. It must depend on the exact place the error occurs.
-   */
-  @AndroidIncompatible
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testTransform_stackOverflow() throws Exception {
@@ -473,11 +469,7 @@ public class FuturesTest extends TestCase {
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
-  /*
-   * Android does not handle this stack overflow gracefully... though somehow some other
-   * stack-overflow tests work. It must depend on the exact place the error occurs.
-   */
-  @AndroidIncompatible
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testTransformAsync_stackOverflow() throws Exception {
@@ -1316,6 +1308,7 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testCatching_stackOverflow() throws Exception {
@@ -1445,6 +1438,7 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testCatchingAsync_stackOverflow() throws Exception {

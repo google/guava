@@ -848,7 +848,7 @@ public class AbstractFutureTest extends TestCase {
   // call to fail
   @J2ktIncompatible
   @GwtIncompatible
-  @AndroidIncompatible
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   public void testSetFutureToString_stackOverflow() {
     SettableFuture<String> orig = SettableFuture.create();
     SettableFuture<String> prev = orig;
@@ -989,6 +989,7 @@ public class AbstractFutureTest extends TestCase {
                 + " java.lang.NullPointerException]]");
   }
 
+  @AndroidIncompatible // b/391667564: crashes from stack overflows
   public void testSetIndirectSelf_toString() {
     final SettableFuture<Object> orig = SettableFuture.create();
     // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
