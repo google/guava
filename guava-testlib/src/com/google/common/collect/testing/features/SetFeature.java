@@ -49,8 +49,8 @@ public enum SetFeature implements Feature<Set> {
   @Inherited
   @TesterAnnotation
   public @interface Require {
-    public abstract SetFeature[] value() default {};
+    SetFeature[] value() default {};
 
-    public abstract SetFeature[] absent() default {};
+    SetFeature[] absent() default {};
   }
 }

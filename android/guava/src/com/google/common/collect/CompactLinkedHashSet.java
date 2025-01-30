@@ -121,9 +121,7 @@ class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E>
   /** Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int lastEntry;
 
-  CompactLinkedHashSet() {
-    super();
-  }
+  CompactLinkedHashSet() {}
 
   CompactLinkedHashSet(int expectedSize) {
     super(expectedSize);

@@ -1242,7 +1242,7 @@ public class NullPointerTesterTest extends TestCase {
 
   private interface NullRejectingFromTo<F, T> extends Function<F, T> {
     @Override
-    public abstract T apply(F from);
+    T apply(F from);
   }
 
   private static class NullRejectingInterfaceDefaultValueChecker extends DefaultValueChecker {

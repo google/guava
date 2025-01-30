@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.Serializable;
 import java.math.BigInteger;
 import org.jspecify.annotations.Nullable;
 
@@ -38,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  * @since 11.0
  */
 @GwtCompatible(serializable = true)
-public final class UnsignedLong extends Number implements Comparable<UnsignedLong>, Serializable {
+public final class UnsignedLong extends Number implements Comparable<UnsignedLong> {
 
   private static final long UNSIGNED_MASK = 0x7fffffffffffffffL;
 

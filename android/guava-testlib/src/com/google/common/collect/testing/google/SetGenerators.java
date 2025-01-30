@@ -39,7 +39,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
-import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestCollidingSetGenerator;
 import com.google.common.collect.testing.TestIntegerSortedSetGenerator;
 import com.google.common.collect.testing.TestSetGenerator;
@@ -120,11 +119,7 @@ public class SetGenerators {
     }
   }
 
-  public static class ImmutableSetWithBadHashesGenerator extends TestCollidingSetGenerator
-      // Work around a GWT compiler bug.  Not explicitly listing this will
-      // cause the createArray() method missing in the generated javascript.
-      // TODO: Remove this once the GWT bug is fixed.
-      implements TestCollectionGenerator<Object> {
+  public static class ImmutableSetWithBadHashesGenerator extends TestCollidingSetGenerator {
     @Override
     public Set<Object> create(Object... elements) {
       return ImmutableSet.copyOf(elements);

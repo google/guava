@@ -552,7 +552,7 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfInt, R, Splitr>
-        implements IntConsumer, Spliterator<R> {
+        implements IntConsumer {
       int holder;
 
       Splitr(Spliterator.OfInt splitr, long index) {
@@ -631,7 +631,7 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfLong, R, Splitr>
-        implements LongConsumer, Spliterator<R> {
+        implements LongConsumer {
       long holder;
 
       Splitr(Spliterator.OfLong splitr, long index) {
@@ -710,7 +710,7 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfDouble, R, Splitr>
-        implements DoubleConsumer, Spliterator<R> {
+        implements DoubleConsumer {
       double holder;
 
       Splitr(Spliterator.OfDouble splitr, long index) {

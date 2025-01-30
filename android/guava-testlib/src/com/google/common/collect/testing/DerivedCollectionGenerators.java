@@ -166,7 +166,7 @@ public final class DerivedCollectionGenerators {
 
   public static class MapSortedKeySetGenerator<
           K extends @Nullable Object, V extends @Nullable Object>
-      extends MapKeySetGenerator<K, V> implements TestSortedSetGenerator<K>, DerivedGenerator {
+      extends MapKeySetGenerator<K, V> implements TestSortedSetGenerator<K> {
     private final TestSortedMapGenerator<K, V> delegate;
 
     public MapSortedKeySetGenerator(

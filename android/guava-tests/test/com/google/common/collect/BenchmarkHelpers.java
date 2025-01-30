@@ -419,7 +419,7 @@ final class BenchmarkHelpers {
     final int min;
     final int max;
 
-    private ListSizeDistribution(int min, int max) {
+    ListSizeDistribution(int min, int max) {
       this.min = min;
       this.max = max;
     }

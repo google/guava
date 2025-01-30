@@ -25,7 +25,6 @@ import com.google.j2objc.annotations.ReflectionSupport;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
@@ -62,7 +61,7 @@ import java.util.function.DoubleUnaryOperator;
 @GwtIncompatible
 @J2ktIncompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-public class AtomicDouble extends Number implements Serializable {
+public class AtomicDouble extends Number {
   private static final long serialVersionUID = 0L;
 
   private transient volatile long value;

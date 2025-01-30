@@ -46,17 +46,17 @@ public interface SourceSinkFactory<S, T> {
   T getExpected(T data);
 
   /** Cleans up anything created when creating the source or sink. */
-  public abstract void tearDown() throws IOException;
+  void tearDown() throws IOException;
 
   /** Factory for byte or char sources. */
-  public interface SourceFactory<S, T> extends SourceSinkFactory<S, T> {
+  interface SourceFactory<S, T> extends SourceSinkFactory<S, T> {
 
     /** Creates a new source containing some or all of the given data. */
     S createSource(T data) throws IOException;
   }
 
   /** Factory for byte or char sinks. */
-  public interface SinkFactory<S, T> extends SourceSinkFactory<S, T> {
+  interface SinkFactory<S, T> extends SourceSinkFactory<S, T> {
 
     /** Creates a new sink. */
     S createSink() throws IOException;
@@ -66,14 +66,14 @@ public interface SourceSinkFactory<S, T> {
   }
 
   /** Factory for {@link ByteSource} instances. */
-  public interface ByteSourceFactory extends SourceFactory<ByteSource, byte[]> {}
+  interface ByteSourceFactory extends SourceFactory<ByteSource, byte[]> {}
 
   /** Factory for {@link ByteSink} instances. */
-  public interface ByteSinkFactory extends SinkFactory<ByteSink, byte[]> {}
+  interface ByteSinkFactory extends SinkFactory<ByteSink, byte[]> {}
 
   /** Factory for {@link CharSource} instances. */
-  public interface CharSourceFactory extends SourceFactory<CharSource, String> {}
+  interface CharSourceFactory extends SourceFactory<CharSource, String> {}
 
   /** Factory for {@link CharSink} instances. */
-  public interface CharSinkFactory extends SinkFactory<CharSink, String> {}
+  interface CharSinkFactory extends SinkFactory<CharSink, String> {}
 }

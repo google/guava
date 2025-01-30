@@ -1343,7 +1343,7 @@ final class Synchronized {
   }
 
   static final class SynchronizedBiMap<K extends @Nullable Object, V extends @Nullable Object>
-      extends SynchronizedMap<K, V> implements BiMap<K, V>, Serializable {
+      extends SynchronizedMap<K, V> implements BiMap<K, V> {
     private transient @Nullable Set<V> valueSet;
     @RetainedWith private transient @Nullable BiMap<V, K> inverse;
 

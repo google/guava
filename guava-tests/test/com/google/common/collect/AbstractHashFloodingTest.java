@@ -112,7 +112,7 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
   @FunctionalInterface
   interface Construction<T> {
     @CanIgnoreReturnValue
-    abstract T create(List<?> keys);
+    T create(List<?> keys);
 
     static Construction<Map<Object, Object>> mapFromKeys(
         Supplier<Map<Object, Object>> mutableSupplier) {
