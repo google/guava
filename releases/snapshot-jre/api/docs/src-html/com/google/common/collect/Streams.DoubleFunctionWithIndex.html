@@ -565,7 +565,7 @@
 <span class="source-line-no">552</span><span id="line-552">          .onClose(stream::close);</span>
 <span class="source-line-no">553</span><span id="line-553">    }</span>
 <span class="source-line-no">554</span><span id="line-554">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfInt, R, Splitr&gt;</span>
-<span class="source-line-no">555</span><span id="line-555">        implements IntConsumer, Spliterator&lt;R&gt; {</span>
+<span class="source-line-no">555</span><span id="line-555">        implements IntConsumer {</span>
 <span class="source-line-no">556</span><span id="line-556">      int holder;</span>
 <span class="source-line-no">557</span><span id="line-557"></span>
 <span class="source-line-no">558</span><span id="line-558">      Splitr(Spliterator.OfInt splitr, long index) {</span>
@@ -644,7 +644,7 @@
 <span class="source-line-no">631</span><span id="line-631">          .onClose(stream::close);</span>
 <span class="source-line-no">632</span><span id="line-632">    }</span>
 <span class="source-line-no">633</span><span id="line-633">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfLong, R, Splitr&gt;</span>
-<span class="source-line-no">634</span><span id="line-634">        implements LongConsumer, Spliterator&lt;R&gt; {</span>
+<span class="source-line-no">634</span><span id="line-634">        implements LongConsumer {</span>
 <span class="source-line-no">635</span><span id="line-635">      long holder;</span>
 <span class="source-line-no">636</span><span id="line-636"></span>
 <span class="source-line-no">637</span><span id="line-637">      Splitr(Spliterator.OfLong splitr, long index) {</span>
@@ -723,7 +723,7 @@
 <span class="source-line-no">710</span><span id="line-710">          .onClose(stream::close);</span>
 <span class="source-line-no">711</span><span id="line-711">    }</span>
 <span class="source-line-no">712</span><span id="line-712">    class Splitr extends MapWithIndexSpliterator&lt;Spliterator.OfDouble, R, Splitr&gt;</span>
-<span class="source-line-no">713</span><span id="line-713">        implements DoubleConsumer, Spliterator&lt;R&gt; {</span>
+<span class="source-line-no">713</span><span id="line-713">        implements DoubleConsumer {</span>
 <span class="source-line-no">714</span><span id="line-714">      double holder;</span>
 <span class="source-line-no">715</span><span id="line-715"></span>
 <span class="source-line-no">716</span><span id="line-716">      Splitr(Spliterator.OfDouble splitr, long index) {</span>

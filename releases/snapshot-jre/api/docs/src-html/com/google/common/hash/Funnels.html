@@ -100,7 +100,7 @@
 <span class="source-line-no">087</span><span id="line-87">    return new StringCharsetFunnel(charset);</span>
 <span class="source-line-no">088</span><span id="line-88">  }</span>
 <span class="source-line-no">089</span><span id="line-89"></span>
-<span class="source-line-no">090</span><span id="line-90">  private static class StringCharsetFunnel implements Funnel&lt;CharSequence&gt;, Serializable {</span>
+<span class="source-line-no">090</span><span id="line-90">  private static class StringCharsetFunnel implements Funnel&lt;CharSequence&gt; {</span>
 <span class="source-line-no">091</span><span id="line-91">    private final Charset charset;</span>
 <span class="source-line-no">092</span><span id="line-92"></span>
 <span class="source-line-no">093</span><span id="line-93">    StringCharsetFunnel(Charset charset) {</span>
@@ -189,7 +189,7 @@
 <span class="source-line-no">176</span><span id="line-176">  }</span>
 <span class="source-line-no">177</span><span id="line-177"></span>
 <span class="source-line-no">178</span><span id="line-178">  private static class SequentialFunnel&lt;E extends @Nullable Object&gt;</span>
-<span class="source-line-no">179</span><span id="line-179">      implements Funnel&lt;Iterable&lt;? extends E&gt;&gt;, Serializable {</span>
+<span class="source-line-no">179</span><span id="line-179">      implements Funnel&lt;Iterable&lt;? extends E&gt;&gt; {</span>
 <span class="source-line-no">180</span><span id="line-180">    private final Funnel&lt;E&gt; elementFunnel;</span>
 <span class="source-line-no">181</span><span id="line-181"></span>
 <span class="source-line-no">182</span><span id="line-182">    SequentialFunnel(Funnel&lt;E&gt; elementFunnel) {</span>
