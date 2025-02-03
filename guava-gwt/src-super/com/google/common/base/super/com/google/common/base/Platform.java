@@ -62,5 +62,13 @@ final class Platform {
     throw new UnsupportedOperationException();
   }
 
+  static String lenientFormat(@Nullable String template, @Nullable Object @Nullable ... args) {
+    return Strings.lenientFormat(template, args);
+  }
+
+  static String stringValueOf(@Nullable Object o) {
+    return String.valueOf(o);
+  }
+
   private Platform() {}
 }

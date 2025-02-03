@@ -138,7 +138,7 @@ public final class Preconditions {
    */
   public static void checkArgument(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
-      throw new IllegalArgumentException(String.valueOf(errorMessage));
+      throw new IllegalArgumentException(Platform.stringValueOf(errorMessage));
     }
   }
 
@@ -160,7 +160,8 @@ public final class Preconditions {
       String errorMessageTemplate,
       @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalArgumentException(
+          Platform.lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
   }
 
@@ -213,7 +214,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, @Nullable Object p1) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -269,7 +270,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -325,7 +326,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -381,7 +382,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -395,7 +396,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -409,7 +410,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -423,7 +424,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -441,7 +442,7 @@ public final class Preconditions {
       @Nullable Object p1,
       @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -459,7 +460,7 @@ public final class Preconditions {
       @Nullable Object p2,
       @Nullable Object p3) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2, p3));
+      throw new IllegalArgumentException(Platform.lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
   }
 
@@ -478,7 +479,8 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (!expression) {
-      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
+      throw new IllegalArgumentException(
+          Platform.lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
 
@@ -508,7 +510,7 @@ public final class Preconditions {
    */
   public static void checkState(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
-      throw new IllegalStateException(String.valueOf(errorMessage));
+      throw new IllegalStateException(Platform.stringValueOf(errorMessage));
     }
   }
 
@@ -540,7 +542,8 @@ public final class Preconditions {
       @Nullable String errorMessageTemplate,
       @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalStateException(
+          Platform.lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
   }
 
@@ -597,7 +600,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, @Nullable Object p1) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -654,7 +657,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -711,7 +714,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -768,7 +771,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -783,7 +786,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -798,7 +801,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -813,7 +816,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -828,7 +831,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression, String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -847,7 +850,7 @@ public final class Preconditions {
       @Nullable Object p2,
       @Nullable Object p3) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2, p3));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
   }
 
@@ -867,7 +870,7 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (!expression) {
-      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
+      throw new IllegalStateException(Platform.lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
 
@@ -914,7 +917,7 @@ public final class Preconditions {
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(@Nullable T reference, @Nullable Object errorMessage) {
     if (reference == null) {
-      throw new NullPointerException(String.valueOf(errorMessage));
+      throw new NullPointerException(Platform.stringValueOf(errorMessage));
     }
     return reference;
   }
@@ -940,7 +943,8 @@ public final class Preconditions {
       String errorMessageTemplate,
       @Nullable Object @Nullable ... errorMessageArgs) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, errorMessageArgs));
+      throw new NullPointerException(
+          Platform.lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
     return reference;
   }
@@ -1001,7 +1005,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, @Nullable Object p1) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1));
     }
     return reference;
   }
@@ -1065,7 +1069,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1129,7 +1133,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1193,7 +1197,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1209,7 +1213,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1225,7 +1229,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1241,7 +1245,7 @@ public final class Preconditions {
   public static <T> T checkNotNull(
       @Nullable T reference, String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1260,7 +1264,7 @@ public final class Preconditions {
       @Nullable Object p1,
       @Nullable Object p2) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2));
     }
     return reference;
   }
@@ -1280,7 +1284,7 @@ public final class Preconditions {
       @Nullable Object p2,
       @Nullable Object p3) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2, p3));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
     return reference;
   }
@@ -1301,7 +1305,7 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (reference == null) {
-      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
+      throw new NullPointerException(Platform.lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
     return reference;
   }

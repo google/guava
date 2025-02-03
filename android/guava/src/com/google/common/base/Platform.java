@@ -78,6 +78,14 @@ final class Platform {
     return stringIsNullOrEmpty(string) ? null : string;
   }
 
+  static String lenientFormat(@Nullable String template, @Nullable Object @Nullable ... args) {
+    return Strings.lenientFormat(template, args);
+  }
+
+  static String stringValueOf(@Nullable Object o) {
+    return String.valueOf(o);
+  }
+
   static CommonPattern compilePattern(String pattern) {
     Preconditions.checkNotNull(pattern);
     return patternCompiler.compile(pattern);
