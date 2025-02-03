@@ -87,7 +87,7 @@ public class AbstractTester<G> extends TestCase {
   @GwtIncompatible // not used under GWT, and super.getName() is not available under J2CL
   @Override
   public String getName() {
-    return Platform.format("%s[%s]", super.getName(), suiteName);
+    return super.getName() + '[' + suiteName + ']';
   }
 
   /**
