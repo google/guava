@@ -56083,6 +56083,14 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="AVIF" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>.]]>
+      </doc>
+    </field>
     <field name="WEBP" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
