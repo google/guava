@@ -251,6 +251,9 @@ public final class MediaType {
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
 
+  /** <a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>. */
+  public static final MediaType AVIF = createConstant(IMAGE_TYPE, "avif");
+
   /**
    * <a href="https://en.wikipedia.org/wiki/WebP">WebP image format</a>.
    *
