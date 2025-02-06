@@ -1610,104 +1610,119 @@
 <span class="source-line-no">1597</span><span id="line-1597">    }</span>
 <span class="source-line-no">1598</span><span id="line-1598">  }</span>
 <span class="source-line-no">1599</span><span id="line-1599"></span>
-<span class="source-line-no">1600</span><span id="line-1600">  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}. */</span>
-<span class="source-line-no">1601</span><span id="line-1601">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Waiter&gt;</span>
-<span class="source-line-no">1602</span><span id="line-1602">      waitersUpdaterFromWithinAbstractFuture() {</span>
-<span class="source-line-no">1603</span><span id="line-1603">    return newUpdater(AbstractFuture.class, Waiter.class, "waiters");</span>
-<span class="source-line-no">1604</span><span id="line-1604">  }</span>
-<span class="source-line-no">1605</span><span id="line-1605"></span>
-<span class="source-line-no">1606</span><span id="line-1606">  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}. */</span>
-<span class="source-line-no">1607</span><span id="line-1607">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Listener&gt;</span>
-<span class="source-line-no">1608</span><span id="line-1608">      listenersUpdaterFromWithinAbstractFuture() {</span>
-<span class="source-line-no">1609</span><span id="line-1609">    return newUpdater(AbstractFuture.class, Listener.class, "listeners");</span>
-<span class="source-line-no">1610</span><span id="line-1610">  }</span>
-<span class="source-line-no">1611</span><span id="line-1611"></span>
-<span class="source-line-no">1612</span><span id="line-1612">  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}. */</span>
-<span class="source-line-no">1613</span><span id="line-1613">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Object&gt;</span>
-<span class="source-line-no">1614</span><span id="line-1614">      valueUpdaterFromWithinAbstractFuture() {</span>
-<span class="source-line-no">1615</span><span id="line-1615">    return newUpdater(AbstractFuture.class, Object.class, "value");</span>
-<span class="source-line-no">1616</span><span id="line-1616">  }</span>
-<span class="source-line-no">1617</span><span id="line-1617"></span>
-<span class="source-line-no">1618</span><span id="line-1618">  /**</span>
-<span class="source-line-no">1619</span><span id="line-1619">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</span>
-<span class="source-line-no">1620</span><span id="line-1620">   *</span>
-<span class="source-line-no">1621</span><span id="line-1621">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</span>
-<span class="source-line-no">1622</span><span id="line-1622">   * AtomicReferenceFieldUpdater).</span>
-<span class="source-line-no">1623</span><span id="line-1623">   */</span>
-<span class="source-line-no">1624</span><span id="line-1624">  private static final class SynchronizedHelper extends AtomicHelper {</span>
-<span class="source-line-no">1625</span><span id="line-1625">    @Override</span>
-<span class="source-line-no">1626</span><span id="line-1626">    void putThread(Waiter waiter, Thread newValue) {</span>
-<span class="source-line-no">1627</span><span id="line-1627">      waiter.thread = newValue;</span>
-<span class="source-line-no">1628</span><span id="line-1628">    }</span>
-<span class="source-line-no">1629</span><span id="line-1629"></span>
-<span class="source-line-no">1630</span><span id="line-1630">    @Override</span>
-<span class="source-line-no">1631</span><span id="line-1631">    void putNext(Waiter waiter, @Nullable Waiter newValue) {</span>
-<span class="source-line-no">1632</span><span id="line-1632">      waiter.next = newValue;</span>
-<span class="source-line-no">1633</span><span id="line-1633">    }</span>
-<span class="source-line-no">1634</span><span id="line-1634"></span>
-<span class="source-line-no">1635</span><span id="line-1635">    @Override</span>
-<span class="source-line-no">1636</span><span id="line-1636">    boolean casWaiters(AbstractFuture&lt;?&gt; future, @Nullable Waiter expect, @Nullable Waiter update) {</span>
-<span class="source-line-no">1637</span><span id="line-1637">      synchronized (future) {</span>
-<span class="source-line-no">1638</span><span id="line-1638">        if (future.waiters == expect) {</span>
-<span class="source-line-no">1639</span><span id="line-1639">          future.waiters = update;</span>
-<span class="source-line-no">1640</span><span id="line-1640">          return true;</span>
-<span class="source-line-no">1641</span><span id="line-1641">        }</span>
-<span class="source-line-no">1642</span><span id="line-1642">        return false;</span>
-<span class="source-line-no">1643</span><span id="line-1643">      }</span>
-<span class="source-line-no">1644</span><span id="line-1644">    }</span>
-<span class="source-line-no">1645</span><span id="line-1645"></span>
-<span class="source-line-no">1646</span><span id="line-1646">    @Override</span>
-<span class="source-line-no">1647</span><span id="line-1647">    boolean casListeners(AbstractFuture&lt;?&gt; future, @Nullable Listener expect, Listener update) {</span>
-<span class="source-line-no">1648</span><span id="line-1648">      synchronized (future) {</span>
-<span class="source-line-no">1649</span><span id="line-1649">        if (future.listeners == expect) {</span>
-<span class="source-line-no">1650</span><span id="line-1650">          future.listeners = update;</span>
-<span class="source-line-no">1651</span><span id="line-1651">          return true;</span>
-<span class="source-line-no">1652</span><span id="line-1652">        }</span>
-<span class="source-line-no">1653</span><span id="line-1653">        return false;</span>
-<span class="source-line-no">1654</span><span id="line-1654">      }</span>
-<span class="source-line-no">1655</span><span id="line-1655">    }</span>
-<span class="source-line-no">1656</span><span id="line-1656"></span>
-<span class="source-line-no">1657</span><span id="line-1657">    @Override</span>
-<span class="source-line-no">1658</span><span id="line-1658">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</span>
-<span class="source-line-no">1659</span><span id="line-1659">      synchronized (future) {</span>
-<span class="source-line-no">1660</span><span id="line-1660">        Listener old = future.listeners;</span>
-<span class="source-line-no">1661</span><span id="line-1661">        if (old != update) {</span>
-<span class="source-line-no">1662</span><span id="line-1662">          future.listeners = update;</span>
-<span class="source-line-no">1663</span><span id="line-1663">        }</span>
-<span class="source-line-no">1664</span><span id="line-1664">        return old;</span>
-<span class="source-line-no">1665</span><span id="line-1665">      }</span>
-<span class="source-line-no">1666</span><span id="line-1666">    }</span>
-<span class="source-line-no">1667</span><span id="line-1667"></span>
-<span class="source-line-no">1668</span><span id="line-1668">    @Override</span>
-<span class="source-line-no">1669</span><span id="line-1669">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</span>
-<span class="source-line-no">1670</span><span id="line-1670">      synchronized (future) {</span>
-<span class="source-line-no">1671</span><span id="line-1671">        Waiter old = future.waiters;</span>
-<span class="source-line-no">1672</span><span id="line-1672">        if (old != update) {</span>
-<span class="source-line-no">1673</span><span id="line-1673">          future.waiters = update;</span>
-<span class="source-line-no">1674</span><span id="line-1674">        }</span>
-<span class="source-line-no">1675</span><span id="line-1675">        return old;</span>
-<span class="source-line-no">1676</span><span id="line-1676">      }</span>
-<span class="source-line-no">1677</span><span id="line-1677">    }</span>
-<span class="source-line-no">1678</span><span id="line-1678"></span>
-<span class="source-line-no">1679</span><span id="line-1679">    @Override</span>
-<span class="source-line-no">1680</span><span id="line-1680">    boolean casValue(AbstractFuture&lt;?&gt; future, @Nullable Object expect, Object update) {</span>
-<span class="source-line-no">1681</span><span id="line-1681">      synchronized (future) {</span>
-<span class="source-line-no">1682</span><span id="line-1682">        if (future.value == expect) {</span>
-<span class="source-line-no">1683</span><span id="line-1683">          future.value = update;</span>
-<span class="source-line-no">1684</span><span id="line-1684">          return true;</span>
-<span class="source-line-no">1685</span><span id="line-1685">        }</span>
-<span class="source-line-no">1686</span><span id="line-1686">        return false;</span>
-<span class="source-line-no">1687</span><span id="line-1687">      }</span>
-<span class="source-line-no">1688</span><span id="line-1688">    }</span>
-<span class="source-line-no">1689</span><span id="line-1689">  }</span>
-<span class="source-line-no">1690</span><span id="line-1690"></span>
-<span class="source-line-no">1691</span><span id="line-1691">  private static CancellationException cancellationExceptionWithCause(</span>
-<span class="source-line-no">1692</span><span id="line-1692">      String message, @Nullable Throwable cause) {</span>
-<span class="source-line-no">1693</span><span id="line-1693">    CancellationException exception = new CancellationException(message);</span>
-<span class="source-line-no">1694</span><span id="line-1694">    exception.initCause(cause);</span>
-<span class="source-line-no">1695</span><span id="line-1695">    return exception;</span>
-<span class="source-line-no">1696</span><span id="line-1696">  }</span>
-<span class="source-line-no">1697</span><span id="line-1697">}</span>
+<span class="source-line-no">1600</span><span id="line-1600">  /**</span>
+<span class="source-line-no">1601</span><span id="line-1601">   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}.</span>
+<span class="source-line-no">1602</span><span id="line-1602">   *</span>
+<span class="source-line-no">1603</span><span id="line-1603">   * &lt;p&gt;The creation of the updater has to happen directly inside {@link AbstractFuture}, as</span>
+<span class="source-line-no">1604</span><span id="line-1604">   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.</span>
+<span class="source-line-no">1605</span><span id="line-1605">   */</span>
+<span class="source-line-no">1606</span><span id="line-1606">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Waiter&gt;</span>
+<span class="source-line-no">1607</span><span id="line-1607">      waitersUpdaterFromWithinAbstractFuture() {</span>
+<span class="source-line-no">1608</span><span id="line-1608">    return newUpdater(AbstractFuture.class, Waiter.class, "waiters");</span>
+<span class="source-line-no">1609</span><span id="line-1609">  }</span>
+<span class="source-line-no">1610</span><span id="line-1610"></span>
+<span class="source-line-no">1611</span><span id="line-1611">  /**</span>
+<span class="source-line-no">1612</span><span id="line-1612">   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}.</span>
+<span class="source-line-no">1613</span><span id="line-1613">   *</span>
+<span class="source-line-no">1614</span><span id="line-1614">   * &lt;p&gt;The creation of the updater has to happen directly inside {@link AbstractFuture}, as</span>
+<span class="source-line-no">1615</span><span id="line-1615">   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.</span>
+<span class="source-line-no">1616</span><span id="line-1616">   */</span>
+<span class="source-line-no">1617</span><span id="line-1617">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Listener&gt;</span>
+<span class="source-line-no">1618</span><span id="line-1618">      listenersUpdaterFromWithinAbstractFuture() {</span>
+<span class="source-line-no">1619</span><span id="line-1619">    return newUpdater(AbstractFuture.class, Listener.class, "listeners");</span>
+<span class="source-line-no">1620</span><span id="line-1620">  }</span>
+<span class="source-line-no">1621</span><span id="line-1621"></span>
+<span class="source-line-no">1622</span><span id="line-1622">  /**</span>
+<span class="source-line-no">1623</span><span id="line-1623">   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}.</span>
+<span class="source-line-no">1624</span><span id="line-1624">   *</span>
+<span class="source-line-no">1625</span><span id="line-1625">   * &lt;p&gt;The creation of the updater has to happen directly inside {@link AbstractFuture}, as</span>
+<span class="source-line-no">1626</span><span id="line-1626">   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.</span>
+<span class="source-line-no">1627</span><span id="line-1627">   */</span>
+<span class="source-line-no">1628</span><span id="line-1628">  private static AtomicReferenceFieldUpdater&lt;? super AbstractFuture&lt;?&gt;, Object&gt;</span>
+<span class="source-line-no">1629</span><span id="line-1629">      valueUpdaterFromWithinAbstractFuture() {</span>
+<span class="source-line-no">1630</span><span id="line-1630">    return newUpdater(AbstractFuture.class, Object.class, "value");</span>
+<span class="source-line-no">1631</span><span id="line-1631">  }</span>
+<span class="source-line-no">1632</span><span id="line-1632"></span>
+<span class="source-line-no">1633</span><span id="line-1633">  /**</span>
+<span class="source-line-no">1634</span><span id="line-1634">   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.</span>
+<span class="source-line-no">1635</span><span id="line-1635">   *</span>
+<span class="source-line-no">1636</span><span id="line-1636">   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken (like</span>
+<span class="source-line-no">1637</span><span id="line-1637">   * AtomicReferenceFieldUpdater).</span>
+<span class="source-line-no">1638</span><span id="line-1638">   */</span>
+<span class="source-line-no">1639</span><span id="line-1639">  private static final class SynchronizedHelper extends AtomicHelper {</span>
+<span class="source-line-no">1640</span><span id="line-1640">    @Override</span>
+<span class="source-line-no">1641</span><span id="line-1641">    void putThread(Waiter waiter, Thread newValue) {</span>
+<span class="source-line-no">1642</span><span id="line-1642">      waiter.thread = newValue;</span>
+<span class="source-line-no">1643</span><span id="line-1643">    }</span>
+<span class="source-line-no">1644</span><span id="line-1644"></span>
+<span class="source-line-no">1645</span><span id="line-1645">    @Override</span>
+<span class="source-line-no">1646</span><span id="line-1646">    void putNext(Waiter waiter, @Nullable Waiter newValue) {</span>
+<span class="source-line-no">1647</span><span id="line-1647">      waiter.next = newValue;</span>
+<span class="source-line-no">1648</span><span id="line-1648">    }</span>
+<span class="source-line-no">1649</span><span id="line-1649"></span>
+<span class="source-line-no">1650</span><span id="line-1650">    @Override</span>
+<span class="source-line-no">1651</span><span id="line-1651">    boolean casWaiters(AbstractFuture&lt;?&gt; future, @Nullable Waiter expect, @Nullable Waiter update) {</span>
+<span class="source-line-no">1652</span><span id="line-1652">      synchronized (future) {</span>
+<span class="source-line-no">1653</span><span id="line-1653">        if (future.waiters == expect) {</span>
+<span class="source-line-no">1654</span><span id="line-1654">          future.waiters = update;</span>
+<span class="source-line-no">1655</span><span id="line-1655">          return true;</span>
+<span class="source-line-no">1656</span><span id="line-1656">        }</span>
+<span class="source-line-no">1657</span><span id="line-1657">        return false;</span>
+<span class="source-line-no">1658</span><span id="line-1658">      }</span>
+<span class="source-line-no">1659</span><span id="line-1659">    }</span>
+<span class="source-line-no">1660</span><span id="line-1660"></span>
+<span class="source-line-no">1661</span><span id="line-1661">    @Override</span>
+<span class="source-line-no">1662</span><span id="line-1662">    boolean casListeners(AbstractFuture&lt;?&gt; future, @Nullable Listener expect, Listener update) {</span>
+<span class="source-line-no">1663</span><span id="line-1663">      synchronized (future) {</span>
+<span class="source-line-no">1664</span><span id="line-1664">        if (future.listeners == expect) {</span>
+<span class="source-line-no">1665</span><span id="line-1665">          future.listeners = update;</span>
+<span class="source-line-no">1666</span><span id="line-1666">          return true;</span>
+<span class="source-line-no">1667</span><span id="line-1667">        }</span>
+<span class="source-line-no">1668</span><span id="line-1668">        return false;</span>
+<span class="source-line-no">1669</span><span id="line-1669">      }</span>
+<span class="source-line-no">1670</span><span id="line-1670">    }</span>
+<span class="source-line-no">1671</span><span id="line-1671"></span>
+<span class="source-line-no">1672</span><span id="line-1672">    @Override</span>
+<span class="source-line-no">1673</span><span id="line-1673">    Listener gasListeners(AbstractFuture&lt;?&gt; future, Listener update) {</span>
+<span class="source-line-no">1674</span><span id="line-1674">      synchronized (future) {</span>
+<span class="source-line-no">1675</span><span id="line-1675">        Listener old = future.listeners;</span>
+<span class="source-line-no">1676</span><span id="line-1676">        if (old != update) {</span>
+<span class="source-line-no">1677</span><span id="line-1677">          future.listeners = update;</span>
+<span class="source-line-no">1678</span><span id="line-1678">        }</span>
+<span class="source-line-no">1679</span><span id="line-1679">        return old;</span>
+<span class="source-line-no">1680</span><span id="line-1680">      }</span>
+<span class="source-line-no">1681</span><span id="line-1681">    }</span>
+<span class="source-line-no">1682</span><span id="line-1682"></span>
+<span class="source-line-no">1683</span><span id="line-1683">    @Override</span>
+<span class="source-line-no">1684</span><span id="line-1684">    Waiter gasWaiters(AbstractFuture&lt;?&gt; future, Waiter update) {</span>
+<span class="source-line-no">1685</span><span id="line-1685">      synchronized (future) {</span>
+<span class="source-line-no">1686</span><span id="line-1686">        Waiter old = future.waiters;</span>
+<span class="source-line-no">1687</span><span id="line-1687">        if (old != update) {</span>
+<span class="source-line-no">1688</span><span id="line-1688">          future.waiters = update;</span>
+<span class="source-line-no">1689</span><span id="line-1689">        }</span>
+<span class="source-line-no">1690</span><span id="line-1690">        return old;</span>
+<span class="source-line-no">1691</span><span id="line-1691">      }</span>
+<span class="source-line-no">1692</span><span id="line-1692">    }</span>
+<span class="source-line-no">1693</span><span id="line-1693"></span>
+<span class="source-line-no">1694</span><span id="line-1694">    @Override</span>
+<span class="source-line-no">1695</span><span id="line-1695">    boolean casValue(AbstractFuture&lt;?&gt; future, @Nullable Object expect, Object update) {</span>
+<span class="source-line-no">1696</span><span id="line-1696">      synchronized (future) {</span>
+<span class="source-line-no">1697</span><span id="line-1697">        if (future.value == expect) {</span>
+<span class="source-line-no">1698</span><span id="line-1698">          future.value = update;</span>
+<span class="source-line-no">1699</span><span id="line-1699">          return true;</span>
+<span class="source-line-no">1700</span><span id="line-1700">        }</span>
+<span class="source-line-no">1701</span><span id="line-1701">        return false;</span>
+<span class="source-line-no">1702</span><span id="line-1702">      }</span>
+<span class="source-line-no">1703</span><span id="line-1703">    }</span>
+<span class="source-line-no">1704</span><span id="line-1704">  }</span>
+<span class="source-line-no">1705</span><span id="line-1705"></span>
+<span class="source-line-no">1706</span><span id="line-1706">  private static CancellationException cancellationExceptionWithCause(</span>
+<span class="source-line-no">1707</span><span id="line-1707">      String message, @Nullable Throwable cause) {</span>
+<span class="source-line-no">1708</span><span id="line-1708">    CancellationException exception = new CancellationException(message);</span>
+<span class="source-line-no">1709</span><span id="line-1709">    exception.initCause(cause);</span>
+<span class="source-line-no">1710</span><span id="line-1710">    return exception;</span>
+<span class="source-line-no">1711</span><span id="line-1711">  }</span>
+<span class="source-line-no">1712</span><span id="line-1712">}</span>
 
 
 
