@@ -1597,19 +1597,34 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     }
   }
 
-  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}. */
+  /**
+   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}.
+   *
+   * <p>The creation of the updater has to happen directly inside {@link AbstractFuture}, as
+   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.
+   */
   private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Waiter>
       waitersUpdaterFromWithinAbstractFuture() {
     return newUpdater(AbstractFuture.class, Waiter.class, "waiters");
   }
 
-  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}. */
+  /**
+   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}.
+   *
+   * <p>The creation of the updater has to happen directly inside {@link AbstractFuture}, as
+   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.
+   */
   private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Listener>
       listenersUpdaterFromWithinAbstractFuture() {
     return newUpdater(AbstractFuture.class, Listener.class, "listeners");
   }
 
-  /** Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}. */
+  /**
+   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}.
+   *
+   * <p>The creation of the updater has to happen directly inside {@link AbstractFuture}, as
+   * discussed in {@link #methodHandlesLookupFromWithinAbstractFuture}.
+   */
   private static AtomicReferenceFieldUpdater<? super AbstractFuture<?>, Object>
       valueUpdaterFromWithinAbstractFuture() {
     return newUpdater(AbstractFuture.class, Object.class, "value");

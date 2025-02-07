@@ -1015,9 +1015,6 @@ public class FuturesTest extends TestCase {
     assertFalse(primary.wasInterrupted());
   }
 
-  @J2ktIncompatible
-  @GwtIncompatible // mocks
-  // TODO(cpovirk): eliminate use of mocks
   public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
     final SettableFuture<Integer> secondary = SettableFuture.create();
     final RuntimeException raisedException = new RuntimeException();
