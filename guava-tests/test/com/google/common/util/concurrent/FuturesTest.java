@@ -257,26 +257,17 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testTransform_stackOverflow() throws Exception {
-    {
-      /*
-       * Initialize all relevant classes before running the test, which may otherwise poison any
-       * classes it is trying to load during its stack overflow.
-       */
-      SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused = transform(root, identity(), directExecutor());
-      root.set("foo");
-    }
-
-    SettableFuture<Object> root = SettableFuture.create();
-    ListenableFuture<Object> output = root;
-    for (int i = 0; i < 10000; i++) {
-      output = transform(output, identity(), directExecutor());
-    }
-    assertThrows(StackOverflowError.class, () -> root.set("foo"));
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = transform(input, identity(), directExecutor());
+    output.addListener(
+        () -> {
+          throw new StackOverflowError();
+        },
+        directExecutor());
+    assertThrows(StackOverflowError.class, () -> input.set("foo"));
   }
 
   public void testTransform_errorAfterCancellation() throws Exception {
@@ -469,26 +460,17 @@ public class FuturesTest extends TestCase {
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
-  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testTransformAsync_stackOverflow() throws Exception {
-    {
-      /*
-       * Initialize all relevant classes before running the test, which may otherwise poison any
-       * classes it is trying to load during its stack overflow.
-       */
-      SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused = transformAsync(root, asyncIdentity(), directExecutor());
-      root.set("foo");
-    }
-
-    SettableFuture<Object> root = SettableFuture.create();
-    ListenableFuture<Object> output = root;
-    for (int i = 0; i < 10000; i++) {
-      output = transformAsync(output, asyncIdentity(), directExecutor());
-    }
-    assertThrows(StackOverflowError.class, () -> root.set("foo"));
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
+    output.addListener(
+        () -> {
+          throw new StackOverflowError();
+        },
+        directExecutor());
+    assertThrows(StackOverflowError.class, () -> input.set("foo"));
   }
 
   public void testTransformAsync_errorAfterCancellation() throws Exception {
@@ -1305,27 +1287,18 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
-  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testCatching_stackOverflow() throws Exception {
-    {
-      /*
-       * Initialize all relevant classes before running the test, which may otherwise poison any
-       * classes it is trying to load during its stack overflow.
-       */
-      SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused =
-          catching(root, MyException.class, identity(), directExecutor());
-      root.setException(new MyException());
-    }
-
-    SettableFuture<Object> root = SettableFuture.create();
-    ListenableFuture<Object> output = root;
-    for (int i = 0; i < 10000; i++) {
-      output = catching(output, MyException.class, identity(), directExecutor());
-    }
-    assertThrows(StackOverflowError.class, () -> root.setException(new MyException()));
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output =
+        catching(input, MyException.class, identity(), directExecutor());
+    output.addListener(
+        () -> {
+          throw new StackOverflowError();
+        },
+        directExecutor());
+    assertThrows(StackOverflowError.class, () -> input.setException(new MyException()));
   }
 
   public void testCatching_errorAfterCancellation() throws Exception {
@@ -1435,27 +1408,18 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RuntimeException.class);
   }
 
-  @AndroidIncompatible // b/391667564: crashes from stack overflows
   @J2ktIncompatible
   @GwtIncompatible // StackOverflowError
   public void testCatchingAsync_stackOverflow() throws Exception {
-    {
-      /*
-       * Initialize all relevant classes before running the test, which may otherwise poison any
-       * classes it is trying to load during its stack overflow.
-       */
-      SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused =
-          catchingAsync(root, MyException.class, asyncIdentity(), directExecutor());
-      root.setException(new MyException());
-    }
-
-    SettableFuture<Object> root = SettableFuture.create();
-    ListenableFuture<Object> output = root;
-    for (int i = 0; i < 10000; i++) {
-      output = catchingAsync(output, MyException.class, asyncIdentity(), directExecutor());
-    }
-    assertThrows(StackOverflowError.class, () -> root.setException(new MyException()));
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output =
+        catchingAsync(input, MyException.class, asyncIdentity(), directExecutor());
+    output.addListener(
+        () -> {
+          throw new StackOverflowError();
+        },
+        directExecutor());
+    assertThrows(StackOverflowError.class, () -> input.setException(new MyException()));
   }
 
   public void testCatchingAsync_errorAfterCancellation() throws Exception {
