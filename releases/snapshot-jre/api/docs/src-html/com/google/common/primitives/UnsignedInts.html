@@ -199,210 +199,213 @@
 <span class="source-line-no">186</span><span id="line-186">   *</span>
 <span class="source-line-no">187</span><span id="line-187">   * &lt;p&gt;The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays</span>
 <span class="source-line-no">188</span><span id="line-188">   * support only identity equality), but it is consistent with {@link Arrays#equals(int[], int[])}.</span>
-<span class="source-line-no">189</span><span id="line-189">   */</span>
-<span class="source-line-no">190</span><span id="line-190">  public static Comparator&lt;int[]&gt; lexicographicalComparator() {</span>
-<span class="source-line-no">191</span><span id="line-191">    return LexicographicalComparator.INSTANCE;</span>
-<span class="source-line-no">192</span><span id="line-192">  }</span>
-<span class="source-line-no">193</span><span id="line-193"></span>
-<span class="source-line-no">194</span><span id="line-194">  enum LexicographicalComparator implements Comparator&lt;int[]&gt; {</span>
-<span class="source-line-no">195</span><span id="line-195">    INSTANCE;</span>
+<span class="source-line-no">189</span><span id="line-189">   *</span>
+<span class="source-line-no">190</span><span id="line-190">   * &lt;p&gt;&lt;b&gt;Java 9+ users:&lt;/b&gt; Use {@link Arrays#compareUnsigned(int[], int[])</span>
+<span class="source-line-no">191</span><span id="line-191">   * Arrays::compareUnsigned}.</span>
+<span class="source-line-no">192</span><span id="line-192">   */</span>
+<span class="source-line-no">193</span><span id="line-193">  public static Comparator&lt;int[]&gt; lexicographicalComparator() {</span>
+<span class="source-line-no">194</span><span id="line-194">    return LexicographicalComparator.INSTANCE;</span>
+<span class="source-line-no">195</span><span id="line-195">  }</span>
 <span class="source-line-no">196</span><span id="line-196"></span>
-<span class="source-line-no">197</span><span id="line-197">    @Override</span>
-<span class="source-line-no">198</span><span id="line-198">    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.</span>
-<span class="source-line-no">199</span><span id="line-199">    @SuppressWarnings("StaticImportPreferred")</span>
-<span class="source-line-no">200</span><span id="line-200">    public int compare(int[] left, int[] right) {</span>
-<span class="source-line-no">201</span><span id="line-201">      int minLength = Math.min(left.length, right.length);</span>
-<span class="source-line-no">202</span><span id="line-202">      for (int i = 0; i &lt; minLength; i++) {</span>
-<span class="source-line-no">203</span><span id="line-203">        if (left[i] != right[i]) {</span>
-<span class="source-line-no">204</span><span id="line-204">          return UnsignedInts.compare(left[i], right[i]);</span>
-<span class="source-line-no">205</span><span id="line-205">        }</span>
-<span class="source-line-no">206</span><span id="line-206">      }</span>
-<span class="source-line-no">207</span><span id="line-207">      return left.length - right.length;</span>
-<span class="source-line-no">208</span><span id="line-208">    }</span>
-<span class="source-line-no">209</span><span id="line-209"></span>
-<span class="source-line-no">210</span><span id="line-210">    @Override</span>
-<span class="source-line-no">211</span><span id="line-211">    public String toString() {</span>
-<span class="source-line-no">212</span><span id="line-212">      return "UnsignedInts.lexicographicalComparator()";</span>
-<span class="source-line-no">213</span><span id="line-213">    }</span>
-<span class="source-line-no">214</span><span id="line-214">  }</span>
-<span class="source-line-no">215</span><span id="line-215"></span>
-<span class="source-line-no">216</span><span id="line-216">  /**</span>
-<span class="source-line-no">217</span><span id="line-217">   * Sorts the array, treating its elements as unsigned 32-bit integers.</span>
-<span class="source-line-no">218</span><span id="line-218">   *</span>
-<span class="source-line-no">219</span><span id="line-219">   * @since 23.1</span>
-<span class="source-line-no">220</span><span id="line-220">   */</span>
-<span class="source-line-no">221</span><span id="line-221">  public static void sort(int[] array) {</span>
-<span class="source-line-no">222</span><span id="line-222">    checkNotNull(array);</span>
-<span class="source-line-no">223</span><span id="line-223">    sort(array, 0, array.length);</span>
-<span class="source-line-no">224</span><span id="line-224">  }</span>
-<span class="source-line-no">225</span><span id="line-225"></span>
-<span class="source-line-no">226</span><span id="line-226">  /**</span>
-<span class="source-line-no">227</span><span id="line-227">   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its</span>
-<span class="source-line-no">228</span><span id="line-228">   * elements as unsigned 32-bit integers.</span>
-<span class="source-line-no">229</span><span id="line-229">   *</span>
-<span class="source-line-no">230</span><span id="line-230">   * @since 23.1</span>
-<span class="source-line-no">231</span><span id="line-231">   */</span>
-<span class="source-line-no">232</span><span id="line-232">  public static void sort(int[] array, int fromIndex, int toIndex) {</span>
-<span class="source-line-no">233</span><span id="line-233">    checkNotNull(array);</span>
-<span class="source-line-no">234</span><span id="line-234">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
-<span class="source-line-no">235</span><span id="line-235">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">236</span><span id="line-236">      array[i] = flip(array[i]);</span>
-<span class="source-line-no">237</span><span id="line-237">    }</span>
-<span class="source-line-no">238</span><span id="line-238">    Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="source-line-no">239</span><span id="line-239">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">240</span><span id="line-240">      array[i] = flip(array[i]);</span>
-<span class="source-line-no">241</span><span id="line-241">    }</span>
-<span class="source-line-no">242</span><span id="line-242">  }</span>
-<span class="source-line-no">243</span><span id="line-243"></span>
-<span class="source-line-no">244</span><span id="line-244">  /**</span>
-<span class="source-line-no">245</span><span id="line-245">   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 32-bit</span>
-<span class="source-line-no">246</span><span id="line-246">   * integers.</span>
-<span class="source-line-no">247</span><span id="line-247">   *</span>
-<span class="source-line-no">248</span><span id="line-248">   * @since 23.1</span>
-<span class="source-line-no">249</span><span id="line-249">   */</span>
-<span class="source-line-no">250</span><span id="line-250">  public static void sortDescending(int[] array) {</span>
-<span class="source-line-no">251</span><span id="line-251">    checkNotNull(array);</span>
-<span class="source-line-no">252</span><span id="line-252">    sortDescending(array, 0, array.length);</span>
-<span class="source-line-no">253</span><span id="line-253">  }</span>
-<span class="source-line-no">254</span><span id="line-254"></span>
-<span class="source-line-no">255</span><span id="line-255">  /**</span>
-<span class="source-line-no">256</span><span id="line-256">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</span>
-<span class="source-line-no">257</span><span id="line-257">   * exclusive in descending order, interpreting them as unsigned 32-bit integers.</span>
-<span class="source-line-no">258</span><span id="line-258">   *</span>
-<span class="source-line-no">259</span><span id="line-259">   * @since 23.1</span>
-<span class="source-line-no">260</span><span id="line-260">   */</span>
-<span class="source-line-no">261</span><span id="line-261">  public static void sortDescending(int[] array, int fromIndex, int toIndex) {</span>
-<span class="source-line-no">262</span><span id="line-262">    checkNotNull(array);</span>
-<span class="source-line-no">263</span><span id="line-263">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
-<span class="source-line-no">264</span><span id="line-264">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">265</span><span id="line-265">      array[i] ^= Integer.MAX_VALUE;</span>
-<span class="source-line-no">266</span><span id="line-266">    }</span>
-<span class="source-line-no">267</span><span id="line-267">    Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="source-line-no">268</span><span id="line-268">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
-<span class="source-line-no">269</span><span id="line-269">      array[i] ^= Integer.MAX_VALUE;</span>
-<span class="source-line-no">270</span><span id="line-270">    }</span>
-<span class="source-line-no">271</span><span id="line-271">  }</span>
-<span class="source-line-no">272</span><span id="line-272"></span>
-<span class="source-line-no">273</span><span id="line-273">  /**</span>
-<span class="source-line-no">274</span><span id="line-274">   * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 32-bit</span>
-<span class="source-line-no">275</span><span id="line-275">   * quantities.</span>
-<span class="source-line-no">276</span><span id="line-276">   *</span>
-<span class="source-line-no">277</span><span id="line-277">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#divideUnsigned(int, int)} instead.</span>
-<span class="source-line-no">278</span><span id="line-278">   *</span>
-<span class="source-line-no">279</span><span id="line-279">   * @param dividend the dividend (numerator)</span>
-<span class="source-line-no">280</span><span id="line-280">   * @param divisor the divisor (denominator)</span>
-<span class="source-line-no">281</span><span id="line-281">   * @throws ArithmeticException if divisor is 0</span>
-<span class="source-line-no">282</span><span id="line-282">   */</span>
-<span class="source-line-no">283</span><span id="line-283">  public static int divide(int dividend, int divisor) {</span>
-<span class="source-line-no">284</span><span id="line-284">    return (int) (toLong(dividend) / toLong(divisor));</span>
-<span class="source-line-no">285</span><span id="line-285">  }</span>
-<span class="source-line-no">286</span><span id="line-286"></span>
-<span class="source-line-no">287</span><span id="line-287">  /**</span>
-<span class="source-line-no">288</span><span id="line-288">   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit</span>
-<span class="source-line-no">289</span><span id="line-289">   * quantities.</span>
-<span class="source-line-no">290</span><span id="line-290">   *</span>
-<span class="source-line-no">291</span><span id="line-291">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#remainderUnsigned(int, int)} instead.</span>
-<span class="source-line-no">292</span><span id="line-292">   *</span>
-<span class="source-line-no">293</span><span id="line-293">   * @param dividend the dividend (numerator)</span>
-<span class="source-line-no">294</span><span id="line-294">   * @param divisor the divisor (denominator)</span>
-<span class="source-line-no">295</span><span id="line-295">   * @throws ArithmeticException if divisor is 0</span>
-<span class="source-line-no">296</span><span id="line-296">   */</span>
-<span class="source-line-no">297</span><span id="line-297">  public static int remainder(int dividend, int divisor) {</span>
-<span class="source-line-no">298</span><span id="line-298">    return (int) (toLong(dividend) % toLong(divisor));</span>
-<span class="source-line-no">299</span><span id="line-299">  }</span>
-<span class="source-line-no">300</span><span id="line-300"></span>
-<span class="source-line-no">301</span><span id="line-301">  /**</span>
-<span class="source-line-no">302</span><span id="line-302">   * Returns the unsigned {@code int} value represented by the given string.</span>
-<span class="source-line-no">303</span><span id="line-303">   *</span>
-<span class="source-line-no">304</span><span id="line-304">   * &lt;p&gt;Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:</span>
-<span class="source-line-no">305</span><span id="line-305">   *</span>
-<span class="source-line-no">306</span><span id="line-306">   * &lt;ul&gt;</span>
-<span class="source-line-no">307</span><span id="line-307">   *   &lt;li&gt;{@code 0x}&lt;i&gt;HexDigits&lt;/i&gt;</span>
-<span class="source-line-no">308</span><span id="line-308">   *   &lt;li&gt;{@code 0X}&lt;i&gt;HexDigits&lt;/i&gt;</span>
-<span class="source-line-no">309</span><span id="line-309">   *   &lt;li&gt;{@code #}&lt;i&gt;HexDigits&lt;/i&gt;</span>
-<span class="source-line-no">310</span><span id="line-310">   *   &lt;li&gt;{@code 0}&lt;i&gt;OctalDigits&lt;/i&gt;</span>
-<span class="source-line-no">311</span><span id="line-311">   * &lt;/ul&gt;</span>
-<span class="source-line-no">312</span><span id="line-312">   *</span>
-<span class="source-line-no">313</span><span id="line-313">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value</span>
-<span class="source-line-no">314</span><span id="line-314">   * @since 13.0</span>
-<span class="source-line-no">315</span><span id="line-315">   */</span>
-<span class="source-line-no">316</span><span id="line-316">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">317</span><span id="line-317">  public static int decode(String stringValue) {</span>
-<span class="source-line-no">318</span><span id="line-318">    ParseRequest request = ParseRequest.fromString(stringValue);</span>
-<span class="source-line-no">319</span><span id="line-319"></span>
-<span class="source-line-no">320</span><span id="line-320">    try {</span>
-<span class="source-line-no">321</span><span id="line-321">      return parseUnsignedInt(request.rawValue, request.radix);</span>
-<span class="source-line-no">322</span><span id="line-322">    } catch (NumberFormatException e) {</span>
-<span class="source-line-no">323</span><span id="line-323">      NumberFormatException decodeException =</span>
-<span class="source-line-no">324</span><span id="line-324">          new NumberFormatException("Error parsing value: " + stringValue);</span>
-<span class="source-line-no">325</span><span id="line-325">      decodeException.initCause(e);</span>
-<span class="source-line-no">326</span><span id="line-326">      throw decodeException;</span>
-<span class="source-line-no">327</span><span id="line-327">    }</span>
-<span class="source-line-no">328</span><span id="line-328">  }</span>
-<span class="source-line-no">329</span><span id="line-329"></span>
-<span class="source-line-no">330</span><span id="line-330">  /**</span>
-<span class="source-line-no">331</span><span id="line-331">   * Returns the unsigned {@code int} value represented by the given decimal string.</span>
-<span class="source-line-no">332</span><span id="line-332">   *</span>
-<span class="source-line-no">333</span><span id="line-333">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String)} instead.</span>
-<span class="source-line-no">334</span><span id="line-334">   *</span>
-<span class="source-line-no">335</span><span id="line-335">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value</span>
-<span class="source-line-no">336</span><span id="line-336">   * @throws NullPointerException if {@code s} is null (in contrast to {@link</span>
-<span class="source-line-no">337</span><span id="line-337">   *     Integer#parseInt(String)})</span>
-<span class="source-line-no">338</span><span id="line-338">   */</span>
-<span class="source-line-no">339</span><span id="line-339">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">340</span><span id="line-340">  public static int parseUnsignedInt(String s) {</span>
-<span class="source-line-no">341</span><span id="line-341">    return parseUnsignedInt(s, 10);</span>
-<span class="source-line-no">342</span><span id="line-342">  }</span>
-<span class="source-line-no">343</span><span id="line-343"></span>
-<span class="source-line-no">344</span><span id="line-344">  /**</span>
-<span class="source-line-no">345</span><span id="line-345">   * Returns the unsigned {@code int} value represented by a string with the given radix.</span>
-<span class="source-line-no">346</span><span id="line-346">   *</span>
-<span class="source-line-no">347</span><span id="line-347">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String, int)} instead.</span>
-<span class="source-line-no">348</span><span id="line-348">   *</span>
-<span class="source-line-no">349</span><span id="line-349">   * @param string the string containing the unsigned integer representation to be parsed.</span>
-<span class="source-line-no">350</span><span id="line-350">   * @param radix the radix to use while parsing {@code s}; must be between {@link</span>
-<span class="source-line-no">351</span><span id="line-351">   *     Character#MIN_RADIX} and {@link Character#MAX_RADIX}.</span>
-<span class="source-line-no">352</span><span id="line-352">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int}, or</span>
-<span class="source-line-no">353</span><span id="line-353">   *     if supplied radix is invalid.</span>
-<span class="source-line-no">354</span><span id="line-354">   * @throws NullPointerException if {@code s} is null (in contrast to {@link</span>
-<span class="source-line-no">355</span><span id="line-355">   *     Integer#parseInt(String)})</span>
-<span class="source-line-no">356</span><span id="line-356">   */</span>
-<span class="source-line-no">357</span><span id="line-357">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">358</span><span id="line-358">  public static int parseUnsignedInt(String string, int radix) {</span>
-<span class="source-line-no">359</span><span id="line-359">    checkNotNull(string);</span>
-<span class="source-line-no">360</span><span id="line-360">    long result = Long.parseLong(string, radix);</span>
-<span class="source-line-no">361</span><span id="line-361">    if ((result &amp; INT_MASK) != result) {</span>
-<span class="source-line-no">362</span><span id="line-362">      throw new NumberFormatException(</span>
-<span class="source-line-no">363</span><span id="line-363">          "Input " + string + " in base " + radix + " is not in the range of an unsigned integer");</span>
-<span class="source-line-no">364</span><span id="line-364">    }</span>
-<span class="source-line-no">365</span><span id="line-365">    return (int) result;</span>
-<span class="source-line-no">366</span><span id="line-366">  }</span>
-<span class="source-line-no">367</span><span id="line-367"></span>
-<span class="source-line-no">368</span><span id="line-368">  /**</span>
-<span class="source-line-no">369</span><span id="line-369">   * Returns a string representation of x, where x is treated as unsigned.</span>
-<span class="source-line-no">370</span><span id="line-370">   *</span>
-<span class="source-line-no">371</span><span id="line-371">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int)} instead.</span>
-<span class="source-line-no">372</span><span id="line-372">   */</span>
-<span class="source-line-no">373</span><span id="line-373">  public static String toString(int x) {</span>
-<span class="source-line-no">374</span><span id="line-374">    return toString(x, 10);</span>
-<span class="source-line-no">375</span><span id="line-375">  }</span>
-<span class="source-line-no">376</span><span id="line-376"></span>
-<span class="source-line-no">377</span><span id="line-377">  /**</span>
-<span class="source-line-no">378</span><span id="line-378">   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as</span>
-<span class="source-line-no">379</span><span id="line-379">   * unsigned.</span>
-<span class="source-line-no">380</span><span id="line-380">   *</span>
-<span class="source-line-no">381</span><span id="line-381">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int, int)} instead.</span>
-<span class="source-line-no">382</span><span id="line-382">   *</span>
-<span class="source-line-no">383</span><span id="line-383">   * @param x the value to convert to a string.</span>
-<span class="source-line-no">384</span><span id="line-384">   * @param radix the radix to use while working with {@code x}</span>
-<span class="source-line-no">385</span><span id="line-385">   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}</span>
-<span class="source-line-no">386</span><span id="line-386">   *     and {@link Character#MAX_RADIX}.</span>
-<span class="source-line-no">387</span><span id="line-387">   */</span>
-<span class="source-line-no">388</span><span id="line-388">  public static String toString(int x, int radix) {</span>
-<span class="source-line-no">389</span><span id="line-389">    long asLong = x &amp; INT_MASK;</span>
-<span class="source-line-no">390</span><span id="line-390">    return Long.toString(asLong, radix);</span>
-<span class="source-line-no">391</span><span id="line-391">  }</span>
-<span class="source-line-no">392</span><span id="line-392">}</span>
+<span class="source-line-no">197</span><span id="line-197">  enum LexicographicalComparator implements Comparator&lt;int[]&gt; {</span>
+<span class="source-line-no">198</span><span id="line-198">    INSTANCE;</span>
+<span class="source-line-no">199</span><span id="line-199"></span>
+<span class="source-line-no">200</span><span id="line-200">    @Override</span>
+<span class="source-line-no">201</span><span id="line-201">    // A call to bare "min" or "max" would resolve to our varargs method, not to any static import.</span>
+<span class="source-line-no">202</span><span id="line-202">    @SuppressWarnings("StaticImportPreferred")</span>
+<span class="source-line-no">203</span><span id="line-203">    public int compare(int[] left, int[] right) {</span>
+<span class="source-line-no">204</span><span id="line-204">      int minLength = Math.min(left.length, right.length);</span>
+<span class="source-line-no">205</span><span id="line-205">      for (int i = 0; i &lt; minLength; i++) {</span>
+<span class="source-line-no">206</span><span id="line-206">        if (left[i] != right[i]) {</span>
+<span class="source-line-no">207</span><span id="line-207">          return UnsignedInts.compare(left[i], right[i]);</span>
+<span class="source-line-no">208</span><span id="line-208">        }</span>
+<span class="source-line-no">209</span><span id="line-209">      }</span>
+<span class="source-line-no">210</span><span id="line-210">      return left.length - right.length;</span>
+<span class="source-line-no">211</span><span id="line-211">    }</span>
+<span class="source-line-no">212</span><span id="line-212"></span>
+<span class="source-line-no">213</span><span id="line-213">    @Override</span>
+<span class="source-line-no">214</span><span id="line-214">    public String toString() {</span>
+<span class="source-line-no">215</span><span id="line-215">      return "UnsignedInts.lexicographicalComparator()";</span>
+<span class="source-line-no">216</span><span id="line-216">    }</span>
+<span class="source-line-no">217</span><span id="line-217">  }</span>
+<span class="source-line-no">218</span><span id="line-218"></span>
+<span class="source-line-no">219</span><span id="line-219">  /**</span>
+<span class="source-line-no">220</span><span id="line-220">   * Sorts the array, treating its elements as unsigned 32-bit integers.</span>
+<span class="source-line-no">221</span><span id="line-221">   *</span>
+<span class="source-line-no">222</span><span id="line-222">   * @since 23.1</span>
+<span class="source-line-no">223</span><span id="line-223">   */</span>
+<span class="source-line-no">224</span><span id="line-224">  public static void sort(int[] array) {</span>
+<span class="source-line-no">225</span><span id="line-225">    checkNotNull(array);</span>
+<span class="source-line-no">226</span><span id="line-226">    sort(array, 0, array.length);</span>
+<span class="source-line-no">227</span><span id="line-227">  }</span>
+<span class="source-line-no">228</span><span id="line-228"></span>
+<span class="source-line-no">229</span><span id="line-229">  /**</span>
+<span class="source-line-no">230</span><span id="line-230">   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its</span>
+<span class="source-line-no">231</span><span id="line-231">   * elements as unsigned 32-bit integers.</span>
+<span class="source-line-no">232</span><span id="line-232">   *</span>
+<span class="source-line-no">233</span><span id="line-233">   * @since 23.1</span>
+<span class="source-line-no">234</span><span id="line-234">   */</span>
+<span class="source-line-no">235</span><span id="line-235">  public static void sort(int[] array, int fromIndex, int toIndex) {</span>
+<span class="source-line-no">236</span><span id="line-236">    checkNotNull(array);</span>
+<span class="source-line-no">237</span><span id="line-237">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
+<span class="source-line-no">238</span><span id="line-238">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">239</span><span id="line-239">      array[i] = flip(array[i]);</span>
+<span class="source-line-no">240</span><span id="line-240">    }</span>
+<span class="source-line-no">241</span><span id="line-241">    Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="source-line-no">242</span><span id="line-242">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">243</span><span id="line-243">      array[i] = flip(array[i]);</span>
+<span class="source-line-no">244</span><span id="line-244">    }</span>
+<span class="source-line-no">245</span><span id="line-245">  }</span>
+<span class="source-line-no">246</span><span id="line-246"></span>
+<span class="source-line-no">247</span><span id="line-247">  /**</span>
+<span class="source-line-no">248</span><span id="line-248">   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 32-bit</span>
+<span class="source-line-no">249</span><span id="line-249">   * integers.</span>
+<span class="source-line-no">250</span><span id="line-250">   *</span>
+<span class="source-line-no">251</span><span id="line-251">   * @since 23.1</span>
+<span class="source-line-no">252</span><span id="line-252">   */</span>
+<span class="source-line-no">253</span><span id="line-253">  public static void sortDescending(int[] array) {</span>
+<span class="source-line-no">254</span><span id="line-254">    checkNotNull(array);</span>
+<span class="source-line-no">255</span><span id="line-255">    sortDescending(array, 0, array.length);</span>
+<span class="source-line-no">256</span><span id="line-256">  }</span>
+<span class="source-line-no">257</span><span id="line-257"></span>
+<span class="source-line-no">258</span><span id="line-258">  /**</span>
+<span class="source-line-no">259</span><span id="line-259">   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}</span>
+<span class="source-line-no">260</span><span id="line-260">   * exclusive in descending order, interpreting them as unsigned 32-bit integers.</span>
+<span class="source-line-no">261</span><span id="line-261">   *</span>
+<span class="source-line-no">262</span><span id="line-262">   * @since 23.1</span>
+<span class="source-line-no">263</span><span id="line-263">   */</span>
+<span class="source-line-no">264</span><span id="line-264">  public static void sortDescending(int[] array, int fromIndex, int toIndex) {</span>
+<span class="source-line-no">265</span><span id="line-265">    checkNotNull(array);</span>
+<span class="source-line-no">266</span><span id="line-266">    checkPositionIndexes(fromIndex, toIndex, array.length);</span>
+<span class="source-line-no">267</span><span id="line-267">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">268</span><span id="line-268">      array[i] ^= Integer.MAX_VALUE;</span>
+<span class="source-line-no">269</span><span id="line-269">    }</span>
+<span class="source-line-no">270</span><span id="line-270">    Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="source-line-no">271</span><span id="line-271">    for (int i = fromIndex; i &lt; toIndex; i++) {</span>
+<span class="source-line-no">272</span><span id="line-272">      array[i] ^= Integer.MAX_VALUE;</span>
+<span class="source-line-no">273</span><span id="line-273">    }</span>
+<span class="source-line-no">274</span><span id="line-274">  }</span>
+<span class="source-line-no">275</span><span id="line-275"></span>
+<span class="source-line-no">276</span><span id="line-276">  /**</span>
+<span class="source-line-no">277</span><span id="line-277">   * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 32-bit</span>
+<span class="source-line-no">278</span><span id="line-278">   * quantities.</span>
+<span class="source-line-no">279</span><span id="line-279">   *</span>
+<span class="source-line-no">280</span><span id="line-280">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#divideUnsigned(int, int)} instead.</span>
+<span class="source-line-no">281</span><span id="line-281">   *</span>
+<span class="source-line-no">282</span><span id="line-282">   * @param dividend the dividend (numerator)</span>
+<span class="source-line-no">283</span><span id="line-283">   * @param divisor the divisor (denominator)</span>
+<span class="source-line-no">284</span><span id="line-284">   * @throws ArithmeticException if divisor is 0</span>
+<span class="source-line-no">285</span><span id="line-285">   */</span>
+<span class="source-line-no">286</span><span id="line-286">  public static int divide(int dividend, int divisor) {</span>
+<span class="source-line-no">287</span><span id="line-287">    return (int) (toLong(dividend) / toLong(divisor));</span>
+<span class="source-line-no">288</span><span id="line-288">  }</span>
+<span class="source-line-no">289</span><span id="line-289"></span>
+<span class="source-line-no">290</span><span id="line-290">  /**</span>
+<span class="source-line-no">291</span><span id="line-291">   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit</span>
+<span class="source-line-no">292</span><span id="line-292">   * quantities.</span>
+<span class="source-line-no">293</span><span id="line-293">   *</span>
+<span class="source-line-no">294</span><span id="line-294">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#remainderUnsigned(int, int)} instead.</span>
+<span class="source-line-no">295</span><span id="line-295">   *</span>
+<span class="source-line-no">296</span><span id="line-296">   * @param dividend the dividend (numerator)</span>
+<span class="source-line-no">297</span><span id="line-297">   * @param divisor the divisor (denominator)</span>
+<span class="source-line-no">298</span><span id="line-298">   * @throws ArithmeticException if divisor is 0</span>
+<span class="source-line-no">299</span><span id="line-299">   */</span>
+<span class="source-line-no">300</span><span id="line-300">  public static int remainder(int dividend, int divisor) {</span>
+<span class="source-line-no">301</span><span id="line-301">    return (int) (toLong(dividend) % toLong(divisor));</span>
+<span class="source-line-no">302</span><span id="line-302">  }</span>
+<span class="source-line-no">303</span><span id="line-303"></span>
+<span class="source-line-no">304</span><span id="line-304">  /**</span>
+<span class="source-line-no">305</span><span id="line-305">   * Returns the unsigned {@code int} value represented by the given string.</span>
+<span class="source-line-no">306</span><span id="line-306">   *</span>
+<span class="source-line-no">307</span><span id="line-307">   * &lt;p&gt;Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:</span>
+<span class="source-line-no">308</span><span id="line-308">   *</span>
+<span class="source-line-no">309</span><span id="line-309">   * &lt;ul&gt;</span>
+<span class="source-line-no">310</span><span id="line-310">   *   &lt;li&gt;{@code 0x}&lt;i&gt;HexDigits&lt;/i&gt;</span>
+<span class="source-line-no">311</span><span id="line-311">   *   &lt;li&gt;{@code 0X}&lt;i&gt;HexDigits&lt;/i&gt;</span>
+<span class="source-line-no">312</span><span id="line-312">   *   &lt;li&gt;{@code #}&lt;i&gt;HexDigits&lt;/i&gt;</span>
+<span class="source-line-no">313</span><span id="line-313">   *   &lt;li&gt;{@code 0}&lt;i&gt;OctalDigits&lt;/i&gt;</span>
+<span class="source-line-no">314</span><span id="line-314">   * &lt;/ul&gt;</span>
+<span class="source-line-no">315</span><span id="line-315">   *</span>
+<span class="source-line-no">316</span><span id="line-316">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value</span>
+<span class="source-line-no">317</span><span id="line-317">   * @since 13.0</span>
+<span class="source-line-no">318</span><span id="line-318">   */</span>
+<span class="source-line-no">319</span><span id="line-319">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">320</span><span id="line-320">  public static int decode(String stringValue) {</span>
+<span class="source-line-no">321</span><span id="line-321">    ParseRequest request = ParseRequest.fromString(stringValue);</span>
+<span class="source-line-no">322</span><span id="line-322"></span>
+<span class="source-line-no">323</span><span id="line-323">    try {</span>
+<span class="source-line-no">324</span><span id="line-324">      return parseUnsignedInt(request.rawValue, request.radix);</span>
+<span class="source-line-no">325</span><span id="line-325">    } catch (NumberFormatException e) {</span>
+<span class="source-line-no">326</span><span id="line-326">      NumberFormatException decodeException =</span>
+<span class="source-line-no">327</span><span id="line-327">          new NumberFormatException("Error parsing value: " + stringValue);</span>
+<span class="source-line-no">328</span><span id="line-328">      decodeException.initCause(e);</span>
+<span class="source-line-no">329</span><span id="line-329">      throw decodeException;</span>
+<span class="source-line-no">330</span><span id="line-330">    }</span>
+<span class="source-line-no">331</span><span id="line-331">  }</span>
+<span class="source-line-no">332</span><span id="line-332"></span>
+<span class="source-line-no">333</span><span id="line-333">  /**</span>
+<span class="source-line-no">334</span><span id="line-334">   * Returns the unsigned {@code int} value represented by the given decimal string.</span>
+<span class="source-line-no">335</span><span id="line-335">   *</span>
+<span class="source-line-no">336</span><span id="line-336">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String)} instead.</span>
+<span class="source-line-no">337</span><span id="line-337">   *</span>
+<span class="source-line-no">338</span><span id="line-338">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value</span>
+<span class="source-line-no">339</span><span id="line-339">   * @throws NullPointerException if {@code s} is null (in contrast to {@link</span>
+<span class="source-line-no">340</span><span id="line-340">   *     Integer#parseInt(String)})</span>
+<span class="source-line-no">341</span><span id="line-341">   */</span>
+<span class="source-line-no">342</span><span id="line-342">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">343</span><span id="line-343">  public static int parseUnsignedInt(String s) {</span>
+<span class="source-line-no">344</span><span id="line-344">    return parseUnsignedInt(s, 10);</span>
+<span class="source-line-no">345</span><span id="line-345">  }</span>
+<span class="source-line-no">346</span><span id="line-346"></span>
+<span class="source-line-no">347</span><span id="line-347">  /**</span>
+<span class="source-line-no">348</span><span id="line-348">   * Returns the unsigned {@code int} value represented by a string with the given radix.</span>
+<span class="source-line-no">349</span><span id="line-349">   *</span>
+<span class="source-line-no">350</span><span id="line-350">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#parseUnsignedInt(String, int)} instead.</span>
+<span class="source-line-no">351</span><span id="line-351">   *</span>
+<span class="source-line-no">352</span><span id="line-352">   * @param string the string containing the unsigned integer representation to be parsed.</span>
+<span class="source-line-no">353</span><span id="line-353">   * @param radix the radix to use while parsing {@code s}; must be between {@link</span>
+<span class="source-line-no">354</span><span id="line-354">   *     Character#MIN_RADIX} and {@link Character#MAX_RADIX}.</span>
+<span class="source-line-no">355</span><span id="line-355">   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int}, or</span>
+<span class="source-line-no">356</span><span id="line-356">   *     if supplied radix is invalid.</span>
+<span class="source-line-no">357</span><span id="line-357">   * @throws NullPointerException if {@code s} is null (in contrast to {@link</span>
+<span class="source-line-no">358</span><span id="line-358">   *     Integer#parseInt(String)})</span>
+<span class="source-line-no">359</span><span id="line-359">   */</span>
+<span class="source-line-no">360</span><span id="line-360">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">361</span><span id="line-361">  public static int parseUnsignedInt(String string, int radix) {</span>
+<span class="source-line-no">362</span><span id="line-362">    checkNotNull(string);</span>
+<span class="source-line-no">363</span><span id="line-363">    long result = Long.parseLong(string, radix);</span>
+<span class="source-line-no">364</span><span id="line-364">    if ((result &amp; INT_MASK) != result) {</span>
+<span class="source-line-no">365</span><span id="line-365">      throw new NumberFormatException(</span>
+<span class="source-line-no">366</span><span id="line-366">          "Input " + string + " in base " + radix + " is not in the range of an unsigned integer");</span>
+<span class="source-line-no">367</span><span id="line-367">    }</span>
+<span class="source-line-no">368</span><span id="line-368">    return (int) result;</span>
+<span class="source-line-no">369</span><span id="line-369">  }</span>
+<span class="source-line-no">370</span><span id="line-370"></span>
+<span class="source-line-no">371</span><span id="line-371">  /**</span>
+<span class="source-line-no">372</span><span id="line-372">   * Returns a string representation of x, where x is treated as unsigned.</span>
+<span class="source-line-no">373</span><span id="line-373">   *</span>
+<span class="source-line-no">374</span><span id="line-374">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int)} instead.</span>
+<span class="source-line-no">375</span><span id="line-375">   */</span>
+<span class="source-line-no">376</span><span id="line-376">  public static String toString(int x) {</span>
+<span class="source-line-no">377</span><span id="line-377">    return toString(x, 10);</span>
+<span class="source-line-no">378</span><span id="line-378">  }</span>
+<span class="source-line-no">379</span><span id="line-379"></span>
+<span class="source-line-no">380</span><span id="line-380">  /**</span>
+<span class="source-line-no">381</span><span id="line-381">   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as</span>
+<span class="source-line-no">382</span><span id="line-382">   * unsigned.</span>
+<span class="source-line-no">383</span><span id="line-383">   *</span>
+<span class="source-line-no">384</span><span id="line-384">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; use {@link Integer#toUnsignedString(int, int)} instead.</span>
+<span class="source-line-no">385</span><span id="line-385">   *</span>
+<span class="source-line-no">386</span><span id="line-386">   * @param x the value to convert to a string.</span>
+<span class="source-line-no">387</span><span id="line-387">   * @param radix the radix to use while working with {@code x}</span>
+<span class="source-line-no">388</span><span id="line-388">   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}</span>
+<span class="source-line-no">389</span><span id="line-389">   *     and {@link Character#MAX_RADIX}.</span>
+<span class="source-line-no">390</span><span id="line-390">   */</span>
+<span class="source-line-no">391</span><span id="line-391">  public static String toString(int x, int radix) {</span>
+<span class="source-line-no">392</span><span id="line-392">    long asLong = x &amp; INT_MASK;</span>
+<span class="source-line-no">393</span><span id="line-393">    return Long.toString(asLong, radix);</span>
+<span class="source-line-no">394</span><span id="line-394">  }</span>
+<span class="source-line-no">395</span><span id="line-395">}</span>
 
 
 

@@ -62799,7 +62799,10 @@
  example, {@code [] < [1] < [1, 2] < [2] < [1 << 31]}.
 
  <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
- support only identity equality), but it is consistent with {@link Arrays#equals(int[], int[])}.]]>
+ support only identity equality), but it is consistent with {@link Arrays#equals(int[], int[])}.
+
+ <p><b>Java 9+ users:</b> Use {@link Arrays#compareUnsigned(int[], int[])
+ Arrays::compareUnsigned}.]]>
       </doc>
     </method>
     <method name="sort"
@@ -63323,7 +63326,10 @@
 
  <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
  support only identity equality), but it is consistent with {@link Arrays#equals(long[],
- long[])}.]]>
+ long[])}.
+
+ <p><b>Java 9+ users:</b> Use {@link Arrays#compareUnsigned(long[], long[])
+ Arrays::compareUnsigned}.]]>
       </doc>
     </method>
     <method name="sort"
