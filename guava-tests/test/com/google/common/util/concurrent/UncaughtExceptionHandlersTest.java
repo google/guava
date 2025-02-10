@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
+import com.google.common.util.concurrent.UncaughtExceptionHandlers.RuntimeWrapper;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -29,11 +30,11 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class UncaughtExceptionHandlersTest extends TestCase {
 
-  private Runtime runtimeMock;
+  private RuntimeWrapper runtimeMock;
 
   @Override
   protected void setUp() {
-    runtimeMock = mock(Runtime.class);
+    runtimeMock = mock(RuntimeWrapper.class);
   }
 
   public void testExiter() {

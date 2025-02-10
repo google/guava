@@ -50,16 +50,21 @@ public final class UncaughtExceptionHandlers {
    * process with an exit status of 1, indicating abnormal termination.
    */
   public static UncaughtExceptionHandler systemExit() {
-    return new Exiter(Runtime.getRuntime());
+    return new Exiter(Runtime.getRuntime()::exit);
+  }
+
+  @VisibleForTesting
+  interface RuntimeWrapper {
+    void exit(int status);
   }
 
   @VisibleForTesting
   static final class Exiter implements UncaughtExceptionHandler {
     private static final LazyLogger logger = new LazyLogger(Exiter.class);
 
-    private final Runtime runtime;
+    private final RuntimeWrapper runtime;
 
-    Exiter(Runtime runtime) {
+    Exiter(RuntimeWrapper runtime) {
       this.runtime = runtime;
     }
 
