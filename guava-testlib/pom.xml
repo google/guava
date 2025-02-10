@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib</artifactId>
   <name>Guava Testing Library</name>
@@ -71,6 +71,45 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <compilerArgs combine.children="append" combine.self="append">
+		 <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java9</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+
+              <!--
+                JPMS needs access to the module sources to complete a modular Java build. We also need to override
+                the base compiler settings (in the root `pom.xml`) to enable MRJAR output.
+              -->
+              <compilerArgs combine.self="override" combine.children="append">
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <arg>--add-reads=com.google.common.testlib=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xlint:-removal</arg>
+                <arg>-Xlint:-options</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

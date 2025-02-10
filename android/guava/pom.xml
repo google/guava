@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-android-SNAPSHOT</version>
+    <version>1.0-HEAD-android-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

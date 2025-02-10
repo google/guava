@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
   <name>Guava GWT compatible libs</name>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -134,15 +134,20 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
-            <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
-            <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
-            <exclude>**/ForceGuavaCompilation*</exclude>
-            <exclude>**/DummyJavadocClass*</exclude>
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <excludes>
+                <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
+                <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
+                <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
+                <exclude>**/ForceGuavaCompilation*</exclude>
+                <exclude>**/DummyJavadocClass*</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -262,7 +267,7 @@
           <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>failureaccess</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
             <classifier>sources</classifier>
           </dependency>
           <dependency>
