@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Range;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -250,6 +251,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       this.delayMillis = delayMillis;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public String sleepThenReturnInput(String input) {
       try {

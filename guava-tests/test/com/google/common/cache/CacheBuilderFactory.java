@@ -23,6 +23,7 @@ import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -48,42 +49,50 @@ class CacheBuilderFactory {
   private Set<Strength> keyStrengths = Sets.newHashSet((Strength) null);
   private Set<Strength> valueStrengths = Sets.newHashSet((Strength) null);
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withConcurrencyLevels(Set<Integer> concurrencyLevels) {
     this.concurrencyLevels = Sets.newLinkedHashSet(concurrencyLevels);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withInitialCapacities(Set<Integer> initialCapacities) {
     this.initialCapacities = Sets.newLinkedHashSet(initialCapacities);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withMaximumSizes(Set<Integer> maximumSizes) {
     this.maximumSizes = Sets.newLinkedHashSet(maximumSizes);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withExpireAfterWrites(Set<DurationSpec> durations) {
     this.expireAfterWrites = Sets.newLinkedHashSet(durations);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withExpireAfterAccesses(Set<DurationSpec> durations) {
     this.expireAfterAccesses = Sets.newLinkedHashSet(durations);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withRefreshes(Set<DurationSpec> durations) {
     this.refreshes = Sets.newLinkedHashSet(durations);
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withKeyStrengths(Set<Strength> keyStrengths) {
     this.keyStrengths = Sets.newLinkedHashSet(keyStrengths);
     Preconditions.checkArgument(!this.keyStrengths.contains(Strength.SOFT));
     return this;
   }
 
+  @CanIgnoreReturnValue
   CacheBuilderFactory withValueStrengths(Set<Strength> valueStrengths) {
     this.valueStrengths = Sets.newLinkedHashSet(valueStrengths);
     return this;

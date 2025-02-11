@@ -689,6 +689,12 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
       throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");
     }
 
+    /*
+     * While the current implementation returns `this`, that's not something we mean to guarantee.
+     * Anyway, the purpose of this method is to implement a BinaryOperator combiner for a Collector,
+     * so its return value will get used naturally.
+     */
+    @SuppressWarnings("CanIgnoreReturnValueSuggester")
     @Override
     Builder<K, V> combine(ImmutableMap.Builder<K, V> other) {
       super.combine(other);

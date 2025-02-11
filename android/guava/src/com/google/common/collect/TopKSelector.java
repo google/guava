@@ -233,6 +233,12 @@ final class TopKSelector<
     buffer[j] = tmp;
   }
 
+  /*
+   * While the current implementation returns `this`, that's not something we mean to guarantee.
+   * Anyway, the purpose of this method is to implement a BinaryOperator combiner for a Collector,
+   * so its return value will get used naturally.
+   */
+  @SuppressWarnings("CanIgnoreReturnValueSuggester")
   TopKSelector<T> combine(TopKSelector<T> other) {
     for (int i = 0; i < other.bufferSize; i++) {
       this.offer(uncheckedCastNullableTToT(other.buffer[i]));

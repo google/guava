@@ -186,6 +186,12 @@ public class SetGenerators {
       return ImmutableSortedSet.orderedBy(STRING_REVERSED).add(elements).build();
     }
 
+    /*
+     * While the current implementation returns `this`, that's not something we mean to guarantee.
+     * Callers of TestContainerGenerator.order need to be prepared for implementations to return a new
+     * collection.
+     */
+    @SuppressWarnings("CanIgnoreReturnValueSuggester")
     @Override
     public List<String> order(List<String> insertionOrder) {
       sort(insertionOrder, Collections.reverseOrder());
@@ -203,6 +209,7 @@ public class SetGenerators {
       return new ImmutableSortedSet.Builder<String>(COMPARABLE_REVERSED).add(elements).build();
     }
 
+    @SuppressWarnings("CanIgnoreReturnValueSuggester") // see ImmutableSortedSetExplicitComparator
     @Override
     public List<String> order(List<String> insertionOrder) {
       sort(insertionOrder, Collections.reverseOrder());
@@ -217,6 +224,7 @@ public class SetGenerators {
       return ImmutableSortedSet.<String>reverseOrder().addAll(asList(elements).iterator()).build();
     }
 
+    @SuppressWarnings("CanIgnoreReturnValueSuggester") // see ImmutableSortedSetExplicitComparator
     @Override
     public List<String> order(List<String> insertionOrder) {
       sort(insertionOrder, Collections.reverseOrder());
@@ -394,6 +402,7 @@ public class SetGenerators {
     }
 
     /** Sorts the elements in reverse natural order. */
+    @SuppressWarnings("CanIgnoreReturnValueSuggester") // see ImmutableSortedSetExplicitComparator
     @Override
     public List<Integer> order(List<Integer> insertionOrder) {
       sort(insertionOrder, Ordering.<Integer>natural().reverse());

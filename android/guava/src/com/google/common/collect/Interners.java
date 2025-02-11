@@ -23,6 +23,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -52,6 +53,7 @@ public final class Interners {
      *
      * @see Interners#newStrongInterner()
      */
+    @CanIgnoreReturnValue
     public InternerBuilder strong() {
       this.strong = true;
       return this;
@@ -62,6 +64,7 @@ public final class Interners {
      *
      * @see Interners#newWeakInterner()
      */
+    @CanIgnoreReturnValue
     @GwtIncompatible("java.lang.ref.WeakReference")
     public InternerBuilder weak() {
       this.strong = false;
@@ -73,6 +76,7 @@ public final class Interners {
      *
      * @see MapMaker#concurrencyLevel(int)
      */
+    @CanIgnoreReturnValue
     public InternerBuilder concurrencyLevel(int concurrencyLevel) {
       this.mapMaker.concurrencyLevel(concurrencyLevel);
       return this;

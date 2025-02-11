@@ -25,6 +25,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.SerializableTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
@@ -324,6 +325,7 @@ public class TypesTest extends TestCase {
   private static class TypeVariableEqualsTester {
     private final EqualsTester tester = new EqualsTester();
 
+    @CanIgnoreReturnValue
     TypeVariableEqualsTester addEqualityGroup(Type jvmType, Type... types) {
       if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
         tester.addEqualityGroup(jvmType);

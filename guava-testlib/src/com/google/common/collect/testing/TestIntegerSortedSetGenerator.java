@@ -36,6 +36,12 @@ public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenera
   protected abstract SortedSet<Integer> create(Integer[] elements);
 
   /** Sorts the elements by their natural ordering. */
+  /*
+   * While the current implementation returns `this`, that's not something we mean to guarantee.
+   * Callers of TestContainerGenerator.order need to be prepared for implementations to return a new
+   * collection.
+   */
+  @SuppressWarnings("CanIgnoreReturnValueSuggester")
   @Override
   public List<Integer> order(List<Integer> insertionOrder) {
     sort(insertionOrder);

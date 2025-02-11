@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.NullUnmarked;
@@ -136,6 +137,7 @@ class TestingCacheLoaders {
     private final AtomicInteger countLoad = new AtomicInteger();
     private final AtomicInteger countReload = new AtomicInteger();
 
+    @CanIgnoreReturnValue // Sure, why not?
     @Override
     public Integer load(Integer key) {
       countLoad.incrementAndGet();

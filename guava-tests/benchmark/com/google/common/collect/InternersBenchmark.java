@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 public class InternersBenchmark {
+  @CanIgnoreReturnValue
   @Benchmark
   int weakInterner(int reps) {
     Interner<String> interner = Interners.newWeakInterner();
@@ -35,6 +37,7 @@ public class InternersBenchmark {
     return reps;
   }
 
+  @CanIgnoreReturnValue
   @Benchmark
   int strongInterner(int reps) {
     Interner<String> interner = Interners.newStrongInterner();
@@ -44,6 +47,7 @@ public class InternersBenchmark {
     return reps;
   }
 
+  @CanIgnoreReturnValue
   @Benchmark
   int stringIntern(int reps) {
     for (int i = 0; i < reps; i++) {

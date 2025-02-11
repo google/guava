@@ -151,6 +151,12 @@ final class TableCollectors {
       }
     }
 
+    /*
+     * While the current implementation returns `this`, that's not something we mean to guarantee.
+     * Anyway, the purpose of this method is to implement a BinaryOperator combiner for a Collector,
+     * so its return value will get used naturally.
+     */
+    @SuppressWarnings("CanIgnoreReturnValueSuggester")
     ImmutableTableCollectorState<R, C, V> combine(
         ImmutableTableCollectorState<R, C, V> other, BinaryOperator<V> merger) {
       for (MutableCell<R, C, V> cell : other.insertionOrder) {

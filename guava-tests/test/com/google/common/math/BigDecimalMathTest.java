@@ -28,6 +28,7 @@ import static java.math.RoundingMode.values;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -49,6 +50,7 @@ public class BigDecimalMathTest extends TestCase {
       this.input = input;
     }
 
+    @CanIgnoreReturnValue
     RoundToDoubleTester setExpectation(double expectedValue, RoundingMode... modes) {
       for (RoundingMode mode : modes) {
         Double previous = expectedValues.put(mode, expectedValue);
@@ -59,6 +61,7 @@ public class BigDecimalMathTest extends TestCase {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public RoundToDoubleTester roundUnnecessaryShouldThrow() {
       unnecessaryShouldThrow = true;
       return this;

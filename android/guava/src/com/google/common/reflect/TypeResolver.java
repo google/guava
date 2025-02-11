@@ -23,6 +23,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -225,6 +226,7 @@ public final class TypeResolver {
     }
   }
 
+  @CanIgnoreReturnValue
   Type[] resolveTypesInPlace(Type[] types) {
     for (int i = 0; i < types.length; i++) {
       types[i] = resolveType(types[i]);

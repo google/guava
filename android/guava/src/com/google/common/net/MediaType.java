@@ -117,6 +117,7 @@ public final class MediaType {
     return mediaType;
   }
 
+  @CanIgnoreReturnValue
   private static MediaType addKnownType(MediaType mediaType) {
     knownTypes.put(mediaType, mediaType);
     return mediaType;

@@ -207,6 +207,7 @@ public final class MapMaker {
     return setKeyStrength(Strength.WEAK);
   }
 
+  @CanIgnoreReturnValue
   MapMaker setKeyStrength(Strength strength) {
     checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);
     keyStrength = checkNotNull(strength);
@@ -253,6 +254,7 @@ public final class MapMaker {
     VALUE
   }
 
+  @CanIgnoreReturnValue
   MapMaker setValueStrength(Strength strength) {
     checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);
     valueStrength = checkNotNull(strength);
