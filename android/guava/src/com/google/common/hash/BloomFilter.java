@@ -623,6 +623,11 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       numHashFunctions = UnsignedBytes.toInt(din.readByte());
       dataLength = din.readInt();
 
+      /*
+       * We document in BloomFilterStrategies that we must not change the ordering, and we have a
+       * test that verifies that we don't do so.
+       */
+      @SuppressWarnings("EnumOrdinal")
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
 
       LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));
