@@ -33,7 +33,6 @@ import org.jspecify.annotations.Nullable;
  * @author Chris Povirk
  * @since 10.0
  */
-@J2ktIncompatible
 @GwtIncompatible
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
@@ -49,6 +48,7 @@ public interface ListeningScheduledExecutorService
    *
    * @since 29.0
    */
+  @J2ktIncompatible
   default ListenableScheduledFuture<?> schedule(Runnable command, Duration delay) {
     return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
   }
@@ -65,6 +65,7 @@ public interface ListeningScheduledExecutorService
    *
    * @since 29.0
    */
+  @J2ktIncompatible
   default <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, Duration delay) {
     return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
@@ -82,6 +83,7 @@ public interface ListeningScheduledExecutorService
    *
    * @since 29.0
    */
+  @J2ktIncompatible
   default ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, Duration initialDelay, Duration period) {
     return scheduleAtFixedRate(
@@ -100,6 +102,7 @@ public interface ListeningScheduledExecutorService
    *
    * @since 29.0
    */
+  @J2ktIncompatible
   default ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, Duration initialDelay, Duration delay) {
     return scheduleWithFixedDelay(
