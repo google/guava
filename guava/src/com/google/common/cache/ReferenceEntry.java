@@ -87,8 +87,8 @@ interface ReferenceEntry<K, V> {
    * expired from the head of the list.
    */
 
-  @SuppressWarnings("GoodTime")
   /** Returns the time that this entry was last written, in ns. */
+  @SuppressWarnings("GoodTime")
   long getWriteTime();
 
   /** Sets the entry write time in ns. */

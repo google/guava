@@ -209,7 +209,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     long bitSize = bits.bitSize();
     long bitCount = bits.bitCount();
 
-    /**
+    /*
      * Each insertion is expected to reduce the # of clear bits by a factor of
      * `numHashFunctions/bitSize`. So, after n insertions, expected bitCount is `bitSize * (1 - (1 -
      * numHashFunctions/bitSize)^n)`. Solving that for n, and approximating `ln x` as `x - 1` when x

@@ -81,8 +81,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testConstraint() {
-
-    /**
+    /*
      * We'll give ourselves a pass on testing all the possible ways of breaking the constraint,
      * because we know that newClassMap() is implemented using ConstrainedMap which is itself
      * well-tested. A purist would object to this, but what can I say, we're dirty cheaters.

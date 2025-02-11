@@ -501,7 +501,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       copyIfNecessary();
       if (n == elements.length) {
         sortAndDedup();
-        /**
+        /*
          * sortAndDedup may have made enough room for this element, but that's not necessarily good
          * enough. Consider, for example, the case where we have a buffer of size (n+1), add n
          * distinct elements, and add the last element over again many times over. We don't want a
