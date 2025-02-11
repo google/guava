@@ -89,7 +89,7 @@ public final class Suppliers {
       return "Suppliers.compose(" + function + ", " + supplier + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -166,7 +166,7 @@ public final class Suppliers {
       lock = new Object();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @VisibleForTesting
@@ -340,7 +340,7 @@ public final class Suppliers {
       lock = new Object();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
@@ -382,7 +382,7 @@ public final class Suppliers {
       return "Suppliers.ofInstance(" + instance + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -417,7 +417,7 @@ public final class Suppliers {
       return "Suppliers.synchronizedSupplier(" + delegate + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

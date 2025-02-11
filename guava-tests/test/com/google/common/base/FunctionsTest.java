@@ -368,7 +368,7 @@ public class FunctionsTest extends TestCase {
 
   private static class CountingSupplier implements Supplier<Integer>, Serializable {
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 
     private int value;
 

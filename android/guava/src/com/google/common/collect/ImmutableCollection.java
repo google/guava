@@ -569,5 +569,5 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     }
   }
 
-  private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
 }

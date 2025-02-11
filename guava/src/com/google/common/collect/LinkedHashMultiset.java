@@ -101,7 +101,5 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 
-  @GwtIncompatible // not needed in emulated source
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

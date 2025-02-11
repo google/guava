@@ -74,11 +74,11 @@ public class SuppliersTest extends TestCase {
   }
 
   static class SerializableCountingSupplier extends CountingSupplier implements Serializable {
-    private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   static class SerializableThrowingSupplier extends ThrowingSupplier implements Serializable {
-    private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   static void checkMemoize(CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {

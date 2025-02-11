@@ -136,7 +136,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
       return builder.build();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override

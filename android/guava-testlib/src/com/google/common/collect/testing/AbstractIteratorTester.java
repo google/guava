@@ -25,6 +25,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -107,7 +109,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       }
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static final class UnknownElementException extends RuntimeException {
@@ -115,7 +117,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       super("Returned value '" + actual + "' not found. Remaining elements: " + expected);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

@@ -22,6 +22,7 @@ import static java.util.Arrays.sort;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -628,7 +629,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       return new Builder<>(size);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -676,5 +677,5 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     throw new UnsupportedOperationException();
   }
 
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

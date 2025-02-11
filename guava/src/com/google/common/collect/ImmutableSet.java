@@ -413,7 +413,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return copyOf(elements);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -996,5 +996,5 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
   }
 
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

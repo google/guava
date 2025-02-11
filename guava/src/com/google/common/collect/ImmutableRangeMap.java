@@ -447,7 +447,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return builder.build();
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   Object writeReplace() {
@@ -459,5 +459,5 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  private static final long serialVersionUID = 0;
+  @J2ktIncompatible private static final long serialVersionUID = 0;
 }

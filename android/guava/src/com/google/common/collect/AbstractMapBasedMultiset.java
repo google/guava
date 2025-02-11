@@ -269,7 +269,5 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 
-  @GwtIncompatible // Not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

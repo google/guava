@@ -135,6 +135,5 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible // only needed in emulated source.
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

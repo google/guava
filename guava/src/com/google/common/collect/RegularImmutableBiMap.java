@@ -336,7 +336,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       return forward.inverse();
     }
 
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
   }
 
   // redeclare to help optimizers with b/310253115

@@ -1971,7 +1971,7 @@ public final class Sets {
       return unmodifiableNavigableSet(delegate.tailSet(fromElement, inclusive));
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

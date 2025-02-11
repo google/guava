@@ -23,6 +23,7 @@ import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -163,7 +164,7 @@ public final class Tables {
       return value;
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   abstract static class AbstractCell<
@@ -614,7 +615,7 @@ public final class Tables {
       return Collections.unmodifiableCollection(super.values());
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -664,7 +665,7 @@ public final class Tables {
       return Collections.unmodifiableSortedSet(delegate().rowKeySet());
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

@@ -1079,7 +1079,5 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible // not needed in emulated source
-  @J2ktIncompatible
-  private static final long serialVersionUID = 1;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 }

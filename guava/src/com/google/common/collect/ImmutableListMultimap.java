@@ -552,7 +552,5 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);
   }
 
-  @GwtIncompatible // Not needed in emulated source
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -317,6 +317,5 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible // Not needed in emulated source
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

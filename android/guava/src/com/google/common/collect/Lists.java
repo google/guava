@@ -358,7 +358,7 @@ public final class Lists {
       return (index == 0) ? first : rest[index - 1];
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -396,7 +396,7 @@ public final class Lists {
       }
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -601,7 +601,7 @@ public final class Lists {
       };
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -667,7 +667,7 @@ public final class Lists {
       return fromList.size();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1130,7 +1130,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            @J2ktIncompatible private static final long serialVersionUID = 0;
+            @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     } else {
       wrapper =
@@ -1140,7 +1140,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            @J2ktIncompatible private static final long serialVersionUID = 0;
+            @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
           };
     }
     return wrapper.subList(fromIndex, toIndex);

@@ -728,7 +728,5 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));
   }
 
-  @GwtIncompatible // not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

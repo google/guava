@@ -81,6 +81,6 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
       return map.keySet();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 }

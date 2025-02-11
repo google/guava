@@ -91,7 +91,7 @@ public class ListsTest extends TestCase {
       return SOME_COLLECTION.iterator();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static final List<Integer> SOME_LIST = Lists.newArrayList(1, 2, 3, 4);
@@ -108,7 +108,7 @@ public class ListsTest extends TestCase {
       return String.valueOf(n);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible

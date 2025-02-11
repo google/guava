@@ -225,7 +225,5 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
     Serialization.populateMultimap(this, stream);
   }
 
-  @GwtIncompatible // not needed in emulated source
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -268,5 +268,5 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

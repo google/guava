@@ -24,6 +24,7 @@ import static java.util.Collections.emptyMap;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -802,5 +803,5 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return CollectSpliterators.<@Nullable V>indexed(size(), Spliterator.ORDERED, this::getValue);
   }
 
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

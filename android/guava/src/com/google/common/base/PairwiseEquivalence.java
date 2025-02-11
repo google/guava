@@ -15,6 +15,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.jspecify.annotations.Nullable;
@@ -72,5 +74,5 @@ final class PairwiseEquivalence<E, T extends @Nullable E> extends Equivalence<It
     return elementEquivalence + ".pairwise()";
   }
 
-  private static final long serialVersionUID = 1;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 }

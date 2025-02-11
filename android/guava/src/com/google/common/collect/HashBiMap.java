@@ -1144,4 +1144,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     init(16); // resist hostile attempts to allocate gratuitous heap
     Serialization.populateMap(this, stream, size);
   }
+
+  // TODO(cpovirk): Should we have a serialVersionUID here?
 }

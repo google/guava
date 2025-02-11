@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,5 +87,5 @@ final class JdkPattern extends CommonPattern implements Serializable {
     }
   }
 
-  private static final long serialVersionUID = 0;
+  @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -1618,7 +1618,7 @@ public final class Maps {
       return "Maps.asConverter(" + bimap + ")";
     }
 
-    private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   /**
@@ -1712,7 +1712,7 @@ public final class Maps {
       return (result == null) ? values = Collections.unmodifiableSet(delegate.values()) : result;
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

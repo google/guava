@@ -158,6 +158,5 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible // not needed in emulated source.
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

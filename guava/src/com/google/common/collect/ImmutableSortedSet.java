@@ -870,7 +870,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       return new Builder<E>(comparator).add((E[]) elements).build();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible // serialization
@@ -1031,5 +1031,5 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     throw new UnsupportedOperationException();
   }
 
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

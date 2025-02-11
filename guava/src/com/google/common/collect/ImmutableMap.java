@@ -1300,7 +1300,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return new Builder<>(size);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1318,5 +1318,5 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

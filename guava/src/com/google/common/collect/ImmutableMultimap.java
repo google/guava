@@ -657,7 +657,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return super.writeReplace();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -869,10 +869,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return super.writeReplace();
     }
 
-    @J2ktIncompatible // serialization
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @J2ktIncompatible // serialization
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

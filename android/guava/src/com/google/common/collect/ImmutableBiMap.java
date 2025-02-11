@@ -20,6 +20,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -605,7 +606,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       return new Builder<>(size);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -659,5 +660,5 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     throw new UnsupportedOperationException();
   }
 
-  private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
 }

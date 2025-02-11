@@ -790,7 +790,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
       return new Builder<E>(comparator).add((E[]) elements).build();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible // serialization
@@ -953,5 +953,5 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     throw new UnsupportedOperationException();
   }
 
-  private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
 }

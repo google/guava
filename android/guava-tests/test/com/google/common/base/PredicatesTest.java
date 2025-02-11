@@ -61,7 +61,7 @@ public class PredicatesTest extends TestCase {
 
   /** Instantiable predicate with reasonable hashCode() and equals() methods. */
   static class IsOdd implements Predicate<@Nullable Integer>, Serializable {
-    private static final long serialVersionUID = 0x150ddL;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0x150ddL;
 
     @Override
     public boolean apply(@Nullable Integer i) {
@@ -718,8 +718,7 @@ public class PredicatesTest extends TestCase {
 
   public void testIn_handlesNullPointerException() {
     class CollectionThatThrowsNullPointerException<T> extends ArrayList<T> {
-      @J2ktIncompatible // Kotlin doesn't support companions for inner classes
-      private static final long serialVersionUID = 1L;
+      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
 
       @Override
       public boolean contains(@Nullable Object element) {
@@ -734,8 +733,7 @@ public class PredicatesTest extends TestCase {
 
   public void testIn_handlesClassCastException() {
     class CollectionThatThrowsClassCastException<T> extends ArrayList<T> {
-      @J2ktIncompatible // Kotlin doesn't support companions for inner classes
-      private static final long serialVersionUID = 1L;
+      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
 
       @Override
       public boolean contains(@Nullable Object element) {

@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -168,7 +169,7 @@ public abstract class CacheLoader<K, V> {
       return computingFunction.apply(checkNotNull(key));
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -220,7 +221,7 @@ public abstract class CacheLoader<K, V> {
       return computingSupplier.get();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

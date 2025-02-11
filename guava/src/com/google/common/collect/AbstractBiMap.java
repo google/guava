@@ -507,12 +507,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
       return inverse().inverse();
     }
 
-    @GwtIncompatible // Not needed in emulated source.
-    @J2ktIncompatible
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // Not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

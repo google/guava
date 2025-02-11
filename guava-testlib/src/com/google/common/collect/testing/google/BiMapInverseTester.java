@@ -68,7 +68,7 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
       this.backward = original.inverse();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

@@ -417,7 +417,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       throw new InvalidObjectException("Use EntrySetSerializedForm");
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible
@@ -667,8 +667,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return ImmutableMultiset.copyOf(multiset);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

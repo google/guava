@@ -888,7 +888,7 @@ public class ImmutableMapTest extends TestCase {
       return value;
     }
 
-    private static final long serialVersionUID = 5;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 5;
   }
 
   public void testMutableValues() {

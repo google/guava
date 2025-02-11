@@ -20,6 +20,8 @@ import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static java.util.Collections.unmodifiableSortedSet;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
@@ -147,5 +149,6 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
     return super.values();
   }
 
+  @GwtIncompatible @J2ktIncompatible
   private static final long serialVersionUID = 430848587173315748L;
 }

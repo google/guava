@@ -25,6 +25,8 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -1678,5 +1680,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
+  @GwtIncompatible @J2ktIncompatible
   private static final long serialVersionUID = 2447537837011683357L;
 }

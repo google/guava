@@ -70,7 +70,5 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
     return new ObjectCountHashMap<>(distinctElements);
   }
 
-  @GwtIncompatible // Not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -1154,7 +1154,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
       return new Builder<>(comparator);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -1170,7 +1170,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
 
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 
   /**
    * Not supported. Use {@link #toImmutableSortedMap}, which offers better type-safety, instead.

@@ -794,7 +794,5 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     Serialization.populateMap(this, stream, size);
   }
 
-  @GwtIncompatible // Not needed in emulated source
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -352,7 +352,7 @@ public final class Predicates {
       return "Predicates.not(" + predicate + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -397,7 +397,7 @@ public final class Predicates {
       return toStringHelper("and", components);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -442,7 +442,7 @@ public final class Predicates {
       return toStringHelper("or", components);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static String toStringHelper(String methodName, Iterable<?> components) {
@@ -492,7 +492,7 @@ public final class Predicates {
       return "Predicates.equalTo(" + target + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 
     @SuppressWarnings("unchecked") // safe contravariant cast
     <T extends @Nullable Object> Predicate<T> withNarrowedType() {
@@ -536,7 +536,7 @@ public final class Predicates {
       return "Predicates.instanceOf(" + clazz.getName() + ")";
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -575,7 +575,7 @@ public final class Predicates {
       return "Predicates.subtypeOf(" + clazz.getName() + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -617,7 +617,7 @@ public final class Predicates {
       return "Predicates.in(" + target + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -658,7 +658,7 @@ public final class Predicates {
       return p + "(" + f + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -708,7 +708,7 @@ public final class Predicates {
       return "Predicates.contains(" + patternString + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -726,7 +726,7 @@ public final class Predicates {
       return "Predicates.containsPattern(" + pattern.pattern() + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static <T extends @Nullable Object> List<Predicate<? super T>> asList(

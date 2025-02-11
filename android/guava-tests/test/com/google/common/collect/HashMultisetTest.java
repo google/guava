@@ -115,7 +115,7 @@ public class HashMultisetTest extends TestCase {
       this.member = multiset;
     }
 
-    private static final long serialVersionUID = 1L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
   }
 
   @J2ktIncompatible

@@ -658,7 +658,5 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     setMap(map);
   }
 
-  @GwtIncompatible // java serialization not supported
-  @J2ktIncompatible
-  private static final long serialVersionUID = 1;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 }

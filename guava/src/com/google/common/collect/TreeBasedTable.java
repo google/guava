@@ -23,6 +23,8 @@ import static com.google.common.collect.Iterators.mergeSorted;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
@@ -84,7 +86,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return new TreeMap<>(comparator);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -333,5 +335,5 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     };
   }
 
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

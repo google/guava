@@ -25,6 +25,7 @@ import static java.util.Collections.sort;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -980,7 +981,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
       this.value = value;
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   // Never make these public

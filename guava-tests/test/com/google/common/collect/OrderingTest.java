@@ -840,7 +840,7 @@ public class OrderingTest extends TestCase {
       return other instanceof NumberOrdering;
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /*

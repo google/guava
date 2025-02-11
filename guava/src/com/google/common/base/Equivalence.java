@@ -17,6 +17,8 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
@@ -257,7 +259,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return equivalence + ".wrap(" + reference + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -328,7 +330,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return equivalence + ".equivalentTo(" + target + ")";
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -375,7 +377,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return INSTANCE;
     }
 
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
   }
 
   static final class Identity extends Equivalence<Object> implements Serializable {
@@ -396,6 +398,6 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return INSTANCE;
     }
 
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
   }
 }

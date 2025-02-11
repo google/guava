@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import org.jspecify.annotations.Nullable;
 
@@ -202,7 +204,7 @@ public enum CaseFormat {
       return sourceFormat + ".converterTo(" + targetFormat + ")";
     }
 
-    private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   abstract String normalizeWord(String word);

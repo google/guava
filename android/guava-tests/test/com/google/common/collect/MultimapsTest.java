@@ -547,7 +547,7 @@ public class MultimapsTest extends TestCase {
       return new LinkedList<>();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewMultimapWithCollectionRejectingNegativeElements() {
@@ -641,7 +641,7 @@ public class MultimapsTest extends TestCase {
       return new LinkedList<>();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewListMultimap() {
@@ -677,7 +677,7 @@ public class MultimapsTest extends TestCase {
       return new HashSet<>(4);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewSetMultimap() {
@@ -709,7 +709,7 @@ public class MultimapsTest extends TestCase {
       return Sets.newTreeSet(INT_COMPARATOR);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewSortedSetMultimap() {

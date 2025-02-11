@@ -29,6 +29,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Stopwatch;
@@ -4492,7 +4493,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    */
   static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
       implements Serializable {
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 
     final Strength keyStrength;
     final Strength valueStrength;
@@ -4610,7 +4611,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    */
   static final class LoadingSerializationProxy<K, V> extends ManualSerializationProxy<K, V>
       implements LoadingCache<K, V> {
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 
     transient @Nullable LoadingCache<K, V> autoDelegate;
 
@@ -4743,7 +4744,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     // Serialization Support
 
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 
     Object writeReplace() {
       return new ManualSerializationProxy<>(localCache);
@@ -4796,7 +4797,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     // Serialization Support
 
-    private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 
     @Override
     Object writeReplace() {

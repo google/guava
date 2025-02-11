@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Collections;
 import java.util.Comparator;
@@ -103,5 +104,5 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
     return Multisets.unmodifiableSortedMultiset(delegate().tailMultiset(lowerBound, boundType));
   }
 
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible private static final long serialVersionUID = 0;
 }

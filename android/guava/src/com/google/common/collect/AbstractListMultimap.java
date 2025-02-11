@@ -20,6 +20,8 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
@@ -140,5 +142,6 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
     return super.equals(object);
   }
 
+  @GwtIncompatible @J2ktIncompatible
   private static final long serialVersionUID = 6588350623831699109L;
 }

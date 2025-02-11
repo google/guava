@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
@@ -66,5 +68,5 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
     return "Ordering.explicit(" + rankMap.keySet() + ")";
   }
 
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

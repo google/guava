@@ -175,7 +175,5 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
     Serialization.populateMultimap(this, stream, distinctKeys);
   }
 
-  @GwtIncompatible // Not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

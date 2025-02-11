@@ -290,9 +290,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible // java serialization not supported
-    @J2ktIncompatible
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -376,9 +374,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible // java serialization not supported
-    @J2ktIncompatible
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -484,9 +480,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible // not needed in emulated source
-    @J2ktIncompatible
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -578,9 +572,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible // not needed in emulated source
-    @J2ktIncompatible
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -786,7 +778,7 @@ public final class Multimaps {
       return result;
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableListMultimap<
@@ -816,7 +808,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableSetMultimap<
@@ -855,7 +847,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableSortedSetMultimap<
@@ -890,7 +882,7 @@ public final class Multimaps {
       return delegate().valueComparator();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1287,6 +1279,7 @@ public final class Multimaps {
       return map.hashCode();
     }
 
+    @GwtIncompatible @J2ktIncompatible
     private static final long serialVersionUID = 7845222491160860175L;
   }
 

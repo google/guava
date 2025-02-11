@@ -75,4 +75,6 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
   ObjectCountHashMap<E> newBackingMap(int distinctElements) {
     return new ObjectCountLinkedHashMap<>(distinctElements);
   }
+
+  // TODO(cpovirk): Should we have a serialVersionUID here?
 }
