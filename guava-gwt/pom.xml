@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>1.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
   <name>Guava GWT compatible libs</name>
@@ -134,15 +134,15 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
-            <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
-            <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
-            <exclude>**/ForceGuavaCompilation*</exclude>
-            <exclude>**/DummyJavadocClass*</exclude>
-          </excludes>
-        </configuration>
+            <configuration>
+              <excludes>
+                <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
+                <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
+                <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
+                <exclude>**/ForceGuavaCompilation*</exclude>
+                <exclude>**/DummyJavadocClass*</exclude>
+              </excludes>
+            </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
