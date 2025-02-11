@@ -2170,32 +2170,14 @@ final class Synchronized {
     @Override
     public Map<R, Map<C, V>> rowMap() {
       synchronized (mutex) {
-        return map(
-            transformValues(
-                delegate().rowMap(),
-                new com.google.common.base.Function<Map<C, V>, Map<C, V>>() {
-                  @Override
-                  public Map<C, V> apply(Map<C, V> t) {
-                    return map(t, mutex);
-                  }
-                }),
-            mutex);
+        return map(transformValues(delegate().rowMap(), m -> map(m, mutex)), mutex);
       }
     }
 
     @Override
     public Map<C, Map<R, V>> columnMap() {
       synchronized (mutex) {
-        return map(
-            transformValues(
-                delegate().columnMap(),
-                new com.google.common.base.Function<Map<R, V>, Map<R, V>>() {
-                  @Override
-                  public Map<R, V> apply(Map<R, V> t) {
-                    return map(t, mutex);
-                  }
-                }),
-            mutex);
+        return map(transformValues(delegate().columnMap(), m -> map(m, mutex)), mutex);
       }
     }
 

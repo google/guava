@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.io.FileWriteMode.APPEND;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -53,7 +54,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
 
@@ -845,19 +845,16 @@ public final class Files {
   }
 
   private static final SuccessorsFunction<File> FILE_TREE =
-      new SuccessorsFunction<File>() {
-        @Override
-        public Iterable<File> successors(File file) {
-          // check isDirectory() just because it may be faster than listFiles() on a non-directory
-          if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-              return Collections.unmodifiableList(Arrays.asList(files));
-            }
+      file -> {
+        // check isDirectory() just because it may be faster than listFiles() on a non-directory
+        if (file.isDirectory()) {
+          File[] files = file.listFiles();
+          if (files != null) {
+            return unmodifiableList(Arrays.asList(files));
           }
-
-          return ImmutableList.of();
         }
+
+        return ImmutableList.of();
       };
 
   /**

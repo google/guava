@@ -705,8 +705,7 @@ public final class Multimaps {
         result =
             map =
                 Collections.unmodifiableMap(
-                    Maps.transformValues(
-                        delegate.asMap(), collection -> unmodifiableValueCollection(collection)));
+                    Maps.transformValues(delegate.asMap(), Multimaps::unmodifiableValueCollection));
       }
       return result;
     }
@@ -1527,7 +1526,7 @@ public final class Multimaps {
 
     @Override
     Map<K, Collection<V2>> createAsMap() {
-      return Maps.transformEntries(fromMultimap.asMap(), (key, value) -> transform(key, value));
+      return Maps.transformEntries(fromMultimap.asMap(), this::transform);
     }
 
     @Override
@@ -1909,7 +1908,7 @@ public final class Multimaps {
 
       @Override
       public Iterator<Entry<K, Collection<V>>> iterator() {
-        return Maps.asMapEntryIterator(multimap.keySet(), key -> multimap.get(key));
+        return Maps.asMapEntryIterator(multimap.keySet(), multimap::get);
       }
 
       @Override

@@ -827,12 +827,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
   public static <V extends @Nullable Object, U extends @Nullable Object>
       AsyncClosingFunction<V, U> withoutCloser(final AsyncFunction<V, U> function) {
     checkNotNull(function);
-    return new AsyncClosingFunction<V, U>() {
-      @Override
-      public ClosingFuture<U> apply(DeferredCloser closer, V input) throws Exception {
-        return ClosingFuture.from(function.apply(input));
-      }
-    };
+    return (closer, input) -> ClosingFuture.from(function.apply(input));
   }
 
   /**
@@ -1019,13 +1014,10 @@ public final class ClosingFuture<V extends @Nullable Object> {
     if (compareAndUpdateState(OPEN, WILL_CLOSE)) {
       logger.get().log(FINER, "will close {0}", this);
       future.addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              checkAndUpdateState(WILL_CLOSE, CLOSING);
-              close();
-              checkAndUpdateState(CLOSING, CLOSED);
-            }
+          () -> {
+            checkAndUpdateState(WILL_CLOSE, CLOSING);
+            close();
+            checkAndUpdateState(CLOSING, CLOSED);
           },
           directExecutor());
     } else {
@@ -1084,14 +1076,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
       }
       throw new AssertionError(state);
     }
-    future.addListener(
-        new Runnable() {
-          @Override
-          public void run() {
-            provideValueAndCloser(consumer, ClosingFuture.this);
-          }
-        },
-        executor);
+    future.addListener(() -> provideValueAndCloser(consumer, ClosingFuture.this), executor);
   }
 
   private static <C extends @Nullable Object, V extends C> void provideValueAndCloser(

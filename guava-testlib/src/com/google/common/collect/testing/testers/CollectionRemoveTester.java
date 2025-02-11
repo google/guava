@@ -130,7 +130,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
   public void testIteratorRemove_unsupported() {
     Iterator<E> iterator = collection.iterator();
     iterator.next();
-    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+    assertThrows(UnsupportedOperationException.class, iterator::remove);
     expectUnchanged();
     assertTrue(collection.contains(e0()));
   }

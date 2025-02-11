@@ -265,10 +265,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   public Iterable<B> convertAll(Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
-    return new Iterable<B>() {
-      @Override
-      public Iterator<B> iterator() {
-        return new Iterator<B>() {
+    return () ->
+        new Iterator<B>() {
           private final Iterator<? extends A> fromIterator = fromIterable.iterator();
 
           @Override
@@ -286,8 +284,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
             fromIterator.remove();
           }
         };
-      }
-    };
   }
 
   /**

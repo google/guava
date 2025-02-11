@@ -84,21 +84,17 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
 
     InvocationHandler handler =
-        new InvocationHandler() {
-          @Override
-          public @Nullable Object invoke(
-              Object obj, Method method, @Nullable Object @Nullable [] args) throws Throwable {
-            Callable<@Nullable Object> callable =
-                () -> {
-                  try {
-                    return method.invoke(target, args);
-                  } catch (InvocationTargetException e) {
-                    throw throwCause(e, false /* combineStackTraces */);
-                  }
-                };
-            return callWithTimeout(
-                callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method));
-          }
+        (obj, method, args) -> {
+          Callable<@Nullable Object> callable =
+              () -> {
+                try {
+                  return method.invoke(target, args);
+                } catch (InvocationTargetException e) {
+                  throw throwCause(e, /* combineStackTraces= */ false);
+                }
+              };
+          return callWithTimeout(
+              callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method));
         };
     return newProxy(interfaceType, handler);
   }

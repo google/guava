@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Callables.threadRenaming;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
 import static java.util.Objects.requireNonNull;
@@ -261,22 +262,19 @@ public final class MoreExecutors {
       checkNotNull(service);
       checkNotNull(timeUnit);
       addShutdownHook(
-          MoreExecutors.newThread(
+          newThread(
               "DelayedShutdownHook-for-" + service,
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    // We'd like to log progress and failures that may arise in the
-                    // following code, but unfortunately the behavior of logging
-                    // is undefined in shutdown hooks.
-                    // This is because the logging code installs a shutdown hook of its
-                    // own. See Cleaner class inside {@link LogManager}.
-                    service.shutdown();
-                    service.awaitTermination(terminationTimeout, timeUnit);
-                  } catch (InterruptedException ignored) {
-                    // We're shutting down anyway, so just ignore.
-                  }
+              () -> {
+                service.shutdown();
+                try {
+                  // We'd like to log progress and failures that may arise in the
+                  // following code, but unfortunately the behavior of logging
+                  // is undefined in shutdown hooks.
+                  // This is because the logging code installs a shutdown hook of its
+                  // own. See Cleaner class inside {@link LogManager}.
+                  service.awaitTermination(terminationTimeout, timeUnit);
+                } catch (InterruptedException ignored) {
+                  // We're shutting down anyway, so just ignore.
                 }
               }));
     }
@@ -772,14 +770,7 @@ public final class MoreExecutors {
       Callable<T> task,
       final BlockingQueue<Future<T>> queue) {
     final ListenableFuture<T> future = executorService.submit(task);
-    future.addListener(
-        new Runnable() {
-          @Override
-          public void run() {
-            queue.add(future);
-          }
-        },
-        directExecutor());
+    future.addListener(() -> queue.add(future), directExecutor());
     return future;
   }
 
@@ -882,12 +873,7 @@ public final class MoreExecutors {
   static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
     checkNotNull(executor);
     checkNotNull(nameSupplier);
-    return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        executor.execute(Callables.threadRenaming(command, nameSupplier));
-      }
-    };
+    return command -> executor.execute(threadRenaming(command, nameSupplier));
   }
 
   /**
@@ -910,12 +896,12 @@ public final class MoreExecutors {
     return new WrappingExecutorService(service) {
       @Override
       protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
-        return Callables.threadRenaming(callable, nameSupplier);
+        return threadRenaming(callable, nameSupplier);
       }
 
       @Override
       protected Runnable wrapTask(Runnable command) {
-        return Callables.threadRenaming(command, nameSupplier);
+        return threadRenaming(command, nameSupplier);
       }
     };
   }
@@ -940,12 +926,12 @@ public final class MoreExecutors {
     return new WrappingScheduledExecutorService(service) {
       @Override
       protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
-        return Callables.threadRenaming(callable, nameSupplier);
+        return threadRenaming(callable, nameSupplier);
       }
 
       @Override
       protected Runnable wrapTask(Runnable command) {
-        return Callables.threadRenaming(command, nameSupplier);
+        return threadRenaming(command, nameSupplier);
       }
     };
   }
@@ -1044,14 +1030,11 @@ public final class MoreExecutors {
       // directExecutor() cannot throw RejectedExecutionException
       return delegate;
     }
-    return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        try {
-          delegate.execute(command);
-        } catch (RejectedExecutionException e) {
-          future.setException(e);
-        }
+    return command -> {
+      try {
+        delegate.execute(command);
+      } catch (RejectedExecutionException e) {
+        future.setException(e);
       }
     };
   }

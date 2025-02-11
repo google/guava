@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.NullnessCasts.uncheckedNull;
 import static java.lang.Integer.toHexString;
 import static java.lang.System.identityHashCode;
+import static java.security.AccessController.doPrivileged;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -35,7 +36,6 @@ import com.google.j2objc.annotations.RetainedLocalRef;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
-import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Locale;
@@ -1480,21 +1480,19 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       } catch (SecurityException tryReflectionInstead) {
         try {
           unsafe =
-              AccessController.doPrivileged(
-                  new PrivilegedExceptionAction<Unsafe>() {
-                    @Override
-                    public Unsafe run() throws Exception {
-                      Class<Unsafe> k = Unsafe.class;
-                      for (Field f : k.getDeclaredFields()) {
-                        f.setAccessible(true);
-                        Object x = f.get(null);
-                        if (k.isInstance(x)) {
-                          return k.cast(x);
+              doPrivileged(
+                  (PrivilegedExceptionAction<Unsafe>)
+                      () -> {
+                        Class<Unsafe> k = Unsafe.class;
+                        for (Field f : k.getDeclaredFields()) {
+                          f.setAccessible(true);
+                          Object x = f.get(null);
+                          if (k.isInstance(x)) {
+                            return k.cast(x);
+                          }
                         }
-                      }
-                      throw new NoSuchFieldError("the Unsafe");
-                    }
-                  });
+                        throw new NoSuchFieldError("the Unsafe");
+                      });
         } catch (PrivilegedActionException e) {
           throw new RuntimeException("Could not initialize intrinsics", e.getCause());
         }

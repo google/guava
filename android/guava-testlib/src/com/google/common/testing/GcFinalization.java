@@ -272,13 +272,7 @@ public final class GcFinalization {
    * @throws RuntimeException if timed out or interrupted while waiting
    */
   public static void awaitClear(WeakReference<?> ref) {
-    awaitDone(
-        new FinalizationPredicate() {
-          @Override
-          public boolean isDone() {
-            return ref.get() == null;
-          }
-        });
+    awaitDone(() -> ref.get() == null);
   }
 
   /**

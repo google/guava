@@ -187,12 +187,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   private Predicate<E> connectedPredicate(final N nodePresent, final N nodeToCheck) {
-    return new Predicate<E>() {
-      @Override
-      public boolean apply(E edge) {
-        return incidentNodes(edge).adjacentNode(nodePresent).equals(nodeToCheck);
-      }
-    };
+    return edge -> incidentNodes(edge).adjacentNode(nodePresent).equals(nodeToCheck);
   }
 
   @Override

@@ -350,14 +350,7 @@ public final class Multisets {
 
     @Override
     Set<Entry<E>> createEntrySet() {
-      return Sets.filter(
-          unfiltered.entrySet(),
-          new Predicate<Entry<E>>() {
-            @Override
-            public boolean apply(Entry<E> entry) {
-              return predicate.apply(entry.getElement());
-            }
-          });
+      return Sets.filter(unfiltered.entrySet(), entry -> predicate.apply(entry.getElement()));
     }
 
     @Override

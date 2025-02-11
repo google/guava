@@ -146,6 +146,6 @@ public class CollectionIteratorTester<E extends @Nullable Object>
       iterator.next();
     }
 
-    assertThrows(NoSuchElementException.class, () -> iterator.next());
+    assertThrows(NoSuchElementException.class, iterator::next);
   }
 }

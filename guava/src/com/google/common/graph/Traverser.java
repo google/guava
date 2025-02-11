@@ -239,12 +239,7 @@ public abstract class Traverser<N> {
    */
   public final Iterable<N> breadthFirst(Iterable<? extends N> startNodes) {
     ImmutableSet<N> validated = validate(startNodes);
-    return new Iterable<N>() {
-      @Override
-      public Iterator<N> iterator() {
-        return newTraversal().breadthFirst(validated.iterator());
-      }
-    };
+    return () -> newTraversal().breadthFirst(validated.iterator());
   }
 
   /**
@@ -294,12 +289,7 @@ public abstract class Traverser<N> {
    */
   public final Iterable<N> depthFirstPreOrder(Iterable<? extends N> startNodes) {
     ImmutableSet<N> validated = validate(startNodes);
-    return new Iterable<N>() {
-      @Override
-      public Iterator<N> iterator() {
-        return newTraversal().preOrder(validated.iterator());
-      }
-    };
+    return () -> newTraversal().preOrder(validated.iterator());
   }
 
   /**
@@ -349,12 +339,7 @@ public abstract class Traverser<N> {
    */
   public final Iterable<N> depthFirstPostOrder(Iterable<? extends N> startNodes) {
     ImmutableSet<N> validated = validate(startNodes);
-    return new Iterable<N>() {
-      @Override
-      public Iterator<N> iterator() {
-        return newTraversal().postOrder(validated.iterator());
-      }
-    };
+    return () -> newTraversal().postOrder(validated.iterator());
   }
 
   abstract Traversal<N> newTraversal();

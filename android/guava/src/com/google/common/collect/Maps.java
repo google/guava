@@ -2040,26 +2040,14 @@ public final class Maps {
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       EntryTransformer<K, V1, V2> asEntryTransformer(final Function<? super V1, V2> function) {
     checkNotNull(function);
-    return new EntryTransformer<K, V1, V2>() {
-      @Override
-      @ParametricNullness
-      public V2 transformEntry(@ParametricNullness K key, @ParametricNullness V1 value) {
-        return function.apply(value);
-      }
-    };
+    return (key, value) -> function.apply(value);
   }
 
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       Function<V1, V2> asValueToValueFunction(
           final EntryTransformer<? super K, V1, V2> transformer, @ParametricNullness final K key) {
     checkNotNull(transformer);
-    return new Function<V1, V2>() {
-      @Override
-      @ParametricNullness
-      public V2 apply(@ParametricNullness V1 v1) {
-        return transformer.transformEntry(key, v1);
-      }
-    };
+    return v1 -> transformer.transformEntry(key, v1);
   }
 
   /** Views an entry transformer as a function from {@code Entry} to values. */
@@ -2067,13 +2055,7 @@ public final class Maps {
       Function<Entry<K, V1>, V2> asEntryToValueFunction(
           final EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
-    return new Function<Entry<K, V1>, V2>() {
-      @Override
-      @ParametricNullness
-      public V2 apply(Entry<K, V1> entry) {
-        return transformer.transformEntry(entry.getKey(), entry.getValue());
-      }
-    };
+    return entry -> transformer.transformEntry(entry.getKey(), entry.getValue());
   }
 
   /** Returns a view of an entry transformed by the specified transformer. */
@@ -2102,12 +2084,7 @@ public final class Maps {
       Function<Entry<K, V1>, Entry<K, V2>> asEntryToEntryFunction(
           final EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
-    return new Function<Entry<K, V1>, Entry<K, V2>>() {
-      @Override
-      public Entry<K, V2> apply(final Entry<K, V1> entry) {
-        return transformEntry(transformer, entry);
-      }
-    };
+    return entry -> transformEntry(transformer, entry);
   }
 
   static class TransformedEntriesMap<
@@ -3325,13 +3302,7 @@ public final class Maps {
     private static <K extends @Nullable Object, V extends @Nullable Object>
         Predicate<Entry<V, K>> inversePredicate(
             final Predicate<? super Entry<K, V>> forwardPredicate) {
-      return new Predicate<Entry<V, K>>() {
-        @Override
-        public boolean apply(Entry<V, K> input) {
-          return forwardPredicate.apply(
-              Maps.<K, V>immutableEntry(input.getValue(), input.getKey()));
-        }
-      };
+      return input -> forwardPredicate.apply(immutableEntry(input.getValue(), input.getKey()));
     }
 
     FilteredEntryBiMap(BiMap<K, V> delegate, Predicate<? super Entry<K, V>> predicate) {
