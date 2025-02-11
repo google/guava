@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Sets.immutableEnumSet;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;
@@ -24,17 +26,21 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
+import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.LongFunction;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
+import java.util.stream.Collector.Characteristics;
 import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
@@ -43,10 +49,60 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs with Java 8 types in them
 final class CollectCollectors {
+  private static <
+          T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+      Collector<T, A, R> sizedCollector(
+          Supplier<A> supplier,
+          LongFunction<A> sizedSupplier,
+          BiConsumer<A, T> accumulator,
+          BinaryOperator<A> combiner,
+          Function<A, R> finisher,
+          Characteristics... characteristics) {
+    ImmutableSet<Characteristics> characteristicsSet = immutableEnumSet(asList(characteristics));
+    return new Collector<T, A, R>() {
+      @Override
+      public Supplier<A> supplier() {
+        return supplier;
+      }
+
+      // only an override under some future version of Java?
+      @SuppressWarnings({
+        "MissingOverride",
+        "UnusedMethod",
+      })
+      public LongFunction<A> sizedSupplier() {
+        return sizedSupplier;
+      }
+
+      @Override
+      public BiConsumer<A, T> accumulator() {
+        return accumulator;
+      }
+
+      @Override
+      public BinaryOperator<A> combiner() {
+        return combiner;
+      }
+
+      @Override
+      public Function<A, R> finisher() {
+        return finisher;
+      }
+
+      @Override
+      public ImmutableSet<Characteristics> characteristics() {
+        return characteristicsSet;
+      }
+    };
+  }
 
   private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =
-      Collector.of(
+      sizedCollector(
           ImmutableList::builder,
+          size ->
+              size == -1
+                  ? ImmutableList.builder()
+                  : ImmutableList.builderWithExpectedSize(Ints.checkedCast(size)),
           ImmutableList.Builder::add,
           ImmutableList.Builder::combine,
           ImmutableList.Builder::build);
@@ -191,8 +247,12 @@ final class CollectCollectors {
       Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
-    return Collector.of(
+    return sizedCollector(
         ImmutableMap.Builder<K, V>::new,
+        size ->
+            size == -1
+                ? new ImmutableMap.Builder<K, V>()
+                : new ImmutableMap.Builder<K, V>(Ints.checkedCast(size)),
         (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
         ImmutableMap.Builder::combine,
         ImmutableMap.Builder::buildOrThrow);
@@ -249,8 +309,12 @@ final class CollectCollectors {
       Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
-    return Collector.of(
+    return sizedCollector(
         ImmutableBiMap.Builder<K, V>::new,
+        size ->
+            size == -1
+                ? new ImmutableBiMap.Builder<K, V>()
+                : new ImmutableBiMap.Builder<K, V>(Ints.checkedCast(size)),
         (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
         ImmutableBiMap.Builder::combine,
         ImmutableBiMap.Builder::buildOrThrow,
