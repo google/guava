@@ -44,6 +44,8 @@ public class NeitherAbstractNorAnnotatedInSuperclassTest extends AbstractEventBu
 
   static class SubClass extends SuperClass {
     @Override
+    // We are testing how we treat an override with the same behavior and annotations.
+    @SuppressWarnings("RedundantOverride")
     public void overriddenInSubclassNowhereAnnotated(Object o) {
       super.overriddenInSubclassNowhereAnnotated(o);
     }

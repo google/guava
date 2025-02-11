@@ -70,6 +70,8 @@ public class AnnotatedNotAbstractInSuperclassTest extends AbstractEventBusTest<S
 
     @Subscribe
     @Override
+    // We are testing how we treat an override with the same behavior and annotations.
+    @SuppressWarnings("RedundantOverride")
     public void overriddenAndAnnotatedInSubclass(Object o) {
       super.overriddenAndAnnotatedInSubclass(o);
     }
