@@ -1427,6 +1427,8 @@ final class Synchronized {
     }
 
     @Override
+    // A forwarding implementation can't do any better than the underlying object.
+    @SuppressWarnings("CollectionUndefinedEquality")
     public boolean containsValue(@Nullable Object o) {
       // values() and its contains() method are both synchronized.
       return values().contains(o);

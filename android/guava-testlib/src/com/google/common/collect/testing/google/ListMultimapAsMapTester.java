@@ -92,6 +92,12 @@ public class ListMultimapAsMapTester<K extends @Nullable Object, V extends @Null
 
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
+  /*
+   * ListMultimap.asMap essentially returns a Map<K, List<V>>; we just can't declare it that way.
+   * Thus, calls like asMap().values().remove(someList) are safe because they are comparing a list
+   * to a collection of other lists.
+   */
+  @SuppressWarnings("CollectionUndefinedEquality")
   public void testValuesRemove() {
     resetContainer(mapEntry(k0(), v0()), mapEntry(k1(), v0()), mapEntry(k0(), v3()));
     assertTrue(multimap().asMap().values().remove(singletonList(v0())));
