@@ -304,6 +304,7 @@ public class BloomFilterTest extends TestCase {
     unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), 45L * Integer.MAX_VALUE, 0.99);
   }
 
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   private static void checkSanity(BloomFilter<Object> bf) {
     assertFalse(bf.mightContain(new Object()));
     assertFalse(bf.apply(new Object()));

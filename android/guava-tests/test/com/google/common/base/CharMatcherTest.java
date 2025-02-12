@@ -362,7 +362,11 @@ public class CharMatcherTest extends TestCase {
     reallyTestMatchThenNoMatch(matcher.precomputed().negate(), s);
   }
 
-  @SuppressWarnings("deprecation") // intentionally testing apply() method
+  // intentionally testing apply() method
+  @SuppressWarnings({
+    "deprecation",
+    "InlineMeInliner",
+  })
   private void reallyTestOneCharMatch(CharMatcher matcher, String s) {
     assertTrue(matcher.matches(s.charAt(0)));
     assertTrue(matcher.apply(s.charAt(0)));
@@ -380,7 +384,11 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.countIn(s));
   }
 
-  @SuppressWarnings("deprecation") // intentionally testing apply() method
+  // intentionally testing apply() method
+  @SuppressWarnings({
+    "deprecation",
+    "InlineMeInliner",
+  })
   private void reallyTestOneCharNoMatch(CharMatcher matcher, String s) {
     assertFalse(matcher.matches(s.charAt(0)));
     assertFalse(matcher.apply(s.charAt(0)));

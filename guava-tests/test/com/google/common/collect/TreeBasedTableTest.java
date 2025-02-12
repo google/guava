@@ -155,6 +155,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     assertEquals("[b, a, c]", table.values().toString());
   }
 
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testRowComparator() {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowComparator());

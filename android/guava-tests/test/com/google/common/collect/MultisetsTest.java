@@ -253,7 +253,7 @@ public class MultisetsTest extends TestCase {
     assertThat(multiset).containsExactly("a", "c").inOrder();
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableMultisetShortCircuit() {
     Multiset<String> mod = HashMultiset.create();
     Multiset<String> unmod = unmodifiableMultiset(mod);

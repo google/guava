@@ -1526,7 +1526,7 @@ public class IteratorsTest extends TestCase {
     assertFalse(iterator.hasNext());
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableIteratorShortCircuit() {
     Iterator<String> mod = Lists.newArrayList("a", "b", "c").iterator();
     UnmodifiableIterator<String> unmod = Iterators.unmodifiableIterator(mod);
@@ -1535,7 +1535,7 @@ public class IteratorsTest extends TestCase {
     assertSame(unmod, Iterators.unmodifiableIterator((Iterator<String>) unmod));
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testPeekingIteratorShortCircuit() {
     Iterator<String> nonpeek = Lists.newArrayList("a", "b", "c").iterator();
     PeekingIterator<String> peek = Iterators.peekingIterator(nonpeek);

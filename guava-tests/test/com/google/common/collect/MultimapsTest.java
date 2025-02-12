@@ -152,7 +152,7 @@ public class MultimapsTest extends TestCase {
         .expectCollects(filled, "banana", "apple", "carrot", "asparagus", "cherry");
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableListMultimapShortCircuit() {
     ListMultimap<String, Integer> mod = ArrayListMultimap.create();
     ListMultimap<String, Integer> unmod = Multimaps.unmodifiableListMultimap(mod);
@@ -165,7 +165,7 @@ public class MultimapsTest extends TestCase {
         immutable, Multimaps.unmodifiableListMultimap((ListMultimap<String, Integer>) immutable));
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableSetMultimapShortCircuit() {
     SetMultimap<String, Integer> mod = HashMultimap.create();
     SetMultimap<String, Integer> unmod = Multimaps.unmodifiableSetMultimap(mod);
@@ -178,7 +178,7 @@ public class MultimapsTest extends TestCase {
         immutable, Multimaps.unmodifiableSetMultimap((SetMultimap<String, Integer>) immutable));
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableMultimapShortCircuit() {
     Multimap<String, Integer> mod = HashMultimap.create();
     Multimap<String, Integer> unmod = Multimaps.unmodifiableMultimap(mod);

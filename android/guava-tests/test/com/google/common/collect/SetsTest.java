@@ -662,6 +662,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testNewSetFromMap() {
+    @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
     Set<Integer> set = Sets.newSetFromMap(new HashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
     verifySetContents(set, SOME_COLLECTION);
@@ -670,12 +671,14 @@ public class SetsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testNewSetFromMapSerialization() {
+    @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
     Set<Integer> set = Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
     Set<Integer> copy = SerializableTester.reserializeAndAssert(set);
     assertThat(copy).containsExactly(0, 1).inOrder();
   }
 
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testNewSetFromMapIllegal() {
     Map<Integer, Boolean> map = new LinkedHashMap<>();
     map.put(2, true);

@@ -43,6 +43,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 @GwtCompatible(emulated = true)
 public class FluentFutureTest extends TestCase {
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testFromFluentFuture() {
     FluentFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
     assertThat(FluentFuture.from(f)).isSameInstanceAs(f);

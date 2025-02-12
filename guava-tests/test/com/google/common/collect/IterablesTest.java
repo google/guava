@@ -916,7 +916,7 @@ public class IterablesTest extends TestCase {
     assertFalse(expectedIterator.hasNext());
   }
 
-  @SuppressWarnings("deprecation") // test of deprecated method
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testUnmodifiableIterableShortCircuit() {
     List<String> list = newArrayList("a", "b", "c");
     Iterable<String> iterable = Iterables.unmodifiableIterable(list);

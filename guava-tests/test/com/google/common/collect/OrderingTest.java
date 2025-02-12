@@ -133,7 +133,7 @@ public class OrderingTest extends TestCase {
     assertTrue(caseInsensitiveOrdering.compare("a", "B") < 0);
     assertTrue(caseInsensitiveOrdering.compare("B", "a") > 0);
 
-    @SuppressWarnings("deprecation") // test of deprecated method
+    @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
     Ordering<String> orderingFromOrdering = Ordering.from(Ordering.<String>natural());
     new EqualsTester()
         .addEqualityGroup(caseInsensitiveOrdering, Ordering.from(String.CASE_INSENSITIVE_ORDER))
@@ -442,6 +442,7 @@ public class OrderingTest extends TestCase {
         .testEquals();
   }
 
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testBinarySearch() {
     List<Integer> ints = Lists.newArrayList(0, 2, 3, 5, 7, 9);
     assertEquals(4, numberOrdering.binarySearch(ints, 7));
@@ -966,6 +967,7 @@ public class OrderingTest extends TestCase {
       assertEquals(max, ordering.max(max, min));
     }
 
+    @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
     void testBinarySearch() {
       for (int i = 0; i < strictlyOrderedList.size(); i++) {
         assertEquals(i, ordering.binarySearch(strictlyOrderedList, strictlyOrderedList.get(i)));

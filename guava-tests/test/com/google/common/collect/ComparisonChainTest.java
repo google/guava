@@ -50,7 +50,7 @@ public class ComparisonChainTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testCompareBooleans() {
     assertThat(
             ComparisonChain.start()
