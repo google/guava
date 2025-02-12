@@ -127,6 +127,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 21.0 (but only since 33.4.0 in the Android flavor)
    */
+  @SuppressWarnings("NullableOptional") // Null passthrough is reasonable for type conversions
   public static <T> @Nullable Optional<T> fromJavaUtil(
       java.util.@Nullable Optional<T> javaUtilOptional) {
     return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
@@ -145,7 +146,10 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 21.0 (but only since 33.4.0 in the Android flavor)
    */
-  @SuppressWarnings("AmbiguousMethodReference") // We chose the name despite knowing this risk.
+  @SuppressWarnings({
+    "AmbiguousMethodReference", // We chose the name despite knowing this risk.
+    "NullableOptional", // Null passthrough is reasonable for type conversions
+  })
   public static <T> java.util.@Nullable Optional<T> toJavaUtil(
       @Nullable Optional<T> googleOptional) {
     return googleOptional == null ? null : googleOptional.toJavaUtil();

@@ -811,7 +811,10 @@ public final class MediaType {
 
   @LazyInit private int hashCode;
 
-  @LazyInit private @Nullable Optional<Charset> parsedCharset;
+  // We need to differentiate between "not computed" and "computed to be absent."
+  @SuppressWarnings("NullableOptional")
+  @LazyInit
+  private @Nullable Optional<Charset> parsedCharset;
 
   private MediaType(String type, String subtype, ImmutableListMultimap<String, String> parameters) {
     this.type = type;
