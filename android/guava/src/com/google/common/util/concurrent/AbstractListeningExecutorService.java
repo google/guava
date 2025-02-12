@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 import java.util.concurrent.AbstractExecutorService;
@@ -36,7 +35,6 @@ import org.jspecify.annotations.Nullable;
  */
 @CheckReturnValue
 @GwtIncompatible
-@J2ktIncompatible
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */
