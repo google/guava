@@ -210,6 +210,7 @@ public final class Predicates {
    *
    * @param target the collection that may contain the function input
    */
+  @SuppressWarnings("NoHardKeywords") // We're stuck with the name for compatibility reasons.
   public static <T extends @Nullable Object> Predicate<T> in(Collection<? extends T> target) {
     return new InPredicate<>(target);
   }

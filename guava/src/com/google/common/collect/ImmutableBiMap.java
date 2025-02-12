@@ -648,7 +648,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * ImmutableMap#toImmutableMap(Function, Function)} from consumers of {@code ImmutableBiMap}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
+   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function)}.
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
@@ -665,7 +665,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * {@code ImmutableBiMap}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated
+   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function, BinaryOperator)}.
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
