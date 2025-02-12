@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,5 +136,5 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
 }

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.io.Serial;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Simple derived class to verify that we handle generics correctly. */
@@ -29,5 +30,5 @@ class Derived extends Base {
     super(s);
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
 }

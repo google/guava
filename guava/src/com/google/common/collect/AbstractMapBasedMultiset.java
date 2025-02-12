@@ -31,6 +31,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -349,6 +350,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     throw new InvalidObjectException("Stream data required");
   }
 
-  @GwtIncompatible @J2ktIncompatible
+  @GwtIncompatible @J2ktIncompatible @Serial
   private static final long serialVersionUID = -2250766705698539974L;
 }

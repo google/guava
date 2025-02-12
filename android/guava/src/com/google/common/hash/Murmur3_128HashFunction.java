@@ -28,6 +28,7 @@ package com.google.common.hash;
 import static com.google.common.primitives.UnsignedBytes.toInt;
 
 import com.google.errorprone.annotations.Immutable;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -212,5 +213,5 @@ final class Murmur3_128HashFunction extends AbstractHashFunction implements Seri
     }
   }
 
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 }

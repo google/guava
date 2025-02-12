@@ -26,6 +26,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -113,7 +114,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static <E extends @Nullable Object> Collection<E> collection(
@@ -259,7 +260,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @VisibleForTesting
@@ -296,7 +297,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static <E extends @Nullable Object> SortedSet<E> sortedSet(
@@ -357,7 +358,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static <E extends @Nullable Object> List<E> list(List<E> list, @Nullable Object mutex) {
@@ -474,7 +475,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static final class SynchronizedRandomAccessList<E extends @Nullable Object>
@@ -483,7 +484,7 @@ final class Synchronized {
       super(list, mutex);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <E extends @Nullable Object> Multiset<E> multiset(
@@ -580,7 +581,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object> Multimap<K, V> multimap(
@@ -774,7 +775,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object> ListMultimap<K, V> listMultimap(
@@ -818,7 +819,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object> SetMultimap<K, V> setMultimap(
@@ -873,7 +874,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object>
@@ -925,7 +926,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static <E extends @Nullable Object> Collection<E> typePreservingCollection(
@@ -1048,7 +1049,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @VisibleForTesting
@@ -1267,7 +1268,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object> SortedMap<K, V> sortedMap(
@@ -1329,7 +1330,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> biMap(
@@ -1383,7 +1384,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static final class SynchronizedAsMap<K extends @Nullable Object, V extends @Nullable Object>
@@ -1429,7 +1430,7 @@ final class Synchronized {
       return values().contains(o);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static final class SynchronizedAsMapValues<V extends @Nullable Object>
@@ -1449,7 +1450,7 @@ final class Synchronized {
       };
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // NavigableSet
@@ -1564,7 +1565,7 @@ final class Synchronized {
       return tailSet(fromElement, true);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // NavigableSet
@@ -1767,7 +1768,7 @@ final class Synchronized {
       return tailMap(fromKey, true);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible // works but is needed only for NavigableMap
@@ -1829,7 +1830,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <E extends @Nullable Object> Queue<E> queue(Queue<E> queue, @Nullable Object mutex) {
@@ -1883,7 +1884,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <E extends @Nullable Object> Deque<E> deque(Deque<E> deque, @Nullable Object mutex) {
@@ -2021,7 +2022,7 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>

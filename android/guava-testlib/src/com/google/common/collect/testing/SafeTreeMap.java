@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -325,5 +326,5 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
     return delegate.toString();
   }
 
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 }

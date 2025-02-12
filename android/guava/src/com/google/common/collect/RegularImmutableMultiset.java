@@ -21,6 +21,7 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.Serial;
 import java.io.Serializable;
 import org.jspecify.annotations.Nullable;
 
@@ -136,7 +137,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
       return builder.build();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @Override

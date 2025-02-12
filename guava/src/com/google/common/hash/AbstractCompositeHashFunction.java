@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.errorprone.annotations.Immutable;
+import java.io.Serial;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import org.jspecify.annotations.Nullable;
@@ -193,5 +194,5 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
     };
   }
 
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 }

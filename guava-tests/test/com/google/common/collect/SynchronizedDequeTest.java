@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -254,7 +255,7 @@ public class SynchronizedDequeTest extends TestCase {
       return delegate.descendingIterator();
     }
 
-    private static final long serialVersionUID = 0;
+    @Serial private static final long serialVersionUID = 0;
   }
 
   @SuppressWarnings("CheckReturnValue")

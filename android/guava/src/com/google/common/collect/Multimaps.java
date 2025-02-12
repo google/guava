@@ -38,6 +38,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -291,7 +292,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -375,7 +376,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -481,7 +482,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -573,7 +574,7 @@ public final class Multimaps {
       setMap(map);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -774,7 +775,7 @@ public final class Multimaps {
       return result;
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableListMultimap<
@@ -804,7 +805,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableSetMultimap<
@@ -843,7 +844,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   private static class UnmodifiableSortedSetMultimap<
@@ -878,7 +879,7 @@ public final class Multimaps {
       return delegate().valueComparator();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1275,7 +1276,7 @@ public final class Multimaps {
       return map.hashCode();
     }
 
-    @GwtIncompatible @J2ktIncompatible
+    @GwtIncompatible @J2ktIncompatible @Serial
     private static final long serialVersionUID = 7845222491160860175L;
   }
 

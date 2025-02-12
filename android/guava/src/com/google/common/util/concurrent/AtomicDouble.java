@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -53,7 +54,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 11.0
  */
 public class AtomicDouble extends Number {
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 
   // We would use AtomicLongFieldUpdater, but it has issues on some Android devices.
   private transient AtomicLong value;

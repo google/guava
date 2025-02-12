@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
@@ -164,5 +165,5 @@ class LockHeldAssertingSet<E> extends ForwardingSet<E> implements Serializable {
     return super.toArray(a);
   }
 
-  private static final long serialVersionUID = 0;
+  @Serial private static final long serialVersionUID = 0;
 }

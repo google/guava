@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
       return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /** Creates an empty {@code HashBasedTable}. */
@@ -103,5 +104,5 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
     super(backingMap, factory);
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
 }

@@ -35,6 +35,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -336,7 +337,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       return forward.inverse();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
   }
 
   // redeclare to help optimizers with b/310253115

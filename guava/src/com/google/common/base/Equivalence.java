@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.InlineMe;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
 import org.jspecify.annotations.NonNull;
@@ -259,7 +260,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return equivalence + ".wrap(" + reference + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -330,7 +331,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return equivalence + ".equivalentTo(" + target + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -377,7 +378,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
   }
 
   static final class Identity extends Equivalence<Object> implements Serializable {
@@ -398,6 +399,6 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
   }
 }

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import java.io.Serial;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import org.jspecify.annotations.Nullable;
@@ -114,5 +115,5 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
     return Multisets.unmodifiableSortedMultiset(delegate().tailMultiset(lowerBound, boundType));
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
 }

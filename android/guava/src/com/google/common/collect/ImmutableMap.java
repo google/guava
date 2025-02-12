@@ -34,6 +34,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -1192,7 +1193,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return new Builder<>(size);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1210,5 +1211,5 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0xdecaf;
 }

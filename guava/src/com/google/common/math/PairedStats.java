@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -315,5 +316,5 @@ public final class PairedStats implements Serializable {
     return new PairedStats(xStats, yStats, sumOfProductsOfDeltas);
   }
 
-  private static final long serialVersionUID = 0;
+  @Serial private static final long serialVersionUID = 0;
 }

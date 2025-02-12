@@ -41,6 +41,7 @@ import com.google.common.collect.Ordering.IncomparableValueException;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -841,7 +842,7 @@ public class OrderingTest extends TestCase {
       return other instanceof NumberOrdering;
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /*

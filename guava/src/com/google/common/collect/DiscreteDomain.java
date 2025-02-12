@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
@@ -110,7 +111,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
       return "DiscreteDomain.integers()";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -185,7 +186,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
       return "DiscreteDomain.longs()";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -241,7 +242,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
       return "DiscreteDomain.bigIntegers()";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   final boolean supportsFastOffset;

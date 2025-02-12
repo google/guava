@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -150,6 +151,6 @@ public final class Enums {
       return "Enums.stringConverter(" + enumClass.getName() + ".class)";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
   }
 }

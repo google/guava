@@ -25,6 +25,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
       this.backward = original.inverse();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -153,6 +154,6 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
     return super.equals(object);
   }
 
-  @GwtIncompatible @J2ktIncompatible
+  @GwtIncompatible @J2ktIncompatible @Serial
   private static final long serialVersionUID = 7431625294878419160L;
 }

@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
@@ -162,7 +163,7 @@ public class SynchronizedTableTest extends AbstractTableTest<Character> {
       return delegate.rowMap();
     }
 
-    private static final long serialVersionUID = 0;
+    @Serial private static final long serialVersionUID = 0;
   }
 
   @Override

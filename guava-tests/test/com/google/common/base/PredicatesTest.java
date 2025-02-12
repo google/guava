@@ -28,6 +28,7 @@ import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,8 @@ public class PredicatesTest extends TestCase {
 
   /** Instantiable predicate with reasonable hashCode() and equals() methods. */
   static class IsOdd implements Predicate<@Nullable Integer>, Serializable {
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0x150ddL;
+    @GwtIncompatible @J2ktIncompatible @Serial
+    private static final long serialVersionUID = 0x150ddL;
 
     @Override
     public boolean apply(@Nullable Integer i) {
@@ -718,7 +720,7 @@ public class PredicatesTest extends TestCase {
 
   public void testIn_handlesNullPointerException() {
     class CollectionThatThrowsNullPointerException<T> extends ArrayList<T> {
-      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
+      @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1L;
 
       @Override
       public boolean contains(@Nullable Object element) {
@@ -733,7 +735,7 @@ public class PredicatesTest extends TestCase {
 
   public void testIn_handlesClassCastException() {
     class CollectionThatThrowsClassCastException<T> extends ArrayList<T> {
-      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
+      @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1L;
 
       @Override
       public boolean contains(@Nullable Object element) {

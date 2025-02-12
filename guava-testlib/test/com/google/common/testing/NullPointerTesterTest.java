@@ -39,6 +39,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serial;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -66,7 +67,7 @@ public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
   public static class FooException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
   }
 
   /**

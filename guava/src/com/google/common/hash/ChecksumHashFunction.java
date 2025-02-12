@@ -20,6 +20,7 @@ import static com.google.common.hash.SneakyThrows.sneakyThrow;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -145,5 +146,5 @@ final class ChecksumHashFunction extends AbstractHashFunction implements Seriali
     }
   }
 
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 }

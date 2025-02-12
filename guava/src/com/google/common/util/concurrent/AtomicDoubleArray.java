@@ -24,6 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.function.DoubleBinaryOperator;
@@ -54,7 +55,7 @@ import java.util.function.DoubleUnaryOperator;
 @GwtIncompatible
 @J2ktIncompatible
 public class AtomicDoubleArray implements Serializable {
-  private static final long serialVersionUID = 0L;
+  @Serial private static final long serialVersionUID = 0L;
 
   // Making this non-final is the lesser evil according to Effective
   // Java 2nd Edition Item 76: Write readObject methods defensively.

@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.EqualsTester;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
@@ -127,7 +128,7 @@ public class SubscriberTest extends TestCase {
   /** Local exception subclass to check variety of exception thrown. */
   class IntentionalException extends Exception {
 
-    private static final long serialVersionUID = -2500191180248181379L;
+    @Serial private static final long serialVersionUID = -2500191180248181379L;
   }
 
   @Subscribe
@@ -142,6 +143,6 @@ public class SubscriberTest extends TestCase {
   /** Local Error subclass to check variety of error thrown. */
   class JudgmentError extends Error {
 
-    private static final long serialVersionUID = 634248373797713373L;
+    @Serial private static final long serialVersionUID = 634248373797713373L;
   }
 }

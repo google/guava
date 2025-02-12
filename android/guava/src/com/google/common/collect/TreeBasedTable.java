@@ -27,6 +27,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.InlineMe;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -86,7 +87,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return new TreeMap<>(comparator);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   /**
@@ -335,5 +336,5 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     };
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
 }

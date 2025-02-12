@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -506,5 +507,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     public abstract ImmutableCollection<E> build();
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible @Serial
+  private static final long serialVersionUID = 0xcafebabe;
 }

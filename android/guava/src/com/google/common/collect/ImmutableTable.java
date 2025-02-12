@@ -29,6 +29,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -493,7 +494,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
           cellListBuilder.build(), ImmutableSet.copyOf(rowKeys), ImmutableSet.copyOf(columnKeys));
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible // serialization
@@ -506,5 +507,5 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0xdecaf;
 }

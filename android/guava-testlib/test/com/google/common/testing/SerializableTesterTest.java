@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import java.io.Serial;
 import java.io.Serializable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -77,11 +78,11 @@ public class SerializableTesterTest extends TestCase {
   }
 
   private static class ClassWhichDoesNotImplementEquals implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
   }
 
   private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes implements Serializable {
-    private static final long serialVersionUID = 2L;
+    @Serial private static final long serialVersionUID = 2L;
 
     @SuppressWarnings("EqualsHashCode")
     @Override
@@ -91,7 +92,7 @@ public class SerializableTesterTest extends TestCase {
   }
 
   private static class ObjectWhichIsEqualButChangesClass implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
 
     @Override
     public boolean equals(@Nullable Object other) {

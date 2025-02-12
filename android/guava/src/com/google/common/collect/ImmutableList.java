@@ -33,6 +33,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.InlineMe;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -704,7 +705,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return copyOf(elements);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible // serialization
@@ -864,5 +865,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible @Serial
+  private static final long serialVersionUID = 0xcafebabe;
 }

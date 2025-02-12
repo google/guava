@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.io.Serial;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -41,5 +42,5 @@ public class UncheckedTimeoutException extends RuntimeException {
     super(message, cause);
   }
 
-  private static final long serialVersionUID = 0;
+  @Serial private static final long serialVersionUID = 0;
 }

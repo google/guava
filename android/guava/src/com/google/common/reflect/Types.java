@@ -26,6 +26,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
@@ -244,7 +245,7 @@ final class Types {
       return false;
     }
 
-    private static final long serialVersionUID = 0;
+    @Serial private static final long serialVersionUID = 0;
   }
 
   private static final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
@@ -309,7 +310,7 @@ final class Types {
           && Arrays.equals(getActualTypeArguments(), that.getActualTypeArguments());
     }
 
-    private static final long serialVersionUID = 0;
+    @Serial private static final long serialVersionUID = 0;
   }
 
   private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
@@ -506,7 +507,7 @@ final class Types {
       return builder.toString();
     }
 
-    private static final long serialVersionUID = 0;
+    @Serial private static final long serialVersionUID = 0;
   }
 
   private static Type[] toArray(Collection<Type> types) {

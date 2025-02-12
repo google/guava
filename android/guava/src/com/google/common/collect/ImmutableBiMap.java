@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -606,7 +607,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       return new Builder<>(size);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -660,5 +661,5 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
+  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0xdecaf;
 }

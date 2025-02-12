@@ -43,6 +43,7 @@ import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSor
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
@@ -705,7 +706,7 @@ public class ImmutableSortedMapTest extends TestCase {
       return value;
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 5;
+    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 5;
   }
 
   public void testMutableValues() {
