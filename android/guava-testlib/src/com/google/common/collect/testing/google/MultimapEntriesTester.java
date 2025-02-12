@@ -94,6 +94,12 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
+  /*
+   * We are comparing Multimaps of the same type, so as long as they have value collections that
+   * implement equals() (as with ListMultimap or SetMultimap, as opposed to a QueueMultimap or
+   * something), our equality check is value-based.
+   */
+  @SuppressWarnings("UndefinedEquals")
   public void testRetainAllPropagatesToMultimap() {
     multimap().entries().retainAll(singleton(mapEntry(k0(), v0())));
     assertEquals(getSubjectGenerator().create(mapEntry(k0(), v0())), multimap());

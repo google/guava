@@ -36,6 +36,12 @@ import org.junit.Ignore;
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionSerializationEqualTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SERIALIZABLE)
+  /*
+   * As the class docs say, this test only makes sense for collections that define equals().
+   * Accordingly, our testing framework adds it only when testing an implementation of List, Set, or
+   * Multiset.
+   */
+  @SuppressWarnings("UndefinedEquals")
   public void testReserialize() {
     assertEquals(SerializableTester.reserialize(actualContents()), actualContents());
   }

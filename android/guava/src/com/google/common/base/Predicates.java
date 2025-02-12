@@ -601,6 +601,12 @@ public final class Predicates {
     }
 
     @Override
+    /*
+     * We should probably not have implemented equals() at all, but given that we did, we can't
+     * provide a better implementation than the input Collection, at least without dramatic changes
+     * like copying it to a new Set—which might then test for element equality differently.
+     */
+    @SuppressWarnings("UndefinedEquals")
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof InPredicate) {
         InPredicate<?> that = (InPredicate<?>) obj;

@@ -48,6 +48,8 @@ public class MultimapPutAllMultimapTester<K, V>
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
+  // Empty multimaps *do* have defined equals semantics.
+  @SuppressWarnings("UndefinedEquals")
   public void testPutAllIntoEmpty() {
     Multimap<K, V> target = getSubjectGenerator().create();
     assertEquals(!multimap().isEmpty(), target.putAll(multimap()));

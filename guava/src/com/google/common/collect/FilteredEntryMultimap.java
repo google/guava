@@ -302,6 +302,11 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
+        /*
+         * For discussion of equality in Multimap value collections, see the suppression for
+         * UndefinedEquals in AbstractMapBasedMultimap.
+         */
+        @SuppressWarnings("UndefinedEquals")
         public boolean remove(@Nullable Object o) {
           if (o instanceof Collection) {
             Collection<?> c = (Collection<?>) o;

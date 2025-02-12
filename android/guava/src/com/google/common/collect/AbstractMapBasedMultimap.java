@@ -401,6 +401,13 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
+    /*
+     * Most Multimap implementations use a List or Set (or even Multiset) for their values, in which
+     * case Multimap equality works as expected. Users who use a Collection type that does not
+     * implement equals(), such as most Queue implementations, will get the same behavior from our
+     * value-collection wrappers (and from Multimap.equals) as from the underlying Collection.
+     */
+    @SuppressWarnings("UndefinedEquals")
     public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;

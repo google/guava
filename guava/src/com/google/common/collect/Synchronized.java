@@ -759,6 +759,8 @@ final class Synchronized {
     }
 
     @Override
+    // A forwarding implementation can't do any better than the underlying object.
+    @SuppressWarnings("UndefinedEquals")
     public boolean equals(@Nullable Object o) {
       if (o == this) {
         return true;

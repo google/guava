@@ -47,6 +47,8 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
     assertThrows(UnsupportedOperationException.class, () -> multimap().clear());
   }
 
+  // Empty multimaps *do* have defined equals semantics.
+  @SuppressWarnings("UndefinedEquals")
   private void assertCleared() {
     assertEquals(0, multimap().size());
     assertEmpty(multimap());

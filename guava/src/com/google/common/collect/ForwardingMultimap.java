@@ -143,6 +143,8 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
+  // A forwarding implementation can't do any better than the underlying object.
+  @SuppressWarnings("UndefinedEquals")
   public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
