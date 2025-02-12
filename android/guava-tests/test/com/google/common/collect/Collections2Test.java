@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -68,7 +69,7 @@ public class Collections2Test extends TestCase {
   }
 
   static final Predicate<@Nullable String> NOT_YYY_ZZZ =
-      input -> !"yyy".equals(input) && !"zzz".equals(input);
+      input -> !Objects.equals(input, "yyy") && !Objects.equals(input, "zzz");
 
   static final Predicate<String> LENGTH_1 = input -> input.length() == 1;
 

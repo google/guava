@@ -30,6 +30,7 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 import sun.misc.Unsafe;
 
 /**
@@ -326,7 +327,7 @@ public final class UnsignedBytes {
       static {
         // fall back to the safer pure java implementation unless we're in
         // a 64-bit JVM with an 8-byte aligned field offset.
-        if (!("64".equals(System.getProperty("sun.arch.data.model"))
+        if (!(Objects.equals(System.getProperty("sun.arch.data.model"), "64")
             && (BYTE_ARRAY_BASE_OFFSET % 8) == 0
             // sanity check - this should never fail
             && theUnsafe.arrayIndexScale(byte[].class) == 1)) {

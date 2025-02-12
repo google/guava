@@ -79,7 +79,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
   @Override
   public int readUnsignedByte() throws IOException {
     int b1 = in.read();
-    if (0 > b1) {
+    if (b1 < 0) {
       throw new EOFException();
     }
 
@@ -230,7 +230,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
   private byte readAndCheckByte() throws IOException, EOFException {
     int b1 = in.read();
 
-    if (-1 == b1) {
+    if (b1 == -1) {
       throw new EOFException();
     }
 

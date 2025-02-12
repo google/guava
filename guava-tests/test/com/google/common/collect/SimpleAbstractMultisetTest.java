@@ -122,10 +122,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     @Override
     public int add(E element, int occurrences) {
       checkArgument(occurrences >= 0);
-      Integer frequency = backingMap.get(element);
-      if (frequency == null) {
-        frequency = 0;
-      }
+      Integer frequency = backingMap.getOrDefault(element, 0);
       if (occurrences == 0) {
         return frequency;
       }

@@ -21,6 +21,7 @@ import com.google.common.base.Predicate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -35,7 +36,7 @@ public class MultimapsFilterEntriesAsMapTest extends AbstractMultimapAsMapImplem
       new Predicate<Entry<String, Integer>>() {
         @Override
         public boolean apply(Entry<String, Integer> entry) {
-          return !"badkey".equals(entry.getKey()) && 55556 != entry.getValue();
+          return !Objects.equals(entry.getKey(), "badkey") && entry.getValue() != 55556;
         }
       };
 

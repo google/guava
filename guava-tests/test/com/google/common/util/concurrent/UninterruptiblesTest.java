@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitTerminationUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
@@ -783,7 +784,7 @@ public class UninterruptiblesTest extends TestCase {
     void joinUnsuccessfully(long timeoutMillis) {
       Uninterruptibles.joinUninterruptibly(thread, timeoutMillis, MILLISECONDS);
       completed.assertCompletionNotExpected(timeoutMillis);
-      assertFalse(Thread.State.TERMINATED.equals(thread.getState()));
+      assertThat(thread.getState()).isNotEqualTo(Thread.State.TERMINATED);
     }
   }
 

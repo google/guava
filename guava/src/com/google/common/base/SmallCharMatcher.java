@@ -55,7 +55,7 @@ final class SmallCharMatcher extends NamedFastMatcher {
   }
 
   private boolean checkFilter(int c) {
-    return 1 == (1 & (filter >> c));
+    return ((filter >> c) & 1) == 1;
   }
 
   // This is all essentially copied from ImmutableSet, but we have to duplicate because

@@ -150,7 +150,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
 
   @Override
   public HashCode hashString(CharSequence input, Charset charset) {
-    if (UTF_8.equals(charset)) {
+    if (charset.equals(UTF_8)) {
       int utf16Length = input.length();
       int h1 = seed;
       int i = 0;
@@ -353,7 +353,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     @CanIgnoreReturnValue
     @Override
     public Hasher putString(CharSequence input, Charset charset) {
-      if (UTF_8.equals(charset)) {
+      if (charset.equals(UTF_8)) {
         int utf16Length = input.length();
         int i = 0;
 

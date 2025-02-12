@@ -771,7 +771,7 @@ public final class Files {
     }
     if (result.equals("/..")) {
       result = "/";
-    } else if ("".equals(result)) {
+    } else if (result.isEmpty()) {
       result = ".";
     }
 

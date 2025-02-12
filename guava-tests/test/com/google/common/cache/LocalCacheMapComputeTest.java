@@ -133,7 +133,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         n -> {
           cache.asMap().compute(key, (k, v) -> n % 2 == 0 ? v + delimiter + n : null);
         });
-    assertTrue(1 >= cache.size());
+    assertThat(cache.size()).isAtMost(1);
   }
 
   public void testCompute() {

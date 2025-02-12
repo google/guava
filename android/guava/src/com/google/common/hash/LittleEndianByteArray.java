@@ -23,6 +23,7 @@ import java.nio.ByteOrder;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Objects;
 import sun.misc.Unsafe;
 
 /**
@@ -267,7 +268,7 @@ final class LittleEndianByteArray {
        *
        */
       String arch = System.getProperty("os.arch");
-      if ("amd64".equals(arch)) {
+      if (Objects.equals(arch, "amd64")) {
         return ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
             ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
             : UnsafeByteArray.UNSAFE_BIG_ENDIAN;

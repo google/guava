@@ -16,18 +16,18 @@ package com.google.common.net;
 
 import static com.google.common.base.CharMatcher.ascii;
 import static com.google.common.base.CharMatcher.javaIsoControl;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.hash;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultiset;
@@ -910,7 +910,9 @@ public final class MediaType {
       mediaType.parsedCharset = this.parsedCharset;
     }
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
+    @SuppressWarnings("GetOrDefaultNotNull") // getOrDefault requires API Level 24
+    MediaType result = firstNonNull(knownTypes.get(mediaType), mediaType);
+    return result;
   }
 
   /**
@@ -944,7 +946,7 @@ public final class MediaType {
 
   /** Returns true if either the type or subtype is the wildcard. */
   public boolean hasWildcard() {
-    return WILDCARD.equals(type) || WILDCARD.equals(subtype);
+    return type.equals(WILDCARD) || subtype.equals(WILDCARD);
   }
 
   /**
@@ -1002,7 +1004,7 @@ public final class MediaType {
     String normalizedType = normalizeToken(type);
     String normalizedSubtype = normalizeToken(subtype);
     checkArgument(
-        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
+        !normalizedType.equals(WILDCARD) || normalizedSubtype.equals(WILDCARD),
         "A wildcard type cannot be used with a non-wildcard subtype");
     ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
     for (Entry<String, String> entry : parameters.entries()) {
@@ -1011,7 +1013,9 @@ public final class MediaType {
     }
     MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(knownTypes.get(mediaType), mediaType);
+    @SuppressWarnings("GetOrDefaultNotNull") // getOrDefault requires API Level 24
+    MediaType result = firstNonNull(knownTypes.get(mediaType), mediaType);
+    return result;
   }
 
   /**
@@ -1077,7 +1081,7 @@ public final class MediaType {
   private static String normalizeParameterValue(String attribute, String value) {
     checkNotNull(value); // for GWT
     checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
-    return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;
+    return attribute.equals(CHARSET_ATTRIBUTE) ? Ascii.toLowerCase(value) : value;
   }
 
   /**
@@ -1099,11 +1103,11 @@ public final class MediaType {
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
         consumeSeparator(tokenizer, '=');
         String value;
-        if ('"' == tokenizer.previewChar()) {
+        if (tokenizer.previewChar() == '"') {
           tokenizer.consumeCharacter('"');
           StringBuilder valueBuilder = new StringBuilder();
-          while ('"' != tokenizer.previewChar()) {
-            if ('\\' == tokenizer.previewChar()) {
+          while (tokenizer.previewChar() != '"') {
+            if (tokenizer.previewChar() == '\\') {
               tokenizer.consumeCharacter('\\');
               valueBuilder.append(tokenizer.consumeCharacter(ascii()));
             } else {
@@ -1198,7 +1202,7 @@ public final class MediaType {
     // racy single-check idiom
     int h = hashCode;
     if (h == 0) {
-      h = Objects.hashCode(type, subtype, parametersAsMap());
+      h = hash(type, subtype, parametersAsMap());
       hashCode = h;
     }
     return h;
