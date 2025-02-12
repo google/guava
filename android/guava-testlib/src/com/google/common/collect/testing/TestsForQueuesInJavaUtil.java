@@ -111,6 +111,8 @@ public class TestsForQueuesInJavaUtil {
     return QueueTestSuiteBuilder.using(
             new TestStringQueueGenerator() {
               @Override
+              // We are testing LinkedList / testing our tests on LinkedList.
+              @SuppressWarnings("JdkObsolete")
               public Queue<String> create(String[] elements) {
                 return new LinkedList<>(MinimalCollection.of(elements));
               }

@@ -266,6 +266,8 @@ public class ListsImplTest extends TestCase {
     }
 
     @Override
+    // We are testing our utilities on LinkedList.
+    @SuppressWarnings("JdkObsolete")
     public <T> List<T> createList(Class<T> listType, Collection<? extends T> contents) {
       return new LinkedList<>(contents);
     }

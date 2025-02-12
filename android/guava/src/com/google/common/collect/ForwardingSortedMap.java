@@ -50,6 +50,11 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+/*
+ * We provide and encourage use of ForwardingNavigableSet over this class, but we still provide this
+ * one to preserve compatibility.
+ */
+@SuppressWarnings("JdkObsolete")
 public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost

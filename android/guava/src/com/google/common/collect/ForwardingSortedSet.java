@@ -53,6 +53,11 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+/*
+ * We provide and encourage use of ForwardingNavigableSet over this class, but we still provide this
+ * one to preserve compatibility.
+ */
+@SuppressWarnings("JdkObsolete")
 public abstract class ForwardingSortedSet<E extends @Nullable Object> extends ForwardingSet<E>
     implements SortedSet<E> {
 

@@ -192,6 +192,8 @@ public class TestsForListsInJavaUtil {
         .createTestSuite();
   }
 
+  // We are testing LinkedList / testing our tests on LinkedList.
+  @SuppressWarnings("JdkObsolete")
   public Test testsForLinkedList() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
@@ -326,6 +328,8 @@ public class TestsForListsInJavaUtil {
         .createTestSuite();
   }
 
+  // We are testing Vector / testing our tests on Vector.
+  @SuppressWarnings("JdkObsolete")
   private Test testsForVector() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {

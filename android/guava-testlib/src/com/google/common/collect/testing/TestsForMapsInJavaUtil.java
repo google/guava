@@ -246,6 +246,8 @@ public class TestsForMapsInJavaUtil {
     return MapTestSuiteBuilder.using(
             new TestStringMapGenerator() {
               @Override
+              // We are testing Hashtable / testing our tests on Hashtable.
+              @SuppressWarnings("JdkObsolete")
               protected Map<String, String> create(Entry<String, String>[] entries) {
                 return populate(new Hashtable<String, String>(), entries);
               }

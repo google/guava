@@ -92,6 +92,7 @@ public class StreamsTest extends TestCase {
     assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
 
     // test with a large, not-subsized Spliterator
+    @SuppressWarnings("JdkObsolete")
     List<Integer> list =
         IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
     assertThat(findLast(list.stream())).hasValue(10000);
@@ -105,6 +106,7 @@ public class StreamsTest extends TestCase {
     assertThat(findLast(IntStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalInt.of(5));
 
     // test with a large, not-subsized Spliterator
+    @SuppressWarnings("JdkObsolete")
     List<Integer> list =
         IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToInt(i -> i))).isEqualTo(OptionalInt.of(10000));
@@ -119,6 +121,7 @@ public class StreamsTest extends TestCase {
     assertThat(findLast(LongStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalLong.of(5));
 
     // test with a large, not-subsized Spliterator
+    @SuppressWarnings("JdkObsolete")
     List<Long> list =
         LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToLong(i -> i))).isEqualTo(OptionalLong.of(10000));
@@ -133,6 +136,7 @@ public class StreamsTest extends TestCase {
     assertThat(findLast(DoubleStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalDouble.of(5));
 
     // test with a large, not-subsized Spliterator
+    @SuppressWarnings("JdkObsolete")
     List<Long> list =
         LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToDouble(i -> i))).isEqualTo(OptionalDouble.of(10000));

@@ -40,6 +40,8 @@ public class StreamsBenchmark {
   @Param({"1", "10", "100", "1000", "10000"})
   private int size;
 
+  // This is a benchmark of streams, including those from LinkedList.
+  @SuppressWarnings("JdkObsolete")
   enum CollectionType {
     ARRAY_LIST(ArrayList::new),
     LINKED_LIST(LinkedList::new);

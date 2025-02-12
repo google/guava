@@ -22,8 +22,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +46,7 @@ public class TearDownStack implements TearDownAccepter {
   @VisibleForTesting final Object lock = new Object();
 
   @GuardedBy("lock")
-  final LinkedList<TearDown> stack = new LinkedList<>();
+  final Deque<TearDown> stack = new ArrayDeque<>();
 
   private final boolean suppressThrows;
 

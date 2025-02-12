@@ -614,6 +614,11 @@ public class MultimapsTest extends TestCase {
 
   private static class QueueSupplier extends CountingSupplier<Queue<Integer>> {
     @Override
+    /*
+     * We need a Queue that implements equals() for the equality tests we perform after
+     * reserializing the multimap.
+     */
+    @SuppressWarnings("JdkObsolete")
     public Queue<Integer> getImpl() {
       return new LinkedList<>();
     }
@@ -658,7 +663,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testNewMultimap() {
-    // The ubiquitous EnumArrayBlockingQueueMultimap
+    // The ubiquitous EnumLinkedListMultimap
     CountingSupplier<Queue<Integer>> factory = new QueueSupplier();
 
     Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);

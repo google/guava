@@ -1271,11 +1271,12 @@ public class IterablesTest extends TestCase {
         }
       };
 
+  @SuppressWarnings("UnnecessaryStringBuilder") // false positive in a weird case
   public void testIndexOf_genericPredicate() {
     List<CharSequence> sequences = Lists.newArrayList();
     sequences.add("bob");
     sequences.add(new StringBuilder("charlie"));
-    sequences.add(new StringBuffer("henry"));
+    sequences.add(new StringBuilder("henry"));
     sequences.add(new StringBuilder("apple"));
     sequences.add("lemon");
 

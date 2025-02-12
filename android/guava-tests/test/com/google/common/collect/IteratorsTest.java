@@ -1158,6 +1158,8 @@ public class IteratorsTest extends TestCase {
     assertFalse(enumer.hasMoreElements());
   }
 
+  // We're testing our asEnumeration method against a known-good implementation.
+  @SuppressWarnings("JdkObsolete")
   private static Enumeration<Integer> enumerate(int... ints) {
     Vector<Integer> vector = new Vector<>(Ints.asList(ints));
     return vector.elements();

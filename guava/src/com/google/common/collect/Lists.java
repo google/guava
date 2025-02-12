@@ -227,7 +227,10 @@ public final class Lists {
    * syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @SuppressWarnings({
+    "NonApiType", // acts as a direct substitute for a constructor call
+    "JdkObsolete", // We recommend against this method but need to keep it for compatibility.
+  })
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<>();
   }
