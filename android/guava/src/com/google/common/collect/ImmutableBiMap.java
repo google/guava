@@ -645,7 +645,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * {@code ImmutableBiMap}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function, BinaryOperator)}.
+   * @deprecated Merging values does not make sense for a {@code BiMap}.
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
   @Deprecated

@@ -665,7 +665,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * {@code ImmutableBiMap}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function, BinaryOperator)}.
+   * @deprecated Merging values does not make sense for a {@code BiMap}.
    */
   @Deprecated
   @DoNotCall("Use toImmutableBiMap")
