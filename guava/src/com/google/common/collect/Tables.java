@@ -29,7 +29,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Table.Cell;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -165,7 +164,7 @@ public final class Tables {
       return value;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   abstract static class AbstractCell<
@@ -616,7 +615,7 @@ public final class Tables {
       return Collections.unmodifiableCollection(super.values());
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -666,7 +665,7 @@ public final class Tables {
       return Collections.unmodifiableSortedSet(delegate().rowKeySet());
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

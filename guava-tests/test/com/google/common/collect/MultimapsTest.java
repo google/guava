@@ -53,7 +53,6 @@ import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -624,7 +623,7 @@ public class MultimapsTest extends TestCase {
       return new LinkedList<>();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewMultimapWithCollectionRejectingNegativeElements() {
@@ -718,7 +717,7 @@ public class MultimapsTest extends TestCase {
       return new LinkedList<>();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewListMultimap() {
@@ -754,7 +753,7 @@ public class MultimapsTest extends TestCase {
       return new HashSet<>(4);
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewSetMultimap() {
@@ -786,7 +785,7 @@ public class MultimapsTest extends TestCase {
       return Sets.newTreeSet(INT_COMPARATOR);
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   public void testNewSortedSetMultimap() {

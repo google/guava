@@ -25,7 +25,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serial;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -226,5 +225,5 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
     Serialization.populateMultimap(this, stream);
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.io.Serial;
 
 /**
  * Simple derived class to verify that we handle generics correctly.
@@ -32,5 +31,5 @@ public class DerivedComparable extends BaseComparable {
     super(s);
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

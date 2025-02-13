@@ -22,7 +22,6 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.errorprone.annotations.Immutable;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import org.jspecify.annotations.Nullable;
@@ -181,5 +180,5 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
     }
   }
 
-  @Serial private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 }

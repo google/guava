@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.ForOverride;
-import java.io.Serial;
 import java.io.Serializable;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -245,7 +244,7 @@ public abstract class Equivalence<T> {
       return equivalence + ".wrap(" + reference + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -316,7 +315,7 @@ public abstract class Equivalence<T> {
       return equivalence + ".equivalentTo(" + target + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -363,7 +362,7 @@ public abstract class Equivalence<T> {
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
   }
 
   static final class Identity extends Equivalence<Object> implements Serializable {
@@ -384,6 +383,6 @@ public abstract class Equivalence<T> {
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
   }
 }

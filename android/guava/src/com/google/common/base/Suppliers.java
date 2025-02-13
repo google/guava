@@ -25,7 +25,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -90,7 +89,7 @@ public final class Suppliers {
       return "Suppliers.compose(" + function + ", " + supplier + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -167,7 +166,7 @@ public final class Suppliers {
       lock = new Object();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @VisibleForTesting
@@ -341,7 +340,7 @@ public final class Suppliers {
       lock = new Object();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
@@ -383,7 +382,7 @@ public final class Suppliers {
       return "Suppliers.ofInstance(" + instance + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -418,7 +417,7 @@ public final class Suppliers {
       return "Suppliers.synchronizedSupplier(" + delegate + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

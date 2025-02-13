@@ -33,7 +33,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -1092,5 +1091,5 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 }

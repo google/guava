@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.io.Serial;
 import java.util.Collections;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
@@ -98,5 +97,5 @@ final class Absent<T> extends Optional<T> {
     return INSTANCE;
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

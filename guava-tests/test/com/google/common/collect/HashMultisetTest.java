@@ -27,7 +27,6 @@ import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -116,7 +115,7 @@ public class HashMultisetTest extends TestCase {
       this.member = multiset;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 1L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1L;
   }
 
   @J2ktIncompatible

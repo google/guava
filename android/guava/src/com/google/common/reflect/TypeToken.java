@@ -33,7 +33,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
@@ -709,7 +708,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return ImmutableSet.copyOf(collectedTypes);
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   private final class InterfaceSet extends TypeSet {
@@ -755,7 +754,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return getTypes().interfaces();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   private final class ClassSet extends TypeSet {
@@ -802,7 +801,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return getTypes().classes();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   private enum TypeFilter implements Predicate<TypeToken<?>> {
@@ -1307,7 +1306,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       super(type);
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1460,5 +1459,5 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   // This happens to be the hash of the class as of now. So setting it makes a backward compatible
   // change. Going forward, if any incompatible change is added, we can change the UID back to 1.
-  @Serial private static final long serialVersionUID = 3637540370352322684L;
+  private static final long serialVersionUID = 3637540370352322684L;
 }

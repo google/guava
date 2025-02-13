@@ -34,7 +34,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -414,7 +413,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return copyOf(elements);
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override
@@ -997,6 +996,5 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial
-  private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

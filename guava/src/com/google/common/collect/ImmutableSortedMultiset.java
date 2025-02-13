@@ -24,7 +24,6 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -760,5 +759,5 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
     throw new UnsupportedOperationException();
   }
 
-  @J2ktIncompatible @Serial private static final long serialVersionUID = 0xcafebabe;
+  @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
 }

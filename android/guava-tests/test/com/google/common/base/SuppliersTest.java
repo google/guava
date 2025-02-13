@@ -30,7 +30,6 @@ import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import java.io.NotSerializableException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -75,11 +74,11 @@ public class SuppliersTest extends TestCase {
   }
 
   static class SerializableCountingSupplier extends CountingSupplier implements Serializable {
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   static class SerializableThrowingSupplier extends ThrowingSupplier implements Serializable {
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   static void checkMemoize(CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {

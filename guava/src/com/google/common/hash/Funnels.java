@@ -19,7 +19,6 @@ import com.google.common.base.Preconditions;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import org.jspecify.annotations.Nullable;
@@ -138,7 +137,7 @@ public final class Funnels {
         return stringFunnel(Charset.forName(charsetCanonicalName));
       }
 
-      @Serial private static final long serialVersionUID = 0;
+      private static final long serialVersionUID = 0;
     }
   }
 

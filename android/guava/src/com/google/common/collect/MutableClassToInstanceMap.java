@@ -24,7 +24,6 @@ import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -197,6 +196,6 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
       return create(backingMap);
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 }

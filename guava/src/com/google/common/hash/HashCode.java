@@ -22,7 +22,6 @@ import static java.lang.Math.min;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.UnsignedInts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.Serial;
 import java.io.Serializable;
 import org.jspecify.annotations.Nullable;
 
@@ -160,7 +159,7 @@ public abstract class HashCode {
       return hash == that.asInt();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /**
@@ -226,7 +225,7 @@ public abstract class HashCode {
       return hash == that.asLong();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /**
@@ -320,7 +319,7 @@ public abstract class HashCode {
       return areEqual;
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /**

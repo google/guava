@@ -33,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.io.Serial;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
@@ -117,7 +116,7 @@ public class FilesTest extends IoTestCase {
       return badLength;
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   public void testToString() throws IOException {
@@ -276,7 +275,7 @@ public class FilesTest extends IoTestCase {
                     return false;
                   }
 
-                  @Serial private static final long serialVersionUID = 0;
+                  private static final long serialVersionUID = 0;
                 }));
   }
 
@@ -406,7 +405,7 @@ public class FilesTest extends IoTestCase {
       return canDelete && super.delete();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   public void testLineReading() throws IOException {

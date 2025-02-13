@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Synchronized.SynchronizedCollection;
 import com.google.common.collect.Synchronized.SynchronizedSet;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -152,7 +151,7 @@ public class SynchronizedMapTest extends TestCase {
       return super.toString();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /*

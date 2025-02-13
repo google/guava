@@ -25,7 +25,6 @@ import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.jspecify.annotations.Nullable;
@@ -362,7 +361,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return original + ".reverse()";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   /**
@@ -437,7 +436,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return first + ".andThen(" + second + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 
   /**
@@ -596,6 +595,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 }

@@ -27,7 +27,6 @@ import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import junit.framework.TestCase;
@@ -369,7 +368,7 @@ public class FunctionsTest extends TestCase {
 
   private static class CountingSupplier implements Supplier<Integer>, Serializable {
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 
     private int value;
 

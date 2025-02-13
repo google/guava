@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -142,5 +141,5 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return super.toArray();
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0L;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
 }

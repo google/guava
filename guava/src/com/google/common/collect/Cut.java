@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import org.jspecify.annotations.Nullable;
@@ -118,7 +117,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     return (Cut<C>) BelowAll.INSTANCE;
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 
   private static final class BelowAll extends Cut<Comparable<?>> {
     private static final BelowAll INSTANCE = new BelowAll();
@@ -213,7 +212,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /*
@@ -304,7 +303,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return INSTANCE;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   static <C extends Comparable> Cut<C> belowValue(C endpoint) {
@@ -385,7 +384,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return "\\" + endpoint + "/";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   static <C extends Comparable> Cut<C> aboveValue(C endpoint) {
@@ -472,6 +471,6 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return "/" + endpoint + "\\";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 }

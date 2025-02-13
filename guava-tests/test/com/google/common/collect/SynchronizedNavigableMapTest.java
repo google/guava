@@ -26,7 +26,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map.Entry;
@@ -98,7 +97,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
       return super.setValue(value);
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   static class TestMap<K, V> extends SynchronizedMapTest.TestMap<K, V>
@@ -255,7 +254,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
       return delegate().lastKey();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   @AndroidIncompatible // test-suite builders

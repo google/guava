@@ -35,7 +35,6 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -425,5 +424,5 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     return ((0x3L << 6) | (c >>> 6)) | ((0x80 | (0x3F & c)) << 8);
   }
 
-  @Serial private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 }

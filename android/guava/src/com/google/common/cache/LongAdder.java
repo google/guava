@@ -17,7 +17,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -44,8 +43,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @GwtCompatible(emulated = true)
 final class LongAdder extends Striped64 implements Serializable, LongAddable {
-  @GwtIncompatible @J2ktIncompatible @Serial
-  private static final long serialVersionUID = 7249069246863182397L;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 7249069246863182397L;
 
   /** Version of plus for use in retryUpdate */
   @Override

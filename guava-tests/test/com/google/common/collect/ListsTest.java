@@ -48,7 +48,6 @@ import com.google.common.collect.testing.google.ListGenerators.CharactersOfCharS
 import com.google.common.collect.testing.google.ListGenerators.CharactersOfStringGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,7 +91,7 @@ public class ListsTest extends TestCase {
       return SOME_COLLECTION.iterator();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static final List<Integer> SOME_LIST = Lists.newArrayList(1, 2, 3, 4);
@@ -109,7 +108,7 @@ public class ListsTest extends TestCase {
       return String.valueOf(n);
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible

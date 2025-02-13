@@ -47,7 +47,6 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -874,7 +873,7 @@ public class ImmutableMapTest extends TestCase {
       return value;
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 5;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 5;
   }
 
   public void testMutableValues() {

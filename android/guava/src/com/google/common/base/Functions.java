@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import org.jspecify.annotations.Nullable;
@@ -180,7 +179,7 @@ public final class Functions {
       return "Functions.forMap(" + map + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static class ForMapWithDefault<K extends @Nullable Object, V extends @Nullable Object>
@@ -223,7 +222,7 @@ public final class Functions {
       return "Functions.forMap(" + map + ", defaultValue=" + defaultValue + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -280,7 +279,7 @@ public final class Functions {
       return g + "(" + f + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -331,7 +330,7 @@ public final class Functions {
       return "Functions.forPredicate(" + predicate + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -380,7 +379,7 @@ public final class Functions {
       return "Functions.constant(" + value + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -432,6 +431,6 @@ public final class Functions {
       return "Functions.forSupplier(" + supplier + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 }

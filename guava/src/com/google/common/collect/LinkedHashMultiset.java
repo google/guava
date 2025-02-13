@@ -22,7 +22,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serial;
 import java.util.LinkedHashMap;
 import org.jspecify.annotations.Nullable;
 
@@ -102,5 +101,5 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

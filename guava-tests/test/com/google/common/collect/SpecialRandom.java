@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import java.io.Serial;
 import java.util.Random;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -53,5 +52,5 @@ public final class SpecialRandom extends Random {
     return hasSeed ? "(seed:" + seed : "(default seed)";
   }
 
-  @Serial private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0;
 }

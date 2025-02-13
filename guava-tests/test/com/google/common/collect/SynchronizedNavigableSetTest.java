@@ -23,7 +23,6 @@ import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import java.io.Serial;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -162,7 +161,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
       return delegate().last();
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   @AndroidIncompatible // test-suite builders

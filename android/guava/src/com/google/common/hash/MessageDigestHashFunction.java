@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.errorprone.annotations.Immutable;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
@@ -115,7 +114,7 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
       return new MessageDigestHashFunction(algorithmName, bytes, toString);
     }
 
-    @Serial private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   Object writeReplace() {

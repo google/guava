@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.j2objc.annotations.WeakOuter;
-import java.io.Serial;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -143,5 +142,5 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
     }
   }
 
-  @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

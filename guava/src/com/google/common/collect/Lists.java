@@ -35,7 +35,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
@@ -363,7 +362,7 @@ public final class Lists {
       return (index == 0) ? first : rest[index - 1];
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -401,7 +400,7 @@ public final class Lists {
       }
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -612,7 +611,7 @@ public final class Lists {
       return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -685,7 +684,7 @@ public final class Lists {
       return fromList.size();
     }
 
-    @GwtIncompatible @J2ktIncompatible @Serial private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -1148,8 +1147,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            @GwtIncompatible @J2ktIncompatible @Serial
-            private static final long serialVersionUID = 0;
+            @GwtIncompatible @J2ktIncompatible             private static final long serialVersionUID = 0;
           };
     } else {
       wrapper =
@@ -1159,8 +1157,7 @@ public final class Lists {
               return backingList.listIterator(index);
             }
 
-            @GwtIncompatible @J2ktIncompatible @Serial
-            private static final long serialVersionUID = 0;
+            @GwtIncompatible @J2ktIncompatible             private static final long serialVersionUID = 0;
           };
     }
     return wrapper.subList(fromIndex, toIndex);
