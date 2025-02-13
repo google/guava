@@ -45,7 +45,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -134,6 +134,9 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
             <configuration>
               <excludes>
                 <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
@@ -143,6 +146,8 @@
                 <exclude>**/DummyJavadocClass*</exclude>
               </excludes>
             </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -262,7 +267,7 @@
           <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>failureaccess</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
             <classifier>sources</classifier>
           </dependency>
           <dependency>
