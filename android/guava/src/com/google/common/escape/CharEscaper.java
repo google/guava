@@ -40,6 +40,7 @@ import org.jspecify.annotations.Nullable;
  * @since 15.0
  */
 @GwtCompatible
+@SuppressWarnings("EscapedEntity") // We do mean for the user to see "&lt;" etc.
 public abstract class CharEscaper extends Escaper {
   /** Constructor for use by subclasses. */
   protected CharEscaper() {}

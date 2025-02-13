@@ -41,6 +41,7 @@ import org.jspecify.annotations.Nullable;
  * @since 15.0
  */
 @GwtCompatible
+@SuppressWarnings("EscapedEntity") // We do mean for the user to see "&amp;" etc.
 public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;
