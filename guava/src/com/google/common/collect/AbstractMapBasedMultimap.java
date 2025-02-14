@@ -1688,5 +1688,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 2447537837011683357L;
+  @GwtIncompatible @J2ktIncompatible
+  private static final long serialVersionUID = 2447537837011683357L;
 }
