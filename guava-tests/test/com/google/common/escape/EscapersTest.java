@@ -16,6 +16,8 @@
 
 package com.google.common.escape;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
@@ -34,19 +36,19 @@ public class EscapersTest extends TestCase {
     Escaper escaper = Escapers.nullEscaper();
     EscaperAsserts.assertBasic(escaper);
     String s = "\0\n\t\\az09~\uD800\uDC00\uFFFF";
-    assertEquals("null escaper should have no effect", s, escaper.escape(s));
+    assertWithMessage("null escaper should have no effect").that(escaper.escape(s)).isEqualTo(s);
   }
 
   public void testBuilderInitialStateNoReplacement() {
     // Unsafe characters aren't modified by default (unsafeReplacement == null).
     Escaper escaper = Escapers.builder().setSafeRange('a', 'z').build();
-    assertEquals("The Quick Brown Fox", escaper.escape("The Quick Brown Fox"));
+    assertThat(escaper.escape("The Quick Brown Fox")).isEqualTo("The Quick Brown Fox");
   }
 
   public void testBuilderInitialStateNoneUnsafe() {
     // No characters are unsafe by default (safeMin == 0, safeMax == 0xFFFF).
     Escaper escaper = Escapers.builder().setUnsafeReplacement("X").build();
-    assertEquals("\0\uFFFF", escaper.escape("\0\uFFFF"));
+    assertThat(escaper.escape("\0\uFFFF")).isEqualTo("\0\uFFFF");
   }
 
   public void testBuilderRetainsState() {
@@ -54,14 +56,14 @@ public class EscapersTest extends TestCase {
     Escapers.Builder builder = Escapers.builder();
     builder.setSafeRange('a', 'z');
     builder.setUnsafeReplacement("X");
-    assertEquals("XheXXuickXXrownXXoxX", builder.build().escape("The Quick Brown Fox!"));
+    assertThat(builder.build().escape("The Quick Brown Fox!")).isEqualTo("XheXXuickXXrownXXoxX");
     // Explicit replacements take priority over unsafe characters.
     builder.addEscape(' ', "_");
     builder.addEscape('!', "_");
-    assertEquals("Xhe_Xuick_Xrown_Xox_", builder.build().escape("The Quick Brown Fox!"));
+    assertThat(builder.build().escape("The Quick Brown Fox!")).isEqualTo("Xhe_Xuick_Xrown_Xox_");
     // Explicit replacements take priority over safe characters.
     builder.setSafeRange(' ', '~');
-    assertEquals("The_Quick_Brown_Fox_", builder.build().escape("The Quick Brown Fox!"));
+    assertThat(builder.build().escape("The Quick Brown Fox!")).isEqualTo("The_Quick_Brown_Fox_");
   }
 
   public void testBuilderCreatesIndependentEscapers() {
@@ -79,8 +81,8 @@ public class EscapersTest extends TestCase {
     builder.addEscape(' ', "*");
 
     // Test both escapers after modifying the builder.
-    assertEquals("Xhe_Xuick_Xrown_XoxX", first.escape("The Quick Brown Fox!"));
-    assertEquals("Xhe-Xuick-Xrown-Xox$", second.escape("The Quick Brown Fox!"));
+    assertThat(first.escape("The Quick Brown Fox!")).isEqualTo("Xhe_Xuick_Xrown_XoxX");
+    assertThat(second.escape("The Quick Brown Fox!")).isEqualTo("Xhe-Xuick-Xrown-Xox$");
   }
 
   // A trivial non-optimized escaper for testing.

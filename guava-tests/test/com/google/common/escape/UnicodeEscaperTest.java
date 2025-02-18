@@ -17,6 +17,7 @@
 package com.google.common.escape;
 
 import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
@@ -62,7 +63,7 @@ public class UnicodeEscaperTest extends TestCase {
 
   public void testNopEscaper() {
     UnicodeEscaper e = NOP_ESCAPER;
-    assertEquals(TEST_STRING, escapeAsString(e, TEST_STRING));
+    assertThat(escapeAsString(e, TEST_STRING)).isEqualTo(TEST_STRING);
   }
 
   public void testSimpleEscaper() {
@@ -75,7 +76,7 @@ public class UnicodeEscaperTest extends TestCase {
             + "0189["
             + Character.MAX_CODE_POINT
             + "]";
-    assertEquals(expected, escapeAsString(e, TEST_STRING));
+    assertThat(escapeAsString(e, TEST_STRING)).isEqualTo(expected);
   }
 
   public void testGrowBuffer() { // need to grow past an initial 1024 byte buffer
@@ -85,7 +86,7 @@ public class UnicodeEscaperTest extends TestCase {
       input.append((char) i);
       expected.append("[" + i + "]");
     }
-    assertEquals(expected.toString(), SIMPLE_ESCAPER.escape(input.toString()));
+    assertThat(SIMPLE_ESCAPER.escape(input.toString())).isEqualTo(expected.toString());
   }
 
   public void testSurrogatePairs() {
@@ -112,7 +113,7 @@ public class UnicodeEscaperTest extends TestCase {
 
     // Get the expected result string
     String expected = "x[" + min + "][" + s1 + "][" + s2 + "][" + s3 + "][" + max + "]x";
-    assertEquals(expected, escapeAsString(e, test));
+    assertThat(escapeAsString(e, test)).isEqualTo(expected);
   }
 
   public void testTrailingHighSurrogate() {
@@ -161,7 +162,8 @@ public class UnicodeEscaperTest extends TestCase {
             return index;
           }
         };
-    assertEquals("\0HELLO \uD800\uDC00 WORLD!\n", e.escape("\0HeLLo \uD800\uDC00 WorlD!\n"));
+    assertThat(e.escape("\0HeLLo \uD800\uDC00 WorlD!\n"))
+        .isEqualTo("\0HELLO \uD800\uDC00 WORLD!\n");
   }
 
   public void testCodePointAt_indexOutOfBoundsException() {

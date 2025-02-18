@@ -16,6 +16,8 @@
 
 package com.google.common.escape;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -26,6 +28,6 @@ public class CharEscaperBuilderTest extends TestCase {
     char[] cs = {'a', 'b', 'c'};
     CharEscaperBuilder builder = new CharEscaperBuilder().addEscapes(cs, "Z");
     Escaper escaper = builder.toEscaper();
-    assertEquals("ZZZdef", escaper.escape("abcdef"));
+    assertThat(escaper.escape("abcdef")).isEqualTo("ZZZdef");
   }
 }

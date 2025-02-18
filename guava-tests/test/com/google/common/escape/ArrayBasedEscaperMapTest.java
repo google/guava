@@ -17,6 +17,7 @@
 package com.google.common.escape;
 
 import static com.google.common.escape.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
@@ -38,7 +39,7 @@ public class ArrayBasedEscaperMapTest extends TestCase {
     Map<Character, String> map = ImmutableMap.of();
     ArrayBasedEscaperMap fem = ArrayBasedEscaperMap.create(map);
     // Non-null array of zero length.
-    assertEquals(0, fem.getReplacementArray().length);
+    assertThat(fem.getReplacementArray()).isEmpty();
   }
 
   public void testMapLength() {
@@ -48,7 +49,7 @@ public class ArrayBasedEscaperMapTest extends TestCase {
             'z', "last");
     ArrayBasedEscaperMap fem = ArrayBasedEscaperMap.create(map);
     // Array length is highest character value + 1
-    assertEquals('z' + 1, fem.getReplacementArray().length);
+    assertThat(fem.getReplacementArray()).hasLength('z' + 1);
   }
 
   public void testMapping() {
@@ -62,16 +63,17 @@ public class ArrayBasedEscaperMapTest extends TestCase {
     ArrayBasedEscaperMap fem = ArrayBasedEscaperMap.create(map);
     char[][] replacementArray = fem.getReplacementArray();
     // Array length is highest character value + 1
-    assertEquals(65536, replacementArray.length);
+    assertThat(replacementArray).hasLength(65536);
     // The final element should always be non-null.
-    assertNotNull(replacementArray[replacementArray.length - 1]);
+    assertThat(replacementArray[replacementArray.length - 1]).isNotNull();
     // Exhaustively check all mappings (an int index avoids wrapping).
-    for (int n = 0; n < replacementArray.length; ++n) {
+    for (int n = 0; n < replacementArray.length; n++) {
       char c = (char) n;
-      if (replacementArray[n] != null) {
-        assertEquals(map.get(c), new String(replacementArray[n]));
+      String expected = map.get(c);
+      if (expected == null) {
+        assertThat(replacementArray[n]).isNull();
       } else {
-        assertFalse(map.containsKey(c));
+        assertThat(new String(replacementArray[n])).isEqualTo(expected);
       }
     }
   }
