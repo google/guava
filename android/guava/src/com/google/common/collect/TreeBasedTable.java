@@ -121,7 +121,9 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    */
   public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
-        new TreeBasedTable<>(table.rowKeySet().comparator(), table.columnComparator());
+        // requireNonNull is safe, as discussed in rowComparator() below.
+        new TreeBasedTable<>(
+            requireNonNull(table.rowKeySet().comparator()), table.columnComparator());
     result.putAll(table);
     return result;
   }

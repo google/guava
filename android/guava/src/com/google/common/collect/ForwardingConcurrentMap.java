@@ -66,6 +66,7 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
+  @SuppressWarnings("nullness") // https://github.com/jspecify/jdk/issues/118
   public boolean replace(K key, V oldValue, V newValue) {
     return delegate().replace(key, oldValue, newValue);
   }
