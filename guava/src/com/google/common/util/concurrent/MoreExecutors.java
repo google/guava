@@ -948,6 +948,9 @@ public final class MoreExecutors {
    * <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
    * ExecutorService#shutdownNow()} and returns.
    *
+   * <p>For a version of this method that waits <i>indefinitely</i>, use {@link
+   * ExecutorService#close}.
+   *
    * @param service the {@code ExecutorService} to shut down
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
@@ -977,6 +980,9 @@ public final class MoreExecutors {
    *
    * <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
    * ExecutorService#shutdownNow()} and returns.
+   *
+   * <p>For a version of this method that waits <i>indefinitely</i>, use {@link
+   * ExecutorService#close}.
    *
    * @param service the {@code ExecutorService} to shut down
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
