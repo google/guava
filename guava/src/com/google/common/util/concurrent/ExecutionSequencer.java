@@ -99,7 +99,7 @@ public final class ExecutionSequencer {
   private final AtomicReference<ListenableFuture<@Nullable Void>> ref =
       new AtomicReference<>(immediateVoidFuture());
 
-  private @LazyInit ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();
+  @LazyInit private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();
 
   /**
    * This object is unsafely published, but avoids problematic races by relying exclusively on the
