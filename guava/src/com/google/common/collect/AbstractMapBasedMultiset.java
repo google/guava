@@ -87,7 +87,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @Override
   Iterator<E> elementIterator() {
-    final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
+    Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
     return new Iterator<E>() {
       Map.@Nullable Entry<E, Count> toRemove;
 
@@ -99,7 +99,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       @Override
       @ParametricNullness
       public E next() {
-        final Map.Entry<E, Count> mapEntry = backingEntries.next();
+        Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
         return mapEntry.getKey();
       }
@@ -116,7 +116,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @Override
   Iterator<Entry<E>> entryIterator() {
-    final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
+    Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
     return new Iterator<Multiset.Entry<E>>() {
       Map.@Nullable Entry<E, Count> toRemove;
 
@@ -127,7 +127,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
       @Override
       public Multiset.Entry<E> next() {
-        final Map.Entry<E, Count> mapEntry = backingEntries.next();
+        Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
         return new Multisets.AbstractEntry<E>() {
           @Override

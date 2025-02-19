@@ -80,7 +80,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
 
   @Override
   public ImmutableList<V> asList() {
-    final ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
+    ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
     return new ImmutableAsList<V>() {
       @Override
       public V get(int index) {

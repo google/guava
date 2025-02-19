@@ -476,7 +476,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               protected Set<String> create(String[] elements) {
-                final String[] deduped = dedupe(elements);
+                String[] deduped = dedupe(elements);
                 return new AbstractSet<String>() {
                   @Override
                   public int size() {

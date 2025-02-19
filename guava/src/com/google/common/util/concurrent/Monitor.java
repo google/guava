@@ -367,7 +367,7 @@ public final class Monitor {
    *     isSatisfied()})
    * @since 21.0 (but only since 33.4.0 in the Android flavor)
    */
-  public Guard newGuard(final BooleanSupplier isSatisfied) {
+  public Guard newGuard(BooleanSupplier isSatisfied) {
     checkNotNull(isSatisfied, "isSatisfied");
     return new Guard(this) {
       @Override
@@ -399,14 +399,14 @@ public final class Monitor {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enter(long time, TimeUnit unit) {
-    final long timeoutNanos = toSafeNanos(time, unit);
-    final ReentrantLock lock = this.lock;
+    long timeoutNanos = toSafeNanos(time, unit);
+    ReentrantLock lock = this.lock;
     if (!fair && lock.tryLock()) {
       return true;
     }
     boolean interrupted = Thread.interrupted();
     try {
-      final long startTime = System.nanoTime();
+      long startTime = System.nanoTime();
       for (long remainingNanos = timeoutNanos; ; ) {
         try {
           return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);
@@ -473,7 +473,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     boolean signalBeforeWaiting = lock.isHeldByCurrentThread();
     lock.lockInterruptibly();
 
@@ -516,11 +516,11 @@ public final class Monitor {
     "LabelledBreakTarget", // TODO(b/345814817): Maybe fix.
   })
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
-    final long timeoutNanos = toSafeNanos(time, unit);
+    long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
     long startTime = 0L;
 
@@ -571,7 +571,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     boolean signalBeforeWaiting = lock.isHeldByCurrentThread();
     lock.lock();
 
@@ -607,11 +607,11 @@ public final class Monitor {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {
-    final long timeoutNanos = toSafeNanos(time, unit);
+    long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     long startTime = 0L;
     boolean signalBeforeWaiting = lock.isHeldByCurrentThread();
     boolean interrupted = Thread.interrupted();
@@ -639,7 +639,7 @@ public final class Monitor {
             if (guard.isSatisfied()) {
               satisfied = true;
             } else {
-              final long remainingNanos;
+              long remainingNanos;
               if (startTime == 0L) {
                 startTime = initNanoTime(timeoutNanos);
                 remainingNanos = timeoutNanos;
@@ -676,7 +676,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     lock.lock();
 
     boolean satisfied = false;
@@ -736,7 +736,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     lock.lockInterruptibly();
 
     boolean satisfied = false;
@@ -772,7 +772,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     if (!lock.tryLock(time, unit)) {
       return false;
     }
@@ -799,7 +799,7 @@ public final class Monitor {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     if (!lock.tryLock()) {
       return false;
     }
@@ -850,7 +850,7 @@ public final class Monitor {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {
-    final long timeoutNanos = toSafeNanos(time, unit);
+    long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) && lock.isHeldByCurrentThread())) {
       throw new IllegalMonitorStateException();
     }
@@ -895,7 +895,7 @@ public final class Monitor {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {
-    final long timeoutNanos = toSafeNanos(time, unit);
+    long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) && lock.isHeldByCurrentThread())) {
       throw new IllegalMonitorStateException();
     }
@@ -903,7 +903,7 @@ public final class Monitor {
       return true;
     }
     boolean signalBeforeWaiting = true;
-    final long startTime = initNanoTime(timeoutNanos);
+    long startTime = initNanoTime(timeoutNanos);
     boolean interrupted = Thread.interrupted();
     try {
       for (long remainingNanos = timeoutNanos; ; ) {
@@ -927,7 +927,7 @@ public final class Monitor {
 
   /** Leaves this monitor. May be called only by a thread currently occupying this monitor. */
   public void leave() {
-    final ReentrantLock lock = this.lock;
+    ReentrantLock lock = this.lock;
     try {
       // No need to signal if we will still be holding the lock when we return
       if (lock.getHoldCount() == 1) {

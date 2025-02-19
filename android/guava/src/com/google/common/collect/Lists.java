@@ -594,7 +594,7 @@ public final class Lists {
     }
 
     @Override
-    public ListIterator<T> listIterator(final int index) {
+    public ListIterator<T> listIterator(int index) {
       return new TransformedListIterator<F, T>(fromList.listIterator(index)) {
         @Override
         @ParametricNullness
@@ -925,7 +925,7 @@ public final class Lists {
     @Override
     public ListIterator<T> listIterator(int index) {
       int start = reversePosition(index);
-      final ListIterator<T> forwardIterator = forwardList.listIterator(start);
+      ListIterator<T> forwardIterator = forwardList.listIterator(start);
       return new ListIterator<T>() {
 
         boolean canRemoveOrSet;
@@ -1123,7 +1123,7 @@ public final class Lists {
 
   /** An implementation of {@link List#subList(int, int)}. */
   static <E extends @Nullable Object> List<E> subListImpl(
-      final List<E> list, int fromIndex, int toIndex) {
+      List<E> list, int fromIndex, int toIndex) {
     List<E> wrapper;
     if (list instanceof RandomAccess) {
       wrapper =

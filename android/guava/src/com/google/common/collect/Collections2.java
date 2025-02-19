@@ -182,7 +182,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(Collection<?> collection) {
       boolean changed = false;
       Iterator<E> itr = unfiltered.iterator();
       while (itr.hasNext()) {
@@ -196,7 +196,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(Collection<?> collection) {
       boolean changed = false;
       Iterator<E> itr = unfiltered.iterator();
       while (itr.hasNext()) {
@@ -309,7 +309,7 @@ public final class Collections2 {
   }
 
   /** An implementation of {@link Collection#toString()}. */
-  static String toStringImpl(final Collection<?> collection) {
+  static String toStringImpl(Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
     boolean first = true;
     for (Object o : collection) {

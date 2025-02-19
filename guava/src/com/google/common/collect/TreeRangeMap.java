@@ -314,8 +314,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     // Create entries mapping any unmapped ranges in the merge range to the specified value.
     ImmutableMap.Builder<Cut<K>, RangeMapEntry<K, V>> gaps = ImmutableMap.builder();
     if (value != null) {
-      final Iterator<Entry<Cut<K>, RangeMapEntry<K, V>>> backingItr =
-          entriesInMergeRange.iterator();
+      Iterator<Entry<Cut<K>, RangeMapEntry<K, V>>> backingItr = entriesInMergeRange.iterator();
       Cut<K> lowerBound = range.lowerBound;
       while (backingItr.hasNext()) {
         RangeMapEntry<K, V> entry = backingItr.next().getValue();
@@ -331,7 +330,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     // Remap all existing entries in the merge range.
-    final Iterator<Entry<Cut<K>, RangeMapEntry<K, V>>> backingItr = entriesInMergeRange.iterator();
+    Iterator<Entry<Cut<K>, RangeMapEntry<K, V>>> backingItr = entriesInMergeRange.iterator();
     while (backingItr.hasNext()) {
       Entry<Cut<K>, RangeMapEntry<K, V>> entry = backingItr.next();
       V newValue = remappingFunction.apply(entry.getValue().getValue(), value);
@@ -619,7 +618,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           if (subRange.isEmpty()) {
             return emptyIterator();
           }
-          final Iterator<RangeMapEntry<K, V>> backingItr =
+          Iterator<RangeMapEntry<K, V>> backingItr =
               entriesByLowerBound
                   .headMap(subRange.upperBound, false)
                   .descendingMap()
@@ -785,7 +784,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         Cut<K> cutToStart =
             MoreObjects.firstNonNull(
                 entriesByLowerBound.floorKey(subRange.lowerBound), subRange.lowerBound);
-        final Iterator<RangeMapEntry<K, V>> backingItr =
+        Iterator<RangeMapEntry<K, V>> backingItr =
             entriesByLowerBound.tailMap(cutToStart, true).values().iterator();
         return new AbstractIterator<Entry<Range<K>, V>>() {
 

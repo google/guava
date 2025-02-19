@@ -498,7 +498,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   }
 
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
-      final Comparator<? super K> comparator,
+      Comparator<? super K> comparator,
       boolean sameComparator,
       @Nullable Entry<K, V>[] entryArray,
       int size) {

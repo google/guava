@@ -324,7 +324,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public ImmutableRangeMap<K, V> subRangeMap(final Range<K> range) {
+  public ImmutableRangeMap<K, V> subRangeMap(Range<K> range) {
     if (checkNotNull(range).isEmpty()) {
       return ImmutableRangeMap.of();
     } else if (ranges.isEmpty() || range.encloses(span())) {
@@ -347,8 +347,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     if (lowerIndex >= upperIndex) {
       return ImmutableRangeMap.of();
     }
-    final int off = lowerIndex;
-    final int len = upperIndex - lowerIndex;
+    int off = lowerIndex;
+    int len = upperIndex - lowerIndex;
     ImmutableList<Range<K>> subRanges =
         new ImmutableList<Range<K>>() {
           @Override
@@ -379,7 +379,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
             return super.writeReplace();
           }
         };
-    final ImmutableRangeMap<K, V> outer = this;
+    ImmutableRangeMap<K, V> outer = this;
     return new ImmutableRangeMap<K, V>(subRanges, values.subList(lowerIndex, upperIndex)) {
       @Override
       public ImmutableRangeMap<K, V> subRangeMap(Range<K> subRange) {

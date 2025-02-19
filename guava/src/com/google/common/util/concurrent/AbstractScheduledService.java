@@ -141,8 +141,7 @@ public abstract class AbstractScheduledService implements Service {
      * @param unit the time unit of the initialDelay and delay parameters
      */
     @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-    public static Scheduler newFixedDelaySchedule(
-        final long initialDelay, final long delay, final TimeUnit unit) {
+    public static Scheduler newFixedDelaySchedule(long initialDelay, long delay, TimeUnit unit) {
       checkNotNull(unit);
       checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
@@ -177,8 +176,7 @@ public abstract class AbstractScheduledService implements Service {
      * @param unit the time unit of the initialDelay and period parameters
      */
     @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-    public static Scheduler newFixedRateSchedule(
-        final long initialDelay, final long period, final TimeUnit unit) {
+    public static Scheduler newFixedRateSchedule(long initialDelay, long period, TimeUnit unit) {
       checkNotNull(unit);
       checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
@@ -372,7 +370,7 @@ public abstract class AbstractScheduledService implements Service {
         return MoreExecutors.newThread(serviceName(), runnable);
       }
     }
-    final ScheduledExecutorService executor =
+    ScheduledExecutorService executor =
         Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());
     // Add a listener to shut down the executor after the service is stopped. This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.

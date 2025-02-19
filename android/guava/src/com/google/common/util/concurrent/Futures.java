@@ -516,7 +516,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @J2ktIncompatible
   @GwtIncompatible // TODO
   public static <I extends @Nullable Object, O extends @Nullable Object> Future<O> lazyTransform(
-      final Future<I> input, final Function<? super I, ? extends O> function) {
+      Future<I> input, Function<? super I, ? extends O> function) {
     checkNotNull(input);
     checkNotNull(function);
     return new Future<O>() {
@@ -766,7 +766,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *     you should typically check whether it failed: See <a
      *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.
      */
-    public ListenableFuture<?> run(final Runnable combiner, Executor executor) {
+    public ListenableFuture<?> run(Runnable combiner, Executor executor) {
       return call(
           new Callable<@Nullable Void>() {
             @Override
@@ -801,7 +801,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       extends AbstractFuture.TrustedFuture<V> implements Runnable {
     @LazyInit private @Nullable ListenableFuture<V> delegate;
 
-    NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
+    NonCancellationPropagatingFuture(ListenableFuture<V> delegate) {
       this.delegate = delegate;
     }
 
@@ -913,16 +913,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <T extends @Nullable Object> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
     ListenableFuture<? extends T>[] copy = gwtCompatibleToArray(futures);
-    final InCompletionOrderState<T> state = new InCompletionOrderState<>(copy);
+    InCompletionOrderState<T> state = new InCompletionOrderState<>(copy);
     ImmutableList.Builder<AbstractFuture<T>> delegatesBuilder =
         ImmutableList.builderWithExpectedSize(copy.length);
     for (int i = 0; i < copy.length; i++) {
       delegatesBuilder.add(new InCompletionOrderFuture<T>(state));
     }
 
-    final ImmutableList<AbstractFuture<T>> delegates = delegatesBuilder.build();
+    ImmutableList<AbstractFuture<T>> delegates = delegatesBuilder.build();
     for (int i = 0; i < copy.length; i++) {
-      final int localI = i;
+      int localI = i;
       copy[i].addListener(() -> state.recordInputCompletion(delegates, localI), directExecutor());
     }
 
@@ -935,7 +935,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @SuppressWarnings("unchecked")
   private static <T extends @Nullable Object> ListenableFuture<? extends T>[] gwtCompatibleToArray(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
-    final Collection<ListenableFuture<? extends T>> collection;
+    Collection<ListenableFuture<? extends T>> collection;
     if (futures instanceof Collection) {
       collection = (Collection<ListenableFuture<? extends T>>) futures;
     } else {
@@ -1097,9 +1097,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   public static <V extends @Nullable Object> void addCallback(
-      final ListenableFuture<V> future,
-      final FutureCallback<? super V> callback,
-      Executor executor) {
+      ListenableFuture<V> future, FutureCallback<? super V> callback, Executor executor) {
     Preconditions.checkNotNull(callback);
     future.addListener(new CallbackListener<V>(future, callback), executor);
   }
@@ -1124,7 +1122,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           return;
         }
       }
-      final V value;
+      V value;
       try {
         value = getDone(future);
       } catch (ExecutionException e) {

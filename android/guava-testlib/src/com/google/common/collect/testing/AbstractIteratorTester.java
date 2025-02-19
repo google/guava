@@ -368,7 +368,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
   }
 
   private static List<Object> subListCopy(Object[] source, int size) {
-    final Object[] copy = new Object[size];
+    Object[] copy = new Object[size];
     arraycopy(source, 0, copy, 0, size);
     return asList(copy);
   }
@@ -479,7 +479,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
       };
 
   private final IteratorOperation newAddMethod() {
-    final Object toInsert = elementsToInsert.next();
+    Object toInsert = elementsToInsert.next();
     return new IteratorOperation() {
       @Override
       public @Nullable Object execute(Iterator<?> iterator) {
@@ -492,7 +492,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
   }
 
   private final IteratorOperation newSetMethod() {
-    final E toInsert = elementsToInsert.next();
+    E toInsert = elementsToInsert.next();
     return new IteratorOperation() {
       @Override
       public @Nullable Object execute(Iterator<?> iterator) {

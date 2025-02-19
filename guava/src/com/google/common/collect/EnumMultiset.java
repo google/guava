@@ -264,7 +264,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   Iterator<Entry<E>> entryIterator() {
     return new Itr<Entry<E>>() {
       @Override
-      Entry<E> output(final int index) {
+      Entry<E> output(int index) {
         return new Multisets.AbstractEntry<E>() {
           @Override
           public E getElement() {

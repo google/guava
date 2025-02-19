@@ -396,7 +396,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       if (backingRowMap == null) {
         return Iterators.emptyModifiableIterator();
       }
-      final Iterator<Entry<C, V>> iterator = backingRowMap.entrySet().iterator();
+      Iterator<Entry<C, V>> iterator = backingRowMap.entrySet().iterator();
       return new Iterator<Entry<C, V>>() {
         @Override
         public boolean hasNext() {
@@ -425,7 +425,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       return CollectSpliterators.map(backingRowMap.entrySet().spliterator(), this::wrapEntry);
     }
 
-    Entry<C, V> wrapEntry(final Entry<C, V> entry) {
+    Entry<C, V> wrapEntry(Entry<C, V> entry) {
       return new ForwardingMapEntry<C, V>() {
         @Override
         protected Entry<C, V> delegate() {
@@ -566,7 +566,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       @Override
       protected @Nullable Entry<R, V> computeNext() {
         while (iterator.hasNext()) {
-          final Entry<R, Map<C, V>> entry = iterator.next();
+          Entry<R, Map<C, V>> entry = iterator.next();
           if (entry.getValue().containsKey(columnKey)) {
             @WeakOuter
             class EntryImpl extends AbstractMapEntry<R, V> {
@@ -629,7 +629,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override
-      public boolean retainAll(final Collection<?> c) {
+      public boolean retainAll(Collection<?> c) {
         return removeFromColumnIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
       }
     }
@@ -651,12 +651,12 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override
-      public boolean removeAll(final Collection<?> c) {
+      public boolean removeAll(Collection<?> c) {
         return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(in(c)));
       }
 
       @Override
-      public boolean retainAll(final Collection<?> c) {
+      public boolean retainAll(Collection<?> c) {
         return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
       }
     }

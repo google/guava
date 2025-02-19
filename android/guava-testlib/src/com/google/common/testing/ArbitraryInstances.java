@@ -365,7 +365,7 @@ public final class ArbitraryInstances {
     if (Modifier.isAbstract(type.getModifiers()) || !Modifier.isPublic(type.getModifiers())) {
       return arbitraryConstantInstanceOrNull(type);
     }
-    final Constructor<T> constructor;
+    Constructor<T> constructor;
     try {
       constructor = type.getConstructor();
     } catch (NoSuchMethodException e) {

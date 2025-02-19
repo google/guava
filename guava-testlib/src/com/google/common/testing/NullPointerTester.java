@@ -229,8 +229,7 @@ public final class NullPointerTester {
    *
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
-  public void testMethodParameter(
-      @Nullable final Object instance, final Method method, int paramIndex) {
+  public void testMethodParameter(@Nullable Object instance, Method method, int paramIndex) {
     method.setAccessible(true);
     testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
@@ -447,7 +446,7 @@ public final class NullPointerTester {
   }
 
   private <F, T> Converter<F, T> defaultConverter(
-      final TypeToken<F> convertFromType, final TypeToken<T> convertToType) {
+      TypeToken<F> convertFromType, TypeToken<T> convertToType) {
     return new Converter<F, T>() {
       @Override
       protected T doForward(F a) {
@@ -473,7 +472,7 @@ public final class NullPointerTester {
     }
   }
 
-  private <T> T newDefaultReturningProxy(final TypeToken<T> type) {
+  private <T> T newDefaultReturningProxy(TypeToken<T> type) {
     return new DummyProxy() {
       @Override
       <R> @Nullable R dummyReturnValue(TypeToken<R> returnType) {

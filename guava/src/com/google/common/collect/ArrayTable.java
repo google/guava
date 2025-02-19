@@ -221,7 +221,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
       return keyIndex.isEmpty();
     }
 
-    Entry<K, V> getEntry(final int index) {
+    Entry<K, V> getEntry(int index) {
       checkElementIndex(index, size());
       return new AbstractMapEntry<K, V>() {
         @Override
@@ -247,7 +247,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     Iterator<Entry<K, V>> entryIterator() {
       return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
         @Override
-        protected Entry<K, V> get(final int index) {
+        protected Entry<K, V> get(int index) {
           return getEntry(index);
         }
       };
@@ -550,7 +550,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   Iterator<Cell<R, C, @Nullable V>> cellIterator() {
     return new AbstractIndexedListIterator<Cell<R, C, @Nullable V>>(size()) {
       @Override
-      protected Cell<R, C, @Nullable V> get(final int index) {
+      protected Cell<R, C, @Nullable V> get(int index) {
         return getCell(index);
       }
     };
@@ -562,7 +562,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
         size(), Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.DISTINCT, this::getCell);
   }
 
-  private Cell<R, C, @Nullable V> getCell(final int index) {
+  private Cell<R, C, @Nullable V> getCell(int index) {
     return new Tables.AbstractCell<R, C, @Nullable V>() {
       final int rowIndex = index / columnList.size();
       final int columnIndex = index % columnList.size();

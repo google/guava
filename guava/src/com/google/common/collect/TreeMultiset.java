@@ -370,7 +370,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     }
   }
 
-  private Entry<E> wrapEntry(final AvlNode<E> baseEntry) {
+  private Entry<E> wrapEntry(AvlNode<E> baseEntry) {
     return new Multisets.AbstractEntry<E>() {
       @Override
       @ParametricNullness

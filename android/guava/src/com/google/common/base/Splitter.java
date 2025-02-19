@@ -137,7 +137,7 @@ public final class Splitter {
    *     separator
    * @return a splitter, with default settings, that uses this matcher
    */
-  public static Splitter on(final CharMatcher separatorMatcher) {
+  public static Splitter on(CharMatcher separatorMatcher) {
     checkNotNull(separatorMatcher);
 
     return new Splitter(
@@ -163,7 +163,7 @@ public final class Splitter {
    * @param separator the literal, nonempty string to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
-  public static Splitter on(final String separator) {
+  public static Splitter on(String separator) {
     checkArgument(separator.length() != 0, "The separator may not be the empty string.");
     if (separator.length() == 1) {
       return Splitter.on(separator.charAt(0));
@@ -210,7 +210,7 @@ public final class Splitter {
   }
 
   /** Internal utility; see {@link #on(Pattern)} instead. */
-  static Splitter onPatternInternal(final CommonPattern separatorPattern) {
+  static Splitter onPatternInternal(CommonPattern separatorPattern) {
     checkArgument(
         !separatorPattern.matcher("").matches(),
         "The pattern may not match the empty string: %s",
@@ -218,7 +218,7 @@ public final class Splitter {
 
     return new Splitter(
         (splitter, toSplit) -> {
-          final CommonMatcher matcher = separatorPattern.matcher(toSplit);
+          CommonMatcher matcher = separatorPattern.matcher(toSplit);
           return new SplittingIterator(splitter, toSplit) {
             @Override
             public int separatorStart(int start) {
@@ -268,7 +268,7 @@ public final class Splitter {
    * @return a splitter, with default settings, that can split into fixed sized pieces
    * @throws IllegalArgumentException if {@code length} is zero or negative
    */
-  public static Splitter fixedLength(final int length) {
+  public static Splitter fixedLength(int length) {
     checkArgument(length > 0, "The length may not be less than 1");
 
     return new Splitter(
@@ -365,7 +365,7 @@ public final class Splitter {
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter
    */
-  public Iterable<String> split(final CharSequence sequence) {
+  public Iterable<String> split(CharSequence sequence) {
     checkNotNull(sequence);
 
     return new Iterable<String>() {

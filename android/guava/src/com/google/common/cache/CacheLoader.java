@@ -184,7 +184,7 @@ public abstract class CacheLoader<K, V> {
    */
   @GwtIncompatible // Executor + Futures
   public static <K, V> CacheLoader<K, V> asyncReloading(
-      final CacheLoader<K, V> loader, final Executor executor) {
+      CacheLoader<K, V> loader, Executor executor) {
     checkNotNull(loader);
     checkNotNull(executor);
     return new CacheLoader<K, V>() {
@@ -194,7 +194,7 @@ public abstract class CacheLoader<K, V> {
       }
 
       @Override
-      public ListenableFuture<V> reload(final K key, final V oldValue) {
+      public ListenableFuture<V> reload(K key, V oldValue) {
         ListenableFutureTask<V> task =
             ListenableFutureTask.create(() -> loader.reload(key, oldValue).get());
         executor.execute(task);

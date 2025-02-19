@@ -140,7 +140,7 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
         + edgeValueMap(this);
   }
 
-  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
+  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(ValueGraph<N, V> graph) {
     return Maps.asMap(
         graph.edges(),
         edge ->

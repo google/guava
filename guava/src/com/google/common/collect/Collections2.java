@@ -200,12 +200,12 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(Collection<?> collection) {
       return removeIf(collection::contains);
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(Collection<?> collection) {
       return removeIf(element -> !collection.contains(element));
     }
 
@@ -332,7 +332,7 @@ public final class Collections2 {
   }
 
   /** An implementation of {@link Collection#toString()}. */
-  static String toStringImpl(final Collection<?> collection) {
+  static String toStringImpl(Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
     boolean first = true;
     for (Object o : collection) {

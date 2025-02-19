@@ -376,7 +376,7 @@ public final class InetAddresses {
   /** Returns a -1 if unable to parse */
   private static int tryParseDecimal(String string, int start, int end) {
     int decimal = 0;
-    final int max = Integer.MAX_VALUE / 10; // for int overflow detection
+    int max = Integer.MAX_VALUE / 10; // for int overflow detection
     for (int i = start; i < end; i++) {
       if (decimal > max) {
         return -1;

@@ -669,7 +669,7 @@ public final class ServiceManager implements ServiceManagerBridge {
      *   <li>Run the listeners (outside of the lock)
      * </ol>
      */
-    void transitionService(final Service service, State from, State to) {
+    void transitionService(Service service, State from, State to) {
       checkNotNull(service);
       checkArgument(from != to);
       monitor.enter();
@@ -732,7 +732,7 @@ public final class ServiceManager implements ServiceManagerBridge {
       listeners.enqueue(HEALTHY_EVENT);
     }
 
-    void enqueueFailedEvent(final Service service) {
+    void enqueueFailedEvent(Service service) {
       listeners.enqueue(
           new ListenerCallQueue.Event<Listener>() {
             @Override

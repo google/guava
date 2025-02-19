@@ -84,7 +84,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
    * Wraps the {@code setValue} implementation of an {@code Entry} to enforce the class constraint.
    */
   private static <B extends @Nullable Object> Entry<Class<? extends @NonNull B>, B> checkedEntry(
-      final Entry<Class<? extends @NonNull B>, B> entry) {
+      Entry<Class<? extends @NonNull B>, B> entry) {
     return new ForwardingMapEntry<Class<? extends @NonNull B>, B>() {
       @Override
       protected Entry<Class<? extends @NonNull B>, B> delegate() {

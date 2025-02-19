@@ -187,7 +187,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     return edgesConnecting(endpoints.nodeU(), endpoints.nodeV());
   }
 
-  private Predicate<E> connectedPredicate(final N nodePresent, final N nodeToCheck) {
+  private Predicate<E> connectedPredicate(N nodePresent, N nodeToCheck) {
     return edge -> incidentNodes(edge).adjacentNode(nodePresent).equals(nodeToCheck);
   }
 
@@ -320,7 +320,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
         () -> String.format(NODE_PAIR_REMOVED_FROM_GRAPH, nodeU, nodeV));
   }
 
-  private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {
+  private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(Network<N, E> network) {
     return Maps.asMap(network.edges(), network::incidentNodes);
   }
 }

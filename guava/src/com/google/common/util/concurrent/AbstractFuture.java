@@ -492,7 +492,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       throws InterruptedException, TimeoutException, ExecutionException {
     // NOTE: if timeout < 0, remainingNanos will be < 0 and we will fall into the while(true) loop
     // at the bottom and throw a timeoutexception.
-    final long timeoutNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.
+    long timeoutNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.
     long remainingNanos = timeoutNanos;
     if (Thread.interrupted()) {
       throw new InterruptedException();
@@ -502,7 +502,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return getDoneValue(localValue);
     }
     // we delay calling nanoTime until we know we will need to either park or spin
-    final long endNanos = remainingNanos > 0 ? System.nanoTime() + remainingNanos : 0;
+    long endNanos = remainingNanos > 0 ? System.nanoTime() + remainingNanos : 0;
     long_wait_loop:
     if (remainingNanos >= SPIN_THRESHOLD_NANOS) {
       Waiter oldHead = waiters;
@@ -557,7 +557,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     }
 
     String futureToString = toString();
-    final String unitString = unit.toString().toLowerCase(Locale.ROOT);
+    String unitString = unit.toString().toLowerCase(Locale.ROOT);
     String message = "Waited " + timeout + " " + unit.toString().toLowerCase(Locale.ROOT);
     // Only report scheduling delay if larger than our spin threshold - otherwise it's just noise
     if (remainingNanos + SPIN_THRESHOLD_NANOS < 0) {

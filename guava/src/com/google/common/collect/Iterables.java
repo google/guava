@@ -70,7 +70,7 @@ public final class Iterables {
 
   /** Returns an unmodifiable view of {@code iterable}. */
   public static <T extends @Nullable Object> Iterable<T> unmodifiableIterable(
-      final Iterable<? extends T> iterable) {
+      Iterable<? extends T> iterable) {
     checkNotNull(iterable);
     if (iterable instanceof UnmodifiableIterable || iterable instanceof ImmutableCollection) {
       @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
@@ -372,7 +372,7 @@ public final class Iterables {
    * <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
    * Stream.generate(() -> iterable).flatMap(Streams::stream)}.
    */
-  public static <T extends @Nullable Object> Iterable<T> cycle(final Iterable<T> iterable) {
+  public static <T extends @Nullable Object> Iterable<T> cycle(Iterable<T> iterable) {
     checkNotNull(iterable);
     return new FluentIterable<T>() {
       @Override
@@ -527,7 +527,7 @@ public final class Iterables {
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
   public static <T extends @Nullable Object> Iterable<List<T>> partition(
-      final Iterable<T> iterable, final int size) {
+      Iterable<T> iterable, int size) {
     checkNotNull(iterable);
     checkArgument(size > 0);
     return new FluentIterable<List<T>>() {
@@ -554,7 +554,7 @@ public final class Iterables {
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
   public static <T extends @Nullable Object> Iterable<List<@Nullable T>> paddedPartition(
-      final Iterable<T> iterable, final int size) {
+      Iterable<T> iterable, int size) {
     checkNotNull(iterable);
     checkArgument(size > 0);
     return new FluentIterable<List<@Nullable T>>() {
@@ -572,7 +572,7 @@ public final class Iterables {
    * <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.
    */
   public static <T extends @Nullable Object> Iterable<T> filter(
-      final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
+      Iterable<T> unfiltered, Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
     checkNotNull(retainIfTrue);
     return new FluentIterable<T>() {
@@ -615,7 +615,7 @@ public final class Iterables {
    */
   @SuppressWarnings("unchecked")
   @GwtIncompatible // Class.isInstance
-  public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
+  public static <T> Iterable<T> filter(Iterable<?> unfiltered, Class<T> desiredType) {
     checkNotNull(unfiltered);
     checkNotNull(desiredType);
     return (Iterable<T>) filter(unfiltered, Predicates.instanceOf(desiredType));
@@ -731,7 +731,7 @@ public final class Iterables {
    * <p><b>{@code Stream} equivalent:</b> {@link Stream#map}
    */
   public static <F extends @Nullable Object, T extends @Nullable Object> Iterable<T> transform(
-      final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
+      Iterable<F> fromIterable, Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);
     checkNotNull(function);
     return new FluentIterable<T>() {
@@ -899,7 +899,7 @@ public final class Iterables {
    * @since 3.0
    */
   public static <T extends @Nullable Object> Iterable<T> skip(
-      final Iterable<T> iterable, final int numberToSkip) {
+      Iterable<T> iterable, int numberToSkip) {
     checkNotNull(iterable);
     checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
 
@@ -907,11 +907,11 @@ public final class Iterables {
       @Override
       public Iterator<T> iterator() {
         if (iterable instanceof List) {
-          final List<T> list = (List<T>) iterable;
+          List<T> list = (List<T>) iterable;
           int toSkip = Math.min(list.size(), numberToSkip);
           return list.subList(toSkip, list.size()).iterator();
         }
-        final Iterator<T> iterator = iterable.iterator();
+        Iterator<T> iterator = iterable.iterator();
 
         Iterators.advance(iterator, numberToSkip);
 
@@ -947,7 +947,7 @@ public final class Iterables {
       @Override
       public Spliterator<T> spliterator() {
         if (iterable instanceof List) {
-          final List<T> list = (List<T>) iterable;
+          List<T> list = (List<T>) iterable;
           int toSkip = Math.min(list.size(), numberToSkip);
           return list.subList(toSkip, list.size()).spliterator();
         } else {
@@ -971,7 +971,7 @@ public final class Iterables {
    * @since 3.0
    */
   public static <T extends @Nullable Object> Iterable<T> limit(
-      final Iterable<T> iterable, final int limitSize) {
+      Iterable<T> iterable, int limitSize) {
     checkNotNull(iterable);
     checkArgument(limitSize >= 0, "limit is negative");
     return new FluentIterable<T>() {
@@ -1006,8 +1006,7 @@ public final class Iterables {
    * @see Iterators#consumingIterator(Iterator)
    * @since 2.0
    */
-  public static <T extends @Nullable Object> Iterable<T> consumingIterable(
-      final Iterable<T> iterable) {
+  public static <T extends @Nullable Object> Iterable<T> consumingIterable(Iterable<T> iterable) {
     checkNotNull(iterable);
 
     return new FluentIterable<T>() {
@@ -1058,8 +1057,7 @@ public final class Iterables {
    * @since 11.0
    */
   public static <T extends @Nullable Object> Iterable<T> mergeSorted(
-      final Iterable<? extends Iterable<? extends T>> iterables,
-      final Comparator<? super T> comparator) {
+      Iterable<? extends Iterable<? extends T>> iterables, Comparator<? super T> comparator) {
     checkNotNull(iterables, "iterables");
     checkNotNull(comparator, "comparator");
     Iterable<T> iterable =

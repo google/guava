@@ -294,7 +294,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Static factories
 
   /** Returns a {@code char} matcher that matches only one specified BMP character. */
-  public static CharMatcher is(final char match) {
+  public static CharMatcher is(char match) {
     return new Is(match);
   }
 
@@ -303,7 +303,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
-  public static CharMatcher isNot(final char match) {
+  public static CharMatcher isNot(char match) {
     return new IsNot(match);
   }
 
@@ -311,7 +311,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a {@code char} matcher that matches any BMP character present in the given character
    * sequence. Returns a bogus matcher if the sequence contains supplementary characters.
    */
-  public static CharMatcher anyOf(final CharSequence sequence) {
+  public static CharMatcher anyOf(CharSequence sequence) {
     switch (sequence.length()) {
       case 0:
         return none();
@@ -341,7 +341,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * @throws IllegalArgumentException if {@code endInclusive < startInclusive}
    */
-  public static CharMatcher inRange(final char startInclusive, final char endInclusive) {
+  public static CharMatcher inRange(char startInclusive, char endInclusive) {
     return new InRange(startInclusive, endInclusive);
   }
 
@@ -349,7 +349,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a matcher with identical behavior to the given {@link Character}-based predicate, but
    * which operates on primitive {@code char} instances instead.
    */
-  public static CharMatcher forPredicate(final Predicate<? super Character> predicate) {
+  public static CharMatcher forPredicate(Predicate<? super Character> predicate) {
     return predicate instanceof CharMatcher ? (CharMatcher) predicate : new ForPredicate(predicate);
   }
 
@@ -416,7 +416,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   @GwtIncompatible // SmallCharMatcher
   CharMatcher precomputedInternal() {
-    final BitSet table = new BitSet();
+    BitSet table = new BitSet();
     setBits(table);
     int totalCharacters = table.cardinality();
     if (totalCharacters * 2 <= DISTINCT_CHARS) {
@@ -426,7 +426,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       table.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);
       int negatedCharacters = DISTINCT_CHARS - totalCharacters;
       String suffix = ".negate()";
-      final String description = toString();
+      String description = toString();
       String negatedDescription =
           description.endsWith(suffix)
               ? description.substring(0, description.length() - suffix.length())

@@ -156,14 +156,14 @@ public final class Strings {
     }
 
     // IF YOU MODIFY THE CODE HERE, you must update StringsRepeatBenchmark
-    final int len = string.length();
-    final long longSize = (long) len * (long) count;
-    final int size = (int) longSize;
+    int len = string.length();
+    long longSize = (long) len * (long) count;
+    int size = (int) longSize;
     if (size != longSize) {
       throw new ArrayIndexOutOfBoundsException("Required array size too large: " + longSize);
     }
 
-    final char[] array = new char[size];
+    char[] array = new char[size];
     string.getChars(0, len, array, 0);
     int n;
     for (n = len; n < size - n; n <<= 1) {

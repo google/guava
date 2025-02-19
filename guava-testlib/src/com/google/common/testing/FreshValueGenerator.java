@@ -197,7 +197,7 @@ class FreshValueGenerator {
     return Primitives.wrap(type).cast(generateFresh(TypeToken.of(type)));
   }
 
-  final <T> T newFreshProxy(final Class<T> interfaceType) {
+  final <T> T newFreshProxy(Class<T> interfaceType) {
     T proxy = newProxy(interfaceType);
     freshness.incrementAndGet();
     return proxy;
@@ -272,7 +272,7 @@ class FreshValueGenerator {
     return ArbitraryInstances.get(rawType);
   }
 
-  private <T> T newProxy(final Class<T> interfaceType) {
+  private <T> T newProxy(Class<T> interfaceType) {
     return Reflection.newProxy(interfaceType, new FreshInvocationHandler(interfaceType));
   }
 

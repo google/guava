@@ -1068,7 +1068,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract ImmutableSet<K> createKeySet();
 
   UnmodifiableIterator<K> keyIterator() {
-    final UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
+    UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<K>() {
       @Override
       public boolean hasNext() {
@@ -1167,7 +1167,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     UnmodifiableIterator<Entry<K, ImmutableSet<V>>> entryIterator() {
-      final Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
+      Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
       return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
         @Override
         public boolean hasNext() {
@@ -1176,7 +1176,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
         @Override
         public Entry<K, ImmutableSet<V>> next() {
-          final Entry<K, V> backingEntry = backingIterator.next();
+          Entry<K, V> backingEntry = backingIterator.next();
           return new AbstractMapEntry<K, ImmutableSet<V>>() {
             @Override
             public K getKey() {

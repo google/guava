@@ -570,7 +570,7 @@ public final class ClassSanityTester {
     }
   }
 
-  private void testEqualsUsing(final Invokable<?, ?> factory)
+  private void testEqualsUsing(Invokable<?, ?> factory)
       throws ParameterNotInstantiableException,
           ParameterHasNoDistinctValueException,
           IllegalAccessException,
@@ -587,7 +587,7 @@ public final class ClassSanityTester {
     Object instance = createInstance(factory, args);
     List<Object> equalArgs = generateEqualFactoryArguments(factory, params, args);
     // Each group is a List of items, each item has a list of factory args.
-    final List<List<List<Object>>> argGroups = Lists.newArrayList();
+    List<List<List<Object>>> argGroups = Lists.newArrayList();
     argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester =
         new EqualsTester(

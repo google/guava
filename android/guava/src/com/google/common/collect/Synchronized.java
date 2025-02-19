@@ -901,7 +901,7 @@ final class Synchronized {
       return new TransformedIterator<Map.Entry<K, Collection<V>>, Map.Entry<K, Collection<V>>>(
           super.iterator()) {
         @Override
-        Map.Entry<K, Collection<V>> transform(final Map.Entry<K, Collection<V>> entry) {
+        Map.Entry<K, Collection<V>> transform(Map.Entry<K, Collection<V>> entry) {
           return new ForwardingMapEntry<K, Collection<V>>() {
             @Override
             protected Map.Entry<K, Collection<V>> delegate() {

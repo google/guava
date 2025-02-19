@@ -2392,7 +2392,7 @@ class MapMakerInternalMap<
     // such that none of the subsequent iterations observed it, despite the fact that at every point
     // in time it was present somewhere int the map. This becomes increasingly unlikely as
     // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
-    final Segment<K, V, E, S>[] segments = this.segments;
+    Segment<K, V, E, S>[] segments = this.segments;
     long last = -1L;
     for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
       long sum = 0L;

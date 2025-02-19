@@ -140,7 +140,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * <p><b>{@code Stream} equivalent:</b> {@code iterable.stream()} if {@code iterable} is a {@link
    * Collection}; {@code StreamSupport.stream(iterable.spliterator(), false)} otherwise.
    */
-  public static <E extends @Nullable Object> FluentIterable<E> from(final Iterable<E> iterable) {
+  public static <E extends @Nullable Object> FluentIterable<E> from(Iterable<E> iterable) {
     return (iterable instanceof FluentIterable)
         ? (FluentIterable<E>) iterable
         : new FluentIterable<E>(iterable) {
@@ -274,7 +274,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 20.0
    */
   public static <T extends @Nullable Object> FluentIterable<T> concat(
-      final Iterable<? extends Iterable<? extends T>> inputs) {
+      Iterable<? extends Iterable<? extends T>> inputs) {
     checkNotNull(inputs);
     return new FluentIterable<T>() {
       @Override
@@ -286,7 +286,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
 
   /** Concatenates a varargs array of iterables without making a defensive copy of the array. */
   private static <T extends @Nullable Object> FluentIterable<T> concatNoDefensiveCopy(
-      final Iterable<? extends T>... inputs) {
+      Iterable<? extends T>... inputs) {
     for (Iterable<? extends T> input : inputs) {
       checkNotNull(input);
     }

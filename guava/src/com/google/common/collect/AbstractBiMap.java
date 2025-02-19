@@ -353,7 +353,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   Iterator<Entry<K, V>> entrySetIterator() {
-    final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
+    Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
       @Nullable Entry<K, V> entry;
 

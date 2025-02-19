@@ -469,10 +469,9 @@ public final class ClosingFuture<V extends @Nullable Object> {
    */
   @Deprecated
   public static <C extends @Nullable Object & @Nullable AutoCloseable>
-      ClosingFuture<C> eventuallyClosing(
-          ListenableFuture<C> future, final Executor closingExecutor) {
+      ClosingFuture<C> eventuallyClosing(ListenableFuture<C> future, Executor closingExecutor) {
     checkNotNull(closingExecutor);
-    final ClosingFuture<C> closingFuture = new ClosingFuture<>(nonCancellationPropagating(future));
+    ClosingFuture<C> closingFuture = new ClosingFuture<>(nonCancellationPropagating(future));
     Futures.addCallback(
         future,
         new FutureCallback<@Nullable AutoCloseable>() {
@@ -682,7 +681,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *     finished}
    */
   public <U extends @Nullable Object> ClosingFuture<U> transform(
-      final ClosingFunction<? super V, U> function, Executor executor) {
+      ClosingFunction<? super V, U> function, Executor executor) {
     checkNotNull(function);
     AsyncFunction<V, U> applyFunction =
         new AsyncFunction<V, U>() {
@@ -776,7 +775,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *     finished}
    */
   public <U extends @Nullable Object> ClosingFuture<U> transformAsync(
-      final AsyncClosingFunction<? super V, U> function, Executor executor) {
+      AsyncClosingFunction<? super V, U> function, Executor executor) {
     checkNotNull(function);
     AsyncFunction<V, U> applyFunction =
         new AsyncFunction<V, U>() {
@@ -820,7 +819,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *     ListenableFuture} with the value of a derived step
    */
   public static <V extends @Nullable Object, U extends @Nullable Object>
-      AsyncClosingFunction<V, U> withoutCloser(final AsyncFunction<V, U> function) {
+      AsyncClosingFunction<V, U> withoutCloser(AsyncFunction<V, U> function) {
     checkNotNull(function);
     return (closer, input) -> ClosingFuture.from(function.apply(input));
   }
@@ -873,7 +872,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
   // Avoids generic type capture inconsistency problems where |? extends V| is incompatible with V.
   private <X extends Throwable, W extends V> ClosingFuture<V> catchingMoreGeneric(
-      Class<X> exceptionType, final ClosingFunction<? super X, W> fallback, Executor executor) {
+      Class<X> exceptionType, ClosingFunction<? super X, W> fallback, Executor executor) {
     checkNotNull(fallback);
     AsyncFunction<X, W> applyFallback =
         new AsyncFunction<X, W>() {
@@ -970,9 +969,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
   // Avoids generic type capture inconsistency problems where |? extends V| is incompatible with V.
   private <X extends Throwable, W extends V> ClosingFuture<V> catchingAsyncMoreGeneric(
-      Class<X> exceptionType,
-      final AsyncClosingFunction<? super X, W> fallback,
-      Executor executor) {
+      Class<X> exceptionType, AsyncClosingFunction<? super X, W> fallback, Executor executor) {
     checkNotNull(fallback);
     AsyncFunction<X, W> asyncFunction =
         new AsyncFunction<X, W>() {
@@ -1049,7 +1046,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *     operation is done
    */
   public void finishToValueAndCloser(
-      final ValueAndCloserConsumer<? super V> consumer, Executor executor) {
+      ValueAndCloserConsumer<? super V> consumer, Executor executor) {
     checkNotNull(consumer);
     if (!compareAndUpdateState(OPEN, WILL_CREATE_VALUE_AND_CLOSER)) {
       switch (state.get()) {
@@ -1276,7 +1273,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * {@code ExecutionException} will be extracted and used as the failure of the derived step.
      */
     public <V extends @Nullable Object> ClosingFuture<V> call(
-        final CombiningCallable<V> combiningCallable, Executor executor) {
+        CombiningCallable<V> combiningCallable, Executor executor) {
       Callable<V> callable =
           new Callable<V>() {
             @Override
@@ -1332,7 +1329,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
     public <V extends @Nullable Object> ClosingFuture<V> callAsync(
-        final AsyncCombiningCallable<V> combiningCallable, Executor executor) {
+        AsyncCombiningCallable<V> combiningCallable, Executor executor) {
       AsyncCallable<V> asyncCallable =
           new AsyncCallable<V>() {
             @Override
@@ -1446,7 +1443,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ExecutionException} will be extracted and used as the failure of the derived step.
      */
     public <U extends @Nullable Object> ClosingFuture<U> call(
-        final ClosingFunction2<V1, V2, U> function, Executor executor) {
+        ClosingFunction2<V1, V2, U> function, Executor executor) {
       return call(
           new CombiningCallable<U>() {
             @Override
@@ -1499,7 +1496,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
     public <U extends @Nullable Object> ClosingFuture<U> callAsync(
-        final AsyncClosingFunction2<V1, V2, U> function, Executor executor) {
+        AsyncClosingFunction2<V1, V2, U> function, Executor executor) {
       return callAsync(
           new AsyncCombiningCallable<U>() {
             @Override
@@ -1615,7 +1612,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ExecutionException} will be extracted and used as the failure of the derived step.
      */
     public <U extends @Nullable Object> ClosingFuture<U> call(
-        final ClosingFunction3<V1, V2, V3, U> function, Executor executor) {
+        ClosingFunction3<V1, V2, V3, U> function, Executor executor) {
       return call(
           new CombiningCallable<U>() {
             @Override
@@ -1672,7 +1669,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
     public <U extends @Nullable Object> ClosingFuture<U> callAsync(
-        final AsyncClosingFunction3<V1, V2, V3, U> function, Executor executor) {
+        AsyncClosingFunction3<V1, V2, V3, U> function, Executor executor) {
       return callAsync(
           new AsyncCombiningCallable<U>() {
             @Override
@@ -1808,7 +1805,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ExecutionException} will be extracted and used as the failure of the derived step.
      */
     public <U extends @Nullable Object> ClosingFuture<U> call(
-        final ClosingFunction4<V1, V2, V3, V4, U> function, Executor executor) {
+        ClosingFunction4<V1, V2, V3, V4, U> function, Executor executor) {
       return call(
           new CombiningCallable<U>() {
             @Override
@@ -1866,7 +1863,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
     public <U extends @Nullable Object> ClosingFuture<U> callAsync(
-        final AsyncClosingFunction4<V1, V2, V3, V4, U> function, Executor executor) {
+        AsyncClosingFunction4<V1, V2, V3, V4, U> function, Executor executor) {
       return callAsync(
           new AsyncCombiningCallable<U>() {
             @Override
@@ -2016,7 +2013,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ExecutionException} will be extracted and used as the failure of the derived step.
      */
     public <U extends @Nullable Object> ClosingFuture<U> call(
-        final ClosingFunction5<V1, V2, V3, V4, V5, U> function, Executor executor) {
+        ClosingFunction5<V1, V2, V3, V4, V5, U> function, Executor executor) {
       return call(
           new CombiningCallable<U>() {
             @Override
@@ -2076,7 +2073,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
     public <U extends @Nullable Object> ClosingFuture<U> callAsync(
-        final AsyncClosingFunction5<V1, V2, V3, V4, V5, U> function, Executor executor) {
+        AsyncClosingFunction5<V1, V2, V3, V4, V5, U> function, Executor executor) {
       return callAsync(
           new AsyncCombiningCallable<U>() {
             @Override
@@ -2114,7 +2111,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
   }
 
-  private static void closeQuietly(final @Nullable AutoCloseable closeable, Executor executor) {
+  private static void closeQuietly(@Nullable AutoCloseable closeable, Executor executor) {
     if (closeable == null) {
       return;
     }

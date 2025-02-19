@@ -312,7 +312,7 @@ public final class MoreFiles {
    * LinkOption...)} on input paths with the given link options.
    */
   public static Predicate<Path> isDirectory(LinkOption... options) {
-    final LinkOption[] optionsCopy = options.clone();
+    LinkOption[] optionsCopy = options.clone();
     return new Predicate<Path>() {
       @Override
       public boolean apply(Path input) {
@@ -339,7 +339,7 @@ public final class MoreFiles {
    * LinkOption...)} on input paths with the given link options.
    */
   public static Predicate<Path> isRegularFile(LinkOption... options) {
-    final LinkOption[] optionsCopy = options.clone();
+    LinkOption[] optionsCopy = options.clone();
     return new Predicate<Path>() {
       @Override
       public boolean apply(Path input) {

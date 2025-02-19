@@ -972,10 +972,10 @@ public final class Maps {
   }
 
   static <K extends @Nullable Object, V extends @Nullable Object>
-      Iterator<Entry<K, V>> asMapEntryIterator(Set<K> set, final Function<? super K, V> function) {
+      Iterator<Entry<K, V>> asMapEntryIterator(Set<K> set, Function<? super K, V> function) {
     return new TransformedIterator<K, Entry<K, V>>(set.iterator()) {
       @Override
-      Entry<K, V> transform(@ParametricNullness final K key) {
+      Entry<K, V> transform(@ParametricNullness K key) {
         return immutableEntry(key, function.apply(key));
       }
     };
@@ -1129,7 +1129,7 @@ public final class Maps {
     }
   }
 
-  private static <E extends @Nullable Object> Set<E> removeOnlySet(final Set<E> set) {
+  private static <E extends @Nullable Object> Set<E> removeOnlySet(Set<E> set) {
     return new ForwardingSet<E>() {
       @Override
       protected Set<E> delegate() {
@@ -1148,8 +1148,7 @@ public final class Maps {
     };
   }
 
-  private static <E extends @Nullable Object> SortedSet<E> removeOnlySortedSet(
-      final SortedSet<E> set) {
+  private static <E extends @Nullable Object> SortedSet<E> removeOnlySortedSet(SortedSet<E> set) {
     return new ForwardingSortedSet<E>() {
       @Override
       protected SortedSet<E> delegate() {
@@ -1186,7 +1185,7 @@ public final class Maps {
 
   @GwtIncompatible // NavigableSet
   private static <E extends @Nullable Object> NavigableSet<E> removeOnlyNavigableSet(
-      final NavigableSet<E> set) {
+      NavigableSet<E> set) {
     return new ForwardingNavigableSet<E>() {
       @Override
       protected NavigableSet<E> delegate() {
@@ -1497,7 +1496,7 @@ public final class Maps {
    * @return an unmodifiable view of the entry
    */
   static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> unmodifiableEntry(
-      final Entry<? extends K, ? extends V> entry) {
+      Entry<? extends K, ? extends V> entry) {
     checkNotNull(entry);
     return new AbstractMapEntry<K, V>() {
       @Override
@@ -1516,7 +1515,7 @@ public final class Maps {
 
   static <K extends @Nullable Object, V extends @Nullable Object>
       UnmodifiableIterator<Entry<K, V>> unmodifiableEntryIterator(
-          final Iterator<Entry<K, V>> entryIterator) {
+          Iterator<Entry<K, V>> entryIterator) {
     return new UnmodifiableIterator<Entry<K, V>>() {
       @Override
       public boolean hasNext() {
@@ -1599,7 +1598,7 @@ public final class Maps {
    *
    * @since 16.0
    */
-  public static <A, B> Converter<A, B> asConverter(final BiMap<A, B> bimap) {
+  public static <A, B> Converter<A, B> asConverter(BiMap<A, B> bimap) {
     return new BiMapConverter<>(bimap);
   }
 
@@ -2119,14 +2118,14 @@ public final class Maps {
 
   /** Views a function as an entry transformer that ignores the entry key. */
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
-      EntryTransformer<K, V1, V2> asEntryTransformer(final Function<? super V1, V2> function) {
+      EntryTransformer<K, V1, V2> asEntryTransformer(Function<? super V1, V2> function) {
     checkNotNull(function);
     return (key, value) -> function.apply(value);
   }
 
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       Function<V1, V2> asValueToValueFunction(
-          final EntryTransformer<? super K, V1, V2> transformer, @ParametricNullness final K key) {
+          EntryTransformer<? super K, V1, V2> transformer, @ParametricNullness K key) {
     checkNotNull(transformer);
     return v1 -> transformer.transformEntry(key, v1);
   }
@@ -2134,7 +2133,7 @@ public final class Maps {
   /** Views an entry transformer as a function from {@code Entry} to values. */
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       Function<Entry<K, V1>, V2> asEntryToValueFunction(
-          final EntryTransformer<? super K, ? super V1, V2> transformer) {
+          EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
     return entry -> transformer.transformEntry(entry.getKey(), entry.getValue());
   }
@@ -2142,7 +2141,7 @@ public final class Maps {
   /** Returns a view of an entry transformed by the specified transformer. */
   static <V2 extends @Nullable Object, K extends @Nullable Object, V1 extends @Nullable Object>
       Entry<K, V2> transformEntry(
-          final EntryTransformer<? super K, ? super V1, V2> transformer, final Entry<K, V1> entry) {
+          EntryTransformer<? super K, ? super V1, V2> transformer, Entry<K, V1> entry) {
     checkNotNull(transformer);
     checkNotNull(entry);
     return new AbstractMapEntry<K, V2>() {
@@ -2163,7 +2162,7 @@ public final class Maps {
   /** Views an entry transformer as a function from entries to entries. */
   static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       Function<Entry<K, V1>, Entry<K, V2>> asEntryToEntryFunction(
-          final EntryTransformer<? super K, ? super V1, V2> transformer) {
+          EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
     return entry -> transformEntry(transformer, entry);
   }
@@ -2462,7 +2461,7 @@ public final class Maps {
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterKeys(
-      Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+      Map<K, V> unfiltered, Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
     Predicate<Entry<K, ?>> entryPredicate = keyPredicateOnEntries(keyPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
@@ -2497,7 +2496,7 @@ public final class Maps {
    * @since 11.0
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> SortedMap<K, V> filterKeys(
-      SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+      SortedMap<K, V> unfiltered, Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
     return filterEntries(unfiltered, Maps.<K>keyPredicateOnEntries(keyPredicate));
@@ -2532,7 +2531,7 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   public static <K extends @Nullable Object, V extends @Nullable Object>
       NavigableMap<K, V> filterKeys(
-          NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+          NavigableMap<K, V> unfiltered, Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
     return filterEntries(unfiltered, Maps.<K>keyPredicateOnEntries(keyPredicate));
@@ -2563,7 +2562,7 @@ public final class Maps {
    * @since 14.0
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> filterKeys(
-      BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+      BiMap<K, V> unfiltered, Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
     return filterEntries(unfiltered, Maps.<K>keyPredicateOnEntries(keyPredicate));
   }
@@ -2592,7 +2591,7 @@ public final class Maps {
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterValues(
-      Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+      Map<K, V> unfiltered, Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2624,7 +2623,7 @@ public final class Maps {
    */
   public static <K extends @Nullable Object, V extends @Nullable Object>
       SortedMap<K, V> filterValues(
-          SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+          SortedMap<K, V> unfiltered, Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2657,7 +2656,7 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   public static <K extends @Nullable Object, V extends @Nullable Object>
       NavigableMap<K, V> filterValues(
-          NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+          NavigableMap<K, V> unfiltered, Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2689,7 +2688,7 @@ public final class Maps {
    * @since 14.0
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> filterValues(
-      BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+      BiMap<K, V> unfiltered, Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -3064,7 +3063,7 @@ public final class Maps {
       public Iterator<Entry<K, V>> iterator() {
         return new TransformedIterator<Entry<K, V>, Entry<K, V>>(filteredEntrySet.iterator()) {
           @Override
-          Entry<K, V> transform(final Entry<K, V> entry) {
+          Entry<K, V> transform(Entry<K, V> entry) {
             return new ForwardingMapEntry<K, V>() {
               @Override
               protected Entry<K, V> delegate() {
@@ -3399,8 +3398,7 @@ public final class Maps {
     @RetainedWith private final BiMap<V, K> inverse;
 
     private static <K extends @Nullable Object, V extends @Nullable Object>
-        Predicate<Entry<V, K>> inversePredicate(
-            final Predicate<? super Entry<K, V>> forwardPredicate) {
+        Predicate<Entry<V, K>> inversePredicate(Predicate<? super Entry<K, V>> forwardPredicate) {
       return input -> forwardPredicate.apply(immutableEntry(input.getValue(), input.getKey()));
     }
 

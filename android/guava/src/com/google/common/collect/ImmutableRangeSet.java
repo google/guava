@@ -443,14 +443,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * Returns a list containing the nonempty intersections of {@code range} with the ranges in this
    * range set.
    */
-  private ImmutableList<Range<C>> intersectRanges(final Range<C> range) {
+  private ImmutableList<Range<C>> intersectRanges(Range<C> range) {
     if (ranges.isEmpty() || range.isEmpty()) {
       return ImmutableList.of();
     } else if (range.encloses(span())) {
       return ranges;
     }
 
-    final int fromIndex;
+    int fromIndex;
     if (range.hasLowerBound()) {
       fromIndex =
           SortedLists.binarySearch(
@@ -475,7 +475,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     } else {
       toIndex = ranges.size();
     }
-    final int length = toIndex - fromIndex;
+    int length = toIndex - fromIndex;
     if (length == 0) {
       return ImmutableList.of();
     } else {

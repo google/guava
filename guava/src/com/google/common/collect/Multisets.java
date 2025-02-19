@@ -414,7 +414,7 @@ public final class Multisets {
    * @since 14.0
    */
   public static <E extends @Nullable Object> Multiset<E> union(
-      final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
+      Multiset<? extends E> multiset1, Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -446,8 +446,8 @@ public final class Multisets {
 
       @Override
       Iterator<Entry<E>> entryIterator() {
-        final Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
-        final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
+        Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
+        Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
@@ -485,7 +485,7 @@ public final class Multisets {
    * @since 2.0
    */
   public static <E extends @Nullable Object> Multiset<E> intersection(
-      final Multiset<E> multiset1, final Multiset<?> multiset2) {
+      Multiset<E> multiset1, Multiset<?> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -508,7 +508,7 @@ public final class Multisets {
 
       @Override
       Iterator<Entry<E>> entryIterator() {
-        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
+        Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
@@ -541,7 +541,7 @@ public final class Multisets {
    * @since 14.0
    */
   public static <E extends @Nullable Object> Multiset<E> sum(
-      final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
+      Multiset<? extends E> multiset1, Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -579,8 +579,8 @@ public final class Multisets {
 
       @Override
       Iterator<Entry<E>> entryIterator() {
-        final Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
-        final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
+        Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
+        Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected @Nullable Entry<E> computeNext() {
@@ -617,7 +617,7 @@ public final class Multisets {
    * @since 14.0
    */
   public static <E extends @Nullable Object> Multiset<E> difference(
-      final Multiset<E> multiset1, final Multiset<?> multiset2) {
+      Multiset<E> multiset1, Multiset<?> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -636,7 +636,7 @@ public final class Multisets {
 
       @Override
       Iterator<E> elementIterator() {
-        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
+        Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<E>() {
           @Override
           protected @Nullable E computeNext() {
@@ -654,7 +654,7 @@ public final class Multisets {
 
       @Override
       Iterator<Entry<E>> entryIterator() {
-        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
+        Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected @Nullable Entry<E> computeNext() {

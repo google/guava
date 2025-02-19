@@ -744,7 +744,7 @@ public final class Sets {
    * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    */
   public static <E extends @Nullable Object> SetView<E> union(
-      final Set<? extends E> set1, final Set<? extends E> set2) {
+      Set<? extends E> set1, Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
@@ -833,8 +833,7 @@ public final class Sets {
    *
    * <p>This is unfortunate, but should come up only very rarely.
    */
-  public static <E extends @Nullable Object> SetView<E> intersection(
-      final Set<E> set1, final Set<?> set2) {
+  public static <E extends @Nullable Object> SetView<E> intersection(Set<E> set1, Set<?> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
@@ -900,8 +899,7 @@ public final class Sets {
    * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
    * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    */
-  public static <E extends @Nullable Object> SetView<E> difference(
-      final Set<E> set1, final Set<?> set2) {
+  public static <E extends @Nullable Object> SetView<E> difference(Set<E> set1, Set<?> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
@@ -964,15 +962,15 @@ public final class Sets {
    * @since 3.0
    */
   public static <E extends @Nullable Object> SetView<E> symmetricDifference(
-      final Set<? extends E> set1, final Set<? extends E> set2) {
+      Set<? extends E> set1, Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
     return new SetView<E>() {
       @Override
       public UnmodifiableIterator<E> iterator() {
-        final Iterator<? extends E> itr1 = set1.iterator();
-        final Iterator<? extends E> itr2 = set2.iterator();
+        Iterator<? extends E> itr1 = set1.iterator();
+        Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {
           @Override
           public @Nullable E computeNext() {
@@ -1416,7 +1414,7 @@ public final class Sets {
         }
         axesBuilder.add(copy);
       }
-      final ImmutableList<ImmutableSet<E>> axes = axesBuilder.build();
+      ImmutableList<ImmutableSet<E>> axes = axesBuilder.build();
       ImmutableList<List<E>> listAxes =
           new ImmutableList<List<E>>() {
             @Override
@@ -1609,7 +1607,7 @@ public final class Sets {
     public Iterator<Set<E>> iterator() {
       return new AbstractIndexedListIterator<Set<E>>(size()) {
         @Override
-        protected Set<E> get(final int setBits) {
+        protected Set<E> get(int setBits) {
           return new SubSet<>(inputSet, setBits);
         }
       };
@@ -1673,8 +1671,8 @@ public final class Sets {
    * @throws NullPointerException if {@code set} is or contains {@code null}
    * @since 23.0
    */
-  public static <E> Set<Set<E>> combinations(Set<E> set, final int size) {
-    final ImmutableMap<E, Integer> index = Maps.indexMap(set);
+  public static <E> Set<Set<E>> combinations(Set<E> set, int size) {
+    ImmutableMap<E, Integer> index = Maps.indexMap(set);
     checkNonnegative(size, "size");
     checkArgument(size <= index.size(), "size (%s) must be <= set.size() (%s)", size, index.size());
     if (size == 0) {
@@ -1726,7 +1724,7 @@ public final class Sets {
               bits.clear(bitToFlip - firstSetBit - 1, bitToFlip);
               bits.set(bitToFlip);
             }
-            final BitSet copy = (BitSet) bits.clone();
+            BitSet copy = (BitSet) bits.clone();
             return new AbstractSet<E>() {
               @Override
               public boolean contains(@Nullable Object o) {

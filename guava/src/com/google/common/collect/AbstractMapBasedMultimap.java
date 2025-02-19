@@ -938,13 +938,13 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   @WeakOuter
   private class KeySet extends Maps.KeySet<K, Collection<V>> {
-    KeySet(final Map<K, Collection<V>> subMap) {
+    KeySet(Map<K, Collection<V>> subMap) {
       super(subMap);
     }
 
     @Override
     public Iterator<K> iterator() {
-      final Iterator<Entry<K, Collection<V>>> entryIterator = map().entrySet().iterator();
+      Iterator<Entry<K, Collection<V>>> entryIterator = map().entrySet().iterator();
       return new Iterator<K>() {
         @Nullable Entry<K, Collection<V>> entry;
 

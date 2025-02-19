@@ -90,7 +90,7 @@ public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> TERMINATED_FROM_STOPPING_EVENT =
       terminatedEvent(STOPPING);
 
-  private static ListenerCallQueue.Event<Listener> terminatedEvent(final State from) {
+  private static ListenerCallQueue.Event<Listener> terminatedEvent(State from) {
     return new ListenerCallQueue.Event<Listener>() {
       @Override
       public void call(Listener listener) {
@@ -104,7 +104,7 @@ public abstract class AbstractService implements Service {
     };
   }
 
-  private static ListenerCallQueue.Event<Listener> stoppingEvent(final State from) {
+  private static ListenerCallQueue.Event<Listener> stoppingEvent(State from) {
     return new ListenerCallQueue.Event<Listener>() {
       @Override
       public void call(Listener listener) {
@@ -518,7 +518,7 @@ public abstract class AbstractService implements Service {
     listeners.enqueue(RUNNING_EVENT);
   }
 
-  private void enqueueStoppingEvent(final State from) {
+  private void enqueueStoppingEvent(State from) {
     if (from == State.STARTING) {
       listeners.enqueue(STOPPING_FROM_STARTING_EVENT);
     } else if (from == State.RUNNING) {
@@ -528,7 +528,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  private void enqueueTerminatedEvent(final State from) {
+  private void enqueueTerminatedEvent(State from) {
     switch (from) {
       case NEW:
         listeners.enqueue(TERMINATED_FROM_NEW_EVENT);
@@ -548,7 +548,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  private void enqueueFailedEvent(final State from, final Throwable cause) {
+  private void enqueueFailedEvent(State from, Throwable cause) {
     // can't memoize this one due to the exception
     listeners.enqueue(
         new ListenerCallQueue.Event<Listener>() {

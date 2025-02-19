@@ -92,7 +92,7 @@ public abstract class TreeTraverser<T> {
    */
   @Deprecated
   public static <T> TreeTraverser<T> using(
-      final Function<T, ? extends Iterable<T>> nodeToChildrenFunction) {
+      Function<T, ? extends Iterable<T>> nodeToChildrenFunction) {
     checkNotNull(nodeToChildrenFunction);
     return new TreeTraverser<T>() {
       @Override
@@ -116,7 +116,7 @@ public abstract class TreeTraverser<T> {
    *     the same behavior.
    */
   @Deprecated
-  public final FluentIterable<T> preOrderTraversal(final T root) {
+  public final FluentIterable<T> preOrderTraversal(T root) {
     checkNotNull(root);
     return new FluentIterable<T>() {
       @Override
@@ -181,7 +181,7 @@ public abstract class TreeTraverser<T> {
    *     has the same behavior.
    */
   @Deprecated
-  public final FluentIterable<T> postOrderTraversal(final T root) {
+  public final FluentIterable<T> postOrderTraversal(T root) {
     checkNotNull(root);
     return new FluentIterable<T>() {
       @Override
@@ -256,7 +256,7 @@ public abstract class TreeTraverser<T> {
    *     same behavior.
    */
   @Deprecated
-  public final FluentIterable<T> breadthFirstTraversal(final T root) {
+  public final FluentIterable<T> breadthFirstTraversal(T root) {
     checkNotNull(root);
     return new FluentIterable<T>() {
       @Override

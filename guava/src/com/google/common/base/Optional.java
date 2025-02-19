@@ -339,7 +339,7 @@ public abstract class Optional<T> implements Serializable {
    * @since 11.0 (generics widened in 13.0)
    */
   public static <T> Iterable<T> presentInstances(
-      final Iterable<? extends Optional<? extends T>> optionals) {
+      Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);
     return () ->
         new AbstractIterator<T>() {

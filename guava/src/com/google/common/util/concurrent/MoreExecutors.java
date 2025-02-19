@@ -258,7 +258,7 @@ public final class MoreExecutors {
     }
 
     final void addDelayedShutdownHook(
-        final ExecutorService service, final long terminationTimeout, final TimeUnit timeUnit) {
+        ExecutorService service, long terminationTimeout, TimeUnit timeUnit) {
       checkNotNull(service);
       checkNotNull(timeUnit);
       addShutdownHook(
@@ -761,10 +761,8 @@ public final class MoreExecutors {
   @J2ktIncompatible
   @GwtIncompatible // TODO
   private static <T extends @Nullable Object> ListenableFuture<T> submitAndAddQueueListener(
-      ListeningExecutorService executorService,
-      Callable<T> task,
-      final BlockingQueue<Future<T>> queue) {
-    final ListenableFuture<T> future = executorService.submit(task);
+      ListeningExecutorService executorService, Callable<T> task, BlockingQueue<Future<T>> queue) {
+    ListenableFuture<T> future = executorService.submit(task);
     future.addListener(() -> queue.add(future), directExecutor());
     return future;
   }
@@ -865,7 +863,7 @@ public final class MoreExecutors {
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
-  static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
+  static Executor renamingDecorator(Executor executor, Supplier<String> nameSupplier) {
     checkNotNull(executor);
     checkNotNull(nameSupplier);
     return command -> executor.execute(threadRenaming(command, nameSupplier));
@@ -884,8 +882,7 @@ public final class MoreExecutors {
    */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
-  static ExecutorService renamingDecorator(
-      final ExecutorService service, final Supplier<String> nameSupplier) {
+  static ExecutorService renamingDecorator(ExecutorService service, Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
     return new WrappingExecutorService(service) {
@@ -915,7 +912,7 @@ public final class MoreExecutors {
   @J2ktIncompatible
   @GwtIncompatible // concurrency
   static ScheduledExecutorService renamingDecorator(
-      final ScheduledExecutorService service, final Supplier<String> nameSupplier) {
+      ScheduledExecutorService service, Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
     return new WrappingScheduledExecutorService(service) {
@@ -1023,8 +1020,7 @@ public final class MoreExecutors {
    *
    * <p>Note, the returned executor can only be used once.
    */
-  static Executor rejectionPropagatingExecutor(
-      final Executor delegate, final AbstractFuture<?> future) {
+  static Executor rejectionPropagatingExecutor(Executor delegate, AbstractFuture<?> future) {
     checkNotNull(delegate);
     checkNotNull(future);
     if (delegate == directExecutor()) {
