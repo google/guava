@@ -66,6 +66,8 @@ public class TableCollectorsTest extends TestCase {
                 .collect(collector));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when rowFunction result (null) is unboxed
+  @J2ktIncompatible
   public void testToImmutableTableNullRowKey() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
         toImmutableTable(t -> null, Cell::getColumnKey, Cell::getValue);
@@ -74,6 +76,9 @@ public class TableCollectorsTest extends TestCase {
         () -> Stream.of(immutableCell("one", "uno", 1)).collect(collector));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when columnFunction result (null) is
+  // unboxed
+  @J2ktIncompatible
   public void testToImmutableTableNullColumnKey() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
         toImmutableTable(Cell::getRowKey, t -> null, Cell::getValue);
@@ -82,6 +87,8 @@ public class TableCollectorsTest extends TestCase {
         () -> Stream.of(immutableCell("one", "uno", 1)).collect(collector));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when getValue result (null) is unboxed
+  @J2ktIncompatible
   public void testToImmutableTableNullValue() {
     {
       Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>>
@@ -119,6 +126,8 @@ public class TableCollectorsTest extends TestCase {
             immutableCell("two", "dos", 4));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when rowFunction result (null) is unboxed
+  @J2ktIncompatible
   public void testToImmutableTableMergingNullRowKey() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
         toImmutableTable(t -> null, Cell::getColumnKey, Cell::getValue, Integer::sum);
@@ -127,6 +136,9 @@ public class TableCollectorsTest extends TestCase {
         () -> Stream.of(immutableCell("one", "uno", 1)).collect(collector));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when columnFunction result (null) is
+  // unboxed
+  @J2ktIncompatible
   public void testToImmutableTableMergingNullColumnKey() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
         toImmutableTable(Cell::getRowKey, t -> null, Cell::getValue, Integer::sum);
@@ -135,6 +147,9 @@ public class TableCollectorsTest extends TestCase {
         () -> Stream.of(immutableCell("one", "uno", 1)).collect(collector));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when valueFunction result (null) is
+  // unboxed
+  @J2ktIncompatible
   public void testToImmutableTableMergingNullValue() {
     {
       Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>>
@@ -160,6 +175,9 @@ public class TableCollectorsTest extends TestCase {
     }
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when mergeFunction result (null) is
+  // unboxed
+  @J2ktIncompatible
   public void testToImmutableTableMergingNullMerge() {
     Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
         toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue, (v1, v2) -> null);
@@ -188,6 +206,9 @@ public class TableCollectorsTest extends TestCase {
             immutableCell("three", "tres", 3));
   }
 
+  // https://youtrack.jetbrains.com/issue/KT-58242/. Crash when mergeFunction result (null) is
+  // unboxed
+  @J2ktIncompatible
   public void testToTableNullMerge() {
     // TODO github.com/google/guava/issues/6824 - the null merge feature is not compatible with the
     // current nullness annotation of the mergeFunction parameter. Work around with casts.
